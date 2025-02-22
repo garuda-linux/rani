@@ -1,0 +1,33 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "garuda-apps",
+  "version": "0.1.0",
+  "identifier": "org.garuda-linux.rani",
+  "build": {
+    "beforeDevCommand": "pnpm start",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "pnpm build",
+    "frontendDist": "../dist/garuda-apps/browser"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "Garuda's RANI",
+        "width": 1280,
+        "height": 768,
+        "decorations": false,
+        "titleBarStyle": "Transparent",
+        "center": true
+      }
+    ],
+    "enableGTKAppId": true,
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
+  }
+}

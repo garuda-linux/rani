@@ -1,0 +1,25 @@
+<ng-container *transloco="let t">
+  <div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
+    <div class="mb-5 font-bold text-3xl">
+      <span class="text-color">{{ t('maintenance.title') }} </span>
+      <span class="text-primary">{{ t('maintenance.titleTwo') }}</span>
+    </div>
+    <div class="text-color text-xl mb-10">{{ t('maintenance.subtitle') }}</div>
+  </div>
+  <div class="grid grid-cols-12 p-10 gap-4">
+    @for (action of actions; track action.name) {
+      <div class="col-span-2">
+        <p-card [header]="action.label" [subheader]="action.description">
+          <div class="flex gap-2">
+            <p-button
+              (click)="addToPending(action)"
+              [label]="t('maintenance.addPending')"
+              [icon]="action.icon"
+            ></p-button>
+            <p-button (click)="runNow(action)" [label]="t('maintenance.runNow')" [icon]="action.icon"></p-button>
+          </div>
+        </p-card>
+      </div>
+    }
+  </div>
+</ng-container>

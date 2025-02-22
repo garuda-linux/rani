@@ -1,0 +1,91 @@
+<p-table
+  #serviceTable
+  [globalFilterFields]="['unit', 'active', 'description', 'load', 'sub']"
+  [loading]="loading()"
+  [paginator]="true"
+  [rowsPerPageOptions]="[30, 50, 75]"
+  [rows]="30"
+  [value]="systemdServices()"
+  dataKey="unit"
+>
+  <ng-template #caption>
+    <div class="flex">
+      <p-button (click)="clear(serviceTable)" [outlined]="true" icon="pi pi-filter-slash" label="Clear" />
+      <p-iconfield class="ml-auto" iconPosition="left">
+        <p-inputicon>
+          <i class="pi pi-search"></i>
+        </p-inputicon>
+        <input
+          (input)="serviceTable.filterGlobal($event.target, 'contains')"
+          pInputText
+          placeholder="Search keyword"
+          type="text"
+        />
+      </p-iconfield>
+    </div>
+  </ng-template>
+  <ng-template #header>
+    <tr>
+      <th style="min-width: 15rem">
+        <div class="flex items-center">
+          Name
+          <p-columnFilter display="menu" field="name" type="text" />
+        </div>
+      </th>
+      <th style="min-width: 15rem">
+        <div class="flex items-center">
+          Description
+          <p-columnFilter display="menu" field="description" type="text" />
+        </div>
+      </th>
+      <th style="min-width: 10rem">
+        <div class="flex items-center">
+          State
+          <p-columnFilter display="menu" field="sub" type="text" />
+        </div>
+      </th>
+      <th style="min-width: 10rem">
+        <div class="flex items-center">
+          Load
+          <p-columnFilter display="menu" field="load" type="text" />
+        </div>
+      </th>
+      <th style="min-width: 15rem">
+        <div class="flex items-center">
+          Active
+          <p-columnFilter display="menu" field="active" type="text" />
+        </div>
+      </th>
+    </tr>
+  </ng-template>
+  <ng-template #body let-service>
+    <tr>
+      <td>
+        {{ service.unit }}
+      </td>
+      <td>
+        {{ service.description }}
+      </td>
+      <td>
+        {{ service.sub }}
+      </td>
+      <td>
+        {{ service.load }}
+      </td>
+      <td class="text-center">
+        <i
+          [ngClass]="{
+            'text-green-500 pi-check-circle': service.active === 'active',
+            'text-red-500 pi-times-circle': service.active !== 'active',
+          }"
+          class="pi"
+        ></i>
+      </td>
+    </tr>
+  </ng-template>
+  <ng-template #emptymessage>
+    <tr>
+      <td colspan="7">Services found.</td>
+    </tr>
+  </ng-template>
+</p-table>

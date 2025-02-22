@@ -1,0 +1,75 @@
+{
+  "menu": {
+    "welcome": "Welcome",
+    "maintenance": "Maintenance",
+    "systemTools": "System settings",
+    "components": "Components",
+    "gaming": "Gaming apps",
+    "boot": "Boot tools",
+    "diagnostics": "Diagnostics"
+  },
+  "diagnostics": {
+    "title": "Debug info ",
+    "titleTwo": "and diagnostics",
+    "subtitle": "Find the information you need to debug your system",
+    "inxi": "Common info (inxi)",
+    "systemctl": "System services (systemctl)",
+    "journalctl": "System logs (journalctl)",
+    "dmesg": "Kernel logs (dmesg)",
+    "full": "Full diagnostics",
+    "upload": "Upload to PrivateBin"
+  },
+  "lang": {
+    "title": "Language selection",
+    "tooltip": "Select your preferred language"
+  },
+  "welcome": {
+    "title": "Welcome to ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "The ultimate Linux distro for gaming and multimedia",
+    "maintenance": "Maintenance",
+    "maintenanceSub": "Keep your system in a good state",
+    "systemTools": "System settings",
+    "systemToolsSub": "Configure your system",
+    "gaming": "Gaming apps",
+    "gamingSub": "Play your favorite games",
+    "bootTools": "Boot tools",
+    "bootToolsSub": "Manage your boot settings",
+    "network": "Network tools",
+    "networkSub": "Manage your network settings",
+    "diagnostics": "Diagnostics",
+    "diagnosticsSub": "Check your system health"
+  },
+  "gaming": {
+    "title": "Gaming ",
+    "titleTwo": "apps",
+    "subtitle": "Let's get you started with some gaming apps!"
+  },
+  "drawer": {
+    "apply": "Apply pending operations",
+    "removeAll": "Remove all pending operations",
+    "name": "Name",
+    "misc": "Information",
+    "status": "Status",
+    "logs": "Logs"
+  },
+  "maintenance": {
+    "title": "System ",
+    "titleTwo": "maintenance",
+    "subtitle": "Keep your system in a good state",
+    "update": "Update your system",
+    "addPending": "Add to pending",
+    "runNow": "Run now"
+  },
+  "sudo": {
+    "title": "Authentication required",
+    "subtitle": "Please enter your password to continue",
+    "save": "Cache in this session",
+    "password": "Password",
+    "cancel": "Cancel",
+    "useOnce": "Use once only"
+  },
+  "terminal": {
+    "title": "Terminal"
+  }
+}

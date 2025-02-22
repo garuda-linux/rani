@@ -1,0 +1,58 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "default",
+  "description": "Capability for the main window",
+  "windows": [
+    "main"
+  ],
+  "permissions": [
+    "clipboard:write-all",
+    "core:default",
+    "fs:default",
+    {
+      "identifier": "http:default",
+      "allow": [
+        {
+          "url": "https://*.garudalinux.org"
+        }
+      ]
+    },
+    "log:default",
+    "notification:default",
+    "os:default",
+    "store:default",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "exec-bash",
+          "cmd": "bash",
+          "args": [
+            "-c",
+            {
+              "validator": ".*"
+            }
+          ],
+          "sidecar": false
+        }
+      ]
+    },
+    "shell:allow-open",
+    {
+      "identifier": "shell:allow-spawn",
+      "allow": [
+        {
+          "name": "exec-bash",
+          "cmd": "bash",
+          "args": [
+            "-c",
+            {
+              "validator": ".*"
+            }
+          ],
+          "sidecar": false
+        }
+      ]
+    }
+  ]
+}
