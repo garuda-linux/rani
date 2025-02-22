@@ -44,3 +44,4 @@ Thumbs.db
 # Misc
 *.log
 .direnv
+/test
