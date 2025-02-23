@@ -2,16 +2,19 @@ import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, isDevMode, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { provideGarudaNG } from '@garudalinux/core';
+import { MessageToastService, provideGarudaNG } from '@garudalinux/core';
 import { routes } from './app.routes';
 import { Catppuccin } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
+import { ConfirmationService } from 'primeng/api';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    ConfirmationService,
+    MessageToastService,
     provideAnimationsAsync(),
     provideGarudaNG(
       { font: 'Inter' },

@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "Garuda's RANI",
+        "title": "Garuda's Rani",
         "width": 1280,
         "height": 768,
         "decorations": false,

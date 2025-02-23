@@ -3,16 +3,15 @@ import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@a
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { Button } from 'primeng/button';
 import { AppService } from './app.service';
-import { MessageToastService, ShellComponent } from '@garudalinux/core';
+import { ShellComponent } from '@garudalinux/core';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { TerminalComponent } from './terminal/terminal.component';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
-import { ConfirmationService } from 'primeng/api';
 import { ToastModule } from 'primeng/toast';
 import { debug } from '@tauri-apps/plugin-log';
 import { ConfirmDialog } from 'primeng/confirmdialog';
@@ -46,7 +45,6 @@ import { ProgressBar } from 'primeng/progressbar';
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [ConfirmationService, MessageToastService],
 })
 export class AppComponent implements OnInit {
   items = signal([
@@ -91,9 +89,6 @@ export class AppComponent implements OnInit {
 
   readonly appService = inject(AppService);
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly confirmationService = inject(ConfirmationService);
-  private readonly messageToastService = inject(MessageToastService);
-  private readonly translocoService = inject(TranslocoService);
 
   constructor() {
     effect(() => {
@@ -108,9 +103,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    void this.setupLabels(this.translocoService.getActiveLang());
+    void this.setupLabels(this.appService.translocoService.getActiveLang());
 
-    this.translocoService.langChanges$.subscribe((lang) => {
+    this.appService.translocoService.langChanges$.subscribe((lang) => {
       void this.setupLabels(lang);
     });
   }
@@ -122,7 +117,9 @@ export class AppComponent implements OnInit {
   async setupLabels(lang: string): Promise<void> {
     const newItemPromises = [];
     for (const item of this.items()) {
-      newItemPromises.push(lastValueFrom(this.translocoService.selectTranslate(item['translocoKey'], {}, lang)));
+      newItemPromises.push(
+        lastValueFrom(this.appService.translocoService.selectTranslate(item['translocoKey'], {}, lang)),
+      );
     }
 
     const results: string[] = await Promise.all(newItemPromises);
@@ -143,7 +140,7 @@ export class AppComponent implements OnInit {
   applyOperations(event: Event) {
     void debug('Firing apply operations');
     const operations = this.appService.pendingOperations().length === 1 ? 'operation' : 'operations';
-    this.confirmationService.confirm({
+    this.appService.confirmationService.confirm({
       target: event.target as EventTarget,
       message: `Do you want to apply ${this.appService.pendingOperations().length} ${operations}?`,
       header: 'Apply changes?',
@@ -165,7 +162,7 @@ export class AppComponent implements OnInit {
       },
       reject: () => {
         void debug('Rejected applying operations');
-        this.messageToastService.error('Rejected', 'You have rejected');
+        this.appService.messageToastService.error('Rejected', 'You have rejected');
       },
     });
   }
@@ -177,7 +174,7 @@ export class AppComponent implements OnInit {
   clearOperations(event: Event) {
     void debug('Firing clear operations');
     const operations = this.appService.pendingOperations().length === 1 ? 'operation' : 'operations';
-    this.confirmationService.confirm({
+    this.appService.confirmationService.confirm({
       target: event.target as EventTarget,
       message: `Do you want to delete ${this.appService.pendingOperations().length} ${operations}?`,
       header: 'Clear pending operations?',
@@ -195,11 +192,11 @@ export class AppComponent implements OnInit {
 
       accept: () => {
         this.appService.pendingOperations.set([]);
-        this.messageToastService.info('Confirmed', 'Pending operations cleared');
+        this.appService.messageToastService.info('Confirmed', 'Pending operations cleared');
         void debug('Cleared pending operations');
       },
       reject: () => {
-        this.messageToastService.error('Rejected', 'You have rejected');
+        this.appService.messageToastService.error('Rejected', 'You have rejected');
         void debug('Rejected clearing pending operations');
       },
     });
@@ -212,7 +209,7 @@ export class AppComponent implements OnInit {
    */
   setSudoPass(value: Nullable<string>, persist = false): void {
     if (!value) {
-      this.messageToastService.error('Error', 'Password cannot be empty');
+      this.appService.messageToastService.error('Error', 'Password cannot be empty');
       return;
     }
     this.appService.sudoPassword.set(value);
@@ -231,16 +228,16 @@ export class AppComponent implements OnInit {
     const opIsRunning: boolean = operation.status === 'running';
 
     if (this.appService.termOutput && !opIsRunning) {
-      this.messageToastService.warn('Warning', 'It looks like you have pending operations');
+      this.appService.messageToastService.warn('Warning', 'It looks like you have pending operations');
       return;
     } else if (opIsRunning) {
       this.appService.terminalVisible.set(true);
     } else if (!operation.hasOutput || !operation.output) {
-      this.messageToastService.warn('Warning', 'No output available');
+      this.appService.messageToastService.warn('Warning', 'No output available');
       return;
     }
 
-    this.appService.currentAction.set(this.translocoService.translate(operation.prettyName));
+    this.appService.currentAction.set(this.appService.translocoService.translate(operation.prettyName));
     this.appService.termOutput = operation.output ?? '';
     this.appService.terminalVisible.set(true);
   }

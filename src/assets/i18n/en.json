@@ -79,7 +79,7 @@
     "removeLockSub": "Remove the pacman lock file",
     "reinstallPackages": "Reinstall packages",
     "reinstallPackagesSub": "Reinstall all packages on your system",
-    "btrfsAssistant": "BTRFS assistant",
+    "btrfsAssistant": "Btrfs Assistant",
     "btrfsAssistantSub": "Manage your BTRFS snapshots and run maintenance tasks",
     "updateRemoteFullFix": "Garuda update full fix",
     "updateRemoteFullFixSub": "Reset Pacman and reinstall all packages in your OS",

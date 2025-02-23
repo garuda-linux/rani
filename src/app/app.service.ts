@@ -9,6 +9,7 @@ import { Operation } from './interfaces';
 import { MessageToastService } from '@garudalinux/core';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { getConfigStore } from './store';
+import { ConfirmationService } from 'primeng/api';
 
 @Injectable({
   providedIn: 'root',
@@ -30,8 +31,9 @@ export class AppService {
   store!: Store;
   termOutput = '';
 
-  private readonly messageToastService = inject(MessageToastService);
-  private readonly translocoService = inject(TranslocoService);
+  readonly confirmationService = inject(ConfirmationService);
+  readonly messageToastService = inject(MessageToastService);
+  readonly translocoService = inject(TranslocoService);
 
   constructor() {
     void this.init();

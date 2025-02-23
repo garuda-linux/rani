@@ -7,12 +7,10 @@ import { AppService } from '../app.service';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { Tooltip } from 'primeng/tooltip';
-import { MessageToastService } from '@garudalinux/core';
 import { ProgressBar } from 'primeng/progressbar';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { ConfirmDialog } from 'primeng/confirmdialog';
-import { ConfirmationService } from 'primeng/api';
 import { path } from '@tauri-apps/api';
 
 @Component({
@@ -313,8 +311,6 @@ export class MaintenanceComponent implements OnInit {
   ];
 
   readonly appService = inject(AppService);
-  private readonly confirmationService = inject(ConfirmationService);
-  private readonly messageToastService = inject(MessageToastService);
 
   async ngOnInit(): Promise<void> {
     void debug('Initializing maintenance');
@@ -358,7 +354,7 @@ export class MaintenanceComponent implements OnInit {
           void info(`Successfully reset ${file}`);
         } else {
           void error(`Failed to reset ${file}`);
-          this.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
+          this.appService.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
         }
       }
     }
@@ -428,7 +424,7 @@ export class MaintenanceComponent implements OnInit {
         void info('Installed pace');
       } else {
         void error('Failed to install pace');
-        this.messageToastService.error('Error installing dependency', 'Failed to install pace');
+        this.appService.messageToastService.error('Error installing dependency', 'Failed to install pace');
       }
     }
 
@@ -441,7 +437,7 @@ export class MaintenanceComponent implements OnInit {
   }
 
   confirmResetConfigs(event: Event): void {
-    this.confirmationService.confirm({
+    this.appService.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Are you sure that you want to proceed?',
       header: 'Reset configs',
@@ -456,7 +452,7 @@ export class MaintenanceComponent implements OnInit {
         outlined: true,
       },
       accept: () => {
-        this.resetConfigs();
+        void this.resetConfigs();
       },
       reject: () => {
         void trace('Rejected resetting configs');
