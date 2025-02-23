@@ -28,7 +28,6 @@ tauri-plugin-log = "2"
 tauri-plugin-notification = "2"
 tauri-plugin-os = "2"
 tauri-plugin-store = "2"
-portable-pty = "0.9.0"
 tauri-plugin-clipboard-manager = "2"
 
 [features]
