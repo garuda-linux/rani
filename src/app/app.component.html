@@ -48,8 +48,8 @@
     [(visible)]="appService.terminalVisible"
     [focusOnShow]="true"
     [header]="t('terminal.title') + (appService.currentAction() ? ' - ' + appService.currentAction() : '')"
-    [modal]="false"
-    [style]="{ 'width': '90vw', 'height': '87vh', 'margin-top': '4rem' }"
+    [modal]="true"
+    [style]="{ 'width': '90vw', 'height': '90vh'}"
   >
     <app-terminal></app-terminal>
     @if (progressTracker()) {
@@ -57,7 +57,8 @@
     }
   </p-dialog>
 
-  <p-drawer [(visible)]="appService.drawerVisible" header="Actions" styleClass="!w-full md:!w-80 lg:!w-[50rem]">
+  <p-drawer [(visible)]="appService.drawerVisible" [header]="t('drawer.actions')"
+            styleClass="!w-full md:!w-80 lg:!w-[50rem]">
     <div class="h-[78vh] overflow-y-auto">
       <p-table [value]="appService.pendingOperations()">
         <ng-template #header>
@@ -71,7 +72,7 @@
         </ng-template>
         <ng-template #body let-operation>
           <tr>
-            <td>{{ operation.prettyName }}</td>
+            <td>{{ t(operation.prettyName) }}</td>
             <td>{{ operation.commandArgs?.join(', ') }}</td>
             <td class="text-center">
               <i
@@ -88,7 +89,8 @@
               <p-button (click)="showOperationLogs(operation)" [label]="t('drawer.logs')" [outlined]="true"></p-button>
             </td>
             <td>
-              <p-button (click)="removeOperation(operation)" [label]="t('drawer.remove')" [outlined]="true" severity="danger"></p-button>
+              <p-button (click)="removeOperation(operation)" [label]="t('drawer.remove')" [outlined]="true"
+                        severity="danger"></p-button>
             </td>
           </tr>
         </ng-template>

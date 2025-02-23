@@ -1,25 +1,65 @@
 <ng-container *transloco="let t">
-  <div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
-    <div class="mb-5 font-bold text-3xl">
+  <div class="surface-section px-4 md:px-6 lg:px-8 text-center">
+    <div class="font-bold text-3xl">
       <span class="text-color">{{ t('maintenance.title') }} </span>
       <span class="text-primary">{{ t('maintenance.titleTwo') }}</span>
     </div>
-    <div class="text-color text-xl mb-10">{{ t('maintenance.subtitle') }}</div>
   </div>
+
+  @if (loading()) {
+    <div class="mt-5">
+      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }"/>
+    </div>
+  }
+
   <div class="grid grid-cols-12 p-10 gap-4">
     @for (action of actions; track action.name) {
-      <div class="col-span-2">
-        <p-card [header]="action.label" [subheader]="action.description">
-          <div class="flex gap-2">
+      <div class="col-span-6 lg:col-span-3">
+        <p-card [header]="t(action.label)">
+          <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
+          <div class="sm:flex gap-2 mx-auto">
             <p-button
+              [style]="{ width: '12rem', 'margin-left': 'auto', 'margin-right': 'auto' }"
+              [outlined]="true"
               (click)="addToPending(action)"
-              [label]="t('maintenance.addPending')"
-              [icon]="action.icon"
+              [disabled]="action.onlyDirect"
+              [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
+              [label]="action.addedToPending ? t('maintenance.removePending') : t('maintenance.addPending')"
+              [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
             ></p-button>
-            <p-button (click)="runNow(action)" [label]="t('maintenance.runNow')" [icon]="action.icon"></p-button>
+            <p-button
+              [style]="{ width: '12rem', 'margin-left': 'auto', 'margin-right': 'auto' }"
+              (click)="runNow(action)"
+              [outlined]="true" [label]="t('maintenance.runNow')"
+              icon="pi pi-play-circle"></p-button>
           </div>
         </p-card>
       </div>
     }
+  </div>
+
+  <div class="grid grid-cols-12 mt-10">
+    @for (config of resettableConfigs; track config.name) {
+      @if (config.exists) {
+        <div class="ml-32 col-span-4 lg:col-span-3">
+          <p-checkbox [inputId]="config.name" name="group" [value]="config" [(ngModel)]="selectedResetConfigs"/>
+          <label
+            [for]="config.name" class="ml-2"> {{ config.name }}
+            <i class="pi pi-info-circle" style="font-size: 0.75rem"
+               [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
+               tooltipPosition="bottom"> </i>
+          </label>
+        </div>
+      }
+    }
+  </div>
+  <div class="text-center mt-5">
+    <p-button
+      (click)="confirmResetConfigs($event)"
+      [label]="t('maintenance.resetConfigs')"
+      [outlined]="true"
+      icon="pi pi-refresh">
+    </p-button>
+    <p-confirm-dialog />
   </div>
 </ng-container>

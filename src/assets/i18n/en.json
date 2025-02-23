@@ -52,6 +52,7 @@
     "misc": "Information",
     "status": "Status",
     "logs": "Logs",
+    "actions": "Actions",
     "remove": "Remove"
   },
   "maintenance": {
@@ -59,8 +60,37 @@
     "titleTwo": "maintenance",
     "subtitle": "Keep your system in a good state",
     "update": "Update your system",
-    "addPending": "Add to pending",
-    "runNow": "Run now"
+    "addPending": "Add pending",
+    "removePending": "Remove pending",
+    "runNow": "Run now",
+    "editRepos": "Edit repositories",
+    "onlyDirect": "This action can not be queued and needs to be run directly.",
+    "cleanCache": "Clean cache",
+    "cleanCacheSub": "Remove all cached packages",
+    "updateSystem": "Update system",
+    "updateSystemSub": "Update your system via garuda-update",
+    "editReposSub": "Edit your repositories",
+    "addPendingSub": "Add pending operations",
+    "clearOrphans": "Clear orphans",
+    "clearOrphansSub": "Remove orphaned packages",
+    "refreshMirrors": "Refresh mirrors",
+    "refreshMirrorsSub": "Refresh your mirrorlist",
+    "removeLock": "Remove Pacman lock",
+    "removeLockSub": "Remove the pacman lock file",
+    "reinstallPackages": "Reinstall packages",
+    "reinstallPackagesSub": "Reinstall all packages on your system",
+    "updateRemoteFullFix": "Garuda update full fix",
+    "updateRemoteFullFixSub": "Reset pacman.conf, refresh keyrings, and reinstall all packages in your OS",
+    "updateRemoteKeyring": "Garuda update keyring",
+    "updateRemoteKeyringSub": "Refresh keyring without resetting pacman.conf",
+    "updateRemoteFix": "Garuda update fix",
+    "updateRemoteFixSub": "Reset pacman.conf and refresh keyrings",
+    "updateRemoteResetSnapper": "Garuda update reset snapper",
+    "updateRemoteResetSnapperSub": "Remove everything created by Snapper, and force recreates Snapper configs",
+    "updateRemoteResetAudio": "Garuda update reset audio",
+    "updateRemoteResetAudioSub": "Reinstall Pipewire-support and WirePlumber while resetting the audio configuration",
+    "resetTooltip": "The following files or folders will be reset to their default state:",
+    "resetConfigs": "Reset configs to default state"
   },
   "sudo": {
     "title": "Authentication required",
@@ -72,5 +102,32 @@
   },
   "terminal": {
     "title": "Terminal"
+  },
+  "systemdServices": {
+    "notFound": "No services found",
+    "description": "Description",
+    "unit": "Unit name",
+    "load": "Load",
+    "active": "Active",
+    "state": "State",
+    "searchKey": "Enter a search keyword",
+    "clear": "Clear",
+    "actions": "Actions",
+    "show": "Show",
+    "start": "Start",
+    "stop": "Stop",
+    "mask": "Mask",
+    "unmask": "Unmask",
+    "logs": "Logs",
+    "restart": "Restart",
+    "reload": "Reload",
+    "enable": "Enable",
+    "disable": "Disable"
+  },
+  "systemTools": {
+    "title": "System ",
+    "titleTwo": "settings",
+    "systemdServices": "Systemd services",
+    "common": "Common settings"
   }
 }

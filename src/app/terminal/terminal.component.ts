@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, effect, inject, input, OnDestroy, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, input, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { AppService } from '../app.service';
-import { trace } from '@tauri-apps/plugin-log';
+import { debug, trace } from '@tauri-apps/plugin-log';
 import { CatppuccinXtermJs } from '../theme';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 
@@ -14,10 +14,8 @@ import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 })
 export class TerminalComponent implements AfterViewInit, OnDestroy {
   keysDisabled = input<boolean>(false);
-  staticOutput = input<boolean>(false);
 
   appService = inject(AppService);
-  theme = signal<any>({});
 
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
@@ -39,9 +37,10 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   }
 
   async ngAfterViewInit() {
+    void debug('Terminal component initialized');
     await this.loadXterm();
 
-    if (!this.staticOutput()) {
+    if (!this.appService.terminalStatic()) {
       void trace('Subscribing to terminal output/clear emitter');
       this.appService.termOutputEmitter.subscribe((output: string) => {
         this.term.write(output);
@@ -50,9 +49,6 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
         void trace(`Entered new stage ${output}, clearing terminal output`);
         this.term.underlying?.clear();
       });
-    } else if (this.staticOutput()) {
-      void trace('Not listening to terminal output emitter, static output');
-      this.term.underlying?.clear();
     }
   }
 
@@ -61,6 +57,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       void trace('Terminal component destroyed, clearing terminal output as no pending operations');
       this.appService.termOutput = '';
       this.appService.currentAction.set(null);
+      this.appService.terminalStatic.set(false);
     }
   }
 
@@ -68,8 +65,9 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
    * Load the xterm terminal into the terminal div, and set up the terminal.
    */
   async loadXterm(): Promise<void> {
-    if (this.appService.termOutput && !this.staticOutput()) {
+    if (this.appService.termOutput) {
       this.term.underlying?.clear();
+      void trace('Terminal output cleared, now writing to terminal');
       this.term.write(this.appService.termOutput);
     }
   }

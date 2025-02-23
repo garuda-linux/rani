@@ -17,11 +17,11 @@ export class AppService {
   activeLanguage = signal<string>('en');
   currentAction = signal<string | null>(null);
   drawerVisible = signal<boolean>(false);
-  ptyRunning = signal<boolean>(false);
   pendingOperations = signal<Operation[]>([]);
   terminalVisible = signal<boolean>(false);
   sudoPassword = signal<string | null>(null);
   sudoDialogVisible = signal<boolean>(false);
+  terminalStatic = signal<boolean>(false);
 
   termOutputEmitter = new EventEmitter<string>();
   termNewTaskEmitter = new EventEmitter<string>();
@@ -132,7 +132,7 @@ export class AppService {
       this.termNewTaskEmitter.emit(operation.name);
       this.currentAction.set(`${operation.prettyName} (${i}/${this.pendingOperations().length})`);
 
-      let command: string = operation.command(operation.commandArgs);
+      let command: string = operation.command(operation.commandArgs) as string;
       if (operation.sudo) {
         command = `echo ${this.sudoPassword()} | sudo -p "" -S bash -c '${command}'`;
       }
@@ -183,5 +183,15 @@ export class AppService {
       void error(`Failed running command: ${cmd}`);
       return null;
     }
+  }
+
+  /**
+   * Get a command that can be run with sudo. This will prompt the user for the sudo password if it is not already set.
+   * @param command The command to run with sudo.
+   * @returns The command that can be run with sudo, after the sudo password has been set.
+   */
+  async prepareSudoCommand(command: string): Promise<string> {
+    await this.getSudoPassword();
+    return `echo ${this.sudoPassword()} | sudo -p "" -S bash -c '${command}'`;
   }
 }
