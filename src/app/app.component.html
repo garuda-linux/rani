@@ -1,42 +1,83 @@
 <ng-container *transloco="let t">
+  <p-context-menu [global]="true" [model]="rightClickMenu"/>
   <div class="background min-h-svh">
     <garuda-shell
       #shell
       (click)="appService.terminalVisible() ? appService.terminalVisible.set(true) : null"
       [menuItems]="items()"
+      id="shellBar"
     >
-      <img
-        [priority]="true"
-        alt="logo"
-        class="cursor-pointer"
-        garudaShellBarStart
-        height="32"
-        ngSrc="/assets/garudalinux-logo.png"
-        routerLink="/"
-        width="32"
-      />
-      <div garudaShellBarEnd>
-        <p-button
-          (click)="appService.drawerVisible.set(!appService.drawerVisible())"
-          [outlined]="true"
-          class="mr-2"
-          icon="pi pi-list"
-        ></p-button>
-        <p-button
-          (click)="appService.terminalVisible.set(!appService.terminalVisible())"
-          [icon]="appService.terminalVisible() ? 'pi pi-window-minimize' : 'pi pi-window-maximize'"
-          [outlined]="true"
-          class="mr-2"
-        ></p-button>
-        <p-button
-          (click)="appService.themeHandler.toggleDarkMode()"
-          [icon]="appService.themeHandler.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-          [outlined]="true"
-          class="mr-2"
-        >
-        </p-button>
-        <app-language-switcher></app-language-switcher>
-      </div>
+      @if (!appService.settings.leftButtons) {
+        <div garudaShellBarStart>
+          <p-button
+            (click)="appService.drawerVisible.set(!appService.drawerVisible())"
+            [outlined]="true"
+            class="mr-2"
+            icon="pi pi-list"
+          ></p-button>
+          <p-button
+            (click)="appService.terminalVisible.set(!appService.terminalVisible())"
+            [icon]="appService.terminalVisible() ? 'pi pi-hashtag' : 'pi pi-hashtag'"
+            [outlined]="true"
+            class="mr-2"
+          ></p-button>
+          <p-button
+            (click)="appService.themeHandler.toggleDarkMode()"
+            [icon]="appService.themeHandler.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+            [outlined]="true"
+            class="mr-2"
+          >
+          </p-button>
+          <app-language-switcher></app-language-switcher>
+        </div>
+      } @else if (!appService.state.isMaximized() && appService.settings.leftButtons) {
+        <div garudaShellBarStart>
+          <div class="flex">
+            <img (click)="appWindow.close()" alt="close" class="mx-1" height="16" ngSrc="/assets/window/close-main.svg"
+                 width="16">
+            <img (click)=" appWindow.toggleMaximize()" alt="maximize" class="mx-1" height="16"
+                 ngSrc="/assets/window/maximize-main.svg" width="16">
+            <img (click)="appWindow.minimize()" alt="minimize" class="mx-1" height="16"
+                 ngSrc="/assets/window/minimize-main.svg" width="16">
+
+          </div>
+        </div>
+      }
+      @if (!appService.state.isMaximized() && !appService.settings.leftButtons) {
+        <div garudaShellBarEnd>
+          <div class="flex">
+            <img (click)="appWindow.minimize()" alt="minimize" class="mx-1" height="16"
+                 ngSrc="/assets/window/minimize-main.svg" width="16">
+            <img (click)=" appWindow.toggleMaximize()" alt="maximize" class="mx-1" height="16"
+                 ngSrc="/assets/window/maximize-main.svg" width="16">
+            <img (click)="appWindow.close()" alt="close" class="mx-1" height="16" ngSrc="/assets/window/close-main.svg"
+                 width="16">
+          </div>
+        </div>
+      } @else if (appService.settings.leftButtons) {
+        <div garudaShellBarEnd>
+          <p-button
+            (click)="appService.drawerVisible.set(!appService.drawerVisible())"
+            [outlined]="true"
+            class="mr-2"
+            icon="pi pi-list"
+          ></p-button>
+          <p-button
+            (click)="appService.terminalVisible.set(!appService.terminalVisible())"
+            [icon]="appService.terminalVisible() ? 'pi pi-hashtag' : 'pi pi-hashtag'"
+            [outlined]="true"
+            class="mr-2"
+          ></p-button>
+          <p-button
+            (click)="appService.themeHandler.toggleDarkMode()"
+            [icon]="appService.themeHandler.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
+            [outlined]="true"
+            class="mr-2"
+          >
+          </p-button>
+          <app-language-switcher></app-language-switcher>
+        </div>
+      }
       <div class="mt-5">
         <router-outlet #routerOutlet="outlet"></router-outlet>
       </div>

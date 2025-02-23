@@ -1,5 +1,5 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
@@ -7,7 +7,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { Button } from 'primeng/button';
 import { AppService } from './app.service';
-import { ShellComponent } from '@garudalinux/core';
+import { ShellBarStartDirective, ShellComponent } from '@garudalinux/core';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { TerminalComponent } from './terminal/terminal.component';
 import { DrawerModule } from 'primeng/drawer';
@@ -19,7 +19,10 @@ import { FormsModule } from '@angular/forms';
 import { Password } from 'primeng/password';
 import { Nullable } from 'primeng/ts-helpers';
 import { Operation } from './interfaces';
+import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ProgressBar } from 'primeng/progressbar';
+import { ContextMenu } from 'primeng/contextmenu';
+import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 
 @Component({
   imports: [
@@ -41,6 +44,8 @@ import { ProgressBar } from 'primeng/progressbar';
     Password,
     NgClass,
     ProgressBar,
+    ContextMenu,
+    ShellBarStartDirective,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -86,8 +91,30 @@ export class AppComponent implements OnInit {
     },
   ]);
   progressTracker = signal<number | null>(null);
-
   readonly appService = inject(AppService);
+  readonly appWindow = getCurrentWindow();
+  rightClickMenu: MenuItem[] = [
+    {
+      label: 'Apply',
+      icon: 'pi pi-check',
+      command: (event) => this.applyOperations(event),
+    },
+    {
+      label: 'Clear',
+      icon: 'pi pi-trash',
+      command: (event) => this.clearOperations(event),
+    },
+    {
+      separator: true,
+    },
+    {
+      label: 'Exit',
+      icon: 'pi pi-times',
+      command: () => {
+        this.appWindow.close();
+      },
+    },
+  ];
   private readonly cdr = inject(ChangeDetectorRef);
 
   constructor() {
@@ -108,6 +135,30 @@ export class AppComponent implements OnInit {
     this.appService.translocoService.langChanges$.subscribe((lang) => {
       void this.setupLabels(lang);
     });
+  }
+
+  @HostListener('window:resize', ['$event'])
+  async onResize(event: Event): Promise<void> {
+    void debug('Resized window');
+    this.appService.state.isMaximized.set(await this.appWindow.isMaximized());
+  }
+
+  @HostListener('document:keydown', ['$event'])
+  async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
+    switch (event.key) {
+      case 'F5':
+        this.appService.currentAction.set('Reloading');
+        break;
+      case 'F10':
+        this.appService.drawerVisible.set(!this.appService.drawerVisible());
+        break;
+      case 'F11':
+        await this.appWindow.toggleMaximize();
+        break;
+      case 'F12':
+        this.appService.terminalVisible.set(!this.appService.terminalVisible());
+        break;
+    }
   }
 
   /**
@@ -137,11 +188,11 @@ export class AppComponent implements OnInit {
    * Apply all pending operations, if any. Shows a confirmation dialog before applying. If the user cancels, a message is shown.
    * @param event The event that triggered to apply
    */
-  applyOperations(event: Event) {
+  applyOperations(event: Event | MenuItemCommandEvent) {
     void debug('Firing apply operations');
     const operations = this.appService.pendingOperations().length === 1 ? 'operation' : 'operations';
     this.appService.confirmationService.confirm({
-      target: event.target as EventTarget,
+      target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
       message: `Do you want to apply ${this.appService.pendingOperations().length} ${operations}?`,
       header: 'Apply changes?',
       icon: 'pi pi-info-circle',
@@ -171,11 +222,11 @@ export class AppComponent implements OnInit {
    * Clear all pending operations. Shows a confirmation dialog before clearing. If the user cancels, a message is shown.
    * @param event The event that triggered the clear
    */
-  clearOperations(event: Event) {
+  clearOperations(event: Event | MenuItemCommandEvent): void {
     void debug('Firing clear operations');
     const operations = this.appService.pendingOperations().length === 1 ? 'operation' : 'operations';
     this.appService.confirmationService.confirm({
-      target: event.target as EventTarget,
+      target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
       message: `Do you want to delete ${this.appService.pendingOperations().length} ${operations}?`,
       header: 'Clear pending operations?',
       icon: 'pi pi-trash',

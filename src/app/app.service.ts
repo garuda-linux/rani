@@ -28,6 +28,13 @@ export class AppService {
   termNewTaskEmitter = new EventEmitter<string>();
 
   readonly themeHandler = new ThemeHandler();
+  state = {
+    isMaximized: signal<boolean>(false),
+    leftButtons: signal<boolean>(false),
+  };
+  settings: {
+    leftButtons: boolean;
+  } = { leftButtons: true };
   store!: Store;
   termOutput = '';
 
@@ -41,8 +48,16 @@ export class AppService {
 
   async init() {
     const detach = await attachConsole();
-
     this.store = await getConfigStore();
+
+    if (this.store) {
+      const settings = (await this.store.get('settings')) as {
+        leftButtons: boolean;
+      };
+      if (settings) {
+        this.settings = settings;
+      }
+    }
 
     const activeLang: string = ((await this.store.get('language')) as string) ?? (await locale());
     if (activeLang && (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)) {
