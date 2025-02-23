@@ -17,9 +17,9 @@
       <div class="col-span-6 lg:col-span-3">
         <p-card [header]="t(action.label)">
           <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
-          <div class="sm:flex gap-2 mx-auto">
+          <div class="mx-auto">
             <p-button
-              [style]="{ width: '12rem', 'margin-left': 'auto', 'margin-right': 'auto' }"
+              [style]="{  width: '100%' }"
               [outlined]="true"
               (click)="addToPending(action)"
               [disabled]="action.onlyDirect"
@@ -28,7 +28,7 @@
               [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
             ></p-button>
             <p-button
-              [style]="{ width: '12rem', 'margin-left': 'auto', 'margin-right': 'auto' }"
+              [style]="{ 'margin-top': '0.5rem', width: '100%' }"
               (click)="runNow(action)"
               [outlined]="true" [label]="t('maintenance.runNow')"
               icon="pi pi-play-circle"></p-button>
@@ -60,6 +60,6 @@
       [outlined]="true"
       icon="pi pi-refresh">
     </p-button>
-    <p-confirm-dialog />
+    <p-confirm-dialog/>
   </div>
 </ng-container>

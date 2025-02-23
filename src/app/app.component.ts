@@ -115,6 +115,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Set up the labels for the menu items with the given language.
+   * @param lang The language to set the labels in
+   */
   async setupLabels(lang: string): Promise<void> {
     const newItemPromises = [];
     for (const item of this.items()) {
@@ -132,6 +136,10 @@ export class AppComponent implements OnInit {
     this.cdr.detectChanges();
   }
 
+  /**
+   * Apply all pending operations, if any. Shows a confirmation dialog before applying. If the user cancels, a message is shown.
+   * @param event The event that triggered to apply
+   */
   applyOperations(event: Event) {
     void debug('Firing apply operations');
     const operations = this.appService.pendingOperations().length === 1 ? 'operation' : 'operations';
@@ -162,6 +170,10 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Clear all pending operations. Shows a confirmation dialog before clearing. If the user cancels, a message is shown.
+   * @param event The event that triggered the clear
+   */
   clearOperations(event: Event) {
     void debug('Firing clear operations');
     const operations = this.appService.pendingOperations().length === 1 ? 'operation' : 'operations';
@@ -193,6 +205,11 @@ export class AppComponent implements OnInit {
     });
   }
 
+  /**
+   * Set the sudo password in the app service.
+   * @param value The password to set
+   * @param persist Whether to persist the password or not
+   */
   setSudoPass(value: Nullable<string>, persist = false): void {
     if (!value) {
       this.messageToastService.error('Error', 'Password cannot be empty');
@@ -206,20 +223,32 @@ export class AppComponent implements OnInit {
     this.appService.sudoDialogVisible.set(false);
   }
 
+  /**
+   * Show the terminal with the output of the operation, if available.
+   * @param operation The operation to show the output of
+   */
   showOperationLogs(operation: Operation): void {
-    if (this.appService.termOutput) {
+    const opIsRunning: boolean = operation.status === 'running';
+
+    if (this.appService.termOutput && !opIsRunning) {
       this.messageToastService.warn('Warning', 'It looks like you have pending operations');
       return;
+    } else if (opIsRunning) {
+      this.appService.terminalVisible.set(true);
     } else if (!operation.hasOutput || !operation.output) {
       this.messageToastService.warn('Warning', 'No output available');
       return;
     }
 
-    this.appService.currentAction.set(operation.prettyName);
-    this.appService.termOutput = operation.output;
+    this.appService.currentAction.set(this.translocoService.translate(operation.prettyName));
+    this.appService.termOutput = operation.output ?? '';
     this.appService.terminalVisible.set(true);
   }
 
+  /**
+   * Remove an operation from the pending operations list.
+   * @param operation The operation to remove
+   */
   removeOperation(operation: Operation) {
     this.appService.pendingOperations.set(
       this.appService.pendingOperations().filter((op) => op.name !== operation.name),

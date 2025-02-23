@@ -70,13 +70,27 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.refreshMirrors',
       description: 'maintenance.refreshMirrorsSub',
       icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
+      sudo: false,
+      hasOutput: false,
       order: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
         void info('Refreshing mirrors');
         void this.ensurePackageAndRun('reflector-simple');
+      },
+    },
+    {
+      name: 'btrfsAssistant',
+      label: 'maintenance.btrfsAssistant',
+      description: 'maintenance.btrfsAssistantSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: false,
+      order: 0,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        void info('Refreshing mirrors');
+        void this.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
       },
     },
     {
@@ -400,8 +414,9 @@ export class MaintenanceComponent implements OnInit {
    * Ensure a package is installed and run an executable afterward.
    * @param pkg The package to ensure is installed
    * @param executable The executable to run after the package is installed, if the executable differs from the package name
+   * @param needsSudo Whether the command needs to be run with sudo
    */
-  async ensurePackageAndRun(pkg: string, executable?: string): Promise<void> {
+  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false): Promise<void> {
     this.loading.set(true);
     const cmd = `pacman -Qq ${pkg}`;
 
@@ -417,8 +432,11 @@ export class MaintenanceComponent implements OnInit {
       }
     }
 
+    let pkgCmd: string = executable ? executable : pkg;
+    if (needsSudo) pkgCmd = await this.appService.prepareSudoCommand(pkgCmd, true);
+
     // No need to block the main thread here
-    void Command.create('exec-bash', ['-c', `${executable ? executable : pkg}`]).execute();
+    void Command.create('exec-bash', ['-c', pkgCmd]).execute();
     this.loading.set(false);
   }
 

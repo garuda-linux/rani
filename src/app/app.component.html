@@ -47,7 +47,7 @@
   <p-dialog
     [(visible)]="appService.terminalVisible"
     [focusOnShow]="true"
-    [header]="t('terminal.title') + (appService.currentAction() ? ' - ' + appService.currentAction() : '')"
+    [header]="t('terminal.title') + (appService.currentAction()? ' - ' + appService.currentAction() : '')"
     [modal]="true"
     [style]="{ 'width': '90vw', 'height': '90vh'}"
   >

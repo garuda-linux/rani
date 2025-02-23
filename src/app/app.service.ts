@@ -130,11 +130,13 @@ export class AppService {
       operation.status = 'running';
       this.termOutput = '';
       this.termNewTaskEmitter.emit(operation.name);
-      this.currentAction.set(`${operation.prettyName} (${i}/${this.pendingOperations().length})`);
+      this.currentAction.set(
+        `${this.translocoService.translate(operation.prettyName)} (${i}/${this.pendingOperations().length})`,
+      );
 
       let command: string = operation.command(operation.commandArgs) as string;
       if (operation.sudo) {
-        command = `echo ${this.sudoPassword()} | sudo -p "" -S bash -c '${command}'`;
+        command = `echo ${this.sudoPassword()} | sudo -E -p "" -S bash -c '${command}'`;
       }
       void trace(`Command: ${command}`);
       const cmd: Command<string> = Command.create('exec-bash', ['-c', command]);
@@ -188,10 +190,11 @@ export class AppService {
   /**
    * Get a command that can be run with sudo. This will prompt the user for the sudo password if it is not already set.
    * @param command The command to run with sudo.
+   * @param keepEnv Whether to keep the environment variables when running the command with sudo.
    * @returns The command that can be run with sudo, after the sudo password has been set.
    */
-  async prepareSudoCommand(command: string): Promise<string> {
+  async prepareSudoCommand(command: string, keepEnv = false): Promise<string> {
     await this.getSudoPassword();
-    return `echo ${this.sudoPassword()} | sudo -p "" -S bash -c '${command}'`;
+    return `echo ${this.sudoPassword()} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${command}'`;
   }
 }

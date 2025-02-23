@@ -45,7 +45,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       this.appService.termOutputEmitter.subscribe((output: string) => {
         this.term.write(output);
       });
-      this.appService.termOutputEmitter.subscribe((output: string) => {
+      this.appService.termNewTaskEmitter.subscribe((output: string) => {
         void trace(`Entered new stage ${output}, clearing terminal output`);
         this.term.underlying?.clear();
       });
