@@ -51,7 +51,8 @@
     "name": "Name",
     "misc": "Information",
     "status": "Status",
-    "logs": "Logs"
+    "logs": "Logs",
+    "remove": "Remove"
   },
   "maintenance": {
     "title": "System ",

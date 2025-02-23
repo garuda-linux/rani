@@ -18,6 +18,7 @@ export interface Package {
   pkgname: string[];
   selected?: boolean;
   initialState?: boolean;
+  description?: string;
 }
 
 export interface MaintenanceAction {

@@ -85,7 +85,10 @@
               ></i>
             </td>
             <td>
-              <p-button (click)="showOperationLogs(operation)" [label]="t('drawer.logs')"></p-button>
+              <p-button (click)="showOperationLogs(operation)" [label]="t('drawer.logs')" [outlined]="true"></p-button>
+            </td>
+            <td>
+              <p-button (click)="removeOperation(operation)" [label]="t('drawer.remove')" [outlined]="true" severity="danger"></p-button>
             </td>
           </tr>
         </ng-template>

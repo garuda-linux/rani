@@ -219,4 +219,10 @@ export class AppComponent implements OnInit {
     this.appService.termOutput = operation.output;
     this.appService.terminalVisible.set(true);
   }
+
+  removeOperation(operation: Operation) {
+    this.appService.pendingOperations.set(
+      this.appService.pendingOperations().filter((op) => op.name !== operation.name),
+    );
+  }
 }

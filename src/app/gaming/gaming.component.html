@@ -1,98 +1,52 @@
 <ng-container *transloco="let t">
-  <div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
-    <div class="mb-5 font-bold text-3xl">
+  <div class="surface-section px-4 md:px-6 lg:px-8 text-center">
+    <div class="font-bold text-3xl">
       <span class="text-color">{{ t('gaming.title') }} </span>
       <span class="text-primary">{{ t('gaming.titleTwo') }}</span>
     </div>
-    <div class="text-color text-xl mb-10">{{ t('gaming.subtitle') }}</div>
   </div>
   <div class="p-10">
-    <p-data-view [value]="launchers">
-      <ng-template #header>
-        <div class="flex flex-col md:flex-row md:justify-between">
-          <p-select placeholder="Sort By Name" styleClass="mb-2 md:mb-0" />
-        </div>
-      </ng-template>
-      <ng-template #list let-items>
-        <div class="grid grid-cols-12 gap-4 grid-nogutter">
-          <div *ngFor="let item of items; let first = first" class="col-span-2">
-            <div
-              [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }"
-              class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
-            >
-              <div class="md:w-40 relative">
-                <img
-                  [alt]="item.name"
-                  class="block xl:block mx-auto rounded-border w-full"
-                  height="32"
-                  src="/assets/favicon-32x32.png"
-                  width="32"
-                />
-              </div>
-              <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
-                <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                  <div>
-                    <span class="font-medium text-secondary text-sm">{{ item.category }}</span>
-                    <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">{{ item.name }}</div>
-                  </div>
-                </div>
-                <div class="flex flex-row-reverse md:flex-row gap-2">
-                  <p-button
-                    (click)="addToPending(item)"
-                    [icon]="item.selected ? 'pi pi-check-circle' : 'pi pi-circle'"
-                    [outlined]="true"
-                  />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </ng-template>
-    </p-data-view>
+    <p-tabs [(value)]="tabIndex">
+      <p-tablist>
+        @for (section of data; track section.name) {
+          <p-tab [value]="$index">{{ section.name }}</p-tab>
+        }
+      </p-tablist>
+      <p-tabpanels>
+        @for (section of data; track section.name) {
+          <p-tabpanel [value]="$index">
+            <p-data-view [value]="section.entries" [title]="section.name">
+              <ng-template #list let-items>
+                <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
+                  <div *ngFor="let item of items"
+                       class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
 
-    <div class="mt-10">
-      <p-data-view [value]="wine">
-        <ng-template #header>
-          <div class="flex flex-col md:flex-row md:justify-between">
-            <p-select placeholder="Sort By Name" styleClass="mb-2 md:mb-0" />
-          </div>
-        </ng-template>
-        <ng-template #list let-items>
-          <div class="grid grid-cols-12 gap-4 grid-nogutter">
-            <div *ngFor="let item of items; let first = first" class="col-span-2">
-              <div
-                [ngClass]="{ 'border-t border-surface-200 dark:border-surface-700': !first }"
-                class="flex flex-col sm:flex-row sm:items-center p-6 gap-4"
-              >
-                <div class="md:w-40 relative">
-                  <img
-                    [alt]="item.name"
-                    class="block xl:block mx-auto rounded-border w-full"
-                    height="32"
-                    src="/assets/favicon-32x32.png"
-                    width="32"
-                  />
-                </div>
-                <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
-                  <div class="flex flex-row md:flex-col justify-between items-start gap-2">
-                    <div>
-                      <span class="font-medium text-secondary text-sm">{{ item.category }}</span>
-                      <div class="text-lg font-medium text-surface-900 dark:text-surface-0 mt-2">{{ item.name }}</div>
-                    </div>
-                  </div>
-                  <div class="flex flex-row-reverse md:flex-row gap-2">
-                    <p-button
-                      (click)="addToPending(item)"
-                      [icon]="item.selected ? 'pi pi-check-circle' : 'pi pi-circle'"
-                      [outlined]="true"
-                    />
+                    <p-card (click)="addToPending(item)"
+                            [style]="{ cursor: 'pointer', 'background': item.selected ? backgroundColor() : '' }">
+                      <ng-template #title>
+                        <div class="text-center text-sm min-h-12" [pTooltip]="item.description"
+                             tooltipPosition="bottom">{{ item.name }}
+                          @if (item.description) {
+                            <i class="pi pi-info-circle"> </i>
+                          }</div>
+                      </ng-template>
+                      <div class="mt-5">
+                        <img
+                          [alt]="item.name"
+                          class="rounded-border mx-auto"
+                          height="32"
+                          ngSrc="/assets/gamer/{{ item.icon }}"
+                          width="32"
+                        />
+                      </div>
+                    </p-card>
                   </div>
                 </div>
-              </div>
-            </div>
-          </div>
-        </ng-template>
-      </p-data-view>
-    </div>
+              </ng-template>
+            </p-data-view>
+          </p-tabpanel>
+        }
+      </p-tabpanels>
+    </p-tabs>
   </div>
 </ng-container>
