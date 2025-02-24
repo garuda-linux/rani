@@ -1,8 +1,9 @@
-import { Component, OnInit, signal } from '@angular/core';
-import { hostname, locale } from '@tauri-apps/plugin-os';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { hostname } from '@tauri-apps/plugin-os';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
+import { AppService } from '../app.service';
 
 @Component({
   selector: 'app-home',
@@ -11,7 +12,7 @@ import { RouterLink } from '@angular/router';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  locale = signal<string | null>(null);
+  codeName = signal<string | null>(null);
   hostname = signal<string | null>(null);
 
   mainLinks = [
@@ -53,10 +54,21 @@ export class HomeComponent implements OnInit {
     },
   ];
 
-  async ngOnInit() {
-    const locales = await locale();
-    const hostnames = await hostname();
-    this.locale.set(locales);
-    this.hostname.set(hostnames);
+  private readonly appService = inject(AppService);
+
+  async ngOnInit(): Promise<void> {
+    const host: string | null = await hostname();
+    this.codeName.set(await this.getCodeName());
+    this.hostname.set(host);
+  }
+
+  async getCodeName(): Promise<string> {
+    const cmd = 'lsb_release -c';
+    const result = await this.appService.getCommandOutput<string>(cmd, (output: string) => output.split(':')[1].trim());
+
+    if (result) {
+      return result.match(/[A-Z][a-z]+/g)?.join(' ') ?? 'Unknown';
+    }
+    return 'Unknown';
   }
 }

@@ -18,17 +18,22 @@
             <p-data-view [value]="section.entries" [title]="section.name">
               <ng-template #list let-items>
                 <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
-                  <div *ngFor="let item of items"
-                       class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
-
-                    <p-card (click)="addToPending(item)"
-                            [style]="{ cursor: 'pointer', 'background': item.selected ? backgroundColor() : '' }">
+                  <div *ngFor="let item of items" class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
+                    <p-card
+                      (click)="addToPending(item)"
+                      [style]="{ cursor: 'pointer', background: item.selected ? backgroundColor() : '' }"
+                    >
                       <ng-template #title>
-                        <div class="text-center text-sm min-h-12" [pTooltip]="item.description"
-                             tooltipPosition="bottom">{{ item.name }}
+                        <div
+                          class="text-center text-sm min-h-12"
+                          [pTooltip]="item.description"
+                          tooltipPosition="bottom"
+                        >
+                          {{ item.name }}
                           @if (item.description) {
                             <i class="pi pi-info-circle"> </i>
-                          }</div>
+                          }
+                        </div>
                       </ng-template>
                       <div class="mt-5">
                         <img

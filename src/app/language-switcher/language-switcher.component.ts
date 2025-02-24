@@ -7,6 +7,9 @@ import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LanguageSelectionComponent } from '../language-selection/language-selection.component';
+import { locale } from '@tauri-apps/plugin-os';
+import { getConfigStore } from '../store';
+import { Store } from '@tauri-apps/plugin-store';
 
 @Component({
   selector: 'app-language-switcher',
@@ -29,13 +32,26 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
    * Initialize the component and subscribe to the router events to detect language changes
    * via query parameters.
    */
-  ngOnInit() {
-    if (
-      this.route.snapshot.queryParams['lang'] &&
-      this.translocoService.getAvailableLangs().includes(this.route.snapshot.queryParams['lang']) &&
-      this.route.snapshot.queryParams['lang'] !== this.translocoService.getActiveLang()
+  async ngOnInit(): Promise<void> {
+    const sysLang: string | null = await locale();
+    const store: Store = await getConfigStore();
+    const savedLang = (await store.get('language')) as string;
+
+    let activeLang: string = savedLang ?? sysLang;
+    if (activeLang.match(/en-/)) {
+      activeLang = 'en';
+    }
+
+    if (activeLang && activeLang !== this.translocoService.getActiveLang()) {
+      this.translocoService.setActiveLang(activeLang);
+      void store.set('language', sysLang);
+    } else if (
+      !savedLang &&
+      sysLang &&
+      (this.translocoService.getAvailableLangs() as unknown as string).includes(sysLang)
     ) {
-      this.selectLanguage(this.route.snapshot.queryParams['lang']);
+      void store.set('language', sysLang);
+      this.appService.translocoService.setActiveLang(sysLang);
     }
 
     this.appService.activeLanguage.set(this.translocoService.getActiveLang());

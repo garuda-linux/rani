@@ -22,11 +22,7 @@
             "tsConfig": "tsconfig.app.json",
             "styles": ["src/styles.scss"],
             "assets": ["src/assets"],
-            "allowedCommonJsDependencies": [
-              "@pixelfactory/privatebin",
-              "@xterm/addon-fit",
-              "@xterm/xterm"
-            ]
+            "allowedCommonJsDependencies": ["@pixelfactory/privatebin", "@xterm/addon-fit", "@xterm/xterm"]
           },
           "configurations": {
             "production": {

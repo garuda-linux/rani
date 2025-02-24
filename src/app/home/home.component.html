@@ -2,9 +2,9 @@
   <div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
     <div class="mb-5 font-bold text-3xl">
       <span class="text-color">{{ t('welcome.title') }} </span>
-      <span class="text-primary">{{ t('welcome.titleTwo') }}</span>
+      <span class="text-primary">{{ t('welcome.titleTwo') }} "{{ codeName() }}"</span>
     </div>
-    <div class="text-color text-xl mb-10">{{ t('welcome.subtitle') }}</div>
+    <div class="text-color text-xl mb-10">{{ t('welcome.subtitle') }} ~ {{ hostname() }}</div>
     <div class="grid grid-cols-12">
       @for (item of mainLinks; track item.routerLink) {
         <p-card [routerLink]="item.routerLink" class="cursor-pointer col-span-12 md:col-span-4 mb-4 px-5">

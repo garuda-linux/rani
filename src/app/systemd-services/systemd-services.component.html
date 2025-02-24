@@ -8,11 +8,23 @@
     [rows]="30"
     [value]="systemdServices()"
     dataKey="unit"
+    sortField="unit"
   >
     <ng-template #caption>
       <div class="flex">
-        <p-button (click)="clear(serviceTable)" [label]="t('systemdServices.clear')" [outlined]="true"
-                  icon="pi pi-filter-slash"/>
+        <p-button
+          (click)="toggleRefresh()"
+          [icon]="appService.settings.autoRefresh ? 'pi pi-stop' : 'pi pi-refresh'"
+          [label]="t('systemdServices.autoRefresh')"
+          [outlined]="true"
+          class="mr-2.5"
+        />
+        <p-button
+          (click)="clear(serviceTable)"
+          [label]="t('systemdServices.clear')"
+          [outlined]="true"
+          icon="pi pi-filter-slash"
+        />
         <p-iconfield class="ml-auto" iconPosition="left">
           <p-inputicon>
             <i class="pi pi-search"></i>
@@ -29,20 +41,25 @@
     </ng-template>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="unit"> {{ t('systemdServices.unit') }}
-          <p-sortIcon field="unit"/>
+        <th pSortableColumn="unit">
+          {{ t('systemdServices.unit') }}
+          <p-sortIcon field="unit" />
         </th>
-        <th pSortableColumn="description"> {{ t('systemdServices.description') }}
-          <p-sortIcon field="description"/>
+        <th pSortableColumn="description">
+          {{ t('systemdServices.description') }}
+          <p-sortIcon field="description" />
         </th>
-        <th pSortableColumn="load"> {{ t('systemdServices.load') }}
-          <p-sortIcon field="load"/>
+        <th pSortableColumn="load">
+          {{ t('systemdServices.load') }}
+          <p-sortIcon field="load" />
         </th>
-        <th pSortableColumn="sub"> {{ t('systemdServices.state') }}
-          <p-sortIcon field="sub"/>
+        <th pSortableColumn="sub">
+          {{ t('systemdServices.state') }}
+          <p-sortIcon field="sub" />
         </th>
-        <th pSortableColumn="active"> {{ t('systemdServices.active') }}
-          <p-sortIcon field="active"/>
+        <th pSortableColumn="active">
+          {{ t('systemdServices.active') }}
+          <p-sortIcon field="active" />
         </th>
         <th>
           <div class="flex items-center">
@@ -68,15 +85,19 @@
         <td class="text-center">
           <i
             [ngClass]="{
-            'text-green-500 pi-check-circle': service.active === 'active',
-            'text-red-500 pi-times-circle': service.active !== 'active',
-          }"
+              'text-green-500 pi-check-circle': service.active === 'active',
+              'text-red-500 pi-times-circle': service.active !== 'active',
+            }"
             class="pi"
           ></i>
         </td>
         <td>
-          <p-button (click)="openPopover($event, op, service)" [label]="t('systemdServices.show')" [outlined]="true"
-                    icon="pi pi-power-off"></p-button>
+          <p-button
+            (click)="openPopover($event, op, service)"
+            [label]="t('systemdServices.show')"
+            [outlined]="true"
+            icon="pi pi-power-off"
+          ></p-button>
         </td>
       </tr>
     </ng-template>
@@ -89,28 +110,73 @@
 
   <p-popover #op>
     <div>
-      <p-button (click)="executeAction( 'start')" [disabled]="activeService()?.sub === 'running'"
-                [label]="t('systemdServices.start')"
-                [outlined]="true" class="mx-2.5" icon="pi pi-play"></p-button>
-      <p-button (click)="executeAction( 'stop')" [disabled]="activeService()?.sub === 'dead'"
-                [label]="t('systemdServices.stop')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-stop"></p-button>
-      <p-button (click)="executeAction( 'restart')" [label]="t('systemdServices.restart')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-refresh"></p-button>
-      <p-button (click)="executeAction( 'reload')" [label]="t('systemdServices.reload')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-refresh"></p-button>
-      <p-button (click)="executeAction('enable')" [disabled]="activeService()?.sub === 'running'"
-                [label]="t('systemdServices.enable')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-power-off"></p-button>
-      <p-button (click)="executeAction( 'disable')" [disabled]="activeService()?.sub === 'dead'"
-                [label]="t('systemdServices.disable')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-power-off"></p-button>
-      <p-button (click)="executeAction( 'mask')" [label]="t('systemdServices.mask')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-ban"></p-button>
-      <p-button (click)="executeAction( 'unmask')" [label]="t('systemdServices.unmask')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-ban"></p-button>
-      <p-button (click)="executeAction( 'logs')" [label]="t('systemdServices.logs')" [outlined]="true"
-                class="mx-2.5" icon="pi pi-refresh"></p-button>
+      <p-button
+        (click)="executeAction('start')"
+        [disabled]="activeService()?.sub === 'running'"
+        [label]="t('systemdServices.start')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-play"
+      ></p-button>
+      <p-button
+        (click)="executeAction('stop')"
+        [disabled]="activeService()?.sub === 'dead'"
+        [label]="t('systemdServices.stop')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-stop"
+      ></p-button>
+      <p-button
+        (click)="executeAction('restart')"
+        [label]="t('systemdServices.restart')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-refresh"
+      ></p-button>
+      <p-button
+        (click)="executeAction('reload')"
+        [label]="t('systemdServices.reload')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-refresh"
+      ></p-button>
+      <p-button
+        (click)="executeAction('enable')"
+        [disabled]="activeService()?.sub === 'running'"
+        [label]="t('systemdServices.enable')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-power-off"
+      ></p-button>
+      <p-button
+        (click)="executeAction('disable')"
+        [disabled]="activeService()?.sub === 'dead'"
+        [label]="t('systemdServices.disable')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-power-off"
+      ></p-button>
+      <p-button
+        (click)="executeAction('mask')"
+        [label]="t('systemdServices.mask')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-ban"
+      ></p-button>
+      <p-button
+        (click)="executeAction('unmask')"
+        [label]="t('systemdServices.unmask')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-ban"
+      ></p-button>
+      <p-button
+        (click)="executeAction('logs')"
+        [label]="t('systemdServices.logs')"
+        [outlined]="true"
+        class="mx-2.5"
+        icon="pi pi-refresh"
+      ></p-button>
     </div>
   </p-popover>
 </ng-container>

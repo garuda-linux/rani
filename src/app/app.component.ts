@@ -146,6 +146,9 @@ export class AppComponent implements OnInit {
   @HostListener('document:keydown', ['$event'])
   async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
     switch (event.key) {
+      case 'F4':
+        this.appService.terminalVisible.set(!this.appService.terminalVisible());
+        break;
       case 'F5':
         this.appService.currentAction.set('Reloading');
         break;
@@ -154,9 +157,6 @@ export class AppComponent implements OnInit {
         break;
       case 'F11':
         await this.appWindow.toggleMaximize();
-        break;
-      case 'F12':
-        this.appService.terminalVisible.set(!this.appService.terminalVisible());
         break;
     }
   }

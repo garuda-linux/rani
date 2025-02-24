@@ -12,6 +12,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { Popover, PopoverModule } from 'primeng/popover';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { MessageToastService } from '@garudalinux/core';
+import { Nullable } from 'primeng/ts-helpers';
 
 @Component({
   selector: 'app-systemd-services',
@@ -25,7 +26,9 @@ export class SystemdServicesComponent implements OnInit {
   serviceSearch = signal<string>('');
   systemdServices = signal<SystemdService[]>([]);
 
-  private readonly appService = inject(AppService);
+  intervalRef: Nullable<number> = null;
+
+  protected readonly appService = inject(AppService);
   private readonly messageToastService = inject(MessageToastService);
 
   async ngOnInit() {
@@ -33,9 +36,12 @@ export class SystemdServicesComponent implements OnInit {
     this.loading.set(false);
     this.systemdServices.set(await this.getActiveServices());
 
-    setInterval(async () => {
-      this.systemdServices.set(await this.getActiveServices());
-    }, 5000);
+    if (this.appService.settings.autoRefresh) {
+      this.intervalRef = setInterval(async () => {
+        this.systemdServices.set(await this.getActiveServices());
+      }, 5000);
+      void debug('Started auto-refresh');
+    }
   }
 
   async getActiveServices(): Promise<SystemdService[]> {
@@ -118,5 +124,20 @@ export class SystemdServicesComponent implements OnInit {
   openPopover($event: MouseEvent, op: Popover, service: SystemdService) {
     this.activeService.set(service);
     op.toggle($event);
+  }
+
+  toggleRefresh() {
+    this.appService.settings.autoRefresh = !this.appService.settings.autoRefresh;
+    void this.appService.store.set('settings', this.appService.settings);
+
+    if (this.appService.settings.autoRefresh) {
+      this.intervalRef = setInterval(async () => {
+        this.systemdServices.set(await this.getActiveServices());
+      }, 5000);
+      void debug('Started auto-refresh');
+    } else if (this.intervalRef) {
+      clearInterval(this.intervalRef);
+      void debug('Stopped auto-refresh');
+    }
   }
 }

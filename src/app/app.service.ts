@@ -5,7 +5,7 @@ import { locale } from '@tauri-apps/plugin-os';
 import { TranslocoService } from '@jsverse/transloco';
 import { isPermissionGranted, Options, requestPermission, sendNotification } from '@tauri-apps/plugin-notification';
 import { attachConsole, debug, error, info, trace } from '@tauri-apps/plugin-log';
-import { Operation } from './interfaces';
+import { AppSettings, Operation } from './interfaces';
 import { MessageToastService } from '@garudalinux/core';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { getConfigStore } from './store';
@@ -32,9 +32,7 @@ export class AppService {
     isMaximized: signal<boolean>(false),
     leftButtons: signal<boolean>(false),
   };
-  settings: {
-    leftButtons: boolean;
-  } = { leftButtons: true };
+  settings: AppSettings = { leftButtons: true, autoRefresh: false };
   store!: Store;
   termOutput = '';
 
@@ -51,9 +49,7 @@ export class AppService {
     this.store = await getConfigStore();
 
     if (this.store) {
-      const settings = (await this.store.get('settings')) as {
-        leftButtons: boolean;
-      };
+      const settings = (await this.store.get('settings')) as AppSettings;
       if (settings) {
         this.settings = settings;
       }

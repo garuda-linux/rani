@@ -60,3 +60,29 @@ export interface SystemdService {
   sub: string;
   description: string;
 }
+
+export interface AppSettings {
+  autoRefresh: boolean;
+  leftButtons: boolean;
+}
+
+export interface SystemToolsEntry {
+  name: string;
+  icon: string;
+  entries: SystemToolsSubEntry[];
+}
+
+export interface SystemToolsSubEntry {
+  name: string;
+  fancyTitle: string;
+  description: string;
+  checked: boolean;
+  disabler?: string;
+  disabled?: boolean;
+  handler: () => void;
+  initialState: boolean;
+  check: {
+    type: 'pkg' | 'group' | 'service';
+    name: string;
+  };
+}

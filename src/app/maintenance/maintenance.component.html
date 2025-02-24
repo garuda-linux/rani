@@ -8,7 +8,7 @@
 
   @if (loading()) {
     <div class="mt-5">
-      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }"/>
+      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }" />
     </div>
   }
 
@@ -19,7 +19,7 @@
           <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
           <div class="mx-auto">
             <p-button
-              [style]="{  width: '100%' }"
+              [style]="{ width: '100%' }"
               [outlined]="true"
               (click)="addToPending(action)"
               [disabled]="action.onlyDirect"
@@ -28,10 +28,12 @@
               [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
             ></p-button>
             <p-button
-              [style]="{ 'margin-top': '0.5rem', width: '100%' }"
+              [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
               (click)="runNow(action)"
-              [outlined]="true" [label]="t('maintenance.runNow')"
-              icon="pi pi-play-circle"></p-button>
+              [outlined]="true"
+              [label]="t('maintenance.runNow')"
+              icon="pi pi-play-circle"
+            ></p-button>
           </div>
         </p-card>
       </div>
@@ -42,12 +44,16 @@
     @for (config of resettableConfigs; track config.name) {
       @if (config.exists) {
         <div class="ml-32 col-span-4 lg:col-span-3">
-          <p-checkbox [inputId]="config.name" name="group" [value]="config" [(ngModel)]="selectedResetConfigs"/>
-          <label
-            [for]="config.name" class="ml-2"> {{ config.name }}
-            <i class="pi pi-info-circle" style="font-size: 0.75rem"
-               [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
-               tooltipPosition="bottom"> </i>
+          <p-checkbox [inputId]="config.name" name="group" [value]="config" [(ngModel)]="selectedResetConfigs" />
+          <label [for]="config.name" class="ml-2">
+            {{ config.name }}
+            <i
+              class="pi pi-info-circle"
+              style="font-size: 0.75rem"
+              [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
+              tooltipPosition="bottom"
+            >
+            </i>
           </label>
         </div>
       }
@@ -58,8 +64,9 @@
       (click)="confirmResetConfigs($event)"
       [label]="t('maintenance.resetConfigs')"
       [outlined]="true"
-      icon="pi pi-refresh">
+      icon="pi pi-refresh"
+    >
     </p-button>
-    <p-confirm-dialog/>
+    <p-confirm-dialog />
   </div>
 </ng-container>

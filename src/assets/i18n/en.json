@@ -24,8 +24,8 @@
     "tooltip": "Select your preferred language"
   },
   "welcome": {
-    "title": "Welcome to ",
-    "titleTwo": "Garuda Linux",
+    "title": "Welcome to Garuda",
+    "titleTwo": " Linux",
     "subtitle": "The ultimate Linux distro for gaming and multimedia",
     "maintenance": "Maintenance",
     "maintenanceSub": "Keep your system in a good state",
@@ -69,7 +69,7 @@
     "cleanCacheSub": "Remove all cached packages",
     "updateSystem": "Update system",
     "updateSystemSub": "Update your system via garuda-update",
-    "editReposSub": "Edit your repositories",
+    "editReposSub": "Edit your repositories with Pace",
     "addPendingSub": "Add pending operations",
     "clearOrphans": "Clear orphans",
     "clearOrphansSub": "Remove orphaned packages",
@@ -124,12 +124,148 @@
     "restart": "Restart",
     "reload": "Reload",
     "enable": "Enable",
-    "disable": "Disable"
+    "disable": "Disable",
+    "autoRefresh": "Auto refresh"
   },
   "systemTools": {
     "title": "System ",
     "titleTwo": "settings",
     "systemdServices": "Systemd services",
-    "common": "Common settings"
+    "common": "Common settings",
+    "audio": {
+      "alsa": {
+        "description": "ALSA support"
+      },
+      "jack": {
+        "description": "JACK support"
+      },
+      "pulseaudio": {
+        "description": "PulseAudio support"
+      },
+      "pipewire": {
+        "description": "PipeWire support"
+      },
+      "userRealtime": {
+        "description": "User in realtime group"
+      }
+    },
+    "virtualization": {
+      "qemu": {
+        "description": "QEMU support"
+      },
+      "kvm": {
+        "description": "KVM support"
+      },
+      "libvirt": {
+        "description": "libvirt support"
+      },
+      "virtManager": {
+        "description": "virt-manager support"
+      },
+      "libvirtdEnabled": {
+        "description": "libvirtd enabled"
+      },
+      "userVboxUsers": {
+        "description": "User in vboxusers group"
+      },
+      "virtualbox": {
+        "description": "VirtualBox support"
+      },
+      "userLibvirt": {
+        "description": "User in libvirt group"
+      },
+      "userKvm": {
+        "description": "User in kvm group"
+      },
+      "virtualboxKvm": {
+        "description": "VirtualBox with KVM support"
+      },
+      "docker": {
+        "description": "Docker support"
+      },
+      "userDocker": {
+        "description": "User in docker group"
+      },
+      "dockerEnabled": {
+        "description": "Docker enabled"
+      },
+      "podman": {
+        "description": "Podman support"
+      },
+      "podmanEnabled": {
+        "description": "Podman enabled"
+      }
+    },
+    "network": {
+      "networkManager": {
+        "description": "NetworkManager support"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager enabled"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager enabled"
+      }
+    },
+    "bluetooth": {
+      "bluetooth": {
+        "description": "Bluetooth support"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth enabled"
+      },
+      "userBluetooth": {
+        "description": "User in bluetooth group"
+      },
+      "autoConnect": {
+        "description": "Auto connect"
+      },
+      "autoConnectEnabled": {
+        "description": "Auto connect enabled"
+      }
+    },
+    "printing": {
+      "printingSupport": {
+        "description": "Printing support"
+      },
+      "cupsEnabled": {
+        "description": "CUPS enabled"
+      },
+      "scanningSupport": {
+        "description": "Scanning support"
+      },
+      "sanedEnabled": {
+        "description": "saned enabled"
+      },
+      "userCups": {
+        "description": "User in cups group"
+      },
+      "userScanner": {
+        "description": "User in scanner group"
+      },
+      "userSys": {
+        "description": "User in sys group"
+      }
+    },
+    "firewall": {
+      "firewalld": {
+        "description": "Firewalld support"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld enabled"
+      },
+      "ufw": {
+        "description": "UFW support"
+      },
+      "ufwEnabled": {
+        "description": "UFW enabled"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch support"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch enabled"
+      }
+    }
   }
 }

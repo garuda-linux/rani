@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <p-context-menu [global]="true" [model]="rightClickMenu"/>
+  <p-context-menu [global]="true" [model]="rightClickMenu" />
   <div class="background min-h-svh">
     <garuda-shell
       #shell
@@ -33,25 +33,60 @@
       } @else if (!appService.state.isMaximized() && appService.settings.leftButtons) {
         <div garudaShellBarStart>
           <div class="flex">
-            <img (click)="appWindow.close()" alt="close" class="mx-1" height="16" ngSrc="/assets/window/close-main.svg"
-                 width="16">
-            <img (click)=" appWindow.toggleMaximize()" alt="maximize" class="mx-1" height="16"
-                 ngSrc="/assets/window/maximize-main.svg" width="16">
-            <img (click)="appWindow.minimize()" alt="minimize" class="mx-1" height="16"
-                 ngSrc="/assets/window/minimize-main.svg" width="16">
-
+            <img
+              (click)="appWindow.close()"
+              alt="close"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/close-main.svg"
+              width="16"
+            />
+            <img
+              (click)="appWindow.toggleMaximize()"
+              alt="maximize"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/maximize-main.svg"
+              width="16"
+            />
+            <img
+              (click)="appWindow.minimize()"
+              alt="minimize"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/minimize-main.svg"
+              width="16"
+            />
           </div>
         </div>
       }
       @if (!appService.state.isMaximized() && !appService.settings.leftButtons) {
         <div garudaShellBarEnd>
           <div class="flex">
-            <img (click)="appWindow.minimize()" alt="minimize" class="mx-1" height="16"
-                 ngSrc="/assets/window/minimize-main.svg" width="16">
-            <img (click)=" appWindow.toggleMaximize()" alt="maximize" class="mx-1" height="16"
-                 ngSrc="/assets/window/maximize-main.svg" width="16">
-            <img (click)="appWindow.close()" alt="close" class="mx-1" height="16" ngSrc="/assets/window/close-main.svg"
-                 width="16">
+            <img
+              (click)="appWindow.minimize()"
+              alt="minimize"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/minimize-main.svg"
+              width="16"
+            />
+            <img
+              (click)="appWindow.toggleMaximize()"
+              alt="maximize"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/maximize-main.svg"
+              width="16"
+            />
+            <img
+              (click)="appWindow.close()"
+              alt="close"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/close-main.svg"
+              width="16"
+            />
           </div>
         </div>
       } @else if (appService.settings.leftButtons) {
@@ -88,9 +123,9 @@
   <p-dialog
     [(visible)]="appService.terminalVisible"
     [focusOnShow]="true"
-    [header]="t('terminal.title') + (appService.currentAction()? ' - ' + appService.currentAction() : '')"
+    [header]="t('terminal.title') + (appService.currentAction() ? ' - ' + appService.currentAction() : '')"
     [modal]="true"
-    [style]="{ 'width': '90vw', 'height': '90vh'}"
+    [style]="{ width: '90vw', height: '90vh' }"
   >
     <app-terminal></app-terminal>
     @if (progressTracker()) {
@@ -98,8 +133,11 @@
     }
   </p-dialog>
 
-  <p-drawer [(visible)]="appService.drawerVisible" [header]="t('drawer.actions')"
-            styleClass="!w-full md:!w-80 lg:!w-[50rem]">
+  <p-drawer
+    [(visible)]="appService.drawerVisible"
+    [header]="t('drawer.actions')"
+    styleClass="!w-full md:!w-80 lg:!w-[50rem]"
+  >
     <div class="h-[78vh] overflow-y-auto">
       <p-table [value]="appService.pendingOperations()">
         <ng-template #header>
@@ -130,8 +168,12 @@
               <p-button (click)="showOperationLogs(operation)" [label]="t('drawer.logs')" [outlined]="true"></p-button>
             </td>
             <td>
-              <p-button (click)="removeOperation(operation)" [label]="t('drawer.remove')" [outlined]="true"
-                        severity="danger"></p-button>
+              <p-button
+                (click)="removeOperation(operation)"
+                [label]="t('drawer.remove')"
+                [outlined]="true"
+                severity="danger"
+              ></p-button>
             </td>
           </tr>
         </ng-template>

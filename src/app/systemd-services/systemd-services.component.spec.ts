@@ -8,9 +8,8 @@ describe('SystemdServicesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SystemdServicesComponent]
-    })
-    .compileComponents();
+      imports: [SystemdServicesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SystemdServicesComponent);
     component = fixture.componentInstance;
