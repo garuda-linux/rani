@@ -21,6 +21,12 @@
         icon="pi-terminal pi"
       ></p-button>
       <p-button
+        (click)="getLastPacmanLog()"
+        [label]="t('diagnostics.pacman')"
+        [outlined]="true"
+        icon="pi-terminal pi"
+      ></p-button>
+      <p-button
         (click)="getDmesg()"
         [label]="t('diagnostics.dmesg')"
         [outlined]="true"

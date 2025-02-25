@@ -8,14 +8,18 @@
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
-        <p-tab [value]="0">{{ t('systemTools.common') }}</p-tab>
-        <p-tab [value]="1">{{ t('systemTools.systemdServices') }}</p-tab>
+        <p-tab [value]="0">{{ t('systemTools.components') }}</p-tab>
+        <p-tab [value]="1">{{ t('systemTools.systemSettings') }}</p-tab>
+        <p-tab [value]="2">{{ t('systemTools.systemdServices') }}</p-tab>
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
           <app-system-components></app-system-components>
         </p-tabpanel>
         <p-tabpanel [value]="1">
+          <app-system-settings></app-system-settings>
+        </p-tabpanel>
+        <p-tabpanel [value]="2">
           <app-systemd-services></app-systemd-services>
         </p-tabpanel>
       </p-tabpanels>

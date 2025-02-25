@@ -145,14 +145,14 @@ export class GamingComponent implements OnInit {
     { name: 'ZSNES', pkgname: ['zsnes'], icon: 'zsnes.png' },
   ];
 
-  data: { name: string; entries: Package[] }[] = [
-    { name: 'Launchers', entries: this.launchers },
-    { name: 'Wine', entries: this.wine },
-    { name: 'Tools', entries: this.tools },
-    { name: 'Common apps', entries: this.commonApps },
-    { name: 'Controllers', entries: this.controllers },
-    { name: 'Games', entries: this.games },
-    { name: 'Emulators', entries: this.emulators },
+  data: { name: string; sections: Package[] }[] = [
+    { name: 'Launchers', sections: this.launchers },
+    { name: 'Wine', sections: this.wine },
+    { name: 'Tools', sections: this.tools },
+    { name: 'Common apps', sections: this.commonApps },
+    { name: 'Controllers', sections: this.controllers },
+    { name: 'Games', sections: this.games },
+    { name: 'Emulators', sections: this.emulators },
   ];
 
   private readonly appService = inject(AppService);
@@ -257,7 +257,7 @@ export class GamingComponent implements OnInit {
           if (arg.includes(',')) allPkgs.push(...arg.split(','));
           else allPkgs.push(arg);
         }
-        return `pacman --noconfirm -S ${allPkgs.join(' ')}`;
+        return `pacman --needed --noconfirm -S ${allPkgs.join(' ')}`;
       },
     };
     this.appService.pendingOperations().push(operation);
@@ -274,8 +274,8 @@ export class GamingComponent implements OnInit {
     }
 
     const installedPackages: string[] = result.stdout.split('\n');
-    for (const entries of this.data) {
-      for (const pkg of entries.entries) {
+    for (const sections of this.data) {
+      for (const pkg of sections.sections) {
         pkg.selected = installedPackages.includes(pkg.pkgname[0]);
         pkg.initialState = pkg.selected;
       }

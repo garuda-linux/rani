@@ -10,12 +10,11 @@ import { Tooltip } from 'primeng/tooltip';
 import { ProgressBar } from 'primeng/progressbar';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
-import { ConfirmDialog } from 'primeng/confirmdialog';
 import { path } from '@tauri-apps/api';
 
 @Component({
   selector: 'app-maintenance',
-  imports: [Card, Button, TranslocoDirective, Tooltip, ProgressBar, Checkbox, FormsModule, ConfirmDialog],
+  imports: [Card, Button, TranslocoDirective, Tooltip, ProgressBar, Checkbox, FormsModule],
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
 })
@@ -47,7 +46,7 @@ export class MaintenanceComponent implements OnInit {
       order: 99,
       command: (): string => {
         void info('Cleaning cache');
-        return 'paccache -rk0';
+        return 'paccache -ruk 0';
       },
     },
     {
@@ -60,7 +59,7 @@ export class MaintenanceComponent implements OnInit {
       order: 98,
       command: (): string => {
         void info('Cleaning orphans');
-        return 'pacman --noconfirm -Rns $(pacman -Qtdq) || true';
+        return 'pacman -Rns $(pacman -Qtdq)';
       },
     },
     {
@@ -114,7 +113,7 @@ export class MaintenanceComponent implements OnInit {
       order: 1,
       command: (): string => {
         void info('Removing database lock');
-        return 'rm /var/lib/pacman/db.lck || true';
+        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
       },
     },
     {
@@ -136,8 +135,8 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteFix',
       description: 'maintenance.updateRemoteFixSub',
       icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
+      hasOutput: true,
+      sudo: true,
       order: 0,
       command: (): string => {
         void info('Running remote fix');
@@ -149,8 +148,8 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteKeyring',
       description: 'maintenance.updateRemoteKeyringSub',
       icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
+      hasOutput: true,
+      sudo: true,
       order: 0,
       command: (): string => {
         void info('Running remote keyring');
@@ -162,8 +161,8 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteFullFix',
       description: 'maintenance.updateRemoteFullFixSub',
       icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
+      hasOutput: true,
+      sudo: true,
       order: 0,
       command: (): string => {
         void info('Running remote full fix');
@@ -175,8 +174,8 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteResetAudio',
       description: 'maintenance.updateRemoteResetAudioSub',
       icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
+      hasOutput: true,
+      sudo: true,
       order: 0,
       command: (): string => {
         void info('Running remote reset audio');
@@ -188,8 +187,8 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteResetSnapper',
       description: 'maintenance.updateRemoteResetSnapperSub',
       icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
+      hasOutput: true,
+      sudo: true,
       order: 0,
       command: (): string => {
         void info('Running remote reset snapper');
@@ -418,7 +417,7 @@ export class MaintenanceComponent implements OnInit {
 
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
     if (result.code !== 0) {
-      const cmd: string = await this.appService.prepareSudoCommand(`pacman -S --noconfirm ${pkg}`);
+      const cmd: string = await this.appService.prepareSudoCommand(`pacman -S --noconfirm --needed ${pkg}`);
       const result: string | null = await this.appService.getCommandOutput<string>(cmd, (stdout: string) => stdout);
       if (result) {
         void info('Installed pace');

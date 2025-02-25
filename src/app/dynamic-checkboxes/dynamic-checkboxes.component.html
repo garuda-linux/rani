@@ -1,0 +1,21 @@
+<ng-container *transloco="let t">
+  @for (section of data(); track section.name) {
+    <p-card [header]="t(section.name)" [style]="{ 'margin-top': '1rem' }">
+      <div class="items-center mt-10 grid grid-cols-12">
+        @for (entry of section.sections; track entry.name) {
+          <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3 text-sur">
+            <p-checkbox
+              [disabled]="entry.disabled ?? false"
+              [inputId]="entry.name"
+              name="group"
+              [value]="entry"
+              [(ngModel)]="selectedBoxes"
+            />
+            <label [for]="entry.name" class="mx-2.5"
+                   [ngClass]="{'text-surface-300': entry.disabled }"> {{ t(entry.description) }} </label>
+          </div>
+        }
+      </div>
+    </p-card>
+  }
+</ng-container>

@@ -1,26 +1,10 @@
 <ng-container *transloco="let t">
-  @if (loading()) {
+  @if (dynamicCb.loading()) {
     <div class="mt-5">
-      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }" />
+      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }"/>
     </div>
   }
   <div>
-    @for (section of sections; track section.name) {
-      <div class="items-center mt-10 grid grid-cols-12">
-        @for (entry of section.entries; track entry.name) {
-          <div class="col-span-4">
-            <p-checkbox
-              (click)="checkDisabled()"
-              [disabled]="entry.disabled ?? false"
-              [inputId]="entry.name"
-              name="group"
-              [value]="entry"
-              [(ngModel)]="selectedComponents"
-            />
-            <label (click)="checkDisabled()" [for]="entry.name" class="mx-2.5"> {{ t(entry.description) }} </label>
-          </div>
-        }
-      </div>
-    }
+  <rani-dynamic-checkboxes #dynamicCb [data]="sections"></rani-dynamic-checkboxes>
   </div>
 </ng-container>

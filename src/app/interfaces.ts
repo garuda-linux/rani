@@ -32,6 +32,7 @@ export interface Package {
   description?: string;
 }
 
+export const shells = ['bash', 'zsh', 'fish', 'sh'];
 export interface MaintenanceAction {
   addedToPending?: boolean;
   command: ((args?: string[]) => string) | (() => Promise<void>);
@@ -69,7 +70,7 @@ export interface AppSettings {
 export interface SystemToolsEntry {
   name: string;
   icon: string;
-  entries: SystemToolsSubEntry[];
+  sections: SystemToolsSubEntry[];
 }
 
 export interface SystemToolsSubEntry {
@@ -82,7 +83,7 @@ export interface SystemToolsSubEntry {
   handler: () => void;
   initialState: boolean;
   check: {
-    type: 'pkg' | 'group' | 'service';
+    type: 'pkg' | 'group' | 'service' | 'serviceUser';
     name: string;
   };
 }

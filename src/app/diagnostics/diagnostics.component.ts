@@ -98,6 +98,17 @@ export class DiagnosticsComponent {
     }
   }
 
+  async getLastPacmanLog() {
+    try {
+      this.loading.set(true);
+      const cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac ";
+      const result: ChildProcess<string> = await (await this.getCommand(cmd)).execute();
+      void this.processResult(result);
+    } catch (err: any) {
+      void trace(`Error receiving pacman logs: ${err}`);
+    }
+  }
+
   async getDmesg() {
     try {
       this.loading.set(true);

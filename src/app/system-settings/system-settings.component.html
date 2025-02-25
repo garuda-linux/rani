@@ -1,0 +1,44 @@
+<ng-container *transloco="let t">
+  @if (dynamicCb.loading()) {
+    <div class="mt-5">
+      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }"/>
+    </div>
+  }
+  <div>
+    <div class="flex mx-auto justify-center ">
+      <div class="mb-10 mr-10">
+        <h2 class="mb-2.5">{{ t('systemSettings.defaultShell') }}</h2>
+        <p-select [(ngModel)]="currentShell" [options]="shells" class="w-full md:w-56" optionLabel="name"
+                  placeholder="Select a login shell to use"/>
+        <div class="mt-5">
+          <p-checkbox
+            [(ngModel)]="selectedBoxes"
+            id="default-shell-configs"
+            inputId="default-shell-configs"
+            name="group"
+            value="defaultShellConfigs"
+          />
+          <label for="default-shell-configs"> {{ t('systemSettings.defaultShellConfigs') }} </label>
+        </div>
+      </div>
+      <div class="mb-10 ml-10">
+        <h2 class="mb-2.5">{{ t('systemSettings.defaultDns') }}</h2>
+        <p-select [(ngModel)]="currentDns" [options]="dnsProviders" class="w-full md:w-56" optionLabel="name"
+                  placeholder="Select a DNS server to use"/>
+        <div class="mt-5">
+          <p-checkbox
+            [(ngModel)]="selectedBoxes"
+            id="enable-hblock"
+            inputId="enable-hblock"
+            name="group"
+            value="hblock"
+          />
+          <label class="mx-2.5" for="enable-hblock"> {{ t('systemSettings.enableHblock') }} </label>
+        </div>
+      </div>
+    </div>
+    <div>
+      <rani-dynamic-checkboxes #dynamicCb [data]="sections"></rani-dynamic-checkboxes>
+    </div>
+  </div>
+</ng-container>

@@ -4,7 +4,9 @@
       <span class="text-color">{{ t('welcome.title') }} </span>
       <span class="text-primary">{{ t('welcome.titleTwo') }} "{{ codeName() }}"</span>
     </div>
-    <div class="text-color text-xl mb-10">{{ t('welcome.subtitle') }} ~ {{ hostname() }}</div>
+    <div class="text-color text-xl mb-10">
+      <span>{{ t('welcome.subtitle') }} ~ {{ hostname() }}</span>
+    </div>
     <div class="grid grid-cols-12">
       @for (item of mainLinks; track item.routerLink) {
         <p-card [routerLink]="item.routerLink" class="cursor-pointer col-span-12 md:col-span-4 mb-4 px-5">

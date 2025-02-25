@@ -10,11 +10,15 @@ import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
+import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
+import { OperationManagerService } from './operation-manager/operation-manager.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     ConfirmationService,
     MessageToastService,
+    OperationManagerService,
+    PrivilegeManagerService,
     provideAnimationsAsync(),
     provideGarudaNG(
       { font: 'Inter' },

@@ -15,7 +15,7 @@
       <p-tabpanels>
         @for (section of data; track section.name) {
           <p-tabpanel [value]="$index">
-            <p-data-view [value]="section.entries" [title]="section.name">
+            <p-data-view [value]="section.sections" [title]="section.name">
               <ng-template #list let-items>
                 <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
                   <div *ngFor="let item of items" class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">

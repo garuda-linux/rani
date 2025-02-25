@@ -6,12 +6,13 @@
   "permissions": [
     "clipboard:write-all",
     "core:default",
-    "core:window:default",
-    "core:window:allow-start-dragging",
+    "core:window:allow-close",
+    "core:window:allow-destroy",
     "core:window:allow-maximize",
     "core:window:allow-minimize",
-    "core:window:allow-close",
+    "core:window:allow-start-dragging",
     "core:window:allow-toggle-maximize",
+    "core:window:default",
     "fs:default",
     {
       "identifier": "http:default",
@@ -42,6 +43,15 @@
             }
           ],
           "sidecar": false
+        },
+        {
+          "name": "sidecar/change-dns.sh",
+          "args": [
+            {
+              "validator": ".*"
+            }
+          ],
+          "sidecar": true
         }
       ]
     },

@@ -1,0 +1,40 @@
+<p-menubar
+  [class.garuda-shell-relative]="relativePosition()"
+  [model]="alwaysShowDropdownMenu() ? [] : menuItems()"
+  class="garuda-shell-menubar"
+>
+  <ng-template #start>
+    <ng-content select="[garudaShellBarStart]"></ng-content>
+    @if (dropdownButton() === undefined) {
+      <p-button
+        #autoDropdownButton
+        [class.garuda-shell__dropdown-always-visible]="alwaysShowDropdownMenu()"
+        class="garuda-shell__dropdown-toggle"
+        (onClick)="toggleDropdown()"
+        icon="pi pi-bars"
+        [text]="true"
+      />
+    }
+  </ng-template>
+  <ng-template #end>
+    <ng-content select="[garudaShellBarEnd]"></ng-content>
+  </ng-template>
+</p-menubar>
+<p-menu
+  #menu
+  (click)="closeMenu()"
+  [class.garuda-shell-relative]="relativePosition()"
+  [model]="menuItems()"
+  [style.display]="dropdownOpen() ? 'block' : 'none'"
+  class="garuda-shell__dropdown"
+/>
+<div [class.garuda-shell-relative]="relativePosition()" class="garuda-shell-content">
+  <ng-content></ng-content>
+</div>
+<p-toast key="top-left" position="top-left"/>
+<p-toast key="top-center" position="top-center"/>
+<p-toast key="top-right" position="top-right"/>
+<p-toast key="bottom-left" position="bottom-left"/>
+<p-toast key="bottom-center" position="bottom-center"/>
+<p-toast key="bottom-right" position="bottom-right"/>
+<p-toast key="center" position="center"/>

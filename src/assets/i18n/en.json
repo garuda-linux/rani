@@ -17,7 +17,8 @@
     "journalctl": "System logs (journalctl)",
     "dmesg": "Kernel logs (dmesg)",
     "full": "Full diagnostics",
-    "upload": "Upload to PrivateBin"
+    "upload": "Upload to PrivateBin",
+    "pacman": "Latest Pacman logs"
   },
   "lang": {
     "title": "Language selection",
@@ -131,8 +132,10 @@
     "title": "System ",
     "titleTwo": "settings",
     "systemdServices": "Systemd services",
-    "common": "Common settings",
+    "systemSettings": "System settings",
+    "components": "System components",
     "audio": {
+      "title": "Audio",
       "alsa": {
         "description": "ALSA support"
       },
@@ -150,20 +153,18 @@
       }
     },
     "virtualization": {
+      "title": "Virtualization",
       "qemu": {
         "description": "QEMU support"
       },
       "kvm": {
         "description": "KVM support"
       },
-      "libvirt": {
-        "description": "libvirt support"
-      },
       "virtManager": {
-        "description": "virt-manager support"
+        "description": "Virt-manager support"
       },
       "libvirtdEnabled": {
-        "description": "libvirtd enabled"
+        "description": "Libvirtd enabled"
       },
       "userVboxUsers": {
         "description": "User in vboxusers group"
@@ -197,6 +198,7 @@
       }
     },
     "network": {
+      "title": "Network",
       "networkManager": {
         "description": "NetworkManager support"
       },
@@ -208,6 +210,7 @@
       }
     },
     "bluetooth": {
+      "title": "Bluetooth",
       "bluetooth": {
         "description": "Bluetooth support"
       },
@@ -225,6 +228,7 @@
       }
     },
     "printing": {
+      "title": "Printing",
       "printingSupport": {
         "description": "Printing support"
       },
@@ -248,6 +252,7 @@
       }
     },
     "firewall": {
+      "title": "Firewall",
       "firewalld": {
         "description": "Firewalld support"
       },
@@ -266,6 +271,98 @@
       "opensnitchEnabled": {
         "description": "OpenSnitch enabled"
       }
+    }
+  },
+  "systemSettings": {
+    "defaultShellConfigs": "Install default configurations",
+    "defaultDns": "Set default DNS",
+    "defaultShell": "Set login shell",
+    "enableHblock": "Enable Hblock",
+    "common": {
+      "title": "Common",
+      "psd": {
+        "description": "Profile-sync-daemon installed"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon enabled"
+      },
+      "oomd": {
+        "description": "Systemd-oomd enabled"
+      },
+      "guestUser": {
+        "description": "Enable guest user"
+      }
+    },
+    "performance": {
+      "title": "Performance",
+      "performanceTweaks": {
+        "description": "Performance tweaks"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ installed"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ enabled"
+      },
+      "preload": {
+        "description": "Preload installed"
+      },
+      "preloadEnabled": {
+        "description": "Preload enabled"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance enabled"
+      }
+    },
+    "powersave": {
+      "title": "Powersaving",
+      "powersaveTweaks": {
+        "description": "Powersave tweaks"
+      },
+      "tlp": {
+        "description": "TLP installed"
+      },
+      "tlpEnabled": {
+        "description": "TLP enabled"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq installed"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq enabled"
+      },
+      "thermald": {
+        "description": "Thermald installed"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald enabled"
+      },
+      "powerProfilesDaemon": {
+        "description": "Power profiles daemon installed"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Power profiles daemon enabled"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt installed"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt enabled"
+      }
+    },
+    "rightclickEmulation": {
+      "title": "Right click emulation",
+      "evdevLongPressRightClick": {
+        "description": "Evdev long press right click emulation"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE enabled"
+      }
+    }
+  },
+  "shells": {
+    "fish": {
+      "hint": "Setting fish as default shell might cause issues with other programs. It is advised to set it as default via terminal configurations instead."
     }
   }
 }

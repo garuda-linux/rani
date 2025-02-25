@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <p-context-menu [global]="true" [model]="rightClickMenu" />
+  <p-context-menu [global]="true" [model]="rightClickMenu"/>
   <div class="background min-h-svh">
     <garuda-shell
       #shell
@@ -29,6 +29,9 @@
           >
           </p-button>
           <app-language-switcher></app-language-switcher>
+          @if (pendingOperations() !== "0") {
+            <p-chip [label]="pendingOperations()" class="ml-2.5" icon="pi pi-hourglass"></p-chip>
+          }
         </div>
       } @else if (!appService.state.isMaximized() && appService.settings.leftButtons) {
         <div garudaShellBarStart>
@@ -91,6 +94,9 @@
         </div>
       } @else if (appService.settings.leftButtons) {
         <div garudaShellBarEnd>
+          @if (pendingOperations() !== "0") {
+            <p-chip [label]="pendingOperations()" class="mr-2.5" icon="pi pi-hourglass"></p-chip>
+          }
           <p-button
             (click)="appService.drawerVisible.set(!appService.drawerVisible())"
             [outlined]="true"

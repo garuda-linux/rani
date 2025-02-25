@@ -1,15 +1,23 @@
 import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { AppService } from '../app.service';
-import { debug, trace } from '@tauri-apps/plugin-log';
-import { SystemdService, SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
-import { Checkbox } from 'primeng/checkbox';
+import { debug, info, trace } from '@tauri-apps/plugin-log';
+import { Operation, SystemdService, SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
 import { FormsModule } from '@angular/forms';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { ProgressBar } from 'primeng/progressbar';
+import {
+  ADD_USER_GROUP_ACTION_NAME,
+  DISABLE_SERVICE_ACTION_NAME,
+  ENABLE_SERVICE_ACTION_NAME,
+  INSTALL_ACTION_NAME,
+  REMOVE_ACTION_NAME,
+  REMOVE_USER_GROUP_ACTION_NAME,
+} from '../constants';
+import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 
 @Component({
   selector: 'app-system-components',
-  imports: [Checkbox, FormsModule, TranslocoDirective, ProgressBar],
+  imports: [FormsModule, TranslocoDirective, ProgressBar, DynamicCheckboxesComponent],
   templateUrl: './system-components.component.html',
   styleUrl: './system-components.component.css',
 })
@@ -22,9 +30,9 @@ export class SystemComponentsComponent implements OnInit {
 
   sections: SystemToolsEntry[] = [
     {
-      name: 'audio',
+      name: 'systemTools.audio.title',
       icon: 'pi pi-volume-up',
-      entries: [
+      sections: [
         {
           name: 'alsa-support',
           fancyTitle: 'systemTools.audio.alsa.title',
@@ -73,9 +81,9 @@ export class SystemComponentsComponent implements OnInit {
       ],
     },
     {
-      name: 'virtualization',
+      name: 'systemTools.virtualization.title',
       icon: 'pi pi-desktop',
-      entries: [
+      sections: [
         {
           name: 'virt-manager',
           fancyTitle: 'systemTools.virtualization.virtManager.title',
@@ -194,9 +202,9 @@ export class SystemComponentsComponent implements OnInit {
       ],
     },
     {
-      name: 'network',
+      name: 'systemTools.network.title',
       icon: 'pi pi-globe',
-      entries: [
+      sections: [
         {
           name: 'networkManager',
           fancyTitle: 'systemTools.network.networkManager.title',
@@ -229,9 +237,9 @@ export class SystemComponentsComponent implements OnInit {
       ],
     },
     {
-      name: 'bluetooth',
+      name: 'systemTools.bluetooth.title',
       icon: 'pi pi-bluetooth',
-      entries: [
+      sections: [
         {
           name: 'bluetooth',
           fancyTitle: 'systemTools.bluetooth.bluetooth.title',
@@ -284,9 +292,9 @@ export class SystemComponentsComponent implements OnInit {
       ],
     },
     {
-      name: 'printing',
+      name: 'systemTools.printing.title',
       icon: 'pi pi-print',
-      entries: [
+      sections: [
         {
           name: 'printing-support',
           fancyTitle: 'systemTools.printing.printingSupport.title',
@@ -358,9 +366,9 @@ export class SystemComponentsComponent implements OnInit {
       ],
     },
     {
-      name: 'firewall',
+      name: 'systemTools.firewall.title',
       icon: 'pi pi-shield',
-      entries: [
+      sections: [
         {
           name: 'ufw',
           fancyTitle: 'systemTools.firewall.ufw.title',
@@ -441,7 +449,7 @@ export class SystemComponentsComponent implements OnInit {
     for (const service of this.sections) {
       void trace(`Checking ${service.name}`);
 
-      for (const entry of service.entries) {
+      for (const entry of service.sections) {
         switch (entry.check.type) {
           case 'pkg': {
             void trace(`Checking package ${entry.check.name} as pkg`);
@@ -488,9 +496,109 @@ export class SystemComponentsComponent implements OnInit {
     void debug(JSON.stringify(this.sections));
   }
 
+  async processPackageChange(
+    type: typeof INSTALL_ACTION_NAME | typeof REMOVE_ACTION_NAME,
+    pkg: SystemToolsSubEntry,
+  ): Promise<boolean> {
+    const existingOperation: Operation | undefined = this.appService
+      .pendingOperations()
+      .find((operation) => operation.name === type);
+    const existingOppositeOperation: Operation | undefined = this.appService
+      .pendingOperations()
+      .find(
+        (operation) => operation.name === (type === INSTALL_ACTION_NAME ? REMOVE_ACTION_NAME : INSTALL_ACTION_NAME),
+      );
+
+    void trace(`Checking for existing operation ${type}, found: ${existingOperation !== undefined}`);
+    void trace(`Package initial state: ${pkg.initialState}`);
+
+    const checked = this.selectedComponents().find((e) => e.name === pkg.name) !== undefined;
+    if (existingOperation && pkg.initialState !== pkg.checked) {
+      void debug(`Adding ${pkg.check.name} to existing operation ${type}`);
+      existingOperation.commandArgs.push(pkg.check.name);
+    } else if (existingOperation && pkg.initialState === checked) {
+      await this.processRemoval(existingOperation, pkg);
+    } else if (!existingOperation && pkg.initialState !== checked) {
+      this.addToInstallAction(pkg);
+    } else if (!existingOperation && pkg.initialState === checked) {
+      if (existingOppositeOperation) await this.processRemoval(existingOppositeOperation, pkg);
+      return true;
+    }
+
+    return existingOperation !== undefined;
+  }
+
+  addToRemoveAction(pkg: SystemToolsSubEntry): void {
+    const operation: Operation = {
+      name: REMOVE_ACTION_NAME,
+      prettyName: 'Remove apps',
+      sudo: true,
+      status: 'pending',
+      commandArgs: [pkg.check.name],
+      command: (args?: string[]): string => {
+        void info('Removing packages');
+        return `pacman --noconfirm -Rns ${args?.join(' ')}`;
+      },
+    };
+    this.appService.pendingOperations().push(operation);
+  }
+
+  addToInstallAction(pkg: SystemToolsSubEntry): void {
+    const operation: Operation = {
+      name: INSTALL_ACTION_NAME,
+      prettyName: 'Install apps',
+      sudo: true,
+      status: 'pending',
+      commandArgs: [pkg.check.name],
+      command: (args?: string[]): string => {
+        void info('Installing packages');
+        const allPkgs: string[] = [];
+        for (const arg of args!) {
+          if (arg.includes(',')) allPkgs.push(...arg.split(','));
+          else allPkgs.push(arg);
+        }
+        return `pacman --noconfirm -S ${allPkgs.join(' ')}`;
+      },
+    };
+    this.appService.pendingOperations().push(operation);
+  }
+
+  async processChange(entry: SystemToolsSubEntry) {
+    debug(`Processing change for ${entry.name}`);
+    switch (entry.check.type) {
+      case 'pkg': {
+        const isSelected = this.selectedComponents().find((e) => e.name === entry.name) !== undefined;
+        if (entry.initialState && !isSelected) {
+          await this.processPackageChange(REMOVE_ACTION_NAME, entry);
+        } else if (!entry.initialState && isSelected) {
+          await this.processPackageChange(INSTALL_ACTION_NAME, entry);
+        } else {
+          await this.processPackageChange(REMOVE_ACTION_NAME, entry);
+        }
+        break;
+      }
+      case 'service': {
+        if (entry.checked) {
+          await this.processServiceChange(entry, ENABLE_SERVICE_ACTION_NAME);
+        } else {
+          await this.processServiceChange(entry, DISABLE_SERVICE_ACTION_NAME);
+        }
+        break;
+      }
+      case 'group': {
+        if (entry.checked) {
+          await this.processGroupChange(entry, ADD_USER_GROUP_ACTION_NAME);
+        } else {
+          await this.processGroupChange(entry, REMOVE_USER_GROUP_ACTION_NAME);
+        }
+        break;
+      }
+    }
+  }
+
   protected async checkDisabled(): Promise<void> {
     for (const section of this.sections) {
-      for (const entry of section.entries) {
+      for (const entry of section.sections) {
         if (!entry.disabler) continue;
         const findDisabler = () => {
           for (const entry of this.selectedComponents()) {
@@ -542,5 +650,87 @@ export class SystemComponentsComponent implements OnInit {
 
     if (result) return result;
     return [];
+  }
+
+  private async processServiceChange(
+    entry: SystemToolsSubEntry,
+    action: typeof DISABLE_SERVICE_ACTION_NAME | typeof ENABLE_SERVICE_ACTION_NAME,
+  ) {
+    const existingOperation: Operation | undefined = this.appService
+      .pendingOperations()
+      .find((op) => op.name === entry.name);
+
+    if (existingOperation) {
+      await this.processRemoval(existingOperation, entry);
+    } else {
+      let cmd: string;
+      if (action === DISABLE_SERVICE_ACTION_NAME) {
+        cmd = `sudo systemctl disable --now ${entry.check.name}`;
+        void trace(`Disabling ${entry.check.name}`);
+      } else if (action === ENABLE_SERVICE_ACTION_NAME) {
+        cmd = `sudo systemctl enable --now ${entry.check.name}`;
+        void trace(`Enabling ${entry.check.name}`);
+      }
+
+      const operation: Operation = {
+        name: entry.name,
+        prettyName: entry.fancyTitle,
+        command: (): string => cmd,
+        commandArgs: [],
+        hasOutput: true,
+        sudo: true,
+        status: 'pending',
+      };
+      this.appService.pendingOperations().push(operation);
+    }
+  }
+
+  private async processGroupChange(
+    entry: SystemToolsSubEntry,
+    action: typeof ADD_USER_GROUP_ACTION_NAME | typeof REMOVE_USER_GROUP_ACTION_NAME,
+  ): Promise<void> {
+    const user: string | null = await this.appService.getCommandOutput<string>('whoami', (stdout: string) => stdout);
+    if (!user) {
+      this.appService.messageToastService.error('Error', 'Could not get the current user');
+      return;
+    }
+
+    const existingOperation: Operation | undefined = this.appService
+      .pendingOperations()
+      .find((op) => op.name === entry.name);
+
+    if (existingOperation) {
+      await this.processRemoval(existingOperation, entry);
+    } else {
+      let cmd: string;
+      if (action === REMOVE_USER_GROUP_ACTION_NAME) {
+        cmd = `sudo gpasswd -d ${user} ${entry.check.name}`;
+        void trace(`Removing ${user} from group ${entry.check.name}`);
+      } else if (action === ADD_USER_GROUP_ACTION_NAME) {
+        cmd = `sudo usermod -aG ${entry.check.name} ${user}`;
+        void trace(`Adding ${user} to group ${entry.check.name}`);
+      }
+
+      const operation: Operation = {
+        name: entry.name,
+        prettyName: action,
+        command: (): string => cmd,
+        commandArgs: [],
+        hasOutput: false,
+        sudo: true,
+        status: 'pending',
+      };
+      this.appService.pendingOperations().push(operation);
+    }
+  }
+
+  private async processRemoval(operation: Operation, entry: SystemToolsSubEntry): Promise<void> {
+    if (operation.commandArgs.includes(entry.check.name)) {
+      operation.commandArgs.splice(operation.commandArgs.indexOf(entry.check.name), 1);
+      void trace(`Removing ${entry.check.name} from cmdline args`);
+    } else {
+      this.appService.pendingOperations().splice(this.appService.pendingOperations().indexOf(operation), 1);
+      void trace(`Removing ${entry.check.name} operation`);
+    }
   }
 }

@@ -6,6 +6,7 @@ import { SystemdServicesComponent } from '../systemd-services/systemd-services.c
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { SystemComponentsComponent } from '../system-components/system-components.component';
+import { SystemSettingsComponent } from '../system-settings/system-settings.component';
 
 @Component({
   selector: 'app-system-tools',
@@ -19,6 +20,7 @@ import { SystemComponentsComponent } from '../system-components/system-component
     Tabs,
     TranslocoDirective,
     SystemComponentsComponent,
+    SystemSettingsComponent,
   ],
   templateUrl: './system-tools.component.html',
   styleUrl: './system-tools.component.css',

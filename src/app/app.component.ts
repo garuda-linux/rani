@@ -1,5 +1,5 @@
 import { NgClass, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, HostListener, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, HostListener, inject, OnInit, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
@@ -7,13 +7,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { Button } from 'primeng/button';
 import { AppService } from './app.service';
-import { ShellBarStartDirective, ShellComponent } from '@garudalinux/core';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { TerminalComponent } from './terminal/terminal.component';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { debug } from '@tauri-apps/plugin-log';
+import { debug, info, trace } from '@tauri-apps/plugin-log';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { FormsModule } from '@angular/forms';
 import { Password } from 'primeng/password';
@@ -23,6 +22,9 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ProgressBar } from 'primeng/progressbar';
 import { ContextMenu } from 'primeng/contextmenu';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
+import { globalKeyHandler } from './key-handler';
+import { ShellBarStartDirective, ShellComponent } from './shell';
+import { Chip } from 'primeng/chip';
 
 @Component({
   imports: [
@@ -46,6 +48,9 @@ import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
     ProgressBar,
     ContextMenu,
     ShellBarStartDirective,
+    ShellBarStartDirective,
+    ShellComponent,
+    Chip,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -91,8 +96,12 @@ export class AppComponent implements OnInit {
     },
   ]);
   progressTracker = signal<number | null>(null);
+
   readonly appService = inject(AppService);
   readonly appWindow = getCurrentWindow();
+  readonly pendingOperations = computed<string>(() => {
+    return this.appService.pendingOperations().length.toString();
+  });
   rightClickMenu: MenuItem[] = [
     {
       label: 'Apply',
@@ -108,10 +117,20 @@ export class AppComponent implements OnInit {
       separator: true,
     },
     {
+      label: 'Show terminal',
+      icon: 'pi pi-hashtag',
+      command: () => {
+        void this.appService.terminalVisible.set(true);
+      },
+    },
+    {
+      separator: true,
+    },
+    {
       label: 'Exit',
       icon: 'pi pi-times',
       command: () => {
-        this.appWindow.close();
+        void this.appWindow.close();
       },
     },
   ];
@@ -135,29 +154,37 @@ export class AppComponent implements OnInit {
     this.appService.translocoService.langChanges$.subscribe((lang) => {
       void this.setupLabels(lang);
     });
+
+    this.attachTauriListeners();
   }
 
-  @HostListener('window:resize', ['$event'])
-  async onResize(event: Event): Promise<void> {
-    void debug('Resized window');
-    this.appService.state.isMaximized.set(await this.appWindow.isMaximized());
-  }
-
+  /**
+   * Handle all relevant keyboard events on the app window. Attaches to the document.
+   * @param event The keyboard event
+   */
   @HostListener('document:keydown', ['$event'])
   async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
-    switch (event.key) {
-      case 'F4':
-        this.appService.terminalVisible.set(!this.appService.terminalVisible());
-        break;
-      case 'F5':
-        this.appService.currentAction.set('Reloading');
-        break;
-      case 'F10':
-        this.appService.drawerVisible.set(!this.appService.drawerVisible());
-        break;
-      case 'F11':
-        await this.appWindow.toggleMaximize();
-        break;
+    const thisBoundKeyHandler = globalKeyHandler.bind(this);
+    await thisBoundKeyHandler(event);
+  }
+
+  /**
+   * Handle right click events on the app window. If the user double clicks, the window is maximized.
+   * If the user single clicks, the window is dragged. Attaches to everything but the elements in the noDragSelector.
+   * https://github.com/tauri-apps/tauri/issues/1656#issuecomment-1161495124
+   * @param event The mouse event
+   */
+  @HostListener('mousedown', ['$event'])
+  async handleRightClick(event: MouseEvent): Promise<void> {
+    const noDragSelector = 'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card';
+    const target = event.target as HTMLElement;
+    if (target.closest(noDragSelector)) return;
+
+    // Left click only
+    if (event.buttons === 1) {
+      event.detail === 2
+        ? await this.appWindow.toggleMaximize() // Maximize on double click
+        : await this.appWindow.startDragging(); // Else start dragging
     }
   }
 
@@ -166,7 +193,7 @@ export class AppComponent implements OnInit {
    * @param lang The language to set the labels in
    */
   async setupLabels(lang: string): Promise<void> {
-    const newItemPromises = [];
+    const newItemPromises: Promise<any>[] = [];
     for (const item of this.items()) {
       newItemPromises.push(
         lastValueFrom(this.appService.translocoService.selectTranslate(item['translocoKey'], {}, lang)),
@@ -301,5 +328,29 @@ export class AppComponent implements OnInit {
     this.appService.pendingOperations.set(
       this.appService.pendingOperations().filter((op) => op.name !== operation.name),
     );
+  }
+
+  private shutdown(): void {
+    void info('Shutting down');
+    void this.appWindow.destroy();
+  }
+
+  private attachTauriListeners() {
+    void this.appWindow.listen('tauri://resize', async () => {
+      void trace('Resizing window');
+      this.appService.state.isMaximized.set(await this.appWindow.isMaximized());
+    });
+
+    void this.appWindow.listen('tauri://close-requested', async () => {
+      void info('Close requested');
+      this.appService.confirmationService.confirm({
+        message: 'Do you want to exit?',
+        header: 'Exit confirmation',
+        icon: 'pi pi-exclamation-triangle',
+        accept: () => {
+          void this.shutdown();
+        },
+      });
+    });
   }
 }
