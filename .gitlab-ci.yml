@@ -1,0 +1,31 @@
+stages:
+  - build
+  - publish
+
+build_linux:
+  image: node:22-alpine3.20
+  stage: build
+  script:
+    - |
+      apk add \
+        build-base \
+        webkit2gtk \
+        curl \
+        wget \
+        file \
+        openssl \
+        libayatana-appindicator-dev \
+        librsvg
+    - |
+      curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | \
+        sh -s -- --default-toolchain stable -y
+    - source "$HOME/.cargo/env"
+    - corepack enable pnpm
+    - pnpm install
+    - pnpm run tauri build
+  artifacts:
+    when: on_success
+    access: all
+    expire_in: '30 days'
+    paths:
+      - src-tauri/target/release

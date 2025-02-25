@@ -37,7 +37,7 @@ importers:
         version: 5.1.2
       '@garudalinux/core':
         specifier: ^0.3.1
-        version: 0.3.1(1753980fd0b9e6b0f307c1d033dcdbd5)
+        version: 0.3.1(11e68ed517d9f1bbd328c9b625338677)
       '@jsverse/transloco':
         specifier: ^7.5.1
         version: 7.5.1(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(typescript@5.6.3)
@@ -51,8 +51,8 @@ importers:
         specifier: ^2.6.2
         version: 2.6.2(@types/node@22.13.5)(expo@52.0.37(@babel/core@7.26.9)(@babel/preset-env@7.26.0(@babel/core@7.26.9))(encoding@0.1.13)(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.0(@babel/core@7.26.9))(react@19.0.0))(react@19.0.0))(react-native@0.78.0(@babel/core@7.26.9)(@babel/preset-env@7.26.0(@babel/core@7.26.9))(react@19.0.0))
       '@primeng/themes':
-        specifier: ^19.0.7
-        version: 19.0.7
+        specifier: ^19.0.8
+        version: 19.0.8
       '@tauri-apps/api':
         specifier: ~2.2.0
         version: 2.2.0
@@ -66,8 +66,8 @@ importers:
         specifier: ~2.3.0
         version: 2.3.0
       '@tauri-apps/plugin-log':
-        specifier: ~2.2.1
-        version: 2.2.1
+        specifier: ~2.2.2
+        version: 2.2.2
       '@tauri-apps/plugin-notification':
         specifier: ~2.2.1
         version: 2.2.1
@@ -114,8 +114,8 @@ importers:
         specifier: ^7.0.0
         version: 7.0.0
       primeng:
-        specifier: ^19.0.7
-        version: 19.0.7(6d66ff7b87738b9a2ddc1194f5c9e8a4)
+        specifier: ^19.0.8
+        version: 19.0.8(6d66ff7b87738b9a2ddc1194f5c9e8a4)
       rxjs:
         specifier: ~7.8.2
         version: 7.8.2
@@ -2184,8 +2184,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  '@primeng/themes@19.0.7':
-    resolution: {integrity: sha512-Ke3LvQh0j2aIBrQfe/CJpTtwCy+Y5pQrjyfkyI/j2g+i97r+um9bgk9gIBkCoiXJUuTTXUtF6VOF51uCusUiiw==}
+  '@primeng/themes@19.0.8':
+    resolution: {integrity: sha512-queTe7Ruk5Nkwgr4Pz2IAWcYcU4hp/89cUn9m/qKRf2fA5ViD2SWahz0sY2nsLAHGaDfrEiiDqpNIcP4Fx+r7Q==}
 
   '@primeuix/styled@0.3.2':
     resolution: {integrity: sha512-ColZes0+/WKqH4ob2x8DyNYf1NENpe5ZguOvx5yCLxaP8EIMVhLjWLO/3umJiDnQU4XXMLkn2mMHHw+fhTX/mw==}
@@ -2509,8 +2509,8 @@ packages:
   '@tauri-apps/plugin-http@2.3.0':
     resolution: {integrity: sha512-pigTvz+zzAqbIhCzRiR1GE98Jw7A03j2V+Eiexr9thBI8VfMiwFQMcbgON51xlwnVaI72LdbYKNajU84im8tlg==}
 
-  '@tauri-apps/plugin-log@2.2.1':
-    resolution: {integrity: sha512-bOz9w0hhlXLGLc1ZR37GqkXvTqkykl4A3GEKLjRIs0dq3n0BzLyoRDMPcpt7PdUHqaq6WISME+zEX2bqjSbJ2A==}
+  '@tauri-apps/plugin-log@2.2.2':
+    resolution: {integrity: sha512-XEb7NKVOnsG+b10c8JkNNkAADe7BELEvl+NJtFRPw7OUEb4w8NWwmaj+EQXvDnMIcFUkmsbxijUeNJ0Mwog4nQ==}
 
   '@tauri-apps/plugin-notification@2.2.1':
     resolution: {integrity: sha512-QF8Zod6XDhxD6xkD5nU/BjbOpJ6+3gxGCrVULOdLpvMuMSN2Z2IdObV/qgnrEJk1UamUCF1ClQUqNCbk4zTJNQ==}
@@ -3697,8 +3697,8 @@ packages:
     engines: {node: '>=0.10.0'}
     hasBin: true
 
-  electron-to-chromium@1.5.103:
-    resolution: {integrity: sha512-P6+XzIkfndgsrjROJWfSvVEgNHtPgbhVyTkwLjUM2HU/h7pZRORgaTlHqfAikqxKmdJMLW8fftrdGWbd/Ds0FA==}
+  electron-to-chromium@1.5.104:
+    resolution: {integrity: sha512-Us9M2L4cO/zMBqVkJtnj353nQhMju9slHm62NprKTmdF3HH8wYOtNvDFq/JB2+ZRoGLzdvYDiATlMHs98XBM1g==}
 
   emittery@0.13.1:
     resolution: {integrity: sha512-DeWwawk6r5yR9jFgnDKYt4sLS0LmHJJi3ZOnb5/JdbYwj3nW+FxQnHIjhBKz8YLC7oRNPVM9NQ47I3CVx34eqQ==}
@@ -4093,8 +4093,8 @@ packages:
   fontfaceobserver@2.3.0:
     resolution: {integrity: sha512-6FPvD/IVyT4ZlNe7Wcn5Fb/4ChigpucKYSvD6a+0iMoLn2inpo711eyIcKjmDtE5XNcgAkSH9uN/nfAeZzHEfg==}
 
-  foreground-child@3.3.0:
-    resolution: {integrity: sha512-Ld2g8rrAyMYFXBhEqMz8ZAHBi4J4uS1i/CxGMDnjyFWddMXLVcDp051DZfu+t7+ab7Wv6SMqpWmyFIj5UbfFvg==}
+  foreground-child@3.3.1:
+    resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
   form-data@3.0.3:
@@ -5186,61 +5186,61 @@ packages:
     resolution: {integrity: sha512-iclAHeNqNm68zFtnZ0e+1L2yUIdvzNoauKU4WBA3VvH/vPFieF7qfRlwUZU+DA9P9bPXIS90ulxoUoCH23sV2w==}
     engines: {node: '>= 0.6'}
 
-  metro-babel-transformer@0.81.1:
-    resolution: {integrity: sha512-JECKDrQaUnDmj0x/Q/c8c5YwsatVx38Lu+BfCwX9fR8bWipAzkvJocBpq5rOAJRDXRgDcPv2VO4Q4nFYrpYNQg==}
+  metro-babel-transformer@0.81.2:
+    resolution: {integrity: sha512-Xn9JgF+CghIcDI6VTtGZFIxl7fPifePIX7mAkJ4/h8wtD9VAJsja6ymXgQ4Mftei2JOMEfCog0MYs4Us43/v8Q==}
     engines: {node: '>=18.18'}
 
-  metro-cache-key@0.81.1:
-    resolution: {integrity: sha512-5fDaHR1yTvpaQuwMAeEoZGsVyvjrkw9IFAS7WixSPvaNY5YfleqoJICPc6hbXFJjvwCCpwmIYFkjqzR/qJ6yqA==}
+  metro-cache-key@0.81.2:
+    resolution: {integrity: sha512-+D5ySTFvvtWp1Med1ZWnEFqi8/nl8piFkTk6NFZbtCLGmNJIQhUtIW+i5foQ4YN9Mz1XARFn89652+jkRkXKhA==}
     engines: {node: '>=18.18'}
 
-  metro-cache@0.81.1:
-    resolution: {integrity: sha512-Uqcmn6sZ+Y0VJHM88VrG5xCvSeU7RnuvmjPmSOpEcyJJBe02QkfHL05MX2ZyGDTyZdbKCzaX0IijrTe4hN3F0Q==}
+  metro-cache@0.81.2:
+    resolution: {integrity: sha512-z07UNa4UjJ35LnQhDGrGk/qryRY3ERkYwvzkzYUpwpKZUGqWI5HnOurYzSuQSSxADV+s/NSLSFAB1yzdK8tluQ==}
     engines: {node: '>=18.18'}
 
-  metro-config@0.81.1:
-    resolution: {integrity: sha512-VAAJmxsKIZ+Fz5/z1LVgxa32gE6+2TvrDSSx45g85WoX4EtLmdBGP3DSlpQW3DqFUfNHJCGwMLGXpJnxifd08g==}
+  metro-config@0.81.2:
+    resolution: {integrity: sha512-CzRiGh0XNANORfGB9REZ0PcpLxehWLmDgSE7XN59uAxhY0qOXccGG81J1WfkeT2zO1B/UoDWHDT5cPP1w7E3cQ==}
     engines: {node: '>=18.18'}
 
-  metro-core@0.81.1:
-    resolution: {integrity: sha512-4d2/+02IYqOwJs4dmM0dC8hIZqTzgnx2nzN4GTCaXb3Dhtmi/SJ3v6744zZRnithhN4lxf8TTJSHnQV75M7SSA==}
+  metro-core@0.81.2:
+    resolution: {integrity: sha512-OHWL/NiILmsuAkj90GNIJBMbcRCIcJ7piyT17B2EFWR2F/L1Jny7Dq7NCgWeqqRueLH7ystXUdrfcM8bKeMp8Q==}
     engines: {node: '>=18.18'}
 
-  metro-file-map@0.81.1:
-    resolution: {integrity: sha512-aY72H2ujmRfFxcsbyh83JgqFF+uQ4HFN1VhV2FmcfQG4s1bGKf2Vbkk+vtZ1+EswcBwDZFbkpvAjN49oqwGzAA==}
+  metro-file-map@0.81.2:
+    resolution: {integrity: sha512-k8binQShV1vzMB2rIPMlnf267ZSq78+L42vH9Y3YzmhIfumAz8Noy3ndG7zKdvOLcMjlOxzBChu1Laz3s5cgIw==}
     engines: {node: '>=18.18'}
 
-  metro-minify-terser@0.81.1:
-    resolution: {integrity: sha512-p/Qz3NNh1nebSqMlxlUALAnESo6heQrnvgHtAuxufRPtKvghnVDq9hGGex8H7z7YYLsqe42PWdt4JxTA3mgkvg==}
+  metro-minify-terser@0.81.2:
+    resolution: {integrity: sha512-GWjm6ZcNMnOFyh7hjzNfAEnOqZiHYTVIKGmB/zDNMf/Eq89w6rxHXZRM41iu1YyP2IhdqrqnhwHA+Ze8v6CMtg==}
     engines: {node: '>=18.18'}
 
-  metro-resolver@0.81.1:
-    resolution: {integrity: sha512-E61t6fxRoYRkl6Zo3iUfCKW4DYfum/bLjcejXBMt1y3I7LFkK84TCR/Rs9OAwsMCY/7GOPB4+CREYZOtCC7CNA==}
+  metro-resolver@0.81.2:
+    resolution: {integrity: sha512-bu4Esd90SWkOhDADQsQTxIOG85sZnvAXtk51hT0aovN66M4x3rQmGPBRokfJpgAd3/XOZCu0KPbjoB5etyqT0Q==}
     engines: {node: '>=18.18'}
 
-  metro-runtime@0.81.1:
-    resolution: {integrity: sha512-pqu5j5d01rjF85V/K8SDDJ0NR3dRp6bE3z5bKVVb5O2Rx0nbR9KreUxYALQCRCcQHaYySqCg5fYbGKBHC295YQ==}
+  metro-runtime@0.81.2:
+    resolution: {integrity: sha512-xk3rU6yKaa2b8B/Hk/ZhPtNzW4H07h/yq9iKBCof0F68CaN+qncdVOOIz2NGqEH7V3wAqDv4xoOfbgtbFO5rxA==}
     engines: {node: '>=18.18'}
 
-  metro-source-map@0.81.1:
-    resolution: {integrity: sha512-1i8ROpNNiga43F0ZixAXoFE/SS3RqcRDCCslpynb+ytym0VI7pkTH1woAN2HI9pczYtPrp3Nq0AjRpsuY35ieA==}
+  metro-source-map@0.81.2:
+    resolution: {integrity: sha512-/mJYbZIGswFbfxt0ouaBYw22YvqQiaCB+ql8reeA37bNjd4lHvozND7/w8NO2x7FjTfsmPBh50Iqi/mTuZFiZA==}
     engines: {node: '>=18.18'}
 
-  metro-symbolicate@0.81.1:
-    resolution: {integrity: sha512-Lgk0qjEigtFtsM7C0miXITbcV47E1ZYIfB+m/hCraihiwRWkNUQEPCWvqZmwXKSwVE5mXA0EzQtghAvQSjZDxw==}
+  metro-symbolicate@0.81.2:
+    resolution: {integrity: sha512-jEZoh3XldJazigetID+4Sy41OszGdixEOvB8zI0v2k7sXgHh+Rw8J/R7UuYCxQp+f89MqCjeGLLN7qNHuvRSCQ==}
     engines: {node: '>=18.18'}
     hasBin: true
 
-  metro-transform-plugins@0.81.1:
-    resolution: {integrity: sha512-7L1lI44/CyjIoBaORhY9fVkoNe8hrzgxjSCQ/lQlcfrV31cZb7u0RGOQrKmUX7Bw4FpejrB70ArQ7Mse9mk7+Q==}
+  metro-transform-plugins@0.81.2:
+    resolution: {integrity: sha512-St1zsbZ4SWA48yJBIqUuMFR4GROyu7A8auhJl/5km/Pj09vGXEri2CgOD0ReuXa/P1X9/jrOU5cIafi5csjwvw==}
     engines: {node: '>=18.18'}
 
-  metro-transform-worker@0.81.1:
-    resolution: {integrity: sha512-M+2hVT3rEy5K7PBmGDgQNq3Zx53TjScOcO/CieyLnCRFtBGWZiSJ2+bLAXXOKyKa/y3bI3i0owxtyxuPGDwbZg==}
+  metro-transform-worker@0.81.2:
+    resolution: {integrity: sha512-U1kmzJEExrB6SZN9TLxuFCZPdCq5+ofkWBiVn6U/9YxTft6HzXGNN0ebdL2Yut5ry3oaYmOtR26faKAOGiiG0Q==}
     engines: {node: '>=18.18'}
 
-  metro@0.81.1:
-    resolution: {integrity: sha512-fqRu4fg8ONW7VfqWFMGgKAcOuMzyoQah2azv9Y3VyFXAmG+AoTU6YIFWqAADESCGVWuWEIvxTJhMf3jxU6jwjA==}
+  metro@0.81.2:
+    resolution: {integrity: sha512-3jvcYBmSEFWtXJC3BX9/pKyme0gEyrZfHuDvuZiS46+3u8rcNlk0bjnGS/qxIW/h8icyVuQRaoH/Q1VdQJHvuQ==}
     engines: {node: '>=18.18'}
     hasBin: true
 
@@ -5534,8 +5534,8 @@ packages:
   nwsapi@2.2.16:
     resolution: {integrity: sha512-F1I/bimDpj3ncaNDhfyMWuFqmQDBwDB0Fogc2qpL3BWvkQteFD/8BzWuIRl83rq0DXfm8SGt/HFhLXZyljTXcQ==}
 
-  ob1@0.81.1:
-    resolution: {integrity: sha512-1PEbvI+AFvOcgdNcO79FtDI1TUO8S3lhiKOyAiyWQF3sFDDKS+aw2/BZvGlArFnSmqckwOOB9chQuIX0/OahoQ==}
+  ob1@0.81.2:
+    resolution: {integrity: sha512-K0hJXOlU4j7c4chNLaDDzVyg5yjYjbmDSQbVMXdAcTtqZndwYHfmBIO06riFMgpg2KOevxeB1pIwzqJuES2SuA==}
     engines: {node: '>=18.18'}
 
   object-assign@4.1.1:
@@ -5967,8 +5967,8 @@ packages:
   primeicons@7.0.0:
     resolution: {integrity: sha512-jK3Et9UzwzTsd6tzl2RmwrVY/b8raJ3QZLzoDACj+oTJ0oX7L9Hy+XnVwgo4QVKlKpnP/Ur13SXV/pVh4LzaDw==}
 
-  primeng@19.0.7:
-    resolution: {integrity: sha512-Yr+mV3RJhx4w31N26MYoppwq8kqb6ZX/Tctn4gE46+kewhb/t1ac8JQNrS6xPtsL0M2EYL0wS6o5nE0jfL5viw==}
+  primeng@19.0.8:
+    resolution: {integrity: sha512-0Xz/XZ4Nu3GYGvnCMDFW5HTgV8VyPa2gC/rxgawcl25GhyXReGps+AeXyhabrNyCSCfykU1ng/6gGUeTse+GGg==}
     peerDependencies:
       '@angular/animations': ^19.0.0
       '@angular/cdk': ^19.0.0
@@ -6253,8 +6253,8 @@ packages:
     resolution: {integrity: sha512-XQBQ3I8W1Cge0Seh+6gjj03LbmRFWuoszgK9ooCpwYIrhhoO80pfq4cUkU5DkknwfOfFteRwlZ56PYOGYyFWdg==}
     engines: {node: '>= 4'}
 
-  reusify@1.0.4:
-    resolution: {integrity: sha512-U9nH88a3fc/ekCF1l0/UP1IosiuIjyTh7hBvXVMHYgVcfGvt897Xguj2UOLDeI5BG2m7/uwyaLVT6fbtCwTyzw==}
+  reusify@1.1.0:
+    resolution: {integrity: sha512-g6QUff04oZpHs0eG5p83rFLhHeV00ug/Yf9nZM6fLeUrPguBTkTQOdpAWWspMh55TZfVQDPaN3NQJfbVRAxdIw==}
     engines: {iojs: '>=1.0.0', node: '>=0.10.0'}
 
   rfdc@1.4.1:
@@ -7026,8 +7026,8 @@ packages:
       typescript:
         optional: true
 
-  valibot@1.0.0-rc.1:
-    resolution: {integrity: sha512-bTHNpeeQ403xS7qGHF/tw3EC/zkZOU5VdkfIsmRDu1Sp+BJNTNCm6m5HlwOgyW/03lofP+uQiq3R+Poo9wiCEg==}
+  valibot@1.0.0-rc.2:
+    resolution: {integrity: sha512-Tnnp7dydpihvoUbJiaxuYfsCAgAFKuFMex7PTaI25XSjRWkU70DmJPlAO1W6sF1/WUx4RNWyM2hdmBSMIUSZFA==}
     peerDependencies:
       typescript: '>=5'
     peerDependenciesMeta:
@@ -9708,14 +9708,14 @@ snapshots:
 
   '@fontsource/jetbrains-mono@5.1.2': {}
 
-  '@garudalinux/core@0.3.1(1753980fd0b9e6b0f307c1d033dcdbd5)':
+  '@garudalinux/core@0.3.1(11e68ed517d9f1bbd328c9b625338677)':
     dependencies:
       '@angular/common': 19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
       '@angular/core': 19.1.7(rxjs@7.8.2)(zone.js@0.15.0)
       '@angular/platform-browser': 19.1.7(@angular/animations@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))
       '@playwright/test': 1.50.1
       jest-preset-angular: 14.4.2(@angular/compiler-cli@19.1.7(@angular/compiler@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0)))(typescript@5.6.3))(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser-dynamic@19.1.7(@angular/common@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/compiler@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(@angular/platform-browser@19.1.7(@angular/animations@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0)))(@angular/common@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))))(@babel/core@7.26.9)(@jest/transform@29.7.0)(@jest/types@29.6.3)(babel-jest@29.7.0(@babel/core@7.26.9))(jest@29.7.0(@types/node@22.13.5))(typescript@5.6.3)
-      primeng: 19.0.7(6d66ff7b87738b9a2ddc1194f5c9e8a4)
+      primeng: 19.0.8(6d66ff7b87738b9a2ddc1194f5c9e8a4)
       tslib: 2.8.1
 
   '@inquirer/checkbox@4.1.2(@types/node@22.13.5)':
@@ -10427,7 +10427,7 @@ snapshots:
     dependencies:
       playwright: 1.50.1
 
-  '@primeng/themes@19.0.7':
+  '@primeng/themes@19.0.8':
     dependencies:
       '@primeuix/styled': 0.3.2
 
@@ -10597,9 +10597,9 @@ snapshots:
       chalk: 4.1.2
       debug: 2.6.9
       invariant: 2.2.4
-      metro: 0.81.1
-      metro-config: 0.81.1
-      metro-core: 0.81.1
+      metro: 0.81.2
+      metro-config: 0.81.2
+      metro-core: 0.81.2
       readline: 1.3.0
       semver: 7.7.1
     transitivePeerDependencies:
@@ -10863,7 +10863,7 @@ snapshots:
     dependencies:
       '@tauri-apps/api': 2.2.0
 
-  '@tauri-apps/plugin-log@2.2.1':
+  '@tauri-apps/plugin-log@2.2.2':
     dependencies:
       '@tauri-apps/api': 2.2.0
 
@@ -11640,7 +11640,7 @@ snapshots:
   browserslist@4.24.4:
     dependencies:
       caniuse-lite: 1.0.30001700
-      electron-to-chromium: 1.5.103
+      electron-to-chromium: 1.5.104
       node-releases: 2.0.19
       update-browserslist-db: 1.1.2(browserslist@4.24.4)
 
@@ -12246,7 +12246,7 @@ snapshots:
     dependencies:
       jake: 10.9.2
 
-  electron-to-chromium@1.5.103: {}
+  electron-to-chromium@1.5.104: {}
 
   emittery@0.13.1: {}
 
@@ -12669,7 +12669,7 @@ snapshots:
 
   fastq@1.19.0:
     dependencies:
-      reusify: 1.0.4
+      reusify: 1.1.0
 
   faye-websocket@0.11.4:
     dependencies:
@@ -12791,7 +12791,7 @@ snapshots:
   fontfaceobserver@2.3.0:
     optional: true
 
-  foreground-child@3.3.0:
+  foreground-child@3.3.1:
     dependencies:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
@@ -12917,7 +12917,7 @@ snapshots:
 
   glob@10.4.5:
     dependencies:
-      foreground-child: 3.3.0
+      foreground-child: 3.3.1
       jackspeak: 3.4.3
       minimatch: 9.0.5
       minipass: 7.1.2
@@ -14224,7 +14224,7 @@ snapshots:
 
   methods@1.1.2: {}
 
-  metro-babel-transformer@0.81.1:
+  metro-babel-transformer@0.81.2:
     dependencies:
       '@babel/core': 7.26.9
       flow-enums-runtime: 0.0.6
@@ -14234,42 +14234,42 @@ snapshots:
       - supports-color
     optional: true
 
-  metro-cache-key@0.81.1:
+  metro-cache-key@0.81.2:
     dependencies:
       flow-enums-runtime: 0.0.6
     optional: true
 
-  metro-cache@0.81.1:
+  metro-cache@0.81.2:
     dependencies:
       exponential-backoff: 3.1.2
       flow-enums-runtime: 0.0.6
-      metro-core: 0.81.1
+      metro-core: 0.81.2
     optional: true
 
-  metro-config@0.81.1:
+  metro-config@0.81.2:
     dependencies:
       connect: 3.7.0
       cosmiconfig: 5.2.1
       flow-enums-runtime: 0.0.6
       jest-validate: 29.7.0
-      metro: 0.81.1
-      metro-cache: 0.81.1
-      metro-core: 0.81.1
-      metro-runtime: 0.81.1
+      metro: 0.81.2
+      metro-cache: 0.81.2
+      metro-core: 0.81.2
+      metro-runtime: 0.81.2
     transitivePeerDependencies:
       - bufferutil
       - supports-color
       - utf-8-validate
     optional: true
 
-  metro-core@0.81.1:
+  metro-core@0.81.2:
     dependencies:
       flow-enums-runtime: 0.0.6
       lodash.throttle: 4.1.1
-      metro-resolver: 0.81.1
+      metro-resolver: 0.81.2
     optional: true
 
-  metro-file-map@0.81.1:
+  metro-file-map@0.81.2:
     dependencies:
       debug: 2.6.9
       fb-watchman: 2.0.2
@@ -14284,44 +14284,44 @@ snapshots:
       - supports-color
     optional: true
 
-  metro-minify-terser@0.81.1:
+  metro-minify-terser@0.81.2:
     dependencies:
       flow-enums-runtime: 0.0.6
       terser: 5.39.0
     optional: true
 
-  metro-resolver@0.81.1:
+  metro-resolver@0.81.2:
     dependencies:
       flow-enums-runtime: 0.0.6
     optional: true
 
-  metro-runtime@0.81.1:
+  metro-runtime@0.81.2:
     dependencies:
       '@babel/runtime': 7.26.9
       flow-enums-runtime: 0.0.6
     optional: true
 
-  metro-source-map@0.81.1:
+  metro-source-map@0.81.2:
     dependencies:
       '@babel/traverse': 7.26.9
       '@babel/traverse--for-generate-function-map': '@babel/traverse@7.26.9'
       '@babel/types': 7.26.9
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4
-      metro-symbolicate: 0.81.1
+      metro-symbolicate: 0.81.2
       nullthrows: 1.1.1
-      ob1: 0.81.1
+      ob1: 0.81.2
       source-map: 0.5.7
       vlq: 1.0.1
     transitivePeerDependencies:
       - supports-color
     optional: true
 
-  metro-symbolicate@0.81.1:
+  metro-symbolicate@0.81.2:
     dependencies:
       flow-enums-runtime: 0.0.6
       invariant: 2.2.4
-      metro-source-map: 0.81.1
+      metro-source-map: 0.81.2
       nullthrows: 1.1.1
       source-map: 0.5.7
       vlq: 1.0.1
@@ -14329,7 +14329,7 @@ snapshots:
       - supports-color
     optional: true
 
-  metro-transform-plugins@0.81.1:
+  metro-transform-plugins@0.81.2:
     dependencies:
       '@babel/core': 7.26.9
       '@babel/generator': 7.26.9
@@ -14341,20 +14341,20 @@ snapshots:
       - supports-color
     optional: true
 
-  metro-transform-worker@0.81.1:
+  metro-transform-worker@0.81.2:
     dependencies:
       '@babel/core': 7.26.9
       '@babel/generator': 7.26.9
       '@babel/parser': 7.26.9
       '@babel/types': 7.26.9
       flow-enums-runtime: 0.0.6
-      metro: 0.81.1
-      metro-babel-transformer: 0.81.1
-      metro-cache: 0.81.1
-      metro-cache-key: 0.81.1
-      metro-minify-terser: 0.81.1
-      metro-source-map: 0.81.1
-      metro-transform-plugins: 0.81.1
+      metro: 0.81.2
+      metro-babel-transformer: 0.81.2
+      metro-cache: 0.81.2
+      metro-cache-key: 0.81.2
+      metro-minify-terser: 0.81.2
+      metro-source-map: 0.81.2
+      metro-transform-plugins: 0.81.2
       nullthrows: 1.1.1
     transitivePeerDependencies:
       - bufferutil
@@ -14362,7 +14362,7 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  metro@0.81.1:
+  metro@0.81.2:
     dependencies:
       '@babel/code-frame': 7.26.2
       '@babel/core': 7.26.9
@@ -14385,18 +14385,18 @@ snapshots:
       jest-worker: 29.7.0
       jsc-safe-url: 0.2.4
       lodash.throttle: 4.1.1
-      metro-babel-transformer: 0.81.1
-      metro-cache: 0.81.1
-      metro-cache-key: 0.81.1
-      metro-config: 0.81.1
-      metro-core: 0.81.1
-      metro-file-map: 0.81.1
-      metro-resolver: 0.81.1
-      metro-runtime: 0.81.1
-      metro-source-map: 0.81.1
-      metro-symbolicate: 0.81.1
-      metro-transform-plugins: 0.81.1
-      metro-transform-worker: 0.81.1
+      metro-babel-transformer: 0.81.2
+      metro-cache: 0.81.2
+      metro-cache-key: 0.81.2
+      metro-config: 0.81.2
+      metro-core: 0.81.2
+      metro-file-map: 0.81.2
+      metro-resolver: 0.81.2
+      metro-runtime: 0.81.2
+      metro-source-map: 0.81.2
+      metro-symbolicate: 0.81.2
+      metro-transform-plugins: 0.81.2
+      metro-transform-worker: 0.81.2
       mime-types: 2.1.35
       nullthrows: 1.1.1
       serialize-error: 2.1.0
@@ -14699,7 +14699,7 @@ snapshots:
 
   nwsapi@2.2.16: {}
 
-  ob1@0.81.1:
+  ob1@0.81.2:
     dependencies:
       flow-enums-runtime: 0.0.6
     optional: true
@@ -15085,7 +15085,7 @@ snapshots:
 
   primeicons@7.0.0: {}
 
-  primeng@19.0.7(6d66ff7b87738b9a2ddc1194f5c9e8a4):
+  primeng@19.0.8(6d66ff7b87738b9a2ddc1194f5c9e8a4):
     dependencies:
       '@angular/animations': 19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))
       '@angular/cdk': 19.1.4(@angular/common@19.1.7(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.1.7(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2)
@@ -15251,8 +15251,8 @@ snapshots:
       invariant: 2.2.4
       jest-environment-node: 29.7.0
       memoize-one: 5.2.1
-      metro-runtime: 0.81.1
-      metro-source-map: 0.81.1
+      metro-runtime: 0.81.2
+      metro-source-map: 0.81.2
       nullthrows: 1.1.1
       pretty-format: 29.7.0
       promise: 8.3.0
@@ -15438,7 +15438,7 @@ snapshots:
 
   retry@0.13.1: {}
 
-  reusify@1.0.4: {}
+  reusify@1.1.0: {}
 
   rfdc@1.4.1: {}
 
@@ -16042,14 +16042,14 @@ snapshots:
   tauri-plugin-network-api@2.0.5(typescript@5.6.3):
     dependencies:
       '@tauri-apps/api': 2.2.0
-      valibot: 1.0.0-rc.1(typescript@5.6.3)
+      valibot: 1.0.0-rc.2(typescript@5.6.3)
     transitivePeerDependencies:
       - typescript
 
   tauri-plugin-system-info-api@2.0.9(typescript@5.6.3):
     dependencies:
       '@tauri-apps/api': 2.2.0
-      valibot: 1.0.0-rc.1(typescript@5.6.3)
+      valibot: 1.0.0-rc.2(typescript@5.6.3)
     transitivePeerDependencies:
       - typescript
 
@@ -16309,7 +16309,7 @@ snapshots:
     optionalDependencies:
       typescript: 5.6.3
 
-  valibot@1.0.0-rc.1(typescript@5.6.3):
+  valibot@1.0.0-rc.2(typescript@5.6.3):
     optionalDependencies:
       typescript: 5.6.3
 
