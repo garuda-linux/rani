@@ -1,7 +1,7 @@
 import { computed, signal } from '@angular/core';
 import type { Nullable } from 'primeng/ts-helpers';
 import { debug, error, info, trace } from '@tauri-apps/plugin-log';
-import { type Child, type ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 
 export class PrivilegeManager {
   public sudoDialogVisible = signal<boolean>(false);
@@ -76,10 +76,10 @@ export class PrivilegeManager {
    * @param cmd The command to execute
    * @param keepEnv Whether to keep environment variables (sudo -E)
    */
-  async spawnCommandAsSudo(cmd: string, keepEnv = false): Promise<Child> {
+  async returnCommandAsSudo(cmd: string, keepEnv = false): Promise<Command<string>> {
     const pass: string = await this.providePassword();
     const finalCmd: string = `echo ${pass} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${cmd}'`;
-    return Command.create('exec-bash', ['-c', finalCmd]).spawn();
+    return Command.create('exec-bash', ['-c', finalCmd]);
   }
 
   /**

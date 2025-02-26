@@ -1,6 +1,6 @@
 import { inject, Injectable } from '@angular/core';
 import { type PrivilegeManager, PrivilegeManagerInstance } from './privilege-manager';
-import type { Child, ChildProcess } from '@tauri-apps/plugin-shell';
+import type { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { MessageToastService } from '@garudalinux/core';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { trace } from '@tauri-apps/plugin-log';
@@ -58,8 +58,8 @@ export class PrivilegeManagerService {
    * @param cmd The command to execute
    * @param keepEnv Whether to keep environment variables (sudo -E)
    */
-  async spawnCommandAsSudo(cmd: string, keepEnv = false): Promise<Child> {
-    return await this.manager.spawnCommandAsSudo(cmd, keepEnv);
+  async returnCommandAsSudo(cmd: string, keepEnv = false): Promise<Command<string>> {
+    return await this.manager.returnCommandAsSudo(cmd, keepEnv);
   }
 
   /**

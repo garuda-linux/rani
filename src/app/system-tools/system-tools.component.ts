@@ -1,15 +1,13 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
-import { AppService } from '../app.service';
-import { debug } from '@tauri-apps/plugin-log';
 import { SystemdServicesComponent } from '../systemd-services/systemd-services.component';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { SystemComponentsComponent } from '../system-components/system-components.component';
 import { SystemSettingsComponent } from '../system-settings/system-settings.component';
+import { SystemComponentsComponent } from '../system-components/system-components.component';
 
 @Component({
-  selector: 'app-system-tools',
+  selector: 'rani-system-tools',
   imports: [
     TableModule,
     SystemdServicesComponent,
@@ -19,20 +17,12 @@ import { SystemSettingsComponent } from '../system-settings/system-settings.comp
     TabPanels,
     Tabs,
     TranslocoDirective,
-    SystemComponentsComponent,
     SystemSettingsComponent,
+    SystemComponentsComponent,
   ],
   templateUrl: './system-tools.component.html',
   styleUrl: './system-tools.component.css',
 })
-export class SystemToolsComponent implements OnInit {
+export class SystemToolsComponent {
   tabIndex = signal<number>(0);
-
-  private readonly appService = inject(AppService);
-
-  async ngOnInit() {
-    void debug('Initializing system tools');
-
-    void debug('System tools initialized');
-  }
 }

@@ -6,12 +6,6 @@
     </div>
   </div>
 
-  @if (loading()) {
-    <div class="mt-5">
-      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }" />
-    </div>
-  }
-
   <div class="grid grid-cols-12 p-10 gap-4">
     @for (action of actions; track action.name) {
       <div class="col-span-6 lg:col-span-3">

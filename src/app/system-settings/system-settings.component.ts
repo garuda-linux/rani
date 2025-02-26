@@ -1,5 +1,4 @@
 import { Component, inject, model, signal } from '@angular/core';
-import { ProgressBar } from 'primeng/progressbar';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { FormsModule } from '@angular/forms';
@@ -8,14 +7,13 @@ import { AppService } from '../app.service';
 import { debug, error } from '@tauri-apps/plugin-log';
 import { Select } from 'primeng/select';
 import { DnsProvider, dnsProviders, Shell, ShellEntry, shells } from './types';
-import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { Checkbox } from 'primeng/checkbox';
 import { SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 
 @Component({
-  selector: 'app-system-settings',
-  imports: [ProgressBar, TranslocoDirective, FormsModule, Select, Checkbox, DynamicCheckboxesComponent],
+  selector: 'rani-system-settings',
+  imports: [TranslocoDirective, FormsModule, Select, Checkbox, DynamicCheckboxesComponent],
   templateUrl: './system-settings.component.html',
   styleUrl: './system-settings.component.css',
 })
@@ -215,7 +213,6 @@ export class SystemSettingsComponent {
 
   appService = inject(AppService);
   operationManager = inject(OperationManagerService);
-  privilegeManager = inject(PrivilegeManagerService);
 
   constructor() {
     void this.init();
@@ -236,12 +233,12 @@ export class SystemSettingsComponent {
   }
 
   async getCurrentShell(): Promise<void> {
-    while (!this.operationManager.manager.user()) {
+    while (!this.operationManager.user()) {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
     const cmd = `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`;
-    const result: string | null = await this.appService.getCommandOutput<string>(cmd, (stdout: string) =>
+    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) =>
       stdout.trim(),
     );
 
@@ -255,7 +252,7 @@ export class SystemSettingsComponent {
 
   async getCurrentDns() {
     const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
-    const result: string | null = await this.appService.getCommandOutput<string>(cmd, (stdout: string) => stdout);
+    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) => stdout);
 
     if (result) {
       const providerExists = dnsProviders.find((provider) => provider.ips.includes(result));
@@ -273,7 +270,7 @@ export class SystemSettingsComponent {
 
   async getCurrentHblockStatus(): Promise<void> {
     const cmd = 'cat /etc/hosts | grep -A1 \"Blocked domains\" | awk \'/Blocked domains/ { print $NF }\'';
-    const result: number | null = await this.appService.getCommandOutput<number>(cmd, (stdout: string) =>
+    const result: number | null = await this.operationManager.getCommandOutput<number>(cmd, (stdout: string) =>
       parseInt(stdout),
     );
 

@@ -1,7 +1,7 @@
 import { Command } from '@tauri-apps/plugin-shell';
 
 export interface Operation {
-  command: ((args?: string[]) => string) | (() => Promise<void>) | ((args?: string[]) => Command<string>);
+  command: ((args?: string[]) => string) | (() => Promise<string | void>) | ((args?: string[]) => Command<string>);
   commandArgs: any[];
   hasOutput?: boolean;
   name: OperationType;

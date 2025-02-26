@@ -32,8 +32,6 @@ export interface Package {
   description?: string;
 }
 
-export const shells = ['bash', 'zsh', 'fish', 'sh'];
-
 export interface MaintenanceAction {
   addedToPending?: boolean;
   command: ((args?: string[]) => string) | (() => Promise<void>);
@@ -61,9 +59,11 @@ export interface SystemdService {
   active: string;
   sub: string;
   description: string;
+  tooltip?: string;
 }
 
 export interface AppSettings {
+  systemdUserContext: boolean;
   copyDiagnostics: boolean;
   autoRefresh: boolean;
   leftButtons: boolean;

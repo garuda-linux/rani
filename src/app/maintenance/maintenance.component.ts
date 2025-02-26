@@ -1,203 +1,28 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
+import { Component, inject, model, OnInit } from '@angular/core';
 import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
 import { AppService } from '../app.service';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Tooltip } from 'primeng/tooltip';
-import { ProgressBar } from 'primeng/progressbar';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
+import { OperationManagerService } from '../operation-manager/operation-manager.service';
+import { OperationType } from '../operation-manager/interfaces';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
+import { ConfirmationService } from 'primeng/api';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'app-maintenance',
-  imports: [Card, Button, TranslocoDirective, Tooltip, ProgressBar, Checkbox, FormsModule],
+  imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule],
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
 })
 export class MaintenanceComponent implements OnInit {
-  loading = signal<boolean>(false);
   selectedResetConfigs = model<any[]>([]);
-
-  actions: MaintenanceAction[] = [
-    {
-      name: 'updateSystem',
-      label: 'maintenance.updateSystem',
-      description: 'maintenance.updateSystemSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
-      order: 5,
-      command: (): string => {
-        void info('Updating system');
-        return 'garuda-update --aur --noconfirm';
-      },
-    },
-    {
-      name: 'cleanCache',
-      label: 'maintenance.cleanCache',
-      description: 'maintenance.cleanCacheSub',
-      icon: 'pi pi-trash',
-      sudo: true,
-      hasOutput: true,
-      order: 99,
-      command: (): string => {
-        void info('Cleaning cache');
-        return 'paccache -ruk 0';
-      },
-    },
-    {
-      name: 'cleanOrphans',
-      label: 'maintenance.clearOrphans',
-      description: 'maintenance.clearOrphansSub',
-      icon: 'pi pi-trash',
-      sudo: true,
-      hasOutput: true,
-      order: 98,
-      command: (): string => {
-        void info('Cleaning orphans');
-        return 'pacman -Rns $(pacman -Qtdq)';
-      },
-    },
-    {
-      name: 'refreshMirrors',
-      label: 'maintenance.refreshMirrors',
-      description: 'maintenance.refreshMirrorsSub',
-      icon: 'pi pi-refresh',
-      sudo: false,
-      hasOutput: false,
-      order: 0,
-      onlyDirect: true,
-      command: async (): Promise<void> => {
-        void info('Refreshing mirrors');
-        void this.ensurePackageAndRun('reflector-simple');
-      },
-    },
-    {
-      name: 'btrfsAssistant',
-      label: 'maintenance.btrfsAssistant',
-      description: 'maintenance.btrfsAssistantSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: false,
-      order: 0,
-      onlyDirect: true,
-      command: async (): Promise<void> => {
-        void info('Refreshing mirrors');
-        void this.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
-      },
-    },
-    {
-      name: 'reinstallPackages',
-      label: 'maintenance.reinstallPackages',
-      description: 'maintenance.reinstallPackagesSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
-      order: 5,
-      command: (): string => {
-        void info('Reinstalling packages');
-        return 'garuda-update remote reinstall';
-      },
-    },
-    {
-      name: 'removeLock',
-      label: 'maintenance.removeLock',
-      description: 'maintenance.removeLockSub',
-      icon: 'pi pi-trash',
-      hasOutput: false,
-      sudo: true,
-      order: 1,
-      command: (): string => {
-        void info('Removing database lock');
-        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
-      },
-    },
-    {
-      name: 'Edit repositories',
-      label: 'maintenance.editRepos',
-      description: 'maintenance.editReposSub',
-      icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
-      order: 0,
-      onlyDirect: true,
-      command: async (): Promise<void> => {
-        void info('Editing repositories, checking for pace');
-        void this.ensurePackageAndRun('pace');
-      },
-    },
-    {
-      name: 'updateRemoteFix',
-      label: 'maintenance.updateRemoteFix',
-      description: 'maintenance.updateRemoteFixSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      order: 0,
-      command: (): string => {
-        void info('Running remote fix');
-        return 'garuda-update remote fix';
-      },
-    },
-    {
-      name: 'updateRemoteKeyring',
-      label: 'maintenance.updateRemoteKeyring',
-      description: 'maintenance.updateRemoteKeyringSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      order: 0,
-      command: (): string => {
-        void info('Running remote keyring');
-        return 'garuda-update remote keyring';
-      },
-    },
-    {
-      name: 'updateRemoteFullFix',
-      label: 'maintenance.updateRemoteFullFix',
-      description: 'maintenance.updateRemoteFullFixSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      order: 0,
-      command: (): string => {
-        void info('Running remote full fix');
-        return 'garuda-update remote fullfix';
-      },
-    },
-    {
-      name: 'updateRemoteResetAudio',
-      label: 'maintenance.updateRemoteResetAudio',
-      description: 'maintenance.updateRemoteResetAudioSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      order: 0,
-      command: (): string => {
-        void info('Running remote reset audio');
-        return 'garuda-update remote reset-audio';
-      },
-    },
-    {
-      name: 'updateRemoteResetSnapper',
-      label: 'maintenance.updateRemoteResetSnapper',
-      description: 'maintenance.updateRemoteResetSnapperSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      order: 0,
-      command: (): string => {
-        void info('Running remote reset snapper');
-        return 'garuda-update remote reset-snapper';
-      },
-    },
-  ];
-
   resettableConfigs: ResettableConfig[] = [
     {
       name: 'Bash',
@@ -311,7 +136,187 @@ export class MaintenanceComponent implements OnInit {
   ];
 
   readonly appService = inject(AppService);
+  readonly operationManager = inject(OperationManagerService);
   readonly privilegeManager = inject(PrivilegeManagerService);
+
+  actions: MaintenanceAction[] = [
+    {
+      name: 'updateSystem',
+      label: 'maintenance.updateSystem',
+      description: 'maintenance.updateSystemSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: true,
+      order: 5,
+      command: (): string => {
+        void info('Updating system');
+        return 'garuda-update --aur --noconfirm';
+      },
+    },
+    {
+      name: 'cleanCache',
+      label: 'maintenance.cleanCache',
+      description: 'maintenance.cleanCacheSub',
+      icon: 'pi pi-trash',
+      sudo: true,
+      hasOutput: true,
+      order: 99,
+      command: (): string => {
+        void info('Cleaning cache');
+        return 'paccache -ruk 0';
+      },
+    },
+    {
+      name: 'cleanOrphans',
+      label: 'maintenance.clearOrphans',
+      description: 'maintenance.clearOrphansSub',
+      icon: 'pi pi-trash',
+      sudo: true,
+      hasOutput: true,
+      order: 98,
+      command: (): string => {
+        void info('Cleaning orphans');
+        return 'pacman -Rns $(pacman -Qtdq)';
+      },
+    },
+    {
+      name: 'refreshMirrors',
+      label: 'maintenance.refreshMirrors',
+      description: 'maintenance.refreshMirrorsSub',
+      icon: 'pi pi-refresh',
+      sudo: false,
+      hasOutput: false,
+      order: 0,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        void info('Refreshing mirrors');
+        void this.privilegeManager.ensurePackageAndRun('reflector-simple');
+      },
+    },
+    {
+      name: 'btrfsAssistant',
+      label: 'maintenance.btrfsAssistant',
+      description: 'maintenance.btrfsAssistantSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: false,
+      order: 0,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        void info('Refreshing mirrors');
+        void this.privilegeManager.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
+      },
+    },
+    {
+      name: 'reinstallPackages',
+      label: 'maintenance.reinstallPackages',
+      description: 'maintenance.reinstallPackagesSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: true,
+      order: 5,
+      command: (): string => {
+        void info('Reinstalling packages');
+        return 'garuda-update remote reinstall';
+      },
+    },
+    {
+      name: 'removeLock',
+      label: 'maintenance.removeLock',
+      description: 'maintenance.removeLockSub',
+      icon: 'pi pi-trash',
+      hasOutput: false,
+      sudo: true,
+      order: 1,
+      command: (): string => {
+        void info('Removing database lock');
+        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
+      },
+    },
+    {
+      name: 'Edit repositories',
+      label: 'maintenance.editRepos',
+      description: 'maintenance.editReposSub',
+      icon: 'pi pi-pencil',
+      hasOutput: false,
+      sudo: false,
+      order: 0,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        void info('Editing repositories, checking for pace');
+        void this.privilegeManager.ensurePackageAndRun('pace');
+      },
+    },
+    {
+      name: 'updateRemoteFix',
+      label: 'maintenance.updateRemoteFix',
+      description: 'maintenance.updateRemoteFixSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      order: 0,
+      command: (): string => {
+        void info('Running remote fix');
+        return 'garuda-update remote fix';
+      },
+    },
+    {
+      name: 'updateRemoteKeyring',
+      label: 'maintenance.updateRemoteKeyring',
+      description: 'maintenance.updateRemoteKeyringSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      order: 0,
+      command: (): string => {
+        void info('Running remote keyring');
+        return 'garuda-update remote keyring';
+      },
+    },
+    {
+      name: 'updateRemoteFullFix',
+      label: 'maintenance.updateRemoteFullFix',
+      description: 'maintenance.updateRemoteFullFixSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      order: 0,
+      command: (): string => {
+        void info('Running remote full fix');
+        return 'garuda-update remote fullfix';
+      },
+    },
+    {
+      name: 'updateRemoteResetAudio',
+      label: 'maintenance.updateRemoteResetAudio',
+      description: 'maintenance.updateRemoteResetAudioSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      order: 0,
+      command: (): string => {
+        void info('Running remote reset audio');
+        return 'garuda-update remote reset-audio';
+      },
+    },
+    {
+      name: 'updateRemoteResetSnapper',
+      label: 'maintenance.updateRemoteResetSnapper',
+      description: 'maintenance.updateRemoteResetSnapperSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      order: 0,
+      command: (): string => {
+        void info('Running remote reset snapper');
+        return 'garuda-update remote reset-snapper';
+      },
+    },
+  ];
+
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly translocoService = inject(TranslocoService);
 
   async ngOnInit(): Promise<void> {
     void debug('Initializing maintenance');
@@ -319,10 +324,11 @@ export class MaintenanceComponent implements OnInit {
   }
 
   async checkExistingConfigs() {
+    this.loadingService.loadingOn();
     for (const config of this.resettableConfigs) {
       config.files.some(async (file) => {
         void trace(`Checking file: ${file}`);
-        void this.appService.getCommandOutput<string>(`test -e ${file}`, (stdout: string | null) => {
+        void this.operationManager.getCommandOutput<string>(`test -e ${file}`, (stdout: string | null) => {
           if (stdout !== null) {
             void trace(`Found existing config: ${file}`);
             config.exists = true;
@@ -333,6 +339,8 @@ export class MaintenanceComponent implements OnInit {
         });
       });
     }
+
+    this.loadingService.loadingOff();
     void debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs)}`);
   }
 
@@ -341,7 +349,7 @@ export class MaintenanceComponent implements OnInit {
    */
   async resetConfigs(): Promise<void> {
     void debug('Resetting configs');
-    this.loading.set(true);
+    this.loadingService.loadingOn();
     const homeDir: string = await path.homeDir();
 
     for (const config of this.selectedResetConfigs()) {
@@ -350,7 +358,10 @@ export class MaintenanceComponent implements OnInit {
         const cmd: string = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
         void debug(`Running command: ${cmd}`);
 
-        const result: string | null = await this.appService.getCommandOutput<string>(cmd, (stdout: string) => stdout);
+        const result: string | null = await this.operationManager.getCommandOutput<string>(
+          cmd,
+          (stdout: string) => stdout,
+        );
         if (result !== null) {
           void info(`Successfully reset ${file}`);
         } else {
@@ -360,7 +371,7 @@ export class MaintenanceComponent implements OnInit {
       }
     }
 
-    this.loading.set(false);
+    this.loadingService.loadingOff();
   }
 
   /**
@@ -368,22 +379,26 @@ export class MaintenanceComponent implements OnInit {
    * @param action The action to add
    */
   addToPending(action: MaintenanceAction) {
-    void debug('Adding to pending');
-    if (!this.appService.pendingOperations().find((operation) => operation.name === action.name)) {
-      this.appService.pendingOperations().push({
-        name: action.name,
-        prettyName: action.label,
-        order: action.order,
-        command: action.command,
-        commandArgs: [],
-        sudo: action.sudo,
-        status: 'pending',
-        hasOutput: action.hasOutput,
-      });
+    if (!this.operationManager.pending().find((operation) => operation.name === action.name)) {
+      void debug(`Adding ${action.name} to pending`);
+      this.operationManager.pending.update((pending) => [
+        ...pending,
+        {
+          name: action.name as unknown as OperationType,
+          prettyName: action.label,
+          order: action.order,
+          command: action.command,
+          commandArgs: [],
+          sudo: action.sudo,
+          status: 'pending',
+          hasOutput: action.hasOutput,
+        },
+      ]);
       action.addedToPending = true;
     } else {
-      this.appService.pendingOperations.set(
-        this.appService.pendingOperations().filter((operation) => operation.name !== action.name),
+      void trace(`Removing ${action.name} from pending`);
+      this.operationManager.pending.set(
+        this.operationManager.pending().filter((operation) => operation.name !== action.name),
       );
       action.addedToPending = false;
     }
@@ -398,65 +413,38 @@ export class MaintenanceComponent implements OnInit {
     if (action.onlyDirect) {
       void debug('Boom its a direct action');
       void action.command();
-      return;
     } else {
       void debug('Adding to pending and executing, clearing pending');
-      this.appService.pendingOperations.set([]);
-      this.addToPending(action);
-      void this.appService.executeOperations();
+      void this.operationManager.runNow({
+        name: action.name as unknown as OperationType,
+        prettyName: action.label,
+        order: action.order,
+        command: action.command,
+        commandArgs: [],
+        sudo: action.sudo,
+        status: 'pending',
+        hasOutput: action.hasOutput,
+      });
     }
-  }
-
-  /**
-   * Ensure a package is installed and run an executable afterward.
-   * @param pkg The package to ensure is installed
-   * @param executable The executable to run after the package is installed, if the executable differs from the package name
-   * @param needsSudo Whether the command needs to be run with sudo
-   */
-  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false): Promise<void> {
-    this.loading.set(true);
-    const cmd = `pacman -Qq ${pkg}`;
-
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-    if (result.code !== 0) {
-      const cmd: string = await this.appService.prepareSudoCommand(`pacman -S --noconfirm --needed ${pkg}`);
-      const result: string | null = await this.appService.getCommandOutput<string>(cmd, (stdout: string) => stdout);
-      if (result) {
-        void info('Installed pace');
-      } else {
-        void error('Failed to install pace');
-        this.appService.messageToastService.error('Error installing dependency', 'Failed to install pace');
-      }
-    }
-
-    let pkgCmd: string = executable ? executable : pkg;
-    if (needsSudo) pkgCmd = await this.appService.prepareSudoCommand(pkgCmd, true);
-
-    // No need to block the main thread here
-    void Command.create('exec-bash', ['-c', pkgCmd]).execute();
-    this.loading.set(false);
   }
 
   confirmResetConfigs(event: Event): void {
-    this.appService.confirmationService.confirm({
+    void trace('Confirming resetting configs');
+    this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: 'Are you sure that you want to proceed?',
-      header: 'Reset configs',
+      message: this.translocoService.translate('confirmation.resetConfigsBody'),
+      header: this.translocoService.translate('confirmation.resetConfigsHeader'),
       icon: 'pi pi-exclamation-triangle',
-      rejectButtonProps: {
-        label: 'Cancel',
-        severity: 'secondary',
-        outlined: true,
-      },
       acceptButtonProps: {
-        label: 'Save',
-        outlined: true,
+        severity: 'danger',
+        label: this.translocoService.translate('confirmation.accept'),
+      },
+      rejectButtonProps: {
+        severity: 'secondary',
+        label: this.translocoService.translate('confirmation.reject'),
       },
       accept: () => {
         void this.resetConfigs();
-      },
-      reject: () => {
-        void trace('Rejected resetting configs');
       },
     });
   }

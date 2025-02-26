@@ -82,7 +82,7 @@ export class HomeComponent implements OnInit {
   ];
   contactLinks: ExternalLink[] = [
     {
-      title: 'Garuda Forum',
+      title: 'Forum',
       subTitle: 'Visit the Garuda Linux Forum',
       externalLink: 'https://forum.garudalinux.org',
       icon: 'pi pi-comments',
@@ -121,6 +121,7 @@ export class HomeComponent implements OnInit {
   protected readonly appService = inject(AppService);
   private readonly operationManager = inject(OperationManagerService);
   private readonly privilegeManager = inject(PrivilegeManagerService);
+
   mainLinks: HomepageLink[] = [
     {
       title: 'welcome.maintenance',

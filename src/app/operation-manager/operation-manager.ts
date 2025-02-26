@@ -16,22 +16,29 @@ import {
   SET_NEW_DNS_SERVER,
 } from './interfaces';
 import { INSTALL_ACTION_NAME } from '../constants';
-import { debug, error, info } from '@tauri-apps/plugin-log';
+import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { Package, SystemToolsSubEntry } from '../interfaces';
-import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { Nullable } from 'primeng/ts-helpers';
-import { signal } from '@angular/core';
+import { EventEmitter, signal } from '@angular/core';
 import { DnsProvider } from '../system-settings/types';
 import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-manager/privilege-manager';
+import { TranslocoService } from '@jsverse/transloco';
 
 export class OperationManager {
+  public currentOperation = signal<Nullable<string>>(null);
+  public loading = signal<boolean>(false);
+  public operationOutput = signal<Nullable<string>>(null);
   public pending = signal<Operation[]>([]);
   public user = signal<Nullable<string>>(null);
 
-  privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
-  store: Nullable<Store> = null;
+  public operationOutputEmitter = new EventEmitter<string>();
+  public operationNewEmitter = new EventEmitter<string>();
 
-  constructor() {
+  private privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
+  private store: Nullable<Store> = null;
+
+  constructor(private translocoService: TranslocoService) {
     void this.init();
   }
 
@@ -333,7 +340,7 @@ export class OperationManager {
     void debug('Adding new DNS server');
     const operation: Operation = {
       name: SET_NEW_DNS_SERVER,
-      prettyName: 'opeation.setNewDnsServer',
+      prettyName: 'operation.setNewDnsServer',
       sudo: true,
       status: 'pending',
       commandArgs: [],
@@ -345,7 +352,7 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
-  addRemoveDnsServer() {
+  addRemoveDnsServer(): void {
     void debug('Removing DNS server');
     const operation: Operation = {
       name: RESET_DNS_SERVER,
@@ -366,16 +373,146 @@ export class OperationManager {
    * Can be used to get the output of a command and transform it into a usable format via custom parsing.
    * @param cmd The command to run.
    * @param transformator The function to transform the output of the command.
+   * @param sudo Whether to run the command as sudo.
    */
-  async getCommandOutput<T>(cmd: string, transformator: Function): Promise<T | null> {
+  async getCommandOutput<T>(cmd: string, transformator?: Function, sudo = false): Promise<T | null> {
     void debug(`Getting command output: ${cmd}`);
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    let result: ChildProcess<string>;
+    if (sudo) {
+      result = await this.privilegeManager.executeCommandAsSudo(cmd);
+    } else {
+      result = await Command.create('exec-bash', ['-c', cmd]).execute();
+    }
 
     if (result.code === 0) {
-      return transformator(result.stdout) as T;
+      if (transformator) {
+        return transformator(result.stdout);
+      } else {
+        return result.stdout as T;
+      }
     } else {
       void error(`Failed running command: ${cmd}`);
       return null;
+    }
+  }
+
+  /**
+   * Execute all pending operations. This will run the operations in order, updating the status and output of each operation.
+   * If an operation fails, the status will be set to 'error'.
+   */
+  async executeOperations(): Promise<void> {
+    void info('Executing pending operations');
+    await this.prepareRun();
+
+    let i: number = 1;
+    for (const operation of this.pending()) {
+      await this.executeOperation(operation, i);
+
+      if (i === this.pending().length) {
+        this.currentOperation.set(null);
+      }
+      i++;
+    }
+  }
+
+  /**
+   * Execute an operation, updating the status and output of the operation.
+   * @param operation The operation to execute.
+   * @param i The index of the operation in the pending list.
+   */
+  async executeOperation(operation: Operation, i = 1): Promise<void> {
+    void info(operation.name);
+    operation.status = 'running';
+    this.operationOutput.set('');
+    this.operationNewEmitter.emit(operation.name);
+    this.currentOperation.set(
+      `${this.translocoService.translate(operation.prettyName)} (${i}/${this.pending().length})`,
+    );
+
+    const op = operation.command(operation.commandArgs);
+
+    let finished: null | TerminatedPayload = null;
+    if (typeof op === 'string' || 'stdout' in op) {
+      let cmd: Command<string>;
+      if (typeof op === 'string') {
+        if (operation.sudo) {
+          cmd = await this.privilegeManager.returnCommandAsSudo(op);
+        } else {
+          cmd = Command.create('exec-bash', ['-c', op]);
+        }
+      } else {
+        cmd = op;
+      }
+
+      cmd.stdout.on('data', (data) => this.operationOutput.update((content) => content + data));
+      cmd.stderr.on('data', (data) => this.operationOutput.update((content) => content + data));
+      cmd.on('close', (code) => {
+        finished = code;
+        void info(`child process exited with code ${code.code}`);
+      });
+
+      const child: Child = await cmd.spawn();
+      void trace(`Process spawned with pid ${child.pid}`);
+
+      while (finished === null) {
+        await new Promise((r) => setTimeout(r, 100));
+      }
+      operation.output = this.operationOutput()!;
+      operation.status = (finished as TerminatedPayload).code === 0 ? 'complete' : 'error';
+    } else {
+      try {
+        const output: string | void = await op;
+        if (output) {
+          operation.output = output;
+        }
+        operation.status = 'complete';
+      } catch (err: any) {
+        void error(`Something exploded while running cmd: ${err}'`);
+        operation.output = err.message;
+        operation.status = 'error';
+      }
+    }
+  }
+
+  /**
+   * Remove all pending operations.
+   */
+  async clearPending(): Promise<void> {
+    this.pending.set([]);
+  }
+
+  /**
+   * Add output to the terminal, emitting the output to the terminal component.
+   * @param output The output to add to the terminal.
+   */
+  addTermOutput(output: string): void {
+    this.operationOutputEmitter.emit(output);
+    this.operationOutput.update((content) => content + output);
+  }
+
+  /**
+   * Run an operation immediately.
+   * @param operation The operation to run.
+   */
+  async runNow(operation: Operation): Promise<void> {
+    if (this.pending().find((op) => op.status === 'running')) {
+      throw new Error('An operation is already running');
+    }
+
+    await this.prepareRun();
+    await this.executeOperation(operation);
+  }
+
+  /**
+   * Run the operation, resetting the terminal output and showing the terminal.
+   * Closes the drawer after ensuring the sudo password exists.
+   */
+  private async prepareRun(): Promise<void> {
+    this.operationOutput.set('');
+
+    if (this.pending().find((op) => op.sudo)) {
+      await this.privilegeManager.getSudoPassword();
     }
   }
 }

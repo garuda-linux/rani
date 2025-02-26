@@ -64,7 +64,14 @@
   "gaming": {
     "title": "Gaming ",
     "titleTwo": "apps",
-    "subtitle": "Let's get you started with some gaming apps!"
+    "subtitle": "Let's get you started with some gaming apps!",
+    "launchers": "Game launchers",
+    "wine": "WINE",
+    "tools": "Gaming tools",
+    "emulators": "Emulators",
+    "controllers" : "Controller support",
+    "games": "Games",
+    "misc": "Miscellaneous"
   },
   "drawer": {
     "apply": "Apply pending operations",
@@ -124,7 +131,11 @@
     "useOnce": "Use once only"
   },
   "terminal": {
-    "title": "Terminal"
+    "title": "Terminal",
+    "runActions": "Run actions",
+    "removeAll": "Remove all actions",
+    "noOutput": "No output",
+    "outputExists": "It seems like there is an action running already. Please wait for it to finish before trying to view logs."
   },
   "systemdServices": {
     "notFound": "No services found",
@@ -146,7 +157,11 @@
     "reload": "Reload",
     "enable": "Enable",
     "disable": "Disable",
-    "autoRefresh": "Auto refresh"
+    "autoRefresh": "Auto refresh",
+    "error": "An error occurred while fetching services, please try again.",
+    "errorTitle": "Error fetching services",
+    "systemContext": "Show system services",
+    "userContext": "Show user services"
   },
   "systemTools": {
     "title": "System ",
@@ -389,7 +404,11 @@
     "accept": "Accept",
     "reject": "Cancel",
     "exitApp": "Are you sure you want to exit the app?",
-    "exitAppHeader": "Exit app"
+    "resetConfigsHeader": "Reset configs?",
+    "resetConfigsBody": "Are you sure you want to reset the following configurations?",
+    "exitAppHeader": "Exit app?",
+    "applyOperations": "Apply operations?",
+    "applyOperationsBody": "Are you sure that you want to apply all pending operations?"
   },
   "error": {
     "sudoPassword": "This doesn't seem to be the correct password. Please try again."

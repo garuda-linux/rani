@@ -1,1 +1,82 @@
-<ng-terminal #term [xtermOptions]="xtermOptions"></ng-terminal>
+<ng-container *transloco="let t">
+  <ng-template #popup>
+    <p-splitter #splitter [panelSizes]="panelSizes()" stateKey="termSplitState" stateStorage="local"
+                styleClass="mb-8 h-full">
+      <ng-template #panel>
+        <div class="w-auto h-full">
+          <p-table [value]="operationManager.pending()" styleClass="mb-auto">
+            <ng-template #header>
+              <tr>
+                <th>{{ t('drawer.name') }}</th>
+                <th>{{ t('drawer.status') }}</th>
+                <th>{{ t('drawer.logs') }}</th>
+                <th>{{ t('drawer.remove') }}</th>
+              </tr>
+            </ng-template>
+            <ng-template #body let-operation>
+              <tr>
+                <td>{{ t(operation.prettyName) }}</td>
+                <td class="text-center">
+                  <i
+                    [ngClass]="{
+                  'text-yellow-500 pi-hourglass': operation.status === 'pending',
+                  'text-orange-500 pi-spin pi-spinner': operation.status === 'running',
+                  'text-green-500 pi-check-circle': operation.status === 'complete',
+                  'text-red-500 pi-times-circle': operation.status === 'error',
+                }"
+                    class="pi"
+                  ></i>
+                </td>
+                <td>
+                  <p-button (click)="showOperationLogs(operation)" [label]="t('drawer.logs')"
+                            [outlined]="true"></p-button>
+                </td>
+                <td>
+                  <p-button
+                    (click)="removeOperation(operation)"
+                    [label]="t('drawer.remove')"
+                    [outlined]="true"
+                    severity="danger"
+                  ></p-button>
+                </td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </ng-template>
+      <ng-template #panel>
+        <ng-terminal #term [xtermOptions]="xtermOptions"></ng-terminal>
+      </ng-template>
+    </p-splitter>
+  </ng-template>
+
+  <p-dialog
+    [(visible)]="visible"
+    [focusOnShow]="true"
+    [modal]="true"
+    [style]="{ width: '95vw', height: '95vh' }"
+  >
+    <ng-template #header>
+      <div class="inline-flex items-center justify-center gap-2">
+        <span
+          class="cursor-pointer font-bold whitespace-nowrap mr-2.5">{{ t('terminal.title') + (currentAction() ? ' - ' + currentAction() : '') }}
+        </span>
+        <span
+          (click)="operationManager.executeOperations()"
+          class="cursor-pointer mr-2.5">
+          <i class="pi pi-play-circle mr-1 text-primary"></i>{{ t('terminal.runActions') }}
+        </span>
+        <span
+          (click)="operationManager.clearPending()"
+          class="cursor-pointer">
+          <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
+        </span>
+      </div>
+    </ng-template>
+
+    <ng-container *ngTemplateOutlet="popup"></ng-container>
+    @if (progressTracker()) {
+      <p-progress-bar [value]="progressTracker()"></p-progress-bar>
+    }
+  </p-dialog>
+</ng-container>

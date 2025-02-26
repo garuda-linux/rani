@@ -1,9 +1,4 @@
 <ng-container *transloco="let t">
-  @if (dynamicCb.loading()) {
-    <div class="mt-5">
-      <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }"/>
-    </div>
-  }
   <div>
     <div class="flex mx-auto justify-center ">
       <div class="mb-10 mr-10">
@@ -38,7 +33,7 @@
       </div>
     </div>
     <div>
-      <rani-dynamic-checkboxes #dynamicCb [data]="sections"></rani-dynamic-checkboxes>
+      <rani-dynamic-checkboxes [data]="sections"></rani-dynamic-checkboxes>
     </div>
   </div>
 </ng-container>

@@ -11,6 +11,7 @@ import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
 import { ProgressBar } from 'primeng/progressbar';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
+import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 
 @Component({
   selector: 'app-diagnostics',
@@ -31,6 +32,7 @@ export class DiagnosticsComponent {
     theme: this.appService.themeHandler.darkMode() ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
   private readonly messageToastService = inject(MessageToastService);
+  private readonly privilegeManager = inject(PrivilegeManagerService);
   private readonly garudaBin = new GarudaBin();
   private outputCache = '';
 
@@ -48,7 +50,7 @@ export class DiagnosticsComponent {
     try {
       this.loading.set(true);
       const cmd = 'garuda-inxi';
-      const result: ChildProcess<string> = await (await this.getCommand(cmd)).execute();
+      const result: ChildProcess<string> = await this.getCommand(cmd);
       void this.processResult(result);
     } catch (err: any) {
       void trace(`Error running inxi: ${err}`);
@@ -59,7 +61,7 @@ export class DiagnosticsComponent {
     try {
       this.loading.set(true);
       const cmd = 'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
-      const result: ChildProcess<string> = await (await this.getCommand(cmd)).execute();
+      const result: ChildProcess<string> = await this.getCommand(cmd);
       void this.processResult(result);
     } catch (err: any) {
       void trace(`Error running systemd-analyze: ${err}`);
@@ -74,11 +76,12 @@ export class DiagnosticsComponent {
       this.term.underlying?.clear();
       this.term.write(result.stdout);
 
-      void trace('Writing to clipboard');
-      await clear();
-      await writeText(result.stdout);
-
-      this.messageToastService.info('Success', 'Output copied to clipboard');
+      if (this.appService.settings.copyDiagnostics) {
+        void trace('Writing to clipboard');
+        await clear();
+        await writeText(result.stdout);
+        this.messageToastService.info('Success', 'Output copied to clipboard');
+      }
     } else {
       this.messageToastService.error('Error collecting output', result.stderr);
       void error(`Error collecting output: ${result.stderr}`);
@@ -91,7 +94,7 @@ export class DiagnosticsComponent {
     try {
       this.loading.set(true);
       const cmd = 'journalctl -xe --no-pager';
-      const result: ChildProcess<string> = await (await this.getCommand(cmd, true)).execute();
+      const result: ChildProcess<string> = await this.getCommand(cmd, true);
       void this.processResult(result);
     } catch (err: any) {
       void trace(`Error running journalctl: ${err}`);
@@ -102,7 +105,7 @@ export class DiagnosticsComponent {
     try {
       this.loading.set(true);
       const cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac ";
-      const result: ChildProcess<string> = await (await this.getCommand(cmd)).execute();
+      const result: ChildProcess<string> = await this.getCommand(cmd);
       void this.processResult(result);
     } catch (err: any) {
       void trace(`Error receiving pacman logs: ${err}`);
@@ -113,7 +116,7 @@ export class DiagnosticsComponent {
     try {
       this.loading.set(true);
       const cmd = 'dmesg';
-      const result: ChildProcess<string> = await (await this.getCommand(cmd, true)).execute();
+      const result: ChildProcess<string> = await this.getCommand(cmd, true);
       void this.processResult(result);
     } catch (err: any) {
       void trace(`Error running dmesg: ${err}`);
@@ -137,13 +140,11 @@ export class DiagnosticsComponent {
    * @param command The command to be executed.
    * @param needsSudo Whether the command needs to be run with sudo.
    */
-  private async getCommand(command: string, needsSudo = false) {
-    let cmd: string = command;
+  private async getCommand(command: string, needsSudo = false): Promise<ChildProcess<string>> {
     if (needsSudo) {
-      await this.appService.getSudoPassword();
-      cmd = `echo ${this.appService.sudoPassword()} | sudo -p "" -S bash -c '${cmd}'`;
+      return await this.privilegeManager.executeCommandAsSudo(command);
+    } else {
+      return Command.create('exec-bash', ['-c', command]).execute();
     }
-    void trace(`Assembled command: ${command}`);
-    return Command.create('exec-bash', ['-c', cmd]);
   }
 }

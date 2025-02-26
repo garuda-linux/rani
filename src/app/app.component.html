@@ -1,9 +1,7 @@
 <ng-container *transloco="let t">
-  <p-context-menu [global]="true" [model]="rightClickMenu"/>
+  <p-context-menu [global]="true" [model]="rightClickMenu()"/>
   <div class="background min-h-svh">
     <garuda-shell
-      #shell
-      (click)="appService.terminalVisible() ? appService.terminalVisible.set(true) : null"
       [menuItems]="items()"
       id="shellBar"
     >
@@ -84,127 +82,15 @@
         </div>
       }
       <div class="mt-5">
-        <router-outlet #routerOutlet="outlet"></router-outlet>
+        <router-outlet></router-outlet>
       </div>
       <p-scroll-top></p-scroll-top>
     </garuda-shell>
   </div>
 
-  <p-dialog
-    [(visible)]="appService.terminalVisible"
-    [focusOnShow]="true"
-    [header]="t('terminal.title') + (appService.currentAction() ? ' - ' + appService.currentAction() : '')"
-    [modal]="true"
-    [style]="{ width: '90vw', height: '90vh' }"
-  >
-    <app-terminal></app-terminal>
-    @if (progressTracker()) {
-      <p-progress-bar [value]="progressTracker()"></p-progress-bar>
-    }
-  </p-dialog>
-
-  <p-drawer
-    [(visible)]="appService.drawerVisible"
-    [header]="t('drawer.actions')"
-    styleClass="!w-full md:!w-80 lg:!w-[50rem]"
-  >
-    <div class="h-[78vh] overflow-y-auto">
-      <p-table [value]="appService.pendingOperations()">
-        <ng-template #header>
-          <tr>
-            <th>{{ t('drawer.name') }}</th>
-            <th>{{ t('drawer.misc') }}</th>
-            <th>{{ t('drawer.status') }}</th>
-            <th>{{ t('drawer.logs') }}</th>
-            <th>{{ t('drawer.remove') }}</th>
-          </tr>
-        </ng-template>
-        <ng-template #body let-operation>
-          <tr>
-            <td>{{ t(operation.prettyName) }}</td>
-            <td>{{ operation.commandArgs?.join(', ') }}</td>
-            <td class="text-center">
-              <i
-                [ngClass]="{
-                  'text-yellow-500 pi-hourglass': operation.status === 'pending',
-                  'text-orange-500 pi-spin pi-spinner': operation.status === 'running',
-                  'text-green-500 pi-check-circle': operation.status === 'complete',
-                  'text-red-500 pi-times-circle': operation.status === 'error',
-                }"
-                class="pi"
-              ></i>
-            </td>
-            <td>
-              <p-button (click)="showOperationLogs(operation)" [label]="t('drawer.logs')" [outlined]="true"></p-button>
-            </td>
-            <td>
-              <p-button
-                (click)="removeOperation(operation)"
-                [label]="t('drawer.remove')"
-                [outlined]="true"
-                severity="danger"
-              ></p-button>
-            </td>
-          </tr>
-        </ng-template>
-      </p-table>
-    </div>
-    <div class="mt-auto">
-      <p-confirm-dialog></p-confirm-dialog>
-      <p-button
-        (click)="applyOperations($event)"
-        [label]="t('drawer.apply')"
-        [outlined]="true"
-        icon="pi pi-check"
-        severity="success"
-      ></p-button>
-      <p-button
-        (click)="clearOperations($event)"
-        [label]="t('drawer.removeAll')"
-        [outlined]="true"
-        icon="pi pi-trash"
-        severity="danger"
-      ></p-button>
-    </div>
-  </p-drawer>
-
-  <p-dialog [(visible)]="privilegeManager.sudoDialogVisible" [header]="t('sudo.title')" [modal]="true">
-    <span class="p-text-secondary block mb-8">{{ t('sudo.subtitle') }}</span>
-    <div class="flex items-center gap-4 mb-4">
-      <label class="font-semibold w-24" for="password">{{ t('sudo.password') }}</label>
-      <p-password
-        #sudoInput
-        (keydown.enter)="writeSudoPass(sudoInput.value!)"
-        [feedback]="false"
-        [fluid]="true"
-        [label]="t('sudo.password')"
-        [ngClass]="{ 'ng-dirty ng-invalid': passwordInvalid() }"
-        [toggleMask]="true"
-        id="password"
-      />
-    </div>
-    <div class="flex justify-end gap-2">
-      <p-button
-        (click)="appService.sudoDialogVisible.set(false)"
-        [label]="t('sudo.cancel')"
-        [outlined]="true"
-        severity="danger"
-      />
-      <p-button
-        (click)="writeSudoPass(sudoInput.value!)"
-        [label]="t('sudo.useOnce')"
-        [outlined]="true"
-        severity="success"
-      />
-      <p-button
-        (click)="writeSudoPass(sudoInput.value!, true)"
-        [label]="t('sudo.save')"
-        [outlined]="true"
-        severity="help"
-      />
-    </div>
-  </p-dialog>
-
+  <p-confirm-dialog></p-confirm-dialog>
+  <rani-privilege-manager #privilegeManagerComponent></rani-privilege-manager>
+  <rani-terminal #terminalComponent></rani-terminal>
+  <rani-operation-manager #operationManagerComponent></rani-operation-manager>
   <app-language-switcher #languageSwitcherComponent></app-language-switcher>
-  <loading-indicator/>
 </ng-container>

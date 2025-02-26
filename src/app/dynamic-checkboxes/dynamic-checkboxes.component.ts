@@ -4,10 +4,10 @@ import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { trace } from '@tauri-apps/plugin-log';
-import { AppService } from '../app.service';
 import { NgClass } from '@angular/common';
 import { Card } from 'primeng/card';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'rani-dynamic-checkboxes',
@@ -17,7 +17,6 @@ import { OperationManagerService } from '../operation-manager/operation-manager.
 })
 export class DynamicCheckboxesComponent implements OnInit {
   data = input.required<SystemToolsEntry[]>();
-  loading = signal<boolean>(true);
   selectedBoxes = model<SystemToolsSubEntry[]>([]);
 
   installedPackages = signal<string[]>([]);
@@ -25,16 +24,14 @@ export class DynamicCheckboxesComponent implements OnInit {
   userGroups = signal<string[]>([]);
 
   protected operationManager = inject(OperationManagerService);
-  private appService = inject(AppService);
+  private readonly loadingService = inject(LoadingService);
 
-  constructor() {}
-
-  ngOnInit() {
+  ngOnInit(): void {
     void this.refreshUi();
   }
 
   async refreshUi(): Promise<void> {
-    this.loading.set(true);
+    this.loadingService.loadingOn();
 
     const checkPromises: Promise<any[]>[] = [this.getActiveServices(), this.getInstalledPkgs(), this.getUserGroups()];
     const [services, pkgs, groups] = await Promise.all(checkPromises);
@@ -91,9 +88,13 @@ export class DynamicCheckboxesComponent implements OnInit {
     }
 
     await this.checkDisabled();
-    this.loading.set(false);
+    this.loadingService.loadingOff();
   }
 
+  /**
+   * Check if the entry should be disabled based on the disabler.
+   * @protected
+   */
   protected async checkDisabled(): Promise<void> {
     for (const section of this.data()) {
       for (const entry of section.sections) {
@@ -119,9 +120,14 @@ export class DynamicCheckboxesComponent implements OnInit {
     }
   }
 
+  /**
+   * Receive the list of installed packages.
+   * @returns The list of installed packages.
+   * @private
+   */
   private async getInstalledPkgs(): Promise<string[]> {
     const cmd = `pacman -Qq`;
-    const result: string[] | null = await this.appService.getCommandOutput<string[]>(cmd, (stdout: string) =>
+    const result: string[] | null = await this.operationManager.getCommandOutput<string[]>(cmd, (stdout: string) =>
       stdout.split('\n'),
     );
 
@@ -129,9 +135,14 @@ export class DynamicCheckboxesComponent implements OnInit {
     return [];
   }
 
+  /**
+   * Receive the list of active systemd services.
+   * @returns The list of active systemd services.
+   * @private
+   */
   private async getActiveServices(): Promise<SystemdService[]> {
     const cmd = 'systemctl list-units --type service --full --all --output json --no-pager';
-    const result: SystemdService[] | null = await this.appService.getCommandOutput<SystemdService[]>(
+    const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
       cmd,
       (stdout: string) => JSON.parse(stdout),
     );
@@ -140,9 +151,14 @@ export class DynamicCheckboxesComponent implements OnInit {
     return [];
   }
 
+  /**
+   * Receive the list of user groups the current user is in.
+   * @returns The list of user groups.
+   * @private
+   */
   private async getUserGroups(): Promise<string[]> {
     const cmd = 'groups';
-    const result: string[] | null = await this.appService.getCommandOutput<string[]>(cmd, (stdout: string) =>
+    const result: string[] | null = await this.operationManager.getCommandOutput<string[]>(cmd, (stdout: string) =>
       stdout.split(' '),
     );
 
