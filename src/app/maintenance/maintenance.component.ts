@@ -11,6 +11,7 @@ import { ProgressBar } from 'primeng/progressbar';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
+import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -310,6 +311,7 @@ export class MaintenanceComponent implements OnInit {
   ];
 
   readonly appService = inject(AppService);
+  readonly privilegeManager = inject(PrivilegeManagerService);
 
   async ngOnInit(): Promise<void> {
     void debug('Initializing maintenance');

@@ -1,4 +1,4 @@
-import { provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig, isDevMode, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
@@ -12,6 +12,7 @@ import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
 import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
 import { OperationManagerService } from './operation-manager/operation-manager.service';
+import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -70,5 +71,6 @@ export const appConfig: ApplicationConfig = {
       },
     }),
     { provide: LOCALE_ID, useValue: 'en-GB' },
+    { provide: HTTP_INTERCEPTORS, useValue: [LoadingInterceptor], multi: true },
   ],
 };

@@ -1,9 +1,8 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { AppService } from '../app.service';
-import { Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LanguageSelectionComponent } from '../language-selection/language-selection.component';
@@ -21,11 +20,11 @@ import { Store } from '@tauri-apps/plugin-store';
 export class LanguageSwitcherComponent implements OnInit, OnDestroy {
   languages = signal<string[]>([]);
   ref: DynamicDialogRef | undefined;
-  visible = signal(false);
+  showButton = input<boolean>(false);
+  visible = signal<boolean>(false);
 
   private readonly appService = inject(AppService);
   private readonly dialogService = inject(DialogService);
-  private readonly route = inject(Router).routerState.root;
   private readonly translocoService = inject(TranslocoService);
 
   /**

@@ -33,6 +33,7 @@ export interface Package {
 }
 
 export const shells = ['bash', 'zsh', 'fish', 'sh'];
+
 export interface MaintenanceAction {
   addedToPending?: boolean;
   command: ((args?: string[]) => string) | (() => Promise<void>);
@@ -63,8 +64,10 @@ export interface SystemdService {
 }
 
 export interface AppSettings {
+  copyDiagnostics: boolean;
   autoRefresh: boolean;
   leftButtons: boolean;
+  showMainLinks: boolean;
 }
 
 export interface SystemToolsEntry {
@@ -87,3 +90,18 @@ export interface SystemToolsSubEntry {
     name: string;
   };
 }
+
+export interface Link {
+  title: string;
+  subTitle: string;
+  icon?: string;
+}
+
+export type ExternalLink = Link & {
+  externalLink: string;
+};
+
+export type HomepageLink = Link & {
+  routerLink?: string;
+  command?: () => void;
+};

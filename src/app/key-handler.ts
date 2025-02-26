@@ -2,6 +2,9 @@ import { AppComponent } from './app.component';
 
 export async function globalKeyHandler(this: AppComponent, event: KeyboardEvent): Promise<void> {
   switch (event.key) {
+    case 'F1':
+      window.open('https://forum.garudalinux.org', '_blank');
+      break;
     case 'F4':
       this.appService.terminalVisible.set(!this.appService.terminalVisible());
       break;

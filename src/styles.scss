@@ -33,15 +33,6 @@ html {
 @tailwind components;
 @tailwind utilities;
 
-/* GarudaNG override */
-.p-menubar-start {
-  @apply md:mr-auto;
-}
-
-.p-megamenu-end {
-  @apply ml-auto;
-}
-
 /*`Custom classes`*/
 body {
   @apply selection:bg-primary m-2 selection:text-surface-0;

@@ -394,6 +394,42 @@ export const Catppuccin = definePreset(Aura, {
         },
       },
     },
+    checkbox: {
+      colorScheme: {
+        light: {
+          background: latte.colors.crust.hex,
+          disabled: {
+            background: latte.colors.mantle.hex,
+          },
+        },
+        dark: {
+          background: mocha.colors.crust.hex,
+          disabled: {
+            background: mocha.colors.mantle.hex,
+          },
+        },
+      },
+    },
+    drawer: {
+      colorScheme: {
+        light: {
+          background: latte.colors.mantle.hex,
+        },
+        dark: {
+          background: mocha.colors.mantle.hex,
+        },
+      },
+    },
+    inputtext: {
+      colorScheme: {
+        light: {
+          color: latte.colors.text.hex,
+        },
+        dark: {
+          color: mocha.colors.text.hex,
+        },
+      },
+    },
     panel: {
       colorScheme: {
         light: {
@@ -475,6 +511,66 @@ export const Catppuccin = definePreset(Aura, {
               color: mocha.colors.maroon.hex,
               focus: {
                 color: mocha.colors.mauve.hex,
+              },
+            },
+          },
+        },
+      },
+    },
+    select: {
+      colorScheme: {
+        light: {
+          color: latte.colors.text.hex,
+          disabled: {
+            background: latte.colors.surface0.hex,
+          },
+          overlay: {
+            background: latte.colors.crust.hex,
+          },
+          option: {
+            focus: {
+              background: latte.colors.base.hex,
+            },
+            selected: {
+              background: latte.colors.surface0.hex,
+            },
+          },
+        },
+        dark: {
+          color: mocha.colors.text.hex,
+          disabled: {
+            background: mocha.colors.surface0.hex,
+          },
+          overlay: {
+            background: mocha.colors.crust.hex,
+          },
+          option: {
+            focus: {
+              background: mocha.colors.base.hex,
+            },
+            selected: {
+              background: mocha.colors.surface0.hex,
+            },
+          },
+        },
+      },
+    },
+    table: {
+      colorScheme: {
+        light: {
+          header: {
+            cell: {
+              hover: {
+                background: latte.colors.surface0.hex,
+              },
+            },
+          },
+        },
+        dark: {
+          header: {
+            cell: {
+              hover: {
+                background: mocha.colors.surface0.hex,
               },
             },
           },

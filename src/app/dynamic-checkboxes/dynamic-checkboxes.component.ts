@@ -7,6 +7,7 @@ import { trace } from '@tauri-apps/plugin-log';
 import { AppService } from '../app.service';
 import { NgClass } from '@angular/common';
 import { Card } from 'primeng/card';
+import { OperationManagerService } from '../operation-manager/operation-manager.service';
 
 @Component({
   selector: 'rani-dynamic-checkboxes',
@@ -15,7 +16,6 @@ import { Card } from 'primeng/card';
   styleUrl: './dynamic-checkboxes.component.css',
 })
 export class DynamicCheckboxesComponent implements OnInit {
-  colSpan = input<string>('3');
   data = input.required<SystemToolsEntry[]>();
   loading = signal<boolean>(true);
   selectedBoxes = model<SystemToolsSubEntry[]>([]);
@@ -24,6 +24,7 @@ export class DynamicCheckboxesComponent implements OnInit {
   systemdServices = signal<SystemdService[]>([]);
   userGroups = signal<string[]>([]);
 
+  protected operationManager = inject(OperationManagerService);
   private appService = inject(AppService);
 
   constructor() {}

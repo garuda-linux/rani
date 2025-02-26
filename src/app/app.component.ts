@@ -1,18 +1,29 @@
-import { NgClass, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectorRef, Component, computed, effect, HostListener, inject, OnInit, signal } from '@angular/core';
+import { AsyncPipe, NgClass, NgOptimizedImage } from '@angular/common';
+import {
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { Button } from 'primeng/button';
 import { AppService } from './app.service';
 import { Dialog, DialogModule } from 'primeng/dialog';
 import { TerminalComponent } from './terminal/terminal.component';
+import { open } from '@tauri-apps/plugin-shell';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { debug, info, trace } from '@tauri-apps/plugin-log';
+import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { FormsModule } from '@angular/forms';
 import { Password } from 'primeng/password';
@@ -23,8 +34,12 @@ import { ProgressBar } from 'primeng/progressbar';
 import { ContextMenu } from 'primeng/contextmenu';
 import { MenuItem, MenuItemCommandEvent } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
-import { ShellBarStartDirective, ShellComponent } from './shell';
-import { Chip } from 'primeng/chip';
+import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from './shell';
+import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
+import { MessageToastService } from '@garudalinux/core';
+import { LoadingIndicatorComponent } from './loading-indicator/loading-indicator.component';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { LoadingService } from './loading-indicator/loading-indicator.service';
 
 @Component({
   imports: [
@@ -50,54 +65,22 @@ import { Chip } from 'primeng/chip';
     ShellBarStartDirective,
     ShellBarStartDirective,
     ShellComponent,
-    Chip,
+    LoadingIndicatorComponent,
+    ProgressSpinner,
+    AsyncPipe,
+    ShellBarEndDirective,
   ],
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
 })
 export class AppComponent implements OnInit {
-  items = signal([
-    {
-      icon: 'pi pi-home',
-      label: 'Welcome',
-      translocoKey: 'menu.welcome',
-      routerLink: '/',
-    },
-    {
-      icon: 'pi pi-desktop',
-      label: 'Maintenance',
-      translocoKey: 'menu.maintenance',
-      routerLink: '/maintenance',
-    },
-    {
-      icon: 'pi pi-microchip',
-      label: 'System tools',
-      translocoKey: 'menu.systemTools',
-      routerLink: '/system-tools',
-    },
-    {
-      icon: 'pi pi-play-circle',
-      label: 'Gaming apps',
-      translocoKey: 'menu.gaming',
-      routerLink: '/gaming',
-    },
-    {
-      icon: 'pi pi-hammer',
-      label: 'Boot options/repair',
-      translocoKey: 'menu.boot',
-      routerLink: '/boot-tools',
-    },
-    {
-      icon: 'pi pi-info-circle',
-      label: 'Diagnostics',
-      translocoKey: 'menu.diagnostics',
-      routerLink: '/diagnostics',
-    },
-  ]);
+  passwordInvalid = signal<boolean>(false);
   progressTracker = signal<number | null>(null);
-
+  @ViewChild('languageSwitcherComponent') langSwitcher!: LanguageSwitcherComponent;
+  @ViewChild('sudoInput') sudoInput!: Password;
   readonly appService = inject(AppService);
+  readonly privilegeManager = inject(PrivilegeManagerService);
   readonly appWindow = getCurrentWindow();
   readonly pendingOperations = computed<string>(() => {
     return this.appService.pendingOperations().length.toString();
@@ -134,7 +117,148 @@ export class AppComponent implements OnInit {
       },
     },
   ];
+  readonly loadingService = inject(LoadingService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly messageToastService = inject(MessageToastService);
+  private readonly translocoService = inject(TranslocoService);
+  items = signal([
+    {
+      icon: 'pi pi-home',
+      label: 'Welcome',
+      translocoKey: 'menu.welcome',
+      routerLink: '/',
+    },
+    {
+      icon: 'pi pi-desktop',
+      label: 'Maintenance',
+      translocoKey: 'menu.maintenance',
+      routerLink: '/maintenance',
+    },
+    {
+      icon: 'pi pi-microchip',
+      label: 'System tools',
+      translocoKey: 'menu.systemTools',
+      routerLink: '/system-tools',
+    },
+    {
+      icon: 'pi pi-play-circle',
+      label: 'Gaming apps',
+      translocoKey: 'menu.gaming',
+      routerLink: '/gaming',
+    },
+    {
+      icon: 'pi pi-hammer',
+      label: 'Boot options/repair',
+      translocoKey: 'menu.boot',
+      routerLink: '/boot-tools',
+      // TODO: implement
+      visible: false,
+    },
+    {
+      icon: 'pi pi-globe',
+      label: 'Network tools',
+      translocoKey: 'menu.network',
+      routerLink: '/net-tools',
+      // TODO: implement
+      visible: false,
+    },
+    {
+      icon: 'pi pi-info-circle',
+      label: 'Diagnostics',
+      translocoKey: 'menu.diagnostics',
+      routerLink: '/diagnostics',
+    },
+    {
+      icon: 'pi pi-spinner',
+      label: 'Terminal',
+      translocoKey: 'menu.terminal',
+      command: () => this.appService.terminalVisible.set(true),
+    },
+    {
+      icon: 'pi pi-sync',
+      label: 'Pending',
+      translocoKey: 'menu.pending',
+      badge: computed<string>(() => this.appService.pendingOperations().length.toString())(),
+      visible: computed<boolean>(() => this.appService.pendingOperations().length > 0)(),
+      command: () => this.appService.drawerVisible.set(true),
+    },
+    {
+      icon: 'pi pi-cog',
+      label: 'Settings',
+      translocoKey: 'menu.settings.title',
+      items: [
+        {
+          icon: 'pi pi-circle-fill',
+          label: 'Show window buttons left',
+          translocoKey: 'menu.settings.windowButtonsLeft',
+          command: () => (this.appService.settings.leftButtons = !this.appService.settings.leftButtons),
+        },
+        {
+          icon: 'pi pi-clipboard',
+          label: 'Copy diagnostics to clipboard',
+          translocoKey: 'menu.settings.copyDiagnostics',
+          command: () => (this.appService.settings.copyDiagnostics = !this.appService.settings.copyDiagnostics),
+        },
+        {
+          icon: 'pi pi-moon',
+          label: 'Dark mode',
+          translocoKey: 'menu.settings.darkMode',
+          command: () => this.appService.themeHandler.toggleDarkMode(),
+        },
+        {
+          icon: 'pi pi-language',
+          label: 'Language',
+          translocoKey: 'menu.settings.language',
+          command: () => this.langSwitcher.show(),
+        },
+      ],
+    },
+    {
+      icon: 'pi pi-question-circle',
+      label: 'Help',
+      translocoKey: 'menu.help.title',
+      items: [
+        {
+          icon: 'pi pi-info-circle',
+          label: 'Get help on the forum',
+          translocoKey: 'menu.help.getHelpForum',
+          command: () => open('https://forum.garudalinux.org/'),
+        },
+        {
+          icon: 'pi pi-info-circle',
+          label: 'Search the wiki',
+          translocoKey: 'menu.help.getHelpWiki',
+          command: () => open('https://wiki.garudalinux.org/'),
+        },
+        {
+          icon: 'pi pi-info-circle',
+          label: 'Search the Arch wiki',
+          translocoKey: 'menu.help.getHelpArchWiki',
+          command: () => open('https://wiki.archlinux.org/'),
+        },
+        {
+          icon: 'pi pi-info-circle',
+          label: 'About',
+          translocoKey: 'menu.help.callExorcist',
+          command: () =>
+            this.appService.sendNotification({
+              title: this.translocoService.translate('menu.help.callExorcist'),
+              body: `${this.translocoService.translate('menu.help.callExorcistBody')} 🐛`,
+            }),
+        },
+        {
+          icon: 'pi pi-info-circle',
+          label: 'About',
+          translocoKey: 'menu.help.about',
+          command: () =>
+            this.appService.sendNotification({
+              title: this.translocoService.translate('menu.help.about'),
+              body: this.translocoService.translate('menu.help.aboutBody'),
+            }),
+        },
+      ],
+    },
+  ]);
 
   constructor() {
     effect(() => {
@@ -176,7 +300,8 @@ export class AppComponent implements OnInit {
    */
   @HostListener('mousedown', ['$event'])
   async handleRightClick(event: MouseEvent): Promise<void> {
-    const noDragSelector = 'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card';
+    const noDragSelector =
+      'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card, p-select, p-table, p-dialog';
     const target = event.target as HTMLElement;
     if (target.closest(noDragSelector)) return;
 
@@ -194,6 +319,8 @@ export class AppComponent implements OnInit {
    */
   async setupLabels(lang: string): Promise<void> {
     const newItemPromises: Promise<any>[] = [];
+    const subItemPromises: { index: number; items: Promise<any>[] }[] = [];
+
     for (const item of this.items()) {
       newItemPromises.push(
         lastValueFrom(this.appService.translocoService.selectTranslate(item['translocoKey'], {}, lang)),
@@ -208,6 +335,19 @@ export class AppComponent implements OnInit {
     }
 
     this.items.set(newItems);
+
+    const newSubItems = [...newItems];
+    for (const item of newSubItems) {
+      if (item.items) {
+        for (const subitem of item.items) {
+          subitem.label = await lastValueFrom(
+            this.appService.translocoService.selectTranslate(subitem['translocoKey'], {}, lang),
+          );
+        }
+      }
+    }
+
+    this.items.set(newSubItems);
     this.cdr.detectChanges();
   }
 
@@ -330,6 +470,22 @@ export class AppComponent implements OnInit {
     );
   }
 
+  async writeSudoPass(pass: string, cache = false) {
+    if (!pass) {
+      void trace('Password is empty');
+      this.passwordInvalid.update(() => true);
+      return;
+    }
+    try {
+      await this.privilegeManager.writeSudoPass(pass, cache);
+      this.passwordInvalid.update(() => false);
+    } catch (err: any) {
+      void error(err);
+      this.passwordInvalid.update(() => true);
+      this.messageToastService.error('Error', this.translocoService.translate('error.sudoPassword'));
+    }
+  }
+
   private shutdown(): void {
     void info('Shutting down');
     void this.appWindow.destroy();
@@ -344,9 +500,19 @@ export class AppComponent implements OnInit {
     void this.appWindow.listen('tauri://close-requested', async () => {
       void info('Close requested');
       this.appService.confirmationService.confirm({
-        message: 'Do you want to exit?',
-        header: 'Exit confirmation',
+        message: this.translocoService.translate('confirmation.exitApp'),
+        header: this.translocoService.translate('confirmation.exitAppHeader'),
         icon: 'pi pi-exclamation-triangle',
+        acceptIcon: 'pi pi-check',
+        rejectIcon: 'pi pi-times',
+        acceptButtonProps: {
+          severity: 'danger',
+          label: this.translocoService.translate('confirmation.accept'),
+        },
+        rejectButtonProps: {
+          severity: 'secondary',
+          label: this.translocoService.translate('confirmation.reject'),
+        },
         accept: () => {
           void this.shutdown();
         },

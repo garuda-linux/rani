@@ -32,7 +32,7 @@ export class AppService {
     isMaximized: signal<boolean>(false),
     leftButtons: signal<boolean>(false),
   };
-  settings: AppSettings = { leftButtons: true, autoRefresh: false };
+  settings: AppSettings = { leftButtons: true, autoRefresh: false, copyDiagnostics: true, showMainLinks: false };
   store!: Store;
   termOutput = '';
 

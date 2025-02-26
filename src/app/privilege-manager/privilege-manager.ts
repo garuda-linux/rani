@@ -1,16 +1,17 @@
 import { computed, signal } from '@angular/core';
-import { Nullable } from 'primeng/ts-helpers';
-import { debug, info, trace } from '@tauri-apps/plugin-log';
-import { Child, ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import type { Nullable } from 'primeng/ts-helpers';
+import { debug, error, info, trace } from '@tauri-apps/plugin-log';
+import { type Child, type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 
 export class PrivilegeManager {
   public sudoDialogVisible = signal<boolean>(false);
 
   private password = signal<Nullable<string>>(null);
   private oneTimeUse = signal<string[]>([]);
-
   public authenticated = computed<boolean>(() => {
-    return this.oneTimeUse().length > 0 || this.password !== null;
+    const result = this.oneTimeUse().length > 0 || this.password() !== null;
+    void trace(`Checking if authenticated: ${result}`);
+    return result;
   });
 
   /*
@@ -49,7 +50,10 @@ export class PrivilegeManager {
       if (cache) {
         this.password.set(pass);
       } else {
-        this.oneTimeUse().push(pass);
+        this.oneTimeUse.update((value) => [...value, pass]);
+      }
+      if (!this.sudoDialogVisible()) {
+        this.sudoDialogVisible.set(false);
       }
     } else {
       throw new Error('Credentials were not correct');
@@ -79,6 +83,35 @@ export class PrivilegeManager {
   }
 
   /**
+   * Ensure a package is installed and run an executable afterward.
+   * @param pkg The package to ensure is installed
+   * @param executable The executable to run after the package is installed, if the executable differs from the package name
+   * @param needsSudo Whether the command needs to be run with sudo
+   */
+  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false): Promise<void> {
+    const cmd = `pacman -Qq ${pkg}`;
+
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+    if (result.code !== 0) {
+      const result: ChildProcess<string> = await this.executeCommandAsSudo(`pacman -S --noconfirm --needed ${pkg}`);
+
+      if (result.code === 0) {
+        void info(`Installed ${pkg}`);
+      } else {
+        void error(`Failed to install ${pkg}`);
+        throw new Error(`Failed to install ${pkg}`);
+      }
+    }
+
+    let pkgCmd: string = executable ? executable : pkg;
+    if (needsSudo) {
+      void this.executeCommandAsSudo(pkgCmd, true);
+    } else {
+      void Command.create('exec-bash', ['-c', pkgCmd]).execute();
+    }
+  }
+
+  /**
    * Provides the sudo password to calling functions. Asks for it when not available,
    * and uses either the cached or one-time stored passwords for authentication.
    * @returns The password string
@@ -105,9 +138,12 @@ export class PrivilegeManager {
    * @private
    */
   private async passwordIsCorrect(pass: string): Promise<boolean> {
-    const cmd = `echo ${pass} | sudo -lS &> /dev/null`;
+    const cmd = `echo ${pass} | sudo -p "" -S bash -c 'ls / > /dev/null'`;
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
+    void trace(`Password test result: ${result.code}, ${result.stdout}`);
     return result.code === 0;
   }
 }
+
+export const PrivilegeManagerInstance = new PrivilegeManager();

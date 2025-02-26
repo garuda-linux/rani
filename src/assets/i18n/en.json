@@ -6,7 +6,27 @@
     "components": "Components",
     "gaming": "Gaming apps",
     "boot": "Boot tools",
-    "diagnostics": "Diagnostics"
+    "diagnostics": "Diagnostics",
+    "network": "Network tools",
+    "settings": {
+      "title": "Settings",
+      "windowButtonsLeft": "Show window buttons left",
+      "copyDiagnostics": "Copy diagnostics to clipboard",
+      "darkMode": "Enable dark mode",
+      "language": "Configure active language"
+    },
+    "help": {
+      "title": "Help",
+      "getHelpForum": "Get help on the forum",
+      "getHelpWiki": "Search for content in the wiki",
+      "getHelpArchWiki": "Search for content in the Arch Wiki",
+      "about": "About Garuda's Rani",
+      "aboutBody": "Garuda's Rani is a system maintenance and diagnostics tool for Garuda Linux. It is designed to help users maintain their system and diagnose issues. It is built using Tauri and Angular.",
+      "callExorcist": "Call the the exorcist",
+      "callExorcistBody": "You must be pretty desperate to click this button! I set up some special voodoo for you, if you're still having issues with the app, please report them on the Garuda Linux forum or our issue tracker."
+    },
+    "terminal": "Terminal",
+    "pending": "Pending"
   },
   "diagnostics": {
     "title": "Debug info ",
@@ -364,5 +384,14 @@
     "fish": {
       "hint": "Setting fish as default shell might cause issues with other programs. It is advised to set it as default via terminal configurations instead."
     }
+  },
+  "confirmation": {
+    "accept": "Accept",
+    "reject": "Cancel",
+    "exitApp": "Are you sure you want to exit the app?",
+    "exitAppHeader": "Exit app"
+  },
+  "error": {
+    "sudoPassword": "This doesn't seem to be the correct password. Please try again."
   }
 }

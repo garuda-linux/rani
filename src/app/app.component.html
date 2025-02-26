@@ -7,33 +7,7 @@
       [menuItems]="items()"
       id="shellBar"
     >
-      @if (!appService.settings.leftButtons) {
-        <div garudaShellBarStart>
-          <p-button
-            (click)="appService.drawerVisible.set(!appService.drawerVisible())"
-            [outlined]="true"
-            class="mr-2"
-            icon="pi pi-list"
-          ></p-button>
-          <p-button
-            (click)="appService.terminalVisible.set(!appService.terminalVisible())"
-            [icon]="appService.terminalVisible() ? 'pi pi-hashtag' : 'pi pi-hashtag'"
-            [outlined]="true"
-            class="mr-2"
-          ></p-button>
-          <p-button
-            (click)="appService.themeHandler.toggleDarkMode()"
-            [icon]="appService.themeHandler.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-            [outlined]="true"
-            class="mr-2"
-          >
-          </p-button>
-          <app-language-switcher></app-language-switcher>
-          @if (pendingOperations() !== "0") {
-            <p-chip [label]="pendingOperations()" class="ml-2.5" icon="pi pi-hourglass"></p-chip>
-          }
-        </div>
-      } @else if (!appService.state.isMaximized() && appService.settings.leftButtons) {
+      @if (!appService.state.isMaximized() && appService.settings.leftButtons) {
         <div garudaShellBarStart>
           <div class="flex">
             <img
@@ -61,6 +35,14 @@
               width="16"
             />
           </div>
+        </div>
+      } @else if (!appService.settings.leftButtons) {
+        <div garudaShellBarStart>
+          @if (loadingService.loading$ | async) {
+            <p-progress-spinner
+              [style]="{ width: '1.5rem', height: '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              ariaLabel="loading"/>
+          }
         </div>
       }
       @if (!appService.state.isMaximized() && !appService.settings.leftButtons) {
@@ -94,29 +76,11 @@
         </div>
       } @else if (appService.settings.leftButtons) {
         <div garudaShellBarEnd>
-          @if (pendingOperations() !== "0") {
-            <p-chip [label]="pendingOperations()" class="mr-2.5" icon="pi pi-hourglass"></p-chip>
+          @if (loadingService.loading$ | async) {
+            <p-progress-spinner
+              [style]="{ width: '1.5rem', height: '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              ariaLabel="loading"/>
           }
-          <p-button
-            (click)="appService.drawerVisible.set(!appService.drawerVisible())"
-            [outlined]="true"
-            class="mr-2"
-            icon="pi pi-list"
-          ></p-button>
-          <p-button
-            (click)="appService.terminalVisible.set(!appService.terminalVisible())"
-            [icon]="appService.terminalVisible() ? 'pi pi-hashtag' : 'pi pi-hashtag'"
-            [outlined]="true"
-            class="mr-2"
-          ></p-button>
-          <p-button
-            (click)="appService.themeHandler.toggleDarkMode()"
-            [icon]="appService.themeHandler.darkMode() ? 'pi pi-sun' : 'pi pi-moon'"
-            [outlined]="true"
-            class="mr-2"
-          >
-          </p-button>
-          <app-language-switcher></app-language-switcher>
         </div>
       }
       <div class="mt-5">
@@ -204,16 +168,17 @@
     </div>
   </p-drawer>
 
-  <p-dialog [(visible)]="appService.sudoDialogVisible" [header]="t('sudo.title')" [modal]="true">
+  <p-dialog [(visible)]="privilegeManager.sudoDialogVisible" [header]="t('sudo.title')" [modal]="true">
     <span class="p-text-secondary block mb-8">{{ t('sudo.subtitle') }}</span>
     <div class="flex items-center gap-4 mb-4">
       <label class="font-semibold w-24" for="password">{{ t('sudo.password') }}</label>
       <p-password
         #sudoInput
-        (keydown.enter)="setSudoPass(sudoInput.value)"
+        (keydown.enter)="writeSudoPass(sudoInput.value!)"
         [feedback]="false"
         [fluid]="true"
         [label]="t('sudo.password')"
+        [ngClass]="{ 'ng-dirty ng-invalid': passwordInvalid() }"
         [toggleMask]="true"
         id="password"
       />
@@ -226,17 +191,20 @@
         severity="danger"
       />
       <p-button
-        (click)="setSudoPass(sudoInput.value)"
+        (click)="writeSudoPass(sudoInput.value!)"
         [label]="t('sudo.useOnce')"
         [outlined]="true"
         severity="success"
       />
       <p-button
-        (click)="setSudoPass(sudoInput.value, true)"
+        (click)="writeSudoPass(sudoInput.value!, true)"
         [label]="t('sudo.save')"
         [outlined]="true"
         severity="help"
       />
     </div>
   </p-dialog>
+
+  <app-language-switcher #languageSwitcherComponent></app-language-switcher>
+  <loading-indicator/>
 </ng-container>
