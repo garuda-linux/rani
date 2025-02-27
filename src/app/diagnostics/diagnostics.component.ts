@@ -1,4 +1,4 @@
-import { Component, effect, inject, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, ViewChild } from '@angular/core';
 import { Button } from 'primeng/button';
 import { AppService } from '../app.service';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
@@ -13,6 +13,8 @@ import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
+import { WebglAddon } from '@xterm/addon-webgl';
+import { WebLinksAddon } from '@xterm/addon-web-links';
 
 @Component({
   selector: 'app-diagnostics',
@@ -20,7 +22,7 @@ import { Logger } from '../logging/logging';
   templateUrl: './diagnostics.component.html',
   styleUrl: './diagnostics.component.css',
 })
-export class DiagnosticsComponent {
+export class DiagnosticsComponent implements AfterViewInit {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   private readonly appService = inject(AppService);
@@ -50,7 +52,15 @@ export class DiagnosticsComponent {
     });
   }
 
-  async getFullLogs() {
+  ngAfterViewInit(): void {
+    this.term.underlying?.loadAddon(new WebglAddon());
+    this.term.underlying?.loadAddon(new WebLinksAddon());
+  }
+
+  /**
+   * Get the full logs for the system and copy them to the clipboard.
+   */
+  async getFullLogs(): Promise<void> {
     for (const type of ['inxi', 'systemd-analyze', 'journalctl', 'pacman-log', 'dmesg']) {
       await this.getOutput(type, true);
     }

@@ -14,6 +14,8 @@ import { Card } from 'primeng/card';
 import { Popover } from 'primeng/popover';
 import { ScrollPanel } from 'primeng/scrollpanel';
 import { Logger } from '../logging/logging';
+import { WebglAddon } from '@xterm/addon-webgl';
+import { WebLinksAddon } from '@xterm/addon-web-links';
 
 @Component({
   selector: 'rani-terminal',
@@ -141,6 +143,9 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
    * Load the xterm terminal into the terminal div, and set up the terminal.
    */
   private async loadXterm(): Promise<void> {
+    this.term.underlying?.loadAddon(new WebglAddon());
+    this.term.underlying?.loadAddon(new WebLinksAddon());
+
     if (this.operationManager.operationOutput()) {
       this.term.underlying?.clear();
       this.logger.trace('Terminal output cleared, now writing to terminal');
