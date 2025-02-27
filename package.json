@@ -10,7 +10,7 @@
     "ng": "ng",
     "start": "ng serve",
     "tauri": "tauri",
-    "translate": "jsontt src/assets/i18n/en.json --module google --from en --to am ar es eu fr hu id it ja ko pt sl sv sw zh-CN gl hi ru pl tr",
+    "translate": "jsontt src/assets/i18n/en.json --module google --from en --to am de ar es eu fr hu id it ja ko pt sl sv sw zh-CN gl hi ru pl tr",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,
