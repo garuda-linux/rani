@@ -11,7 +11,7 @@
       <div class="grid grid-cols-12">
         @for (item of mainLinks; track item.title) {
           <p-card [routerLink]="item.routerLink ?? null" (click)="respondClick(item)"
-                  class="cursor-pointer col-span-12 md:col-span-4 mb-4 px-5">
+                  class="cursor-pointer col-span-12 md:col-span-3 mb-4 px-5">
           <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
             <i class="pi {{ item.icon }} text-primary"></i>
           </span>
@@ -23,11 +23,11 @@
     }
     <div class="mt-10 grid grid-cols-12">
       @for (item of webLinks; track item.title) {
-        <p-card (click)="respondClick(item)" class="cursor-pointer col-span-12 md:col-span-3 mb-4 px-5">
+        <p-card (click)="respondClick(item)" class="cursor-pointer col-span-4 md:col-span-2 mb-4 px-5">
           <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
             <i class="pi {{ item.icon }} text-primary"></i>
           </span>
-          <div class="text-primary-emphasis text-xl mb-3 font-medium">{{ t(item.title) }}</div>
+          <div class="text-primary-emphasis mb-3 font-medium">{{ t(item.title) }}</div>
         </p-card>
       }
     </div>
@@ -37,7 +37,7 @@
           <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
             <i class="pi {{ item.icon }} text-primary"></i>
           </span>
-          <div class="text-primary-emphasis text-xl mb-3 font-medium">{{ t(item.title) }}</div>
+          <div class="text-primary-emphasis text-sm mb-3 font-medium">{{ t(item.title) }}</div>
         </p-card>
       }
     </div>

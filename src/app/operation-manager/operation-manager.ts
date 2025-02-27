@@ -470,6 +470,11 @@ export class OperationManager {
 
     let i: number = 1;
     for (const operation of this.pending()) {
+      if (operation.status === 'complete') {
+        void debug(`Skipping operation ${operation.name} as it is already complete`);
+        continue;
+      }
+
       await this.executeOperation(operation, i);
 
       if (i === this.pending().length) {

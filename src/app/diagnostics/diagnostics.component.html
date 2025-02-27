@@ -11,43 +11,43 @@
         (click)="getOutput('inxi')"
         [label]="t('diagnostics.inxi')"
         [outlined]="true"
-        icon="pi-terminal pi">
-      </p-button>
+        [rounded]="true"
+      ></p-button>
       <p-button
         (click)="getOutput('systemd-analyze')"
         [label]="t('diagnostics.systemctl')"
         [outlined]="true"
-        icon="pi-terminal pi"
+        [rounded]="true"
       ></p-button>
       <p-button
         (click)="getOutput('journalctl')"
         [label]="t('diagnostics.journalctl')"
         [outlined]="true"
-        icon="pi-terminal pi"
+        [rounded]="true"
       ></p-button>
       <p-button
         (click)="getOutput('pacman')"
         [label]="t('diagnostics.pacman')"
         [outlined]="true"
-        icon="pi-terminal pi"
+        [rounded]="true"
       ></p-button>
       <p-button
         (click)="getOutput('dmesg')"
         [label]="t('diagnostics.dmesg')"
         [outlined]="true"
-        icon="pi-terminal pi"
+        [rounded]="true"
       ></p-button>
       <p-button
         (click)="getFullLogs()"
         [label]="t('diagnostics.full')"
         [outlined]="true"
-        icon="pi-terminal pi"
+        [rounded]="true"
       ></p-button>
       <p-button
         (click)="uploadPrivateBin()"
         [label]="t('diagnostics.upload')"
         [outlined]="true"
-        icon="pi-terminal pi"
+        [rounded]="true"
       ></p-button>
     </div>
 

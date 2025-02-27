@@ -1,11 +1,10 @@
 <ng-container *transloco="let t">
   <ng-template #popup>
-    <p-splitter #splitter [panelSizes]="panelSizes()" stateKey="termSplitState" stateStorage="local"
-                styleClass="mb-8 h-full">
-      <ng-template #panel>
-        <div>
+    <div class="flex h-[96%]">
+      <div>
+        <p-scroll-panel [style]="{ width: '100%', height: '100%' }">
           @for (op of operationManager.pending(); track op.name) {
-            <p-card styleClass="mt-2">
+            <p-card styleClass="mt-2" [style]="{width: '20rem'}">
               <ng-template #header>
                 <div class="text-center mt-2">
                   <span class="mr-2">{{ t(op.prettyName) }}</span>
@@ -38,7 +37,8 @@
                         <span class="font-medium block mb-2">{{ t('operation.args') }}</span>
                         <ul class="list-none p-0 m-0 flex flex-col">
                           @for (arg of op.commandArgs; track arg) {
-                            <li class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border">
+                            <li
+                              class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border">
                               <span class="font-medium">{{ arg }}</span>
                             </li>
                           }
@@ -55,15 +55,16 @@
               </div>
             </p-card>
           }
-        </div>
-      </ng-template>
-      <ng-template #panel>
+        </p-scroll-panel>
+      </div>
+      <div class="w-full">
         <ng-terminal #term [xtermOptions]="xtermOptions"></ng-terminal>
-      </ng-template>
-    </p-splitter>
+      </div>
+    </div>
   </ng-template>
 
   <p-dialog
+    #dialog
     [(visible)]="visible"
     [focusOnShow]="true"
     [modal]="true"
@@ -72,7 +73,7 @@
     <ng-template #header>
       <div class="inline-flex items-center justify-center gap-2">
         <span
-          class="cursor-pointer font-bold whitespace-nowrap mr-2.5">{{ t('terminal.title') + (currentAction() ? ' - ' + currentAction() : '') }}
+          class="cursor-pointer font-bold whitespace-nowrap mr-2.5">{{ t('terminal.title') + (operationManager.currentAction() ? ' - ' + operationManager.currentAction() : '') }}
         </span>
         <span
           (click)="operationManager.executeOperations()"

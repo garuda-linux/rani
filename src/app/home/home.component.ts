@@ -4,10 +4,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
-import { open } from '@tauri-apps/plugin-shell';
+import { Command, open } from '@tauri-apps/plugin-shell';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { ExternalLink, HomepageLink } from '../interfaces';
 import { AppService } from '../app.service';
+import { Nullable } from 'primeng/ts-helpers';
+import { debug } from '@tauri-apps/plugin-log';
 
 @Component({
   selector: 'app-home',
@@ -16,27 +18,17 @@ import { AppService } from '../app.service';
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  codeName = signal<string | null>(null);
-  hostname = signal<string | null>(null);
+  codeName = signal<Nullable<string>>(null);
+  hostname = signal<Nullable<string>>(null);
+  isLiveSystem = signal<boolean>(false);
+
   webLinks: ExternalLink[] = [
-    {
-      title: 'Garuda Website',
-      subTitle: 'Visit the Garuda Linux website',
-      externalLink: 'https://garudalinux.org',
-      icon: 'pi pi-globe',
-    },
-    {
-      title: 'Donate',
-      subTitle: 'Support the Garuda Linux project',
-      externalLink: 'https://garudalinux.org/donate',
-      icon: 'pi pi-heart',
-    },
-    {
-      title: 'Garuda Wiki',
-      subTitle: 'Inform yourself about various Garuda Linux related things',
-      externalLink: 'https://wiki.garudalinux.org',
-      icon: 'pi pi-book',
-    },
+    // {
+    //   title: 'Garuda Wiki',
+    //   subTitle: 'Inform yourself about various Garuda Linux related things',
+    //   externalLink: 'https://wiki.garudalinux.org',
+    //   icon: 'pi pi-book',
+    // },
     {
       title: 'Garuda GitLab',
       subTitle: 'Have a look at our source code',
@@ -68,16 +60,10 @@ export class HomeComponent implements OnInit {
       icon: 'pi pi-key',
     },
     {
-      title: 'PrivateBin',
-      subTitle: 'Secure, encrypted pastebin',
-      externalLink: 'https://bin.garudalinux.org',
-      icon: 'pi pi-clipboard',
-    },
-    {
-      title: 'Uptime Status',
-      subTitle: 'Garuda Linux infra status',
-      externalLink: 'https://status.garudalinux.org',
-      icon: 'pi pi-globe',
+      title: 'Donate',
+      subTitle: 'Support the Garuda Linux project',
+      externalLink: 'https://garudalinux.org/donate',
+      icon: 'pi pi-heart',
     },
   ];
   contactLinks: ExternalLink[] = [
@@ -166,6 +152,7 @@ export class HomeComponent implements OnInit {
     const host: string | null = await hostname();
     this.codeName.set(await this.getCodeName());
     this.hostname.set(host);
+    void this.checkLive();
   }
 
   async getCodeName(): Promise<string> {
@@ -185,6 +172,55 @@ export class HomeComponent implements OnInit {
       void item.command();
     } else if (item.externalLink) {
       void open(item.externalLink);
+    }
+  }
+
+  /**
+   * Check if the system is a live system.
+   * @private
+   */
+  private async checkLive(): Promise<void> {
+    const cmd = "df -T / |tail -n1 |awk '{print $2}'";
+    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (output: string) =>
+      output.trim(),
+    );
+    void debug(`Filesystem type: ${result}, is ${result === 'aufs' || result === 'overlay' ? 'live' : 'installed'}`);
+
+    if (result && (result === 'aufs' || result === 'overlay')) {
+      this.isLiveSystem.set(true);
+
+      // On live we have polkit rules for Calamares set up, so no need to authenticate with a password first
+      this.mainLinks.push(
+        {
+          title: 'welcome.install',
+          subTitle: 'welcome.installSub',
+          command: () => void Command.create('exec-bash', ['-c', 'sudo calamares']),
+          icon: 'pi pi-download',
+        },
+        {
+          title: 'welcome.chroot',
+          subTitle: 'welcome.chrootSub',
+          routerLink: '/update',
+          command: () => this.privilegeManager.executeCommandAsSudo('garuda-chroot -a', true),
+          icon: 'pi pi-refresh',
+        },
+      );
+    } else {
+      this.mainLinks.push(
+        {
+          title: 'welcome.setupAssistant',
+          subTitle: 'welcome.setupAssistantSub',
+          command: () => this.privilegeManager.ensurePackageAndRun('garuda-setup-assistant', 'setup-assistant'),
+          icon: 'pi pi-download',
+        },
+        {
+          title: 'welcome.startpage',
+          subTitle: 'welcome.startpageSub',
+          routerLink: '/update',
+          command: () => void open('https://start.garudalinux.org'),
+          icon: 'pi pi-refresh',
+        },
+      );
     }
   }
 }

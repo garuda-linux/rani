@@ -1,5 +1,5 @@
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectorRef, Component, computed, HostListener, inject, OnInit, signal, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, effect, HostListener, inject, OnInit, signal, ViewChild } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
@@ -64,6 +64,7 @@ export class AppComponent implements OnInit {
   readonly appService = inject(AppService);
   readonly appWindow = getCurrentWindow();
   readonly loadingService = inject(LoadingService);
+
   rightClickMenu = signal<MenuItem[]>([
     {
       label: 'Apply',
@@ -101,7 +102,7 @@ export class AppComponent implements OnInit {
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
 
-  items = signal([
+  menuItems = signal<MenuItem[]>([
     {
       icon: 'pi pi-home',
       label: 'Welcome',
@@ -152,10 +153,6 @@ export class AppComponent implements OnInit {
       icon: 'pi pi-spinner',
       label: 'Terminal',
       translocoKey: 'menu.terminal',
-      badge: computed(() => {
-        void trace(`Computing terminal badge: ${this.operationManager.pending()?.length}`);
-        return this.operationManager.pending()?.length ? this.operationManager.pending()?.length.toString() : undefined;
-      })(),
       command: () => this.terminalComponent.visible.set(true),
     },
     {
@@ -214,6 +211,12 @@ export class AppComponent implements OnInit {
         },
         {
           icon: 'pi pi-info-circle',
+          label: 'Garuda Linux infra status',
+          translocoKey: 'menu.help.garudaStatus',
+          command: () => open('https://status.garudalinux.org'),
+        },
+        {
+          icon: 'pi pi-info-circle',
           label: 'About',
           translocoKey: 'menu.help.callExorcist',
           command: () =>
@@ -235,6 +238,27 @@ export class AppComponent implements OnInit {
       ],
     },
   ]);
+
+  constructor() {
+    effect(() => {
+      const badge: string | undefined = this.operationManager.pending()?.length
+        ? this.operationManager.pending()?.length.toString()
+        : undefined;
+      this.menuItems.update((items) => {
+        const index: number = items.findIndex((item) => item.label === 'Terminal');
+        if (index !== -1) {
+          items[index].badge = badge;
+        }
+        if (this.operationManager.currentAction()) {
+          items[index].icon = 'pi pi-spin pi-spinner';
+        } else {
+          items[index].icon = 'pi pi-spinner';
+        }
+        return items;
+      });
+      this.cdr.detectChanges();
+    });
+  }
 
   ngOnInit(): void {
     void this.setupLabels(this.appService.translocoService.getActiveLang());
@@ -284,7 +308,7 @@ export class AppComponent implements OnInit {
   async setupLabels(lang: string): Promise<void> {
     const newItemPromises: Promise<any>[] = [];
 
-    for (const item of this.items()) {
+    for (const item of this.menuItems()) {
       newItemPromises.push(
         lastValueFrom(this.appService.translocoService.selectTranslate(item['translocoKey'], {}, lang)),
       );
@@ -293,11 +317,11 @@ export class AppComponent implements OnInit {
     const results: string[] = await Promise.all(newItemPromises);
     const newItems = [];
 
-    for (const [index, item] of this.items().entries()) {
+    for (const [index, item] of this.menuItems().entries()) {
       newItems.push({ ...item, label: results[index] });
     }
 
-    this.items.set(newItems);
+    this.menuItems.set(newItems);
 
     const newSubItems = [...newItems];
     for (const item of newSubItems) {
@@ -310,15 +334,23 @@ export class AppComponent implements OnInit {
       }
     }
 
-    this.items.set(newSubItems);
+    this.menuItems.set(newSubItems);
     this.cdr.detectChanges();
   }
 
+  /**
+   * Shutdown the app, saving the settings and closing the window.
+   * @private
+   */
   private shutdown(): void {
     void info('Shutting down');
     void this.appWindow.destroy();
   }
 
+  /**
+   * Attach the Tauri listeners for the app window.
+   * @private
+   */
   private attachTauriListeners() {
     void this.appWindow.listen('tauri://resize', async () => {
       void trace('Resizing window');

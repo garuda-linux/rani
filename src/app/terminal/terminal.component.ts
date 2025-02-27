@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, effect, inject, input, OnDestroy, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, effect, inject, OnDestroy, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { AppService } from '../app.service';
@@ -6,43 +6,29 @@ import { debug, trace } from '@tauri-apps/plugin-log';
 import { CatppuccinXtermJs } from '../theme';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
-import { TableModule } from 'primeng/table';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { Splitter, SplitterModule } from 'primeng/splitter';
 import { Dialog } from 'primeng/dialog';
 import { ProgressBar } from 'primeng/progressbar';
 import { Operation } from '../operation-manager/interfaces';
 import { MessageToastService } from '@garudalinux/core';
 import { Card } from 'primeng/card';
 import { Popover } from 'primeng/popover';
+import { ScrollPanel } from 'primeng/scrollpanel';
 
 @Component({
   selector: 'rani-terminal',
-  imports: [
-    CommonModule,
-    NgTerminalModule,
-    TableModule,
-    TranslocoDirective,
-    SplitterModule,
-    Dialog,
-    ProgressBar,
-    Card,
-    Popover,
-  ],
+  imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, Popover, ScrollPanel],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.css',
 })
 export class TerminalComponent implements AfterViewInit, OnDestroy {
-  keysDisabled = input<boolean>(false);
-  currentAction = signal<string | null>(null);
-  panelSizes = signal<number[]>([30, 70]);
   progressTracker = signal<any | null>(null);
   visible = signal<boolean>(false);
 
   appService = inject(AppService);
   operationManager = inject(OperationManagerService);
 
-  @ViewChild('splitter', { static: false }) splitter!: Splitter;
+  @ViewChild('dialog', { static: false }) dialog!: Dialog;
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   readonly xtermOptions: ITerminalOptions = {
@@ -63,7 +49,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       void trace('Terminal theme switched via effect');
     });
     effect(() => {
-      const progress = this.currentAction();
+      const progress = this.operationManager.currentAction();
       if (progress && progress.match(/\(\d\/\d\)/)) {
         const [current, total] = progress.match(/\d+/g)!.map((x) => parseInt(x, 10));
         this.progressTracker.set((current / total) * 100);
@@ -95,13 +81,17 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       void trace(`Entered new stage ${output}, clearing terminal output`);
       this.term.underlying?.clear();
     });
+
+    this.dialog.onHide.subscribe(() => {
+      void trace('Terminal dialog hidden, clearing terminal output');
+      this.term.underlying?.clear();
+    });
   }
 
   ngOnDestroy(): void {
     if (!this.operationManager.pending().find((op) => op.status === 'running')) {
       void trace('Terminal component destroyed, clearing terminal output as no pending operations');
       this.operationManager.operationOutput.set(null);
-      this.currentAction.set(null);
     }
 
     this.operationManager.showTerminal.set(false);
@@ -116,17 +106,26 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
    */
   showOperationLogs(operation: Operation): void {
     const opIsRunning: boolean = operation.status === 'running';
+    const generalOpRunning: boolean =
+      this.operationManager.pending().find((op) => op.status === 'running') !== undefined;
 
-    if (this.operationManager.operationOutput() && !opIsRunning) {
+    if (!generalOpRunning && !opIsRunning && operation.status !== 'pending') {
+      void trace('Showing operation logs, clearing terminal output');
+      this.term.underlying?.clear();
+      this.operationManager.operationOutput.set(operation.output);
+      this.term.write(this.operationManager.operationOutput()!);
+    } else if (opIsRunning) {
+      void trace('Operation is running, cannot show logs');
+      this.messageToastService.warn('Warning', this.translocoService.translate('terminal.opRunning'));
+    } else if (generalOpRunning) {
+      void trace('General operation is running, cannot show logs');
       this.messageToastService.warn('Warning', this.translocoService.translate('terminal.outputExists'));
       return;
-    } else if (!operation.hasOutput || !operation.output) {
+    } else if (!operation.hasOutput || !operation.output || operation.status === 'pending') {
+      void trace('Operation has no output, cannot show logs');
       this.messageToastService.warn('Warning', this.translocoService.translate('terminal.noOutput'));
       return;
     }
-
-    this.currentAction.set(this.translocoService.translate(operation.prettyName));
-    this.operationManager.operationOutput.set(operation.output ?? '');
   }
 
   /**

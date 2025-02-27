@@ -15,7 +15,6 @@ import { ConfirmationService } from 'primeng/api';
 })
 export class AppService {
   activeLanguage = signal<string>('en');
-
   readonly themeHandler = new ThemeHandler();
 
   state = {

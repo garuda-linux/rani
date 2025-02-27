@@ -2,7 +2,7 @@
   <p-context-menu [global]="true" [model]="rightClickMenu()"/>
   <div class="background min-h-svh">
     <garuda-shell
-      [menuItems]="items()"
+      [menuItems]="menuItems()"
       id="shellBar"
     >
       @if (!appService.state.isMaximized() && appService.settings.leftButtons) {

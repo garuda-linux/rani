@@ -20,6 +20,7 @@
       "getHelpForum": "Get help on the forum",
       "getHelpWiki": "Search for content in the wiki",
       "getHelpArchWiki": "Search for content in the Arch Wiki",
+      "garudaStatus": "Check uptime status",
       "about": "About Garuda's Rani",
       "aboutBody": "Garuda's Rani is a system maintenance and diagnostics tool for Garuda Linux. It is designed to help users maintain their system and diagnose issues. It is built using Tauri and Angular.",
       "callExorcist": "Call the the exorcist",
@@ -62,7 +63,15 @@
     "network": "Network tools",
     "networkSub": "Manage your network settings",
     "diagnostics": "Diagnostics",
-    "diagnosticsSub": "Check your system health"
+    "diagnosticsSub": "Check your system health",
+    "install": "Install Garuda Linux",
+    "installSub": "Get Garuda Linux on your system",
+    "chroot": "Chroot into Garuda",
+    "chrootSub": "Chroot into your Garuda installation",
+    "startpage": "Startpage",
+    "startpageSub": "Open the Garuda Linux startpage",
+    "setupAssistant": "Setup assistant",
+    "setupAssistantSub": "Run the Garuda setup assistant"
   },
   "gaming": {
     "title": "Gaming ",
@@ -113,7 +122,9 @@
     "updateRemoteResetAudio": "Reset audio",
     "updateRemoteResetAudioSub": "Reinstall/reset the PipeWire audio configuration",
     "resetTooltip": "The following files or folders will be reset to their default state:",
-    "resetConfigs": "Reset configs to default state"
+    "resetConfigs": "Reset configs to default state",
+    "common": "Common maintenance",
+    "garudaUpdate": "Garuda update rescue tools"
   },
   "sudo": {
     "title": "Authentication required",
@@ -128,7 +139,8 @@
     "runActions": "Run actions",
     "removeAll": "Remove all actions",
     "noOutput": "No output",
-    "outputExists": "It seems like there is an action running already. Please wait for it to finish before trying to view logs."
+    "outputExists": "It seems like there is an action running already. Please wait for it to finish before trying to view logs.",
+    "opRunning": "The operation is already running."
   },
   "systemdServices": {
     "notFound": "No services found",

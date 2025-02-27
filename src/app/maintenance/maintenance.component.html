@@ -5,61 +5,103 @@
       <span class="text-primary">{{ t('maintenance.titleTwo') }}</span>
     </div>
   </div>
-
-  <div class="grid grid-cols-12 p-10 gap-4">
-    @for (action of actions; track action.name) {
-      <div class="col-span-6 lg:col-span-3">
-        <p-card [header]="t(action.label)">
-          <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
-          <div class="mx-auto">
-            <p-button
-              [style]="{ width: '100%' }"
-              [outlined]="true"
-              (click)="addToPending(action)"
-              [disabled]="action.onlyDirect"
-              [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
-              [label]="action.addedToPending ? t('maintenance.removePending') : t('maintenance.addPending')"
-              [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
-            ></p-button>
-            <p-button
-              [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
-              (click)="runNow(action)"
-              [outlined]="true"
-              [label]="t('maintenance.runNow')"
-              icon="pi pi-play-circle"
-            ></p-button>
+  <div class="p-10">
+    <p-tabs [(value)]="tabIndex">
+      <p-tablist>
+        <p-tab [value]="0">{{ t('maintenance.common') }}</p-tab>
+        <p-tab [value]="1">{{ t('maintenance.resetConfigs') }}</p-tab>
+        <p-tab [value]="2">{{ t('maintenance.garudaUpdate') }}</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel [value]="0">
+          <div class="grid grid-cols-12 p-10 gap-4">
+            @for (action of actions; track action.name) {
+              <div class="col-span-6 lg:col-span-3">
+                <p-card [header]="t(action.label)">
+                  <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
+                  <div class="mx-auto">
+                    <p-button
+                      [style]="{ width: '100%' }"
+                      [outlined]="true"
+                      (click)="addToPending(action)"
+                      [disabled]="action.onlyDirect"
+                      [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
+                      [label]="action.addedToPending ? t('maintenance.removePending') : t('maintenance.addPending')"
+                      [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
+                    ></p-button>
+                    <p-button
+                      [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
+                      (click)="runNow(action)"
+                      [outlined]="true"
+                      [label]="t('maintenance.runNow')"
+                      icon="pi pi-play-circle"
+                    ></p-button>
+                  </div>
+                </p-card>
+              </div>
+            }
           </div>
-        </p-card>
-      </div>
-    }
-  </div>
-
-  <div class="grid grid-cols-12 mt-10">
-    @for (config of resettableConfigs; track config.name) {
-      @if (config.exists) {
-        <div class="ml-32 col-span-4 lg:col-span-3">
-          <p-checkbox [inputId]="config.name" name="group" [value]="config" [(ngModel)]="selectedResetConfigs" />
-          <label [for]="config.name" class="ml-2">
-            {{ config.name }}
-            <i
-              class="pi pi-info-circle"
-              style="font-size: 0.75rem"
-              [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
-              tooltipPosition="bottom"
+        </p-tabpanel>
+        <p-tabpanel [value]="1">
+          <div class="grid grid-cols-12 mt-10">
+            @for (config of resettableConfigs; track config.name) {
+              @if (config.exists) {
+                <div class="ml-32 col-span-4 lg:col-span-3">
+                  <p-checkbox [inputId]="config.name" name="group" [value]="config" [(ngModel)]="selectedResetConfigs"/>
+                  <label [for]="config.name" class="ml-2">
+                    {{ config.name }}
+                    <i
+                      class="pi pi-info-circle"
+                      style="font-size: 0.75rem"
+                      [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
+                      tooltipPosition="bottom"
+                    >
+                    </i>
+                  </label>
+                </div>
+              }
+            }
+          </div>
+          <div class="text-center mt-10">
+            <p-button
+              (click)="confirmResetConfigs($event)"
+              [label]="t('maintenance.resetConfigs')"
+              [outlined]="true"
+              icon="pi pi-refresh"
             >
-            </i>
-          </label>
-        </div>
-      }
-    }
-  </div>
-  <div class="text-center mt-5">
-    <p-button
-      (click)="confirmResetConfigs($event)"
-      [label]="t('maintenance.resetConfigs')"
-      [outlined]="true"
-      icon="pi pi-refresh"
-    >
-    </p-button>
+            </p-button>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel [value]="2">
+          <div class="grid grid-cols-12 p-10 gap-4">
+            @for (action of actionsGarudaUpdate; track action.name) {
+              <div class="col-span-6 lg:col-span-3">
+                <p-card [header]="t(action.label)">
+                  <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
+                  <div class="mx-auto">
+                    <p-button
+                      [style]="{ width: '100%' }"
+                      [outlined]="true"
+                      (click)="addToPending(action)"
+                      [disabled]="action.onlyDirect"
+                      [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
+                      [label]="action.addedToPending ? t('maintenance.removePending') : t('maintenance.addPending')"
+                      [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
+                    ></p-button>
+                    <p-button
+                      [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
+                      (click)="runNow(action)"
+                      [outlined]="true"
+                      [label]="t('maintenance.runNow')"
+                      icon="pi pi-play-circle"
+                    ></p-button>
+                  </div>
+                </p-card>
+              </div>
+            }
+          </div>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
   </div>
 </ng-container>

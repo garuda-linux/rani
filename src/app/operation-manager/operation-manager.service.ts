@@ -3,19 +3,18 @@ import { OperationManager } from './operation-manager';
 import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Operation } from './interfaces';
 import { TranslocoService } from '@jsverse/transloco';
-import { Nullable } from 'primeng/ts-helpers';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OperationManagerService {
-  public currentAction = signal<Nullable<string>>(null);
   public showTerminal = signal<boolean>(false);
 
   private readonly translocoService = inject(TranslocoService);
   private readonly manager = new OperationManager(this.translocoService);
 
+  public currentAction = this.manager.currentOperation;
   public pending = this.manager.pending;
   public operationOutput = this.manager.operationOutput;
   public operationOutputEmitter = this.manager.operationOutputEmitter;

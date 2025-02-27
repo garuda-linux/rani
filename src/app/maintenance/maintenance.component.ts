@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit } from '@angular/core';
+import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
@@ -14,15 +14,17 @@ import { OperationType } from '../operation-manager/interfaces';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 
 @Component({
   selector: 'app-maintenance',
-  imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule],
+  imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule, Tab, TabPanels, Tabs, TabList, TabPanel],
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
 })
 export class MaintenanceComponent implements OnInit {
   selectedResetConfigs = model<any[]>([]);
+  tabIndex = signal<number>(0);
   resettableConfigs: ResettableConfig[] = [
     {
       name: 'Bash',
@@ -247,6 +249,8 @@ export class MaintenanceComponent implements OnInit {
         void this.privilegeManager.ensurePackageAndRun('pace');
       },
     },
+  ];
+  actionsGarudaUpdate: MaintenanceAction[] = [
     {
       name: 'updateRemoteFix',
       label: 'maintenance.updateRemoteFix',

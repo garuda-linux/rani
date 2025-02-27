@@ -84,13 +84,6 @@ export const Catppuccin = definePreset(Aura, {
     mask: {
       transitionDuration: '0.15s',
     },
-    menubar: {
-      item: {
-        icon: {
-          color: mocha.colors.text.hex,
-        },
-      },
-    },
     navigation: {
       list: {
         padding: '0.25rem 0.25rem',
@@ -495,6 +488,11 @@ export const Catppuccin = definePreset(Aura, {
                 color: latte.colors.mauve.hex,
               },
             },
+            submenu: {
+              icon: {
+                color: latte.colors.text.hex,
+              },
+            },
           },
         },
         dark: {
@@ -511,6 +509,14 @@ export const Catppuccin = definePreset(Aura, {
               color: mocha.colors.maroon.hex,
               focus: {
                 color: mocha.colors.mauve.hex,
+              },
+            },
+            submenu: {
+              icon: {
+                color: mocha.colors.text.hex,
+                active: {
+                  color: mocha.colors.maroon.hex,
+                },
               },
             },
           },
