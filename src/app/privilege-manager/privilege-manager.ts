@@ -1,18 +1,13 @@
-import { computed, signal } from '@angular/core';
+import { signal } from '@angular/core';
 import type { Nullable } from 'primeng/ts-helpers';
 import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 
 export class PrivilegeManager {
   public sudoDialogVisible = signal<boolean>(false);
-
+  public authenticated = signal<boolean>(false);
   private password = signal<Nullable<string>>(null);
   private oneTimeUse = signal<string[]>([]);
-  public authenticated = computed<boolean>(() => {
-    const result = this.oneTimeUse().length > 0 || this.password() !== null;
-    void trace(`Checking if authenticated: ${result}`);
-    return result;
-  });
 
   /*
    * Get the sudo password from the user. Open a dialog to prompt the user for the password.
@@ -52,7 +47,8 @@ export class PrivilegeManager {
       } else {
         this.oneTimeUse.update((value) => [...value, pass]);
       }
-      if (!this.sudoDialogVisible()) {
+      this.authenticated.set(true);
+      if (this.sudoDialogVisible()) {
         this.sudoDialogVisible.set(false);
       }
     } else {
@@ -125,6 +121,7 @@ export class PrivilegeManager {
     if (this.password()) {
       return this.password() as string;
     } else if (this.oneTimeUse().length > 0) {
+      this.authenticated.set(false);
       return this.oneTimeUse().pop() as string;
     } else {
       throw new Error("No password was found, this shouldn't happen!");
