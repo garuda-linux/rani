@@ -35,7 +35,7 @@ export class PrivilegeManagerService {
   async writeSudoPass(pass: string, cache = false): Promise<void> {
     this.loadingService.loadingOn();
     try {
-      this.logger.trace(`Writing sudo pass: ${pass}, cache: ${cache}`);
+      this.logger.trace(`Writing sudo pass, cache: ${cache}`);
       await this.manager.writeSudoPass(pass, cache);
     } catch (err: any) {
       this.messageToastService.error('Error', err.message);
