@@ -39,7 +39,9 @@ build-linux:
     access: all
     expire_in: '30 days'
     paths:
-      - src-tauri/target/release/bundle
+      - src-tauri/target/release/bundle/deb/*.deb
+      - src-tauri/target/release/bundle/appimage/*.AppImage
+      - src-tauri/target/release/bundle/rpm/*.rpm
 
 tag-to-release:
   stage: release
@@ -56,6 +58,6 @@ tag-to-release:
     - cd "$CI_PROJECT_NAME"
     - CHANGELOG=$(cz changelog "$CI_COMMIT_TAG" --dry-run | sed /^Invalid/d)
     - release-cli create --name "$CI_COMMIT_TAG" --description "$CHANGELOG" \
-        --tag-name "$CI_COMMIT_TAG"
+      --tag-name "$CI_COMMIT_TAG"
   rules:
     - if: $CI_COMMIT_TAG != null
