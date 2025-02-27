@@ -1,4 +1,4 @@
-import { getConfigStore } from '../store';
+import { getConfigStore } from '../config/store';
 import { Store } from '@tauri-apps/plugin-store';
 import {
   ADD_USER_GROUP_ACTION_NAME,
@@ -36,7 +36,7 @@ export class OperationManager {
   public operationOutputEmitter = new EventEmitter<string>();
   public operationNewEmitter = new EventEmitter<string>();
 
-  private privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
+  private readonly privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
   private store: Nullable<Store> = null;
 
   constructor(private translocoService: TranslocoService) {
@@ -46,7 +46,7 @@ export class OperationManager {
   async init() {
     this.store = await getConfigStore();
 
-    const savedOperations: Operation[] | undefined = await this.store.get<Operation[]>('queue');
+    const savedOperations: Operation[] | undefined = await this.store!.get<Operation[]>('pendingOperations');
     if (savedOperations && savedOperations.length > 0) {
       this.pending.set(savedOperations);
     }

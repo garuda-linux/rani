@@ -14,7 +14,7 @@
       <div class="flex">
         <p-button
           (click)="toggleRefresh()"
-          [icon]="appService.settings.autoRefresh ? 'pi pi-stop' : 'pi pi-refresh'"
+          [icon]="configService.settings().autoRefresh ? 'pi pi-stop' : 'pi pi-refresh'"
           [label]="t('systemdServices.autoRefresh')"
           [outlined]="true"
           class="mr-2.5"

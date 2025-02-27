@@ -1,6 +1,6 @@
 import { inject, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { getConfigStore } from '../store';
+import { getConfigStore } from '../config/store';
 import { CatppuccinScrollbars } from '../theme';
 
 export class ThemeHandler {

@@ -1,17 +1,3 @@
-export interface Operation {
-  command: ((args?: string[]) => string) | (() => Promise<void>);
-  commandArgs: any[];
-  hasOutput?: boolean;
-  name: string;
-  order?: number;
-  output?: string;
-  prettyName: string;
-  sudo?: boolean;
-  status: OperationStatus;
-}
-
-export type OperationStatus = 'pending' | 'running' | 'complete' | 'error';
-
 export type SystemdServiceAction =
   | 'start'
   | 'stop'
@@ -66,14 +52,6 @@ export interface SystemdService {
   sub: string;
   description: string;
   tooltip?: string;
-}
-
-export interface AppSettings {
-  systemdUserContext: boolean;
-  copyDiagnostics: boolean;
-  autoRefresh: boolean;
-  leftButtons: boolean;
-  showMainLinks: boolean;
 }
 
 export interface SystemToolsEntry {

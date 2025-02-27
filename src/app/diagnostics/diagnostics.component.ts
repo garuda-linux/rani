@@ -12,6 +12,7 @@ import { GarudaBin } from '../privatebin/privatebin';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'app-diagnostics',
@@ -30,6 +31,7 @@ export class DiagnosticsComponent {
     theme: this.appService.themeHandler.darkMode() ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
 
+  private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly messageToastService = inject(MessageToastService);
   private readonly privilegeManager = inject(PrivilegeManagerService);
@@ -52,7 +54,7 @@ export class DiagnosticsComponent {
       await this.getOutput(type, true);
     }
 
-    if (this.appService.settings.copyDiagnostics) {
+    if (this.configService.settings().copyDiagnostics) {
       await writeText(this.outputCache);
       this.messageToastService.info(
         this.translocoService.translate('diagnostics.copySuccess'),
@@ -137,7 +139,7 @@ export class DiagnosticsComponent {
         this.term.write(result.stdout);
       }
 
-      if (this.appService.settings.copyDiagnostics) {
+      if (this.configService.settings().copyDiagnostics) {
         void trace('Writing to clipboard');
         await clear();
         await writeText(result.stdout);

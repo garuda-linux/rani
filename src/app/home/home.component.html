@@ -7,7 +7,7 @@
     <div class="text-color text-xl mb-10">
       <span>{{ t('welcome.subtitle') }} ~ {{ hostname() }}</span>
     </div>
-    @if (!appService.settings.showMainLinks) {
+    @if (!configService.settings().showMainLinks) {
       <div class="grid grid-cols-12">
         @for (item of mainLinks; track item.title) {
           <p-card [routerLink]="item.routerLink ?? null" (click)="respondClick(item)"

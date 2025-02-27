@@ -14,6 +14,7 @@ import { MessageToastService } from '@garudalinux/core';
 import { Nullable } from 'primeng/ts-helpers';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { Tooltip } from 'primeng/tooltip';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'rani-systemd-services',
@@ -32,6 +33,7 @@ export class SystemdServicesComponent implements OnInit {
   intervalRef: Nullable<number> = null;
 
   protected readonly appService = inject(AppService);
+  protected readonly configService = inject(ConfigService);
   private readonly messageToastService = inject(MessageToastService);
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
@@ -39,12 +41,12 @@ export class SystemdServicesComponent implements OnInit {
   async ngOnInit() {
     void debug('Initializing system tools');
 
-    if (this.appService.settings.systemdUserContext) {
+    if (this.configService.settings().systemdUserContext) {
       this.userContext.set(true);
     }
     this.systemdServices.set(await this.getServices());
 
-    if (this.appService.settings.autoRefresh) {
+    if (this.configService.settings().autoRefresh) {
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);
@@ -196,10 +198,9 @@ export class SystemdServicesComponent implements OnInit {
    * Toggle the auto-refresh of the systemd services, if enabled start the interval.
    */
   toggleRefresh(): void {
-    this.appService.settings.autoRefresh = !this.appService.settings.autoRefresh;
-    void this.appService.store.set('settings', this.appService.settings);
+    this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh);
 
-    if (this.appService.settings.autoRefresh) {
+    if (this.configService.settings().autoRefresh) {
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);

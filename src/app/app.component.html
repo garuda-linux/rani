@@ -5,7 +5,7 @@
       [menuItems]="menuItems()"
       id="shellBar"
     >
-      @if (!appService.state.isMaximized() && appService.settings.leftButtons) {
+      @if (!configService.state().isMaximized && configService.settings().leftButtons) {
         <div garudaShellBarStart>
           <div class="flex">
             <img
@@ -34,7 +34,7 @@
             />
           </div>
         </div>
-      } @else if (!appService.settings.leftButtons) {
+      } @else if (!configService.settings().leftButtons) {
         <div garudaShellBarStart>
           @if (loadingService.loading$ | async) {
             <p-progress-spinner
@@ -43,7 +43,7 @@
           }
         </div>
       }
-      @if (!appService.state.isMaximized() && !appService.settings.leftButtons) {
+      @if (!configService.state().isMaximized && !configService.settings().leftButtons) {
         <div garudaShellBarEnd>
           <div class="flex">
             <img
@@ -72,7 +72,7 @@
             />
           </div>
         </div>
-      } @else if (appService.settings.leftButtons) {
+      } @else if (configService.settings().leftButtons) {
         <div garudaShellBarEnd>
           @if (loadingService.loading$ | async) {
             <p-progress-spinner

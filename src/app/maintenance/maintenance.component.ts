@@ -15,6 +15,7 @@ import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { MessageToastService } from '@garudalinux/core';
 
 @Component({
   selector: 'app-maintenance',
@@ -250,6 +251,7 @@ export class MaintenanceComponent implements OnInit {
       },
     },
   ];
+
   actionsGarudaUpdate: MaintenanceAction[] = [
     {
       name: 'updateRemoteFix',
@@ -320,6 +322,7 @@ export class MaintenanceComponent implements OnInit {
 
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
+  private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
   async ngOnInit(): Promise<void> {
@@ -370,7 +373,7 @@ export class MaintenanceComponent implements OnInit {
           void info(`Successfully reset ${file}`);
         } else {
           void error(`Failed to reset ${file}`);
-          this.appService.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
+          this.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
         }
       }
     }

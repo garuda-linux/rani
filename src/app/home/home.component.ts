@@ -7,9 +7,9 @@ import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.
 import { Command, open } from '@tauri-apps/plugin-shell';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { ExternalLink, HomepageLink } from '../interfaces';
-import { AppService } from '../app.service';
 import { Nullable } from 'primeng/ts-helpers';
 import { debug } from '@tauri-apps/plugin-log';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'app-home',
@@ -104,7 +104,8 @@ export class HomeComponent implements OnInit {
       icon: 'pi pi-telegram',
     },
   ];
-  protected readonly appService = inject(AppService);
+
+  protected readonly configService = inject(ConfigService);
   private readonly operationManager = inject(OperationManagerService);
   private readonly privilegeManager = inject(PrivilegeManagerService);
 

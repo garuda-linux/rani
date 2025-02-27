@@ -2,13 +2,11 @@ import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { AppService } from '../app.service';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LanguageSelectionComponent } from './language-selection.component';
 import { locale } from '@tauri-apps/plugin-os';
-import { getConfigStore } from '../store';
-import { Store } from '@tauri-apps/plugin-store';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'rani-language-switcher',
@@ -23,7 +21,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
   showButton = input<boolean>(false);
   visible = signal<boolean>(false);
 
-  private readonly appService = inject(AppService);
+  private readonly configService = inject(ConfigService);
   private readonly dialogService = inject(DialogService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -33,8 +31,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
    */
   async ngOnInit(): Promise<void> {
     const sysLang: string | null = await locale();
-    const store: Store = await getConfigStore();
-    const savedLang = (await store.get('language')) as string;
+    const savedLang: string = this.configService.settings().language;
 
     let activeLang: string = savedLang ?? sysLang;
     if (activeLang.match(/en-/)) {
@@ -43,17 +40,16 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
 
     if (activeLang && activeLang !== this.translocoService.getActiveLang()) {
       this.translocoService.setActiveLang(activeLang);
-      void store.set('language', sysLang);
+      this.configService.updateConfig('language', activeLang);
     } else if (
       !savedLang &&
       sysLang &&
       (this.translocoService.getAvailableLangs() as unknown as string).includes(sysLang)
     ) {
-      void store.set('language', sysLang);
-      this.appService.translocoService.setActiveLang(sysLang);
+      this.translocoService.setActiveLang(sysLang);
     }
 
-    this.appService.activeLanguage.set(this.translocoService.getActiveLang());
+    this.configService.updateConfig('language', this.translocoService.getActiveLang());
     this.languages.set(this.translocoService.getAvailableLangs() as string[]);
   }
 
@@ -64,7 +60,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
    */
   selectLanguage(language: string): void {
     this.translocoService.setActiveLang(language);
-    this.appService.activeLanguage.set(language);
+    this.configService.updateConfig('language', language);
   }
 
   /**

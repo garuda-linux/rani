@@ -15,7 +15,7 @@ import { info, trace } from '@tauri-apps/plugin-log';
 import { FormsModule } from '@angular/forms';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ContextMenu } from 'primeng/contextmenu';
-import { MenuItem } from 'primeng/api';
+import { ConfirmationService, MenuItem } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
 import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from './shell';
 import { ProgressSpinner } from 'primeng/progressspinner';
@@ -25,6 +25,7 @@ import { PrivilegeManagerComponent } from './privilege-manager/privilege-manager
 import { OperationManagerComponent } from './operation-manager/operation-manager.component';
 import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ConfigService } from './config/config.service';
 
 @Component({
   imports: [
@@ -63,6 +64,7 @@ export class AppComponent implements OnInit {
 
   readonly appService = inject(AppService);
   readonly appWindow = getCurrentWindow();
+  readonly confirmationService = inject(ConfirmationService);
   readonly loadingService = inject(LoadingService);
 
   rightClickMenu = signal<MenuItem[]>([
@@ -97,7 +99,7 @@ export class AppComponent implements OnInit {
       },
     },
   ]);
-
+  protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
@@ -164,13 +166,14 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-circle-fill',
           label: 'Show window buttons left',
           translocoKey: 'menu.settings.windowButtonsLeft',
-          command: () => (this.appService.settings.leftButtons = !this.appService.settings.leftButtons),
+          command: () => (this.configService.settings().leftButtons = !this.configService.settings().leftButtons),
         },
         {
           icon: 'pi pi-clipboard',
           label: 'Copy diagnostics to clipboard',
           translocoKey: 'menu.settings.copyDiagnostics',
-          command: () => (this.appService.settings.copyDiagnostics = !this.appService.settings.copyDiagnostics),
+          command: () =>
+            (this.configService.settings().copyDiagnostics = !this.configService.settings().copyDiagnostics),
         },
         {
           icon: 'pi pi-moon',
@@ -261,9 +264,9 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    void this.setupLabels(this.appService.translocoService.getActiveLang());
+    void this.setupLabels(this.translocoService.getActiveLang());
 
-    this.appService.translocoService.langChanges$.subscribe((lang) => {
+    this.translocoService.langChanges$.subscribe((lang) => {
       void this.setupLabels(lang);
     });
 
@@ -309,9 +312,7 @@ export class AppComponent implements OnInit {
     const newItemPromises: Promise<any>[] = [];
 
     for (const item of this.menuItems()) {
-      newItemPromises.push(
-        lastValueFrom(this.appService.translocoService.selectTranslate(item['translocoKey'], {}, lang)),
-      );
+      newItemPromises.push(lastValueFrom(this.translocoService.selectTranslate(item['translocoKey'], {}, lang)));
     }
 
     const results: string[] = await Promise.all(newItemPromises);
@@ -327,9 +328,7 @@ export class AppComponent implements OnInit {
     for (const item of newSubItems) {
       if (item.items) {
         for (const subitem of item.items) {
-          subitem.label = await lastValueFrom(
-            this.appService.translocoService.selectTranslate(subitem['translocoKey'], {}, lang),
-          );
+          subitem.label = await lastValueFrom(this.translocoService.selectTranslate(subitem['translocoKey'], {}, lang));
         }
       }
     }
@@ -354,12 +353,12 @@ export class AppComponent implements OnInit {
   private attachTauriListeners() {
     void this.appWindow.listen('tauri://resize', async () => {
       void trace('Resizing window');
-      this.appService.state.isMaximized.set(await this.appWindow.isMaximized());
+      this.configService.updateState('isMaximized', await this.appWindow.isMaximized());
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
       void info('Close requested');
-      this.appService.confirmationService.confirm({
+      this.confirmationService.confirm({
         message: this.translocoService.translate('confirmation.exitApp'),
         header: this.translocoService.translate('confirmation.exitAppHeader'),
         icon: 'pi pi-exclamation-triangle',
