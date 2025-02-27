@@ -7,27 +7,32 @@
   </div>
   <div class="px-10 pt-10">
     <div class="justify-evenly flex gap-4">
-      <p-button (click)="getInxi()" [label]="t('diagnostics.inxi')" [outlined]="true" icon="pi-terminal pi"></p-button>
       <p-button
-        (click)="getSystemdAnalyze()"
+        (click)="getOutput('inxi')"
+        [label]="t('diagnostics.inxi')"
+        [outlined]="true"
+        icon="pi-terminal pi">
+      </p-button>
+      <p-button
+        (click)="getOutput('systemd-analyze')"
         [label]="t('diagnostics.systemctl')"
         [outlined]="true"
         icon="pi-terminal pi"
       ></p-button>
       <p-button
-        (click)="getJournalctl()"
+        (click)="getOutput('journalctl')"
         [label]="t('diagnostics.journalctl')"
         [outlined]="true"
         icon="pi-terminal pi"
       ></p-button>
       <p-button
-        (click)="getLastPacmanLog()"
+        (click)="getOutput('pacman')"
         [label]="t('diagnostics.pacman')"
         [outlined]="true"
         icon="pi-terminal pi"
       ></p-button>
       <p-button
-        (click)="getDmesg()"
+        (click)="getOutput('dmesg')"
         [label]="t('diagnostics.dmesg')"
         [outlined]="true"
         icon="pi-terminal pi"
@@ -45,12 +50,6 @@
         icon="pi-terminal pi"
       ></p-button>
     </div>
-
-    @if (loading()) {
-      <div class="mt-5">
-        <p-progress-bar mode="indeterminate" [style]="{ height: '6px' }" />
-      </div>
-    }
 
     <div class="mt-5 h-[80vh]">
       <ng-terminal #term [xtermOptions]="xtermOptions"></ng-terminal>

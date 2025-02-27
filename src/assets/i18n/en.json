@@ -38,7 +38,10 @@
     "dmesg": "Kernel logs (dmesg)",
     "full": "Full diagnostics",
     "upload": "Upload to PrivateBin",
-    "pacman": "Latest Pacman logs"
+    "pacman": "Latest Pacman logs",
+    "copied": "Successfully copied to clipboard",
+    "success": "Success",
+    "uploadSuccess": "Successfully uploaded to PrivateBin"
   },
   "lang": {
     "title": "Language selection",

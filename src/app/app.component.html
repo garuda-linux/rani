@@ -77,6 +77,7 @@
           @if (loadingService.loading$ | async) {
             <p-progress-spinner
               [style]="{ width: '1.5rem', height: '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              strokeWidth="10"
               ariaLabel="loading"/>
           }
         </div>
@@ -92,5 +93,5 @@
   <rani-privilege-manager #privilegeManagerComponent></rani-privilege-manager>
   <rani-terminal #terminalComponent></rani-terminal>
   <rani-operation-manager #operationManagerComponent></rani-operation-manager>
-  <app-language-switcher #languageSwitcherComponent></app-language-switcher>
+  <rani-language-switcher #languageSwitcherComponent></rani-language-switcher>
 </ng-container>

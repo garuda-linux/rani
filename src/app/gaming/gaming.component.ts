@@ -15,7 +15,7 @@ import { OperationManagerService } from '../operation-manager/operation-manager.
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Component({
-  selector: 'app-gaming',
+  selector: 'rani-gaming',
   imports: [TranslocoDirective, TableModule, DataViewModule, NgForOf, Card, NgOptimizedImage, TabsModule, Tooltip],
   templateUrl: './gaming.component.html',
   styleUrl: './gaming.component.css',

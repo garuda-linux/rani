@@ -517,80 +517,110 @@ export const Catppuccin = definePreset(Aura, {
         },
       },
     },
-    select: {
-      colorScheme: {
+    popover: {
+      colorscheme: {
         light: {
-          color: latte.colors.text.hex,
-          disabled: {
+          background: latte.colors.crust.hex,
+          arrow: {
+            offset: '9.8rem',
+          },
+        },
+        dark: {
+          background: mocha.colors.crust.hex,
+          arrow: {
+            offset: '9.8rem',
+          },
+        },
+      },
+    },
+  },
+  progressspinner: {
+    colorScheme: {
+      light: {
+        color: {
+          1: latte.colors.maroon.hex,
+          2: latte.colors.flamingo.hex,
+          3: latte.colors.green.hex,
+          4: latte.colors.yellow.hex,
+        },
+      },
+      dark: {
+        color: {
+          1: mocha.colors.maroon.hex,
+          2: mocha.colors.flamingo.hex,
+          3: mocha.colors.green.hex,
+          4: mocha.colors.yellow.hex,
+        },
+      },
+    },
+  },
+  select: {
+    colorScheme: {
+      light: {
+        color: latte.colors.text.hex,
+        disabled: {
+          background: latte.colors.surface0.hex,
+        },
+        overlay: {
+          background: latte.colors.crust.hex,
+        },
+        option: {
+          focus: {
+            background: latte.colors.base.hex,
+          },
+          selected: {
             background: latte.colors.surface0.hex,
           },
-          overlay: {
-            background: latte.colors.crust.hex,
+        },
+      },
+      dark: {
+        color: mocha.colors.text.hex,
+        disabled: {
+          background: mocha.colors.surface0.hex,
+        },
+        overlay: {
+          background: mocha.colors.crust.hex,
+        },
+        option: {
+          focus: {
+            background: mocha.colors.base.hex,
           },
-          option: {
-            focus: {
-              background: latte.colors.base.hex,
-            },
-            selected: {
+          selected: {
+            background: mocha.colors.surface0.hex,
+          },
+        },
+      },
+    },
+  },
+  table: {
+    colorScheme: {
+      light: {
+        header: {
+          cell: {
+            hover: {
               background: latte.colors.surface0.hex,
             },
           },
         },
-        dark: {
-          color: mocha.colors.text.hex,
-          disabled: {
-            background: mocha.colors.surface0.hex,
-          },
-          overlay: {
-            background: mocha.colors.crust.hex,
-          },
-          option: {
-            focus: {
-              background: mocha.colors.base.hex,
-            },
-            selected: {
+      },
+      dark: {
+        header: {
+          cell: {
+            hover: {
               background: mocha.colors.surface0.hex,
             },
           },
         },
       },
     },
-    table: {
-      colorScheme: {
-        light: {
-          header: {
-            cell: {
-              hover: {
-                background: latte.colors.surface0.hex,
-              },
-            },
-          },
-        },
-        dark: {
-          header: {
-            cell: {
-              hover: {
-                background: mocha.colors.surface0.hex,
-              },
-            },
-          },
-        },
+  },
+  tooltip: {
+    colorScheme: {
+      light: {
+        background: latte.colors.crust.hex,
       },
-    },
-    tooltip: {
-      colorScheme: {
-        light: {
-          background: latte.colors.crust.hex,
-        },
-        dark: {
-          background: mocha.colors.crust.hex,
-        },
-      },
-    },
-    popover: {
-      background: mocha.colors.crust.hex,
-      arrow: {
-        offset: '9.8rem',
+      dark: {
+        background: mocha.colors.crust.hex,
       },
     },
   },

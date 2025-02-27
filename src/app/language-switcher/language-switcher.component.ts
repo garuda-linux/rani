@@ -5,13 +5,13 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { AppService } from '../app.service';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
-import { LanguageSelectionComponent } from '../language-selection/language-selection.component';
+import { LanguageSelectionComponent } from './language-selection.component';
 import { locale } from '@tauri-apps/plugin-os';
 import { getConfigStore } from '../store';
 import { Store } from '@tauri-apps/plugin-store';
 
 @Component({
-  selector: 'app-language-switcher',
+  selector: 'rani-language-switcher',
   imports: [CommonModule, Button, TranslocoDirective, DynamicDialogModule, DialogModule],
   templateUrl: './language-switcher.component.html',
   styleUrl: './language-switcher.component.css',
