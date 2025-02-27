@@ -51,8 +51,11 @@ export class ConfigService {
    * @param key The configuration key to update.
    * @param value The new value for the configuration key.
    */
-  updateConfig(key: string, value: any): void {
+  async updateConfig(key: string, value: any): Promise<void> {
     void trace(`Updating ${key} to ${value}`);
+    while (!this.store) {
+      await new Promise((r) => setTimeout(r, 100));
+    }
 
     const settings = { ...this.settings() };
     settings[key] = value;

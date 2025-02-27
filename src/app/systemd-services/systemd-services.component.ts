@@ -197,8 +197,8 @@ export class SystemdServicesComponent implements OnInit {
   /**
    * Toggle the auto-refresh of the systemd services, if enabled start the interval.
    */
-  toggleRefresh(): void {
-    this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh);
+  async toggleRefresh(): Promise<void> {
+    await this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh);
 
     if (this.configService.settings().autoRefresh) {
       this.intervalRef = setInterval(async () => {

@@ -40,7 +40,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
 
     if (activeLang && activeLang !== this.translocoService.getActiveLang()) {
       this.translocoService.setActiveLang(activeLang);
-      this.configService.updateConfig('language', activeLang);
+      await this.configService.updateConfig('language', activeLang);
     } else if (
       !savedLang &&
       sysLang &&
@@ -49,7 +49,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
       this.translocoService.setActiveLang(sysLang);
     }
 
-    this.configService.updateConfig('language', this.translocoService.getActiveLang());
+    await this.configService.updateConfig('language', this.translocoService.getActiveLang());
     this.languages.set(this.translocoService.getAvailableLangs() as string[]);
   }
 
@@ -60,7 +60,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
    */
   selectLanguage(language: string): void {
     this.translocoService.setActiveLang(language);
-    this.configService.updateConfig('language', language);
+    void this.configService.updateConfig('language', language);
   }
 
   /**

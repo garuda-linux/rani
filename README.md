@@ -1,6 +1,6 @@
 # Garuda Linux's Rani
 
-[![pipeline status](https://gitlab.com/garuda-linux/applications/rani/badges/main/pipeline.svg)](https://gitlab.com/garuda-linux/applications/rani/-/commits/master)
+[![pipeline status](https://gitlab.com/garuda-linux/applications/rani/badges/main/pipeline.svg)](https://gitlab.com/garuda-linux/applications/rani/-/pipelines)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
 [![Latest Release](https://gitlab.com/garuda-linux/applications/rani/-/badges/release.svg)](https://gitlab.com/garuda-linux/applications/rani/-/releases)
 
@@ -17,9 +17,9 @@ We highly appreciate contributions of any sort! 😊 To do so, please follow the
 - Clone your fork locally ([short git tutorial](https://rogerdudler.github.io/git-guide/)).
 - Add the desired changes to PKGBUILDs or source code.
 - Commit using a [conventional commit message](https://www.conventionalcommits.org/en/v1.0.0/#summary) and push any changes back to your fork. This is crucial as it allows our CI to generate changelogs easily.
-    - The [commitizen](https://github.com/commitizen-tools/commitizen) application helps with creating a fitting commit message.
-    - You can install it via [pip](https://pip.pypa.io/) as there is currently no package in Arch repos: `pip install --user -U Commitizen`.
-    - Then proceed by running `cz commit` in the cloned folder.
+  - The [commitizen](https://github.com/commitizen-tools/commitizen) application helps with creating a fitting commit message.
+  - You can install it via [pip](https://pip.pypa.io/) as there is currently no package in Arch repos: `pip install --user -U Commitizen`.
+  - Then proceed by running `cz commit` in the cloned folder.
 - [Create a new merge request at our main repository](https://gitlab.com/garuda-linux/applications/rani/-/merge_requests/new).
 - Check if any of the pipeline runs fail and apply eventual suggestions.
 
