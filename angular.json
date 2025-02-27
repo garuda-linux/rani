@@ -6,7 +6,7 @@
     "analytics": false
   },
   "projects": {
-    "garuda-apps": {
+    "garuda-rani": {
       "projectType": "application",
       "root": "",
       "sourceRoot": "src",
@@ -15,7 +15,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/garuda-apps",
+            "outputPath": "dist/garuda-rani",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": ["zone.js"],
@@ -55,10 +55,10 @@
           },
           "configurations": {
             "production": {
-              "buildTarget": "garuda-apps:build:production"
+              "buildTarget": "garuda-rani:build:production"
             },
             "development": {
-              "buildTarget": "garuda-apps:build:development"
+              "buildTarget": "garuda-rani:build:development"
             }
           },
           "defaultConfiguration": "development"

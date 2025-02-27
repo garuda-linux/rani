@@ -1,13 +1,13 @@
 {
   "$schema": "https://schema.tauri.app/config/2",
-  "productName": "garuda-apps",
+  "productName": "garuda-rani",
   "version": "0.1.0",
   "identifier": "org.garudalinux.rani",
   "build": {
     "beforeDevCommand": "pnpm start",
     "devUrl": "http://localhost:1420",
     "beforeBuildCommand": "pnpm build",
-    "frontendDist": "../dist/garuda-apps/browser"
+    "frontendDist": "../dist/garuda-rani/browser"
   },
   "app": {
     "windows": [
@@ -28,6 +28,13 @@
   "bundle": {
     "active": true,
     "targets": "all",
-    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"]
+    "icon": ["icons/32x32.png", "icons/128x128.png", "icons/128x128@2x.png", "icons/icon.icns", "icons/icon.ico"],
+    "linux": {
+      "deb": {
+        "files": {
+          "/usr/share/applications/org.garudalinux.rani.desktop": "../assets/org.garudalinux.rani.desktop"
+        }
+      }
+    }
   }
 }

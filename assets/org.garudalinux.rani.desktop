@@ -1,0 +1,13 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Garuda's Rani
+Name[de]=Garuda's Rani
+Comment=Feature rich system assistant
+Comment[de]=Feature reicher Systemassistent
+Exec=garuda-rani
+Terminal=false
+Type=Application
+Keywords=update;package;performance;powersave;systemd;services;configuration
+Icon=garuda-rani
+Categories=GNOME;GTK;System;Garuda-Setup;
+NoDisplay=false
