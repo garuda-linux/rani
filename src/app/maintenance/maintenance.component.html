@@ -47,7 +47,12 @@
             @for (config of resettableConfigs; track config.name) {
               @if (config.exists) {
                 <div class="ml-32 col-span-4 lg:col-span-3">
-                  <p-checkbox [inputId]="config.name" name="group" [value]="config" [(ngModel)]="selectedResetConfigs"/>
+                  <p-checkbox
+                    [inputId]="config.name"
+                    name="group"
+                    [value]="config"
+                    [(ngModel)]="selectedResetConfigs"
+                  />
                   <label [for]="config.name" class="ml-2">
                     {{ config.name }}
                     <i

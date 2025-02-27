@@ -8,9 +8,8 @@ describe('SystemSettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SystemSettingsComponent]
-    })
-    .compileComponents();
+      imports: [SystemSettingsComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(SystemSettingsComponent);
     component = fixture.componentInstance;

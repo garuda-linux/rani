@@ -3,7 +3,7 @@ use tauri::Manager;
 pub fn run() {
     tauri::Builder::default()
         .setup(|app| {
-            #[cfg(debug_assertions)] // only include this code on debug builds
+            #[cfg(debug_assertions)]
             {
                 let window = app.get_webview_window("main").unwrap();
                 window.open_devtools();

@@ -1556,7 +1556,7 @@ dependencies = [
 ]
 
 [[package]]
-name = "garuda-apps"
+name = "garuda-rani"
 version = "0.1.0"
 dependencies = [
  "serde",

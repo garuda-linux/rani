@@ -12,8 +12,9 @@
               [(ngModel)]="selectedBoxes"
               name="group"
             />
-            <label [for]="entry.name" class="mx-2.5"
-                   [ngClass]="{'text-surface-300': entry.disabled }"> {{ t(entry.description) }} </label>
+            <label [for]="entry.name" class="mx-2.5" [ngClass]="{ 'text-surface-300': entry.disabled }">
+              {{ t(entry.description) }}
+            </label>
           </div>
         }
       </div>

@@ -1,12 +1,16 @@
 <ng-container *transloco="let t">
   <div>
-    <div class="flex mx-auto justify-center ">
+    <div class="flex mx-auto justify-center">
       <div class="mb-10 mr-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultShell') }}</h2>
         <p-select
           (ngModelChange)="handleToggle('shell')"
-          [(ngModel)]="currentShell" [options]="shells" class="w-full md:w-56" optionLabel="name"
-          placeholder="Select a login shell to use"/>
+          [(ngModel)]="currentShell"
+          [options]="shells"
+          class="w-full md:w-56"
+          optionLabel="name"
+          placeholder="Select a login shell to use"
+        />
         <div class="mt-5">
           <p-checkbox
             (click)="handleToggle('shellConfigs')"
@@ -22,9 +26,13 @@
       <div class="mb-10 ml-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultDns') }}</h2>
         <p-select
-          (ngModelChange)="handleToggle('dns')" [(ngModel)]="currentDns" [options]="dnsProviders" class="w-full md:w-56"
+          (ngModelChange)="handleToggle('dns')"
+          [(ngModel)]="currentDns"
+          [options]="dnsProviders"
+          class="w-full md:w-56"
           optionLabel="name"
-          placeholder="Select a DNS server to use"/>
+          placeholder="Select a DNS server to use"
+        />
         <div class="mt-5">
           <p-checkbox
             (click)="handleToggle('hblock')"

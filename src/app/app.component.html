@@ -1,10 +1,7 @@
 <ng-container *transloco="let t">
-  <p-context-menu [global]="true" [model]="rightClickMenu()"/>
+  <p-context-menu [global]="true" [model]="rightClickMenu()" />
   <div class="background min-h-svh">
-    <garuda-shell
-      [menuItems]="menuItems()"
-      id="shellBar"
-    >
+    <garuda-shell [menuItems]="menuItems()" id="shellBar">
       @if (!configService.state().isMaximized && configService.settings().leftButtons) {
         <div garudaShellBarStart>
           <div class="flex">
@@ -38,8 +35,9 @@
         <div garudaShellBarStart>
           @if (loadingService.loading$ | async) {
             <p-progress-spinner
-              [style]="{ width: '1.5rem', height: '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
-              ariaLabel="loading"/>
+              [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              ariaLabel="loading"
+            />
           }
         </div>
       }
@@ -76,9 +74,10 @@
         <div garudaShellBarEnd>
           @if (loadingService.loading$ | async) {
             <p-progress-spinner
-              [style]="{ width: '1.5rem', height: '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
               strokeWidth="10"
-              ariaLabel="loading"/>
+              ariaLabel="loading"
+            />
           }
         </div>
       }

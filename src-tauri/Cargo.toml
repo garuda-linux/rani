@@ -1,33 +1,33 @@
 [package]
-name = "garuda-apps"
+name = "garuda-rani"
 version = "0.1.0"
-description = "Garuda Linux apps"
+description = "Garuda's Rani"
 authors = ["dr460nf1r3"]
-repository = ""
+repository = "https://gitlab.com/garuda-linux/applications/rani"
 edition = "2021"
 
 [lib]
-name = "garuda_apps_lib"
+name = "garuda_rani_lib"
 crate-type = ["staticlib", "cdylib", "rlib"]
 
 [build-dependencies]
 tauri-build = { version = "2", features = [] }
 
 [dependencies]
-tauri = { version = "2", features = [] }
-tauri-plugin-shell = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
-tauri-plugin-system-info = "2"
-tauri-plugin-network = "2"
+tauri = { version = "2", features = [] }
 tauri-plugin-clipboard = "2"
-tauri-plugin-process = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-http = { version = "2", features = ["rustls-tls", "unsafe-headers"] }
 tauri-plugin-log = "2"
+tauri-plugin-network = "2"
 tauri-plugin-notification = "2"
 tauri-plugin-os = "2"
+tauri-plugin-process = "2"
+tauri-plugin-shell = "2"
 tauri-plugin-store = "2"
+tauri-plugin-system-info = "2"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-positioner = "2"

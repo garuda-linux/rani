@@ -8,9 +8,8 @@ describe('PrivilegeManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PrivilegeManagerComponent]
-    })
-    .compileComponents();
+      imports: [PrivilegeManagerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(PrivilegeManagerComponent);
     component = fixture.componentInstance;

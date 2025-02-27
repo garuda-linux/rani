@@ -8,9 +8,8 @@ describe('OperationManagerComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [OperationManagerComponent]
-    })
-    .compileComponents();
+      imports: [OperationManagerComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(OperationManagerComponent);
     component = fixture.componentInstance;

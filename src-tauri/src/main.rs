@@ -2,5 +2,5 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 fn main() {
-    garuda_apps_lib::run();
+    garuda_rani_lib::run();
 }

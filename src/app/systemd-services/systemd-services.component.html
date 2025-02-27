@@ -22,7 +22,7 @@
         <p-button
           (click)="toggleContext()"
           [icon]="userContext() ? 'pi pi-lock' : 'pi pi-lock-open'"
-          [label]="userContext() ?  t('systemdServices.systemContext') : t('systemdServices.userContext')"
+          [label]="userContext() ? t('systemdServices.systemContext') : t('systemdServices.userContext')"
           [outlined]="true"
           class="mr-2.5"
         />
@@ -57,23 +57,23 @@
       <tr>
         <th pSortableColumn="unit">
           {{ t('systemdServices.unit') }}
-          <p-sortIcon field="unit"/>
+          <p-sortIcon field="unit" />
         </th>
         <th pSortableColumn="description">
           {{ t('systemdServices.description') }}
-          <p-sortIcon field="description"/>
+          <p-sortIcon field="description" />
         </th>
         <th pSortableColumn="load">
           {{ t('systemdServices.load') }}
-          <p-sortIcon field="load"/>
+          <p-sortIcon field="load" />
         </th>
         <th pSortableColumn="sub">
           {{ t('systemdServices.state') }}
-          <p-sortIcon field="sub"/>
+          <p-sortIcon field="sub" />
         </th>
         <th pSortableColumn="active">
           {{ t('systemdServices.active') }}
-          <p-sortIcon field="active"/>
+          <p-sortIcon field="active" />
         </th>
         <th>
           <div class="flex items-center">

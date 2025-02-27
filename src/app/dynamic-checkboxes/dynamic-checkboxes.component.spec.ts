@@ -8,9 +8,8 @@ describe('DynamicCheckboxesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [DynamicCheckboxesComponent]
-    })
-    .compileComponents();
+      imports: [DynamicCheckboxesComponent],
+    }).compileComponents();
 
     fixture = TestBed.createComponent(DynamicCheckboxesComponent);
     component = fixture.componentInstance;

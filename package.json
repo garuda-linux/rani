@@ -1,5 +1,5 @@
 {
-  "name": "garuda-apps",
+  "name": "garuda-rani",
   "version": "0.1.0",
   "scripts": {
     "build": "ng build",
@@ -26,7 +26,7 @@
     "@jsverse/transloco-locale": "^7.0.1",
     "@jsverse/transloco-persist-lang": "^7.0.2",
     "@pixelfactory/privatebin": "^2.6.2",
-    "@primeng/themes": "^19.0.8",
+    "@primeng/themes": "^19.0.9",
     "@tauri-apps/api": "~2.2.0",
     "@tauri-apps/plugin-clipboard-manager": "~2.2.1",
     "@tauri-apps/plugin-fs": "~2.2.0",
@@ -47,7 +47,7 @@
     "inter-ui": "^4.1.0",
     "ng-terminal": "^6.3.0",
     "primeicons": "^7.0.0",
-    "primeng": "^19.0.8",
+    "primeng": "^19.0.9",
     "rxjs": "~7.8.2",
     "tailwindcss-primeui": "^0.4.0",
     "tauri-plugin-clipboard-api": "^2.1.11",
