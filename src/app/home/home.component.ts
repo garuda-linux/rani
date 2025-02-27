@@ -8,8 +8,8 @@ import { Command, open } from '@tauri-apps/plugin-shell';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { ExternalLink, HomepageLink } from '../interfaces';
 import { Nullable } from 'primeng/ts-helpers';
-import { debug } from '@tauri-apps/plugin-log';
 import { ConfigService } from '../config/config.service';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'app-home',
@@ -106,6 +106,7 @@ export class HomeComponent implements OnInit {
   ];
 
   protected readonly configService = inject(ConfigService);
+  private readonly logger = Logger.getInstance();
   private readonly operationManager = inject(OperationManagerService);
   private readonly privilegeManager = inject(PrivilegeManagerService);
 
@@ -185,7 +186,9 @@ export class HomeComponent implements OnInit {
     const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (output: string) =>
       output.trim(),
     );
-    void debug(`Filesystem type: ${result}, is ${result === 'aufs' || result === 'overlay' ? 'live' : 'installed'}`);
+    this.logger.debug(
+      `Filesystem type: ${result}, is ${result === 'aufs' || result === 'overlay' ? 'live' : 'installed'}`,
+    );
 
     if (result && (result === 'aufs' || result === 'overlay')) {
       this.isLiveSystem.set(true);

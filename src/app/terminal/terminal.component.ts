@@ -2,7 +2,6 @@ import { AfterViewInit, Component, effect, inject, OnDestroy, signal, ViewChild 
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { AppService } from '../app.service';
-import { debug, trace } from '@tauri-apps/plugin-log';
 import { CatppuccinXtermJs } from '../theme';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
@@ -14,6 +13,7 @@ import { MessageToastService } from '@garudalinux/core';
 import { Card } from 'primeng/card';
 import { Popover } from 'primeng/popover';
 import { ScrollPanel } from 'primeng/scrollpanel';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-terminal',
@@ -37,6 +37,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
     convertEol: true,
     theme: this.appService.themeHandler.darkMode() ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
+  private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -46,7 +47,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
-      void trace('Terminal theme switched via effect');
+      this.logger.trace('Terminal theme switched via effect');
     });
     effect(() => {
       const progress = this.operationManager.currentAction();
@@ -59,43 +60,43 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
     });
     effect(() => {
       const visible: boolean = this.operationManager.showTerminal();
-      void trace(`Setting terminal visibility on terminal to ${visible} via effect`);
+      this.logger.trace(`Setting terminal visibility on terminal to ${visible} via effect`);
       this.visible.set(visible);
     });
     effect(() => {
       const visible: boolean = this.visible();
-      void trace(`Setting terminal visibility on manager to ${visible} via effect`);
+      this.logger.trace(`Setting terminal visibility on manager to ${visible} via effect`);
       this.operationManager.showTerminal.set(visible);
     });
   }
 
   async ngAfterViewInit() {
-    void debug('Terminal component initialized');
+    this.logger.debug('Terminal component initialized');
     await this.loadXterm();
 
-    void trace('Subscribing to terminal output/clear emitter');
+    this.logger.trace('Subscribing to terminal output/clear emitter');
     this.operationManager.operationOutputEmitter.subscribe((output: string) => {
       this.term.write(output);
     });
     this.operationManager.operationNewEmitter.subscribe((output: string) => {
-      void trace(`Entered new stage ${output}, clearing terminal output`);
+      this.logger.trace(`Entered new stage ${output}, clearing terminal output`);
       this.term.underlying?.clear();
     });
 
     this.dialog.onHide.subscribe(() => {
-      void trace('Terminal dialog hidden, clearing terminal output');
+      this.logger.trace('Terminal dialog hidden, clearing terminal output');
       this.term.underlying?.clear();
     });
   }
 
   ngOnDestroy(): void {
     if (!this.operationManager.pending().find((op) => op.status === 'running')) {
-      void trace('Terminal component destroyed, clearing terminal output as no pending operations');
+      this.logger.trace('Terminal component destroyed, clearing terminal output as no pending operations');
       this.operationManager.operationOutput.set(null);
     }
 
     this.operationManager.showTerminal.set(false);
-    void trace(
+    this.logger.trace(
       `Unsubscribing from terminal output/clear emitter, set terminal visibility to ${this.operationManager.showTerminal()}`,
     );
   }
@@ -110,19 +111,19 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       this.operationManager.pending().find((op) => op.status === 'running') !== undefined;
 
     if (!generalOpRunning && !opIsRunning && operation.status !== 'pending') {
-      void trace('Showing operation logs, clearing terminal output');
+      this.logger.trace('Showing operation logs, clearing terminal output');
       this.term.underlying?.clear();
       this.operationManager.operationOutput.set(operation.output);
       this.term.write(this.operationManager.operationOutput()!);
     } else if (opIsRunning) {
-      void trace('Operation is running, cannot show logs');
+      this.logger.trace('Operation is running, cannot show logs');
       this.messageToastService.warn('Warning', this.translocoService.translate('terminal.opRunning'));
     } else if (generalOpRunning) {
-      void trace('General operation is running, cannot show logs');
+      this.logger.trace('General operation is running, cannot show logs');
       this.messageToastService.warn('Warning', this.translocoService.translate('terminal.outputExists'));
       return;
     } else if (!operation.hasOutput || !operation.output || operation.status === 'pending') {
-      void trace('Operation has no output, cannot show logs');
+      this.logger.trace('Operation has no output, cannot show logs');
       this.messageToastService.warn('Warning', this.translocoService.translate('terminal.noOutput'));
       return;
     }
@@ -142,7 +143,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   private async loadXterm(): Promise<void> {
     if (this.operationManager.operationOutput()) {
       this.term.underlying?.clear();
-      void trace('Terminal output cleared, now writing to terminal');
+      this.logger.trace('Terminal output cleared, now writing to terminal');
       this.term.write(this.operationManager.operationOutput()!);
     }
   }

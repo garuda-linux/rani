@@ -1,13 +1,14 @@
 import { signal } from '@angular/core';
 import type { Nullable } from 'primeng/ts-helpers';
-import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { type ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { Logger } from '../logging/logging';
 
 export class PrivilegeManager {
   public sudoDialogVisible = signal<boolean>(false);
   public authenticated = signal<boolean>(false);
   private password = signal<Nullable<string>>(null);
   private oneTimeUse = signal<string[]>([]);
+  private readonly logger = Logger.getInstance();
 
   /*
    * Get the sudo password from the user. Open a dialog to prompt the user for the password.
@@ -15,9 +16,9 @@ export class PrivilegeManager {
    */
   async getSudoPassword(): Promise<void> {
     if (!this.authenticated()) {
-      void info('No sudo password found');
+      this.logger.info('No sudo password found');
       this.sudoDialogVisible.set(true);
-      void trace(`Waiting for sudo password, ${this.sudoDialogVisible()}`);
+      this.logger.trace(`Waiting for sudo password, ${this.sudoDialogVisible()}`);
 
       let timeout = 0;
       while (!this.authenticated()) {
@@ -28,9 +29,9 @@ export class PrivilegeManager {
         }
         timeout++;
       }
-      void debug(`Timeout: ${timeout}`);
+      this.logger.debug(`Timeout: ${timeout}`);
     } else {
-      void debug('Sudo password already existed');
+      this.logger.debug('Sudo password already existed');
     }
   }
 
@@ -92,9 +93,9 @@ export class PrivilegeManager {
       const result: ChildProcess<string> = await this.executeCommandAsSudo(`pacman -S --noconfirm --needed ${pkg}`);
 
       if (result.code === 0) {
-        void info(`Installed ${pkg}`);
+        this.logger.info(`Installed ${pkg}`);
       } else {
-        void error(`Failed to install ${pkg}`);
+        this.logger.error(`Failed to install ${pkg}`);
         throw new Error(`Failed to install ${pkg}`);
       }
     }
@@ -139,7 +140,7 @@ export class PrivilegeManager {
     const cmd = `echo ${pass} | sudo -p "" -S bash -c 'ls / > /dev/null'`;
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
-    void trace(`Password test result: ${result.code}, ${result.stdout}`);
+    this.logger.trace(`Password test result: ${result.code}, ${result.stdout}`);
     return result.code === 0;
   }
 }

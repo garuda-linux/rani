@@ -3,11 +3,11 @@ import { SystemdService, SystemToolsEntry, SystemToolsSubEntry } from '../interf
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { trace } from '@tauri-apps/plugin-log';
 import { NgClass } from '@angular/common';
 import { Card } from 'primeng/card';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-dynamic-checkboxes',
@@ -26,6 +26,7 @@ export class DynamicCheckboxesComponent implements OnInit {
 
   protected operationManager = inject(OperationManagerService);
   private readonly loadingService = inject(LoadingService);
+  private readonly logger = Logger.getInstance();
 
   ngOnInit(): void {
     void this.refreshUi();
@@ -48,32 +49,32 @@ export class DynamicCheckboxesComponent implements OnInit {
     this.userGroups.set(groups);
 
     for (const service of this.data()) {
-      void trace(`Checking ${service.name}`);
+      this.logger.trace(`Checking ${service.name}`);
 
       for (const entry of service.sections) {
         switch (entry.check.type) {
           case 'pkg': {
-            void trace(`Checking package ${entry.check.name} as pkg`);
+            this.logger.trace(`Checking package ${entry.check.name} as pkg`);
             const installed: boolean =
               this.installedPackages().includes(entry.check.name) ||
               this.installedPackages().includes(`${entry.check.name}-git`);
             [entry.checked, entry.initialState] = [installed, installed];
 
             if (installed) {
-              void trace(`Package ${entry.check.name} is ${installed}`);
+              this.logger.trace(`Package ${entry.check.name} is ${installed}`);
               this.selectedBoxes.set([...this.selectedBoxes(), entry]);
             }
             break;
           }
           case 'service': {
-            void trace(`Checking service ${entry.check.name} as service`);
+            this.logger.trace(`Checking service ${entry.check.name} as service`);
             const service: SystemdService | undefined = this.systemdServices().find((s) => s.unit === entry.check.name);
 
             if (service) this.handleServiceState(service, entry);
             break;
           }
           case 'serviceUser': {
-            void trace(`Checking service ${entry.check.name} as user service`);
+            this.logger.trace(`Checking service ${entry.check.name} as user service`);
             const service: SystemdService | undefined = this.systemdUserServices().find(
               (s) => s.unit === entry.check.name,
             );
@@ -82,12 +83,12 @@ export class DynamicCheckboxesComponent implements OnInit {
             break;
           }
           case 'group': {
-            void trace(`Checking group ${entry.check.name} as group`);
+            this.logger.trace(`Checking group ${entry.check.name} as group`);
             const group: boolean = this.userGroups().includes(entry.check.name);
             [entry.checked, entry.initialState] = [group, group];
 
             if (group) {
-              void trace(`Group ${entry.check.name} is ${group}`);
+              this.logger.trace(`Group ${entry.check.name} is ${group}`);
               this.selectedBoxes.set([...this.selectedBoxes(), entry]);
             }
             break;
@@ -129,10 +130,10 @@ export class DynamicCheckboxesComponent implements OnInit {
 
         const disabler: SystemToolsSubEntry | null = findDisabler();
         if (entry.initialState) {
-          void trace(`Leaving enabled ${entry.name}, initial state is true`);
+          this.logger.trace(`Leaving enabled ${entry.name}, initial state is true`);
           entry.disabled = false;
         } else if (!disabler) {
-          void trace(`Disabling ${entry.name}, no disabler in selected found`);
+          this.logger.trace(`Disabling ${entry.name}, no disabler in selected found`);
           entry.disabled = true;
         }
       }
@@ -180,7 +181,7 @@ export class DynamicCheckboxesComponent implements OnInit {
     const shallCheck: boolean = service.active === 'active';
     [entry.checked, entry.initialState] = [shallCheck, shallCheck];
 
-    void trace(`Service ${entry.check.name} is ${shallCheck}`);
+    this.logger.trace(`Service ${entry.check.name} is ${shallCheck}`);
     this.selectedBoxes.update((value) => [...value, entry]);
   }
 

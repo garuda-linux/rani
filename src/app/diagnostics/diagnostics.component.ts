@@ -1,7 +1,6 @@
 import { Component, effect, inject, ViewChild } from '@angular/core';
 import { Button } from 'primeng/button';
 import { AppService } from '../app.service';
-import { error, info, trace } from '@tauri-apps/plugin-log';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { CatppuccinXtermJs } from '../theme';
@@ -13,6 +12,7 @@ import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { ConfigService } from '../config/config.service';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'app-diagnostics',
@@ -33,6 +33,7 @@ export class DiagnosticsComponent {
 
   private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
+  private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly privilegeManager = inject(PrivilegeManagerService);
   private readonly translocoService = inject(TranslocoService);
@@ -45,7 +46,7 @@ export class DiagnosticsComponent {
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
-      void trace('Terminal theme switched via effect');
+      this.logger.trace('Terminal theme switched via effect');
     });
   }
 
@@ -69,7 +70,7 @@ export class DiagnosticsComponent {
   async uploadPrivateBin() {
     this.loadingService.loadingOn();
     const url = await this.garudaBin.sendText(this.outputCache);
-    void info(`Uploaded to ${url}`);
+    this.logger.info(`Uploaded to ${url}`);
 
     void writeText(url);
     this.loadingService.loadingOff();
@@ -106,15 +107,15 @@ export class DiagnosticsComponent {
           sudo = true;
           break;
         default:
-          void error('Invalid type');
+          this.logger.error('Invalid type');
           return;
       }
 
-      void trace(`Getting output for ${type}`);
+      this.logger.trace(`Getting output for ${type}`);
       const result: ChildProcess<string> = await this.getCommand(cmd!, sudo);
       await this.processResult(result, writeToBuffer);
     } catch (err: any) {
-      void trace(`Error getting output for ${type}: ${err}`);
+      this.logger.trace(`Error getting output for ${type}: ${err}`);
     }
 
     this.loadingService.loadingOff();
@@ -129,18 +130,18 @@ export class DiagnosticsComponent {
   private async processResult(result: ChildProcess<string>, writeToBuffer = false): Promise<void> {
     if (result.code === 0) {
       if (writeToBuffer) {
-        void trace('Appending to terminal and buffer');
+        this.logger.trace('Appending to terminal and buffer');
         this.outputCache += `\n\n\n${result.stdout}`;
         this.term.write(`\n\n\n${result.stdout}`);
       } else {
-        void trace('Writing to clear terminal and buffer');
+        this.logger.trace('Writing to clear terminal and buffer');
         this.term.underlying?.clear();
         this.outputCache = result.stdout;
         this.term.write(result.stdout);
       }
 
       if (this.configService.settings().copyDiagnostics) {
-        void trace('Writing to clipboard');
+        this.logger.trace('Writing to clipboard');
         await clear();
         await writeText(result.stdout);
         this.messageToastService.info(
@@ -150,7 +151,7 @@ export class DiagnosticsComponent {
       }
     } else {
       this.messageToastService.error('Error collecting output', result.stderr);
-      void error(`Error collecting output: ${result.stderr}`);
+      this.logger.error(`Error collecting output: ${result.stderr}`);
     }
   }
 

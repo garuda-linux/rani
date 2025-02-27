@@ -1,6 +1,7 @@
 import { PrivatebinClient, PrivatebinOptions, PrivatebinResponse } from '@pixelfactory/privatebin';
 import BaseConverter from 'bs58';
 import axiosTauriApiAdapter from 'axios-tauri-api-adapter';
+import { Logger } from '../logging/logging';
 
 export class GarudaBin {
   options: PrivatebinOptions = {
@@ -14,12 +15,15 @@ export class GarudaBin {
   instance: PrivatebinClient;
   url = 'https://bin.garudalinux.org/';
 
+  private readonly logger = Logger.getInstance();
+
   constructor() {
     this.instance = new PrivatebinClient(this.url);
     this.instance.axios.defaults.adapter = axiosTauriApiAdapter;
   }
 
   async sendText(text: string): Promise<string> {
+    this.logger.trace('Sending text to GarudaBin');
     const key: Uint8Array = crypto.getRandomValues(new Uint8Array(32));
     const paste: PrivatebinResponse = await this.instance.sendText(text, key, this.options);
 

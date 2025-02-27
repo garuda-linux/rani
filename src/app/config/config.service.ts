@@ -2,7 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { AppSettings, AppState } from './interfaces';
 import { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
-import { info, trace } from '@tauri-apps/plugin-log';
+import { Logger } from '../logging/logging';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +21,15 @@ export class ConfigService {
     systemdUserContext: false,
   });
 
-  store!: Store;
+  public store!: Store;
+  private readonly logger = Logger.getInstance();
 
   constructor() {
     void this.init();
   }
 
   async init(): Promise<void> {
-    void trace('Initializing ConfigService');
+    this.logger.trace('Initializing ConfigService');
     this.store = await getConfigStore();
 
     let storedSettings = 0;
@@ -36,13 +37,13 @@ export class ConfigService {
       for (const key in this.settings()) {
         const value: any = await this.store.get(key);
         if (value) {
-          void trace(`Setting ${key} to ${value}`);
+          this.logger.trace(`Setting ${key} to ${value}`);
           this.settings.set({ ...this.settings(), [key]: value });
           storedSettings++;
         }
       }
 
-      void info(`Loaded ${storedSettings} settings from store`);
+      this.logger.info(`Loaded ${storedSettings} settings from store`);
     }
   }
 
@@ -52,7 +53,7 @@ export class ConfigService {
    * @param value The new value for the configuration key.
    */
   async updateConfig(key: string, value: any): Promise<void> {
-    void trace(`Updating ${key} to ${value}`);
+    this.logger.trace(`Updating ${key} to ${value}`);
     while (!this.store) {
       await new Promise((r) => setTimeout(r, 100));
     }
@@ -70,7 +71,7 @@ export class ConfigService {
    * @param value The new value for the key.
    */
   updateState(key: string, value: any): void {
-    void trace(`Updating state ${key} to ${value}`);
+    this.logger.trace(`Updating state ${key} to ${value}`);
 
     const state = { ...this.state() };
     state[key] = value;

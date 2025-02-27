@@ -1,5 +1,4 @@
 import { Component, inject, model, OnInit, signal } from '@angular/core';
-import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
@@ -16,6 +15,7 @@ import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'app-maintenance',
@@ -141,7 +141,9 @@ export class MaintenanceComponent implements OnInit {
   readonly appService = inject(AppService);
   readonly operationManager = inject(OperationManagerService);
   readonly privilegeManager = inject(PrivilegeManagerService);
-
+  private readonly confirmationService = inject(ConfirmationService);
+  private readonly loadingService = inject(LoadingService);
+  private readonly logger = Logger.getInstance();
   actions: MaintenanceAction[] = [
     {
       name: 'updateSystem',
@@ -152,7 +154,7 @@ export class MaintenanceComponent implements OnInit {
       hasOutput: true,
       order: 5,
       command: (): string => {
-        void info('Updating system');
+        this.logger.info('Updating system');
         return 'garuda-update --aur --noconfirm';
       },
     },
@@ -165,7 +167,7 @@ export class MaintenanceComponent implements OnInit {
       hasOutput: true,
       order: 99,
       command: (): string => {
-        void info('Cleaning cache');
+        this.logger.info('Cleaning cache');
         return 'paccache -ruk 0';
       },
     },
@@ -178,7 +180,7 @@ export class MaintenanceComponent implements OnInit {
       hasOutput: true,
       order: 98,
       command: (): string => {
-        void info('Cleaning orphans');
+        this.logger.info('Cleaning orphans');
         return 'pacman -Rns $(pacman -Qtdq)';
       },
     },
@@ -192,7 +194,7 @@ export class MaintenanceComponent implements OnInit {
       order: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        void info('Refreshing mirrors');
+        this.logger.info('Refreshing mirrors');
         void this.privilegeManager.ensurePackageAndRun('reflector-simple');
       },
     },
@@ -206,7 +208,7 @@ export class MaintenanceComponent implements OnInit {
       order: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        void info('Refreshing mirrors');
+        this.logger.info('Refreshing mirrors');
         void this.privilegeManager.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
       },
     },
@@ -219,7 +221,7 @@ export class MaintenanceComponent implements OnInit {
       hasOutput: true,
       order: 5,
       command: (): string => {
-        void info('Reinstalling packages');
+        this.logger.info('Reinstalling packages');
         return 'garuda-update remote reinstall';
       },
     },
@@ -232,7 +234,7 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       order: 1,
       command: (): string => {
-        void info('Removing database lock');
+        this.logger.info('Removing database lock');
         return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
       },
     },
@@ -246,12 +248,11 @@ export class MaintenanceComponent implements OnInit {
       order: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        void info('Editing repositories, checking for pace');
+        this.logger.info('Editing repositories, checking for pace');
         void this.privilegeManager.ensurePackageAndRun('pace');
       },
     },
   ];
-
   actionsGarudaUpdate: MaintenanceAction[] = [
     {
       name: 'updateRemoteFix',
@@ -262,7 +263,7 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       order: 0,
       command: (): string => {
-        void info('Running remote fix');
+        this.logger.info('Running remote fix');
         return 'garuda-update remote fix';
       },
     },
@@ -275,7 +276,7 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       order: 0,
       command: (): string => {
-        void info('Running remote keyring');
+        this.logger.info('Running remote keyring');
         return 'garuda-update remote keyring';
       },
     },
@@ -288,7 +289,7 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       order: 0,
       command: (): string => {
-        void info('Running remote full fix');
+        this.logger.info('Running remote full fix');
         return 'garuda-update remote fullfix';
       },
     },
@@ -301,7 +302,7 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       order: 0,
       command: (): string => {
-        void info('Running remote reset audio');
+        this.logger.info('Running remote reset audio');
         return 'garuda-update remote reset-audio';
       },
     },
@@ -314,19 +315,16 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       order: 0,
       command: (): string => {
-        void info('Running remote reset snapper');
+        this.logger.info('Running remote reset snapper');
         return 'garuda-update remote reset-snapper';
       },
     },
   ];
-
-  private readonly confirmationService = inject(ConfirmationService);
-  private readonly loadingService = inject(LoadingService);
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
   async ngOnInit(): Promise<void> {
-    void debug('Initializing maintenance');
+    this.logger.debug('Initializing maintenance');
     await this.checkExistingConfigs();
   }
 
@@ -334,45 +332,45 @@ export class MaintenanceComponent implements OnInit {
     this.loadingService.loadingOn();
     for (const config of this.resettableConfigs) {
       config.files.some(async (file) => {
-        void trace(`Checking file: ${file}`);
+        this.logger.trace(`Checking file: ${file}`);
         void this.operationManager.getCommandOutput<string>(`test -e ${file}`, (stdout: string | null) => {
           if (stdout !== null) {
-            void trace(`Found existing config: ${file}`);
+            this.logger.trace(`Found existing config: ${file}`);
             config.exists = true;
             return true;
           }
-          void trace(`No existing config: ${file}`);
+          this.logger.trace(`No existing config: ${file}`);
           return false;
         });
       });
     }
 
     this.loadingService.loadingOff();
-    void debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs)}`);
+    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs)}`);
   }
 
   /**
    * Reset a configuration file to its default state.
    */
   async resetConfigs(): Promise<void> {
-    void debug('Resetting configs');
+    this.logger.debug('Resetting configs');
     this.loadingService.loadingOn();
     const homeDir: string = await path.homeDir();
 
     for (const config of this.selectedResetConfigs()) {
-      void trace(`Resetting config: ${config.name}`);
+      this.logger.trace(`Resetting config: ${config.name}`);
       for (const file of config.files) {
         const cmd: string = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
-        void debug(`Running command: ${cmd}`);
+        this.logger.debug(`Running command: ${cmd}`);
 
         const result: string | null = await this.operationManager.getCommandOutput<string>(
           cmd,
           (stdout: string) => stdout,
         );
         if (result !== null) {
-          void info(`Successfully reset ${file}`);
+          this.logger.info(`Successfully reset ${file}`);
         } else {
-          void error(`Failed to reset ${file}`);
+          this.logger.error(`Failed to reset ${file}`);
           this.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
         }
       }
@@ -387,7 +385,7 @@ export class MaintenanceComponent implements OnInit {
    */
   addToPending(action: MaintenanceAction) {
     if (!this.operationManager.pending().find((operation) => operation.name === action.name)) {
-      void debug(`Adding ${action.name} to pending`);
+      this.logger.debug(`Adding ${action.name} to pending`);
       this.operationManager.pending.update((pending) => [
         ...pending,
         {
@@ -403,7 +401,7 @@ export class MaintenanceComponent implements OnInit {
       ]);
       action.addedToPending = true;
     } else {
-      void trace(`Removing ${action.name} from pending`);
+      this.logger.trace(`Removing ${action.name} from pending`);
       this.operationManager.pending.set(
         this.operationManager.pending().filter((operation) => operation.name !== action.name),
       );
@@ -416,12 +414,12 @@ export class MaintenanceComponent implements OnInit {
    * @param action The action to run
    */
   runNow(action: MaintenanceAction) {
-    void debug('Running maintenance action now');
+    this.logger.debug('Running maintenance action now');
     if (action.onlyDirect) {
-      void debug('Boom its a direct action');
+      this.logger.debug('Boom its a direct action');
       void action.command();
     } else {
-      void debug('Adding to pending and executing, clearing pending');
+      this.logger.debug('Adding to pending and executing, clearing pending');
       void this.operationManager.runNow({
         name: action.name as unknown as OperationType,
         prettyName: action.label,
@@ -436,7 +434,7 @@ export class MaintenanceComponent implements OnInit {
   }
 
   confirmResetConfigs(event: Event): void {
-    void trace('Confirming resetting configs');
+    this.logger.trace('Confirming resetting configs');
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: this.translocoService.translate('confirmation.resetConfigsBody'),

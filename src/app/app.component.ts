@@ -11,7 +11,6 @@ import { open } from '@tauri-apps/plugin-shell';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
-import { info, trace } from '@tauri-apps/plugin-log';
 import { FormsModule } from '@angular/forms';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ContextMenu } from 'primeng/contextmenu';
@@ -26,6 +25,7 @@ import { OperationManagerComponent } from './operation-manager/operation-manager
 import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfigService } from './config/config.service';
+import { Logger } from './logging/logging';
 
 @Component({
   imports: [
@@ -66,7 +66,6 @@ export class AppComponent implements OnInit {
   readonly appWindow = getCurrentWindow();
   readonly confirmationService = inject(ConfirmationService);
   readonly loadingService = inject(LoadingService);
-
   rightClickMenu = signal<MenuItem[]>([
     {
       label: 'Apply',
@@ -99,7 +98,9 @@ export class AppComponent implements OnInit {
       },
     },
   ]);
+
   protected readonly configService = inject(ConfigService);
+  private readonly logger = Logger.getInstance();
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
@@ -342,7 +343,7 @@ export class AppComponent implements OnInit {
    * @private
    */
   private shutdown(): void {
-    void info('Shutting down');
+    this.logger.info('Shutting down');
     void this.appWindow.destroy();
   }
 
@@ -352,12 +353,12 @@ export class AppComponent implements OnInit {
    */
   private attachTauriListeners() {
     void this.appWindow.listen('tauri://resize', async () => {
-      void trace('Resizing window');
+      this.logger.trace('Resizing window');
       this.configService.updateState('isMaximized', await this.appWindow.isMaximized());
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
-      void info('Close requested');
+      this.logger.info('Close requested');
       this.confirmationService.confirm({
         message: this.translocoService.translate('confirmation.exitApp'),
         header: this.translocoService.translate('confirmation.exitAppHeader'),

@@ -2,10 +2,13 @@ import { inject, signal } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { getConfigStore } from '../config/store';
 import { CatppuccinScrollbars } from '../theme';
+import { Logger } from '../logging/logging';
 
 export class ThemeHandler {
   darkMode = signal<boolean>(true);
+
   private readonly document = inject(DOCUMENT);
+  private readonly logger = Logger.getInstance();
 
   constructor() {
     this.checkDarkMode();
@@ -23,6 +26,7 @@ export class ThemeHandler {
       : CatppuccinScrollbars.light;
     this.document.documentElement.style.backgroundColor = this.darkMode() ? '#1e1e2e' : '#eff1f5';
 
+    this.logger.debug(`Dark mode ${this.darkMode() ? 'enabled' : 'disabled'}.`);
     void (await getConfigStore()).set('darkMode', this.darkMode());
   }
 

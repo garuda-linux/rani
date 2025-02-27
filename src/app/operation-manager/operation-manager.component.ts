@@ -1,9 +1,9 @@
 import { Component, inject } from '@angular/core';
 import { ConfirmationService, MenuItemCommandEvent } from 'primeng/api';
-import { debug } from '@tauri-apps/plugin-log';
 import { OperationManagerService } from './operation-manager.service';
 import { MessageToastService } from '@garudalinux/core';
 import { TranslocoService } from '@jsverse/transloco';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-operation-manager',
@@ -13,6 +13,7 @@ import { TranslocoService } from '@jsverse/transloco';
 })
 export class OperationManagerComponent {
   private readonly confirmationService = inject(ConfirmationService);
+  private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
@@ -22,7 +23,7 @@ export class OperationManagerComponent {
    * @param event The event that triggered to apply
    */
   applyOperations(event: Event | MenuItemCommandEvent) {
-    void debug('Firing apply operations');
+    this.logger.debug('Firing apply operations');
     this.confirmationService.confirm({
       target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
       message: this.translocoService.translate('confirmation.applyOperationsBody'),
@@ -39,11 +40,11 @@ export class OperationManagerComponent {
       },
 
       accept: () => {
-        void debug('Firing apply operations');
+        this.logger.debug('Firing apply operations');
         void this.operationManager.executeOperations();
       },
       reject: () => {
-        void debug('Rejected applying operations');
+        this.logger.debug('Rejected applying operations');
         this.messageToastService.error('Rejected', 'You have rejected');
       },
     });
@@ -54,7 +55,7 @@ export class OperationManagerComponent {
    * @param event The event that triggered the clear
    */
   clearOperations(event: Event | MenuItemCommandEvent): void {
-    void debug('Firing clear operations');
+    this.logger.debug('Firing clear operations');
     const operations = this.operationManager.pending().length === 1 ? 'operation' : 'operations';
     this.confirmationService.confirm({
       target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
@@ -75,11 +76,11 @@ export class OperationManagerComponent {
       accept: () => {
         this.operationManager.pending.set([]);
         this.messageToastService.info('Confirmed', 'Pending operations cleared');
-        void debug('Cleared pending operations');
+        this.logger.debug('Cleared pending operations');
       },
       reject: () => {
         this.messageToastService.error('Rejected', 'You have rejected');
-        void debug('Rejected clearing pending operations');
+        this.logger.debug('Rejected clearing pending operations');
       },
     });
   }

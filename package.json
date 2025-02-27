@@ -1,13 +1,16 @@
 {
   "name": "garuda-rani",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "scripts": {
     "build": "ng build",
+    "build-debug": "tauri build --debug",
     "dev": "tauri dev",
+    "dev-debug": "pnpm build-debug && src-tauri/target/debug/garuda-rani",
     "format": "prettier -wu . && cd src-tauri && cargo fmt",
     "ng": "ng",
     "start": "ng serve",
     "tauri": "tauri",
+    "translate": "jsontt src/assets/i18n/en.json --module google --from en --to am ar es eu fr hu id it ja ko pt sl sv sw zh-CN gl hi ru pl tr",
     "watch": "ng build --watch --configuration development"
   },
   "private": true,
@@ -67,6 +70,7 @@
     "@catppuccin/tailwindcss": "^0.1.6",
     "@jsverse/transloco-optimize": "^7.0.1",
     "@jsverse/transloco-utils": "^7.0.2",
+    "@parvineyvazov/json-translator": "^3.2.2",
     "@tauri-apps/cli": "^2.3.0",
     "@types/emoji-js": "^3.5.2",
     "@types/jasmine": "~5.1.7",

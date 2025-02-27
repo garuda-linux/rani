@@ -7,6 +7,7 @@ import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dy
 import { LanguageSelectionComponent } from './language-selection.component';
 import { locale } from '@tauri-apps/plugin-os';
 import { ConfigService } from '../config/config.service';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-language-switcher',
@@ -23,6 +24,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
 
   private readonly configService = inject(ConfigService);
   private readonly dialogService = inject(DialogService);
+  private readonly logger = Logger.getInstance();
   private readonly translocoService = inject(TranslocoService);
 
   /**
@@ -37,6 +39,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
     if (activeLang.match(/en-/)) {
       activeLang = 'en';
     }
+    this.logger.trace(`Active language: ${activeLang}`);
 
     if (activeLang && activeLang !== this.translocoService.getActiveLang()) {
       this.translocoService.setActiveLang(activeLang);
@@ -73,7 +76,6 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
       dismissableMask: true,
     });
     this.ref.onClose.subscribe((language: string) => {
-      console.error('Language selected:', language);
       if (language) {
         this.selectLanguage(language);
       }

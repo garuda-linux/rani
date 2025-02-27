@@ -3,13 +3,12 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { FormsModule } from '@angular/forms';
 import { Nullable } from 'primeng/ts-helpers';
-import { AppService } from '../app.service';
-import { debug, error } from '@tauri-apps/plugin-log';
 import { Select } from 'primeng/select';
 import { DnsProvider, DnsProviderName, dnsProviders, Shell, ShellEntry, ShellName, shells } from './types';
 import { Checkbox } from 'primeng/checkbox';
 import { StatefulPackage, SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-system-settings',
@@ -230,8 +229,8 @@ export class SystemSettingsComponent {
     },
   ];
 
-  appService = inject(AppService);
   operationManager = inject(OperationManagerService);
+  private readonly logger = Logger.getInstance();
 
   constructor() {
     void this.init();
@@ -243,11 +242,11 @@ export class SystemSettingsComponent {
     const results = await Promise.allSettled(initPromises);
     for (const result of results) {
       if (result.status === 'rejected') {
-        void error(JSON.stringify(result.reason));
+        this.logger.error(JSON.stringify(result.reason));
       }
     }
 
-    void debug(
+    this.logger.debug(
       `System settings initialized: ${JSON.stringify(this.currentShell())}, selected: ${this.selectedBoxes().join(', ')}, dns: ${JSON.stringify(this.currentDns())}`,
     );
     this.loading.set(false);

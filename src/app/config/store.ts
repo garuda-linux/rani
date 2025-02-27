@@ -1,10 +1,12 @@
 import { load, Store } from '@tauri-apps/plugin-store';
 import { appConfigDir } from '@tauri-apps/api/path';
-import { debug } from '@tauri-apps/plugin-log';
+import { Logger } from '../logging/logging';
+
+const logger = Logger.getInstance();
 
 export async function getConfigStore(): Promise<Store> {
   const appConfigDirPath = await appConfigDir();
-  void debug(`Saving config to: ${appConfigDirPath}`);
+  logger.debug(`Saving config to: ${appConfigDirPath}`);
 
   return await load(`${appConfigDirPath}/config.json`, { autoSave: true });
 }

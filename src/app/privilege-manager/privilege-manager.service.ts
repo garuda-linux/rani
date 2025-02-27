@@ -3,7 +3,7 @@ import { type PrivilegeManager, PrivilegeManagerInstance } from './privilege-man
 import type { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { MessageToastService } from '@garudalinux/core';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
-import { trace } from '@tauri-apps/plugin-log';
+import { Logger } from '../logging/logging';
 
 @Injectable({
   providedIn: 'root',
@@ -11,8 +11,10 @@ import { trace } from '@tauri-apps/plugin-log';
 export class PrivilegeManagerService {
   private manager: PrivilegeManager = PrivilegeManagerInstance;
   public sudoDialogVisible = this.manager.sudoDialogVisible;
-  private loadingService = inject(LoadingService);
-  private messageToastService = inject(MessageToastService);
+
+  private readonly loadingService = inject(LoadingService);
+  private readonly logger = Logger.getInstance();
+  private readonly messageToastService = inject(MessageToastService);
 
   /*
    * Get the sudo password from the user. Open a dialog to prompt the user for the password.
@@ -33,7 +35,7 @@ export class PrivilegeManagerService {
   async writeSudoPass(pass: string, cache = false): Promise<void> {
     this.loadingService.loadingOn();
     try {
-      void trace(`Writing sudo pass: ${pass}, cache: ${cache}`);
+      this.logger.trace(`Writing sudo pass: ${pass}, cache: ${cache}`);
       await this.manager.writeSudoPass(pass, cache);
     } catch (err: any) {
       this.messageToastService.error('Error', err.message);

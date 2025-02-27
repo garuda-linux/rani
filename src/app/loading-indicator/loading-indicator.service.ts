@@ -1,21 +1,22 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { trace } from '@tauri-apps/plugin-log';
+import { Logger } from '../logging/logging';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingService {
   private loadingSubject = new BehaviorSubject<boolean>(false);
-  loading$: Observable<boolean> = this.loadingSubject.asObservable();
+  public loading$: Observable<boolean> = this.loadingSubject.asObservable();
+  private readonly logger = Logger.getInstance();
 
   loadingOn(): void {
-    void trace('Loading on');
+    this.logger.trace('Loading on');
     this.loadingSubject.next(true);
   }
 
   loadingOff(): void {
-    void trace('Loading off');
+    this.logger.trace('Loading off');
     this.loadingSubject.next(false);
   }
 }

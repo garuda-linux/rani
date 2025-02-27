@@ -5,7 +5,6 @@ import { NgForOf, NgOptimizedImage } from '@angular/common';
 import { AppService } from '../app.service';
 import { DataViewModule } from 'primeng/dataview';
 import { FullPackageDefinition, StatefulPackage } from '../interfaces';
-import { error, info } from '@tauri-apps/plugin-log';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { Card } from 'primeng/card';
 import { flavors } from '@catppuccin/palette';
@@ -13,6 +12,7 @@ import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-gaming',
@@ -162,6 +162,7 @@ export class GamingComponent implements OnInit {
 
   protected readonly operationManager = inject(OperationManagerService);
   private readonly appService = inject(AppService);
+  private readonly logger = Logger.getInstance();
   private readonly loadingService = inject(LoadingService);
 
   constructor() {
@@ -178,12 +179,12 @@ export class GamingComponent implements OnInit {
   }
 
   async checkInstalled() {
-    void info('Checking installed packages');
+    this.logger.info('Checking installed packages');
     const cmd = 'pacman -Qq';
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
     if (result.code !== 0) {
-      void error(`Error checking installed packages: ${result.stderr}`);
+      this.logger.error(`Error checking installed packages: ${result.stderr}`);
       return;
     }
 

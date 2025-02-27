@@ -4,8 +4,6 @@ import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
 import { Table, TableModule } from 'primeng/table';
-import { AppService } from '../app.service';
-import { debug, error, trace } from '@tauri-apps/plugin-log';
 import { SystemdService, SystemdServiceAction } from '../interfaces';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -15,6 +13,7 @@ import { Nullable } from 'primeng/ts-helpers';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { Tooltip } from 'primeng/tooltip';
 import { ConfigService } from '../config/config.service';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-systemd-services',
@@ -32,14 +31,14 @@ export class SystemdServicesComponent implements OnInit {
 
   intervalRef: Nullable<number> = null;
 
-  protected readonly appService = inject(AppService);
   protected readonly configService = inject(ConfigService);
+  private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
 
   async ngOnInit() {
-    void debug('Initializing system tools');
+    this.logger.debug('Initializing system tools');
 
     if (this.configService.settings().systemdUserContext) {
       this.userContext.set(true);
@@ -50,7 +49,7 @@ export class SystemdServicesComponent implements OnInit {
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);
-      void debug('Started auto-refresh');
+      this.logger.debug('Started auto-refresh');
     }
 
     this.loading.set(false);
@@ -118,7 +117,7 @@ export class SystemdServicesComponent implements OnInit {
    */
   async executeAction(event: SystemdServiceAction): Promise<void> {
     if (!this.activeService()) {
-      void error('No active service selected, something went wrong here');
+      this.logger.error('No active service selected, something went wrong here');
       return;
     }
 
@@ -165,11 +164,11 @@ export class SystemdServicesComponent implements OnInit {
         this.translocoService.translate('systemdServices.errorTitle'),
         this.translocoService.translate('systemdServices.error', { action: event }),
       );
-      void error(`Could execute action ${action}`);
+      this.logger.error(`Could execute action ${action}`);
       return;
     }
 
-    void trace(`Command ${action} executed successfully`);
+    this.logger.trace(`Command ${action} executed successfully`);
     if (event === 'logs') {
       this.operationManager.operationOutput.set('');
       this.operationManager.addTerminalOutput(output);
@@ -204,10 +203,10 @@ export class SystemdServicesComponent implements OnInit {
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);
-      void debug('Started auto-refresh');
+      this.logger.debug('Started auto-refresh');
     } else if (this.intervalRef) {
       clearInterval(this.intervalRef);
-      void debug('Stopped auto-refresh');
+      this.logger.debug('Stopped auto-refresh');
     }
   }
 

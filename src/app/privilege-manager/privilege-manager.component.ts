@@ -1,12 +1,12 @@
 import { Component, inject, signal } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { PrivilegeManagerService } from './privilege-manager.service';
-import { error, trace } from '@tauri-apps/plugin-log';
 import { MessageToastService } from '@garudalinux/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { NgClass } from '@angular/common';
+import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-privilege-manager',
@@ -18,6 +18,7 @@ export class PrivilegeManagerComponent {
   passwordInvalid = signal<boolean>(false);
 
   protected privilegeManager = inject(PrivilegeManagerService);
+  private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -28,7 +29,7 @@ export class PrivilegeManagerComponent {
    */
   async writeSudoPass(pass: string, cache = false): Promise<void> {
     if (!pass) {
-      void trace('Password is empty');
+      this.logger.trace('Password is empty');
       this.passwordInvalid.set(true);
       return;
     }
@@ -36,7 +37,7 @@ export class PrivilegeManagerComponent {
       await this.privilegeManager.writeSudoPass(pass, cache);
       this.passwordInvalid.set(false);
     } catch (err: any) {
-      void error(err);
+      this.logger.error(err);
       this.passwordInvalid.set(true);
       this.messageToastService.error('Error', this.translocoService.translate('error.sudoPassword'));
     }

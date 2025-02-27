@@ -17,7 +17,6 @@ import {
   SET_NEW_DNS_SERVER,
 } from './interfaces';
 import { INSTALL_ACTION_NAME } from '../constants';
-import { debug, error, info, trace } from '@tauri-apps/plugin-log';
 import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { Nullable } from 'primeng/ts-helpers';
@@ -25,6 +24,7 @@ import { EventEmitter, signal } from '@angular/core';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
 import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-manager/privilege-manager';
 import { TranslocoService } from '@jsverse/transloco';
+import { Logger } from '../logging/logging';
 
 export class OperationManager {
   public currentOperation = signal<Nullable<string>>(null);
@@ -37,6 +37,7 @@ export class OperationManager {
   public operationNewEmitter = new EventEmitter<string>();
   public requestTerminal = new EventEmitter<boolean>();
 
+  private readonly logger = Logger.getInstance();
   private readonly privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
   private store: Nullable<Store> = null;
 
@@ -54,14 +55,14 @@ export class OperationManager {
 
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', 'whoami']).execute();
     if (result.code !== 0) {
-      void error('Could not get user');
+      this.logger.error('Could not get user');
     } else {
       this.user.set(result.stdout.trim());
     }
   }
 
   handleToggleSystemTools(entry: SystemToolsSubEntry) {
-    void debug('Toggling system tools entry');
+    this.logger.debug('Toggling system tools entry');
 
     if (entry.check.type === 'pkg') {
       this.handleTogglePackage({
@@ -128,24 +129,24 @@ export class OperationManager {
   }
 
   handleTogglePackage(entry: StatefulPackage): void {
-    void debug('Toggling package entry');
-    void trace(JSON.stringify(entry));
+    this.logger.debug('Toggling package entry');
+    this.logger.trace(JSON.stringify(entry));
 
     if (entry.initialState) {
       const existing: Operation | undefined = this.findExisting(REMOVE_ACTION_NAME);
 
       if (!entry.selected) {
-        void trace(`Removing package ${entry.pkgname} from system`);
+        this.logger.trace(`Removing package ${entry.pkgname} from system`);
         if (existing) {
-          void trace('Adding package to existing operation');
+          this.logger.trace('Adding package to existing operation');
           existing.commandArgs.push(...entry.pkgname);
         } else {
-          void trace('Creating new operation');
+          this.logger.trace('Creating new operation');
           this.addPackageRemoval(entry.pkgname);
         }
       } else {
         if (existing) {
-          void trace(`Removing packages ${entry.pkgname.join(', ')} from existing operation`);
+          this.logger.trace(`Removing packages ${entry.pkgname.join(', ')} from existing operation`);
           for (const pkgname of entry.pkgname) {
             this.removeFromArgs(existing, pkgname);
           }
@@ -155,17 +156,17 @@ export class OperationManager {
       const existing: Operation | undefined = this.findExisting(INSTALL_ACTION_NAME);
 
       if (entry.selected) {
-        void trace(`Adding packages ${entry.pkgname.join(', ')} to system`);
+        this.logger.trace(`Adding packages ${entry.pkgname.join(', ')} to system`);
         if (existing) {
-          void trace('Adding packages to existing operation');
+          this.logger.trace('Adding packages to existing operation');
           existing.commandArgs.push(...entry.pkgname);
         } else {
-          void trace('Creating new operation');
+          this.logger.trace('Creating new operation');
           this.addPackageInstallation(entry.pkgname);
         }
       } else {
         if (existing) {
-          void trace(`Removing packages ${entry.pkgname.join(', ')} from existing operation`);
+          this.logger.trace(`Removing packages ${entry.pkgname.join(', ')} from existing operation`);
           for (const pkgname of entry.pkgname) {
             this.removeFromArgs(existing, pkgname);
           }
@@ -182,7 +183,7 @@ export class OperationManager {
   removeFromArgs(operation: Operation, arg: string): void {
     const index: number = operation.commandArgs.indexOf(arg);
     operation.commandArgs.splice(index, 1);
-    void debug(`Removed ${arg} from args`);
+    this.logger.debug(`Removed ${arg} from args`);
 
     if (operation.commandArgs.length === 0) {
       this.removeFromPending(operation);
@@ -194,7 +195,7 @@ export class OperationManager {
    * @param operation The operation to remove
    */
   removeFromPending(operation: Operation): void {
-    void debug(`Removing ${operation.name} operation`);
+    this.logger.debug(`Removing ${operation.name} operation`);
     this.pending.update((value) => value.filter((op: Operation) => op.name !== operation.name));
   }
 
@@ -215,7 +216,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: packages,
       command: (args?: string[]): string => {
-        void info('Installing packages');
+        this.logger.info('Installing packages');
         const allPkgs: string[] = [];
         for (const arg of args!) {
           if (arg.includes(',')) allPkgs.push(...arg.split(','));
@@ -235,7 +236,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: packages,
       command: (args?: string[]): string => {
-        void info('Removing packages');
+        this.logger.info('Removing packages');
         const allPkgs: string[] = [];
         for (const arg of args!) {
           if (arg.includes(',')) allPkgs.push(...arg.split(','));
@@ -255,7 +256,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: [name],
       command: (args?: string[]): string => {
-        void info('Enabling service');
+        this.logger.info('Enabling service');
         return `systemctl ${userContext ? '--user' : ''} enable --now ${args![0]}`;
       },
     };
@@ -270,7 +271,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: [name],
       command: (args?: string[]): string => {
-        void info('Disabling service');
+        this.logger.info('Disabling service');
         return `systemctl ${userContext ? '--user' : ''} disable --now ${args![0]}`;
       },
     };
@@ -285,7 +286,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: [action.check.name],
       command: (args?: string[]): string => {
-        void info(`Adding user ${this.user} to group ${action.check.name}`);
+        this.logger.info(`Adding user ${this.user} to group ${action.check.name}`);
         return `gpasswd -a ${this.user} ${args![0]}`;
       },
     };
@@ -300,7 +301,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: [action.check.name],
       command: (args?: string[]): string => {
-        void info(`Removing user ${this.user} from group ${action.check.name}`);
+        this.logger.info(`Removing user ${this.user} from group ${action.check.name}`);
         return `gpasswd -d ${this.user} ${args![0]}`;
       },
     };
@@ -308,8 +309,8 @@ export class OperationManager {
   }
 
   toggleHblock(initialState: boolean, newState: boolean): void {
-    void debug('Toggling hblock');
-    void trace(`Initial state: ${initialState}, new state: ${newState}`);
+    this.logger.debug('Toggling hblock');
+    this.logger.trace(`Initial state: ${initialState}, new state: ${newState}`);
 
     const currentAction = newState ? DISABLE_HBLOCK_NAME : ENABLE_HBLOCK_NAME;
     const existing: Operation | undefined = this.findExisting(currentAction);
@@ -328,7 +329,7 @@ export class OperationManager {
   }
 
   addEnableHblock(): void {
-    void debug('Adding hblock');
+    this.logger.debug('Adding hblock');
 
     const existing = this.findExisting(INSTALL_ACTION_NAME);
     if (!existing) {
@@ -347,7 +348,7 @@ export class OperationManager {
       order: 10,
       commandArgs: [],
       command: (): string => {
-        void info('Enabling hblock');
+        this.logger.info('Enabling hblock');
         return 'systemctl enable --now hblock.timer && hblock -S none -D none';
       },
     };
@@ -355,7 +356,7 @@ export class OperationManager {
   }
 
   addRemoveHblock() {
-    void debug('Removing hblock');
+    this.logger.debug('Removing hblock');
 
     const existing = this.findExisting(REMOVE_ACTION_NAME);
     if (!existing) {
@@ -374,7 +375,7 @@ export class OperationManager {
       order: 10,
       commandArgs: [],
       command: (): string => {
-        void info('Enabling hblock');
+        this.logger.info('Enabling hblock');
         return 'systemctl disable --now hblock.timer && hblock -S none -D none';
       },
     };
@@ -382,18 +383,18 @@ export class OperationManager {
   }
 
   toggleDnsServer(initialState: boolean, dns: DnsProvider): void {
-    void debug('Toggling DNS server');
-    void trace(JSON.stringify(dns));
+    this.logger.debug('Toggling DNS server');
+    this.logger.trace(JSON.stringify(dns));
     const existing: Operation = this.findExisting(SET_NEW_DNS_SERVER)!;
 
     if (initialState) {
       this.removeFromPending(existing);
     } else if (dns.name === 'Default') {
-      void trace('Removing DNS server, resetting to default');
+      this.logger.trace('Removing DNS server, resetting to default');
       if (existing) this.removeFromPending(existing);
       this.addRemoveDnsServer();
     } else if (existing) {
-      void trace(`Changing DNS server operation args to ${dns.ips.join(', ')}`);
+      this.logger.trace(`Changing DNS server operation args to ${dns.ips.join(', ')}`);
       existing.commandArgs = dns.ips;
     } else {
       this.addNewDnsServer(dns);
@@ -401,7 +402,7 @@ export class OperationManager {
   }
 
   addNewDnsServer(dns: DnsProvider) {
-    void debug('Adding new DNS server');
+    this.logger.debug('Adding new DNS server');
     const operation: Operation = {
       name: SET_NEW_DNS_SERVER,
       prettyName: 'operation.setNewDnsServer',
@@ -409,7 +410,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: dns.ips,
       command: (args?: string[]): Command<string> => {
-        void info('Adding new DNS server');
+        this.logger.info('Adding new DNS server');
         return Command.create('sidecar/change-dns.sh', args);
       },
     };
@@ -417,7 +418,7 @@ export class OperationManager {
   }
 
   addRemoveDnsServer(): void {
-    void debug('Removing DNS server');
+    this.logger.debug('Removing DNS server');
     const operation: Operation = {
       name: RESET_DNS_SERVER,
       prettyName: 'operation.resetDnsServer',
@@ -425,7 +426,7 @@ export class OperationManager {
       status: 'pending',
       commandArgs: [],
       command: (): Command<string> => {
-        void info('Removing DNS server');
+        this.logger.info('Removing DNS server');
         return Command.create('sidecar/change-dns.sh', ['0.0.0.0']);
       },
     };
@@ -440,7 +441,7 @@ export class OperationManager {
    * @param sudo Whether to run the command as sudo.
    */
   async getCommandOutput<T>(cmd: string, transformator?: Function, sudo = false): Promise<T | null> {
-    void debug(`Getting command output: ${cmd}`);
+    this.logger.debug(`Getting command output: ${cmd}`);
 
     let result: ChildProcess<string>;
     if (sudo) {
@@ -456,7 +457,7 @@ export class OperationManager {
         return result.stdout as T;
       }
     } else {
-      void error(`Failed running command: ${cmd}`);
+      this.logger.error(`Failed running command: ${cmd}`);
       return null;
     }
   }
@@ -466,13 +467,13 @@ export class OperationManager {
    * If an operation fails, the status will be set to 'error'.
    */
   async executeOperations(): Promise<void> {
-    void info('Executing pending operations');
+    this.logger.info('Executing pending operations');
     await this.prepareRun();
 
     let i: number = 1;
     for (const operation of this.pending()) {
       if (operation.status === 'complete') {
-        void debug(`Skipping operation ${operation.name} as it is already complete`);
+        this.logger.debug(`Skipping operation ${operation.name} as it is already complete`);
         continue;
       }
 
@@ -491,7 +492,7 @@ export class OperationManager {
    * @param i The index of the operation in the pending list.
    */
   async executeOperation(operation: Operation, i = 1): Promise<void> {
-    void info(operation.name);
+    this.logger.info(operation.name);
     operation.status = 'running';
     this.operationOutput.set('');
     this.operationNewEmitter.emit(operation.name);
@@ -523,11 +524,11 @@ export class OperationManager {
       cmd.stderr.on('data', (data) => this.addTermOutput(data));
       cmd.on('close', (code) => {
         finished = code;
-        void info(`child process exited with code ${code.code}`);
+        this.logger.info(`child process exited with code ${code.code}`);
       });
 
       const child: Child = await cmd.spawn();
-      void trace(`Process spawned with pid ${child.pid}`);
+      this.logger.trace(`Process spawned with pid ${child.pid}`);
 
       while (finished === null) {
         await new Promise((r) => setTimeout(r, 100));
@@ -542,7 +543,7 @@ export class OperationManager {
         }
         operation.status = 'complete';
       } catch (err: any) {
-        void error(`Something exploded while running cmd: ${err}'`);
+        this.logger.error(`Something exploded while running cmd: ${err}'`);
         operation.output = err.message;
         operation.status = 'error';
       }
@@ -584,14 +585,14 @@ export class OperationManager {
    * @param shellEntry The shell entry to set as the default shell
    */
   toggleShell(initialState: boolean, shellEntry: ShellEntry): void {
-    void debug('Toggling shell entry');
+    this.logger.debug('Toggling shell entry');
     const existing: Operation = this.findExisting(SET_DEFAULT_SHELL_ACTION_NAME)!;
 
     if (initialState) {
-      void trace('Removing from pending');
+      this.logger.trace('Removing from pending');
       this.removeFromPending(existing);
     } else if (!existing) {
-      void trace('Adding to pending');
+      this.logger.trace('Adding to pending');
       const operation: Operation = {
         name: SET_DEFAULT_SHELL_ACTION_NAME,
         prettyName: 'operation.setDefaultShell',
@@ -599,13 +600,13 @@ export class OperationManager {
         status: 'pending',
         commandArgs: [shellEntry.name],
         command: (args?: string[]): string => {
-          void info(`Changing default shell to ${args![0]}`);
+          this.logger.info(`Changing default shell to ${args![0]}`);
           return `chsh -s $(which ${args![0]}) ${this.user}`;
         },
       };
       this.pending.update((value) => [...value, operation]);
     } else if (existing) {
-      void trace(`Changing command args to ${shellEntry.name}`);
+      this.logger.trace(`Changing command args to ${shellEntry.name}`);
       existing.commandArgs = [shellEntry.name];
     }
   }
