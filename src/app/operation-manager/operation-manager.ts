@@ -13,15 +13,16 @@ import {
   REMOVE_ACTION_NAME,
   REMOVE_USER_GROUP_ACTION_NAME,
   RESET_DNS_SERVER,
+  SET_DEFAULT_SHELL_ACTION_NAME,
   SET_NEW_DNS_SERVER,
 } from './interfaces';
 import { INSTALL_ACTION_NAME } from '../constants';
 import { debug, error, info, trace } from '@tauri-apps/plugin-log';
-import { Package, SystemToolsSubEntry } from '../interfaces';
+import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { Nullable } from 'primeng/ts-helpers';
 import { EventEmitter, signal } from '@angular/core';
-import { DnsProvider } from '../system-settings/types';
+import { DnsProvider, ShellEntry } from '../system-settings/types';
 import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-manager/privilege-manager';
 import { TranslocoService } from '@jsverse/transloco';
 
@@ -64,14 +65,14 @@ export class OperationManager {
     if (entry.check.type === 'pkg') {
       this.handleTogglePackage({
         pkgname: [entry.check.name],
-        selected: entry.initialState,
-        initialState: entry.checked,
+        selected: entry.checked,
+        initialState: entry.initialState,
       });
       return;
     }
 
-    if (entry.initialState) {
-      if (!entry.checked) {
+    if (!entry.initialState) {
+      if (entry.checked) {
         switch (entry.check.type) {
           case 'group':
             this.addAddUserToGroup(entry);
@@ -97,7 +98,7 @@ export class OperationManager {
         }
       }
     } else {
-      if (entry.checked) {
+      if (!entry.checked) {
         switch (entry.check.type) {
           case 'group':
             this.addRemoveUserFromGroup(entry);
@@ -125,50 +126,82 @@ export class OperationManager {
     }
   }
 
-  handleTogglePackage(entry: { pkgname: string[]; initialState: boolean; selected: boolean } | Package) {
+  handleTogglePackage(entry: StatefulPackage): void {
     void debug('Toggling package entry');
+    void trace(JSON.stringify(entry));
+
     if (entry.initialState) {
+      const existing: Operation | undefined = this.findExisting(REMOVE_ACTION_NAME);
+
       if (!entry.selected) {
-        this.addPackageRemoval(entry.pkgname);
-      } else {
-        const existing: Operation | undefined = this.findExisting(INSTALL_ACTION_NAME);
+        void trace(`Removing package ${entry.pkgname} from system`);
         if (existing) {
+          void trace('Adding package to existing operation');
+          existing.commandArgs.push(...entry.pkgname);
+        } else {
+          void trace('Creating new operation');
+          this.addPackageRemoval(entry.pkgname);
+        }
+      } else {
+        if (existing) {
+          void trace(`Removing packages ${entry.pkgname.join(', ')} from existing operation`);
           for (const pkgname of entry.pkgname) {
             this.removeFromArgs(existing, pkgname);
-          }
-          if (existing.commandArgs.length === 0) {
-            this.removeFromPending(existing);
           }
         }
       }
     } else {
+      const existing: Operation | undefined = this.findExisting(INSTALL_ACTION_NAME);
+
       if (entry.selected) {
-        this.addPackageInstallation(entry.pkgname);
-      } else {
-        const existing: Operation | undefined = this.findExisting(REMOVE_ACTION_NAME);
+        void trace(`Adding packages ${entry.pkgname.join(', ')} to system`);
         if (existing) {
+          void trace('Adding packages to existing operation');
+          existing.commandArgs.push(...entry.pkgname);
+        } else {
+          void trace('Creating new operation');
+          this.addPackageInstallation(entry.pkgname);
+        }
+      } else {
+        if (existing) {
+          void trace(`Removing packages ${entry.pkgname.join(', ')} from existing operation`);
           for (const pkgname of entry.pkgname) {
             this.removeFromArgs(existing, pkgname);
-          }
-          if (existing.commandArgs.length === 0) {
-            this.removeFromPending(existing);
           }
         }
       }
     }
   }
 
-  removeFromArgs(operation: Operation, arg: string) {
+  /**
+   * Remove an argument from an operation, removing the operation if it has no arguments left.
+   * @param operation The operation to remove the argument from
+   * @param arg The argument to remove
+   */
+  removeFromArgs(operation: Operation, arg: string): void {
     const index: number = operation.commandArgs.indexOf(arg);
     operation.commandArgs.splice(index, 1);
     void debug(`Removed ${arg} from args`);
+
+    if (operation.commandArgs.length === 0) {
+      this.removeFromPending(operation);
+    }
   }
 
+  /**
+   * Remove an operation from the pending list.
+   * @param operation The operation to remove
+   */
   removeFromPending(operation: Operation): void {
     void debug(`Removing ${operation.name} operation`);
     this.pending.update((value) => value.filter((op: Operation) => op.name !== operation.name));
   }
 
+  /**
+   * Find an operation in the pending list.
+   * @param opType The operation type to find
+   * @returns The operation if found, otherwise undefined
+   */
   findExisting(opType: OperationType): Operation | undefined {
     return this.pending().find((op: Operation) => op.name === opType);
   }
@@ -176,7 +209,7 @@ export class OperationManager {
   addPackageInstallation(packages: string[]) {
     const operation: Operation = {
       name: INSTALL_ACTION_NAME,
-      prettyName: 'Install apps',
+      prettyName: 'operation.installApps',
       sudo: true,
       status: 'pending',
       commandArgs: packages,
@@ -275,7 +308,9 @@ export class OperationManager {
 
   toggleHblock(initialState: boolean, newState: boolean): void {
     void debug('Toggling hblock');
-    const currentAction = newState ? ENABLE_HBLOCK_NAME : DISABLE_HBLOCK_NAME;
+    void trace(`Initial state: ${initialState}, new state: ${newState}`);
+
+    const currentAction = newState ? DISABLE_HBLOCK_NAME : ENABLE_HBLOCK_NAME;
     const existing: Operation | undefined = this.findExisting(currentAction);
 
     if (!initialState && newState && !existing) {
@@ -283,13 +318,26 @@ export class OperationManager {
     } else if (initialState && !newState && !existing) {
       this.addRemoveHblock();
     } else if (existing) {
+      const currentPkgAction: Operation | undefined = this.findExisting(
+        newState ? INSTALL_ACTION_NAME : REMOVE_ACTION_NAME,
+      );
+      if (currentPkgAction) this.removeFromArgs(currentPkgAction, 'hblock');
       this.removeFromPending(existing);
     }
   }
 
-  addEnableHblock() {
+  addEnableHblock(): void {
     void debug('Adding hblock');
-    this.addPackageInstallation(['hblock']);
+
+    const existing = this.findExisting(INSTALL_ACTION_NAME);
+    if (!existing) {
+      this.addPackageInstallation(['hblock']);
+    } else {
+      if (!existing.commandArgs.includes('hblock')) {
+        existing.commandArgs.push('hblock');
+      }
+    }
+
     const operation: Operation = {
       name: ENABLE_HBLOCK_NAME,
       prettyName: 'operation.enableHblock',
@@ -307,7 +355,16 @@ export class OperationManager {
 
   addRemoveHblock() {
     void debug('Removing hblock');
-    this.addPackageRemoval(['hblock']);
+
+    const existing = this.findExisting(REMOVE_ACTION_NAME);
+    if (!existing) {
+      this.addPackageRemoval(['hblock']);
+    } else {
+      if (!existing.commandArgs.includes('hblock')) {
+        existing.commandArgs.push('hblock');
+      }
+    }
+
     const operation: Operation = {
       name: DISABLE_HBLOCK_NAME,
       prettyName: 'operation.disableHblock',
@@ -323,16 +380,22 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
-  toggleDnsServer(initialState: boolean, newState: boolean, dns: DnsProvider): void {
+  toggleDnsServer(initialState: boolean, dns: DnsProvider): void {
     void debug('Toggling DNS server');
-    if (initialState && !newState) {
+    void trace(JSON.stringify(dns));
+    const existing: Operation = this.findExisting(SET_NEW_DNS_SERVER)!;
+
+    if (initialState) {
+      this.removeFromPending(existing);
+    } else if (dns.name === 'Default') {
+      void trace('Removing DNS server, resetting to default');
+      if (existing) this.removeFromPending(existing);
       this.addRemoveDnsServer();
-    } else if (initialState && newState) {
-      this.removeFromPending(this.findExisting(RESET_DNS_SERVER)!);
-    } else if (!initialState && newState) {
+    } else if (existing) {
+      void trace(`Changing DNS server operation args to ${dns.ips.join(', ')}`);
+      existing.commandArgs = dns.ips;
+    } else {
       this.addNewDnsServer(dns);
-    } else if (!initialState && !newState) {
-      this.removeFromPending(this.findExisting(SET_NEW_DNS_SERVER)!);
     }
   }
 
@@ -343,10 +406,10 @@ export class OperationManager {
       prettyName: 'operation.setNewDnsServer',
       sudo: true,
       status: 'pending',
-      commandArgs: [],
+      commandArgs: dns.ips,
       command: (args?: string[]): Command<string> => {
         void info('Adding new DNS server');
-        return Command.create('sidecar/change-dns.sh', dns.ips);
+        return Command.create('sidecar/change-dns.sh', args);
       },
     };
     this.pending.update((value) => [...value, operation]);
@@ -445,8 +508,8 @@ export class OperationManager {
         cmd = op;
       }
 
-      cmd.stdout.on('data', (data) => this.operationOutput.update((content) => content + data));
-      cmd.stderr.on('data', (data) => this.operationOutput.update((content) => content + data));
+      cmd.stdout.on('data', (data) => this.addTermOutput(data));
+      cmd.stderr.on('data', (data) => this.addTermOutput(data));
       cmd.on('close', (code) => {
         finished = code;
         void info(`child process exited with code ${code.code}`);
@@ -502,6 +565,38 @@ export class OperationManager {
 
     await this.prepareRun();
     await this.executeOperation(operation);
+  }
+
+  /**
+   * Toggle the default shell, adding or removing the operation from the pending list.
+   * @param initialState The initial state of the shell
+   * @param shellEntry The shell entry to set as the default shell
+   */
+  toggleShell(initialState: boolean, shellEntry: ShellEntry): void {
+    void debug('Toggling shell entry');
+    const existing: Operation = this.findExisting(SET_DEFAULT_SHELL_ACTION_NAME)!;
+
+    if (initialState) {
+      void trace('Removing from pending');
+      this.removeFromPending(existing);
+    } else if (!existing) {
+      void trace('Adding to pending');
+      const operation: Operation = {
+        name: SET_DEFAULT_SHELL_ACTION_NAME,
+        prettyName: 'operation.setDefaultShell',
+        sudo: true,
+        status: 'pending',
+        commandArgs: [shellEntry.name],
+        command: (args?: string[]): string => {
+          void info(`Changing default shell to ${args![0]}`);
+          return `chsh -s $(which ${args![0]}) ${this.user}`;
+        },
+      };
+      this.pending.update((value) => [...value, operation]);
+    } else if (existing) {
+      void trace(`Changing command args to ${shellEntry.name}`);
+      existing.commandArgs = [shellEntry.name];
+    }
   }
 
   /**

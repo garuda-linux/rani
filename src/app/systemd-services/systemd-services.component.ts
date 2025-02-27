@@ -24,6 +24,7 @@ import { Tooltip } from 'primeng/tooltip';
 export class SystemdServicesComponent implements OnInit {
   activeService = signal<SystemdService | null>(null);
   userContext = signal<boolean>(false);
+  includeDisabled = signal<boolean>(false);
   loading = signal<boolean>(true);
   serviceSearch = signal<string>('');
   systemdServices = signal<SystemdService[]>([]);
@@ -41,11 +42,11 @@ export class SystemdServicesComponent implements OnInit {
     if (this.appService.settings.systemdUserContext) {
       this.userContext.set(true);
     }
-    this.systemdServices.set(await this.getActiveServices());
+    this.systemdServices.set(await this.getServices());
 
     if (this.appService.settings.autoRefresh) {
       this.intervalRef = setInterval(async () => {
-        this.systemdServices.set(await this.getActiveServices());
+        this.systemdServices.set(await this.getServices());
       }, 5000);
       void debug('Started auto-refresh');
     }
@@ -56,24 +57,48 @@ export class SystemdServicesComponent implements OnInit {
   /**
    * Get the active systemd services, destined for the table. Searches either user or system services.
    */
-  async getActiveServices(): Promise<SystemdService[]> {
-    const cmd = `systemctl ${this.userContext() ? '--user' : ''} list-units --type service --full --all --output json --no-pager`;
-    const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
-      cmd,
-      (stdout: string) => {
-        const services = JSON.parse(stdout) as SystemdService[];
-        for (const service of services) {
-          if (service.unit.length > 50) {
-            service.tooltip = service.unit;
-            service.unit = `${service.unit.slice(0, 50)}...`;
-          }
-        }
-        return services;
-      },
-    );
+  async getServices(): Promise<SystemdService[]> {
+    const toDo: string[] = [
+      `systemctl ${this.userContext() ? '--user' : ''} list-units --type service --full --all --output json --no-pager`,
+    ];
+    if (this.includeDisabled()) {
+      toDo.push(
+        `systemctl ${this.userContext() ? '--user' : ''} list-unit-files --type=service --state=disabled --full --all --output json --no-pager`,
+      );
+    }
 
-    if (result) return result;
-    return [];
+    const servicePromises: Promise<Nullable<SystemdService[]>>[] = [];
+    for (const cmd of toDo) {
+      servicePromises.push(
+        this.operationManager.getCommandOutput<SystemdService[]>(cmd, (stdout: string) => {
+          const services = JSON.parse(stdout) as SystemdService[];
+          for (const service of services) {
+            if (service.unit && service.unit.length > 50) {
+              service.tooltip = service.unit;
+              service.unit = `${service.unit.slice(0, 50)}...`;
+            } else if (service.unit_file) {
+              if (service.unit_file.length > 50) {
+                service.tooltip = service.unit_file;
+                service.unit = `${service.unit_file.slice(0, 50)}...`;
+              } else {
+                service.unit = service.unit_file;
+              }
+              delete service.unit_file;
+            }
+          }
+          return services;
+        }),
+      );
+    }
+
+    const finalResult: SystemdService[] = [];
+    const results: Nullable<SystemdService[]>[] = await Promise.all(servicePromises);
+    for (const result of results) {
+      if (result) {
+        finalResult.push(...result);
+      }
+    }
+    return finalResult;
   }
 
   /**
@@ -152,7 +177,7 @@ export class SystemdServicesComponent implements OnInit {
       );
       this.operationManager.showTerminal.set(true);
     } else {
-      this.systemdServices.set(await this.getActiveServices());
+      this.systemdServices.set(await this.getServices());
     }
   }
 
@@ -176,7 +201,7 @@ export class SystemdServicesComponent implements OnInit {
 
     if (this.appService.settings.autoRefresh) {
       this.intervalRef = setInterval(async () => {
-        this.systemdServices.set(await this.getActiveServices());
+        this.systemdServices.set(await this.getServices());
       }, 5000);
       void debug('Started auto-refresh');
     } else if (this.intervalRef) {
@@ -191,7 +216,14 @@ export class SystemdServicesComponent implements OnInit {
   async toggleContext(): Promise<void> {
     this.loading.set(true);
     this.userContext.set(!this.userContext());
-    this.systemdServices.set(await this.getActiveServices());
+    this.systemdServices.set(await this.getServices());
+    this.loading.set(false);
+  }
+
+  async toggleDisabled(): Promise<void> {
+    this.loading.set(true);
+    this.includeDisabled.set(!this.includeDisabled());
+    this.systemdServices.set(await this.getServices());
     this.loading.set(false);
   }
 }

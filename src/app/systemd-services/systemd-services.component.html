@@ -27,6 +27,13 @@
           class="mr-2.5"
         />
         <p-button
+          (click)="toggleDisabled()"
+          [icon]="includeDisabled() ? 'pi pi-filter' : 'pi pi-filter-slash'"
+          [label]="includeDisabled() ? t('systemdServices.excludeDisabled') : t('systemdServices.includeDisabled')"
+          [outlined]="true"
+          class="mr-2.5"
+        />
+        <p-button
           (click)="clear(serviceTable)"
           [label]="t('systemdServices.clear')"
           [outlined]="true"

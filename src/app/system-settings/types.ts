@@ -23,14 +23,15 @@ export const shells: ShellEntry[] = [
   },
 ];
 export type Shell = (typeof shells)[number];
+export type ShellName = Shell['name'];
 
-export interface DnsProvider {
+export interface DnsProviderEntry {
   name: string;
   description: string;
   ips: string[];
 }
 
-export const dnsProviders: DnsProvider[] = [
+export const dnsProviders: DnsProviderEntry[] = [
   {
     name: 'Google',
     description: 'Google Public DNS',
@@ -46,5 +47,11 @@ export const dnsProviders: DnsProvider[] = [
     description: 'Quad9 Public DNS',
     ips: ['9.9.9.9'],
   },
+  {
+    name: 'Default',
+    description: 'Default DNS provided by your ISP',
+    ips: ['0.0.0.0'],
+  },
 ];
-export type DnsProviderName = (typeof dnsProviders)[number]['name'];
+export type DnsProvider = (typeof dnsProviders)[number];
+export type DnsProviderName = DnsProvider['name'];

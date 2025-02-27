@@ -76,16 +76,6 @@
     "games": "Games",
     "misc": "Miscellaneous"
   },
-  "drawer": {
-    "apply": "Apply pending operations",
-    "removeAll": "Remove all pending operations",
-    "name": "Name",
-    "misc": "Information",
-    "status": "Status",
-    "logs": "Logs",
-    "actions": "Actions",
-    "remove": "Remove"
-  },
   "maintenance": {
     "title": "System ",
     "titleTwo": "maintenance",
@@ -164,7 +154,9 @@
     "error": "An error occurred while fetching services, please try again.",
     "errorTitle": "Error fetching services",
     "systemContext": "Show system services",
-    "userContext": "Show user services"
+    "userContext": "Show user services",
+    "includeDisabled": "Include disabled",
+    "excludeDisabled": "Exclude disabled"
   },
   "systemTools": {
     "title": "System ",
@@ -415,5 +407,21 @@
   },
   "error": {
     "sudoPassword": "This doesn't seem to be the correct password. Please try again."
+  },
+  "operation": {
+    "removeApps": "Remove apps",
+    "installApps": "Install apps",
+    "addGroups": "Add user to group",
+    "removeGroup": "Remove user from group",
+    "disableService": "Disable service",
+    "enableService": "Enable service",
+    "setDefaultShell": "Set default shell",
+    "enableHblock": "Enable Hblock",
+    "disableHblock": "Disable Hblock",
+    "setNewDnsServer": "Set new DNS server",
+    "resetDnsServer": "Reset DNS server",
+    "args": "Arguments",
+    "logs": "Logs",
+    "remove": "Remove"
   }
 }

@@ -1,10 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { OperationManager } from './operation-manager';
-import { Package, SystemToolsSubEntry } from '../interfaces';
+import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Operation } from './interfaces';
 import { TranslocoService } from '@jsverse/transloco';
 import { Nullable } from 'primeng/ts-helpers';
-import { DnsProvider } from '../system-settings/types';
+import { DnsProvider, ShellEntry } from '../system-settings/types';
 
 @Injectable({
   providedIn: 'root',
@@ -26,7 +26,7 @@ export class OperationManagerService {
     return this.manager.handleToggleSystemTools(entry);
   }
 
-  handleTogglePackage(entry: Package): void {
+  handleTogglePackage(entry: StatefulPackage): void {
     return this.manager.handleTogglePackage(entry);
   }
 
@@ -87,11 +87,10 @@ export class OperationManagerService {
   /**
    * Toggle the DNS server.
    * @param initialState Initial state of the DNS server.
-   * @param newState New state of the DNS server.
    * @param dnsProvider The DNS provider to set.
    */
-  toggleDnsServer(initialState: boolean, newState: boolean, dnsProvider: DnsProvider): void {
-    this.manager.toggleDnsServer(initialState, newState, dnsProvider);
+  toggleDnsServer(initialState: boolean, dnsProvider: DnsProvider): void {
+    this.manager.toggleDnsServer(initialState, dnsProvider);
   }
 
   /**
@@ -100,5 +99,9 @@ export class OperationManagerService {
    */
   async runNow(operation: Operation): Promise<void> {
     return await this.manager.runNow(operation);
+  }
+
+  toggleShell(initialState: boolean, shellEntry: ShellEntry): void {
+    return this.manager.toggleShell(initialState, shellEntry);
   }
 }

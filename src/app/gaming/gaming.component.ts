@@ -4,7 +4,7 @@ import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
 import { AppService } from '../app.service';
 import { DataViewModule } from 'primeng/dataview';
-import { Package } from '../interfaces';
+import { FullPackageDefinition, StatefulPackage } from '../interfaces';
 import { error, info } from '@tauri-apps/plugin-log';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { Card } from 'primeng/card';
@@ -24,7 +24,7 @@ export class GamingComponent implements OnInit {
   backgroundColor = signal<string>('background-color');
   tabIndex = signal<number>(0);
 
-  data: { name: string; sections: Package[] }[] = [
+  data: { name: string; sections: FullPackageDefinition[] }[] = [
     {
       name: 'gaming.launchers',
       sections: [
@@ -196,7 +196,7 @@ export class GamingComponent implements OnInit {
     }
   }
 
-  togglePackage(item: Package): void {
+  togglePackage(item: StatefulPackage): void {
     item.selected = !item.selected;
     this.operationManager.handleTogglePackage(item);
   }

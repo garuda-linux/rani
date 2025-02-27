@@ -6,9 +6,9 @@ import { Nullable } from 'primeng/ts-helpers';
 import { AppService } from '../app.service';
 import { debug, error } from '@tauri-apps/plugin-log';
 import { Select } from 'primeng/select';
-import { DnsProvider, dnsProviders, Shell, ShellEntry, shells } from './types';
+import { DnsProvider, DnsProviderName, dnsProviders, Shell, ShellEntry, ShellName, shells } from './types';
 import { Checkbox } from 'primeng/checkbox';
-import { SystemToolsEntry } from '../interfaces';
+import { StatefulPackage, SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 
 @Component({
@@ -19,12 +19,22 @@ import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkb
 })
 export class SystemSettingsComponent {
   currentShell = signal<Nullable<Shell>>(null);
-  currentDns = signal<DnsProvider | null>(null);
+  currentDns = signal<Nullable<DnsProvider>>(null);
   loading = signal<boolean>(true);
   selectedBoxes = model<string[]>([]);
 
   dnsProviders: DnsProvider[] = dnsProviders;
   shells: Shell[] = shells;
+
+  state: {
+    initialDns: Nullable<DnsProviderName>;
+    initialShell: Nullable<ShellName>;
+    initialHblock: Nullable<boolean>;
+  } = {
+    initialDns: null,
+    initialShell: null,
+    initialHblock: null,
+  };
 
   sections: SystemToolsEntry[] = [
     {
@@ -35,6 +45,15 @@ export class SystemSettingsComponent {
           name: 'profile-sync-daemon',
           fancyTitle: 'systemSettings.common.psd.title',
           description: 'systemSettings.common.psd.description',
+          checked: false,
+          handler: () => {},
+          initialState: false,
+          check: { type: 'pkg', name: 'profile-sync-daemon' },
+        },
+        {
+          name: 'enable-profile-sync-daemon',
+          fancyTitle: 'systemSettings.common.psdEnabled.title',
+          description: 'systemSettings.common.psdEnabled.description',
           checked: false,
           handler: () => {},
           initialState: false,
@@ -218,7 +237,7 @@ export class SystemSettingsComponent {
     void this.init();
   }
 
-  async init() {
+  async init(): Promise<void> {
     const initPromises: Promise<any>[] = [this.getCurrentShell(), this.getCurrentDns(), this.getCurrentHblockStatus()];
 
     const results = await Promise.allSettled(initPromises);
@@ -228,10 +247,15 @@ export class SystemSettingsComponent {
       }
     }
 
-    void debug(`System settings initialized: ${this.currentShell()}, selected: ${this.selectedBoxes().join(', ')}`);
+    void debug(
+      `System settings initialized: ${JSON.stringify(this.currentShell())}, selected: ${this.selectedBoxes().join(', ')}, dns: ${JSON.stringify(this.currentDns())}`,
+    );
     this.loading.set(false);
   }
 
+  /**
+   * Get the current shell, writing it to the currentShell signal and setting the initial shell.
+   */
   async getCurrentShell(): Promise<void> {
     while (!this.operationManager.user()) {
       await new Promise((resolve) => setTimeout(resolve, 200));
@@ -243,6 +267,7 @@ export class SystemSettingsComponent {
     );
 
     if (result) {
+      if (!this.state.initialShell) this.state.initialShell = result;
       const currShell: ShellEntry | undefined = shells.find((entry) => result === entry.name);
       this.currentShell.set(currShell ?? null);
     } else {
@@ -250,9 +275,14 @@ export class SystemSettingsComponent {
     }
   }
 
-  async getCurrentDns() {
+  /**
+   * Get the current DNS server, writing it to the currentDns signal and setting the initial DNS server.
+   */
+  async getCurrentDns(): Promise<void> {
     const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
-    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) => stdout);
+    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) =>
+      stdout.trim(),
+    );
 
     if (result) {
       const providerExists = dnsProviders.find((provider) => provider.ips.includes(result));
@@ -263,19 +293,58 @@ export class SystemSettingsComponent {
         this.dnsProviders.push(newCustomDns);
         this.currentDns.set(newCustomDns);
       }
+      if (!this.state.initialDns) this.state.initialDns = this.currentDns()?.name;
     } else {
       throw new Error('Failed to get current DNS');
     }
   }
 
+  /**
+   * Get the current status of hblock, setting the initial status and adding it to the selected boxes if enabled.
+   */
   async getCurrentHblockStatus(): Promise<void> {
     const cmd = 'cat /etc/hosts | grep -A1 \"Blocked domains\" | awk \'/Blocked domains/ { print $NF }\'';
     const result: number | null = await this.operationManager.getCommandOutput<number>(cmd, (stdout: string) =>
-      parseInt(stdout),
+      parseInt(stdout.trim()),
     );
 
     if (result !== null && result > 0) {
+      this.state.initialHblock;
       this.selectedBoxes().push('hblock');
+    }
+  }
+
+  /**
+   * Handle the selection of a new operation not included in the dynamic checkboxes.
+   * @param type The type of operation to perform.
+   */
+  async handleToggle(type: 'dns' | 'shell' | 'shellConfigs' | 'hblock'): Promise<void> {
+    // Workaround for ngModelChange event seemingly firing before the model is updated
+    await new Promise((resolve) => setTimeout(resolve, 200));
+
+    switch (type) {
+      case 'dns': {
+        this.operationManager.toggleDnsServer(this.currentDns()!.name === this.state.initialDns, this.currentDns()!);
+        break;
+      }
+      case 'shell': {
+        this.operationManager.toggleShell(this.currentShell()!.name === this.state.initialShell, this.currentShell()!);
+        break;
+      }
+      case 'shellConfigs': {
+        if (this.currentShell()?.defaultSettings) {
+          const packageDef: StatefulPackage = {
+            pkgname: [this.currentShell()!.defaultSettings!],
+            initialState: this.state.initialShell === this.currentShell()!.name,
+            selected: true,
+          };
+          this.operationManager.handleTogglePackage(packageDef);
+        }
+        break;
+      }
+      case 'hblock': {
+        this.operationManager.toggleHblock(this.state.initialHblock ?? false, this.selectedBoxes().includes('hblock'));
+      }
     }
   }
 }

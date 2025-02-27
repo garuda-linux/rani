@@ -110,6 +110,7 @@ export class PrivilegeManager {
   /**
    * Provides the sudo password to calling functions. Asks for it when not available,
    * and uses either the cached or one-time stored passwords for authentication.
+   * One-time passwords are removed from the list after use, therefore no longer available.
    * @returns The password string
    * @private
    */

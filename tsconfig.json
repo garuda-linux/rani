@@ -26,17 +26,11 @@
   "include": [],
   "references": [
     {
-      "path": "./tsconfig.editor.json"
-    },
-    {
       "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.spec.json"
     }
   ],
   "compileOnSave": false,
-  "exclude": ["node_modules", "tmp"],
+  "exclude": ["node_modules", "tmp", "test"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,

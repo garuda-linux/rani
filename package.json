@@ -12,14 +12,14 @@
   },
   "private": true,
   "dependencies": {
-    "@angular/animations": "^19.1.7",
-    "@angular/common": "^19.1.7",
-    "@angular/compiler": "^19.1.7",
-    "@angular/core": "^19.1.7",
-    "@angular/forms": "^19.1.7",
-    "@angular/platform-browser": "^19.1.7",
-    "@angular/platform-browser-dynamic": "^19.1.7",
-    "@angular/router": "^19.1.7",
+    "@angular/animations": "^19.2.0",
+    "@angular/common": "^19.2.0",
+    "@angular/compiler": "^19.2.0",
+    "@angular/core": "^19.2.0",
+    "@angular/forms": "^19.2.0",
+    "@angular/platform-browser": "^19.2.0",
+    "@angular/platform-browser-dynamic": "^19.2.0",
+    "@angular/router": "^19.2.0",
     "@fontsource/jetbrains-mono": "^5.1.2",
     "@garudalinux/core": "^0.3.1",
     "@jsverse/transloco": "^7.5.1",
@@ -40,7 +40,7 @@
     "@tauri-apps/plugin-store": "~2.2.0",
     "@tauri-apps/plugin-window-state": "~2.2.1",
     "@xterm/xterm": "^5.5.0",
-    "axios": "^1.7.9",
+    "axios": "^1.8.1",
     "axios-tauri-api-adapter": "^2.0.6",
     "bs58": "^6.0.0",
     "emoji-js": "^3.8.1",
@@ -57,14 +57,17 @@
     "zone.js": "~0.15.0"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^19.1.8",
-    "@angular/cli": "^19.1.8",
-    "@angular/compiler-cli": "^19.1.7",
+    "@angular-devkit/build-angular": "^19.2.0",
+    "@angular-eslint/eslint-plugin": "^19.1.0",
+    "@angular-eslint/eslint-plugin-template": "^19.1.0",
+    "@angular-eslint/template-parser": "^19.1.0",
+    "@angular/cli": "^19.2.0",
+    "@angular/compiler-cli": "^19.2.0",
     "@catppuccin/palette": "^1.7.1",
     "@catppuccin/tailwindcss": "^0.1.6",
     "@jsverse/transloco-optimize": "^7.0.1",
     "@jsverse/transloco-utils": "^7.0.2",
-    "@tauri-apps/cli": "^2.2.7",
+    "@tauri-apps/cli": "^2.3.0",
     "@types/emoji-js": "^3.5.2",
     "@types/jasmine": "~5.1.7",
     "jasmine-core": "~5.6.0",
@@ -79,10 +82,13 @@
     "tailwindcss": "^3.4.17",
     "typescript": "~5.6.3"
   },
-  "packageManager": "pnpm@10.5.0+sha512.11106a5916c7406fe4b8cb8e3067974b8728f47308a4f5ac5e850304afa6f57e2847d7950dfe78877d8d36bfb401d381c4215db3a4c3547ffa63c14333a6fa51",
+  "packageManager": "pnpm@10.5.2+sha512.da9dc28cd3ff40d0592188235ab25d3202add8a207afbedc682220e4a0029ffbff4562102b9e6e46b4e3f9e8bd53e6d05de48544b0c57d4b0179e22c76d1199b",
   "pnpm": {
     "onlyBuiltDependencies": [
+      "@parcel/watcher",
       "esbuild",
+      "lmdb",
+      "msgpackr-extract",
       "nice-napi"
     ]
   }

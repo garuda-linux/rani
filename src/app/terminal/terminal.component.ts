@@ -6,7 +6,6 @@ import { debug, trace } from '@tauri-apps/plugin-log';
 import { CatppuccinXtermJs } from '../theme';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
-import { Button } from 'primeng/button';
 import { TableModule } from 'primeng/table';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Splitter, SplitterModule } from 'primeng/splitter';
@@ -14,18 +13,21 @@ import { Dialog } from 'primeng/dialog';
 import { ProgressBar } from 'primeng/progressbar';
 import { Operation } from '../operation-manager/interfaces';
 import { MessageToastService } from '@garudalinux/core';
+import { Card } from 'primeng/card';
+import { Popover } from 'primeng/popover';
 
 @Component({
   selector: 'rani-terminal',
   imports: [
     CommonModule,
     NgTerminalModule,
-    Button,
     TableModule,
     TranslocoDirective,
     SplitterModule,
     Dialog,
     ProgressBar,
+    Card,
+    Popover,
   ],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.css',

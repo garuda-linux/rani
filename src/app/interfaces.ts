@@ -23,14 +23,19 @@ export type SystemdServiceAction =
   | 'mask'
   | 'unmask';
 
-export interface Package {
-  icon: string;
-  name: string;
+export interface StatefulPackage {
   pkgname: string[];
   selected?: boolean;
   initialState?: boolean;
-  description?: string;
 }
+
+export interface Package {
+  description?: string;
+  icon: string;
+  name: string;
+}
+
+export type FullPackageDefinition = StatefulPackage & Package;
 
 export interface MaintenanceAction {
   addedToPending?: boolean;
@@ -54,7 +59,8 @@ export interface ResettableConfig {
 }
 
 export interface SystemdService {
-  unit: string;
+  unit?: string;
+  unit_file?: string;
   load: string;
   active: string;
   sub: string;

@@ -26,7 +26,8 @@ export type OperationType =
   | typeof SET_NEW_DNS_SERVER
   | typeof RESET_DNS_SERVER
   | typeof ENABLE_USER_SERVICE_ACTION_NAME
-  | typeof DISABLE_USER_SERVICE_ACTION_NAME;
+  | typeof DISABLE_USER_SERVICE_ACTION_NAME
+  | typeof SET_DEFAULT_SHELL_ACTION_NAME;
 
 export const INSTALL_ACTION_NAME = 'install';
 export const REMOVE_ACTION_NAME = 'remove';
@@ -45,3 +46,5 @@ export const RESET_DNS_SERVER = 'resetDnsServer';
 
 export const ENABLE_USER_SERVICE_ACTION_NAME = 'enableUserService';
 export const DISABLE_USER_SERVICE_ACTION_NAME = 'disableUserService';
+
+export const SET_DEFAULT_SHELL_ACTION_NAME = 'setDefaultShell';

@@ -3,14 +3,17 @@
     <div class="flex mx-auto justify-center ">
       <div class="mb-10 mr-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultShell') }}</h2>
-        <p-select [(ngModel)]="currentShell" [options]="shells" class="w-full md:w-56" optionLabel="name"
-                  placeholder="Select a login shell to use"/>
+        <p-select
+          (ngModelChange)="handleToggle('shell')"
+          [(ngModel)]="currentShell" [options]="shells" class="w-full md:w-56" optionLabel="name"
+          placeholder="Select a login shell to use"/>
         <div class="mt-5">
           <p-checkbox
+            (click)="handleToggle('shellConfigs')"
             [(ngModel)]="selectedBoxes"
             id="default-shell-configs"
             inputId="default-shell-configs"
-            name="group"
+            name="default-shell-configs"
             value="defaultShellConfigs"
           />
           <label for="default-shell-configs"> {{ t('systemSettings.defaultShellConfigs') }} </label>
@@ -18,14 +21,17 @@
       </div>
       <div class="mb-10 ml-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultDns') }}</h2>
-        <p-select [(ngModel)]="currentDns" [options]="dnsProviders" class="w-full md:w-56" optionLabel="name"
-                  placeholder="Select a DNS server to use"/>
+        <p-select
+          (ngModelChange)="handleToggle('dns')" [(ngModel)]="currentDns" [options]="dnsProviders" class="w-full md:w-56"
+          optionLabel="name"
+          placeholder="Select a DNS server to use"/>
         <div class="mt-5">
           <p-checkbox
+            (click)="handleToggle('hblock')"
             [(ngModel)]="selectedBoxes"
             id="enable-hblock"
             inputId="enable-hblock"
-            name="group"
+            name="enable-hblock"
             value="hblock"
           />
           <label class="mx-2.5" for="enable-hblock"> {{ t('systemSettings.enableHblock') }} </label>

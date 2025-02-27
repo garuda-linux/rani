@@ -21,6 +21,7 @@ export class DynamicCheckboxesComponent implements OnInit {
 
   installedPackages = signal<string[]>([]);
   systemdServices = signal<SystemdService[]>([]);
+  systemdUserServices = signal<SystemdService[]>([]);
   userGroups = signal<string[]>([]);
 
   protected operationManager = inject(OperationManagerService);
@@ -33,10 +34,16 @@ export class DynamicCheckboxesComponent implements OnInit {
   async refreshUi(): Promise<void> {
     this.loadingService.loadingOn();
 
-    const checkPromises: Promise<any[]>[] = [this.getActiveServices(), this.getInstalledPkgs(), this.getUserGroups()];
-    const [services, pkgs, groups] = await Promise.all(checkPromises);
+    const checkPromises: Promise<any[]>[] = [
+      this.getActiveServices(),
+      this.getInstalledPkgs(),
+      this.getUserGroups(),
+      this.getActiveUserServices(),
+    ];
+    const [services, pkgs, groups, userServices] = await Promise.all(checkPromises);
 
     this.systemdServices.set(services);
+    this.systemdUserServices.set(userServices);
     this.installedPackages.set(pkgs);
     this.userGroups.set(groups);
 
@@ -60,16 +67,18 @@ export class DynamicCheckboxesComponent implements OnInit {
           }
           case 'service': {
             void trace(`Checking service ${entry.check.name} as service`);
-            void trace(JSON.stringify(this.systemdServices()));
             const service: SystemdService | undefined = this.systemdServices().find((s) => s.unit === entry.check.name);
 
-            if (service) {
-              const shallCheck: boolean = service.active === 'active' && service.sub === 'running';
-              [entry.checked, entry.initialState] = [shallCheck, shallCheck];
+            if (service) this.handleServiceState(service, entry);
+            break;
+          }
+          case 'serviceUser': {
+            void trace(`Checking service ${entry.check.name} as user service`);
+            const service: SystemdService | undefined = this.systemdUserServices().find(
+              (s) => s.unit === entry.check.name,
+            );
 
-              void trace(`Service ${entry.check.name} is ${shallCheck}`);
-              this.selectedBoxes.set([...this.selectedBoxes(), entry]);
-            }
+            if (service) this.handleServiceState(service, entry);
             break;
           }
           case 'group': {
@@ -89,6 +98,16 @@ export class DynamicCheckboxesComponent implements OnInit {
 
     await this.checkDisabled();
     this.loadingService.loadingOff();
+  }
+
+  /**
+   * Toggle the entry, adding or removing it from the selected boxes. This is needed
+   * to provide the necessary metadata to the operation manager (instead of just using the model).
+   * @param entry The entry to toggle
+   */
+  toggleEntry(entry: SystemToolsSubEntry): void {
+    entry.checked = !entry.checked;
+    this.operationManager.handleToggleSystemTools(entry);
   }
 
   /**
@@ -152,6 +171,20 @@ export class DynamicCheckboxesComponent implements OnInit {
   }
 
   /**
+   * Set the active state of a systemd service based in the service state.
+   * @param service The systemd service to check
+   * @param entry The entry to update
+   * @private
+   */
+  private handleServiceState(service: SystemdService, entry: SystemToolsSubEntry): void {
+    const shallCheck: boolean = service.active === 'active';
+    [entry.checked, entry.initialState] = [shallCheck, shallCheck];
+
+    void trace(`Service ${entry.check.name} is ${shallCheck}`);
+    this.selectedBoxes.update((value) => [...value, entry]);
+  }
+
+  /**
    * Receive the list of user groups the current user is in.
    * @returns The list of user groups.
    * @private
@@ -160,6 +193,22 @@ export class DynamicCheckboxesComponent implements OnInit {
     const cmd = 'groups';
     const result: string[] | null = await this.operationManager.getCommandOutput<string[]>(cmd, (stdout: string) =>
       stdout.split(' '),
+    );
+
+    if (result) return result;
+    return [];
+  }
+
+  /**
+   * Receive the list of active systemd user services.
+   * @returns The list of active systemd services.
+   * @private
+   */
+  private async getActiveUserServices(): Promise<SystemdService[]> {
+    const cmd = 'systemctl list-units --type service --global --user --full --all --output json --no-pager';
+    const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
+      cmd,
+      (stdout: string) => JSON.parse(stdout),
     );
 
     if (result) return result;
