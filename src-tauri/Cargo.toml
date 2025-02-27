@@ -1,6 +1,6 @@
 [package]
 name = "garuda-rani"
-version = "0.1.0"
+version = "0.1.1"
 description = "Garuda's Rani"
 authors = ["dr460nf1r3"]
 repository = "https://gitlab.com/garuda-linux/applications/rani"
@@ -24,6 +24,7 @@ tauri-plugin-log = "2"
 tauri-plugin-network = "2"
 tauri-plugin-notification = "2"
 tauri-plugin-os = "2"
+tauri-plugin-prevent-default = "1.2"
 tauri-plugin-process = "2"
 tauri-plugin-shell = "2"
 tauri-plugin-store = "2"
