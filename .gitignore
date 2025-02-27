@@ -44,4 +44,5 @@ Thumbs.db
 # Misc
 *.log
 .direnv
+.pre-commit-config.yaml
 /test
