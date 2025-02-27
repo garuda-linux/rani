@@ -21,6 +21,12 @@ export class OperationManagerService {
   public operationNewEmitter = this.manager.operationNewEmitter;
   public user = this.manager.user;
 
+  constructor() {
+    this.manager.requestTerminal.subscribe((show) => {
+      if (show) this.showTerminal.set(true);
+    });
+  }
+
   handleToggleSystemTools(entry: SystemToolsSubEntry) {
     return this.manager.handleToggleSystemTools(entry);
   }

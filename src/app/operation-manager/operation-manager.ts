@@ -35,6 +35,7 @@ export class OperationManager {
 
   public operationOutputEmitter = new EventEmitter<string>();
   public operationNewEmitter = new EventEmitter<string>();
+  public requestTerminal = new EventEmitter<boolean>();
 
   private readonly privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
   private store: Nullable<Store> = null;
@@ -494,9 +495,14 @@ export class OperationManager {
     operation.status = 'running';
     this.operationOutput.set('');
     this.operationNewEmitter.emit(operation.name);
-    this.currentOperation.set(
-      `${this.translocoService.translate(operation.prettyName)} (${i}/${this.pending().length})`,
-    );
+
+    if (i !== 1) {
+      this.currentOperation.set(
+        `${this.translocoService.translate(operation.prettyName)} (${i}/${this.pending().length})`,
+      );
+    } else {
+      this.currentOperation.set(this.translocoService.translate(operation.prettyName));
+    }
 
     const op = operation.command(operation.commandArgs);
 
@@ -568,7 +574,7 @@ export class OperationManager {
       throw new Error('An operation is already running');
     }
 
-    await this.prepareRun();
+    await this.prepareRun(operation);
     await this.executeOperation(operation);
   }
 
@@ -607,12 +613,18 @@ export class OperationManager {
   /**
    * Run the operation, resetting the terminal output and showing the terminal.
    * Closes the drawer after ensuring the sudo password exists.
+   * @param operation The operation to run, provided in case its a direct run.
    */
-  private async prepareRun(): Promise<void> {
+  private async prepareRun(operation?: Operation): Promise<void> {
     this.operationOutput.set('');
 
     if (this.pending().find((op) => op.sudo)) {
       await this.privilegeManager.getSudoPassword();
+    } else if (operation) {
+      if (operation.sudo) {
+        await this.privilegeManager.getSudoPassword();
+      }
+      this.requestTerminal.emit(true);
     }
   }
 }
