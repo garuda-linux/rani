@@ -181,7 +181,7 @@ export class MaintenanceComponent implements OnInit {
       order: 98,
       command: (): string => {
         this.logger.info('Cleaning orphans');
-        return 'pacman -Rns $(pacman -Qtdq)';
+        return 'pacman --noconfirm -Rns $(pacman -Qtdq)';
       },
     },
     {
@@ -210,19 +210,6 @@ export class MaintenanceComponent implements OnInit {
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
         void this.privilegeManager.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
-      },
-    },
-    {
-      name: 'reinstallPackages',
-      label: 'maintenance.reinstallPackages',
-      description: 'maintenance.reinstallPackagesSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
-      order: 5,
-      command: (): string => {
-        this.logger.info('Reinstalling packages');
-        return 'garuda-update remote reinstall';
       },
     },
     {
@@ -319,6 +306,19 @@ export class MaintenanceComponent implements OnInit {
         return 'garuda-update remote reset-snapper';
       },
     },
+    {
+      name: 'reinstallPackages',
+      label: 'maintenance.reinstallPackages',
+      description: 'maintenance.reinstallPackagesSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: true,
+      order: 5,
+      command: (): string => {
+        this.logger.info('Reinstalling packages');
+        return 'garuda-update remote reinstall';
+      },
+    },
   ];
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
@@ -360,7 +360,7 @@ export class MaintenanceComponent implements OnInit {
     for (const config of this.selectedResetConfigs()) {
       this.logger.trace(`Resetting config: ${config.name}`);
       for (const file of config.files) {
-        const cmd: string = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
+        const cmd = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
         this.logger.debug(`Running command: ${cmd}`);
 
         const result: string | null = await this.operationManager.getCommandOutput<string>(

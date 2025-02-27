@@ -70,8 +70,8 @@
           })
           .shell;
       in rec {
-        default = garuda-website;
-        garuda-website = mkShell {
+        default = garuda-rani;
+        garuda-rani = mkShell {
           commands = [
             {package = "corepack_latest";}
             {package = "nodejs_latest";}

@@ -64,7 +64,7 @@ export class PrivilegeManager {
    */
   async executeCommandAsSudo(cmd: string, keepEnv = false): Promise<ChildProcess<string>> {
     const pass: string = await this.providePassword();
-    const finalCmd: string = `echo ${pass} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${cmd}'`;
+    const finalCmd = `echo ${pass} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${cmd}'`;
     return Command.create('exec-bash', ['-c', finalCmd]).execute();
   }
 
@@ -75,7 +75,7 @@ export class PrivilegeManager {
    */
   async returnCommandAsSudo(cmd: string, keepEnv = false): Promise<Command<string>> {
     const pass: string = await this.providePassword();
-    const finalCmd: string = `echo ${pass} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${cmd}'`;
+    const finalCmd = `echo ${pass} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${cmd}'`;
     return Command.create('exec-bash', ['-c', finalCmd]);
   }
 
@@ -100,7 +100,7 @@ export class PrivilegeManager {
       }
     }
 
-    let pkgCmd: string = executable ? executable : pkg;
+    const pkgCmd: string = executable ? executable : pkg;
     if (needsSudo) {
       void this.executeCommandAsSudo(pkgCmd, true);
     } else {

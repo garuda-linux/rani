@@ -7,6 +7,7 @@
     "dev": "tauri dev",
     "dev-debug": "pnpm build-debug && src-tauri/target/debug/garuda-rani",
     "format": "prettier -wu . && cd src-tauri && cargo fmt",
+    "lint": "ng lint",
     "ng": "ng",
     "start": "ng serve",
     "tauri": "tauri",
@@ -63,6 +64,7 @@
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.0",
+    "@angular-eslint/builder": "^19.1.0",
     "@angular-eslint/eslint-plugin": "^19.1.0",
     "@angular-eslint/eslint-plugin-template": "^19.1.0",
     "@angular-eslint/template-parser": "^19.1.0",
@@ -76,6 +78,7 @@
     "@tauri-apps/cli": "^2.3.0",
     "@types/emoji-js": "^3.5.2",
     "@types/jasmine": "~5.1.7",
+    "angular-eslint": "^19.1.0",
     "jasmine-core": "~5.6.0",
     "karma": "~6.4.4",
     "karma-chrome-launcher": "~3.2.0",
