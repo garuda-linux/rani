@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <p-dialog [(visible)]="privilegeManager.sudoDialogVisible" [header]="t('sudo.title')" [modal]="true">
+  <p-dialog #dialog [(visible)]="privilegeManager.sudoDialogVisible" [header]="t('sudo.title')" [modal]="true">
     <span class="p-text-secondary block mb-8">{{ t('sudo.subtitle') }}</span>
     <div class="flex items-center gap-4 mb-4">
       <label class="font-semibold w-24" for="password">{{ t('sudo.password') }}</label>
@@ -19,10 +19,23 @@
         (click)="privilegeManager.sudoDialogVisible.set(false)"
         [label]="t('sudo.cancel')"
         [outlined]="true"
+        id="cancel-sudo"
         severity="danger"
       />
-      <p-button (click)="writeSudoPass()" [label]="t('sudo.useOnce')" [outlined]="true" severity="success" />
-      <p-button (click)="writeSudoPass(true)" [label]="t('sudo.save')" [outlined]="true" severity="help" />
+      <p-button
+        (click)="writeSudoPass()"
+        [label]="t('sudo.useOnce')"
+        [outlined]="true"
+        id="use-once-sudo"
+        severity="success"
+      />
+      <p-button
+        (click)="writeSudoPass(true)"
+        [label]="t('sudo.save')"
+        [outlined]="true"
+        id="cache-sudo"
+        severity="help"
+      />
     </div>
   </p-dialog>
 </ng-container>

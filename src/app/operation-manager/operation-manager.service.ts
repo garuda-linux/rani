@@ -4,6 +4,7 @@ import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Operation } from './interfaces';
 import { TranslocoService } from '@jsverse/transloco';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
+import { Logger } from '../logging/logging';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class OperationManagerService {
   public showTerminal = signal<boolean>(false);
 
   private readonly translocoService = inject(TranslocoService);
+  private readonly logger = Logger.getInstance();
   private readonly manager = new OperationManager(this.translocoService);
 
   public currentAction = this.manager.currentOperation;
@@ -27,24 +29,66 @@ export class OperationManagerService {
     });
   }
 
-  handleToggleSystemTools(entry: SystemToolsSubEntry) {
-    return this.manager.handleToggleSystemTools(entry);
+  /**
+   * Toggle the state of a system tools entry, adding and removing it from the pending operations as needed.
+   * @param entry The operation to add.
+   */
+  handleToggleSystemTools(entry: SystemToolsSubEntry): void {
+    try {
+      return this.manager.handleToggleSystemTools(entry);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
+  /**
+   * Toggle the state of a package, adding and removing it from the pending operations as needed.
+   * @param entry The operation to add.
+   */
   handleTogglePackage(entry: StatefulPackage): void {
-    return this.manager.handleTogglePackage(entry);
+    try {
+      return this.manager.handleTogglePackage(entry);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
-  removeFromArgs(operation: Operation, arg: string) {
-    return this.manager.removeFromArgs(operation, arg);
+  /**
+   * Remove an operation from the pending operations arguments.
+   * @param operation The operation to remove the argument from.
+   * @param arg The argument to remove.
+   */
+  removeFromArgs(operation: Operation, arg: string): void {
+    try {
+      return this.manager.removeFromArgs(operation, arg);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
+  /**
+   * Remove an operation from the pending operations.
+   * @param operation The operation to remove.
+   */
   removeFromPending(operation: Operation): void {
-    return this.manager.removeFromPending(operation);
+    try {
+      return this.manager.removeFromPending(operation);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
+  /**
+   * Toggle the state of a hblock entry, adding and removing it from the pending operations as needed.
+   * @param initialState The initial state of the hblock.
+   * @param newState The new state of the hblock.
+   */
   toggleHblock(initialState: boolean, newState: boolean): void {
-    this.manager.toggleHblock(initialState, newState);
+    try {
+      return this.manager.toggleHblock(initialState, newState);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
   /**
@@ -54,7 +98,12 @@ export class OperationManagerService {
    * @param transformator The function to transform the output of the command.
    */
   async getCommandOutput<T>(cmd: string, transformator?: Function): Promise<T | null> {
-    return await this.manager.getCommandOutput<T>(cmd, transformator);
+    try {
+      return await this.manager.getCommandOutput<T>(cmd, transformator);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
+    return null;
   }
 
   /**
@@ -64,21 +113,34 @@ export class OperationManagerService {
    * @param transformator The function to transform the output of the command.
    */
   async getSudoCommandOutput<T>(cmd: string, transformator?: Function): Promise<T | null> {
-    return await this.manager.getCommandOutput<T>(cmd, transformator, true);
+    try {
+      return await this.manager.getCommandOutput<T>(cmd, transformator, true);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
+    return null;
   }
 
   /**
    * Execute all pending operations.
    */
   async executeOperations(): Promise<void> {
-    return await this.manager.executeOperations();
+    try {
+      return await this.manager.executeOperations();
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
   /**
    * Clear all pending operations.
    */
   async clearPending(): Promise<void> {
-    return await this.manager.clearPending();
+    try {
+      return await this.manager.clearPending();
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
   /**
@@ -86,7 +148,11 @@ export class OperationManagerService {
    * @param output The output to add.
    */
   addTerminalOutput(output: string): void {
-    this.manager.addTermOutput(output);
+    try {
+      this.manager.addTermOutput(output);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
   /**
@@ -95,7 +161,11 @@ export class OperationManagerService {
    * @param dnsProvider The DNS provider to set.
    */
   toggleDnsServer(initialState: boolean, dnsProvider: DnsProvider): void {
-    this.manager.toggleDnsServer(initialState, dnsProvider);
+    try {
+      this.manager.toggleDnsServer(initialState, dnsProvider);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
   /**
@@ -103,10 +173,23 @@ export class OperationManagerService {
    * @param operation The operation to run.
    */
   async runNow(operation: Operation): Promise<void> {
-    return await this.manager.runNow(operation);
+    try {
+      return await this.manager.runNow(operation);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 
+  /**
+   * Toggle the state of a shell entry, adding and removing it from the pending operations as needed.
+   * @param initialState The initial state of the shell.
+   * @param shellEntry The shell entry to use.
+   */
   toggleShell(initialState: boolean, shellEntry: ShellEntry): void {
-    return this.manager.toggleShell(initialState, shellEntry);
+    try {
+      return this.manager.toggleShell(initialState, shellEntry);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
   }
 }

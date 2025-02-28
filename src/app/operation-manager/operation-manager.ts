@@ -620,7 +620,7 @@ export class OperationManager {
   /**
    * Run the operation, resetting the terminal output and showing the terminal.
    * Closes the drawer after ensuring the sudo password exists.
-   * @param operation The operation to run, provided in case its a direct run.
+   * @param operation The operation to run, provided in case it's a direct run.
    */
   private async prepareRun(operation?: Operation): Promise<boolean> {
     this.operationOutput.set('');

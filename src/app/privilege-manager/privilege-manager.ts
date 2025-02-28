@@ -22,7 +22,7 @@ export class PrivilegeManager {
       this.logger.trace(`Waiting for sudo password, ${this.sudoDialogVisible()}`);
 
       let timeout = 0;
-      while (!this.authenticated()) {
+      while (!this.authenticated() && this.sudoDialogVisible()) {
         await new Promise((r) => setTimeout(r, 100));
 
         if (timeout >= 1000) {
@@ -31,6 +31,11 @@ export class PrivilegeManager {
         timeout++;
       }
       this.logger.debug(`Timeout: ${timeout}`);
+
+      if (!this.authenticated()) {
+        this.logger.warn('No password was provided, assuming the dialog was closed');
+        throw new Error('No password was provided');
+      }
     } else {
       this.logger.debug('Sudo password already existed');
     }
@@ -71,6 +76,8 @@ export class PrivilegeManager {
       this.oneTimeUse.set([]);
     }
     this.authenticated.set(false);
+
+    this.logger.debug('Cleared any cached passwords and set status to unauthenticated');
   }
 
   /**

@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, inject, signal, ViewChild } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { PrivilegeManagerService } from './privilege-manager.service';
 import { MessageToastService } from '@garudalinux/core';
@@ -15,15 +15,27 @@ import { Nullable } from 'primeng/ts-helpers';
   templateUrl: './privilege-manager.component.html',
   styleUrl: './privilege-manager.component.css',
 })
-export class PrivilegeManagerComponent {
+export class PrivilegeManagerComponent implements AfterViewInit {
   passwordInvalid = signal<boolean>(false);
 
+  @ViewChild('dialog') dialog: Nullable<Dialog>;
   @ViewChild('sudoInput') sudoInput: Nullable<Password>;
 
   protected privilegeManager = inject(PrivilegeManagerService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
+
+  ngAfterViewInit() {
+    this.dialog?.onHide.subscribe(() => {
+      // We abort the mission here
+      if (this.sudoInput) this.sudoInput.value = null;
+      this.passwordInvalid.set(false);
+      this.privilegeManager.sudoDialogVisible.set(false);
+
+      this.logger.trace('Dialog hidden, cleared password and set invalid to false');
+    });
+  }
 
   /**
    * Write the sudo password to the system.
