@@ -308,8 +308,8 @@ export class SystemSettingsComponent {
     );
 
     if (result !== null && result > 0) {
-      this.state.initialHblock;
-      this.selectedBoxes().push('hblock');
+      this.state.initialHblock = true;
+      this.selectedBoxes.update((boxes) => [...boxes, 'hblock']);
     }
   }
 

@@ -314,7 +314,7 @@ export class OperationManager {
       this.addRemoveHblock();
     } else if (existing) {
       const currentPkgAction: Operation | undefined = this.findExisting(
-        newState ? INSTALL_ACTION_NAME : REMOVE_ACTION_NAME,
+        newState ? REMOVE_ACTION_NAME : INSTALL_ACTION_NAME,
       );
       if (currentPkgAction) this.removeFromArgs(currentPkgAction, 'hblock');
       this.removeFromPending(existing);
