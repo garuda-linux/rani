@@ -1,6 +1,7 @@
 export interface AppSettings {
   systemdUserContext: boolean;
   copyDiagnostics: boolean;
+  darkMode: boolean;
   language: string;
   autoRefresh: boolean;
   leftButtons: boolean;

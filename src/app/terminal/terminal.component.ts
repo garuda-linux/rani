@@ -1,7 +1,6 @@
 import { AfterViewInit, Component, effect, inject, OnDestroy, signal, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
-import { AppService } from '../app.service';
 import { CatppuccinXtermJs } from '../theme';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
@@ -16,6 +15,7 @@ import { ScrollPanel } from 'primeng/scrollpanel';
 import { Logger } from '../logging/logging';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { WebLinksAddon } from '@xterm/addon-web-links';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'rani-terminal',
@@ -27,17 +27,16 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   progressTracker = signal<any | null>(null);
   visible = signal<boolean>(false);
 
-  appService = inject(AppService);
   operationManager = inject(OperationManagerService);
-
   @ViewChild('dialog', { static: false }) dialog!: Dialog;
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
+  private readonly configService = inject(ConfigService);
   readonly xtermOptions: ITerminalOptions = {
     disableStdin: false,
     scrollback: 10000,
     convertEol: true,
-    theme: this.appService.themeHandler.darkMode() ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -45,7 +44,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
 
   constructor() {
     effect(() => {
-      const darkMode = this.appService.themeHandler.darkMode();
+      const darkMode = this.configService.settings().darkMode;
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }

@@ -1,6 +1,5 @@
 import { AfterViewInit, Component, effect, inject, ViewChild } from '@angular/core';
 import { Button } from 'primeng/button';
-import { AppService } from '../app.service';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { CatppuccinXtermJs } from '../theme';
@@ -25,15 +24,14 @@ import { WebLinksAddon } from '@xterm/addon-web-links';
 export class DiagnosticsComponent implements AfterViewInit {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
-  private readonly appService = inject(AppService);
+  private readonly configService = inject(ConfigService);
   readonly xtermOptions: ITerminalOptions = {
     disableStdin: false,
     scrollback: 10000,
     convertEol: true,
-    theme: this.appService.themeHandler.darkMode() ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
 
-  private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -44,7 +42,7 @@ export class DiagnosticsComponent implements AfterViewInit {
 
   constructor() {
     effect(() => {
-      const darkMode = this.appService.themeHandler.darkMode();
+      const darkMode = this.configService.settings().darkMode;
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }

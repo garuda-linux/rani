@@ -17,6 +17,7 @@ export class ConfigService {
   settings = signal<AppSettings>({
     leftButtons: true,
     language: 'en',
+    darkMode: true,
     autoRefresh: false,
     copyDiagnostics: true,
     showMainLinks: false,

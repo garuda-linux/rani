@@ -26,6 +26,7 @@ import { OperationManagerService } from './operation-manager/operation-manager.s
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfigService } from './config/config.service';
 import { Logger } from './logging/logging';
+import { AppSettings } from './config/interfaces';
 
 @Component({
   imports: [
@@ -165,12 +166,14 @@ export class AppComponent implements OnInit {
       items: [
         {
           icon: 'pi pi-circle-fill',
+          id: 'leftButtons',
           label: 'Show window buttons left',
           translocoKey: 'menu.settings.windowButtonsLeft',
           command: () => (this.configService.settings().leftButtons = !this.configService.settings().leftButtons),
         },
         {
           icon: 'pi pi-clipboard',
+          id: 'copyDiagnostics',
           label: 'Copy diagnostics to clipboard',
           translocoKey: 'menu.settings.copyDiagnostics',
           command: () =>
@@ -178,12 +181,14 @@ export class AppComponent implements OnInit {
         },
         {
           icon: 'pi pi-moon',
+          id: 'darkMode',
           label: 'Dark mode',
           translocoKey: 'menu.settings.darkMode',
           command: () => this.appService.themeHandler.toggleDarkMode(),
         },
         {
           icon: 'pi pi-language',
+          id: 'language',
           label: 'Language',
           translocoKey: 'menu.settings.language',
           command: () => this.langSwitcher.show(),
@@ -261,6 +266,11 @@ export class AppComponent implements OnInit {
         return items;
       });
       this.cdr.detectChanges();
+    });
+
+    effect(() => {
+      const settings = this.configService.settings();
+      this.setSettingsLabels(settings);
     });
   }
 
@@ -383,5 +393,17 @@ export class AppComponent implements OnInit {
         },
       });
     });
+  }
+
+  private setSettingsLabels(settings: AppSettings) {
+    for (const [key, value] of Object.entries(settings)) {
+      const settingsMenu = this.menuItems().find((item) => item['translocoKey'] === 'menu.settings.title');
+      if (settingsMenu) {
+        const setting = settingsMenu.items!.find((item) => item['id'] === key);
+        if (setting) {
+          setting.label = value ? 'On' : 'Off';
+        }
+      }
+    }
   }
 }

@@ -2,7 +2,6 @@ import { Component, effect, inject, OnInit, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
-import { AppService } from '../app.service';
 import { DataViewModule } from 'primeng/dataview';
 import { FullPackageDefinition, StatefulPackage } from '../interfaces';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
@@ -13,6 +12,7 @@ import { Tooltip } from 'primeng/tooltip';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'rani-gaming',
@@ -160,13 +160,13 @@ export class GamingComponent implements OnInit {
   ];
 
   protected readonly operationManager = inject(OperationManagerService);
-  private readonly appService = inject(AppService);
+  private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
   private readonly loadingService = inject(LoadingService);
 
   constructor() {
     effect(() => {
-      const darkMode = this.appService.themeHandler.darkMode();
+      const darkMode = this.configService.settings().darkMode;
       this.backgroundColor.set(darkMode ? flavors.mocha.colors.surface0.hex : flavors.latte.colors.surface0.hex);
     });
   }
