@@ -74,7 +74,8 @@
     "startpage": "Startpage",
     "startpageSub": "Open the Garuda Linux startpage",
     "setupAssistant": "Setup assistant",
-    "setupAssistantSub": "Run the Garuda setup assistant"
+    "setupAssistantSub": "Run the Garuda setup assistant",
+    "welcome": "Welcome"
   },
   "gaming": {
     "title": "Gaming ",

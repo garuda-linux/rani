@@ -2,10 +2,10 @@
   <div class="surface-section px-4 py-8 md:px-6 lg:px-8 text-center">
     <div class="mb-5 font-bold text-3xl">
       <span class="text-color">{{ t('welcome.title') }} </span>
-      <span class="text-primary">{{ t('welcome.titleTwo') }} "{{ codeName() }}"</span>
+      <span class="text-primary">{{ t('welcome.titleTwo') }} "{{ configService.state().codeName }}"</span>
     </div>
     <div class="text-color text-xl mb-10">
-      <span>{{ t('welcome.subtitle') }} ~ {{ hostname() }}</span>
+      <span>{{ t('welcome.welcome') }} {{ configService.state().user }}&#64;{{ configService.state().hostname }}!</span>
     </div>
     @if (!configService.settings().showMainLinks) {
       <div class="grid grid-cols-12">
@@ -16,7 +16,7 @@
             class="cursor-pointer col-span-12 md:col-span-3 mb-4 px-5"
           >
             <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
-              <i class="pi {{ item.icon }} text-primary"></i>
+              <i style="font-size: 2rem" class="pi {{ item.icon }} text-primary"></i>
             </span>
             <div class="text-primary-emphasis text-xl mb-3 font-medium">{{ t(item.title) }}</div>
             <span class="text-color line-height-3">{{ t(item.subTitle) }}</span>
@@ -28,11 +28,13 @@
       @for (item of webLinks; track item.title) {
         <p-card (click)="respondClick(item)" class="cursor-pointer col-span-4 md:col-span-2 mb-4 px-5">
           <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
-            @if (typeof item.icon === 'string') {
-              <img class="w-5 h-5" src="/assets/icons/{{ item.icon }}" alt="{{ item.title }}" />
-            } @else {
-              <fa-icon class="text-primary" [icon]="item.icon!"></fa-icon>
-            }
+            <div class="min-h-8">
+              @if (typeof item.icon === 'string') {
+                <img ngSrc="/assets/icons/{{ item.icon }}" alt="{{ item.title }}" width="32" height="32" />
+              } @else {
+                <fa-icon class="text-primary" size="2xl" [icon]="item.icon!"></fa-icon>
+              }
+            </div>
           </span>
           <div class="text-primary-emphasis mb-3 font-medium">{{ t(item.title) }}</div>
         </p-card>
@@ -42,11 +44,13 @@
       @for (item of contactLinks; track item.title) {
         <p-card (click)="respondClick(item)" class="cursor-pointer col-span-12 md:col-span-2 mb-4 px-5">
           <span class="p-3 shadow-2 mb-3 inline-block surface-card" style="border-radius: 10px">
-            @if (typeof item.icon === 'string') {
-              <img class="w-5 h-5" src="/assets/icons/{{ item.icon }}" alt="{{ item.title }}" />
-            } @else {
-              <fa-icon class="text-primary" [icon]="item.icon!"></fa-icon>
-            }
+            <div class="min-h-8">
+              @if (typeof item.icon === 'string') {
+                <img ngSrc="/assets/icons/{{ item.icon }}" alt="{{ item.title }}" width="32" height="32" />
+              } @else {
+                <fa-icon class="text-primary" size="2xl" [icon]="item.icon!"></fa-icon>
+              }
+            </div>
           </span>
           <div class="text-primary-emphasis text-sm mb-3 font-medium">{{ t(item.title) }}</div>
         </p-card>

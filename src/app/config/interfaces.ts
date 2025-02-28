@@ -11,6 +11,9 @@ export interface AppSettings {
 
 export interface AppState {
   isMaximized: boolean;
+  isLiveSystem: boolean;
+  hostname: string;
+  codeName: string;
   user: string;
   [key: string]: any;
 }

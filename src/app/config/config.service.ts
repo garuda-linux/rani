@@ -4,6 +4,7 @@ import { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
 import { Logger } from '../logging/logging';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { hostname } from '@tauri-apps/plugin-os';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,9 @@ export class ConfigService {
   state = signal<AppState>({
     isMaximized: false,
     user: '',
+    codeName: '',
+    hostname: '',
+    isLiveSystem: false,
   });
 
   settings = signal<AppSettings>({
@@ -35,8 +39,15 @@ export class ConfigService {
     this.logger.trace('Initializing ConfigService');
 
     try {
-      await this.initUser();
       await this.initStore();
+      await this.initIsLive();
+      await this.initUser();
+      await this.initCodeName();
+
+      const host: string = (await hostname())!;
+      this.state.update((state) => {
+        return { ...state, hostname: host };
+      });
       this.logger.debug('ConfigService initialized successfully');
     } catch (err: any) {
       this.logger.error(`Failed while initializing ConfigService: ${err}`);
@@ -109,6 +120,50 @@ export class ConfigService {
         state.user = result.stdout.trim();
         this.logger.debug(`User ${state.user}, welcome!`);
         return state;
+      });
+    }
+  }
+
+  /**
+   * Get the hostname of the system.
+   * @private
+   */
+  private async initCodeName(): Promise<void> {
+    const cmd = 'lsb_release -c';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      this.logger.error('Could not get code name');
+      return;
+    } else {
+      const codeName: string =
+        result.stdout
+          .split(':')[1]
+          .trim()
+          .match(/[A-Z][a-z]+/g)
+          ?.join(' ') ?? 'Unknown';
+      this.state.update((state) => {
+        return { ...state, codeName: codeName };
+      });
+    }
+  }
+
+  /**
+   * Check if the system is a live system.
+   * @private
+   */
+  private async initIsLive(): Promise<void> {
+    const cmd = "df -T / |tail -n1 |awk '{print $2}'";
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      this.logger.error('Could not get filesystem type');
+      return;
+    } else {
+      const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
+      this.logger.debug(`Filesystem type: ${result}, is ${isLiveSystem ? 'live' : 'installed'}`);
+      this.state.update((state) => {
+        return { ...state, isLiveSystem: isLiveSystem };
       });
     }
   }
