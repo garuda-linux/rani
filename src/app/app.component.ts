@@ -342,8 +342,13 @@ export class AppComponent implements OnInit {
    * Shutdown the app, saving the settings and closing the window.
    * @private
    */
-  private shutdown(): void {
+  private async shutdown(): Promise<void> {
     this.logger.info('Shutting down');
+
+    if (this.operationManager.pending().length > 0) {
+      await this.configService.store.set('pendingOperations', this.operationManager.pending());
+    }
+
     void this.appWindow.destroy();
   }
 
