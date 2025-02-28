@@ -13,9 +13,11 @@ import { ConfirmationService } from 'primeng/api';
 import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
 import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
+import { ConfigService } from './config/config.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    ConfigService,
     ConfirmationService,
     MessageToastService,
     OperationManagerService,

@@ -9,6 +9,7 @@ import { Checkbox } from 'primeng/checkbox';
 import { StatefulPackage, SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 import { Logger } from '../logging/logging';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'rani-system-settings',
@@ -230,6 +231,7 @@ export class SystemSettingsComponent {
   ];
 
   operationManager = inject(OperationManagerService);
+  private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
 
   constructor() {
@@ -256,7 +258,7 @@ export class SystemSettingsComponent {
    * Get the current shell, writing it to the currentShell signal and setting the initial shell.
    */
   async getCurrentShell(): Promise<void> {
-    while (!this.operationManager.user()) {
+    while (!this.configService.state().user) {
       await new Promise((resolve) => setTimeout(resolve, 200));
     }
 
@@ -266,6 +268,7 @@ export class SystemSettingsComponent {
     );
 
     if (result) {
+      this.logger.trace(`Got initial shell ${result}`);
       if (!this.state.initialShell) this.state.initialShell = result;
       const currShell: ShellEntry | undefined = shells.find((entry) => result === entry.name);
       this.currentShell.set(currShell ?? null);
