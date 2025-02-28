@@ -30,7 +30,7 @@ export class ThemeHandler {
       ? '#1e1e2e'
       : '#eff1f5';
 
-    this.logger.debug(`Dark mode ${this.configService.settings().darkMode ? 'enabled' : 'disabled'}.`);
+    this.logger.debug(`Dark mode ${this.configService.settings().darkMode ? 'enabled' : 'disabled'}`);
     void (await getConfigStore()).set('darkMode', this.configService.settings().darkMode);
   }
 

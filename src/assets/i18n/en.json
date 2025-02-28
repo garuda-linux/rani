@@ -11,8 +11,11 @@
     "settings": {
       "title": "Settings",
       "windowButtonsLeft": "Show window buttons left",
+      "windowButtonsRight": "Show window buttons right",
       "copyDiagnostics": "Copy diagnostics to clipboard",
-      "darkMode": "Enable dark mode",
+      "dontCopyDiagnostics": "Don't copy diagnostics to clipboard",
+      "enableDarkMode": "Enable dark mode",
+      "enableLightMode": "Enable light mode",
       "language": "Configure active language"
     },
     "help": {

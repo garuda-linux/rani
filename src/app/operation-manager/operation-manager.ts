@@ -8,6 +8,7 @@ import {
   ENABLE_HBLOCK_NAME,
   ENABLE_SERVICE_ACTION_NAME,
   ENABLE_USER_SERVICE_ACTION_NAME,
+  INSTALL_ACTION_NAME,
   Operation,
   OperationType,
   REMOVE_ACTION_NAME,
@@ -16,7 +17,6 @@ import {
   SET_DEFAULT_SHELL_ACTION_NAME,
   SET_NEW_DNS_SERVER,
 } from './interfaces';
-import { INSTALL_ACTION_NAME } from '../constants';
 import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { Nullable } from 'primeng/ts-helpers';

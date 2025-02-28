@@ -1,3 +1,16 @@
+import { IconProp } from '@fortawesome/angular-fontawesome/types';
+
+export interface MenuToggleMappings {
+  [key: string]: MenuToggleMapping;
+}
+
+export interface MenuToggleMapping {
+  on: string;
+  off: string;
+  onIcon: string;
+  offIcon: string;
+}
+
 export type SystemdServiceAction =
   | 'start'
   | 'stop'
@@ -78,7 +91,7 @@ export interface SystemToolsSubEntry {
 export interface Link {
   title: string;
   subTitle: string;
-  icon?: string;
+  icon?: IconProp | string;
 }
 
 export type ExternalLink = Link & {

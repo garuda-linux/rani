@@ -10,10 +10,20 @@ import { ExternalLink, HomepageLink } from '../interfaces';
 import { Nullable } from 'primeng/ts-helpers';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
+import {
+  faBluesky,
+  faDiscord,
+  faDiscourse,
+  faGitlab,
+  faMastodon,
+  faTelegram,
+} from '@fortawesome/free-brands-svg-icons';
+import { faComments, faDonate, faVault } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-home',
-  imports: [TranslocoDirective, Card, RouterLink],
+  imports: [TranslocoDirective, Card, RouterLink, FaIconComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
@@ -30,40 +40,40 @@ export class HomeComponent implements OnInit {
     //   icon: 'pi pi-book',
     // },
     {
-      title: 'Garuda GitLab',
+      title: 'GitLab',
       subTitle: 'Have a look at our source code',
       externalLink: 'https://gitlab.com/garuda-linux',
-      icon: 'pi pi-code',
+      icon: faGitlab,
     },
     {
       title: 'Chaotic-AUR',
       subTitle: 'Take a look at package updates and more',
       externalLink: 'https://aur.chaotic.cx',
-      icon: 'pi pi-external-link',
+      icon: 'chaotic-aur.png',
     },
     {
       title: 'SearxNG',
       subTitle: 'Privacy respecting search engine',
       externalLink: 'https://searx.garudalinux.org',
-      icon: 'pi pi-search',
+      icon: 'searxng.svg',
     },
     {
       title: 'Whoogle',
       subTitle: 'Google search engine proxy',
       externalLink: 'https://search.garudalinux.org',
-      icon: 'pi pi-search',
+      icon: 'whoogle.webp',
     },
     {
       title: 'Vaultwarden',
       subTitle: 'Bitwarden compatible, secure password manager',
       externalLink: 'https://bitwarden.garudalinux.org',
-      icon: 'pi pi-key',
+      icon: faVault,
     },
     {
       title: 'Donate',
       subTitle: 'Support the Garuda Linux project',
       externalLink: 'https://garudalinux.org/donate',
-      icon: 'pi pi-heart',
+      icon: faDonate,
     },
   ];
   contactLinks: ExternalLink[] = [
@@ -71,37 +81,37 @@ export class HomeComponent implements OnInit {
       title: 'Forum',
       subTitle: 'Visit the Garuda Linux Forum',
       externalLink: 'https://forum.garudalinux.org',
-      icon: 'pi pi-comments',
+      icon: faDiscourse,
     },
     {
       title: 'Telegram',
       subTitle: 'Visit the Telegram channel',
       externalLink: 'https://garudalinux.org/telegram',
-      icon: 'pi pi-telegram',
+      icon: faTelegram,
     },
     {
       title: 'Discord',
       subTitle: 'Visit the Telegram channel',
       externalLink: 'https://garudalinux.org/discord',
-      icon: 'pi pi-telegram',
+      icon: faDiscord,
     },
     {
       title: 'Mastodon',
       subTitle: 'Visit the Telegram channel',
       externalLink: 'https://social.garudalinux.org',
-      icon: 'pi pi-telegram',
+      icon: faMastodon,
     },
     {
       title: 'BlueSky',
       subTitle: 'Visit the Telegram channel',
       externalLink: 'https://bsky.app/profile/garudalinux.org',
-      icon: 'pi pi-telegram',
+      icon: faBluesky,
     },
     {
       title: 'IRC',
       subTitle: 'Join the interconnected IRC channel',
       externalLink: 'https://irc.garudalinux.org',
-      icon: 'pi pi-telegram',
+      icon: faComments,
     },
   ];
 

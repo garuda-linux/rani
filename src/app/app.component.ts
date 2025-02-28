@@ -27,6 +27,8 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfigService } from './config/config.service';
 import { Logger } from './logging/logging';
 import { AppSettings } from './config/interfaces';
+import { settingsMenuMappings } from './constants';
+import { MenuToggleMapping } from './interfaces';
 
 @Component({
   imports: [
@@ -169,7 +171,10 @@ export class AppComponent implements OnInit {
           id: 'leftButtons',
           label: 'Show window buttons left',
           translocoKey: 'menu.settings.windowButtonsLeft',
-          command: () => (this.configService.settings().leftButtons = !this.configService.settings().leftButtons),
+          command: () =>
+            this.configService.settings.update((settings) => {
+              return { ...settings, leftButtons: !settings.leftButtons };
+            }),
         },
         {
           icon: 'pi pi-clipboard',
@@ -177,7 +182,9 @@ export class AppComponent implements OnInit {
           label: 'Copy diagnostics to clipboard',
           translocoKey: 'menu.settings.copyDiagnostics',
           command: () =>
-            (this.configService.settings().copyDiagnostics = !this.configService.settings().copyDiagnostics),
+            this.configService.settings.update((settings) => {
+              return { ...settings, copyDiagnostics: !settings.copyDiagnostics };
+            }),
         },
         {
           icon: 'pi pi-moon',
@@ -270,6 +277,7 @@ export class AppComponent implements OnInit {
 
     effect(() => {
       const settings = this.configService.settings();
+      this.logger.trace('Updating settings labels via effect');
       this.setSettingsLabels(settings);
     });
   }
@@ -395,13 +403,32 @@ export class AppComponent implements OnInit {
     });
   }
 
-  private setSettingsLabels(settings: AppSettings) {
-    for (const [key, value] of Object.entries(settings)) {
-      const settingsMenu = this.menuItems().find((item) => item['translocoKey'] === 'menu.settings.title');
-      if (settingsMenu) {
-        const setting = settingsMenu.items!.find((item) => item['id'] === key);
-        if (setting) {
-          setting.label = value ? 'On' : 'Off';
+  /**
+   * Set the labels for the settings menu items to have the correct values.
+   * @param settings The settings to set the labels for
+   * @private
+   */
+  private setSettingsLabels(settings: AppSettings): void {
+    const settingsMenu: MenuItem | undefined = this.menuItems().find(
+      (item) => item['translocoKey'] === 'menu.settings.title',
+    );
+    if (settingsMenu) {
+      for (const [key, value] of Object.entries(settings)) {
+        const setting: MenuItem | undefined = settingsMenu.items!.find((item) => item['id'] === key);
+        this.logger.trace(`${setting ? 'Found' : 'Did not find'} setting for ${key}`);
+
+        if (setting && key !== 'language') {
+          // @ts-ignore - no idea why the Angular compiler is acting up here
+          const mapping: MenuToggleMapping = settingsMenuMappings[key];
+          const toTranslate: string = value ? mapping.off : mapping.on;
+
+          setting.label = this.translocoService.translate(toTranslate);
+          setting.icon = value ? mapping.offIcon : mapping.onIcon;
+
+          this.logger.trace(`Updated ${key} to ${setting.label}`);
+        } else if (setting && key === 'language') {
+          setting.label = `${this.translocoService.translate('menu.settings.language')} (${this.translocoService.getActiveLang()})`;
+          this.logger.trace(`Updated ${key} to ${setting.label}`);
         }
       }
     }
