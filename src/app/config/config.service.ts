@@ -3,6 +3,7 @@ import { AppSettings, AppState } from './interfaces';
 import { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
 import { Logger } from '../logging/logging';
+import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,7 @@ import { Logger } from '../logging/logging';
 export class ConfigService {
   state = signal<AppState>({
     isMaximized: false,
+    user: '',
   });
 
   settings = signal<AppSettings>({
@@ -30,20 +32,13 @@ export class ConfigService {
 
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
-    this.store = await getConfigStore();
 
-    let storedSettings = 0;
-    if (this.store) {
-      for (const key in this.settings()) {
-        const value: any = await this.store.get(key);
-        if (value) {
-          this.logger.trace(`Setting ${key} to ${value}`);
-          this.settings.set({ ...this.settings(), [key]: value });
-          storedSettings++;
-        }
-      }
-
-      this.logger.info(`Loaded ${storedSettings} settings from store`);
+    try {
+      await this.initUser();
+      await this.initStore();
+      this.logger.debug('ConfigService initialized successfully');
+    } catch (err: any) {
+      this.logger.error(`Failed while initializing ConfigService: ${err}`);
     }
   }
 
@@ -76,5 +71,44 @@ export class ConfigService {
     const state = { ...this.state() };
     state[key] = value;
     this.state.set(state);
+  }
+
+  /**
+   * Initializes the app key store, overwriting the default settings with saved ones.
+   * @private
+   */
+  private async initStore(): Promise<void> {
+    this.store = await getConfigStore();
+
+    let storedSettings = 0;
+    if (this.store) {
+      for (const key in this.settings()) {
+        const value: any = await this.store.get(key);
+        if (value) {
+          this.logger.trace(`Setting ${key} to ${value}`);
+          this.settings.set({ ...this.settings(), [key]: value });
+          storedSettings++;
+        }
+      }
+
+      this.logger.info(`Loaded ${storedSettings} settings from store`);
+    }
+  }
+
+  /**
+   * Initializes the current user.
+   * @private
+   */
+  private async initUser(): Promise<void> {
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', 'whoami']).execute();
+    if (result.code !== 0) {
+      this.logger.error('Could not get user');
+    } else {
+      this.state.update((state) => {
+        state.user = result.stdout.trim();
+        this.logger.debug(`User ${state.user}, welcome!`);
+        return state;
+      });
+    }
   }
 }

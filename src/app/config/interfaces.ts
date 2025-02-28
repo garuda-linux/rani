@@ -10,5 +10,6 @@ export interface AppSettings {
 
 export interface AppState {
   isMaximized: boolean;
+  user: string;
   [key: string]: any;
 }

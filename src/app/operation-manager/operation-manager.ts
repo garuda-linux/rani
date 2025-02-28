@@ -52,13 +52,6 @@ export class OperationManager {
     if (savedOperations && savedOperations.length > 0) {
       this.pending.set(savedOperations);
     }
-
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', 'whoami']).execute();
-    if (result.code !== 0) {
-      this.logger.error('Could not get user');
-    } else {
-      this.user.set(result.stdout.trim());
-    }
   }
 
   handleToggleSystemTools(entry: SystemToolsSubEntry) {
@@ -468,7 +461,8 @@ export class OperationManager {
    */
   async executeOperations(): Promise<void> {
     this.logger.info('Executing pending operations');
-    await this.prepareRun();
+    const pwIsCached: boolean = await this.prepareRun();
+    this.logger.trace(`Received ${pwIsCached ? 'pwIsCached' : 'psIsCached false'}`);
 
     let i = 1;
     for (const operation of this.pending()) {
@@ -481,8 +475,14 @@ export class OperationManager {
 
       if (i === this.pending().length) {
         this.currentOperation.set(null);
+      } else {
+        i++;
       }
-      i++;
+    }
+
+    if (!pwIsCached) {
+      this.logger.trace('Proceeding to clear explicitly cached password');
+      this.privilegeManager.clearCachedPassword();
     }
   }
 
@@ -493,6 +493,7 @@ export class OperationManager {
    */
   async executeOperation(operation: Operation, i = 1): Promise<void> {
     this.logger.info(operation.name);
+
     operation.status = 'running';
     this.operationOutput.set('');
     this.operationNewEmitter.emit(operation.name);
@@ -512,7 +513,7 @@ export class OperationManager {
       let cmd: Command<string>;
       if (typeof op === 'string') {
         if (operation.sudo) {
-          cmd = await this.privilegeManager.returnCommandAsSudo(op);
+          cmd = await this.privilegeManager.returnCommandAsSudo(op, false, true);
         } else {
           cmd = Command.create('exec-bash', ['-c', op]);
         }
@@ -575,8 +576,13 @@ export class OperationManager {
       throw new Error('An operation is already running');
     }
 
-    await this.prepareRun(operation);
+    const pwIsCached: boolean = await this.prepareRun(operation);
     await this.executeOperation(operation);
+
+    if (!pwIsCached) {
+      this.logger.trace('Proceeding to clear explicitly cached password');
+      this.privilegeManager.clearCachedPassword();
+    }
   }
 
   /**
@@ -616,16 +622,19 @@ export class OperationManager {
    * Closes the drawer after ensuring the sudo password exists.
    * @param operation The operation to run, provided in case its a direct run.
    */
-  private async prepareRun(operation?: Operation): Promise<void> {
+  private async prepareRun(operation?: Operation): Promise<boolean> {
     this.operationOutput.set('');
+    let pwIsCached: boolean = false;
 
     if (this.pending().find((op) => op.sudo)) {
-      await this.privilegeManager.getSudoPassword();
+      pwIsCached = await this.privilegeManager.enterSudoPassword();
     } else if (operation) {
       if (operation.sudo) {
-        await this.privilegeManager.getSudoPassword();
+        pwIsCached = await this.privilegeManager.enterSudoPassword();
       }
       this.requestTerminal.emit(true);
     }
+
+    return pwIsCached;
   }
 }
