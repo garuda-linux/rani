@@ -257,18 +257,15 @@ export class AppComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const badge: string | undefined = this.operationManager.pending()?.length
-        ? this.operationManager.pending()?.length.toString()
-        : undefined;
-      this.menuItems.update((items) => {
-        const index: number = items.findIndex((item) => item.label === 'Terminal');
-        if (index !== -1) {
-          items[index].badge = badge;
-        }
-        if (this.operationManager.currentAction()) {
+      const pending: boolean = this.operationManager.pending().length > 0;
+      this.menuItems.update((items: MenuItem[]) => {
+        const index: number = items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
+        if (index !== -1 && !this.operationManager.currentAction()) {
+          pending ? (items[index].icon = 'pi pi-hourglass') : (items[index].icon = 'pi pi-expand');
+        } else if (this.operationManager.currentAction()) {
           items[index].icon = 'pi pi-spin pi-spinner';
         } else {
-          items[index].icon = 'pi pi-spinner';
+          items[index].icon = 'pi pi-expand';
         }
         return items;
       });

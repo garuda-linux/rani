@@ -25,6 +25,7 @@ import { DnsProvider, ShellEntry } from '../system-settings/types';
 import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-manager/privilege-manager';
 import { TranslocoService } from '@jsverse/transloco';
 import { Logger } from '../logging/logging';
+import { getCurrentWindow, ProgressBarStatus, UserAttentionType } from '@tauri-apps/api/window';
 
 export class OperationManager {
   public currentOperation = signal<Nullable<string>>(null);
@@ -466,6 +467,11 @@ export class OperationManager {
 
     let i = 1;
     for (const operation of this.pending()) {
+      await getCurrentWindow().setProgressBar({
+        status: ProgressBarStatus.Normal,
+        progress: parseInt((i / this.pending().length).toFixed(0)),
+      });
+
       if (operation.status === 'complete') {
         this.logger.debug(`Skipping operation ${operation.name} as it is already complete`);
         continue;
@@ -479,6 +485,9 @@ export class OperationManager {
         i++;
       }
     }
+
+    await getCurrentWindow().setProgressBar({ status: ProgressBarStatus.None });
+    await getCurrentWindow().requestUserAttention(UserAttentionType.Informational);
 
     if (!pwIsCached) {
       this.logger.trace('Proceeding to clear explicitly cached password');
@@ -499,9 +508,8 @@ export class OperationManager {
     this.operationNewEmitter.emit(operation.name);
 
     if (i !== 1) {
-      this.currentOperation.set(
-        `${this.translocoService.translate(operation.prettyName)} (${i}/${this.pending().length})`,
-      );
+      const titleText = `${this.translocoService.translate(operation.prettyName)} (${i}/${this.pending().length})`;
+      this.currentOperation.set(titleText);
     } else {
       this.currentOperation.set(this.translocoService.translate(operation.prettyName));
     }

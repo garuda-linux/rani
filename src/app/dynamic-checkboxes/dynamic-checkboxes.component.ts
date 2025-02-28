@@ -112,6 +112,19 @@ export class DynamicCheckboxesComponent implements OnInit {
   }
 
   /**
+   * Handle the click action on a checkbox.
+   * @param entry The entry to toggle
+   */
+  async clickAction(entry: any): Promise<void> {
+    this.toggleEntry(entry);
+
+    // Let the loop finish rendering before blocking the UI again, it seemed to help with state
+    // of checkboxes changing very slowly
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    await this.checkDisabled();
+  }
+
+  /**
    * Check if the entry should be disabled based on the disabler.
    * @protected
    */

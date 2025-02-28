@@ -52,8 +52,8 @@
     "tooltip": "Select your preferred language"
   },
   "welcome": {
-    "title": "Welcome to Garuda",
-    "titleTwo": " Linux",
+    "title": "Welcome to ",
+    "titleTwo": "Garuda Linux",
     "subtitle": "The ultimate Linux distro for gaming and multimedia",
     "maintenance": "Maintenance",
     "maintenanceSub": "Keep your system in a good state",
@@ -75,7 +75,7 @@
     "startpageSub": "Open the Garuda Linux startpage",
     "setupAssistant": "Setup assistant",
     "setupAssistantSub": "Run the Garuda setup assistant",
-    "welcome": "Welcome"
+    "hello": "Hello"
   },
   "gaming": {
     "title": "Gaming ",

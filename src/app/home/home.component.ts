@@ -126,8 +126,9 @@ export class HomeComponent implements OnInit {
     {
       title: 'welcome.bootTools',
       subTitle: 'welcome.bootToolsSub',
-      routerLink: '/boot-tools',
+      // routerLink: '/boot-tools',
       icon: 'pi pi-hammer',
+      command: () => this.privilegeManager.executeCommandAsSudo('garuda-boot-options', true),
     },
     {
       title: 'welcome.diagnostics',

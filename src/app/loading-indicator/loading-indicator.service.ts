@@ -6,7 +6,7 @@ import { Logger } from '../logging/logging';
   providedIn: 'root',
 })
 export class LoadingService {
-  private loadingSubject = new BehaviorSubject<boolean>(false);
+  private loadingSubject = new BehaviorSubject<boolean>(true);
   public loading$: Observable<boolean> = this.loadingSubject.asObservable();
   private readonly logger = Logger.getInstance();
 

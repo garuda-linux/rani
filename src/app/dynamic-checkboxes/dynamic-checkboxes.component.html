@@ -6,7 +6,7 @@
           <div class="col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3 text-sur">
             <p-checkbox
               [disabled]="entry.disabled ?? false"
-              (click)="toggleEntry(entry)"
+              (click)="clickAction(entry)"
               [inputId]="entry.name"
               [value]="entry"
               [(ngModel)]="selectedBoxes"

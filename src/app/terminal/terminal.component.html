@@ -6,8 +6,8 @@
           @for (op of operationManager.pending(); track op.name) {
             <p-card styleClass="mt-2" [style]="{ width: '20rem' }">
               <ng-template #header>
-                <div class="text-center mt-2">
-                  <span class="mr-2">{{ t(op.prettyName) }}</span>
+                <div class="text-center mt-4">
+                  <span class="mr-2 font-bold">{{ t(op.prettyName) }}</span>
                   <i
                     [ngClass]="{
                       'text-yellow-500 pi-hourglass': op.status === 'pending',

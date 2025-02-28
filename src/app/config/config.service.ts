@@ -1,10 +1,11 @@
-import { Injectable, signal } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { AppSettings, AppState } from './interfaces';
 import { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
 import { Logger } from '../logging/logging';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { hostname } from '@tauri-apps/plugin-os';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,7 @@ export class ConfigService {
   });
 
   public store!: Store;
+  private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
 
   constructor() {
@@ -37,7 +39,6 @@ export class ConfigService {
 
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
-
     try {
       await this.initStore();
       await this.initIsLive();
@@ -52,6 +53,8 @@ export class ConfigService {
     } catch (err: any) {
       this.logger.error(`Failed while initializing ConfigService: ${err}`);
     }
+
+    this.loadingService.loadingOff();
   }
 
   /**
@@ -161,7 +164,7 @@ export class ConfigService {
       return;
     } else {
       const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
-      this.logger.debug(`Filesystem type: ${result}, is ${isLiveSystem ? 'live' : 'installed'}`);
+      this.logger.debug(`Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? 'live' : 'installed'}`);
       this.state.update((state) => {
         return { ...state, isLiveSystem: isLiveSystem };
       });
