@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { Dialog } from 'primeng/dialog';
 import { PrivilegeManagerService } from './privilege-manager.service';
 import { MessageToastService } from '@garudalinux/core';
@@ -7,6 +7,7 @@ import { Password } from 'primeng/password';
 import { Button } from 'primeng/button';
 import { NgClass } from '@angular/common';
 import { Logger } from '../logging/logging';
+import { Nullable } from 'primeng/ts-helpers';
 
 @Component({
   selector: 'rani-privilege-manager',
@@ -17,6 +18,8 @@ import { Logger } from '../logging/logging';
 export class PrivilegeManagerComponent {
   passwordInvalid = signal<boolean>(false);
 
+  @ViewChild('sudoInput') sudoInput: Nullable<Password>;
+
   protected privilegeManager = inject(PrivilegeManagerService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -24,21 +27,22 @@ export class PrivilegeManagerComponent {
 
   /**
    * Write the sudo password to the system.
-   * @param pass The password as text
    * @param cache Whether to cache the password in-memory for later use
    */
-  async writeSudoPass(pass: string, cache = false): Promise<void> {
-    if (!pass) {
+  async writeSudoPass(cache = false): Promise<void> {
+    if (!this.sudoInput?.value) {
       this.logger.trace('Password is empty');
       this.passwordInvalid.set(true);
       return;
     }
+
     try {
-      await this.privilegeManager.writeSudoPass(pass, cache);
+      await this.privilegeManager.writeSudoPass(this.sudoInput.value, cache);
       this.passwordInvalid.set(false);
     } catch (err: any) {
       this.logger.error(err);
       this.passwordInvalid.set(true);
+      this.sudoInput.value = null;
       this.messageToastService.error('Error', this.translocoService.translate('error.sudoPassword'));
     }
   }

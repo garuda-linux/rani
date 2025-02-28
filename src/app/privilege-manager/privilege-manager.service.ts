@@ -19,11 +19,14 @@ export class PrivilegeManagerService {
   /*
    * Get the sudo password from the user. Open a dialog to prompt the user for the password.
    * If the password is already set, return immediately, otherwise the promise will resolve when the password is set.
+   * @returns A boolean indicating whether it is cached or not (true = cached)
    */
-  async getSudoPassword(): Promise<void> {
+  async enterSudoPassword(): Promise<boolean> {
     this.loadingService.loadingOn();
-    await this.manager.getSudoPassword();
+    const result: boolean = await this.manager.enterSudoPassword();
+
     this.loadingService.loadingOff();
+    return result;
   }
 
   /**
@@ -78,5 +81,12 @@ export class PrivilegeManagerService {
       this.loadingService.loadingOff();
       throw err;
     }
+  }
+
+  /**
+   * Clear any cached passwords and set status to unauthenticated.
+   */
+  clearCachedPassword() {
+    this.manager.clearCachedPassword();
   }
 }

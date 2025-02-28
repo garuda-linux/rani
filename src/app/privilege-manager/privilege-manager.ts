@@ -13,8 +13,9 @@ export class PrivilegeManager {
   /*
    * Get the sudo password from the user. Open a dialog to prompt the user for the password.
    * If the password is already set, return immediately, otherwise the promise will resolve when the password is set.
+   * @returns A boolean indicating whether it is cached or not (true = cached)
    */
-  async getSudoPassword(): Promise<void> {
+  async enterSudoPassword(): Promise<boolean> {
     if (!this.authenticated()) {
       this.logger.info('No sudo password found');
       this.sudoDialogVisible.set(true);
@@ -33,6 +34,9 @@ export class PrivilegeManager {
     } else {
       this.logger.debug('Sudo password already existed');
     }
+
+    this.logger.trace(`Password received, will ${this.password() ? 'cache' : 'not cache'} it`);
+    return this.password() !== null;
   }
 
   /**
@@ -46,7 +50,7 @@ export class PrivilegeManager {
       if (cache) {
         this.password.set(pass);
       } else {
-        this.oneTimeUse.update((value) => [...value, pass]);
+        this.oneTimeUse.set([pass]);
       }
       this.authenticated.set(true);
       if (this.sudoDialogVisible()) {
@@ -55,6 +59,18 @@ export class PrivilegeManager {
     } else {
       throw new Error('Credentials were not correct');
     }
+  }
+
+  /**
+   * Clear any cached passwords and set status to unauthenticated.
+   */
+  clearCachedPassword(): void {
+    if (this.password()) {
+      this.password.set(null);
+    } else {
+      this.oneTimeUse.set([]);
+    }
+    this.authenticated.set(false);
   }
 
   /**
@@ -72,9 +88,10 @@ export class PrivilegeManager {
    * Spawn a command as sudo, checking for credentials beforehand.
    * @param cmd The command to execute
    * @param keepEnv Whether to keep environment variables (sudo -E)
+   * @param holdSudoPass Whether to keep the password around, for executing a stack of operations
    */
-  async returnCommandAsSudo(cmd: string, keepEnv = false): Promise<Command<string>> {
-    const pass: string = await this.providePassword();
+  async returnCommandAsSudo(cmd: string, keepEnv = false, holdSudoPass = false): Promise<Command<string>> {
+    const pass: string = await this.providePassword(holdSudoPass);
     const finalCmd = `echo ${pass} | sudo ${keepEnv ? '-E' : ''} -p "" -S bash -c '${cmd}'`;
     return Command.create('exec-bash', ['-c', finalCmd]);
   }
@@ -112,19 +129,25 @@ export class PrivilegeManager {
    * Provides the sudo password to calling functions. Asks for it when not available,
    * and uses either the cached or one-time stored passwords for authentication.
    * One-time passwords are removed from the list after use, therefore no longer available.
+   * @param holdSudoPass Whether to keep the password around, for executing a stack of operations.
    * @returns The password string
    * @private
    */
-  private async providePassword(): Promise<string> {
-    if (!this.authenticated()) {
-      await this.getSudoPassword();
-    }
+  private async providePassword(holdSudoPass = false): Promise<string> {
+    await this.enterSudoPassword();
 
     if (this.password()) {
+      this.logger.debug('Providing cached credentials');
       return this.password() as string;
-    } else if (this.oneTimeUse().length > 0) {
+    } else if (this.oneTimeUse().length > 0 && !holdSudoPass) {
+      this.logger.debug('Consuming the one-time use credentials');
       this.authenticated.set(false);
       return this.oneTimeUse().pop() as string;
+    } else if (this.oneTimeUse().length > 0 && holdSudoPass) {
+      this.logger.debug('Was instructed to keep the credentials around');
+      const value = this.oneTimeUse().pop() as string;
+      this.oneTimeUse.set([value]);
+      return value;
     } else {
       throw new Error("No password was found, this shouldn't happen!");
     }

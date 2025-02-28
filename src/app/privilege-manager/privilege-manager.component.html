@@ -5,7 +5,7 @@
       <label class="font-semibold w-24" for="password">{{ t('sudo.password') }}</label>
       <p-password
         #sudoInput
-        (keydown.enter)="writeSudoPass(sudoInput.value!)"
+        (keydown.enter)="writeSudoPass()"
         [feedback]="false"
         [fluid]="true"
         [label]="t('sudo.password')"
@@ -21,18 +21,8 @@
         [outlined]="true"
         severity="danger"
       />
-      <p-button
-        (click)="writeSudoPass(sudoInput.value!)"
-        [label]="t('sudo.useOnce')"
-        [outlined]="true"
-        severity="success"
-      />
-      <p-button
-        (click)="writeSudoPass(sudoInput.value!, true)"
-        [label]="t('sudo.save')"
-        [outlined]="true"
-        severity="help"
-      />
+      <p-button (click)="writeSudoPass()" [label]="t('sudo.useOnce')" [outlined]="true" severity="success" />
+      <p-button (click)="writeSudoPass(true)" [label]="t('sudo.save')" [outlined]="true" severity="help" />
     </div>
   </p-dialog>
 </ng-container>
