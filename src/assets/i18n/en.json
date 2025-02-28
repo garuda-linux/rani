@@ -87,7 +87,9 @@
     "emulators": "Emulators",
     "controllers": "Controller support",
     "games": "Games",
-    "misc": "Miscellaneous"
+    "misc": "Miscellaneous",
+    "bluez": "Generally required for recognizing PS controllers wireless",
+    "xboxdrv": "Xbox controller driver, only use if kernel driver doesn't work!"
   },
   "maintenance": {
     "title": "System ",

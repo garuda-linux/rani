@@ -273,7 +273,7 @@ export class AppComponent implements OnInit {
     });
 
     effect(() => {
-      const settings = this.configService.settings();
+      const settings: AppSettings = this.configService.settings();
       this.logger.trace('Updating settings labels via effect');
       this.setSettingsLabels(settings);
     });

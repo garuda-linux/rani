@@ -26,11 +26,11 @@
                       <ng-template #title>
                         <div
                           class="text-center text-sm text-bold min-h-10"
-                          [pTooltip]="item.description"
+                          [pTooltip]="t(item.description)"
                           tooltipPosition="bottom"
                         >
-                          {{ t(item.name) }}
-                          @if (t(item.description)) {
+                          {{ item.name }}
+                          @if (item.description) {
                             <i class="pi pi-info-circle"> </i>
                           }
                         </div>

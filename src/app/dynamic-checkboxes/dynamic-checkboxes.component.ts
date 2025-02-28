@@ -129,28 +129,26 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @protected
    */
   protected async checkDisabled(): Promise<void> {
+    this.loadingService.loadingOn();
+
     for (const section of this.data()) {
       for (const entry of section.sections) {
         if (!entry.disabler) continue;
-        const findDisabler = () => {
-          for (const entry of this.selectedBoxes()) {
-            if (entry.name === entry.disabler) {
-              return entry;
-            }
-          }
-          return null;
-        };
+        const disabler: SystemToolsSubEntry | undefined = this.selectedBoxes().find(
+          (selected) => selected.name === entry.disabler,
+        );
 
-        const disabler: SystemToolsSubEntry | null = findDisabler();
         if (entry.initialState) {
-          this.logger.trace(`Leaving enabled ${entry.name}, initial state is true`);
           entry.disabled = false;
         } else if (!disabler) {
-          this.logger.trace(`Disabling ${entry.name}, no disabler in selected found`);
           entry.disabled = true;
+        } else if (disabler.checked) {
+          entry.disabled = false;
         }
       }
     }
+
+    this.loadingService.loadingOff();
   }
 
   /**
@@ -174,7 +172,7 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @private
    */
   private async getActiveServices(): Promise<SystemdService[]> {
-    const cmd = 'systemctl list-units --type service --full --all --output json --no-pager';
+    const cmd = 'systemctl list-units --type service --full --output json --no-pager';
     const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
       cmd,
       (stdout: string) => JSON.parse(stdout),
@@ -219,7 +217,7 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @private
    */
   private async getActiveUserServices(): Promise<SystemdService[]> {
-    const cmd = 'systemctl list-units --type service --global --user --full --all --output json --no-pager';
+    const cmd = 'systemctl list-units --type service --global --user --full --output json --no-pager';
     const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
       cmd,
       (stdout: string) => JSON.parse(stdout),
