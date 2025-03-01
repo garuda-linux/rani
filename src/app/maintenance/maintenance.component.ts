@@ -2,7 +2,6 @@ import { Component, inject, model, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
-import { AppService } from '../app.service';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
@@ -26,6 +25,7 @@ import { Logger } from '../logging/logging';
 export class MaintenanceComponent implements OnInit {
   selectedResetConfigs = model<any[]>([]);
   tabIndex = signal<number>(0);
+
   resettableConfigs: ResettableConfig[] = [
     {
       name: 'Bash',
@@ -138,12 +138,12 @@ export class MaintenanceComponent implements OnInit {
     },
   ];
 
-  readonly appService = inject(AppService);
   readonly operationManager = inject(OperationManagerService);
   readonly privilegeManager = inject(PrivilegeManagerService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
+
   actions: MaintenanceAction[] = [
     {
       name: 'updateSystem',
@@ -240,6 +240,7 @@ export class MaintenanceComponent implements OnInit {
       },
     },
   ];
+
   actionsGarudaUpdate: MaintenanceAction[] = [
     {
       name: 'updateRemoteFix',
@@ -320,6 +321,7 @@ export class MaintenanceComponent implements OnInit {
       },
     },
   ];
+
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -328,6 +330,9 @@ export class MaintenanceComponent implements OnInit {
     await this.checkExistingConfigs();
   }
 
+  /**
+   * Check for existing configuration files for whether they exist.
+   */
   async checkExistingConfigs() {
     this.loadingService.loadingOn();
     for (const config of this.resettableConfigs) {
@@ -433,6 +438,10 @@ export class MaintenanceComponent implements OnInit {
     }
   }
 
+  /**
+   * Run a maintenance action now, either directly or by adding it to the pending operations.
+   * @param event The event that triggered the action
+   */
   confirmResetConfigs(event: Event): void {
     this.logger.trace('Confirming resetting configs');
     this.confirmationService.confirm({

@@ -16,6 +16,7 @@ import { Logger } from '../logging/logging';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import { ConfigService } from '../config/config.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'rani-terminal',
@@ -28,6 +29,8 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   visible = signal<boolean>(false);
 
   operationManager = inject(OperationManagerService);
+  subscriptions: Subscription[] = [];
+
   @ViewChild('dialog', { static: false }) dialog!: Dialog;
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
@@ -76,24 +79,34 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
     await this.loadXterm();
 
     this.logger.trace('Subscribing to terminal output/clear emitter');
-    this.operationManager.operationOutputEmitter.subscribe((output: string) => {
-      this.term.write(output);
-    });
-    this.operationManager.operationNewEmitter.subscribe((output: string) => {
-      this.logger.trace(`Entered new stage ${output}, clearing terminal output`);
-      this.term.underlying?.clear();
-    });
+    this.subscriptions.push(
+      this.operationManager.operationOutputEmitter.subscribe((output: string) => {
+        this.term.write(output);
+      }),
+    );
+    this.subscriptions.push(
+      this.operationManager.operationNewEmitter.subscribe((output: string) => {
+        this.logger.trace(`Entered new stage ${output}, clearing terminal output`);
+        this.term.underlying?.clear();
+      }),
+    );
 
-    this.dialog.onHide.subscribe(() => {
-      this.logger.trace('Terminal dialog hidden, clearing terminal output');
-      this.term.underlying?.clear();
-    });
+    this.subscriptions.push(
+      this.dialog.onHide.subscribe(() => {
+        this.logger.trace('Terminal dialog hidden, clearing terminal output');
+        this.term.underlying?.clear();
+      }),
+    );
   }
 
   ngOnDestroy(): void {
     if (!this.operationManager.pending().find((op) => op.status === 'running')) {
       this.logger.trace('Terminal component destroyed, clearing terminal output as no pending operations');
       this.operationManager.operationOutput.set(null);
+    }
+
+    for (const sub of this.subscriptions) {
+      sub.unsubscribe();
     }
 
     this.operationManager.showTerminal.set(false);

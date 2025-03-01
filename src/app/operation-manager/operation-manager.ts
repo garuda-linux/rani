@@ -20,7 +20,7 @@ import {
 import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { Nullable } from 'primeng/ts-helpers';
-import { EventEmitter, signal } from '@angular/core';
+import { effect, EventEmitter, signal } from '@angular/core';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
 import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-manager/privilege-manager';
 import { TranslocoService } from '@jsverse/transloco';
@@ -44,6 +44,8 @@ export class OperationManager {
 
   constructor(private translocoService: TranslocoService) {
     void this.init();
+
+    effect(() => this.pending.update((values) => values.sort((a, b) => a.order ?? 50 - (b.order ?? 50))));
   }
 
   async init() {
@@ -208,6 +210,7 @@ export class OperationManager {
       prettyName: 'operation.installApps',
       sudo: true,
       status: 'pending',
+      order: 10,
       commandArgs: packages,
       command: (args?: string[]): string => {
         this.logger.info('Installing packages');
@@ -228,6 +231,7 @@ export class OperationManager {
       prettyName: 'operation.removeApps',
       sudo: true,
       status: 'pending',
+      order: 60,
       commandArgs: packages,
       command: (args?: string[]): string => {
         this.logger.info('Removing packages');
@@ -248,6 +252,7 @@ export class OperationManager {
       prettyName: 'operation.enableService',
       sudo: !userContext,
       status: 'pending',
+      order: 60,
       commandArgs: [name],
       command: (args?: string[]): string => {
         this.logger.info('Enabling service');
@@ -263,6 +268,7 @@ export class OperationManager {
       prettyName: 'operation.disableService',
       sudo: !userContext,
       status: 'pending',
+      order: 20,
       commandArgs: [name],
       command: (args?: string[]): string => {
         this.logger.info('Disabling service');
@@ -278,6 +284,7 @@ export class OperationManager {
       prettyName: 'operation.addGroup',
       sudo: true,
       status: 'pending',
+      order: 70,
       commandArgs: [action.check.name],
       command: (args?: string[]): string => {
         this.logger.info(`Adding user ${this.user} to group ${action.check.name}`);
@@ -292,6 +299,7 @@ export class OperationManager {
       name: REMOVE_USER_GROUP_ACTION_NAME,
       prettyName: 'operation.removeGroup',
       sudo: true,
+      order: 30,
       status: 'pending',
       commandArgs: [action.check.name],
       command: (args?: string[]): string => {
@@ -339,7 +347,7 @@ export class OperationManager {
       prettyName: 'operation.enableHblock',
       sudo: true,
       status: 'pending',
-      order: 10,
+      order: 40,
       commandArgs: [],
       command: (): string => {
         this.logger.info('Enabling hblock');
@@ -402,6 +410,7 @@ export class OperationManager {
       prettyName: 'operation.setNewDnsServer',
       sudo: true,
       status: 'pending',
+      order: 20,
       commandArgs: dns.ips,
       command: (args?: string[]): Command<string> => {
         this.logger.info('Adding new DNS server');
@@ -418,6 +427,7 @@ export class OperationManager {
       prettyName: 'operation.resetDnsServer',
       sudo: true,
       status: 'pending',
+      order: 20,
       commandArgs: [],
       command: (): Command<string> => {
         this.logger.info('Removing DNS server');
