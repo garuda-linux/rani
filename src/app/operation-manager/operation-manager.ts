@@ -28,6 +28,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { Logger } from '../logging/logging';
 import { getCurrentWindow, ProgressBarStatus, UserAttentionType } from '@tauri-apps/api/window';
 import { StatefulPackage } from '../gaming/interfaces';
+import { MessageToastService } from '@garudalinux/core';
 
 export class OperationManager {
   public currentOperation = signal<Nullable<string>>(null);
@@ -44,7 +45,10 @@ export class OperationManager {
   private readonly privilegeManager: PrivilegeManager = PrivilegeManagerInstance;
   private store: Nullable<Store> = null;
 
-  constructor(private translocoService: TranslocoService) {
+  constructor(
+    private translocoService: TranslocoService,
+    private messageToastService: MessageToastService,
+  ) {
     void this.init();
 
     effect(() => this.pending.update((values) => values.sort((a, b) => a.order ?? 50 - (b.order ?? 50))));
@@ -204,8 +208,17 @@ export class OperationManager {
    * @param operation The operation to remove
    */
   removeFromPending(operation: Operation): void {
-    this.logger.debug(`Removing ${operation.name} operation`);
-    this.pending.update((value) => value.filter((op: Operation) => op.name !== operation.name));
+    if (operation.status === 'running') {
+      this.messageToastService.warn(
+        this.translocoService.translate('operationManager.refusing'),
+        this.translocoService.translate('operationManager.thisOperationRunning'),
+      );
+      this.logger.warn(`Operation ${operation.name} is running, cannot remove`);
+      return;
+    } else {
+      this.logger.debug(`Removing ${operation.name} operation`);
+      this.pending.update((value) => value.filter((op: Operation) => op.name !== operation.name));
+    }
   }
 
   /**
@@ -247,7 +260,6 @@ export class OperationManager {
   /**
    * Add a package removal operation to the pending list.
    * @param packages The packages to remove
-   * @param aur Whether the packages are from the AUR
    */
   addPackageRemoval(packages: string[]) {
     const operation: Operation = {
@@ -635,10 +647,20 @@ export class OperationManager {
   }
 
   /**
-   * Remove all pending operations.
+   * Remove all pending operations, unless a running operation is detected. In this case,
+   * only remove finished operations.
    */
   async clearPending(): Promise<void> {
-    this.pending.set([]);
+    if (this.currentOperation()) {
+      this.logger.debug('Running operation detected, only clearing finished');
+      this.messageToastService.warn(
+        this.translocoService.translate('operationManager.refusing'),
+        this.translocoService.translate('operationManager.pendingOperationsRunning'),
+      );
+      this.pending.update((value: Operation[]) => value.filter((op) => op.status !== 'complete'));
+    } else {
+      this.pending.set([]);
+    }
   }
 
   /**

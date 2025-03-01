@@ -420,6 +420,7 @@
     "accept": "Accept",
     "reject": "Cancel",
     "exitApp": "Are you sure you want to exit the app?",
+    "exitAppRunningAction": "Are you sure you want to exit the app? There is an action running!",
     "resetConfigsHeader": "Reset configs?",
     "resetConfigsBody": "Are you sure you want to reset the following configurations?",
     "exitAppHeader": "Exit app?",
@@ -454,5 +455,10 @@
     "scheduleUpdates": "Schedule updates",
     "pendingPacdiff": "Pending pacdiff files",
     "findMore": "Find out how to proceed"
+  },
+  "operationManager": {
+    "refusing": "Refusing execution",
+    "pendingOperationsRunning": "There are operations running, I'm only going to remove the ones already done.",
+    "thisOperationRunning": "Are you out of your mind? This operation is currently running!"
   }
 }

@@ -6,6 +6,7 @@ import { TranslocoService } from '@jsverse/transloco';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
 import { Logger } from '../logging/logging';
 import { StatefulPackage } from '../gaming/interfaces';
+import { MessageToastService } from '@garudalinux/core';
 
 @Injectable({
   providedIn: 'root',
@@ -15,7 +16,8 @@ export class OperationManagerService {
 
   private readonly translocoService = inject(TranslocoService);
   private readonly logger = Logger.getInstance();
-  private readonly manager = new OperationManager(this.translocoService);
+  private readonly messageToastService = inject(MessageToastService);
+  private readonly manager = new OperationManager(this.translocoService, this.messageToastService);
 
   public currentAction = this.manager.currentOperation;
   public pending = this.manager.pending;

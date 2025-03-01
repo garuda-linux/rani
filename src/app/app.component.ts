@@ -268,11 +268,16 @@ export class AppComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const pending: boolean = this.operationManager.pending().length > 0;
+      const pending: boolean =
+        this.operationManager.pending().length > 0 &&
+        this.operationManager.pending().find((op) => op.status !== 'complete') !== undefined;
+      const allDone: boolean = this.operationManager.pending().length > 0 && !pending;
       this.menuItems.update((items: MenuItem[]) => {
         const index: number = items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
-        if (index !== -1 && !this.operationManager.currentAction()) {
+        if (index !== -1 && !this.operationManager.currentAction() && !allDone) {
           pending ? (items[index].icon = 'pi pi-hourglass') : (items[index].icon = 'pi pi-expand');
+        } else if (index !== -1 && !this.operationManager.currentAction() && allDone) {
+          items[index].icon = 'pi pi-check';
         } else if (this.operationManager.currentAction()) {
           items[index].icon = 'pi pi-spin pi-spinner';
         } else {
@@ -373,7 +378,10 @@ export class AppComponent implements OnInit {
     this.logger.info('Shutting down');
 
     if (this.operationManager.pending().length > 0) {
-      await this.configService.store.set('pendingOperations', this.operationManager.pending());
+      await this.configService.store.set(
+        'pendingOperations',
+        this.operationManager.pending().filter((op) => op.status !== 'complete'),
+      );
     }
 
     void this.appWindow.destroy();
@@ -390,15 +398,18 @@ export class AppComponent implements OnInit {
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
-      this.logger.info('Close requested');
+      this.logger.info(`Close requested, ${this.operationManager.currentAction() ? 'an' : 'no'} action running'`);
+
       this.confirmationService.confirm({
-        message: this.translocoService.translate('confirmation.exitApp'),
+        message: this.operationManager.currentAction()
+          ? this.translocoService.translate('confirmation.exitAppRunningAction')
+          : this.translocoService.translate('confirmation.exitApp'),
         header: this.translocoService.translate('confirmation.exitAppHeader'),
         icon: 'pi pi-exclamation-triangle',
         acceptIcon: 'pi pi-check',
         rejectIcon: 'pi pi-times',
         acceptButtonProps: {
-          severity: 'danger',
+          severity: this.operationManager.currentAction() ? 'danger' : 'success',
           label: this.translocoService.translate('confirmation.accept'),
         },
         rejectButtonProps: {
