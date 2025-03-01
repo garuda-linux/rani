@@ -1,4 +1,4 @@
-import { Component, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
@@ -21,6 +21,7 @@ import { Logger } from '../logging/logging';
   imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule, Tab, TabPanels, Tabs, TabList, TabPanel],
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaintenanceComponent implements OnInit {
   selectedResetConfigs = model<any[]>([]);
@@ -138,8 +139,9 @@ export class MaintenanceComponent implements OnInit {
     },
   ];
 
-  readonly operationManager = inject(OperationManagerService);
-  readonly privilegeManager = inject(PrivilegeManagerService);
+  protected readonly operationManager = inject(OperationManagerService);
+  protected readonly privilegeManager = inject(PrivilegeManagerService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
@@ -412,6 +414,8 @@ export class MaintenanceComponent implements OnInit {
       );
       action.addedToPending = false;
     }
+
+    this.cdr.markForCheck();
   }
 
   /**
@@ -461,5 +465,7 @@ export class MaintenanceComponent implements OnInit {
         void this.resetConfigs();
       },
     });
+
+    this.cdr.markForCheck();
   }
 }

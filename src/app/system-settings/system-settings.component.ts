@@ -1,4 +1,4 @@
-import { Component, inject, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { FormsModule } from '@angular/forms';
@@ -6,16 +6,18 @@ import { Nullable } from 'primeng/ts-helpers';
 import { Select } from 'primeng/select';
 import { DnsProvider, DnsProviderName, dnsProviders, Shell, ShellEntry, ShellName, shells } from './types';
 import { Checkbox } from 'primeng/checkbox';
-import { StatefulPackage, SystemToolsEntry } from '../interfaces';
+import { SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
+import { StatefulPackage } from '../gaming/interfaces';
 
 @Component({
   selector: 'rani-system-settings',
   imports: [TranslocoDirective, FormsModule, Select, Checkbox, DynamicCheckboxesComponent],
   templateUrl: './system-settings.component.html',
   styleUrl: './system-settings.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemSettingsComponent {
   currentShell = signal<Nullable<Shell>>(null);
@@ -231,7 +233,8 @@ export class SystemSettingsComponent {
     },
   ];
 
-  operationManager = inject(OperationManagerService);
+  protected operationManager = inject(OperationManagerService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
 
@@ -252,6 +255,8 @@ export class SystemSettingsComponent {
     this.logger.debug(
       `System settings initialized: ${JSON.stringify(this.currentShell())}, selected: ${this.selectedBoxes().join(', ')}, dns: ${JSON.stringify(this.currentDns())}`,
     );
+
+    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -349,5 +354,7 @@ export class SystemSettingsComponent {
         this.operationManager.toggleHblock(this.state.initialHblock ?? false, this.selectedBoxes().includes('hblock'));
       }
     }
+
+    this.cdr.markForCheck();
   }
 }

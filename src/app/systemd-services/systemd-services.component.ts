@@ -1,4 +1,4 @@
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -20,6 +20,7 @@ import { Logger } from '../logging/logging';
   imports: [Button, IconField, InputIcon, PopoverModule, InputText, TableModule, NgClass, TranslocoDirective, Tooltip],
   templateUrl: './systemd-services.component.html',
   styleUrl: './systemd-services.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemdServicesComponent implements OnInit {
   activeService = signal<SystemdService | null>(null);
@@ -32,6 +33,7 @@ export class SystemdServicesComponent implements OnInit {
   intervalRef: Nullable<number> = null;
 
   protected readonly configService = inject(ConfigService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly operationManager = inject(OperationManagerService);
@@ -52,6 +54,7 @@ export class SystemdServicesComponent implements OnInit {
       this.logger.debug('Started auto-refresh');
     }
 
+    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -179,6 +182,7 @@ export class SystemdServicesComponent implements OnInit {
       this.operationManager.showTerminal.set(true);
     } else {
       this.systemdServices.set(await this.getServices());
+      this.cdr.markForCheck();
     }
   }
 
@@ -191,6 +195,7 @@ export class SystemdServicesComponent implements OnInit {
   openPopover($event: MouseEvent, op: Popover, service: SystemdService): void {
     this.activeService.set(service);
     op.toggle($event);
+    this.cdr.markForCheck();
   }
 
   /**
@@ -208,6 +213,8 @@ export class SystemdServicesComponent implements OnInit {
       clearInterval(this.intervalRef);
       this.logger.debug('Stopped auto-refresh');
     }
+
+    this.cdr.markForCheck();
   }
 
   /**
@@ -217,6 +224,8 @@ export class SystemdServicesComponent implements OnInit {
     this.loading.set(true);
     this.userContext.set(!this.userContext());
     this.systemdServices.set(await this.getServices());
+
+    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -224,6 +233,8 @@ export class SystemdServicesComponent implements OnInit {
     this.loading.set(true);
     this.includeDisabled.set(!this.includeDisabled());
     this.systemdServices.set(await this.getServices());
+
+    this.cdr.markForCheck();
     this.loading.set(false);
   }
 }

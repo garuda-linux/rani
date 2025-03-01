@@ -1,4 +1,13 @@
-import { Component, inject, input, model, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  input,
+  model,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { SystemdService, SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -14,6 +23,7 @@ import { Logger } from '../logging/logging';
   imports: [Checkbox, TranslocoDirective, FormsModule, NgClass, Card],
   templateUrl: './dynamic-checkboxes.component.html',
   styleUrl: './dynamic-checkboxes.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicCheckboxesComponent implements OnInit {
   data = input.required<SystemToolsEntry[]>();
@@ -25,6 +35,7 @@ export class DynamicCheckboxesComponent implements OnInit {
   userGroups = signal<string[]>([]);
 
   protected operationManager = inject(OperationManagerService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
 
@@ -98,17 +109,9 @@ export class DynamicCheckboxesComponent implements OnInit {
     }
 
     await this.checkDisabled();
-    this.loadingService.loadingOff();
-  }
 
-  /**
-   * Toggle the entry, adding or removing it from the selected boxes. This is needed
-   * to provide the necessary metadata to the operation manager (instead of just using the model).
-   * @param entry The entry to toggle
-   */
-  toggleEntry(entry: SystemToolsSubEntry): void {
-    entry.checked = !entry.checked;
-    this.operationManager.handleToggleSystemTools(entry);
+    this.cdr.markForCheck();
+    this.loadingService.loadingOff();
   }
 
   /**
@@ -122,13 +125,14 @@ export class DynamicCheckboxesComponent implements OnInit {
     // of checkboxes changing very slowly
     await new Promise((resolve) => setTimeout(resolve, 1000));
     await this.checkDisabled();
+
+    this.cdr.markForCheck();
   }
 
   /**
    * Check if the entry should be disabled based on the disabler.
-   * @protected
    */
-  protected async checkDisabled(): Promise<void> {
+  private async checkDisabled(): Promise<void> {
     this.loadingService.loadingOn();
 
     for (const section of this.data()) {
@@ -149,6 +153,16 @@ export class DynamicCheckboxesComponent implements OnInit {
     }
 
     this.loadingService.loadingOff();
+  }
+
+  /**
+   * Toggle the entry, adding or removing it from the selected boxes. This is needed
+   * to provide the necessary metadata to the operation manager (instead of just using the model).
+   * @param entry The entry to toggle
+   */
+  private toggleEntry(entry: SystemToolsSubEntry): void {
+    entry.checked = !entry.checked;
+    this.operationManager.handleToggleSystemTools(entry);
   }
 
   /**

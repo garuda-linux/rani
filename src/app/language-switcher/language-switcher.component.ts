@@ -1,4 +1,13 @@
-import { Component, inject, input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -15,6 +24,7 @@ import { Logger } from '../logging/logging';
   templateUrl: './language-switcher.component.html',
   styleUrl: './language-switcher.component.css',
   providers: [DialogService],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageSwitcherComponent implements OnInit, OnDestroy {
   languages = signal<string[]>([]);
@@ -22,6 +32,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
   showButton = input<boolean>(false);
   visible = signal<boolean>(false);
 
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly dialogService = inject(DialogService);
   private readonly logger = Logger.getInstance();
@@ -54,6 +65,8 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
 
     await this.configService.updateConfig('language', this.translocoService.getActiveLang());
     this.languages.set(this.translocoService.getAvailableLangs() as string[]);
+
+    this.cdr.markForCheck();
   }
 
   /**
@@ -64,6 +77,7 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
   selectLanguage(language: string): void {
     this.translocoService.setActiveLang(language);
     void this.configService.updateConfig('language', language);
+    this.cdr.markForCheck();
   }
 
   /**

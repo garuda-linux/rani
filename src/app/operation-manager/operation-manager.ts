@@ -8,6 +8,7 @@ import {
   ENABLE_HBLOCK_NAME,
   ENABLE_SERVICE_ACTION_NAME,
   ENABLE_USER_SERVICE_ACTION_NAME,
+  INSTALL_ACTION_AUR_NAME,
   INSTALL_ACTION_NAME,
   Operation,
   OperationType,
@@ -17,7 +18,7 @@ import {
   SET_DEFAULT_SHELL_ACTION_NAME,
   SET_NEW_DNS_SERVER,
 } from './interfaces';
-import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
+import { SystemToolsSubEntry } from '../interfaces';
 import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
 import { Nullable } from 'primeng/ts-helpers';
 import { effect, EventEmitter, signal } from '@angular/core';
@@ -26,6 +27,7 @@ import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-ma
 import { TranslocoService } from '@jsverse/transloco';
 import { Logger } from '../logging/logging';
 import { getCurrentWindow, ProgressBarStatus, UserAttentionType } from '@tauri-apps/api/window';
+import { StatefulPackage } from '../gaming/interfaces';
 
 export class OperationManager {
   public currentOperation = signal<Nullable<string>>(null);
@@ -149,7 +151,9 @@ export class OperationManager {
         }
       }
     } else {
-      const existing: Operation | undefined = this.findExisting(INSTALL_ACTION_NAME);
+      const existing: Operation | undefined = this.findExisting(
+        entry.aur ? INSTALL_ACTION_AUR_NAME : INSTALL_ACTION_NAME,
+      );
 
       if (entry.selected) {
         this.logger.trace(`Adding packages ${entry.pkgname.join(', ')} to system`);
@@ -158,7 +162,7 @@ export class OperationManager {
           existing.commandArgs.push(...entry.pkgname);
         } else {
           this.logger.trace('Creating new operation');
-          this.addPackageInstallation(entry.pkgname);
+          this.addPackageInstallation(entry.pkgname, entry.aur ?? false);
         }
       } else {
         if (existing) {
@@ -204,10 +208,16 @@ export class OperationManager {
     return this.pending().find((op: Operation) => op.name === opType);
   }
 
-  addPackageInstallation(packages: string[]) {
+  /**
+   * Add a package installation operation to the pending list.
+   * @param packages The packages to install
+   * @param aur Whether the packages are from the AUR
+   */
+  addPackageInstallation(packages: string[], aur = false) {
+    const command = aur ? 'paru' : 'pacman';
     const operation: Operation = {
-      name: INSTALL_ACTION_NAME,
-      prettyName: 'operation.installApps',
+      name: aur ? INSTALL_ACTION_AUR_NAME : INSTALL_ACTION_NAME,
+      prettyName: aur ? 'operation.installAppsAur' : 'operation.installApps',
       sudo: true,
       status: 'pending',
       order: 10,
@@ -219,12 +229,17 @@ export class OperationManager {
           if (arg.includes(',')) allPkgs.push(...arg.split(','));
           else allPkgs.push(arg);
         }
-        return `pacman --needed --noconfirm -S ${allPkgs.join(' ')}`;
+        return `${command} --needed --noconfirm -S ${allPkgs.join(' ')}`;
       },
     };
     this.pending.update((value) => [...value, operation]);
   }
 
+  /**
+   * Add a package removal operation to the pending list.
+   * @param packages The packages to remove
+   * @param aur Whether the packages are from the AUR
+   */
   addPackageRemoval(packages: string[]) {
     const operation: Operation = {
       name: REMOVE_ACTION_NAME,

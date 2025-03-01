@@ -22,21 +22,6 @@ export type SystemdServiceAction =
   | 'mask'
   | 'unmask';
 
-export interface StatefulPackage {
-  pkgname: string[];
-  selected?: boolean;
-  initialState?: boolean;
-}
-
-export interface Package {
-  description?: string;
-  icon: string;
-  name: string;
-  url?: string;
-}
-
-export type FullPackageDefinition = StatefulPackage & Package;
-
 export interface MaintenanceAction {
   addedToPending?: boolean;
   command: ((args?: string[]) => string) | (() => Promise<void>);

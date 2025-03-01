@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
@@ -16,6 +16,7 @@ import { NgOptimizedImage } from '@angular/common';
   imports: [TranslocoDirective, Card, RouterLink, FaIconComponent, NgOptimizedImage],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent implements OnInit {
   webLinks: ExternalLink[] = [
@@ -102,6 +103,7 @@ export class HomeComponent implements OnInit {
   ];
 
   protected readonly configService = inject(ConfigService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly privilegeManager = inject(PrivilegeManagerService);
 
   mainLinks: HomepageLink[] = [
@@ -199,5 +201,7 @@ export class HomeComponent implements OnInit {
         },
       );
     }
+
+    this.cdr.markForCheck();
   }
 }

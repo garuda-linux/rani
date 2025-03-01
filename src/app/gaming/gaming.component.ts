@@ -1,10 +1,9 @@
-import { Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
 import { DataViewModule } from 'primeng/dataview';
-import { FullPackageDefinition, StatefulPackage } from '../interfaces';
-import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
 import { Card } from 'primeng/card';
 import { flavors } from '@catppuccin/palette';
 import { TabsModule } from 'primeng/tabs';
@@ -13,18 +12,20 @@ import { OperationManagerService } from '../operation-manager/operation-manager.
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
+import { GamingSections, StatefulPackage } from './interfaces';
 
 @Component({
   selector: 'rani-gaming',
   imports: [TranslocoDirective, TableModule, DataViewModule, NgForOf, Card, NgOptimizedImage, TabsModule, Tooltip],
   templateUrl: './gaming.component.html',
   styleUrl: './gaming.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamingComponent implements OnInit {
   backgroundColor = signal<string>('background-color');
   tabIndex = signal<number>(0);
 
-  data: { name: string; sections: FullPackageDefinition[] }[] = [
+  data: GamingSections = [
     {
       name: 'gaming.launchers',
       sections: [
@@ -144,7 +145,7 @@ export class GamingComponent implements OnInit {
         {
           name: 'Armagetron Advanced',
           description: 'Tron Clone in 3D.',
-          url: 'http://armagetronad.org/',
+          url: 'https://armagetronad.org/',
           icon: 'generic.png',
           pkgname: ['armagetronad'],
         },
@@ -187,7 +188,7 @@ export class GamingComponent implements OnInit {
           name: 'Blockout II',
           description:
             '3D tetris, free adaptation of the original BlockOut DOS game edited by California Dreams in 1989.',
-          url: 'http://www.blockout.net/blockout2/',
+          url: 'https://www.blockout.net/blockout2/',
           icon: 'generic.png',
           pkgname: ['blockout2'],
         },
@@ -215,7 +216,7 @@ export class GamingComponent implements OnInit {
         {
           name: 'Cube 2: Sauerbraten',
           description: 'Improved version of the Cube engine.',
-          url: 'http://sauerbraten.org/',
+          url: 'https://sauerbraten.org/',
           icon: 'generic.png',
           pkgname: ['sauerbraten'],
         },
@@ -258,14 +259,14 @@ export class GamingComponent implements OnInit {
         {
           name: 'Fish Fillets',
           description: 'Port of the wonderful puzzle game Fish Fillets.',
-          url: 'http://fillets.sf.net/',
+          url: 'https://fillets.sf.net/',
           icon: 'generic.png',
           pkgname: ['fillets-ng'],
         },
         {
           name: 'Flare',
           description: 'Action game similar to Diablo.',
-          url: 'http://www.flarerpg.org/',
+          url: 'https://www.flarerpg.org/',
           icon: 'generic.png',
           pkgname: ['flare-game'],
         },
@@ -370,6 +371,14 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/bvschaik/julius',
           icon: 'generic.png',
           pkgname: ['julius'],
+        },
+        {
+          name: 'Katawa Shoujo',
+          description:
+            'Bishoujo-style visual novel game that tells a story of a young man and five other girls suffering with varying disabilities. The game is licensed under the Creative Commons CC-BY-NC-ND.',
+          url: 'https://katawa-shoujo.com/',
+          icon: 'generic.png',
+          pkgname: ['katawa-shoujo-reengineered-bin'],
         },
         {
           name: 'Kernel Panic',
@@ -644,6 +653,7 @@ export class GamingComponent implements OnInit {
     },
     {
       name: 'gaming.aur',
+      hint: 'gaming.aurHint',
       sections: [
         {
           name: '20,000 Light Years Into Space',
@@ -652,6 +662,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.jwhitham.org/20kly/',
           icon: 'generic.png',
           pkgname: ['20kly'],
+          aur: true,
         },
         {
           name: 'A/B Street',
@@ -660,13 +671,15 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/a-b-street/abstreet',
           icon: 'generic.png',
           pkgname: ['abstreet-git'],
+          aur: true,
         },
         {
           name: 'Abuse',
           description: 'Side-scroller action game that pits you against ruthless alien killers.',
-          url: 'http://abuse.zoy.org/',
+          url: 'https://abuse.zoy.org/',
           icon: 'generic.png',
           pkgname: ['abuse'],
+          aur: true,
         },
         {
           name: 'ADOM',
@@ -674,6 +687,7 @@ export class GamingComponent implements OnInit {
           url: 'https://adom.de',
           icon: 'generic.png',
           pkgname: ['adom'],
+          aur: true,
         },
         {
           name: 'Ancient Beast',
@@ -681,13 +695,15 @@ export class GamingComponent implements OnInit {
           url: 'https://ancientbeast.com/',
           icon: 'generic.png',
           pkgname: ['ancientbeast'],
+          aur: true,
         },
         {
           name: 'Antichamber',
           description: 'A mind-bending psychological exploration game where nothing can be taken for granted.',
-          url: 'http://www.antichamber-game.com/',
+          url: 'https://www.antichamber-game.com/',
           icon: 'generic.png',
           pkgname: ['antichamber'],
+          aur: true,
         },
         {
           name: 'Aquaria',
@@ -696,6 +712,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.bit-blot.com/aquaria',
           icon: 'generic.png',
           pkgname: ['aquaria-ose}}, {{AUR'],
+          aur: true,
         },
         {
           name: 'Arx Libertatis',
@@ -704,6 +721,7 @@ export class GamingComponent implements OnInit {
           url: 'https://arx-libertatis.org/',
           icon: 'generic.png',
           pkgname: ['arx-libertatis'],
+          aur: true,
         },
         {
           name: 'ASCIIpOrtal',
@@ -712,6 +730,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/cymonsgames/ASCIIpOrtal',
           icon: 'generic.png',
           pkgname: ['asciiportal'],
+          aur: true,
         },
         {
           name: 'Ashes 2063',
@@ -719,6 +738,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.moddb.com/mods/ashes-2063',
           icon: 'generic.png',
           pkgname: ['ashes-2063'],
+          aur: true,
         },
         {
           name: 'AssaultCube',
@@ -727,6 +747,7 @@ export class GamingComponent implements OnInit {
           url: 'https://assault.cubers.net/',
           icon: 'generic.png',
           pkgname: ['assaultcube-client'],
+          aur: true,
         },
         {
           name: 'AssaultCube Reloaded',
@@ -734,6 +755,7 @@ export class GamingComponent implements OnInit {
           url: 'https://acr.victorz.ca',
           icon: 'generic.png',
           pkgname: ['assaultcube-reloaded'],
+          aur: true,
         },
         {
           name: 'Atanks',
@@ -741,6 +763,7 @@ export class GamingComponent implements OnInit {
           url: 'https://atanks.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['atanks'],
+          aur: true,
         },
         {
           name: 'Beyond All Reason',
@@ -748,6 +771,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.beyondallreason.info/',
           icon: 'generic.png',
           pkgname: ['beyondallreason-appimage'],
+          aur: true,
         },
         {
           name: 'Bomberclone',
@@ -756,6 +780,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.bomberclone.de/core.html',
           icon: 'generic.png',
           pkgname: ['bomberclone'],
+          aur: true,
         },
         {
           name: 'Brogue',
@@ -763,13 +788,15 @@ export class GamingComponent implements OnInit {
           url: 'https://sites.google.com/site/broguegame/',
           icon: 'generic.png',
           pkgname: ['brogue'],
+          aur: true,
         },
         {
           name: 'Broken Sword 2.5: The Return of the Templars',
           description: 'Fan-made sequel in the point-and-click adventure series Broken Sword.',
-          url: 'http://www.brokensword25.com/',
+          url: 'https://www.brokensword25.com/',
           icon: 'generic.png',
           pkgname: ['sword25'],
+          aur: true,
         },
         {
           name: 'Brutal Doom',
@@ -778,13 +805,15 @@ export class GamingComponent implements OnInit {
           url: 'https://www.moddb.com/mods/brutal-doom',
           icon: 'generic.png',
           pkgname: ['brutal-doom'],
+          aur: true,
         },
         {
           name: 'bs',
           description: 'Battleships based shooter for the console.',
-          url: 'http://www.catb.org/~esr/bs/',
+          url: 'https://www.catb.org/~esr/bs/',
           icon: 'generic.png',
           pkgname: ['bs'],
+          aur: true,
         },
         {
           name: 'BZFlag',
@@ -792,6 +821,7 @@ export class GamingComponent implements OnInit {
           url: 'https://bzflag.org/',
           icon: 'generic.png',
           pkgname: ['bzflag'],
+          aur: true,
         },
         {
           name: 'C-Dogs',
@@ -799,13 +829,15 @@ export class GamingComponent implements OnInit {
           url: 'https://cxong.github.io/cdogs-sdl/',
           icon: 'generic.png',
           pkgname: ['cdogs'],
+          aur: true,
         },
         {
           name: 'C-evo',
           description: 'A civilization style game, of the Civ II era.',
-          url: 'http://www.c-evo.org',
+          url: 'https://www.c-evo.org',
           icon: 'generic.png',
           pkgname: ['c-evo-dh'],
+          aur: true,
         },
         {
           name: 'Cave Story/Doukutsu',
@@ -814,20 +846,23 @@ export class GamingComponent implements OnInit {
           url: 'https://cavestory.org',
           icon: 'generic.png',
           pkgname: ['doukutsu'],
+          aur: true,
         },
         {
           name: 'CaveExpress',
           description: 'CaveExpress is a classic 2D platformer with physics-based gameplay and dozens of levels.',
-          url: 'http://www.caveproductions.org/',
+          url: 'https://www.caveproductions.org/',
           icon: 'generic.png',
           pkgname: ['caveexpress'],
+          aur: true,
         },
         {
           name: 'Cgoban3',
           description: 'Kiseido Go and SGF client.',
-          url: 'http://www.igoweb.org/~wms/comp/cgoban/',
+          url: 'https://www.igoweb.org/~wms/comp/cgoban/',
           icon: 'generic.png',
           pkgname: ['cgoban'],
+          aur: true,
         },
         {
           name: 'chessx',
@@ -835,6 +870,7 @@ export class GamingComponent implements OnInit {
           url: 'https://chessx.sourceforge.net',
           icon: 'generic.png',
           pkgname: ['chessx'],
+          aur: true,
         },
         {
           name: 'Chroma',
@@ -842,6 +878,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.level7.org.uk/chroma/',
           icon: 'generic.png',
           pkgname: ['chroma'],
+          aur: true,
         },
         {
           name: 'Cirno Catch Frog',
@@ -849,6 +886,7 @@ export class GamingComponent implements OnInit {
           url: 'https://edisonlee55.itch.io/cirno-catch-frog',
           icon: 'generic.png',
           pkgname: ['cirno-catch-frog'],
+          aur: true,
         },
         {
           name: 'Clone Hero',
@@ -857,6 +895,7 @@ export class GamingComponent implements OnInit {
           url: 'https://clonehero.net/',
           icon: 'generic.png',
           pkgname: ['clonehero'],
+          aur: true,
         },
         {
           name: 'Colobot GOLD',
@@ -864,6 +903,7 @@ export class GamingComponent implements OnInit {
           url: 'https://colobot.info',
           icon: 'generic.png',
           pkgname: ['colobot-gold'],
+          aur: true,
         },
         {
           name: 'Commander_Keen',
@@ -871,6 +911,7 @@ export class GamingComponent implements OnInit {
           url: 'https://clonekeen.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['clonekeen'],
+          aur: true,
         },
         {
           name: 'CorsixTH',
@@ -878,6 +919,7 @@ export class GamingComponent implements OnInit {
           url: 'https://corsixth.com',
           icon: 'generic.png',
           pkgname: ['corsix-th'],
+          aur: true,
         },
         {
           name: 'Counter-Strike 2D',
@@ -885,13 +927,15 @@ export class GamingComponent implements OnInit {
           url: 'https://cs2d.com',
           icon: 'generic.png',
           pkgname: ['counter-strike-2d'],
+          aur: true,
         },
         {
           name: 'Crack Attack!',
           description: 'Free OpenGL game based on the Super Nintendo classic Tetris Attack.',
-          url: 'http://www.aluminumangel.org/attack/',
+          url: 'https://www.aluminumangel.org/attack/',
           icon: 'generic.png',
           pkgname: ['crack-attack'],
+          aur: true,
         },
         {
           name: 'Crack-attack',
@@ -899,6 +943,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.nongnu.org/crack-attack/',
           icon: 'generic.png',
           pkgname: ['crack-attack'],
+          aur: true,
         },
         {
           name: 'cutechess',
@@ -906,6 +951,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/cutechess/cutechess',
           icon: 'generic.png',
           pkgname: ['cutechess'],
+          aur: true,
         },
         {
           name: 'Cytopia',
@@ -913,6 +959,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.cytopia.net/',
           icon: 'generic.png',
           pkgname: ['cytopia-git'],
+          aur: true,
         },
         {
           name: 'Daggerfall Unity',
@@ -920,6 +967,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.dfworkshop.net/',
           icon: 'generic.png',
           pkgname: ['daggerfall-unity-bin'],
+          aur: true,
         },
         {
           name: 'Dark Oberon',
@@ -927,6 +975,7 @@ export class GamingComponent implements OnInit {
           url: 'https://dark-oberon.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['dark-oberon'],
+          aur: true,
         },
         {
           name: 'DevilutionX',
@@ -934,6 +983,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/diasurgical/devilutionX',
           icon: 'generic.png',
           pkgname: ['devilutionx'],
+          aur: true,
         },
         {
           name: 'dhemw3',
@@ -941,6 +991,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/dhewm/dhewm3',
           icon: 'generic.png',
           pkgname: ['dhewm3'],
+          aur: true,
         },
         {
           name: 'Doom 2D',
@@ -948,6 +999,7 @@ export class GamingComponent implements OnInit {
           url: 'https://doom2d.org',
           icon: 'generic.png',
           pkgname: ['doom2d-rembo}} or {{AUR'],
+          aur: true,
         },
         {
           name: 'Doom 2D Classic',
@@ -955,6 +1007,7 @@ export class GamingComponent implements OnInit {
           url: 'https://doom2d.org',
           icon: 'generic.png',
           pkgname: ['doom2d-classic'],
+          aur: true,
         },
         {
           name: 'Doom 2D: Forever',
@@ -962,6 +1015,7 @@ export class GamingComponent implements OnInit {
           url: 'https://doom2d.org',
           icon: 'generic.png',
           pkgname: ['doom2df-bin'],
+          aur: true,
         },
         {
           name: 'Doom 3 Engine',
@@ -969,6 +1023,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.idsoftware.com/',
           icon: 'generic.png',
           pkgname: ['doom3'],
+          aur: true,
         },
         {
           name: 'DoomRL',
@@ -976,13 +1031,15 @@ export class GamingComponent implements OnInit {
           url: 'https://drl.chaosforge.org/',
           icon: 'generic.png',
           pkgname: ['doomrl'],
+          aur: true,
         },
         {
           name: 'Doomsday',
           description: 'Advanced port of the Doom game engine, capable also of running Heretic, and Hexen games.',
-          url: 'http://www.dengine.net/',
+          url: 'https://www.dengine.net/',
           icon: 'generic.png',
           pkgname: ['doomsday'],
+          aur: true,
         },
         {
           name: 'Dráscula: The Vampire Strikes Back',
@@ -990,6 +1047,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.scummvm.org/games/',
           icon: 'generic.png',
           pkgname: ['drascula'],
+          aur: true,
         },
         {
           name: 'Dream Web',
@@ -997,6 +1055,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.scummvm.org/games/',
           icon: 'generic.png',
           pkgname: ['dreamweb'],
+          aur: true,
         },
         {
           name: 'dreamchess',
@@ -1004,6 +1063,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.dreamchess.org/',
           icon: 'generic.png',
           pkgname: ['dreamchess'],
+          aur: true,
         },
         {
           name: 'Duelyst',
@@ -1012,6 +1072,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/open-duelyst/duelyst',
           icon: 'generic.png',
           pkgname: ['open-duelyst-bin'],
+          aur: true,
         },
         {
           name: 'Dune Legacy',
@@ -1019,6 +1080,7 @@ export class GamingComponent implements OnInit {
           url: 'https://dunelegacy.sourceforge.net/website/',
           icon: 'generic.png',
           pkgname: ['dunelegacy'],
+          aur: true,
         },
         {
           name: 'ECWolf',
@@ -1026,6 +1088,7 @@ export class GamingComponent implements OnInit {
           url: 'https://maniacsvault.net/ecwolf/',
           icon: 'generic.png',
           pkgname: ['ecwolf'],
+          aur: true,
         },
         {
           name: 'ECWolf',
@@ -1033,6 +1096,7 @@ export class GamingComponent implements OnInit {
           url: 'https://maniacsvault.net/ecwolf/',
           icon: 'generic.png',
           pkgname: ['ecwolf'],
+          aur: true,
         },
         {
           name: 'ECWolf',
@@ -1040,6 +1104,7 @@ export class GamingComponent implements OnInit {
           url: 'https://maniacsvault.net/ecwolf/',
           icon: 'generic.png',
           pkgname: ['ecwolf'],
+          aur: true,
         },
         {
           name: 'eduke32',
@@ -1047,6 +1112,7 @@ export class GamingComponent implements OnInit {
           url: 'https://eduke32.com/',
           icon: 'generic.png',
           pkgname: ['eduke32'],
+          aur: true,
         },
         {
           name: 'Egoboo',
@@ -1054,6 +1120,7 @@ export class GamingComponent implements OnInit {
           url: 'https://egoboo.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['egoboo'],
+          aur: true,
         },
         {
           name: 'Enemy Territory: Quake Wars',
@@ -1061,13 +1128,15 @@ export class GamingComponent implements OnInit {
           url: 'https://www.splashdamage.com/games/enemy-territory-quake-wars/',
           icon: 'generic.png',
           pkgname: ['etqw'],
+          aur: true,
         },
         {
           name: 'Eternal Lands',
           description: '3D fantasy online role playing game.',
-          url: 'http://www.eternal-lands.com',
+          url: 'https://www.eternal-lands.com',
           icon: 'generic.png',
           pkgname: ['eternallands'],
+          aur: true,
         },
         {
           name: 'Etterna',
@@ -1076,6 +1145,7 @@ export class GamingComponent implements OnInit {
           url: 'https://etternaonline.com',
           icon: 'generic.png',
           pkgname: ['etterna'],
+          aur: true,
         },
         {
           name: 'Extreme Tux Racer',
@@ -1083,6 +1153,7 @@ export class GamingComponent implements OnInit {
           url: 'https://sourceforge.net/projects/extremetuxracer',
           icon: 'generic.png',
           pkgname: ['extremetuxracer'],
+          aur: true,
         },
         {
           name: 'ezQuake',
@@ -1091,6 +1162,7 @@ export class GamingComponent implements OnInit {
           url: 'https://ezquake.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['ezquake'],
+          aur: true,
         },
         {
           name: 'Factorio',
@@ -1099,6 +1171,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.factorio.com/',
           icon: 'generic.png',
           pkgname: ['factorio}}, {{AUR'],
+          aur: true,
         },
         {
           name: 'fallout1-ce',
@@ -1106,6 +1179,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/alexbatalov/fallout1-ce',
           icon: 'generic.png',
           pkgname: ['fallout1-ce-game'],
+          aur: true,
         },
         {
           name: 'fallout2-ce',
@@ -1113,6 +1187,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/alexbatalov/fallout2-ce',
           icon: 'generic.png',
           pkgname: ['fallout2-ce-game'],
+          aur: true,
         },
         {
           name: 'falltergeist',
@@ -1120,6 +1195,7 @@ export class GamingComponent implements OnInit {
           url: 'https://falltergeist.org/',
           icon: 'generic.png',
           pkgname: ['falltergeist'],
+          aur: true,
         },
         {
           name: 'fheroes2',
@@ -1127,6 +1203,7 @@ export class GamingComponent implements OnInit {
           url: 'https://ihhub.github.io/fheroes2/',
           icon: 'generic.png',
           pkgname: ['fheroes2'],
+          aur: true,
         },
         {
           name: 'Flight Gear',
@@ -1134,6 +1211,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.flightgear.org/',
           icon: 'generic.png',
           pkgname: ['flightgear'],
+          aur: true,
         },
         {
           name: 'Flight of the Amazon Queen',
@@ -1141,6 +1219,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.scummvm.org/games/',
           icon: 'generic.png',
           pkgname: ['fotaq'],
+          aur: true,
         },
         {
           name: 'Flying Robots',
@@ -1149,6 +1228,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/bunburya/flying-robots',
           icon: 'generic.png',
           pkgname: ['flying-robots'],
+          aur: true,
         },
         {
           name: 'Foobillard++',
@@ -1156,6 +1236,7 @@ export class GamingComponent implements OnInit {
           url: 'https://foobillardplus.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['foobillard++'],
+          aur: true,
         },
         {
           name: 'FoundryVTT',
@@ -1164,6 +1245,7 @@ export class GamingComponent implements OnInit {
           url: 'https://foundryvtt.com/',
           icon: 'generic.png',
           pkgname: ['foundryvtt'],
+          aur: true,
         },
         {
           name: 'Freedoom',
@@ -1171,6 +1253,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.nongnu.org/freedoom/',
           icon: 'generic.png',
           pkgname: ['freedoom'],
+          aur: true,
         },
         {
           name: 'Freeminer',
@@ -1178,6 +1261,7 @@ export class GamingComponent implements OnInit {
           url: 'https://freeminer.org/',
           icon: 'generic.png',
           pkgname: ['freeminer'],
+          aur: true,
         },
         {
           name: 'FreeSpace 2',
@@ -1185,6 +1269,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.hard-light.net/',
           icon: 'generic.png',
           pkgname: ['fs2_open'],
+          aur: true,
         },
         {
           name: "Friday Night Funkin'",
@@ -1193,6 +1278,7 @@ export class GamingComponent implements OnInit {
           url: 'https://ninja-muffin24.itch.io/funkin/',
           icon: 'generic.png',
           pkgname: ['funkin-git'],
+          aur: true,
         },
         {
           name: 'Frogatto',
@@ -1200,13 +1286,15 @@ export class GamingComponent implements OnInit {
           url: 'https://frogatto.com',
           icon: 'generic.png',
           pkgname: ['frogatto'],
+          aur: true,
         },
         {
           name: 'Frozen Bubble',
           description: 'Arcade game with colorful animated penguin eyecandy.',
-          url: 'http://frozen-bubble.org',
+          url: 'https://frozen-bubble.org',
           icon: 'generic.png',
           pkgname: ['frozen-bubble'],
+          aur: true,
         },
         {
           name: 'FTL: Faster Than Light',
@@ -1214,6 +1302,7 @@ export class GamingComponent implements OnInit {
           url: 'https://subsetgames.com/ftl.html',
           icon: 'generic.png',
           pkgname: ['ftl'],
+          aur: true,
         },
         {
           name: 'GameShell',
@@ -1221,6 +1310,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/phyver/GameShell/',
           icon: 'generic.png',
           pkgname: ['gameshell'],
+          aur: true,
         },
         {
           name: 'GemRB',
@@ -1228,6 +1318,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.gemrb.org/',
           icon: 'generic.png',
           pkgname: ['gemrb'],
+          aur: true,
         },
         {
           name: 'Gish',
@@ -1235,6 +1326,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/freegish/freegish',
           icon: 'generic.png',
           pkgname: ['freegish-git'],
+          aur: true,
         },
         {
           name: 'Gopanda',
@@ -1242,6 +1334,7 @@ export class GamingComponent implements OnInit {
           url: 'https://pandanet-igs.com/communities/gopanda2',
           icon: 'generic.png',
           pkgname: ['Gopanda'],
+          aur: true,
         },
         {
           name: 'Grand Theft Auto III',
@@ -1249,6 +1342,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/halpz/re3',
           icon: 'generic.png',
           pkgname: ['re3-git'],
+          aur: true,
         },
         {
           name: 'Grand Theft Auto: Vice City',
@@ -1256,6 +1350,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/halpz/re3/tree/miami',
           icon: 'generic.png',
           pkgname: ['revc-git'],
+          aur: true,
         },
         {
           name: 'gweled',
@@ -1263,6 +1358,7 @@ export class GamingComponent implements OnInit {
           url: 'https://launchpad.net/gweled/',
           icon: 'generic.png',
           pkgname: ['gweled'],
+          aur: true,
         },
         {
           name: 'HHeretic',
@@ -1270,6 +1366,7 @@ export class GamingComponent implements OnInit {
           url: 'https://hhexen.sourceforge.net/hheretic.html',
           icon: 'generic.png',
           pkgname: ['hheretic'],
+          aur: true,
         },
         {
           name: 'HHexen',
@@ -1277,6 +1374,7 @@ export class GamingComponent implements OnInit {
           url: 'https://hhexen.sourceforge.net/hhexen.html',
           icon: 'generic.png',
           pkgname: ['hhexen'],
+          aur: true,
         },
         {
           name: 'Hollow Knight',
@@ -1284,6 +1382,7 @@ export class GamingComponent implements OnInit {
           url: 'https://hollowknight.com/',
           icon: 'generic.png',
           pkgname: ['gog-hollow-knight'],
+          aur: true,
         },
         {
           name: 'HyperRogue',
@@ -1291,6 +1390,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.roguetemple.com/z/hyper/',
           icon: 'generic.png',
           pkgname: ['hyperrogue'],
+          aur: true,
         },
         {
           name: 'Hypersomnia',
@@ -1298,6 +1398,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/TeamHypersomnia/Hypersomnia',
           icon: 'generic.png',
           pkgname: ['hypersomnia-appimage'],
+          aur: true,
         },
         {
           name: 'Ib',
@@ -1305,13 +1406,15 @@ export class GamingComponent implements OnInit {
           url: 'https://vgperson.com/games/ib.htm',
           icon: 'generic.png',
           pkgname: ['ib-en'],
+          aur: true,
         },
         {
           name: 'Inform',
           description: 'Design system for interactive fiction based on natural language.',
-          url: 'http://inform7.com/',
+          url: 'https://inform7.com/',
           icon: 'generic.png',
           pkgname: ['inform7'],
+          aur: true,
         },
         {
           name: 'Infra-Arcana',
@@ -1319,6 +1422,7 @@ export class GamingComponent implements OnInit {
           url: 'https://sites.google.com/site/infraarcana/',
           icon: 'generic.png',
           pkgname: ['infra-arcana'],
+          aur: true,
         },
         {
           name: 'INSTEAD',
@@ -1326,6 +1430,7 @@ export class GamingComponent implements OnInit {
           url: 'https://instead.hugeping.ru/',
           icon: 'generic.png',
           pkgname: ['instead'],
+          aur: true,
         },
         {
           name: 'ioquake3',
@@ -1333,6 +1438,7 @@ export class GamingComponent implements OnInit {
           url: 'https://ioquake3.org/',
           icon: 'generic.png',
           pkgname: ['ioquake3-git'],
+          aur: true,
         },
         {
           name: 'iQPuzzle',
@@ -1340,6 +1446,7 @@ export class GamingComponent implements OnInit {
           url: 'https://elth0r0.github.io/iqpuzzle/',
           icon: 'generic.png',
           pkgname: ['iqpuzzle'],
+          aur: true,
         },
         {
           name: 'irrlamb',
@@ -1347,6 +1454,7 @@ export class GamingComponent implements OnInit {
           url: 'https://irrlamb.gitlab.io/',
           icon: 'generic.png',
           pkgname: ['irrlamb'],
+          aur: true,
         },
         {
           name: 'Isleward',
@@ -1354,14 +1462,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.isleward.com/',
           icon: 'generic.png',
           pkgname: ['isleward'],
-        },
-        {
-          name: 'Katawa Shoujo',
-          description:
-            'Bishoujo-style visual novel game that tells a story of a young man and five other girls suffering with varying disabilities. The game is licensed under the Creative Commons CC-BY-NC-ND.',
-          url: 'http://katawa-shoujo.com/',
-          icon: 'generic.png',
-          pkgname: ['katawa-shoujo'],
+          aur: true,
         },
         {
           name: 'KeeperRL',
@@ -1370,6 +1471,7 @@ export class GamingComponent implements OnInit {
           url: 'https://keeperrl.com/',
           icon: 'generic.png',
           pkgname: ['keeperrl-git'],
+          aur: true,
         },
         {
           name: 'Klooni1010',
@@ -1378,6 +1480,7 @@ export class GamingComponent implements OnInit {
           url: 'https://lonami.dev/klooni/',
           icon: 'generic.png',
           pkgname: ['klooni1010-git'],
+          aur: true,
         },
         {
           name: 'Koi Farm',
@@ -1385,6 +1488,7 @@ export class GamingComponent implements OnInit {
           url: 'https://jobtalle.itch.io/koifarm',
           icon: 'generic.png',
           pkgname: ['koifarm-git'],
+          aur: true,
         },
         {
           name: 'lbreakouthd',
@@ -1392,6 +1496,7 @@ export class GamingComponent implements OnInit {
           url: 'https://lgames.sourceforge.net/LBreakoutHD/',
           icon: 'generic.png',
           pkgname: ['lbreakouthd'],
+          aur: true,
         },
         {
           name: 'Libre TrainSim',
@@ -1399,14 +1504,16 @@ export class GamingComponent implements OnInit {
           url: 'https://www.libretrainsim.org/',
           icon: 'generic.png',
           pkgname: ['libre-trainsim-bin'],
+          aur: true,
         },
         {
           name: "Linley's Dungeon Crawl",
           description:
             'An open source roguelike adventure through dungeons filled with dangerous monsters in a quest to find the mystifyingly fabulous Orb of Zot.',
-          url: 'http://www.dungeoncrawl.org/',
+          url: 'https://www.dungeoncrawl.org/',
           icon: 'generic.png',
           pkgname: ['crawl'],
+          aur: true,
         },
         {
           name: 'Linux Air Combat',
@@ -1415,6 +1522,7 @@ export class GamingComponent implements OnInit {
           url: 'https://sourceforge.net/projects/linuxaircombat//',
           icon: 'generic.png',
           pkgname: ['linux-air-combat'],
+          aur: true,
         },
         {
           name: 'Liquid War',
@@ -1423,14 +1531,16 @@ export class GamingComponent implements OnInit {
           url: 'https://www.ufoot.org/liquidwar/',
           icon: 'generic.png',
           pkgname: ['liquidwar'],
+          aur: true,
         },
         {
           name: 'Lix',
           description:
             'Lemmings clone, i.e. assign roles to some of many constantly walking creatures to lead them safely through the exit.',
-          url: 'http://www.lixgame.com/',
+          url: 'https://www.lixgame.com/',
           icon: 'generic.png',
           pkgname: ['lix'],
+          aur: true,
         },
         {
           name: 'LPub3D',
@@ -1438,6 +1548,7 @@ export class GamingComponent implements OnInit {
           url: 'https://trevorsandy.github.io/lpub3d',
           icon: 'generic.png',
           pkgname: ['lpub3d-appimage'],
+          aur: true,
         },
         {
           name: 'LTris',
@@ -1445,6 +1556,7 @@ export class GamingComponent implements OnInit {
           url: 'https://lgames.sourceforge.net/LTris/',
           icon: 'generic.png',
           pkgname: ['ltris'],
+          aur: true,
         },
         {
           name: 'Lure of the Temptress',
@@ -1452,6 +1564,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.revolution.co.uk/games/lure/',
           icon: 'generic.png',
           pkgname: ['lure'],
+          aur: true,
         },
         {
           name: 'Mah-Jong',
@@ -1459,13 +1572,15 @@ export class GamingComponent implements OnInit {
           url: 'https://mahjong.julianbradfield.org/',
           icon: 'generic.png',
           pkgname: ['mahjong'],
+          aur: true,
         },
         {
           name: 'Maniadrive',
           description: 'Arcade car game on acrobatic tracks with quick and nervous gameplay.',
-          url: 'http://maniadrive.raydium.org/',
+          url: 'https://maniadrive.raydium.org/',
           icon: 'generic.png',
           pkgname: ['maniadrive'],
+          aur: true,
         },
         {
           name: 'Marvellous Inc.',
@@ -1473,6 +1588,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/MarvellousSoft/MarvInc',
           icon: 'generic.png',
           pkgname: ['marvinc-git'],
+          aur: true,
         },
         {
           name: 'Micropolis',
@@ -1480,6 +1596,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/simhacker/micropolis',
           icon: 'generic.png',
           pkgname: ['micropolis-git'],
+          aur: true,
         },
         {
           name: 'Moon Buggy',
@@ -1487,6 +1604,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.seehuhn.de/pages/moon-buggy.html',
           icon: 'generic.png',
           pkgname: ['moon-buggy'],
+          aur: true,
         },
         {
           name: 'Naikari',
@@ -1494,13 +1612,15 @@ export class GamingComponent implements OnInit {
           url: 'https://naikari.github.io/',
           icon: 'generic.png',
           pkgname: ['naikari'],
+          aur: true,
         },
         {
           name: 'Narcissu',
           description: 'Visual novel, telling the story of a terminally ill young man and woman.',
-          url: 'http://narcissu.insani.org/',
+          url: 'https://narcissu.insani.org/',
           icon: 'generic.png',
           pkgname: ['narcissu2'],
+          aur: true,
         },
         {
           name: 'NetPanzer',
@@ -1508,6 +1628,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/netpanzer/netpanzer',
           icon: 'generic.png',
           pkgname: ['netpanzer-appimage'],
+          aur: true,
         },
         {
           name: 'Neverball',
@@ -1515,6 +1636,7 @@ export class GamingComponent implements OnInit {
           url: 'https://neverball.org/',
           icon: 'generic.png',
           pkgname: ['neverball'],
+          aur: true,
         },
         {
           name: 'Nikki and the Robots',
@@ -1522,6 +1644,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/nikki-and-the-robots/nikki',
           icon: 'generic.png',
           pkgname: ['nikki'],
+          aur: true,
         },
         {
           name: 'nInvaders',
@@ -1529,6 +1652,7 @@ export class GamingComponent implements OnInit {
           url: 'https://ninvaders.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['ninvaders'],
+          aur: true,
         },
         {
           name: 'Nootka',
@@ -1536,6 +1660,7 @@ export class GamingComponent implements OnInit {
           url: 'https://nootka.sourceforge.io/',
           icon: 'generic.png',
           pkgname: ['nootka'],
+          aur: true,
         },
         {
           name: 'Not Tetris 2',
@@ -1543,6 +1668,7 @@ export class GamingComponent implements OnInit {
           url: 'https://stabyourself.net/nottetris2/',
           icon: 'generic.png',
           pkgname: ['nottetris2'],
+          aur: true,
         },
         {
           name: 'nQuake',
@@ -1551,6 +1677,7 @@ export class GamingComponent implements OnInit {
           url: 'https://nquake.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['nquake'],
+          aur: true,
         },
         {
           name: 'nudoku',
@@ -1558,13 +1685,15 @@ export class GamingComponent implements OnInit {
           url: 'https://jubalh.github.io/nudoku/',
           icon: 'generic.png',
           pkgname: ['nudoku'],
+          aur: true,
         },
         {
           name: 'One Hour One Life',
           description: 'Binary package for One Hour One Life game by Jason Rohrer.',
-          url: 'http://onehouronelife.com/',
+          url: 'https://onehouronelife.com/',
           icon: 'generic.png',
           pkgname: ['onehouronelife-bin'],
+          aur: true,
         },
         {
           name: 'Oolite',
@@ -1572,6 +1701,7 @@ export class GamingComponent implements OnInit {
           url: 'https://oolite.space/',
           icon: 'generic.png',
           pkgname: ['oolite'],
+          aur: true,
         },
         {
           name: 'openage',
@@ -1579,13 +1709,15 @@ export class GamingComponent implements OnInit {
           url: 'https://openage.sft.mx/',
           icon: 'generic.png',
           pkgname: ['openage-git'],
+          aur: true,
         },
         {
           name: 'OpenArena',
           description: 'Fast multiplayer shooter based on the quake3-engine.',
-          url: 'http://openarena.ws',
+          url: 'https://openarena.ws',
           icon: 'generic.png',
           pkgname: ['openarena'],
+          aur: true,
         },
         {
           name: 'openblack',
@@ -1593,6 +1725,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/openblack/openblack',
           icon: 'generic.png',
           pkgname: ['openblack-git'],
+          aur: true,
         },
         {
           name: 'OpenClonk',
@@ -1600,13 +1733,15 @@ export class GamingComponent implements OnInit {
           url: 'https://www.openclonk.org/',
           icon: 'generic.png',
           pkgname: ['openclonk'],
+          aur: true,
         },
         {
           name: 'OpenDUNE',
           description: 'Open source re-creation of the popular game Dune II.',
-          url: 'http://www.opendune.org/',
+          url: 'https://www.opendune.org/',
           icon: 'generic.png',
           pkgname: ['opendune'],
+          aur: true,
         },
         {
           name: 'OpenGothic',
@@ -1614,6 +1749,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/Try/OpenGothic',
           icon: 'generic.png',
           pkgname: ['opengothic'],
+          aur: true,
         },
         {
           name: 'OpenHV',
@@ -1621,6 +1757,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.openhv.net/',
           icon: 'generic.png',
           pkgname: ['openhv'],
+          aur: true,
         },
         {
           name: 'OpenLieroX',
@@ -1628,6 +1765,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.openlierox.net/',
           icon: 'generic.png',
           pkgname: ['openlierox'],
+          aur: true,
         },
         {
           name: 'OpenLoco',
@@ -1635,6 +1773,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/OpenLoco/OpenLoco',
           icon: 'generic.png',
           pkgname: ['openloco'],
+          aur: true,
         },
         {
           name: 'OpenXCom',
@@ -1643,13 +1782,15 @@ export class GamingComponent implements OnInit {
           url: 'https://openxcom.org',
           icon: 'generic.png',
           pkgname: ['openxcom'],
+          aur: true,
         },
         {
           name: 'Orbiter 2016',
           description: 'Orbiter Space Flight Simulator.',
-          url: 'http://orbit.medphys.ucl.ac.uk/index.html',
+          url: 'https://orbit.medphys.ucl.ac.uk/index.html',
           icon: 'generic.png',
           pkgname: ['orbiter2016-git}}{{Broken package link'],
+          aur: true,
         },
         {
           name: 'osu!',
@@ -1658,6 +1799,7 @@ export class GamingComponent implements OnInit {
           url: 'https://osu.ppy.sh/',
           icon: 'generic.png',
           pkgname: ['osu}}, {{AUR'],
+          aur: true,
         },
         {
           name: 'Overte',
@@ -1665,6 +1807,7 @@ export class GamingComponent implements OnInit {
           url: 'https://overte.org/',
           icon: 'generic.png',
           pkgname: ['overte-appimage'],
+          aur: true,
         },
         {
           name: 'Pasang Emas',
@@ -1672,6 +1815,7 @@ export class GamingComponent implements OnInit {
           url: 'https://pasang-emas.sourceforge.net/index.xhtml',
           icon: 'generic.png',
           pkgname: ['pasang-emas'],
+          aur: true,
         },
         {
           name: 'Penguin Command',
@@ -1679,6 +1823,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.linux-games.com/penguin-command/',
           icon: 'generic.png',
           pkgname: ['penguin-command'],
+          aur: true,
         },
         {
           name: 'Performous',
@@ -1686,6 +1831,7 @@ export class GamingComponent implements OnInit {
           url: 'https://performous.org/',
           icon: 'generic.png',
           pkgname: ['performous-git'],
+          aur: true,
         },
         {
           name: 'Pinball',
@@ -1693,6 +1839,7 @@ export class GamingComponent implements OnInit {
           url: 'https://pinball.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['pinball'],
+          aur: true,
         },
         {
           name: 'Pioneers',
@@ -1700,6 +1847,7 @@ export class GamingComponent implements OnInit {
           url: 'https://pio.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['pioneers'],
+          aur: true,
         },
         {
           name: 'Planeshift',
@@ -1708,6 +1856,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.planeshift.it',
           icon: 'generic.png',
           pkgname: ['planeshift-legacy'],
+          aur: true,
         },
         {
           name: 'Pokete',
@@ -1715,13 +1864,15 @@ export class GamingComponent implements OnInit {
           url: 'https://lxgr-linux.github.io/pokete/',
           icon: 'generic.png',
           pkgname: ['pokete'],
+          aur: true,
         },
         {
           name: 'PowerManga',
           description: 'Arcade 2D shoot-em-up game with 41 levels and more than 200 sprites.',
-          url: 'http://linux.tlk.fr/games/Powermanga/',
+          url: 'https://linux.tlk.fr/games/Powermanga/',
           icon: 'generic.png',
           pkgname: ['powermanga'],
+          aur: true,
         },
         {
           name: 'Prey',
@@ -1729,6 +1880,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.3drealms.com/prey/index.html',
           icon: 'generic.png',
           pkgname: ['prey'],
+          aur: true,
         },
         {
           name: 'Principia',
@@ -1736,6 +1888,7 @@ export class GamingComponent implements OnInit {
           url: 'https://principia-web.se/',
           icon: 'generic.png',
           pkgname: ['principia-git'],
+          aur: true,
         },
         {
           name: 'Project Outfox',
@@ -1744,6 +1897,7 @@ export class GamingComponent implements OnInit {
           url: 'https://projectoutfox.com/',
           icon: 'generic.png',
           pkgname: ['outfox_bin'],
+          aur: true,
         },
         {
           name: 'Project Sushi',
@@ -1751,6 +1905,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.patreon.com/posts/33983587',
           icon: 'generic.png',
           pkgname: ['project-sushi'],
+          aur: true,
         },
         {
           name: 'Q3Rally',
@@ -1758,6 +1913,7 @@ export class GamingComponent implements OnInit {
           url: 'https://sourceforge.net/projects/q3rallysa/',
           icon: 'generic.png',
           pkgname: ['quake3-rally'],
+          aur: true,
         },
         {
           name: 'QCheckers',
@@ -1765,6 +1921,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/portnov/qcheckers',
           icon: 'generic.png',
           pkgname: ['qcheckers'],
+          aur: true,
         },
         {
           name: 'Quake 2',
@@ -1772,6 +1929,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.icculus.org/quake2/',
           icon: 'generic.png',
           pkgname: ['quake2'],
+          aur: true,
         },
         {
           name: 'RBDOOM-3-BFG',
@@ -1779,6 +1937,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/RobertBeckebans/RBDOOM-3-BFG',
           icon: 'generic.png',
           pkgname: ['rbdoom-3-bfg'],
+          aur: true,
         },
         {
           name: 'Red Eclipse',
@@ -1787,6 +1946,7 @@ export class GamingComponent implements OnInit {
           url: 'https://redeclipse.net',
           icon: 'generic.png',
           pkgname: ['redeclipse'],
+          aur: true,
         },
         {
           name: 'Repixture',
@@ -1795,6 +1955,7 @@ export class GamingComponent implements OnInit {
           url: 'https://content.luanti.org/packages/Wuzzy/repixture/',
           icon: 'generic.png',
           pkgname: ['minetest-repixture'],
+          aur: true,
         },
         {
           name: 'Ri-li',
@@ -1802,6 +1963,7 @@ export class GamingComponent implements OnInit {
           url: 'https://ri-li.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['ri-li'],
+          aur: true,
         },
         {
           name: 'Rigs of Rods',
@@ -1810,6 +1972,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.rigsofrods.org/',
           icon: 'generic.png',
           pkgname: ['rigsofrods'],
+          aur: true,
         },
         {
           name: 'Rigs of Rods',
@@ -1818,20 +1981,23 @@ export class GamingComponent implements OnInit {
           url: 'https://www.rigsofrods.org/',
           icon: 'generic.png',
           pkgname: ['rigsofrods'],
+          aur: true,
         },
         {
           name: 'Rogue',
           description: 'Original dungeon crawl game.',
-          url: 'http://rogue.rogueforge.net/rogue-5-4/',
+          url: 'https://rogue.rogueforge.net/rogue-5-4/',
           icon: 'generic.png',
           pkgname: ['rogue'],
+          aur: true,
         },
         {
           name: 'Rune',
           description: "3rd person Adventure / Hack'n Slay using Unreal Engine. Runs great from box installation.",
-          url: 'http://www.rune-world.com',
+          url: 'https://www.rune-world.com',
           icon: 'generic.png',
           pkgname: ['rune'],
+          aur: true,
         },
         {
           name: 'RuneScape',
@@ -1839,6 +2005,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.runescape.com',
           icon: 'generic.png',
           pkgname: ['bolt-launcher}} (unofficial Jagex Launcher), {{AUR'],
+          aur: true,
         },
         {
           name: 'Ryzom',
@@ -1846,6 +2013,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.ryzom.com',
           icon: 'generic.png',
           pkgname: ['ryzom-client-git'],
+          aur: true,
         },
         {
           name: 'S.U.A.V.E.',
@@ -1854,6 +2022,7 @@ export class GamingComponent implements OnInit {
           url: 'https://archive.org/details/Sport-Utility_Assault_Vehicle_Extreme',
           icon: 'generic.png',
           pkgname: ['suave'],
+          aur: true,
         },
         {
           name: 'Sabaki',
@@ -1861,6 +2030,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/SabakiHQ/Sabaki',
           icon: 'generic.png',
           pkgname: ['sabaki'],
+          aur: true,
         },
         {
           name: 'Savage 2: A Tortured Soul',
@@ -1869,6 +2039,7 @@ export class GamingComponent implements OnInit {
           url: 'https://savage2.net/',
           icon: 'generic.png',
           pkgname: ['savage2'],
+          aur: true,
         },
         {
           name: 'School Days',
@@ -1877,6 +2048,7 @@ export class GamingComponent implements OnInit {
           url: 'https://schooldays.us/',
           icon: 'generic.png',
           pkgname: ['nice-boat'],
+          aur: true,
         },
         {
           name: 'Scidb',
@@ -1885,13 +2057,15 @@ export class GamingComponent implements OnInit {
           url: 'https://sourceforge.net/projects/scidb/',
           icon: 'generic.png',
           pkgname: ['scidb-svn'],
+          aur: true,
         },
         {
           name: 'Secret Maryo Chronicles',
           description: 'Mario-style game.',
-          url: 'http://www.secretmaryo.org/',
+          url: 'https://www.secretmaryo.org/',
           icon: 'generic.png',
           pkgname: ['smc'],
+          aur: true,
         },
         {
           name: 'Serious Sam: The First Encounter',
@@ -1900,6 +2074,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/tx00100xt/SeriousSamClassic-VK',
           icon: 'generic.png',
           pkgname: ['serioussam-vk'],
+          aur: true,
         },
         {
           name: 'Serious Sam: The Second Encounter',
@@ -1908,6 +2083,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/tx00100xt/SeriousSamClassic-VK',
           icon: 'generic.png',
           pkgname: ['serioussam-vk'],
+          aur: true,
         },
         {
           name: 'Seven Kingdoms Ancient Adversaries',
@@ -1916,6 +2092,7 @@ export class GamingComponent implements OnInit {
           url: 'https://7kfans.com/',
           icon: 'generic.png',
           pkgname: ['7kaa'],
+          aur: true,
         },
         {
           name: 'Shadow Of The Wyrm',
@@ -1923,6 +2100,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.shadowofthewyrm.org',
           icon: 'generic.png',
           pkgname: ['sotw'],
+          aur: true,
         },
         {
           name: 'Signus',
@@ -1931,6 +2109,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/signus-game/signus/',
           icon: 'generic.png',
           pkgname: ['signus'],
+          aur: true,
         },
         {
           name: 'Space Station 14',
@@ -1939,13 +2118,15 @@ export class GamingComponent implements OnInit {
           url: 'https://spacestation14.io/',
           icon: 'generic.png',
           pkgname: ['spacestation14-launcher-bin'],
+          aur: true,
         },
         {
           name: 'Speed Dreams',
           description: 'Fork of Torcs, aiming to implement exciting new features as well as improving realism.',
-          url: 'http://speed-dreams.org/',
+          url: 'https://speed-dreams.org/',
           icon: 'generic.png',
           pkgname: ['speed-dreams-appimage'],
+          aur: true,
         },
         {
           name: 'Stendhal',
@@ -1953,6 +2134,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.stendhalgame.org/',
           icon: 'generic.png',
           pkgname: ['stendhal-bin'],
+          aur: true,
         },
         {
           name: 'Stepmania',
@@ -1960,6 +2142,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.stepmania.com/',
           icon: 'generic.png',
           pkgname: ['stepmania'],
+          aur: true,
         },
         {
           name: 'Streets of Rage Remake',
@@ -1967,6 +2150,7 @@ export class GamingComponent implements OnInit {
           url: 'https://sorr.forumotion.net/',
           icon: 'generic.png',
           pkgname: ['streetsofrageremake'],
+          aur: true,
         },
         {
           name: 'Stunt Rally',
@@ -1974,6 +2158,7 @@ export class GamingComponent implements OnInit {
           url: 'https://stuntrally.tuxfamily.org/',
           icon: 'generic.png',
           pkgname: ['stuntrally-git'],
+          aur: true,
         },
         {
           name: 'Sulis',
@@ -1981,6 +2166,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.sulisgame.com/',
           icon: 'generic.png',
           pkgname: ['sulis'],
+          aur: true,
         },
         {
           name: 'Summer Days',
@@ -1988,6 +2174,7 @@ export class GamingComponent implements OnInit {
           url: 'https://shinydays.us/',
           icon: 'generic.png',
           pkgname: ['nice-boat'],
+          aur: true,
         },
         {
           name: 'TADS',
@@ -1996,6 +2183,7 @@ export class GamingComponent implements OnInit {
           url: 'https://tads.org',
           icon: 'generic.png',
           pkgname: ['frobtads'],
+          aur: true,
         },
         {
           name: "Tales of Maj'Eyal (previously ''Troubles of Middle Earth'')",
@@ -2003,6 +2191,7 @@ export class GamingComponent implements OnInit {
           url: 'https://te4.org/',
           icon: 'generic.png',
           pkgname: ['tome4'],
+          aur: true,
         },
         {
           name: 'Tecnoballz',
@@ -2010,13 +2199,15 @@ export class GamingComponent implements OnInit {
           url: 'https://linux.tlk.fr/games/TecnoballZ/',
           icon: 'generic.png',
           pkgname: ['tecnoballz'],
+          aur: true,
         },
         {
           name: 'Tesseract',
           description: 'Smooth FPS with map editing, instagib, DM and CTF.',
-          url: 'http://tesseract.gg/',
+          url: 'https://tesseract.gg/',
           icon: 'generic.png',
           pkgname: ['tesseract-game'],
+          aur: true,
         },
         {
           name: 'Tetrinet',
@@ -2024,6 +2215,7 @@ export class GamingComponent implements OnInit {
           url: 'https://gtetrinet.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['gtetrinet'],
+          aur: true,
         },
         {
           name: 'The Legend of Edgar',
@@ -2032,6 +2224,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.parallelrealities.co.uk/games/edgar/',
           icon: 'generic.png',
           pkgname: ['legendofedgar'],
+          aur: true,
         },
         {
           name: 'The Mana World',
@@ -2039,6 +2232,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.themanaworld.org',
           icon: 'generic.png',
           pkgname: ['manaplus'],
+          aur: true,
         },
         {
           name: 'The Powder Toy',
@@ -2047,6 +2241,7 @@ export class GamingComponent implements OnInit {
           url: 'https://powdertoy.co.uk/',
           icon: 'generic.png',
           pkgname: ['powder-toy'],
+          aur: true,
         },
         {
           name: 'Thrive',
@@ -2055,6 +2250,7 @@ export class GamingComponent implements OnInit {
           url: 'https://revolutionarygamesstudio.com/',
           icon: 'generic.png',
           pkgname: ['thrive-bin'],
+          aur: true,
         },
         {
           name: 'Toppler',
@@ -2062,6 +2258,7 @@ export class GamingComponent implements OnInit {
           url: 'https://gitlab.com/roever/toppler/',
           icon: 'generic.png',
           pkgname: ['toppler'],
+          aur: true,
         },
         {
           name: 'Torcs',
@@ -2069,6 +2266,7 @@ export class GamingComponent implements OnInit {
           url: 'https://torcs.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['torcs'],
+          aur: true,
         },
         {
           name: 'Trackballs',
@@ -2076,6 +2274,7 @@ export class GamingComponent implements OnInit {
           url: 'https://trackballs.github.io/',
           icon: 'generic.png',
           pkgname: ['trackballs'],
+          aur: true,
         },
         {
           name: 'Tremulous',
@@ -2083,6 +2282,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/grangerhub/tremulous/',
           icon: 'generic.png',
           pkgname: ['tremulous-grangerhub-bin'],
+          aur: true,
         },
         {
           name: 'Trigger Rally',
@@ -2090,6 +2290,7 @@ export class GamingComponent implements OnInit {
           url: 'https://sourceforge.net/projects/trigger-rally/',
           icon: 'generic.png',
           pkgname: ['trigger'],
+          aur: true,
         },
         {
           name: 'TripleA',
@@ -2097,6 +2298,7 @@ export class GamingComponent implements OnInit {
           url: 'https://triplea-game.org/',
           icon: 'generic.png',
           pkgname: ['triplea'],
+          aur: true,
         },
         {
           name: 'Tux Math',
@@ -2104,6 +2306,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/tux4kids/tuxmath',
           icon: 'generic.png',
           pkgname: ['tuxmath'],
+          aur: true,
         },
         {
           name: 'Tux Paint',
@@ -2111,6 +2314,7 @@ export class GamingComponent implements OnInit {
           url: 'https://tuxpaint.org/',
           icon: 'generic.png',
           pkgname: ['tuxpaint'],
+          aur: true,
         },
         {
           name: 'Tux Typing',
@@ -2118,6 +2322,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/tux4kids/tuxtype',
           icon: 'generic.png',
           pkgname: ['tuxtype'],
+          aur: true,
         },
         {
           name: 'Tuxemon',
@@ -2125,13 +2330,15 @@ export class GamingComponent implements OnInit {
           url: 'https://www.tuxemon.org/',
           icon: 'generic.png',
           pkgname: ['tuxemon-git}}{{Broken package link'],
+          aur: true,
         },
         {
           name: 'Ultimate Stunts',
           description: "Remake of the famous DOS-game 'stunts'.",
-          url: 'http://www.ultimatestunts.nl/',
+          url: 'https://www.ultimatestunts.nl/',
           icon: 'generic.png',
           pkgname: ['ultimatestunts'],
+          aur: true,
         },
         {
           name: 'Ultrastar Deluxe',
@@ -2139,14 +2346,16 @@ export class GamingComponent implements OnInit {
           url: 'https://usdx.eu/',
           icon: 'generic.png',
           pkgname: ['ultrastardx-git'],
+          aur: true,
         },
         {
           name: 'Unknown Horizons',
           description:
             '2.5D isometric real-time strategy simulation with an emphasis on economy and city building. Expand your small settlement to a strong and wealthy colony, collect taxes and supply your inhabitants with valuable goods. Increase your power with a well balanced economy and with strategic trade and diplomacy.',
-          url: 'http://www.unknown-horizons.org/',
+          url: 'https://www.unknown-horizons.org/',
           icon: 'generic.png',
           pkgname: ['unknown-horizons'],
+          aur: true,
         },
         {
           name: 'Unreal Tournament (2014)',
@@ -2154,6 +2363,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.unrealtournament.com/',
           icon: 'generic.png',
           pkgname: ['unrealtournament4'],
+          aur: true,
         },
         {
           name: 'Unvanquished',
@@ -2162,13 +2372,15 @@ export class GamingComponent implements OnInit {
           url: 'https://unvanquished.net/',
           icon: 'generic.png',
           pkgname: ['unvanquished'],
+          aur: true,
         },
         {
           name: 'Urban Terror',
           description: 'Modern multiplayer FPS based on the ioquake3 engine.',
-          url: 'http://urbanterror.info',
+          url: 'https://urbanterror.info',
           icon: 'generic.png',
           pkgname: ['urbanterror'],
+          aur: true,
         },
         {
           name: 'Valyria Tear',
@@ -2176,6 +2388,7 @@ export class GamingComponent implements OnInit {
           url: 'https://valyriatear.blogspot.com/',
           icon: 'generic.png',
           pkgname: ['valyria-tear-git'],
+          aur: true,
         },
         {
           name: 'VDrift',
@@ -2183,6 +2396,7 @@ export class GamingComponent implements OnInit {
           url: 'https://vdrift.net/',
           icon: 'generic.png',
           pkgname: ['vdrift'],
+          aur: true,
         },
         {
           name: 'Vega Strike',
@@ -2190,6 +2404,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.vega-strike.org',
           icon: 'generic.png',
           pkgname: ['vegastrike'],
+          aur: true,
         },
         {
           name: 'Vintage Story',
@@ -2197,6 +2412,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.vintagestory.at/',
           icon: 'generic.png',
           pkgname: ['vintagestory'],
+          aur: true,
         },
         {
           name: 'Voxelands',
@@ -2204,6 +2420,7 @@ export class GamingComponent implements OnInit {
           url: 'https://gitlab.com/voxelands/voxelands',
           icon: 'generic.png',
           pkgname: ['voxelands'],
+          aur: true,
         },
         {
           name: 'VoxeLibre',
@@ -2211,6 +2428,7 @@ export class GamingComponent implements OnInit {
           url: 'https://git.minetest.land/VoxeLibre/VoxeLibre',
           icon: 'generic.png',
           pkgname: ['luanti-voxelibre'],
+          aur: true,
         },
         {
           name: 'vpinball',
@@ -2218,6 +2436,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/vpinball/vpinball',
           icon: 'generic.png',
           pkgname: ['vpinball'],
+          aur: true,
         },
         {
           name: 'VVVVVV',
@@ -2226,6 +2445,7 @@ export class GamingComponent implements OnInit {
           url: 'https://thelettervsixtim.es/',
           icon: 'generic.png',
           pkgname: ['vvvvvv-git'],
+          aur: true,
         },
         {
           name: 'wanderer',
@@ -2233,6 +2453,7 @@ export class GamingComponent implements OnInit {
           url: 'https://e271.net/~marina/wanderer.html',
           icon: 'generic.png',
           pkgname: ['wanderer'],
+          aur: true,
         },
         {
           name: "Warmux (previously ''Wormux'')",
@@ -2240,6 +2461,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/a-team/wormux/',
           icon: 'generic.png',
           pkgname: ['warmux'],
+          aur: true,
         },
         {
           name: 'WolkenWelten',
@@ -2247,6 +2469,7 @@ export class GamingComponent implements OnInit {
           url: 'https://wolkenwelten.net/',
           icon: 'generic.png',
           pkgname: ['wolkenwelten-git'],
+          aur: true,
         },
         {
           name: 'World of Goo',
@@ -2254,6 +2477,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.2dboy.com',
           icon: 'generic.png',
           pkgname: ['worldofgoo'],
+          aur: true,
         },
         {
           name: 'World of Padman',
@@ -2261,6 +2485,7 @@ export class GamingComponent implements OnInit {
           url: 'https://worldofpadman.net/website',
           icon: 'generic.png',
           pkgname: ['worldofpadman'],
+          aur: true,
         },
         {
           name: 'Wrymsun',
@@ -2268,14 +2493,16 @@ export class GamingComponent implements OnInit {
           url: 'https://andrettin.github.io/',
           icon: 'generic.png',
           pkgname: ['Wyrmsun'],
+          aur: true,
         },
         {
           name: 'XBill',
           description:
             'Kill all instances of a virus before it infects all computers with a malware resembling Microsoft Windows.',
-          url: 'http://www.xbill.org/',
+          url: 'https://www.xbill.org/',
           icon: 'generic.png',
           pkgname: ['xbill'],
+          aur: true,
         },
         {
           name: 'XInvaders3D',
@@ -2283,6 +2510,7 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/JoesCat/xinvaders3d',
           icon: 'generic.png',
           pkgname: ['xinvaders3d'],
+          aur: true,
         },
         {
           name: 'XMoto',
@@ -2290,6 +2518,7 @@ export class GamingComponent implements OnInit {
           url: 'https://xmoto.tuxfamily.org/',
           icon: 'generic.png',
           pkgname: ['xmoto'],
+          aur: true,
         },
         {
           name: 'XPilot',
@@ -2298,6 +2527,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.xpilot.org/',
           icon: 'generic.png',
           pkgname: ['xpilot'],
+          aur: true,
         },
         {
           name: 'xroach',
@@ -2305,13 +2535,15 @@ export class GamingComponent implements OnInit {
           url: 'https://github.com/sergev/4.4BSD-Lite2/tree/master/usr/src/games/xroach',
           icon: 'generic.png',
           pkgname: ['xroach'],
+          aur: true,
         },
         {
           name: 'Xscorch',
           description: 'Clone of the classic DOS game Scorched Earth.',
-          url: 'http://www.xscorch.org/',
+          url: 'https://www.xscorch.org/',
           icon: 'generic.png',
           pkgname: ['xscorch'],
+          aur: true,
         },
         {
           name: 'xu4',
@@ -2319,6 +2551,7 @@ export class GamingComponent implements OnInit {
           url: 'https://xu4.sourceforge.net/',
           icon: 'generic.png',
           pkgname: ['xu4-svn'],
+          aur: true,
         },
         {
           name: 'ZDoom',
@@ -2326,6 +2559,7 @@ export class GamingComponent implements OnInit {
           url: 'https://www.zdoom.org/',
           icon: 'generic.png',
           pkgname: ['zdoom'],
+          aur: true,
         },
         {
           name: 'Zero-K',
@@ -2333,6 +2567,7 @@ export class GamingComponent implements OnInit {
           url: 'https://zerok.itch.io/zero-k',
           icon: 'generic.png',
           pkgname: ['zero-k'],
+          aur: true,
         },
       ],
     },
@@ -2384,6 +2619,8 @@ export class GamingComponent implements OnInit {
   ];
 
   protected readonly operationManager = inject(OperationManagerService);
+  protected readonly open = open;
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
   private readonly loadingService = inject(LoadingService);
@@ -2392,6 +2629,7 @@ export class GamingComponent implements OnInit {
     effect(() => {
       const darkMode = this.configService.settings().darkMode;
       this.backgroundColor.set(darkMode ? flavors.mocha.colors.surface0.hex : flavors.latte.colors.surface0.hex);
+      this.cdr.markForCheck();
     });
   }
 
@@ -2418,10 +2656,17 @@ export class GamingComponent implements OnInit {
         pkg.initialState = pkg.selected;
       }
     }
+
+    this.cdr.markForCheck();
   }
 
+  /**
+   * Toggles the selected state of a package.
+   * @param item The package to toggle.
+   */
   togglePackage(item: StatefulPackage): void {
     item.selected = !item.selected;
     this.operationManager.handleTogglePackage(item);
+    this.cdr.markForCheck();
   }
 }

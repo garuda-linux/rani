@@ -1,4 +1,14 @@
-import { AfterViewInit, Component, effect, inject, OnDestroy, signal, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  OnDestroy,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { CatppuccinXtermJs } from '../theme';
@@ -23,6 +33,7 @@ import { Subscription } from 'rxjs';
   imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, Popover, ScrollPanel],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TerminalComponent implements AfterViewInit, OnDestroy {
   progressTracker = signal<any | null>(null);
@@ -41,6 +52,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
     convertEol: true,
     theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
@@ -51,6 +63,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
+      this.cdr.markForCheck();
       this.logger.trace('Terminal theme switched via effect');
     });
     effect(() => {
@@ -61,16 +74,19 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       } else if (!progress) {
         this.progressTracker.set(null);
       }
+      this.cdr.markForCheck();
     });
     effect(() => {
       const visible: boolean = this.operationManager.showTerminal();
       this.logger.trace(`Setting terminal visibility on terminal to ${visible} via effect`);
       this.visible.set(visible);
+      this.cdr.markForCheck();
     });
     effect(() => {
       const visible: boolean = this.visible();
       this.logger.trace(`Setting terminal visibility on manager to ${visible} via effect`);
       this.operationManager.showTerminal.set(visible);
+      this.cdr.markForCheck();
     });
   }
 
@@ -97,6 +113,8 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
         this.term.underlying?.clear();
       }),
     );
+
+    this.cdr.markForCheck();
   }
 
   ngOnDestroy(): void {
@@ -141,6 +159,8 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       this.messageToastService.warn('Warning', this.translocoService.translate('terminal.noOutput'));
       return;
     }
+
+    this.cdr.markForCheck();
   }
 
   /**
@@ -149,6 +169,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
    */
   removeOperation(operation: Operation) {
     this.operationManager.removeFromPending(operation);
+    this.cdr.markForCheck();
   }
 
   /**

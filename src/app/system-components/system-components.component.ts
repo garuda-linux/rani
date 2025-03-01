@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { SystemToolsEntry } from '../interfaces';
 import { FormsModule } from '@angular/forms';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
@@ -8,6 +8,7 @@ import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkb
   imports: [FormsModule, DynamicCheckboxesComponent],
   templateUrl: './system-components.component.html',
   styleUrl: './system-components.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemComponentsComponent {
   sections: SystemToolsEntry[] = [

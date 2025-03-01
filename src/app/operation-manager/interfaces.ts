@@ -27,10 +27,12 @@ export type OperationType =
   | typeof RESET_DNS_SERVER
   | typeof ENABLE_USER_SERVICE_ACTION_NAME
   | typeof DISABLE_USER_SERVICE_ACTION_NAME
-  | typeof SET_DEFAULT_SHELL_ACTION_NAME;
+  | typeof SET_DEFAULT_SHELL_ACTION_NAME
+  | typeof INSTALL_ACTION_AUR_NAME;
 
 export const INSTALL_ACTION_NAME = 'install';
 export const REMOVE_ACTION_NAME = 'remove';
+export const INSTALL_ACTION_AUR_NAME = 'installAur';
 
 export const ADD_USER_GROUP_ACTION_NAME = 'addUserGroup';
 export const REMOVE_USER_GROUP_ACTION_NAME = 'removeUserGroup';

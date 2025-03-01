@@ -1,4 +1,12 @@
-import { AfterViewInit, Component, effect, inject, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  ViewChild,
+} from '@angular/core';
 import { Button } from 'primeng/button';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -20,6 +28,7 @@ import { WebLinksAddon } from '@xterm/addon-web-links';
   imports: [Button, TranslocoDirective, NgTerminalModule],
   templateUrl: './diagnostics.component.html',
   styleUrl: './diagnostics.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiagnosticsComponent implements AfterViewInit {
   @ViewChild('term', { static: false }) term!: NgTerminal;
@@ -32,6 +41,7 @@ export class DiagnosticsComponent implements AfterViewInit {
     theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
   };
 
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -46,6 +56,7 @@ export class DiagnosticsComponent implements AfterViewInit {
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
+      this.cdr.markForCheck();
       this.logger.trace('Terminal theme switched via effect');
     });
   }
@@ -126,6 +137,7 @@ export class DiagnosticsComponent implements AfterViewInit {
       this.logger.trace(`Error getting output for ${type}: ${err}`);
     }
 
+    this.cdr.markForCheck();
     this.loadingService.loadingOff();
   }
 

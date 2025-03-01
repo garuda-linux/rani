@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfirmationService, MenuItemCommandEvent } from 'primeng/api';
 import { OperationManagerService } from './operation-manager.service';
 import { MessageToastService } from '@garudalinux/core';
@@ -10,6 +10,7 @@ import { Logger } from '../logging/logging';
   imports: [],
   templateUrl: './operation-manager.component.html',
   styleUrl: './operation-manager.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OperationManagerComponent {
   private readonly confirmationService = inject(ConfirmationService);

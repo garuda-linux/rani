@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { SystemdServicesComponent } from '../systemd-services/systemd-services.component';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
@@ -22,6 +22,7 @@ import { SystemComponentsComponent } from '../system-components/system-component
   ],
   templateUrl: './system-tools.component.html',
   styleUrl: './system-tools.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemToolsComponent {
   tabIndex = signal<number>(0);

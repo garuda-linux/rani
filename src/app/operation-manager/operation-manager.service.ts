@@ -1,10 +1,11 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { OperationManager } from './operation-manager';
-import { StatefulPackage, SystemToolsSubEntry } from '../interfaces';
+import { SystemToolsSubEntry } from '../interfaces';
 import { Operation } from './interfaces';
 import { TranslocoService } from '@jsverse/transloco';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
 import { Logger } from '../logging/logging';
+import { StatefulPackage } from '../gaming/interfaces';
 
 @Injectable({
   providedIn: 'root',

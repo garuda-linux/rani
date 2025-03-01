@@ -24,7 +24,7 @@ function parseAppEntry(entryString) {
 
   appData.name = parts[1].replace('[[', '').replace(']]', '');
   appData.description = parts[2].replace('{{Grp|kde-games}}', 'Part of KDE Games');
-  appData.url = parts[3];
+  appData.url = parts[3].replace('http://', 'https://');
   appData.icon = 'generic.png';
 
   const packageInfoStr = parts[4];
@@ -59,6 +59,7 @@ for (const entry of aurPkg) {
   if (inRepo.includes(entry.pkgname[0])) {
     toDisplay.push(entry);
   } else {
+    entry.aur = true;
     inAur.push(entry);
   }
 }

@@ -1,5 +1,15 @@
 import { AsyncPipe, NgOptimizedImage } from '@angular/common';
-import { ChangeDetectorRef, Component, effect, HostListener, inject, OnInit, signal, ViewChild } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  HostListener,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
@@ -58,6 +68,7 @@ import { MenuToggleMapping } from './interfaces';
   selector: 'rani-root',
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
   @ViewChild('languageSwitcherComponent') langSwitcher!: LanguageSwitcherComponent;
@@ -103,8 +114,8 @@ export class AppComponent implements OnInit {
   ]);
 
   protected readonly configService = inject(ConfigService);
-  private readonly logger = Logger.getInstance();
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly logger = Logger.getInstance();
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -237,7 +248,7 @@ export class AppComponent implements OnInit {
           translocoKey: 'menu.help.callExorcist',
           command: () =>
             this.appService.sendNotification({
-              title: this.translocoService.translate('menu.help.callExorcist'),
+              title: this.translocoService.translate('menu.help.callExorcistTitle'),
               body: `${this.translocoService.translate('menu.help.callExorcistBody')} 🐛`,
             }),
         },
@@ -269,13 +280,14 @@ export class AppComponent implements OnInit {
         }
         return items;
       });
-      this.cdr.detectChanges();
+      this.cdr.markForCheck();
     });
 
     effect(() => {
       const settings: AppSettings = this.configService.settings();
       this.logger.trace('Updating settings labels via effect');
       this.setSettingsLabels(settings);
+      this.cdr.markForCheck();
     });
   }
 
@@ -350,7 +362,7 @@ export class AppComponent implements OnInit {
     }
 
     this.menuItems.set(newSubItems);
-    this.cdr.detectChanges();
+    this.cdr.markForCheck();
   }
 
   /**
@@ -429,5 +441,7 @@ export class AppComponent implements OnInit {
         }
       }
     }
+
+    this.cdr.markForCheck();
   }
 }
