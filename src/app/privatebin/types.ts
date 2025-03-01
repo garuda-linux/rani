@@ -1,22 +1,22 @@
 // Sourced from: https://github.com/pixelfactoryio/privatebin-cli
-export type PrivatebinPaste = {
+export interface PrivatebinPaste {
   paste: string;
-};
+}
 
-export type PrivatebinResponse = {
+export interface PrivatebinResponse {
   status: number;
   id: string;
   url: string;
   deletetoken: string;
-};
+}
 
-export type PrivatebinOutput = {
+export interface PrivatebinOutput {
   pasteId: string;
   pasteURL: string;
   deleteURL: string;
-};
+}
 
-export type PrivatebinSpec = {
+export interface PrivatebinSpec {
   algo: string;
   mode: string;
   ks: number;
@@ -26,7 +26,7 @@ export type PrivatebinSpec = {
   burnafterreading: number;
   opendiscussion: number;
   textformat: string;
-};
+}
 
 export type PrivatebinAdata = [
   [string, string, number, number, number, string, string, string],
@@ -35,24 +35,24 @@ export type PrivatebinAdata = [
   number,
 ];
 
-export type PrivatebinMeta = {
+export interface PrivatebinMeta {
   expire: string;
-};
+}
 
-export type PrivatebinPasteRequest = {
+export interface PrivatebinPasteRequest {
   status?: number;
   message?: string;
   v?: 2;
   ct: string; // Cipher Text
   adata: PrivatebinAdata; // Additional data
   meta?: PrivatebinMeta;
-};
+}
 
-export type PrivatebinOptions = {
+export interface PrivatebinOptions {
   expire: '5min' | '10min' | '1hour' | '1day' | '1week' | '1month' | '1year' | 'never';
   burnafterreading: 0 | 1;
   opendiscussion: 0 | 1;
   output: 'text' | 'json' | 'yaml';
   compression: 'none' | 'zlib';
   textformat: 'plaintext' | 'markdown';
-};
+}

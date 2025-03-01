@@ -78,11 +78,12 @@ export class PrivilegeManagerService {
    * @param pkg The package to ensure is installed
    * @param executable The executable to run after the package is installed, if the executable differs from the package name
    * @param needsSudo Whether the command needs to be run with sudo
+   * @param onlyEnsure Whether to only ensure the package is installed and not run the executable
    */
-  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false): Promise<void> {
+  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false, onlyEnsure = false): Promise<void> {
     this.loadingService.loadingOn();
     try {
-      await this.manager.ensurePackageAndRun(pkg, executable, needsSudo);
+      await this.manager.ensurePackageAndRun(pkg, executable, needsSudo, onlyEnsure);
     } catch (err: any) {
       this.loadingService.loadingOff();
       throw err;

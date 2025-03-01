@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { OperationManager } from './operation-manager';
-import { SystemToolsSubEntry } from '../interfaces';
+import { MaintenanceAction, SystemToolsSubEntry } from '../interfaces';
 import { Operation } from './interfaces';
 import { TranslocoService } from '@jsverse/transloco';
 import { DnsProvider, ShellEntry } from '../system-settings/types';
@@ -189,6 +189,18 @@ export class OperationManagerService {
   toggleShell(initialState: boolean, shellEntry: ShellEntry): void {
     try {
       return this.manager.toggleShell(initialState, shellEntry);
+    } catch (err: any) {
+      this.logger.error(err);
+    }
+  }
+
+  /**
+   * Toggle the state of a maintenance action, adding or removing it from the pending operations as needed.
+   * @param action The action to toggle
+   */
+  toggleMaintenanceActionPending(action: MaintenanceAction) {
+    try {
+      return this.manager.toggleMaintenanceActionPending(action);
     } catch (err: any) {
       this.logger.error(err);
     }

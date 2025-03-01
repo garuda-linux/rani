@@ -10,10 +10,11 @@ import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBluesky, faDiscord, faDiscourse, faMastodon, faTelegram } from '@fortawesome/free-brands-svg-icons';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { NgOptimizedImage } from '@angular/common';
+import { SystemStatusComponent } from '../system-status/system-status.component';
 
 @Component({
   selector: 'app-home',
-  imports: [TranslocoDirective, Card, RouterLink, FaIconComponent, NgOptimizedImage],
+  imports: [TranslocoDirective, Card, RouterLink, FaIconComponent, NgOptimizedImage, SystemStatusComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,

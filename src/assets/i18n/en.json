@@ -445,5 +445,14 @@
     "args": "Arguments",
     "logs": "Logs",
     "remove": "Remove"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Pending updates",
+    "updates": "This system has pending updates (click for info)",
+    "pacFiles": "This system has pending .pacnew files, you should check and merge those! (click for info)",
+    "cancel": "Cancel",
+    "scheduleUpdates": "Schedule updates",
+    "pendingPacdiff": "Pending pacdiff files",
+    "findMore": "Find out how to proceed"
   }
 }

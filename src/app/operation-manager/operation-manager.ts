@@ -18,7 +18,7 @@ import {
   SET_DEFAULT_SHELL_ACTION_NAME,
   SET_NEW_DNS_SERVER,
 } from './interfaces';
-import type { SystemToolsSubEntry } from '../interfaces';
+import type { MaintenanceAction, SystemToolsSubEntry } from '../interfaces';
 import { type Child, type ChildProcess, Command, type TerminatedPayload } from '@tauri-apps/plugin-shell';
 import type { Nullable } from 'primeng/ts-helpers';
 import { effect, EventEmitter, signal } from '@angular/core';
@@ -647,6 +647,34 @@ export class OperationManager {
     } else if (existing) {
       this.logger.trace(`Changing command args to ${shellEntry.name}`);
       existing.commandArgs = [shellEntry.name];
+    }
+  }
+
+  /**
+   * Toggle the state of a maintenance action, adding or removing it from the pending operations as needed.
+   * @param action The action to toggle
+   */
+  toggleMaintenanceActionPending(action: MaintenanceAction): void {
+    if (!this.pending().find((operation) => operation.name === action.name)) {
+      this.logger.debug(`Adding ${action.name} to pending`);
+      this.pending.update((pending) => [
+        ...pending,
+        {
+          name: action.name as unknown as OperationType,
+          prettyName: action.label,
+          order: action.order,
+          command: action.command,
+          commandArgs: [],
+          sudo: action.sudo,
+          status: 'pending',
+          hasOutput: action.hasOutput,
+        },
+      ]);
+      action.addedToPending = true;
+    } else {
+      this.logger.trace(`Removing ${action.name} from pending`);
+      this.pending.update((pending) => pending.filter((op) => op.name !== action.name));
+      action.addedToPending = false;
     }
   }
 

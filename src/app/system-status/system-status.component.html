@@ -1,0 +1,60 @@
+<ng-container *transloco="let t">
+  <div class="flex gap-5">
+    @if (updates.length > 0) {
+      <div class="cursor-pointer" (click)="scheduleUpdates()">
+        <p-overlay-badge [value]="updates.length" [pTooltip]="t('systemStatus.updates')" tooltipPosition="bottom">
+          <i class="pi pi-bell" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+    @if (pacFiles.length > 0) {
+      <div class="cursor-pointer" (click)="pacdiffDialogVisible.set(true)">
+        <p-overlay-badge
+          [value]="pacFiles.length"
+          severity="danger"
+          [pTooltip]="t('systemStatus.pacFiles')"
+          tooltipPosition="bottom"
+        >
+          <i class="pi pi-calendar" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+  </div>
+
+  <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">
+    <ul>
+      @for (update of updates; track update.pkg) {
+        <li>
+          {{ update.pkg }}: {{ update.version }} -> <span class="text-primary-emphasis">{{ update.newVersion }}</span>
+        </li>
+      }
+    </ul>
+
+    <div class="flex justify-end gap-2">
+      <p-button (click)="dialogVisible.set(false)" [label]="t('systemStatus.cancel')" severity="secondary" />
+      <p-button
+        (click)="scheduleUpdates(true)"
+        [disabled]="buttonDisabled()"
+        [label]="t('systemStatus.scheduleUpdates')"
+        severity="success"
+      />
+    </div>
+  </p-dialog>
+
+  <p-dialog [(visible)]="pacdiffDialogVisible" [header]="t('systemStatus.pendingPacdiff')" [modal]="true">
+    <ul>
+      @for (file of pacFiles; track file) {
+        <li>{{ file }}</li>
+      }
+    </ul>
+
+    <div class="flex justify-end gap-2">
+      <p-button (click)="dialogVisible.set(false)" [label]="t('systemStatus.cancel')" severity="secondary" />
+      <p-button
+        (click)="open('https://forum.garudalinux.org/t/dealing-with-pacnew-files/9393/2?u=dr460nf1r3')"
+        [label]="t('systemStatus.findMore')"
+        severity="success"
+      />
+    </div>
+  </p-dialog>
+</ng-container>

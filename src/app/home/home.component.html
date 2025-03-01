@@ -9,7 +9,12 @@
     </div>
     <div class="text-color text-xl mb-10">
       @if (configService.state().user && configService.state().hostname) {
-        <span>{{ t('welcome.hello') }} {{ configService.state().user }}&#64;{{ configService.state().hostname }}!</span>
+        <div class="flex place-content-center gap-2">
+          <span
+            >{{ t('welcome.hello') }} {{ configService.state().user }}&#64;{{ configService.state().hostname }}!</span
+          >
+          <rani-system-status></rani-system-status>
+        </div>
       } @else {
         <span>{{ t('welcome.subtitle') }}</span>
       }

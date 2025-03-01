@@ -108,8 +108,9 @@ export class PrivilegeManager {
    * @param pkg The package to ensure is installed
    * @param executable The executable to run after the package is installed, if the executable differs from the package name
    * @param needsSudo Whether the command needs to be run with sudo
+   * @param onlyEnsure Whether to only ensure the package is installed and not run the executable
    */
-  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false): Promise<void> {
+  async ensurePackageAndRun(pkg: string, executable?: string, needsSudo = false, onlyEnsure = false): Promise<void> {
     const cmd = `pacman -Qq ${pkg}`;
 
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
@@ -124,11 +125,13 @@ export class PrivilegeManager {
       }
     }
 
-    const pkgCmd: string = executable ? executable : pkg;
-    if (needsSudo) {
-      void this.executeCommandAsSudo(pkgCmd, true);
-    } else {
-      void Command.create('exec-bash', ['-c', pkgCmd]).execute();
+    if (!onlyEnsure) {
+      const pkgCmd: string = executable ? executable : pkg;
+      if (needsSudo) {
+        void this.executeCommandAsSudo(pkgCmd, true);
+      } else {
+        void Command.create('exec-bash', ['-c', pkgCmd]).execute();
+      }
     }
   }
 
