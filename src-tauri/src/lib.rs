@@ -1,6 +1,20 @@
 use tauri::Manager;
 
 pub fn run() {
+    // https://github.com/tauri-apps/tauri/issues/9394, thanks Nvidia
+    #[cfg(target_os = "linux")]
+    {
+        if std::path::Path::new("/proc/driver/nvidia/version").exists()
+            && std::env::var("WAYLAND_DISPLAY").is_ok()
+        {
+            // SAFETY: There's potential for race conditions in a multi-threaded context.
+            unsafe {
+                log::info!("Nvidia GPU detected, disabling WebKit DMABuf renderer");
+                std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+            }
+        }
+    }
+
     tauri::Builder::default()
         .setup(|app| {
             #[cfg(debug_assertions)]
@@ -20,7 +34,7 @@ pub fn run() {
         .plugin(tauri_plugin_notification::init())
         .plugin(
             tauri_plugin_log::Builder::new()
-                .max_file_size(5_000_000)
+                .max_file_size(10_000_000)
                 .timezone_strategy(tauri_plugin_log::TimezoneStrategy::UseLocal)
                 .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepOne)
                 .build(),
@@ -31,6 +45,5 @@ pub fn run() {
         .plugin(tauri_plugin_system_info::init())
         .plugin(tauri_plugin_network::init())
         .run(tauri::generate_context!())
-        .expect("error while running tauri application");
+        .expect("Error while running tauri application");
 }
-

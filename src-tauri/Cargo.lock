@@ -1559,6 +1559,7 @@ dependencies = [
 name = "garuda-rani"
 version = "0.2.0"
 dependencies = [
+ "log",
  "serde",
  "serde_json",
  "tauri",
