@@ -59,7 +59,12 @@ export class OperationManager {
     }
   }
 
-  handleToggleSystemTools(entry: SystemToolsSubEntry) {
+  /**
+   * Toggles the state of a system tools entry, adding and removing it from the pending operations as needed.
+   * Takes care of all the different types of system tools entries.
+   * @param entry The system tools entry to toggle
+   */
+  handleToggleSystemTools(entry: SystemToolsSubEntry): void {
     this.logger.debug('Toggling system tools entry');
 
     if (entry.check.type === 'pkg') {
@@ -126,6 +131,10 @@ export class OperationManager {
     }
   }
 
+  /**
+   * Toggle the state of a package, adding or removing it from the pending operations as needed.
+   * @param entry The package to toggle
+   */
   handleTogglePackage(entry: StatefulPackage): void {
     this.logger.debug('Toggling package entry');
     this.logger.trace(JSON.stringify(entry));
@@ -261,7 +270,12 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
-  addServiceEnable(name: string, userContext = false) {
+  /**
+   * Add a service enable operation to the pending list.
+   * @param name The name of the service to enable
+   * @param userContext Whether the service is a user service
+   */
+  addServiceEnable(name: string, userContext = false): void {
     const operation: Operation = {
       name: userContext ? ENABLE_USER_SERVICE_ACTION_NAME : ENABLE_SERVICE_ACTION_NAME,
       prettyName: 'operation.enableService',
@@ -277,7 +291,12 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
-  addServiceDisable(name: string, userContext = false) {
+  /**
+   * Add a service disable operation to the pending list.
+   * @param name The name of the service to disable
+   * @param userContext Whether the service is a user service
+   */
+  addServiceDisable(name: string, userContext = false): void {
     const operation: Operation = {
       name: userContext ? DISABLE_USER_SERVICE_ACTION_NAME : DISABLE_SERVICE_ACTION_NAME,
       prettyName: 'operation.disableService',
@@ -293,7 +312,11 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
-  addAddUserToGroup(action: SystemToolsSubEntry) {
+  /**
+   * Add an add user to group operation to the pending list.
+   * @param action The action to add
+   */
+  addAddUserToGroup(action: SystemToolsSubEntry): void {
     const operation: Operation = {
       name: ADD_USER_GROUP_ACTION_NAME,
       prettyName: 'operation.addGroup',
@@ -309,7 +332,11 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
-  addRemoveUserFromGroup(action: SystemToolsSubEntry) {
+  /**
+   * Add a remove user from group operation to the pending list.
+   * @param action The action to add
+   */
+  addRemoveUserFromGroup(action: SystemToolsSubEntry): void {
     const operation: Operation = {
       name: REMOVE_USER_GROUP_ACTION_NAME,
       prettyName: 'operation.removeGroup',
@@ -325,6 +352,11 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
+  /**
+   * Toggle the hblock, adding or removing it from the pending list.
+   * @param initialState The initial state of the hblock
+   * @param newState The new state of the hblock
+   */
   toggleHblock(initialState: boolean, newState: boolean): void {
     this.logger.debug('Toggling hblock');
     this.logger.trace(`Initial state: ${initialState}, new state: ${newState}`);
@@ -345,6 +377,9 @@ export class OperationManager {
     }
   }
 
+  /**
+   * Add hblock to the pending list.
+   */
   addEnableHblock(): void {
     this.logger.debug('Adding hblock');
 
@@ -372,6 +407,9 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
+  /**
+   * Remove hblock from the pending list.
+   */
   addRemoveHblock() {
     this.logger.debug('Removing hblock');
 
@@ -399,6 +437,11 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
+  /**
+   * Toggle the DNS server, adding or removing it from the pending list.
+   * @param initialState The initial state of the DNS server
+   * @param dns The DNS server to set
+   */
   toggleDnsServer(initialState: boolean, dns: DnsProvider): void {
     this.logger.debug('Toggling DNS server');
     this.logger.trace(JSON.stringify(dns));
@@ -418,6 +461,10 @@ export class OperationManager {
     }
   }
 
+  /**
+   * Add a new DNS server to the pending list.
+   * @param dns The DNS server to add
+   */
   addNewDnsServer(dns: DnsProvider) {
     this.logger.debug('Adding new DNS server');
     const operation: Operation = {
@@ -435,6 +482,9 @@ export class OperationManager {
     this.pending.update((value) => [...value, operation]);
   }
 
+  /**
+   * Remove the DNS server, resetting it to the default.
+   */
   addRemoveDnsServer(): void {
     this.logger.debug('Removing DNS server');
     const operation: Operation = {

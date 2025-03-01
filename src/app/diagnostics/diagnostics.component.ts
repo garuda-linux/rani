@@ -117,7 +117,7 @@ export class DiagnosticsComponent implements AfterViewInit {
 
       switch (type) {
         case 'inxi':
-          cmd = 'garuda-inxi';
+          cmd = 'garuda-inxi funstuff';
           break;
         case 'systemd-analyze':
           cmd = 'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
@@ -127,7 +127,7 @@ export class DiagnosticsComponent implements AfterViewInit {
           sudo = true;
           break;
         case 'pacman':
-          cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac ";
+          cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac";
           break;
         case 'dmesg':
           cmd = 'dmesg';
