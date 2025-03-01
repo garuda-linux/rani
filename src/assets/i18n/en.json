@@ -86,7 +86,8 @@
     "tools": "Gaming tools",
     "emulators": "Emulators",
     "controllers": "Controller support",
-    "games": "Games",
+    "aur": "Games (in AUR)",
+    "games": "Games (in repo)",
     "misc": "Miscellaneous",
     "bluez": "Generally required for recognizing PS controllers wireless",
     "xboxdrv": "Xbox controller driver, only use if kernel driver doesn't work!"

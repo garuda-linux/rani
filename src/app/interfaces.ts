@@ -32,6 +32,7 @@ export interface Package {
   description?: string;
   icon: string;
   name: string;
+  url?: string;
 }
 
 export type FullPackageDefinition = StatefulPackage & Package;

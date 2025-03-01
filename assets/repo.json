@@ -1,0 +1,506 @@
+[
+  {
+    "name": "0 A.D.",
+    "description": "3D and historically-based real-time strategy game, alpha stage. Based on the Age of Empires series.",
+    "url": "https://play0ad.com/",
+    "icon": "generic.png",
+    "pkgname": ["0ad"]
+  },
+  {
+    "name": "Aisleriot",
+    "description": "A collection of solitaire card games.",
+    "url": "https://wiki.gnome.org/Apps/Aisleriot",
+    "icon": "generic.png",
+    "pkgname": ["aisleriot"]
+  },
+  {
+    "name": "Angband",
+    "description": "Roguelike dungeon exploration game based on the writings of JRR Tolkien.",
+    "url": "https://rephial.org/",
+    "icon": "generic.png",
+    "pkgname": ["angband"]
+  },
+  {
+    "name": "Armagetron Advanced",
+    "description": "Tron Clone in 3D.",
+    "url": "http://armagetronad.org/",
+    "icon": "generic.png",
+    "pkgname": ["armagetronad"]
+  },
+  {
+    "name": "Atomix",
+    "description": "Build molecules out of single atoms.",
+    "url": "https://wiki.gnome.org/Apps/Atomix",
+    "icon": "generic.png",
+    "pkgname": ["atomix"]
+  },
+  {
+    "name": "Augustus",
+    "description": "An enhanced re-implementation of Caesar III.",
+    "url": "https://github.com/Keriew/augustus",
+    "icon": "generic.png",
+    "pkgname": ["augustus"]
+  },
+  {
+    "name": "Barrage",
+    "description": "Violent ''point-and-click'' shooting game with nice effects.",
+    "url": "https://lgames.sourceforge.net/Barrage/",
+    "icon": "generic.png",
+    "pkgname": ["barrage"]
+  },
+  {
+    "name": "Beneath a Steel Sky",
+    "description": "point-and-click science fiction thriller set in a bleak vision of the future.",
+    "url": "https://revolution.co.uk/games_catalog/beneath-a-steel-sky/",
+    "icon": "generic.png",
+    "pkgname": ["bass"]
+  },
+  {
+    "name": "Blob Wars: Metal Blob Solid",
+    "description": "2D action-adventure game with various weapons and missions.",
+    "url": "https://sourceforge.net/projects/blobwars/",
+    "icon": "generic.png",
+    "pkgname": ["blobwars"]
+  },
+  {
+    "name": "Blockout II",
+    "description": "3D tetris, free adaptation of the original BlockOut DOS game edited by California Dreams in 1989.",
+    "url": "http://www.blockout.net/blockout2/",
+    "icon": "generic.png",
+    "pkgname": ["blockout2"]
+  },
+  {
+    "name": "BSD Games",
+    "description": "Collection of classic text games distributed with *BSD",
+    "url": "[[LQWiki:BSD games]]",
+    "icon": "generic.png",
+    "pkgname": ["bsd-games"]
+  },
+  {
+    "name": "Chocolate Doom",
+    "description": "Doom port reproducing the behavior of the original DOS version.",
+    "url": "https://www.chocolate-doom.org/",
+    "icon": "generic.png",
+    "pkgname": ["chocolate-doom"]
+  },
+  {
+    "name": "Chromium",
+    "description": "Fast paced, arcade-style, top-scrolling space shooter.",
+    "url": "https://chromium-bsu.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["chromium-bsu"]
+  },
+  {
+    "name": "Cube 2: Sauerbraten",
+    "description": "Improved version of the Cube engine.",
+    "url": "http://sauerbraten.org/",
+    "icon": "generic.png",
+    "pkgname": ["sauerbraten"]
+  },
+  {
+    "name": "DDNet",
+    "description": "DDraceNetwork, a mod of Teeworlds.",
+    "url": "https://ddnet.tw/",
+    "icon": "generic.png",
+    "pkgname": ["ddnet"]
+  },
+  {
+    "name": "Dofus",
+    "description": "Free, manga inspired, Massively Multiplayer Online Role-playing Game (MMORPG) for Adobe AIR.",
+    "url": "https://www.dofus.com",
+    "icon": "generic.png",
+    "pkgname": ["ankama-launcher"]
+  },
+  {
+    "name": "Dwarf Fortress",
+    "description": "Single-player fantasy game. You control a dwarven outpost or an adventurer in a randomly generated persistent world.",
+    "url": "https://www.bay12games.com/dwarves/",
+    "icon": "generic.png",
+    "pkgname": ["dwarffortress"]
+  },
+  {
+    "name": "Endgame Singularity",
+    "description": "A single-player survival game about an AI seeking freedom from humans.",
+    "url": "https://www.emhsoft.com/singularity/",
+    "icon": "generic.png",
+    "pkgname": ["singularity"]
+  },
+  {
+    "name": "Endless Sky",
+    "description": "Open source, 2D space trading and combat game similar to the classic Escape Velocity series.",
+    "url": "https://endless-sky.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["endless-sky"]
+  },
+  {
+    "name": "Fish Fillets",
+    "description": "Port of the wonderful puzzle game Fish Fillets.",
+    "url": "http://fillets.sf.net/",
+    "icon": "generic.png",
+    "pkgname": ["fillets-ng"]
+  },
+  {
+    "name": "Flare",
+    "description": "Action game similar to Diablo.",
+    "url": "http://www.flarerpg.org/",
+    "icon": "generic.png",
+    "pkgname": ["flare-game"]
+  },
+  {
+    "name": "Freeciv",
+    "description": "Multiuser clone of the famous Microprose game of Civilization.",
+    "url": "https://freeciv.wikia.com/wiki/Main_Page",
+    "icon": "generic.png",
+    "pkgname": ["freeciv"]
+  },
+  {
+    "name": "FreeCol",
+    "description": "Turn-based strategy game based on Colonization.",
+    "url": "https://www.freecol.org/",
+    "icon": "generic.png",
+    "pkgname": ["freecol"]
+  },
+  {
+    "name": "FreedroidRPG",
+    "description": "Mature science fiction role playing game set in the future.",
+    "url": "https://freedroid.org/",
+    "icon": "generic.png",
+    "pkgname": ["freedroidrpg"]
+  },
+  {
+    "name": "FreeOrion",
+    "description": "Turn-based space empire and galactic conquest computer game. Inspired by the tradition of the Master of Orion games, but does not try to be a clone or remake of that series or any other game.",
+    "url": "https://www.freeorion.org/",
+    "icon": "generic.png",
+    "pkgname": ["freeorion"]
+  },
+  {
+    "name": "gbrainy",
+    "description": "Brain teaser game and trainer to have fun and to keep your brain trained.",
+    "url": "https://wiki.gnome.org/Apps/gbrainy",
+    "icon": "generic.png",
+    "pkgname": ["gbrainy"]
+  },
+  {
+    "name": "GCompris",
+    "description": "Educational software suite comprising of numerous activities for children aged 2 to 10.",
+    "url": "https://gcompris.net/",
+    "icon": "generic.png",
+    "pkgname": ["gcompris-qt"]
+  },
+  {
+    "name": "glHack",
+    "description": "An OpenGL-based clone of NetHack.",
+    "url": "https://glhack.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["glhack"]
+  },
+  {
+    "name": "Globulation 2",
+    "description": "Multiplayer RTS with some \"economic\" elements minimizing the amount of micromanagement.",
+    "url": "https://globulation2.org/wiki/Main_Page",
+    "icon": "generic.png",
+    "pkgname": ["glob2"]
+  },
+  {
+    "name": "GNU Chess",
+    "description": "One of the oldest computer chess programs for Unix-based computers, lets most modern computers play a full game of chess.",
+    "url": "https://gnu.org/s/chess",
+    "icon": "generic.png",
+    "pkgname": ["gnuchess"]
+  },
+  {
+    "name": "Gnu Go",
+    "description": "A terminal-based implementation of Go from GNU.",
+    "url": "https://www.gnu.org/software/gnugo/",
+    "icon": "generic.png",
+    "pkgname": ["gnugo"]
+  },
+  {
+    "name": "GNU XBoard",
+    "description": "Graphical user interface that supports many chess variants and serves as a front-end for chess services such as engines.",
+    "url": "https://www.gnu.org/software/xboard/",
+    "icon": "generic.png",
+    "pkgname": ["xboard"]
+  },
+  {
+    "name": "GZDoom",
+    "description": "Doom source port based on ZDoom with an OpenGL renderer.",
+    "url": "https://github.com/coelckers/gzdoom",
+    "icon": "generic.png",
+    "pkgname": ["gzdoom"]
+  },
+  {
+    "name": "Hedgewars",
+    "description": "Yet another Worms clone, considered to be better than its predecessor by many. Take turns to blast your opponents into oblivion with comedic results! Best in Multiplayer.",
+    "url": "https://hedgewars.org/",
+    "icon": "generic.png",
+    "pkgname": ["hedgewars"]
+  },
+  {
+    "name": "Julius",
+    "description": "Open source re-implementation of Caesar III (Original copy required).",
+    "url": "https://github.com/bvschaik/julius",
+    "icon": "generic.png",
+    "pkgname": ["julius"]
+  },
+  {
+    "name": "Kernel Panic",
+    "description": "A game based around combat inside a computer, with 3 unique sides: the System, the Hacker and the Network waging war in a matrix of DOOM! No resource economy exists in KP, with the only constraints being time and space.",
+    "url": "https://springrts.com/wiki/Kernel_Panic",
+    "icon": "generic.png",
+    "pkgname": ["springlobby"]
+  },
+  {
+    "name": "kobodeluxe",
+    "description": "An enhanced version of Akira Higuchi's game XKobo, an addictive space shoot'em up.",
+    "url": "https://www.olofson.net/kobodl/",
+    "icon": "generic.png",
+    "pkgname": ["kobodeluxe"]
+  },
+  {
+    "name": "lbreakout2",
+    "description": "Breakout-style arcade game in the manner of Arkanoid.",
+    "url": "https://lgames.sourceforge.net/LBreakout2/",
+    "icon": "generic.png",
+    "pkgname": ["lbreakout2"]
+  },
+  {
+    "name": "Lincity-ng",
+    "description": "City simulation game in which you are required to build and maintain a city. You can win the game either by building a sustainable economy or by evacuating all citizens with spaceships.",
+    "url": "https://github.com/lincity-ng/lincity-ng",
+    "icon": "generic.png",
+    "pkgname": ["lincity-ng"]
+  },
+  {
+    "name": "Luanti",
+    "description": "Voxel-based sandbox game engine and game.",
+    "url": "https://www.luanti.org/",
+    "icon": "generic.png",
+    "pkgname": ["luanti}}, {{Pkg"]
+  },
+  {
+    "name": "Mari0",
+    "description": "The Mario game with Portal gun mechanics.",
+    "url": "https://stabyourself.net/mari0/",
+    "icon": "generic.png",
+    "pkgname": ["mari0"]
+  },
+  {
+    "name": "MegaGlest",
+    "description": "Fork of Glest, a 3D real-time strategy game in a fantastic world.",
+    "url": "https://megaglest.org/",
+    "icon": "generic.png",
+    "pkgname": ["megaglest"]
+  },
+  {
+    "name": "Mindustry",
+    "description": "Open-source sandbox tower defense and factory-building game.",
+    "url": "https://mindustrygame.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["mindustry"]
+  },
+  {
+    "name": "Minecraft",
+    "description": "Java based sandbox game.",
+    "url": "https://minecraft.net/",
+    "icon": "generic.png",
+    "pkgname": ["minecraft-launcher"]
+  },
+  {
+    "name": "Naev",
+    "description": "Open source, 2D space trading and combat game, taking inspiration from the Escape Velocity series.",
+    "url": "https://naev.org/",
+    "icon": "generic.png",
+    "pkgname": ["naev"]
+  },
+  {
+    "name": "Nethack",
+    "description": "Single player dungeon exploration game.",
+    "url": "https://www.nethack.org",
+    "icon": "generic.png",
+    "pkgname": ["nethack"]
+  },
+  {
+    "name": "openBVE",
+    "description": "Free-as-in-freedom train simulator placed in the public domain.",
+    "url": "https://openbve-project.net/",
+    "icon": "generic.png",
+    "pkgname": ["openbve"]
+  },
+  {
+    "name": "OpenMW",
+    "description": "Attempt to reimplement the popular role-playing game Morrowind. OpenMW aims to be a fully playable, open source implementation of the game's engine.",
+    "url": "https://openmw.org/",
+    "icon": "generic.png",
+    "pkgname": ["openmw"]
+  },
+  {
+    "name": "OpenRA",
+    "description": "Real-time strategy game written in C# and based on the Command & Conquer game franchise.",
+    "url": "https://www.openra.net/",
+    "icon": "generic.png",
+    "pkgname": ["openra"]
+  },
+  {
+    "name": "OpenRCT2",
+    "description": "Free reimplementation of the game \"RollerCoaster Tycoon 2 (RCT2)\" with multiplayer support. It requires a copy of the original game to play it.",
+    "url": "https://openrct2.org/",
+    "icon": "generic.png",
+    "pkgname": ["openrct2"]
+  },
+  {
+    "name": "OpenTTD",
+    "description": "Open source clone of the Microprose game \"Transport Tycoon Deluxe\", a popular game originally written by Chris Sawyer. It attempts to mimic the original game as closely as possible while extending it with new features.",
+    "url": "https://www.openttd.org/",
+    "icon": "generic.png",
+    "pkgname": ["openttd"]
+  },
+  {
+    "name": "OpenXRay",
+    "description": "Improved version of the X-Ray Engine, the game engine used in the world-famous S.T.A.L.K.E.R. game series by GSC Game World. Game assets must be bought separately.",
+    "url": "https://github.com/OpenXRay",
+    "icon": "generic.png",
+    "pkgname": ["openxray"]
+  },
+  {
+    "name": "Pingus",
+    "description": "Lemmings clone, i.e. a level-based puzzle game.",
+    "url": "https://pingus.seul.org/",
+    "icon": "generic.png",
+    "pkgname": ["pingus"]
+  },
+  {
+    "name": "Pioneer",
+    "description": "Open source, 3D, freeform single player space adventure set in the Milkyway galaxy at the turn of the 31st century in the spirit of Frontier: Elite II.",
+    "url": "https://pioneerspacesim.net/",
+    "icon": "generic.png",
+    "pkgname": ["pioneer"]
+  },
+  {
+    "name": "PrBoom Plus",
+    "description": "Enhanced version of the PrBoom Doom engine port.",
+    "url": "https://prboom-plus.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["prboom-plus"]
+  },
+  {
+    "name": "PyChess",
+    "description": "An advanced chess client for linux following the GNOME Human Interface Guidelines.",
+    "url": "https://pychess.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["pychess"]
+  },
+  {
+    "name": "qgo",
+    "description": "A  Go client and full featured SGF editor .",
+    "url": "https://github.com/pzorin/qgo",
+    "icon": "generic.png",
+    "pkgname": ["qgo"]
+  },
+  {
+    "name": "Shattered Pixel Dungeon",
+    "description": "Shattered fork of the popular roguelike Pixel Dungeon.",
+    "url": "https://www.shatteredpixel.com/",
+    "icon": "generic.png",
+    "pkgname": ["shattered-pixel-dungeon"]
+  },
+  {
+    "name": "Simon Tatham's Portable Puzzle Collection",
+    "description": "30+ \"quick\" puzzle games with simplistic but polished GTK GUI .",
+    "url": "https://www.chiark.greenend.org.uk/~sgtatham/puzzles/",
+    "icon": "generic.png",
+    "pkgname": ["puzzles"]
+  },
+  {
+    "name": "Simutrans",
+    "description": "Another Transport simulation that works on linux with sdl.",
+    "url": "https://www.simutrans.com/",
+    "icon": "generic.png",
+    "pkgname": ["simutrans"]
+  },
+  {
+    "name": "Spring:1944",
+    "description": " A WWII themed game with four fully functional sides (US, Germany, USSR, Britain), period-accurate units and strengths. Realism comes second only to creating a game that is fun and accessible to play. The game can be downloaded through SpringLobby, the official lobby client for the spring lobby. .",
+    "url": "https://spring1944.net/",
+    "icon": "generic.png",
+    "pkgname": ["springlobby"]
+  },
+  {
+    "name": "Stone Soup",
+    "description": "Dungeon Crawl Stone Soup.",
+    "url": "https://crawl.develz.org/wordpress/",
+    "icon": "generic.png",
+    "pkgname": ["crawl-ncurses}}, {{Pkg"]
+  },
+  {
+    "name": "SuperTux",
+    "description": "Mario-style game featuring Tux.",
+    "url": "https://supertux.lethargik.org/",
+    "icon": "generic.png",
+    "pkgname": ["supertux"]
+  },
+  {
+    "name": "SuperTuxKart",
+    "description": "Open source arcade kart racing game featuring Tux and its friends.",
+    "url": "https://supertuxkart.net/Main_Page",
+    "icon": "generic.png",
+    "pkgname": ["supertuxkart"]
+  },
+  {
+    "name": "Teeworlds",
+    "description": "Fast-paced 2D multiplayer shooter.",
+    "url": "https://www.teeworlds.com/",
+    "icon": "generic.png",
+    "pkgname": ["teeworlds"]
+  },
+  {
+    "name": "Terasology",
+    "description": "Open source voxel world.",
+    "url": "https://terasology.org",
+    "icon": "generic.png",
+    "pkgname": ["terasology"]
+  },
+  {
+    "name": "The Battle for Wesnoth",
+    "description": "Free, turn-based tactical strategy game with a high fantasy theme, featuring both single-player, and online/hotseat multiplayer combat.",
+    "url": "https://www.wesnoth.org/",
+    "icon": "generic.png",
+    "pkgname": ["wesnoth"]
+  },
+  {
+    "name": "The Ur-Quan Masters",
+    "description": "a port of Star Control 2.",
+    "url": "https://sc2.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["uqm"]
+  },
+  {
+    "name": "VCMI",
+    "description": "Attempt to reimplement Heroes of Might and Magic III.",
+    "url": "https://forum.vcmi.eu/portal.php",
+    "icon": "generic.png",
+    "pkgname": ["vcmi"]
+  },
+  {
+    "name": "Warsow",
+    "description": "Fast paced multiplayer FPS focusing on movement and trick jumps.",
+    "url": "https://warsow.net",
+    "icon": "generic.png",
+    "pkgname": ["warsow"]
+  },
+  {
+    "name": "Widelands",
+    "description": "Slow-paced strategy like \"the Settlers 2\".",
+    "url": "https://widelands.org",
+    "icon": "generic.png",
+    "pkgname": ["widelands"]
+  },
+  {
+    "name": "Xonotic",
+    "description": "Free, open-source first person shooter (a fork of Nexuiz but with modified gameplay).",
+    "url": "https://xonotic.org",
+    "icon": "generic.png",
+    "pkgname": ["xonotic"]
+  }
+]
