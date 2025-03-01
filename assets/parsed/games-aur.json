@@ -18,7 +18,7 @@
   {
     "name": "Abuse",
     "description": "Side-scroller action game that pits you against ruthless alien killers.",
-    "url": "http://abuse.zoy.org/",
+    "url": "https://abuse.zoy.org/",
     "icon": "generic.png",
     "pkgname": ["abuse"],
     "aur": true
@@ -42,7 +42,7 @@
   {
     "name": "Antichamber",
     "description": "A mind-bending psychological exploration game where nothing can be taken for granted.",
-    "url": "http://www.antichamber-game.com/",
+    "url": "https://www.antichamber-game.com/",
     "icon": "generic.png",
     "pkgname": ["antichamber"],
     "aur": true
@@ -130,7 +130,7 @@
   {
     "name": "Broken Sword 2.5: The Return of the Templars",
     "description": "Fan-made sequel in the point-and-click adventure series Broken Sword.",
-    "url": "http://www.brokensword25.com/",
+    "url": "https://www.brokensword25.com/",
     "icon": "generic.png",
     "pkgname": ["sword25"],
     "aur": true
@@ -146,7 +146,7 @@
   {
     "name": "bs",
     "description": "Battleships based shooter for the console.",
-    "url": "http://www.catb.org/~esr/bs/",
+    "url": "https://www.catb.org/~esr/bs/",
     "icon": "generic.png",
     "pkgname": ["bs"],
     "aur": true
@@ -170,7 +170,7 @@
   {
     "name": "C-evo",
     "description": "A civilization style game, of the Civ II era.",
-    "url": "http://www.c-evo.org",
+    "url": "https://www.c-evo.org",
     "icon": "generic.png",
     "pkgname": ["c-evo-dh"],
     "aur": true
@@ -186,7 +186,7 @@
   {
     "name": "CaveExpress",
     "description": "CaveExpress is a classic 2D platformer with physics-based gameplay and dozens of levels.",
-    "url": "http://www.caveproductions.org/",
+    "url": "https://www.caveproductions.org/",
     "icon": "generic.png",
     "pkgname": ["caveexpress"],
     "aur": true
@@ -194,7 +194,7 @@
   {
     "name": "Cgoban3",
     "description": "Kiseido Go and SGF client.",
-    "url": "http://www.igoweb.org/~wms/comp/cgoban/",
+    "url": "https://www.igoweb.org/~wms/comp/cgoban/",
     "icon": "generic.png",
     "pkgname": ["cgoban"],
     "aur": true
@@ -266,7 +266,7 @@
   {
     "name": "Crack Attack!",
     "description": "Free OpenGL game based on the Super Nintendo classic Tetris Attack.",
-    "url": "http://www.aluminumangel.org/attack/",
+    "url": "https://www.aluminumangel.org/attack/",
     "icon": "generic.png",
     "pkgname": ["crack-attack"],
     "aur": true
@@ -370,7 +370,7 @@
   {
     "name": "Doomsday",
     "description": "Advanced port of the Doom game engine, capable also of running Heretic, and Hexen games.",
-    "url": "http://www.dengine.net/",
+    "url": "https://www.dengine.net/",
     "icon": "generic.png",
     "pkgname": ["doomsday"],
     "aur": true
@@ -466,7 +466,7 @@
   {
     "name": "Eternal Lands",
     "description": "3D fantasy online role playing game.",
-    "url": "http://www.eternal-lands.com",
+    "url": "https://www.eternal-lands.com",
     "icon": "generic.png",
     "pkgname": ["eternallands"],
     "aur": true
@@ -618,7 +618,7 @@
   {
     "name": "Frozen Bubble",
     "description": "Arcade game with colorful animated penguin eyecandy.",
-    "url": "http://frozen-bubble.org",
+    "url": "https://frozen-bubble.org",
     "icon": "generic.png",
     "pkgname": ["frozen-bubble"],
     "aur": true
@@ -738,7 +738,7 @@
   {
     "name": "Inform",
     "description": "Design system for interactive fiction based on natural language.",
-    "url": "http://inform7.com/",
+    "url": "https://inform7.com/",
     "icon": "generic.png",
     "pkgname": ["inform7"],
     "aur": true
@@ -794,7 +794,7 @@
   {
     "name": "Katawa Shoujo",
     "description": "Bishoujo-style visual novel game that tells a story of a young man and five other girls suffering with varying disabilities. The game is licensed under the Creative Commons CC-BY-NC-ND.",
-    "url": "http://katawa-shoujo.com/",
+    "url": "https://katawa-shoujo.com/",
     "icon": "generic.png",
     "pkgname": ["katawa-shoujo"],
     "aur": true
@@ -842,7 +842,7 @@
   {
     "name": "Linley's Dungeon Crawl",
     "description": "An open source roguelike adventure through dungeons filled with dangerous monsters in a quest to find the mystifyingly fabulous Orb of Zot.",
-    "url": "http://www.dungeoncrawl.org/",
+    "url": "https://www.dungeoncrawl.org/",
     "icon": "generic.png",
     "pkgname": ["crawl"],
     "aur": true
@@ -866,7 +866,7 @@
   {
     "name": "Lix",
     "description": "Lemmings clone, i.e. assign roles to some of many constantly walking creatures to lead them safely through the exit.",
-    "url": "http://www.lixgame.com/",
+    "url": "https://www.lixgame.com/",
     "icon": "generic.png",
     "pkgname": ["lix"],
     "aur": true
@@ -906,7 +906,7 @@
   {
     "name": "Maniadrive",
     "description": "Arcade car game on acrobatic tracks with quick and nervous gameplay.",
-    "url": "http://maniadrive.raydium.org/",
+    "url": "https://maniadrive.raydium.org/",
     "icon": "generic.png",
     "pkgname": ["maniadrive"],
     "aur": true
@@ -946,7 +946,7 @@
   {
     "name": "Narcissu",
     "description": "Visual novel, telling the story of a terminally ill young man and woman.",
-    "url": "http://narcissu.insani.org/",
+    "url": "https://narcissu.insani.org/",
     "icon": "generic.png",
     "pkgname": ["narcissu2"],
     "aur": true
@@ -1018,7 +1018,7 @@
   {
     "name": "One Hour One Life",
     "description": "Binary package for One Hour One Life game by Jason Rohrer.",
-    "url": "http://onehouronelife.com/",
+    "url": "https://onehouronelife.com/",
     "icon": "generic.png",
     "pkgname": ["onehouronelife-bin"],
     "aur": true
@@ -1042,7 +1042,7 @@
   {
     "name": "OpenArena",
     "description": "Fast multiplayer shooter based on the quake3-engine.",
-    "url": "http://openarena.ws",
+    "url": "https://openarena.ws",
     "icon": "generic.png",
     "pkgname": ["openarena"],
     "aur": true
@@ -1066,7 +1066,7 @@
   {
     "name": "OpenDUNE",
     "description": "Open source re-creation of the popular game Dune II.",
-    "url": "http://www.opendune.org/",
+    "url": "https://www.opendune.org/",
     "icon": "generic.png",
     "pkgname": ["opendune"],
     "aur": true
@@ -1114,7 +1114,7 @@
   {
     "name": "Orbiter 2016",
     "description": "Orbiter Space Flight Simulator.",
-    "url": "http://orbit.medphys.ucl.ac.uk/index.html",
+    "url": "https://orbit.medphys.ucl.ac.uk/index.html",
     "icon": "generic.png",
     "pkgname": ["orbiter2016-git}}{{Broken package link"],
     "aur": true
@@ -1194,7 +1194,7 @@
   {
     "name": "PowerManga",
     "description": "Arcade 2D shoot-em-up game with 41 levels and more than 200 sprites.",
-    "url": "http://linux.tlk.fr/games/Powermanga/",
+    "url": "https://linux.tlk.fr/games/Powermanga/",
     "icon": "generic.png",
     "pkgname": ["powermanga"],
     "aur": true
@@ -1306,7 +1306,7 @@
   {
     "name": "Rogue",
     "description": "Original dungeon crawl game.",
-    "url": "http://rogue.rogueforge.net/rogue-5-4/",
+    "url": "https://rogue.rogueforge.net/rogue-5-4/",
     "icon": "generic.png",
     "pkgname": ["rogue"],
     "aur": true
@@ -1314,7 +1314,7 @@
   {
     "name": "Rune",
     "description": "3rd person Adventure / Hack'n Slay using Unreal Engine. Runs great from box installation.",
-    "url": "http://www.rune-world.com",
+    "url": "https://www.rune-world.com",
     "icon": "generic.png",
     "pkgname": ["rune"],
     "aur": true
@@ -1378,7 +1378,7 @@
   {
     "name": "Secret Maryo Chronicles",
     "description": "Mario-style game.",
-    "url": "http://www.secretmaryo.org/",
+    "url": "https://www.secretmaryo.org/",
     "icon": "generic.png",
     "pkgname": ["smc"],
     "aur": true
@@ -1434,7 +1434,7 @@
   {
     "name": "Speed Dreams",
     "description": "Fork of Torcs, aiming to implement exciting new features as well as improving realism.",
-    "url": "http://speed-dreams.org/",
+    "url": "https://speed-dreams.org/",
     "icon": "generic.png",
     "pkgname": ["speed-dreams-appimage"],
     "aur": true
@@ -1514,7 +1514,7 @@
   {
     "name": "Tesseract",
     "description": "Smooth FPS with map editing, instagib, DM and CTF.",
-    "url": "http://tesseract.gg/",
+    "url": "https://tesseract.gg/",
     "icon": "generic.png",
     "pkgname": ["tesseract-game"],
     "aur": true
@@ -1642,7 +1642,7 @@
   {
     "name": "Ultimate Stunts",
     "description": "Remake of the famous DOS-game 'stunts'.",
-    "url": "http://www.ultimatestunts.nl/",
+    "url": "https://www.ultimatestunts.nl/",
     "icon": "generic.png",
     "pkgname": ["ultimatestunts"],
     "aur": true
@@ -1658,7 +1658,7 @@
   {
     "name": "Unknown Horizons",
     "description": "2.5D isometric real-time strategy simulation with an emphasis on economy and city building. Expand your small settlement to a strong and wealthy colony, collect taxes and supply your inhabitants with valuable goods. Increase your power with a well balanced economy and with strategic trade and diplomacy.",
-    "url": "http://www.unknown-horizons.org/",
+    "url": "https://www.unknown-horizons.org/",
     "icon": "generic.png",
     "pkgname": ["unknown-horizons"],
     "aur": true
@@ -1682,7 +1682,7 @@
   {
     "name": "Urban Terror",
     "description": "Modern multiplayer FPS based on the ioquake3 engine.",
-    "url": "http://urbanterror.info",
+    "url": "https://urbanterror.info",
     "icon": "generic.png",
     "pkgname": ["urbanterror"],
     "aur": true
@@ -1802,7 +1802,7 @@
   {
     "name": "XBill",
     "description": "Kill all instances of a virus before it infects all computers with a malware resembling Microsoft Windows.",
-    "url": "http://www.xbill.org/",
+    "url": "https://www.xbill.org/",
     "icon": "generic.png",
     "pkgname": ["xbill"],
     "aur": true
@@ -1842,7 +1842,7 @@
   {
     "name": "Xscorch",
     "description": "Clone of the classic DOS game Scorched Earth.",
-    "url": "http://www.xscorch.org/",
+    "url": "https://www.xscorch.org/",
     "icon": "generic.png",
     "pkgname": ["xscorch"],
     "aur": true

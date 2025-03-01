@@ -1,0 +1,1234 @@
+[
+  {
+    "name": "AbiWord",
+    "description": "Full-featured word processor.",
+    "url": "https://gitlab.gnome.org/World/AbiWord",
+    "icon": "generic.png",
+    "pkgname": ["abiword"]
+  },
+  {
+    "name": "Acme",
+    "description": "Minimalist and flexible programming environment developed by Rob Pike for the Plan 9 operating system.",
+    "url": "https://acme.cat-v.org/",
+    "icon": "generic.png",
+    "pkgname": ["plan9port"]
+  },
+  {
+    "name": "Adie",
+    "description": "Fast and convenient programming text editor.",
+    "url": "https://fox-toolkit.org/",
+    "icon": "generic.png",
+    "pkgname": ["fox"]
+  },
+  {
+    "name": "Almanah",
+    "description": "Small GTK application to allow you to keep a diary of your life.",
+    "url": "https://wiki.gnome.org/Apps/Almanah_Diary",
+    "icon": "generic.png",
+    "pkgname": ["almanah"]
+  },
+  {
+    "name": "Antiword",
+    "description": "MS Word to text converter.",
+    "url": "https://web.archive.org/web/20221207132720/https://www.winfield.demon.nl",
+    "icon": "generic.png",
+    "pkgname": ["antiword"]
+  },
+  {
+    "name": "Apostrophe",
+    "description": "Distraction free Markdown editor made with GTK.",
+    "url": "https://apps.gnome.org/Apostrophe/",
+    "icon": "generic.png",
+    "pkgname": ["apostrophe"]
+  },
+  {
+    "name": "AsciiDoc.py",
+    "description": "A legacy implementation written in Python. Used by Arch for generating ''pacman's'' man pages.[https://archlinux.org/pacman/pacman.8.html].",
+    "url": "https://asciidoc-py.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["asciidoc"]
+  },
+  {
+    "name": "Asciidoctor",
+    "description": "An implementation written in Ruby, with [https://asciidoctor.org/docs/asciidoc-asciidoctor-diffs/ many extra features].",
+    "url": "https://asciidoctor.org/",
+    "icon": "generic.png",
+    "pkgname": ["asciidoctor"]
+  },
+  {
+    "name": "baca",
+    "description": "console epub reader.",
+    "url": "https://github.com/wustho/baca",
+    "icon": "generic.png",
+    "pkgname": ["baca-ereader-git"]
+  },
+  {
+    "name": "barcode",
+    "description": "A tool to convert text strings to printed bars.",
+    "url": "https://www.gnu.org/software/barcode/",
+    "icon": "generic.png",
+    "pkgname": ["barcode"]
+  },
+  {
+    "name": "Bookworm",
+    "description": "Simple, focused e-book reader for Elementary OS with EPUB, PDF, Mobipocket and Comicbook support.",
+    "url": "https://babluboy.github.io/bookworm/",
+    "icon": "generic.png",
+    "pkgname": ["bookworm"]
+  },
+  {
+    "name": "Calibre",
+    "description": "E-book library management application that can also edit EPUB files, convert between different formats and sync with a variety of e-book readers. Supported formats include CHM, Comicbook, DjVu, DOCX, EPUB, FictionBook, HTML, HTMLZ, Kindle, LIT, LRF, Mobipocket, ODT, PDF, PRC, PDB, PML, RB, RTF, SNB, TCR, TXT and TXTZ.",
+    "url": "https://calibre-ebook.com/",
+    "icon": "generic.png",
+    "pkgname": ["calibre"]
+  },
+  {
+    "name": "catdoc",
+    "description": "Converter for Microsoft Word, Excel, PowerPoint and RTF files to text.",
+    "url": "https://wagner.pp.ru/~vitus/software/catdoc/",
+    "icon": "generic.png",
+    "pkgname": ["catdoc"]
+  },
+  {
+    "name": "Cherrytree",
+    "description": "Hierarchical note taking application, featuring rich text and syntax highlighting, storing data in a single xml or sqlite file.",
+    "url": "https://www.giuspen.com/cherrytree/",
+    "icon": "generic.png",
+    "pkgname": ["cherrytree"]
+  },
+  {
+    "name": "Citations",
+    "description": "Manage your bibliographies using the BibTeX format.",
+    "url": "https://apps.gnome.org/Citations/",
+    "icon": "generic.png",
+    "pkgname": ["citations"]
+  },
+  {
+    "name": "cmark",
+    "description": "CommonMark parsing and rendering library and program in C.",
+    "url": "https://github.com/commonmark/cmark",
+    "icon": "generic.png",
+    "pkgname": ["cmark"]
+  },
+  {
+    "name": "CoBang",
+    "description": "QR code scanner application.",
+    "url": "https://github.com/hongquan/CoBang",
+    "icon": "generic.png",
+    "pkgname": ["cobang"]
+  },
+  {
+    "name": "CommonMark-py",
+    "description": "Python parser for the CommonMark Markdown specification.",
+    "url": "https://github.com/rtfd/CommonMark-py",
+    "icon": "generic.png",
+    "pkgname": ["python-commonmark"]
+  },
+  {
+    "name": "Cool Reader",
+    "description": "E-book viewer with many supported formats such as EPUB (non-DRM), FictionBook, TXT, RTF, HTML, CHM and TCR.",
+    "url": "https://sourceforge.net/projects/crengine/",
+    "icon": "generic.png",
+    "pkgname": ["coolreader"]
+  },
+  {
+    "name": "CorePad",
+    "description": "Simple lightweight but powerful text editor with syntax-highlighting support for a dozen or more languages. Part of C-Suite.",
+    "url": "https://cubocore.gitlab.io/",
+    "icon": "generic.png",
+    "pkgname": ["corepad"]
+  },
+  {
+    "name": "DBeaver",
+    "description": "Java-based graphical database editor with support for many database types.",
+    "url": "https://dbeaver.io/",
+    "icon": "generic.png",
+    "pkgname": ["dbeaver"]
+  },
+  {
+    "name": "Decoder",
+    "description": "QR code scanner and generator.",
+    "url": "https://apps.gnome.org/Decoder/",
+    "icon": "generic.png",
+    "pkgname": ["decoder"]
+  },
+  {
+    "name": "Deepin Text Editor",
+    "description": "Simple text editor for Deepin desktop.",
+    "url": "https://www.deepin.org/en/original/deepin-editor/",
+    "icon": "generic.png",
+    "pkgname": ["deepin-editor"]
+  },
+  {
+    "name": "Deepin Voice Notes",
+    "description": "Lightweight memo tool to make text notes and voice recordings.",
+    "url": "https://github.com/linuxdeepin/deepin-voice-note",
+    "icon": "generic.png",
+    "pkgname": ["deepin-voice-note"]
+  },
+  {
+    "name": "Dialect",
+    "description": "Translation app for GNOME based on Google Translate and other online services.",
+    "url": "https://apps.gnome.org/Dialect/",
+    "icon": "generic.png",
+    "pkgname": ["dialect"]
+  },
+  {
+    "name": "dictd",
+    "description": "Client/server software for the DICT protocol.",
+    "url": "https://sourceforge.net/projects/dict/",
+    "icon": "generic.png",
+    "pkgname": ["dictd"]
+  },
+  {
+    "name": "Discount",
+    "description": "A Markdown implementation written in C.",
+    "url": "https://www.pell.portland.or.us/~orc/Code/discount/",
+    "icon": "generic.png",
+    "pkgname": ["discount}}, Ruby wrapper library: {{Pkg"]
+  },
+  {
+    "name": "Docutils",
+    "description": "Set of tools for processing plaintext (reStructuredText) docs into formats such as HTML, XML, or LaTeX.",
+    "url": "https://docutils.sourceforge.io/",
+    "icon": "generic.png",
+    "pkgname": ["python-docutils"]
+  },
+  {
+    "name": "docx2txt",
+    "description": "MS Word Docx to text converter.",
+    "url": "https://docx2txt.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["docx2txt"]
+  },
+  {
+    "name": "dte",
+    "description": "Small, easy to use editor with multi-tabbed interface, syntax highlighting, ctags navigation, etc.",
+    "url": "https://craigbarnes.gitlab.io/dte/",
+    "icon": "generic.png",
+    "pkgname": ["dte"]
+  },
+  {
+    "name": "ed",
+    "description": "A POSIX-compliant line-oriented text editor. Useful for shell scripts, less so for  manual usage. Original editor for Unix.",
+    "url": "https://www.gnu.org/software/ed/ed.html",
+    "icon": "generic.png",
+    "pkgname": ["ed"]
+  },
+  {
+    "name": "Enter TeX",
+    "description": "LaTeX editor for [[GNOME]], previously known as GNOME LaTeX.",
+    "url": "https://gitlab.gnome.org/swilmet/enter-tex",
+    "icon": "generic.png",
+    "pkgname": ["enter-tex"]
+  },
+  {
+    "name": "FBReader",
+    "description": "E-book viewer with many supported formats such as EPUB, FictionBook, HTML, plucker, PalmDoc, zTxt, TCR, CHM, RTF, OEB, Mobipocket (non-DRM) and TXT.",
+    "url": "https://fbreader.org/",
+    "icon": "generic.png",
+    "pkgname": ["fbreader"]
+  },
+  {
+    "name": "FeatherNotes",
+    "description": "Lightweight Qt hierarchical notes-manager.",
+    "url": "https://github.com/tsujan/feathernotes",
+    "icon": "generic.png",
+    "pkgname": ["feathernotes"]
+  },
+  {
+    "name": "FeatherPad",
+    "description": "Minimal Qt5 plain text editor featuring a native dark theme and support for tabs, printing and syntax highlighting.",
+    "url": "https://github.com/tsujan/FeatherPad",
+    "icon": "generic.png",
+    "pkgname": ["featherpad"]
+  },
+  {
+    "name": "FocusWriter",
+    "description": "Simple, distraction-free writing environment. It utilizes a hide-away interface that you access by moving your mouse to the edges of the screen, allowing the program to have a familiar look and feel to it while still getting out of the way so that you can immerse yourself in your work.",
+    "url": "https://gottcode.org/focuswriter/",
+    "icon": "generic.png",
+    "pkgname": ["focuswriter"]
+  },
+  {
+    "name": "Foliate",
+    "description": "Simple and modern GTK eBook reader. Supports EPUB, Mobipocket, Kindle, FictionBook, and Comicbook formats.",
+    "url": "https://johnfactotum.github.io/foliate/",
+    "icon": "generic.png",
+    "pkgname": ["foliate"]
+  },
+  {
+    "name": "Freeplane",
+    "description": "Fork of FreeMind, supports thinking, sharing information and getting things done at work. The software can be used for mind mapping and analyzing the information contained in mind maps.",
+    "url": "https://www.freeplane.org/",
+    "icon": "generic.png",
+    "pkgname": ["freeplane"]
+  },
+  {
+    "name": "gLabels",
+    "description": "Program for creating labels, business cards and media covers.",
+    "url": "https://github.com/jimevins/glabels",
+    "icon": "generic.png",
+    "pkgname": ["glabels"]
+  },
+  {
+    "name": "gLabels",
+    "description": "Program for creating labels and business cards. It also supports creating barcodes.",
+    "url": "https://github.com/jimevins/glabels",
+    "icon": "generic.png",
+    "pkgname": ["glabels"]
+  },
+  {
+    "name": "Gnote",
+    "description": "Port of Tomboy to C++. It is the same note taking application, including most of the add-ins.",
+    "url": "https://wiki.gnome.org/Apps/Gnote",
+    "icon": "generic.png",
+    "pkgname": ["gnote"]
+  },
+  {
+    "name": "Gnumeric",
+    "description": "Spreadsheet program for the GNOME desktop.",
+    "url": "https://www.gnumeric.org/",
+    "icon": "generic.png",
+    "pkgname": ["gnumeric"]
+  },
+  {
+    "name": "Gobby",
+    "description": "Collaborative editor supporting multiple documents in one session and a multi-user chat.",
+    "url": "https://gobby.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["gobby"]
+  },
+  {
+    "name": "GOCR",
+    "description": "OCR engine which also supports barcode recognition.",
+    "url": "https://www-e.uni-magdeburg.de/jschulen/ocr/",
+    "icon": "generic.png",
+    "pkgname": ["gocr"]
+  },
+  {
+    "name": "groff",
+    "description": "[[GNU]] implementation of troff, a heirloom Unix document processing system and the default formatter for [[man page]]s.",
+    "url": "https://www.gnu.org/software/groff/groff.html",
+    "icon": "generic.png",
+    "pkgname": ["groff"]
+  },
+  {
+    "name": "gscan2pdf",
+    "description": "Scans, runs an OCR engine, minor post-processing, creates a document.",
+    "url": "https://gscan2pdf.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["gscan2pdf"]
+  },
+  {
+    "name": "Gtranslator",
+    "description": "Enhanced gettext po file editor for the GNOME. It handles all forms of gettext po files and includes very useful features.",
+    "url": "https://wiki.gnome.org/Apps/Gtranslator",
+    "icon": "generic.png",
+    "pkgname": ["gtranslator"]
+  },
+  {
+    "name": "Gummi",
+    "description": "Lightweight TeX/LaTeX GTK-based editor. It features a continuous preview mode, integrated BibTeX support, extendable snippet interface and multi-document support.",
+    "url": "https://github.com/alexandervdm/gummi/",
+    "icon": "generic.png",
+    "pkgname": ["gummi"]
+  },
+  {
+    "name": "Helix",
+    "description": " A post-modern modal text editor.",
+    "url": "https://helix-editor.com/",
+    "icon": "generic.png",
+    "pkgname": ["helix"]
+  },
+  {
+    "name": "HTMLDOC",
+    "description": "Reads HTML and Markdown source files or web pages and generates corresponding EPUB, HTML, PostScript, or PDF files with an optional table of contents.",
+    "url": "https://www.msweet.org/htmldoc/",
+    "icon": "generic.png",
+    "pkgname": ["htmldoc"]
+  },
+  {
+    "name": "iec16022",
+    "description": "Produce 2D barcodes often also referenced as DataMatrix.",
+    "url": "https://datenfreihafen.org/projects/iec16022.html",
+    "icon": "generic.png",
+    "pkgname": ["iec16022"]
+  },
+  {
+    "name": "Iotas",
+    "description": "Simple note taking with Markdown support and optional Nextcloud Notes sync.",
+    "url": "https://apps.gnome.org/Iotas/",
+    "icon": "generic.png",
+    "pkgname": ["iotas"]
+  },
+  {
+    "name": "Kakoune",
+    "description": "Modal editor. Fewer keystrokes. Selection based, multi-cursor editing. Orthogonal design.",
+    "url": "https://github.com/mawww/kakoune",
+    "icon": "generic.png",
+    "pkgname": ["kakoune"]
+  },
+  {
+    "name": "KBibTeX",
+    "description": "BibTeX editor by KDE to edit bibliographies used with LaTeX.",
+    "url": "https://apps.kde.org/kbibtex/",
+    "icon": "generic.png",
+    "pkgname": ["kbibtex"]
+  },
+  {
+    "name": "Kchmviewer",
+    "description": "Qt-based CHM viewer that uses chmlib and borrows some ideas from xchm. It does not depend on [[KDE]], but it can be compiled to integrate with it.",
+    "url": "https://www.ulduzsoft.com/linux/kchmviewer/",
+    "icon": "generic.png",
+    "pkgname": ["kchmviewer"]
+  },
+  {
+    "name": "Kexi",
+    "description": "Visual database applications creator tool by KDE, designed to fill the gap between spreadsheets and database solutions requiring more sophisticated development.",
+    "url": "https://kexi-project.org/",
+    "icon": "generic.png",
+    "pkgname": ["kexi"]
+  },
+  {
+    "name": "Kile",
+    "description": "User-friendly TeX/LaTeX editor for the KDE desktop with many features.",
+    "url": "https://apps.kde.org/kile/",
+    "icon": "generic.png",
+    "pkgname": ["kile"]
+  },
+  {
+    "name": "KIT Scenarist",
+    "description": "Simple and powerful application for creating screenplays.",
+    "url": "https://kitscenarist.ru/en/",
+    "icon": "generic.png",
+    "pkgname": ["scenarist"]
+  },
+  {
+    "name": "Komikku",
+    "description": "Online/offline manga reader for GNOME.",
+    "url": "https://apps.gnome.org/Komikku/",
+    "icon": "generic.png",
+    "pkgname": ["komikku"]
+  },
+  {
+    "name": "kramdown",
+    "description": "Fast, pure Ruby Markdown superset converter, using a strict syntax definition.",
+    "url": "https://kramdown.gettalong.org/",
+    "icon": "generic.png",
+    "pkgname": ["ruby-kramdown"]
+  },
+  {
+    "name": "L3afpad",
+    "description": "Simple text editor forked from Leafpad, supports GTK 3.",
+    "url": "https://github.com/stevenhoneyman/l3afpad",
+    "icon": "generic.png",
+    "pkgname": ["l3afpad"]
+  },
+  {
+    "name": "Lapce",
+    "description": "Lightning-fast and Powerful Code Editor written in Rust.",
+    "url": "https://lapce.dev/",
+    "icon": "generic.png",
+    "pkgname": ["lapce"]
+  },
+  {
+    "name": "Leafpad",
+    "description": "Notepad clone for GTK that emphasizes simplicity.",
+    "url": "https://tarot.freeshell.org/leafpad/",
+    "icon": "generic.png",
+    "pkgname": ["leafpad"]
+  },
+  {
+    "name": "LibreOffice",
+    "description": "The office productivity suite compatible to the open and standardized ODF document format. Fork of OpenOffice, supported by The Document Foundation.",
+    "url": "https://www.libreoffice.org/",
+    "icon": "generic.png",
+    "pkgname": ["libreoffice-still}} or {{Pkg"]
+  },
+  {
+    "name": "LibreOffice TexMaths extension",
+    "description": "LaTeX equation editor for LibreOffice.",
+    "url": "https://roland65.free.fr/texmaths/",
+    "icon": "generic.png",
+    "pkgname": ["libreoffice-extension-texmaths"]
+  },
+  {
+    "name": "Lifeograph",
+    "description": "Off-line and private journal and note taking application. It offers a rich feature set presented in a clean and simple user interface.",
+    "url": "https://lifeograph.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["lifeograph"]
+  },
+  {
+    "name": "Lite XL",
+    "description": "A lightweight, simple, fast, feature-filled, and extremely extensible text editor written in C, and Lua, adapted from lite.",
+    "url": "https://lite-xl.com/",
+    "icon": "generic.png",
+    "pkgname": ["lite-xl"]
+  },
+  {
+    "name": "Lorem",
+    "description": "Simple app to generate the Lorem Ipsum placeholder text.",
+    "url": "https://apps.gnome.org/Lorem/",
+    "icon": "generic.png",
+    "pkgname": ["lorem"]
+  },
+  {
+    "name": "lowdown",
+    "description": "Markdown translator producing HTML5 and roff documents in the ms and man formats.",
+    "url": "https://kristaps.bsd.lv/lowdown/",
+    "icon": "generic.png",
+    "pkgname": ["lowdown"]
+  },
+  {
+    "name": "LyX",
+    "description": "Document processor that encourages an approach to writing based on the structure of your documents (WYSIWYM) and not simply their appearance (WYSIWYG).",
+    "url": "https://www.lyx.org/",
+    "icon": "generic.png",
+    "pkgname": ["lyx"]
+  },
+  {
+    "name": "Manuskript",
+    "description": "Provides a rich environment to help writers create their first draft and then further refine and edit their masterpiece.",
+    "url": "https://www.theologeek.ch/manuskript/",
+    "icon": "generic.png",
+    "pkgname": ["manuskript"]
+  },
+  {
+    "name": "Marked",
+    "description": "Markdown parser and compiler built for speed.",
+    "url": "https://marked.js.org/",
+    "icon": "generic.png",
+    "pkgname": ["marked"]
+  },
+  {
+    "name": "Marker",
+    "description": "Simple yet robust Markdown editor.",
+    "url": "https://fabiocolacio.github.io/Marker/",
+    "icon": "generic.png",
+    "pkgname": ["marker"]
+  },
+  {
+    "name": "Marknote",
+    "description": "A simple markdown note management app for KDE.",
+    "url": "https://apps.kde.org/marknote/",
+    "icon": "generic.png",
+    "pkgname": ["marknote"]
+  },
+  {
+    "name": "Maruku",
+    "description": "Pure Ruby Markdown-superset interpreter.",
+    "url": "https://github.com/bhollis/maruku",
+    "icon": "generic.png",
+    "pkgname": ["ruby-maruku"]
+  },
+  {
+    "name": "MATE Dictionary",
+    "description": "MATE application to look up words in dictionary sources.",
+    "url": "https://github.com/mate-desktop/mate-utils",
+    "icon": "generic.png",
+    "pkgname": ["mate-utils"]
+  },
+  {
+    "name": "Material for MkDocs",
+    "description": "Material design theme for MkDocs.",
+    "url": "https://squidfunk.github.io/mkdocs-material/",
+    "icon": "generic.png",
+    "pkgname": ["mkdocs-material"]
+  },
+  {
+    "name": "mcedit",
+    "description": "Useful text editor that comes with Midnight Commander file manager.",
+    "url": "https://www.ibiblio.org/mc/",
+    "icon": "generic.png",
+    "pkgname": ["mc"]
+  },
+  {
+    "name": "MComix",
+    "description": "GTK3 image viewer specifically designed to handle comic book archives (fork of Comix). Also includes library manager.",
+    "url": "https://github.com/multiSnow/mcomix3",
+    "icon": "generic.png",
+    "pkgname": ["mcomix"]
+  },
+  {
+    "name": "md2html",
+    "description": "C Markdown parser.",
+    "url": "https://github.com/mity/md4c",
+    "icon": "generic.png",
+    "pkgname": ["md4c"]
+  },
+  {
+    "name": "MDP",
+    "description": "A command-line based markdown presentation tool.",
+    "url": "https://github.com/visit1985/mdp",
+    "icon": "generic.png",
+    "pkgname": ["mdp"]
+  },
+  {
+    "name": "Mendeley Desktop",
+    "description": "Proprietary reference manager and academic social network.",
+    "url": "https://www.mendeley.com/",
+    "icon": "generic.png",
+    "pkgname": ["mendeleydesktop"]
+  },
+  {
+    "name": "mg",
+    "description": "Small, fast, and portable Emacs-like editor.",
+    "url": "https://github.com/hboetes/mg",
+    "icon": "generic.png",
+    "pkgname": ["mg"]
+  },
+  {
+    "name": "micro",
+    "description": "Modern and intuitive terminal-based text editor, written in go and extensible through plugins.",
+    "url": "https://micro-editor.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["micro"]
+  },
+  {
+    "name": "Minder",
+    "description": "Mind-mapping application designed for Pantheon.",
+    "url": "https://github.com/phase1geo/Minder/",
+    "icon": "generic.png",
+    "pkgname": ["minder"]
+  },
+  {
+    "name": "Mistune",
+    "description": "The fastest markdown parser in pure Python with renderer feature.",
+    "url": "https://github.com/lepture/mistune",
+    "icon": "generic.png",
+    "pkgname": ["python-mistune"]
+  },
+  {
+    "name": "MkDocs",
+    "description": "Project documentation with Markdown.",
+    "url": "https://www.mkdocs.org/",
+    "icon": "generic.png",
+    "pkgname": ["mkdocs"]
+  },
+  {
+    "name": "Morphosis",
+    "description": "Document conversion app using Pandoc and WebKitGTK.",
+    "url": "https://gitlab.gnome.org/World/morphosis",
+    "icon": "generic.png",
+    "pkgname": ["morphosis"]
+  },
+  {
+    "name": "Mousepad",
+    "description": "Fast text editor for the Xfce Desktop Environment.",
+    "url": "https://www.xfce.org",
+    "icon": "generic.png",
+    "pkgname": ["mousepad"]
+  },
+  {
+    "name": "nano",
+    "description": "Console text editor based on pico with on-screen key bindings help.",
+    "url": "https://nano-editor.org/",
+    "icon": "generic.png",
+    "pkgname": ["nano"]
+  },
+  {
+    "name": "Neovim",
+    "description": "''Vim'' rebirth for the 21st century.",
+    "url": "https://neovim.io/",
+    "icon": "generic.png",
+    "pkgname": ["neovim"]
+  },
+  {
+    "name": "Neovim-Qt",
+    "description": "Qt GUI for ''Neovim''.",
+    "url": "https://github.com/equalsraf/neovim-qt",
+    "icon": "generic.png",
+    "pkgname": ["neovim-qt"]
+  },
+  {
+    "name": "Nextcloud Notes",
+    "description": "Simple notes app for Nextcloud.",
+    "url": "https://github.com/nextcloud/notes",
+    "icon": "generic.png",
+    "pkgname": ["nextcloud-app-notes"]
+  },
+  {
+    "name": "NFO Viewer",
+    "description": "Simple viewer for NFO files.",
+    "url": "https://otsaloma.io/nfoview/",
+    "icon": "generic.png",
+    "pkgname": ["nfoview"]
+  },
+  {
+    "name": "Notepadqq",
+    "description": "Qt-based, Notepad++-like text editor with support for syntax highlighting for more than 100 languages.",
+    "url": "https://notepadqq.com/s/",
+    "icon": "generic.png",
+    "pkgname": ["notepadqq"]
+  },
+  {
+    "name": "Notes",
+    "description": "Note-taking application, write down your thoughts.",
+    "url": "https://www.get-notes.com/",
+    "icon": "generic.png",
+    "pkgname": ["notes"]
+  },
+  {
+    "name": "Notes",
+    "description": "Provides you a quick way to paste text, to write down a list of things, to leave a note to your friend, or whatever you had do with Post-It's.",
+    "url": "https://goodies.xfce.org/projects/panel-plugins/xfce4-notes-plugin",
+    "icon": "generic.png",
+    "pkgname": ["xfce4-notes-plugin"]
+  },
+  {
+    "name": "Notes-Up",
+    "description": "Markdown notes editor and manager for elementaryOS.",
+    "url": "https://github.com/Philip-Scott/Notes-up",
+    "icon": "generic.png",
+    "pkgname": ["notes-up"]
+  },
+  {
+    "name": "Notorious",
+    "description": "Keyboard centric note-taking application with Markdown syntax highlighting support.",
+    "url": "https://notorious.gabmus.org/",
+    "icon": "generic.png",
+    "pkgname": ["notorious-git"]
+  },
+  {
+    "name": "Obsidian",
+    "description": "Personal knowledge base that uses markdown text files to organize notes in a format that mirrors the human brain.",
+    "url": "https://obsidian.md/",
+    "icon": "generic.png",
+    "pkgname": ["obsidian"]
+  },
+  {
+    "name": "Ocrad",
+    "description": "OCR program based on a feature extraction method.",
+    "url": "https://www.gnu.org/software/ocrad/",
+    "icon": "generic.png",
+    "pkgname": ["ocrad"]
+  },
+  {
+    "name": "OCRFeeder",
+    "description": "Python GUI for Gnome which performs document analysis and rendition, and can use either CuneiForm, GOCR, Ocrad or Tesseract as OCR engines. It can import from PDF or image files, and export to HTML or OpenDocument.",
+    "url": "https://wiki.gnome.org/Apps/OCRFeeder",
+    "icon": "generic.png",
+    "pkgname": ["ocrfeeder"]
+  },
+  {
+    "name": "OCRmyPDF",
+    "description": "Adds an OCR text layer to scanned PDF files, allowing them to be searched.",
+    "url": "https://github.com/jbarlow83/OCRmyPDF",
+    "icon": "generic.png",
+    "pkgname": ["ocrmypdf"]
+  },
+  {
+    "name": "OnlyOffice",
+    "description": "Office suite that combines text, spreadsheet and presentation editors.",
+    "url": "https://www.onlyoffice.com/",
+    "icon": "generic.png",
+    "pkgname": ["onlyoffice-bin"]
+  },
+  {
+    "name": "Orbada",
+    "description": "Excellent tool for database developers, SQL developers, DBA administrators, as well as for users who wish to broaden their knowledge and skills in SQL. Last release dated 2019-07-03. ",
+    "url": "https://orbada.sourceforge.io/",
+    "icon": "generic.png",
+    "pkgname": ["orbada"]
+  },
+  {
+    "name": "PageEdit",
+    "description": "ePub visual XHTML editor.",
+    "url": "https://github.com/Sigil-Ebook/PageEdit",
+    "icon": "generic.png",
+    "pkgname": ["pageedit"]
+  },
+  {
+    "name": "Pandoc",
+    "description": "Swiss-army knife for converting markup and document formats.",
+    "url": "https://pandoc.org/",
+    "icon": "generic.png",
+    "pkgname": ["pandoc-cli"]
+  },
+  {
+    "name": "Pantheon Code",
+    "description": "Code editor for elementaryOS. It auto-saves your files, meaning they are always up-to-date. Plus it remembers your tabs so you never lose your spot, even in between sessions.",
+    "url": "https://github.com/elementary/code",
+    "icon": "generic.png",
+    "pkgname": ["pantheon-code"]
+  },
+  {
+    "name": "Paperwork",
+    "description": "Personal document manager. It manages scanned documents and PDFs.",
+    "url": "https://openpaper.work/",
+    "icon": "generic.png",
+    "pkgname": ["paperwork"]
+  },
+  {
+    "name": "Paperwork",
+    "description": "Personal document manager. It manages scanned documents and PDFs.",
+    "url": "https://openpaper.work/",
+    "icon": "generic.png",
+    "pkgname": ["paperwork"]
+  },
+  {
+    "name": "Poedit",
+    "description": "Simple translation editor for gettext (PO, POT) and XLIFF.",
+    "url": "https://poedit.net",
+    "icon": "generic.png",
+    "pkgname": ["poedit"]
+  },
+  {
+    "name": "PyMdown Extensions",
+    "description": "Extensions for Python-Markdown.",
+    "url": "https://facelessuser.github.io/pymdown-extensions/",
+    "icon": "generic.png",
+    "pkgname": ["python-pymdown-extensions"]
+  },
+  {
+    "name": "Python-Markdown",
+    "description": "Extensible Python implementation of John Gruber's Markdown.",
+    "url": "https://github.com/Python-Markdown/markdown",
+    "icon": "generic.png",
+    "pkgname": ["python-markdown"]
+  },
+  {
+    "name": "QOwnNotes",
+    "description": "Notepad and todo list manager with markdown support and optional ownCloud integration built on Qt5.",
+    "url": "https://www.qownnotes.org/",
+    "icon": "generic.png",
+    "pkgname": ["qownnotes"]
+  },
+  {
+    "name": "Qreator",
+    "description": "Graphical utility for creating QR codes.",
+    "url": "https://davidplanella.org/qreator/",
+    "icon": "generic.png",
+    "pkgname": ["qreator"]
+  },
+  {
+    "name": "qrencode",
+    "description": "C library and command line tool for encoding data in a QR code symbol.",
+    "url": "https://fukuchi.org/works/qrencode/",
+    "icon": "generic.png",
+    "pkgname": ["qrencode"]
+  },
+  {
+    "name": "QStarDict",
+    "description": "Dictionary program written using Qt. The user interface is similar to StarDict.",
+    "url": "https://github.com/FBergeron/qstardict",
+    "icon": "generic.png",
+    "pkgname": ["qstardict"]
+  },
+  {
+    "name": "Qt Linguist",
+    "description": "Translating Qt C++ and Qt Quick applications into local languages.",
+    "url": "https://doc.qt.io/qt-6/qtlinguist-index.html",
+    "icon": "generic.png",
+    "pkgname": ["qt6-tools"]
+  },
+  {
+    "name": "QtQR",
+    "description": "QR code generator and decoder.",
+    "url": "https://launchpad.net/qr-tools",
+    "icon": "generic.png",
+    "pkgname": ["qtqr"]
+  },
+  {
+    "name": "Quick Lookup",
+    "description": "Simple GTK dictionary application powered by Wiktionary.",
+    "url": "https://github.com/johnfactotum/quick-lookup",
+    "icon": "generic.png",
+    "pkgname": ["quick-lookup"]
+  },
+  {
+    "name": "QXmlEdit",
+    "description": "Simple Qt XML editor and XSD viewer.",
+    "url": "https://qxmledit.org/",
+    "icon": "generic.png",
+    "pkgname": ["qxmledit"]
+  },
+  {
+    "name": "RedNotebook",
+    "description": "Modern journal, which lets you format, tag and search your entries.",
+    "url": "https://rednotebook.sourceforge.io/",
+    "icon": "generic.png",
+    "pkgname": ["rednotebook"]
+  },
+  {
+    "name": "ReText",
+    "description": "Simple text editor for Markdown and reStructuredText.",
+    "url": "https://github.com/retext-project/retext",
+    "icon": "generic.png",
+    "pkgname": ["retext"]
+  },
+  {
+    "name": "Rnote",
+    "description": "A simple note taking application written in Rust and GTK4.",
+    "url": "https://github.com/flxzt/rnote",
+    "icon": "generic.png",
+    "pkgname": ["rnote"]
+  },
+  {
+    "name": "rstcheck",
+    "description": "Checks syntax of reStructuredText and code blocks nested within it.",
+    "url": "https://github.com/rstcheck/rstcheck",
+    "icon": "generic.png",
+    "pkgname": ["rstcheck"]
+  },
+  {
+    "name": "Sam",
+    "description": "Minimalist text editor with a graphical user interface, a very powerful command language and remote editing capabilities, developed by Rob Pike.",
+    "url": "https://sam.cat-v.org",
+    "icon": "generic.png",
+    "pkgname": ["plan9port}} or {{Pkg"]
+  },
+  {
+    "name": "sc",
+    "description": "Curses-based lightweight spreadsheet.",
+    "url": "https://ibiblio.org/pub/linux/apps/financial/spreadsheet/!INDEX.html",
+    "icon": "generic.png",
+    "pkgname": ["sc"]
+  },
+  {
+    "name": "ScanTailor Advanced",
+    "description": "Interactive post-processing tool for scanned pages. Fork of Scan Tailor with additional features and fixes.",
+    "url": "https://github.com/ScanTailor-Advanced/scantailor-advanced",
+    "icon": "generic.png",
+    "pkgname": ["scantailor-advanced"]
+  },
+  {
+    "name": "SciTE",
+    "description": "Generally useful editor with facilities for building and running programs.",
+    "url": "https://scintilla.org/SciTE.html",
+    "icon": "generic.png",
+    "pkgname": ["scite"]
+  },
+  {
+    "name": "sdcv",
+    "description": "Command line dictionary. It provides access to dictionaries in StarDict's format.",
+    "url": "https://dushistov.github.io/sdcv/",
+    "icon": "generic.png",
+    "pkgname": ["sdcv"]
+  },
+  {
+    "name": "Setzer",
+    "description": "LaTeX editor written in Python with GTK.",
+    "url": "https://www.cvfosammmm.org/setzer/",
+    "icon": "generic.png",
+    "pkgname": ["setzer"]
+  },
+  {
+    "name": "SILE",
+    "description": "Modern typesetting system inspired by TeX.",
+    "url": "https://sile-typesetter.org/",
+    "icon": "generic.png",
+    "pkgname": ["sile"]
+  },
+  {
+    "name": "Simplenote",
+    "description": "The simplest way to keep notes. Based on the [https://electronjs.org/ Electron] platform.",
+    "url": "https://simplenote.com/",
+    "icon": "generic.png",
+    "pkgname": ["simplenote-electron-bin"]
+  },
+  {
+    "name": "SoftMaker FreeOffice",
+    "description": "Complete, reliable, lightning-fast and Microsoft Office-compatible proprietary office suite with a word processor, spreadsheet, and presentation graphics software.",
+    "url": "https://www.freeoffice.com/",
+    "icon": "generic.png",
+    "pkgname": ["freeoffice"]
+  },
+  {
+    "name": "Sphinx",
+    "description": " A documentation generation system using reStructuredText to generate output in multiple formats (primary documentation system for the Python project).",
+    "url": "https://www.sphinx-doc.org/",
+    "icon": "generic.png",
+    "pkgname": ["python-sphinx"]
+  },
+  {
+    "name": "Spice-Up",
+    "description": "Create simple and beautiful presentations.",
+    "url": "https://github.com/Philip-Scott/Spice-up",
+    "icon": "generic.png",
+    "pkgname": ["spice-up"]
+  },
+  {
+    "name": "StarDict",
+    "description": "International dictionary software.",
+    "url": "https://stardict-4.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["stardict"]
+  },
+  {
+    "name": "Symphytum",
+    "description": "Personal database software for everyone who desires to manage and organize data in an easy and intuitive way, without having to study complex database languages and software user interfaces.",
+    "url": "https://github.com/giowck/symphytum",
+    "icon": "generic.png",
+    "pkgname": ["symphytum"]
+  },
+  {
+    "name": "TeX",
+    "description": "A high-quality typesetting system popular in academia.",
+    "url": "https://tug.org/",
+    "icon": "generic.png",
+    "pkgname": ["texlive-basic"]
+  },
+  {
+    "name": "Texinfo",
+    "description": "Typesetting syntax for software manuals used by the [[GNU Project]].",
+    "url": "https://www.gnu.org/software/texinfo/",
+    "icon": "generic.png",
+    "pkgname": ["texinfo"]
+  },
+  {
+    "name": "TeXmacs",
+    "description": "WYSIWYW (what you see is what you want) editing platform with special features for scientists.",
+    "url": "https://www.texmacs.org/",
+    "icon": "generic.png",
+    "pkgname": ["texmacs"]
+  },
+  {
+    "name": "Texmaker",
+    "description": "Cross-platform, light and easy-to-use LaTeX IDE. It integrates many tools needed to develop documents with LaTeX, in just one application",
+    "url": "https://www.xm1math.net/texmaker/",
+    "icon": "generic.png",
+    "pkgname": ["texmaker"]
+  },
+  {
+    "name": "TeXstudio",
+    "description": "Fork of TeXMaker including support for code completion of bibtex items, grammar check and automatic detection of the need for multiple LaTeX runs.",
+    "url": "https://texstudio.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["texstudio"]
+  },
+  {
+    "name": "Text Pieces",
+    "description": "Powerful scratchpad with ability to perform a lot of text transformations.",
+    "url": "https://apps.gnome.org/TextPieces/",
+    "icon": "generic.png",
+    "pkgname": ["textpieces"]
+  },
+  {
+    "name": "TeXworks",
+    "description": "Simple TeX front-end program modeled after TeXShop.",
+    "url": "https://tug.org/texworks/",
+    "icon": "generic.png",
+    "pkgname": ["texworks"]
+  },
+  {
+    "name": "Translate Shell",
+    "description": "Command-line interface and interactive shell for Google Translate.",
+    "url": "https://www.soimort.org/translate-shell/",
+    "icon": "generic.png",
+    "pkgname": ["translate-shell"]
+  },
+  {
+    "name": "Translate Toolkit",
+    "description": "Localization and translation toolkit, which provides a set of tools for working with localization file formats and files that might need localization.",
+    "url": "https://toolkit.translatehouse.org/",
+    "icon": "generic.png",
+    "pkgname": ["translate-toolkit"]
+  },
+  {
+    "name": "txt2tags",
+    "description": "Dead-simple, KISS-compliant lightweight, human-readable markup language to produce rich format content out of plain text files.",
+    "url": "https://txt2tags.org/",
+    "icon": "generic.png",
+    "pkgname": ["txt2tags"]
+  },
+  {
+    "name": "Typst",
+    "description": "A markup-based typesetting system for the sciences.",
+    "url": "https://github.com/typst/typst",
+    "icon": "generic.png",
+    "pkgname": ["typst"]
+  },
+  {
+    "name": "unoconv",
+    "description": "Libreoffice-based document converter.",
+    "url": "https://dag.wiee.rs/home-made/unoconv/",
+    "icon": "generic.png",
+    "pkgname": ["unoconv"]
+  },
+  {
+    "name": "UnRTF",
+    "description": "Command-line program which converts RTF documents to other formats.",
+    "url": "https://www.gnu.org/software/unrtf/unrtf.html",
+    "icon": "generic.png",
+    "pkgname": ["unrtf"]
+  },
+  {
+    "name": "vi",
+    "description": "The original ''ex/vi'' text editor.",
+    "url": "https://ex-vi.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["vi"]
+  },
+  {
+    "name": "View Your Mind",
+    "description": "Tool to generate and manipulate maps which show your thoughts. Such maps can help you to improve your creativity and effectivity. You can use them for time management, to organize tasks, to get an overview over complex contexts, to sort your ideas etc.",
+    "url": "https://sourceforge.net/projects/vym/",
+    "icon": "generic.png",
+    "pkgname": ["vym"]
+  },
+  {
+    "name": "Vim (Vi IMproved)",
+    "description": "Is included as ''vi'' with most UNIX systems.",
+    "url": "https://www.vim.org/",
+    "icon": "generic.png",
+    "pkgname": ["vim}}; {{Pkg"]
+  },
+  {
+    "name": "Vimwiki",
+    "description": "Personal wiki for [[Vim]] – interlinked, plain text files written in a markup language.",
+    "url": "https://vimwiki.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["vim-vimwiki"]
+  },
+  {
+    "name": "Vis",
+    "description": "Modern, legacy free, simple yet efficient ''Vim''-like editor.",
+    "url": "https://github.com/martanne/vis",
+    "icon": "generic.png",
+    "pkgname": ["vis"]
+  },
+  {
+    "name": "Visual Studio Code",
+    "description": "Editor for building and debugging modern web and cloud applications.",
+    "url": "https://code.visualstudio.com",
+    "icon": "generic.png",
+    "pkgname": ["code"]
+  },
+  {
+    "name": "VNote",
+    "description": "Vim-inspired note-taking application that knows programmers and Markdown better.",
+    "url": "https://vnotex.github.io/vnote",
+    "icon": "generic.png",
+    "pkgname": ["vnote"]
+  },
+  {
+    "name": "WizNote",
+    "description": "Cloud based note-taking client.",
+    "url": "https://github.com/WizTeam/WizQTClient",
+    "icon": "generic.png",
+    "pkgname": ["wiznote"]
+  },
+  {
+    "name": "WPS Office",
+    "description": "Proprietary office productivity suite, previously known as Kingsoft Office.",
+    "url": "https://www.wps.com/",
+    "icon": "generic.png",
+    "pkgname": ["wps-office"]
+  },
+  {
+    "name": "Write",
+    "description": "A proprietary word processor for handwriting.",
+    "url": "https://www.styluslabs.com/",
+    "icon": "generic.png",
+    "pkgname": ["write_stylus"]
+  },
+  {
+    "name": "xCHM",
+    "description": "Lightweight CHM viewer, based on chmlib.",
+    "url": "https://github.com/rzvncj/xCHM",
+    "icon": "generic.png",
+    "pkgname": ["xchm"]
+  },
+  {
+    "name": "xed",
+    "description": "Text editor based on Pluma developed for Linux Mint.",
+    "url": "https://github.com/linuxmint/xed",
+    "icon": "generic.png",
+    "pkgname": ["xed"]
+  },
+  {
+    "name": "XEdit",
+    "description": "Simple text editor for the X Window System.",
+    "url": "https://www.x.org/wiki",
+    "icon": "generic.png",
+    "pkgname": ["xorg-xedit"]
+  },
+  {
+    "name": "Xfce4 Dictionary",
+    "description": "Search different kinds of dictionary services for words or phrases.",
+    "url": "https://goodies.xfce.org/projects/applications/xfce4-dict",
+    "icon": "generic.png",
+    "pkgname": ["xfce4-dict"]
+  },
+  {
+    "name": "Xournal++",
+    "description": "Notetaking software designed around a tablet. C++ rewrite of Xournal with PDF annotation support.",
+    "url": "https://github.com/xournalpp/xournalpp",
+    "icon": "generic.png",
+    "pkgname": ["xournalpp"]
+  },
+  {
+    "name": "Xpad",
+    "description": "Sticky note application for jotting down things to remember.",
+    "url": "https://launchpad.net/xpad",
+    "icon": "generic.png",
+    "pkgname": ["xpad"]
+  },
+  {
+    "name": "YACReader",
+    "description": "Comic book viewer written in C++ and Qt5. Comes with YACReaderLibrary for managing comics.",
+    "url": "https://yacreader.com/",
+    "icon": "generic.png",
+    "pkgname": ["yacreader"]
+  },
+  {
+    "name": "ZBar",
+    "description": "Application and library for reading bar codes from various sources.",
+    "url": "https://zbar.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["zbar"]
+  },
+  {
+    "name": "ZBarCam GUI",
+    "description": "Simple GUI for ZBar to read bar codes from various sources.",
+    "url": "https://zbar.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["zbar"]
+  },
+  {
+    "name": "Zed",
+    "description": "A high-performance, multiplayer code editor from the creators of Atom and Tree-sitter. It's also open source.",
+    "url": "https://zed.dev",
+    "icon": "generic.png",
+    "pkgname": ["zed"]
+  },
+  {
+    "name": "Zettlr",
+    "description": "A cross-platform markdown editor, inspired by the Zettelkasten system for note-taking and personal knowledge management. Based on the [https://electronjs.org/ Electron] platform.",
+    "url": "https://www.zettlr.com/",
+    "icon": "generic.png",
+    "pkgname": ["zettlr"]
+  },
+  {
+    "name": "Zim",
+    "description": "WYSIWYG text editor that aims at bringing the concept of a wiki to the desktop.",
+    "url": "https://zim-wiki.org/",
+    "icon": "generic.png",
+    "pkgname": ["zim"]
+  },
+  {
+    "name": "Zint",
+    "description": "Barcode encoding library and command line tool supporting over 50 symbologies.",
+    "url": "https://zint.org.uk/",
+    "icon": "generic.png",
+    "pkgname": ["zint"]
+  },
+  {
+    "name": "Zint Barcode Studio",
+    "description": "Barcode generator GUI.",
+    "url": "https://zint.org.uk/",
+    "icon": "generic.png",
+    "pkgname": ["zint-qt"]
+  },
+  {
+    "name": "μPad",
+    "description": "Note-taking app that helps you organise + take notes without restrictions. Based on the [https://electronjs.org/ Electron] platform.",
+    "url": "https://getmicropad.com",
+    "icon": "generic.png",
+    "pkgname": ["micropad"]
+  }
+]

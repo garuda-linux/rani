@@ -1,0 +1,636 @@
+[[Category:Lists of software]]
+[[Category:Science]]
+[[es:List of applications (Español)/Science]]
+[[ja:アプリケーション一覧/サイエンス]]
+[[pl:List of applications (Polski)/Science]]
+[[zh-hans:List of applications/Science]]
+{{List of applications navigation}}
+
+== Mathematics ==
+
+=== Calculator ===
+
+See also [[Wikipedia:Comparison of software calculators]].
+
+==== Console ====
+
+* {{App|[[Wikipedia:bc programming language|bc]]|Arbitrary precision calculator language.|https://www.gnu.org/software/bc/|{{Pkg|bc}}}}
+* {{App|calc|Arbitrary precision console calculator.|http://www.isthe.com/chongo/tech/comp/calc/|{{Pkg|calc}}}}
+* {{App|clac|Command-line, stack-based calculator with postfix notation.|https://github.com/soveran/clac|{{AUR|clac}}}}
+* {{App|kalker|Command-line calculator with math syntax that supports user-defined variables and functions, complex numbers, and estimation of derivatives and integrals.|https://github.com/PaddiM8/kalker|{{AUR|kalker}}}}
+* {{App|qalc|Command-line calculator and equation solver with fault-tolerant parsing, constant recognition and units.|https://qalculate.github.io/|{{Pkg|libqalculate}}}}
+* {{App|calcpy|Terminal calculator and advanced math solver using Python, IPython and SymPy.|https://github.com/idanpa/calcpy|{{AUR|python-calcpy-git}}}}
+
+==== Graphical ====
+
+* {{App|Binary|Simple app to convert between different hexadecimal and binary numbers.|https://apps.gnome.org/Binary/|{{Pkg|binary}}}}
+* {{App|Deepin Calculator|Easy to use calculator for Deepin desktop.|https://www.deepin.org/en/original/deepin-calculator/|{{Pkg|deepin-calculator}}}}
+* {{App|Extcalc|Qt-based scientific graphical calculator.|https://extcalc-linux.sourceforge.net/|{{AUR|extcalc}}}}
+* {{App|FOX Calculator|Simple desktop calculator.|http://fox-toolkit.org/|{{Pkg|fox}}}}
+* {{App|galculator|GTK-based scientific calculator.|http://galculator.mnim.org/|{{Pkg|galculator}}}}
+* {{App|[[Wikipedia:Genius (mathematics software)|Genius]]|Advanced calculator including a mathematical programming language.|https://www.jirka.org/genius.html|{{Pkg|genius}}}}
+* {{App|[[Wikipedia:GNOME Calculator|GNOME Calculator]]|Scientific calculator included in the GNOME desktop. Part of {{Grp|gnome}}.|https://apps.gnome.org/Calculator/|{{Pkg|gnome-calculator}}}}
+* {{App|[[Wikipedia:KAlgebra|KAlgebra]]|Calculator and 3D plotter. Part of {{Grp|kde-education}}.|https://apps.kde.org/kalgebramobile/|{{Pkg|kalgebra}}}}
+* {{App|Kalk|A convergent calculator application built with the Kirigami framework. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kalk/|{{Pkg|kalk}}}}
+* {{App|[[Wikipedia:KCalc|KCalc]]|Scientific calculator included in the KDE desktop. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kcalc/|{{Pkg|kcalc}}}}
+* {{App|KEuroCalc|Universal currency converter and calculator.|https://apps.kde.org/keurocalc/|{{AUR|keurocalc}}}}
+* {{App|Liri Calculator|Calculator for Liri.|https://github.com/lirios/calculator|{{AUR|liri-calculator}}}}
+* {{App|MATE Calc|Calculator for the MATE desktop environment.|https://mate-desktop.org/|{{Pkg|mate-calc}}}}
+* {{App|Qalculate!|Calculator and equation solver with fault-tolerant parsing, constant recognition and units.|https://qalculate.github.io/|GTK: {{Pkg|qalculate-gtk}}, Qt: {{Pkg|qalculate-qt}}}}
+* {{App|SpeedCrunch|Fast, high precision and powerful cross-platform calculator.|https://speedcrunch.org|{{Pkg|speedcrunch}}}}
+* {{App|[[xcalc]]|Scientific calculator for X with algebraic and reverse polish notation modes.|https://www.x.org/|{{Pkg|xorg-xcalc}}}}
+* {{App|Valuta|Simple application for converting currencies.|https://apps.gnome.org/Valuta/|{{Pkg|valuta}}}}
+
+=== Computer algebra system ===
+
+See also [[Wikipedia:Comparison of computer algebra systems]].
+
+* {{App|[[Wikipedia:Axiom (computer algebra system)|AXIOM]]|FriCAS: derivative of the powerful AXIOM-CAS|https://fricas.sourceforge.net|{{Pkg|fricas}}}}
+* {{App|[[Wikipedia:GAP (computer algebra system)|GAP]]|Computer algebra system for computational discrete algebra with particular emphasis on computational group theory.|https://www.gap-system.org/|{{Pkg|gap}}}}
+* {{App|[[Maple]]|Famous commercial CAS. Often used in education.|https://www.maplesoft.com/products/maple/|{{AUR|maple2024}}}}
+* {{App|Mathics|A free CAS for symbolic mathematical computations which uses [[Python]] as its main language. It aims at achieving a Mathematica-compatible syntax and functions. It relies mostly on Sympy for most mathematical tasks and, optionally, Sage for more advanced functionality.|https://mathics.github.io/|{{AUR|mathics}}}}
+* {{App|[[Wikipedia:Mathomatic|Mathomatic]]|General purpose Computer Algebra System written in C.|https://github.com/mfillpot/mathomatic|{{AUR|mathomatic}}}}
+* {{App|[[Wikipedia:Maxima (software)|Maxima]]|[[Wikipedia:Maple (software)|Maple]]/[[Wikipedia:Wolfram Mathematica|Mathematica]]-like computer algebra system.|https://maxima.sourceforge.net/|{{Pkg|maxima}}}}
+* {{App|[[Wikipedia:PARI/GP|PARI/GP]]|Computer algebra system designed for fast computations in number theory.|https://pari.math.u-bordeaux.fr/|{{Pkg|pari}}}}
+* {{App|[[Wikipedia:Singular (software)|Singular]]|Computer algebra system for polynomial computations, with special emphasis on commutative and non-commutative algebra, algebraic geometry, and singularity theory.|https://www.singular.uni-kl.de/|{{Pkg|singular}}}}
+* {{App|wxMaxima|Graphical user interface for Maxima being a powerful computer algebra system.|https://andrejv.github.io/wxmaxima/|{{AUR|wxmaxima}}}}
+* {{App|[[Wikipedia:Xcas|Xcas]]|User interface to Giac, a free, basic computer algebra system.|https://www-fourier.ujf-grenoble.fr/~parisse/giac.html|{{Pkg|giac}}}}
+
+=== Visualization of networks/graphs ===
+
+* {{App|Glue|Linked data visualizations across multiple files.|http://glueviz.org/|{{AUR|glueviz}}}}
+* {{App|[[Graphviz]]|The established tool for displaying smallish graphs in 2D.|https://www.graphviz.org|{{Pkg|graphviz}}}}
+
+=== Scientific or technical computing ===
+
+See also [[Wikipedia:Comparison of numerical analysis software]].
+
+* {{App|[[Wikipedia:Cadabra (computer program)|Cadabra]]|A field-theory motivated approach to computer algebra.|https://cadabra.science/|{{AUR|cadabra2}}}}
+* {{App|[[Wikipedia:Cantor (software)|Cantor]]|Application that lets you use your favorite mathematical applications from within a nice KDE-integrated Worksheet Interface. Part of {{Grp|kde-education}}.|https://cantor.kde.org/|{{Pkg|cantor}}}}
+* {{App|[[Wikipedia:FFTW|FFTW]]|A [[Wikipedia:Fast_Fourier_transform|Fast Fourier Transform]] library for computing discrete Fourier transforms. Used for a wide variety of numerical applications, which includes spectral methods.|https://www.fftw.org/ |{{Pkg|fftw}}}}
+* {{App|[[Wikipedia:FreeMat|FreeMat]]|Matlab-like program that supports many of its functions and features a codeless interface to external C, C++, and Fortran code, further parallel distributed algorithm development (via MPI), and 3D visualization capabilities.|https://freemat.sourceforge.net/|{{AUR|freemat}}}}
+* {{App|[[Wikipedia:GeoGebra|GeoGebra]]|Dynamic mathematics software with interactive graphics, algebra and spreadsheet|https://www.geogebra.org/|{{Pkg|geogebra}}}}
+* {{App|[[Wikipedia:Julia (programming language)|Julia]]|High-level, high-performance dynamic language for technical computing.|https://julialang.org/|{{Pkg|julia}}}}
+* {{App|[[Wikipedia:Kig (software)|Kig]]|Application for Interactive Geometry. Part of {{Grp|kde-education}}.|https://apps.kde.org/kig/|{{Pkg|kig}}}}
+* {{App|[[Wikipedia:matplotlib|matplotlib (PyLab)]]|Collection of Python modules (pyplot, numpy, etc.) used for scientific calculations.|https://www.scipy.org/|{{Pkg|python-matplotlib}}}}
+* {{App|[[Octave]]|[[MATLAB]]-like language and interface for numerical computations.|https://www.gnu.org/software/octave/ |{{Pkg|octave}}}}
+* {{App|[[SageMath]]|Mathematics software system, that combines many existing open-source packages into a common Python interface. Alternative to Magma, Maple, Mathematica and Matlab.|https://www.sagemath.org/|{{Pkg|sagemath}}}}
+* {{App|[[Wikipedia:Scilab|Scilab]]|Matlab alternative used for numerical computations. Its syntax is not equivalent to that of Matlab, but it can be easily converted.|https://www.scilab.org/|{{AUR|scilab}}}}
+
+=== Statistics ===
+
+See also [[Wikipedia:Comparison of statistical packages]].
+
+* {{App|[[Wikipedia:gretl|gretl]]|A cross-platform software package for econometric analysis, written in the C programming language.|https://gretl.sourceforge.net/|{{AUR|gretl}}}}
+* {{App|[[Wikipedia:Just another Gibbs sampler|JAGS]] (Just another Gibbs sampler)|Cross-platform program for analysis of Bayesian hierarchical models using Markov Chain Monte Carlo (MCMC) simulation.|https://mcmc-jags.sourceforge.net/|{{AUR|jags}}}}
+* {{App|jamovi|Statistics package, which is easy to use, and designed to be familiar to users of SPSS. Based on the [https://electronjs.org/ Electron] platform.|https://www.jamovi.org/|{{AUR|jamovi-git}}}}
+* {{App|[[Wikipedia:Pandas_(software)|Python Data Analysis Library (pandas)]]| Providing high-performance, easy-to-use data structures and data analysis tools with Python programming language.|https://pandas.pydata.org/|{{Pkg|python-pandas}}}}
+* {{App|[[Wikipedia:PSPP|PSPP]]|Free SPSS implementation.|https://www.gnu.org/software/pspp/|{{AUR|pspp}}}}
+* {{App|[[R]]|Software environment for statistical computing and graphics.|https://cran.r-project.org/|{{Pkg|r}}}}
+* {{App|[[Wikipedia:RKWard|RKWard]]|Frontend for the statistical language R.|https://rkward.kde.org/|{{Pkg|rkward}}}}
+* {{App|[[Wikipedia:RStudio|RStudio]]|A powerful and productive IDE for R written in Qt.|https://www.rstudio.com/|{{AUR|rstudio-desktop}}}}
+
+=== Data analysis and plotting ===
+
+{{Merge|List of Applications#Scientific and technical computing|Many overlaps.}}
+
+See also [[Wikipedia:List of information graphics software]].
+
+* {{App|AlphaPlot|Application for scientific data analysis and visualization, fork of [[Wikipedia:SciDAVis|SciDAVis]] / QtiPlot.|https://alphaplot.sourceforge.io/|{{AUR|alphaplot}}}}
+* {{App|DataWarrior|Open-source data visualization and analysis program with embedded chemical intelligence.|https://openmolecules.org/datawarrior/|{{AUR|datawarrior}}}}
+* {{App|Engauge Digitizer|Extracts data points from images of graphs.|https://markummitchell.github.io/engauge-digitizer/|{{AUR|engauge}}}}
+* {{App|[[Wikipedia:Fityk|Fityk]]|Curve fitting and data analysis application, predominantly used to fit analytical, bell-shaped functions to experimental data.|https://fityk.nieto.pl/|{{AUR|fityk}}}}
+* {{App|[[Wikipedia:gnuplot|Gnuplot]]|Command-line program that can generate 2D and 3D plots of functions, data, and data fits.|http://www.gnuplot.info/|{{Pkg|gnuplot}}}}
+* {{App|[[Wikipedia:Grace (plotting tool)|Grace]]|WYSIWYG 2D graph plotting tool.|https://plasma-gate.weizmann.ac.il/Grace/|{{AUR|grace}}, {{AUR|qtgrace}}, {{AUR|gracegtk}}}}
+* {{App|Graphs|Tool to plot and manipulate data.|https://apps.gnome.org/Graphs/|{{Pkg|graphs}}}}
+* {{App|[[Wikipedia:KmPlot|KmPlot]]|Program to draw graphs, their integrals or derivatives. Part of {{Grp|kde-education}}.|https://apps.kde.org/kmplot/|{{Pkg|kmplot}}}}
+* {{App|[[Wikipedia:LabPlot|LabPlot]]|Free software data analysis and visualization application, similar to SciDAVis.|https://labplot.org/|{{Pkg|labplot}}}}
+* {{App|OVITO (Open Visualization Tool)|Scientific data visualization and analysis solution for particle-based simulations.|https://ovito.org/|{{AUR|ovito}}}}
+* {{App|Plots|A graph plotting application for GNOME.|https://github.com/alexhuntley/Plots|{{AUR|plots}}}}
+* {{App|Rocs|Graph Theory IDE for everybody interested in designing and analyzing graph algorithms (e.g., lecturers, students, researchers). Part of {{Grp|kde-education}}.|https://apps.kde.org/rocs/|{{Pkg|rocs}}}}
+* {{App|[[Wikipedia:ROOT|ROOT]]|Data analysis program and library (originally for particle physics) developed by CERN.|https://root.cern.ch/|{{Pkg|root}}}}
+
+See also [[List of applications/Documents#Spreadsheets]].
+
+=== Proof assistants ===
+
+See also [[Wikipedia:Proof assistant]].
+
+* {{App|[[Wikipedia:Agda (programming language)|Agda]]|Dependently typed functional programming language and proof assistant. It is an interactive system for writing and checking proofs.|https://wiki.portal.chalmers.se/agda/|{{Pkg|agda}}}}
+* {{App|[[Wikipedia:Coq|Coq]]|Formal proof management system. It provides a formal language to write mathematical definitions, executable algorithms and theorems together with an environment for semi-interactive development of machine-checked proofs.|https://coq.inria.fr/|CLI: {{Pkg|coq}}, GUI: {{Pkg|coqide}}}}
+* {{App|[[Wikipedia:Isabelle (proof assistant)|Isabelle]]|Generic proof assistant that allows mathematical formulas to be expressed in a formal language and provides tools for proving those formulas in a logical calculus.|https://www.cl.cam.ac.uk/research/hvg/Isabelle/|{{AUR|isabelle}}}}
+* {{App|[[Lean Theorem Prover]]|Proof assistant developed principally by Leonardo de Moura at Microsoft Research, used in conjunction with the Lean mathematical library.|https://leanprover-community.github.io/|{{AUR|lean-community}}}}
+
+== Physics ==
+
+=== Tools ===
+
+* {{App|Geiger Counter Logger|Is a lightweight daemon running in the background and constantly reporting your Geiger counter readings to various radiation monitoring websites|https://www.dateihal.de/cms/gclog|{{AUR|gclog}}}}
+* {{App|GWtool|Simple tools for working with gravitational waves|https://gwtool.sourceforge.net/|{{AUR|gwtool}}}}
+* {{App|JaxoDraw|A particle physics program for drawing Feynman diagrams.|https://jaxodraw.sourceforge.io/|{{AUR|jaxodraw}}}}
+* {{App|InterSpec|spectral radiation analysis software|https://sandialabs.github.io/InterSpec/|{{AUR|interspec-bin}}}}
+* {{App|Libint|A high-performance library for computing Gaussian integrals in quantum mechanics|https://github.com/evaleev/libint|{{AUR|libint2}}}}
+* {{App|Pysolar|Collection of Python libraries for simulating the irradiation of any point on earth by the sun. It includes code for extremely precise ephemeris calculations.|https://pysolar.org/|{{AUR|python-pysolar}}}}
+* {{App|Silx|A collection of Python packages for data analysis at synchrotron radiation facilities.|http://www.silx.org/|{{AUR|python-silx}}}}
+
+=== Physics simulation ===
+
+* {{App|[[Wikipedia:Calculix|Calculix]]|A three-dimensional structural finite element program.|https://www.calculix.de/|{{AUR|calculix-ccx}}}}
+* {{App|DFTB+|A quantum mechanical simulation software package based on the DFTB method|https://dftbplus.org/|{{AUR|dftbplus}}}}
+* {{App|[[Wikipedia:EPANET|EPANET]]|EPANET performs extended period simulation of the water movement and quality behavior within pressurized pipe networks.|https://www.epa.gov/|{{AUR|epanet2-git}}{{Broken package link|package not found}}}}
+* {{App|[[Wikipedia:Elmer_FEM_solver|Elmer_FEM_solver]]|Finite element analysis (FEA/FEM) software for multiphysics problems. Includes models for fluid dynamics, structural mechanics, electromagnetics, heat transfer, and acoustics.|https://www.csc.fi/web/elmer https://www.elmerfem.org/|{{AUR|elmerfem}}}}
+* {{App|[[Wikipedia:FEniCS Project|FEniCS]]|An open-source computing platform for solving partial differential equations, enabling users to quickly translate scientific models into efficient finite element code with the high-level Python and C++ interfaces that scale across platforms ranging from laptops to high-performance clusters.|https://fenicsproject.org/|{{AUR|dolfin}}, {{AUR|python-dolfin}}}}
+* {{App|Finesse|Frequency domain INterfErometer Simulation SoftwarE|https://www.gwoptics.org/finesse/|{{AUR|finesse}}}}
+* {{App|Geant4|A simulation toolkit for particle physics interactions.|https://geant4.web.cern.ch/|{{AUR|geant4}}}}
+* {{App|[[Wikipedia:Gmsh|ONELAB/Gmsh]]|An open-source, lightweight interface to finite element software, by default containing the mesh generator Gmsh, the finite element solver GetDP and the optimization library conveks.|http://onelab.info/ https://getdp.info/ https://gmsh.info/ http://onelab.info/conveks/|{{AUR|gmsh}}, {{AUR|getdp}}}}
+* {{App|Herwig|Herwig is a multi-purpose particle physics event generator.|https://herwig.hepforge.org/|{{AUR|herwig}}}}
+* {{App|Netgen/NGSolve|A high performance multiphysics finite element software, with a flexible Python interface to implement new physical equations and solution algorithms easily.|https://ngsolve.org/|{{AUR|netgen-git}}, {{AUR|ngsolve-git}}}}
+* {{App|[[Wikipedia:OpenFOAM|OpenFOAM]]|Software package and toolkit for computational fluid dynamics (CFD).|https://openfoam.org/|{{AUR|openfoam-org}}}}
+* {{App|OpenLoops 2|A particle physics package for the fast numerical evaluation of tree and one-loop matrix elements.|https://openloops.hepforge.org/|{{AUR|openloops}}}}
+* {{App|QuTiP|QuTiP is open-source software for simulating the dynamics of open quantum systems|https://qutip.org/|{{AUR|python-qutip}}}}
+* {{App|Rivet|A particle physics package for data analysis and validation of Monte Carlo event generators|https://rivet.hepforge.org/|{{AUR|rivet}}}}
+* {{App|Speaq|Tools for Nuclear Magnetic Resonance (NMR) Spectra Alignment, Peak Based Processing, Quantitative Analysis and Visualizations|https://cran.r-project.org/web/packages/speaq/index.html|{{AUR|r-speaq}}}}
+* {{App|[[Wikipedia:SWMM|SWMM]]|Storm Water Management Model is a dynamic rainfall-runoff-subsurface runoff simulation model used for simulation of the surface/subsurface hydrology quantity and quality.|https://www.epa.gov/|{{AUR|swmm5-git}}}}
+* {{App|Sherpa|A particle physics package for Monte Carlo simulation of collider events.|https://sherpa-team.gitlab.io/|{{AUR|sherpa}}}}
+* {{App|[[Wikipedia:Step (software)|Step]]|Two-dimensional physics simulation engine. Part of {{Grp|kde-education}}.|https://apps.kde.org/step/|{{Pkg|step}}}}
+* {{App|VESTA|3D visualization program for structural models, volumetric data such as electron/nuclear densities, and crystal morphologies.|https://jp-minerals.org/vesta/en/|{{AUR|vesta}}}}
+* {{App|WHIZARD|The Generator of Monte Carlo Event Generators for Tevatron, LHC, ILC, CLIC, CEPC, FCC-ee, FCC-hh, SppC and other High Energy Physics Experiments.|https://whizard.hepforge.org/|{{AUR|whizard}}}}
+
+=== Unit conversion ===
+
+* {{App|ConvertAll|Unit conversion application that allows one to combine units in any way (e.g. inches per decade), even if it does not make sense.|https://convertall.bellz.org/|{{AUR|convertall}}}}
+* {{App|[https://printfn.github.io/fend/ fend]|An arbitrary-precision unit-aware calculator.|https://github.com/printfn/fend|{{AUR|fend}}}}
+* {{App|Gonvert|Conversion utility that allows conversion between many units like CGS, Ancient, Imperial with many categories like length, mass, numbers, etc.|http://www.unihedron.com/projects/gonvert/|{{AUR|gonvert}}}}
+* {{App|[https://numbat.dev/ Numbat]|Statically typed programming language for scientific computations with first class support for physical dimensions and units.|https://github.com/sharkdp/numbat|{{AUR|numbat}}}}
+* {{App|Rink|A unit conversion tool and library written in rust. It can be used for physics and engineering calculations, as well as dimensionality analysis.|https://rinkcalc.app/about|{{Pkg|rink}}}}
+* {{App|UDUNITS|A tool for calculations of physical quantities.|https://www.unidata.ucar.edu/software/udunits/|{{AUR|udunits}}}}
+* {{App|[[Wikipedia:GNU Units|Units]]|Command-line unit converter and calculator that can handle multiplicative scale changes, nonlinear conversions such as Fahrenheit to Celsius or wire gauge and others.|https://www.gnu.org/software/units/|{{AUR|units}}}}
+
+== Chemistry ==
+
+* {{App|ChemCalc|A chemical calculator that calculates the amount of reagents to use when making solutions.|https://github.com/Chris-Baba/ChemCalc/tree/main|{{AUR|chemcalc}}}}
+
+* {{App|TCcalc|A basic CLI [[Wikipedia:Chemical thermodynamics|Chemical thermodynamics]] calculator. Allows for calculating delta S and H of reactions/state changes.|https://gitlab.com/calcs1/tccalc/|{{AUR|tccalc}}}}
+
+=== Molecules ===
+
+==== Viewers ====
+
+See also [[Wikipedia:List of molecular graphics systems]].
+
+* {{App|[[Wikipedia:Avogadro_(software)|Avogadro]]|Editor, viewer and simulator for 3D molecule structures (also supports downloading files from the [[Wikipedia:Protein Data Bank|Protein Data Bank]]).|https://avogadro.cc/|{{AUR|avogadroapp}}}}
+* {{App|[[Wikipedia:Ghemical|Ghemical]]|Computational chemistry software package used to edit, view and simulate molecular structures.|http://bioinformatics.org/ghemical/ghemical/index.html|{{AUR|ghemical}}}}
+* {{App|[[Wikipedia:PyMOL|PyMOL]]|Open-source molecular visualization system that can produce high quality 3D images of small molecules and biological macromolecules, such as proteins.|https://pymol.org/|{{Pkg|pymol}}}}
+* {{App|[[Wikipedia:UCSF Chimera|UCSF Chimera]]|Extensible molecular modeling system.|https://rbvi.ucsf.edu/chimera/|{{AUR|ucsf-chimera}}}}
+* {{App|UCSF ChimeraX|Next-generation molecular visualization program, following UCSF Chimera.|https://rbvi.ucsf.edu/chimerax/|{{AUR|chimerax}}}}
+* {{App|[[Wikipedia:Visual Molecular Dynamics|VMD]]|VMD is a molecular visualization program for displaying, animating, and analyzing large biomolecular systems using 3-D graphics and built-in scripting.|https://www.ks.uiuc.edu/Research/vmd/|{{AUR|vmd}}}}
+* {{App|wxMacMolPlt|An open-source GUI for preparing, submitting and visualizing input and output for the GAMESS quantum chemistry package.|https://brettbode.github.io/wxmacmolplt/|{{AUR|wxmacmolplt}}}}
+
+==== Drawing ====
+
+* {{App|Chemtool|GTK-based program for drawing chemical structural formulas.|http://ruby.chemie.uni-freiburg.de/~martin/chemtool/chemtool.html|{{AUR|chemtool}}}}
+
+==== Modeling ====
+
+* {{App|[[Wikipedia:AMBER|AmberTools]]|AmberTools consists of several independently developed packages that work well by themselves, and with Amber18 itself. The suite can also be used to carry out complete molecular dynamics simulations, with either explicit water or generalized Born solvent models.|https://ambermd.org/AmberTools.php|{{AUR|ambertools}}}}
+* {{App|[[Wikipedia:APBS (software)|APBS]]|Electrostatic and solvation properties for complex molecules.|https://www.poissonboltzmann.org/|{{AUR|apbs}}}}
+* {{App|[[Wikipedia:COPASI|COPASI]]|COmplex PAthway SImulator for analysis of biochemical networks and their dynamics.|https://copasi.org/|{{AUR|copasi-bin}}}}
+* {{App|[[Wikipedia:CP2K|CP2K]]|A quantum chemistry and solid state physics software package.|https://www.cp2k.org/|{{AUR|cp2k}}}}
+* {{App|Fpocket|Fpocket is a very fast open source protein pocket detection algorithm based on Voronoi tessellation.|https://github.com/Discngine/fpocket|{{AUR|fpocket-git}}}}
+* {{App|[[GROMACS]] (GROningen MAchine for Chemical Simulations)|Versatile package to perform molecular dynamics, i.e. simulate the Newtonian equations of motion for systems with hundreds to millions of particles.|https://www.gromacs.org|{{AUR|gromacs}}}}
+* {{App|[[Wikipedia:LAMMPS|LAMMPS]]|Large-scale Atomic/Molecular Massively Parallel Simulator.|https://www.lammps.org/|{{AUR|lammps}}}}
+* {{App|[[Wikipedia:MODELLER|MODELLER]]|3D structure homology modeller.|https://salilab.org/modeller/|{{AUR|modeller}}}}
+* {{App|[[Wikipedia:NAMD|NAMD]]|NAMD is a parallel molecular dynamics code designed for high-performance simulation of large biomolecular systems.|https://www.ks.uiuc.edu/Research/namd/|{{AUR|namd}}}}
+* {{App|[[Wikipedia:NWChem|NWChem]]|Ab initio computational chemistry software package.|https://nwchemgit.github.io/|{{AUR|nwchem}}}}
+* {{App|[[Wikipedia:Open Babel|Open Babel]]|A library designed to interconvert between many file formats used in molecular modeling and computational chemistry.|https://openbabel.org/|{{pkg|openbabel}}}}
+* {{App|[[Wikipedia:ORCA (quantum chemistry program)|ORCA]]|ORCA is an ab initio, DFT, and semi-empirical SCF-MO package.|https://orcaforum.kofo.mpg.de/app.php/portal|{{AUR|orcaqm}}}}
+* {{App|[[Wikipedia:APBS (software)|PDB2PQR]]|Electrostatic and solvation properties for complex molecules.|https://www.poissonboltzmann.org/|{{AUR|python-pdb2pqr}}}}
+* {{App|[[Wikipedia:PLUMED|PLUMED]]|An open source plugin for free energy calculations in molecular systems which works together with some of the most popular molecular dynamics engines.|https://www.plumed.org/|{{AUR|plumed}}}}
+* {{App|PSI4|Open-source quantum chemistry|https://psicode.org/|{{AUR|psi4-git}}}}
+* {{App|[[Wikipedia:Quantum ESPRESSO|Quantum ESPRESSO]]|Integrated suite of applications for electronic-structure calculations and materials modeling at nanoscale. It is based on density-functional theory, plane waves, and pseudopotentials (both norm-conserving and ultrasoft).|https://www.quantum-espresso.org/|{{AUR|quantum-espresso}}}}
+* {{App|[[Wikipedia:RDKit|RDKit]]|A collection of cheminformatics and machine-learning software written in C++ and Python.|https://www.rdkit.org/|{{Pkg|rdkit}}}}
+* {{App|[[Wikipedia:RDock|rDock]]|A fast, versatile and open-source program for docking ligands to proteins and nucleic acids.|https://rdock.sourceforge.net/|{{AUR|rdock}}}}
+* {{App|[[Wikipedia:AutoDock|smina]]|Smina is a fork of Autodock Vina that focuses on improving scoring and minimization.|https://sourceforge.net/projects/smina/|{{AUR|smina-bin}}}}
+
+=== Simulation analysis ===
+
+* {{App|mdanalysis|An object-oriented python toolkit to analyze molecular dynamics trajectories in many popular formats.|https://www.mdanalysis.org|{{AUR|python-mdanalysis}}}}
+* {{App|MDTraj|A modern, open library for the analysis of molecular dynamics trajectories.|https://github.com/mdtraj/mdtraj|{{AUR|python-mdtraj}}}}
+* {{App|xdrfile|Allows to read GROMACS [https://manual.gromacs.org/current/reference-manual/file-formats.html#trr trr] and [https://manual.gromacs.org/current/reference-manual/file-formats.html#xtc xtc] files and also to convert from one format to another.|https://manual.gromacs.org/current/reference-manual/file-formats.html#xdr|{{AUR|xdrfile}}}}
+
+=== Periodic table ===
+
+* {{App|eperiodique|A simple Periodic Table Of Elements viewer using the EFL.|https://eperiodique.sourceforge.net/|{{AUR|eperiodique}}}}
+* {{App|gElemental|Periodic table of the elements with additional information.|https://freshmeat.sourceforge.net/projects/gelemental|{{AUR|gelemental}}}}
+* {{App|Kalzium|Periodic table of the elements with molecule editor and equation solver. Part of {{Grp|kde-education}}.|https://apps.kde.org/kalzium/|{{Pkg|kalzium}}}}
+
+== Earth science ==
+
+=== Climatology ===
+
+* {{App|Climate Data Operators|Command line tool manipulate and analyse Climate model Data. Supported data formats are GRIB, netCDF, SERVICE, EXTRA and IEG.|https://code.mpimet.mpg.de/projects/cdo|{{AUR|cdo}}}}
+
+=== Geography ===
+
+==== Map viewers ====
+
+* {{App|Cruiser|Map and navigation application using offline vector maps|https://wiki.openstreetmap.org/wiki/Cruiser|{{AUR|cruiser}}}}
+* {{App|GNOME Maps|A simple map client for GNOME with navigation and GNSS features (adapted to Linux Mobile). Part of {{Grp|gnome}}.|https://apps.gnome.org/Maps/|{{Pkg|gnome-maps}}}}
+* {{App|kosmindoormap|Indoor cartography, levels by levels of buildings, mainly Train station, and Airport buildings. Based on OSM data.|https://www.kde.org|{{Pkg|kosmindoormap}}}}
+* {{App|MapSCII|Console Map Viewer.|https://github.com/rastapasta/mapscii|{{AUR|nodejs-mapscii}}}}
+* {{App|Mapton|Extensible desktop map and globe application written in Java.|https://mapton.org/|{{AUR|mapton}}}}
+* {{App|[[Wikipedia:Marble (software)|Marble]]|Virtual Globe and World Atlas that can be used to learn more about the Earth. Part of {{Grp|kde-education}}.|https://marble.kde.org/|KDE: {{Pkg|marble}}, Qt: {{Pkg|marble-qt}}}}
+* {{App|Marble Behaim|Viewer for the oldest existent globe of the Earth made by Martin Behaim and collaborators around 1492.|https://marble.kde.org/|{{Pkg|marble-behaim}}}}
+* {{App|Marble Maps|Vector and GNSS navigation system, with  Modular turn-by-turn car, foot, and bike navigation system (adapted to Linux Mobile).|https://marble.kde.org/|{{Pkg|marble-maps}}}}
+* {{App|OffRoad|Offline vector map display ported from OsmAnd.|https://sourceforge.net/projects/offroadosm/|{{Pkg|offroad}}}}
+* {{App|Organic Maps|GNSS based navigation, with vector off-line and routing features, and turn by turn routing|https://github.com/organicmaps/organicmaps|{{AUR|organicmaps-git}}}}
+* {{App|OSMin|GNSS based navigation, with vector off-line and routing features, and turn by turn car, foot, bike, and hiking routing (adapted to Linux Mobile).|https://github.com/janbar/osmin|{{AUR|osmin}}}}
+* {{App|Pure Maps|Display vector and raster maps, places, routes, etc.|https://rinigus.github.io/pure-maps/|{{AUR|pure-maps}}}}
+
+==== Navigation and routing ====
+
+* {{App|KTrip|Public transport assistant for mobile devices. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/ktrip/|{{Pkg|ktrip}}}}
+* {{App|Railway|Lets you look up travel information for many different railways, all without needing to navigate through different websites.|https://apps.gnome.org/DieBahn/|{{Pkg|railway}}}}
+
+==== Positioning and tracking ====
+
+* {{App|BT747|The swiss army knife for MTK GPS dataloggers.|https://sourceforge.net/projects/bt747/|{{Pkg|bt747}}}}
+* {{App|FoxtrotGPS|Lightweight and fast mapping application.|https://www.foxtrotgps.org/|{{AUR|foxtrotgps}}}}
+* {{App|Gebabbel|Alternative GUI for GPSBabel.|https://gebabbel.sourceforge.net/|{{AUR|gebabbel}}}}
+* {{App|Gpredict|Real-time satellite tracking and orbit prediction application.|https://gpredict.oz9aec.net/|{{AUR|gpredict}}}}
+* {{App|GPSBabel|Reads, writes, and manipulates GPS waypoints, tracks, routes in a variety of formats.|https://www.gpsbabel.org/|{{Pkg|gpsbabel}}}}
+* {{App|[[Wikipedia:gpsd|gpsd]]|Service daemon that monitors one or more GPSes or AIS receivers attached to a host computer through serial or USB ports, making all data on the location/course/velocity of the sensors available to be queried on TCP port 2947 of the host computer.|http://catb.org/gpsd/|{{Pkg|gpsd}}}}
+* {{App|GpsPrune|View, edit and convert coordinate data from GPS systems.|https://activityworkshop.net/software/gpsprune/|{{Pkg|gpsprune}}}}
+* {{App|GPX Viewer|Simple tool to visualize tracks and waypoints stored in a gpx file.|https://blog.sarine.nl/tag/gpxviewer/|{{Pkg|gpx-viewer}}}}
+* {{App|GPXSee|GPS log file viewer and analyzer.|https://www.gpxsee.org/|{{Pkg|gpxsee}}}}
+* {{App|Navit|Modular turn-by-turn car navigation system.|https://www.navit-project.org/|{{Pkg|navit}}}}
+* {{App|PreviSat|PreviSat is a satellite tracking software for observing purposes|https://previsat.sourceforge.net/|{{AUR|previsat}}}}
+* {{App|QMapShack|Plan your next outdoor trip.|https://github.com/Maproom/qmapshack/|{{Pkg|qmapshack}}}}
+* {{App|Satellite|Displays Global Navigation Satellite System (GNSS: GPS, Galileo, Glonass etc.) information obtained from NMEA sources and saves your tracks|https://codeberg.org/tpikonen/satellite|{{AUR|satellite-gtk}}}}
+* {{App|[[Wikipedia:Subsurface (software)|Subsurface]]|Diving logbook to keep track of your dives by logging dive locations (with GPS coordinates), weights and exposure protection used, divemasters and dive buddies, etc.|https://subsurface-divelog.org/|{{AUR|subsurface-git}}}}
+* {{App|Viking|GTK 2 application to manage GPS data.|https://sourceforge.net/projects/viking/|{{Pkg|viking}}}}
+
+==== Map editors ====
+
+* {{App|JOSM|Main editor for OpenStreetMap written in Java.|https://josm.openstreetmap.de/|{{Pkg|josm}}}}
+* {{App|Merkaartor|OpenStreetMap editor.|https://merkaartor.be/|{{Pkg|merkaartor}}}}
+* {{App|OpenOrienteering Mapper|Orienteering mapmaking program.|https://www.openorienteering.org/apps/mapper/|{{AUR|openorienteering-mapper}}}}
+* {{App|Phyghtmap|Generate OSM contour lines from NASA SRTM data|http://katze.tfiu.de/projects/phyghtmap/|{{AUR|phyghtmap}}}}
+
+==== Geospatial data analysis and GIS ====
+
+* {{App|GeoDa|A tool for spatial data analysis.|https://geodacenter.github.io/|{{AUR|geoda-bin}}}}
+* {{App|[[Wikipedia:GRASS GIS|GRASS GIS]]|Geospatial data management and analysis, image processing, graphics/maps production, spatial modeling and visualization.|https://grass.osgeo.org/|{{AUR|grass}}}}
+* {{App|[[Wikipedia:gvSIG|gvSIG]]|vSIG is a geographic information system (GIS), that is, a desktop application designed for capturing, storing, handling, analyzing and deploying any kind of referenced geographic information in order to solve complex management and planning problems.|http://www.gvsig.com/en| {{AUR|gvsig-desktop-bin}}}}
+* {{App|Panoply|NetCDF, HDF and GRIB Data Viewer by NASA GISS|https://www.giss.nasa.gov/tools/panoply/|{{AUR|panoply}}}}
+* {{App|[[Wikipedia:QGIS|QGIS]]| [[Wikipedia:Geographic Information System|Geographic Information System (GIS)]] that supports vector, raster & database formats.|https://qgis.org/|{{Pkg|qgis}}}}
+* {{App|SAGA|A Geographic Information System (GIS) software with immense capabilities for geodata processing and analysis.|https://saga-gis.sourceforge.io/en/index.html|{{AUR|saga-gis}}}}
+* {{App|WCSTools|A package of programs for setting and using the world coordinate systems|http://tdc-www.harvard.edu/wcstools/|{{AUR|wcstools}}}}
+
+=== Geology ===
+
+* {{App|CDI|Is a general purpose C-library with an additional Fortran interface for file IO in the geoscience area.|https://code.mpimet.mpg.de/projects/cdi|{{AUR|cdi}}}}
+* {{App|EnhancedVolcano|Publication-ready volcano plots with enhanced colouring and labeling.|https://bioconductor.org/packages/release/bioc/html/EnhancedVolcano.html|{{AUR|r-enhancedvolcano}}}}
+* {{App|GEOmap|Topographic and Geologic Mapping.|https://cran.r-project.org/web/packages/GEOmap/index.html|{{AUR|r-geomap}}}}
+* {{App|GPlates|Is a plate tectonics program. Manipulate reconstructions of geological and paleogeographic features through geological time.|https://www.gplates.org/|{{AUR|gplates}}}}
+* {{App|Gstat|Spatial and Spatio-Temporal Geostatistical Modelling, Prediction and Simulation|https://cran.r-project.org/web/packages/gstat/index.html|{{AUR|r-gstat}}}}
+* {{App|Madagascar|Multidimensional data analysis and reproducible computational experiments.|https://www.reproducibility.org|{{AUR|madagascar}}}}
+* {{App|SeisComP|A seismological software for data acquisition, processing, distribution and interactive analysis.|https://github.com/SeisComP/seiscomp|{{AUR|seiscomp}}}}
+* {{App|Seismic Un*x|A seismic processing and research environment developed at the Center for Wave Phenomena, Colorado School of Mines|https://wiki.seismic-unix.org/start|{{AUR|seismic-unix}}}}
+* {{App|TauP|A seismic travel time calculator.|https://github.com/crotwell/TauP|{{AUR|taup-git}}}}
+
+=== Oceanography ===
+
+* {{App|Cmocean|Colormap setup for standardizing commonly-plotting oceanographic variables.|https://github.com/matplotlib/cmocean|{{AUR|python-cmocean}}}}
+
+=== Weather status ===
+
+* {{App|Gis Weather|Customizable weather forecast desktop widget.|https://sourceforge.net/projects/gis-weather/|{{AUR|gis-weather}}}}
+* {{App|GNOME Weather|Small application for GNOME that allows you to monitor the current weather conditions for your city, or anywhere in the world, and to access updated forecasts provided by various internet services. Part of {{Grp|gnome}}.|https://apps.gnome.org/Weather/|{{Pkg|gnome-weather}}}}
+* {{App|KWeather|A convergent weather application for Plasma. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kweather/|{{Pkg|kweather}}}}
+* {{App|meteo-qt|System tray application for weather status information.|https://github.com/dglent/meteo-qt|{{AUR|meteo-qt}}}}
+* {{App|wttr|A simple console application to check the weather, using data from https://wttr.in|https://github.com/AmirrezaFiroozi/wttr|{{AUR|wttr}}}}
+* {{App|Xfce Weather Panel Plugin|Weather forecast plugin for the Xfce4 panel.|https://goodies.xfce.org/projects/panel-plugins/xfce4-weather-plugin|{{Pkg|xfce4-weather-plugin}}}}
+* {{App|wego|A terminal weather application.|https://tylerwolf35.github.io/wego|{{AUR|wego}}}}
+
+== Astronomy ==
+
+=== Astrometrical and image processing software ===
+
+See also [[Wikipedia:List of astrometric solvers]].
+
+* {{App|APTS|Set of tools for automatic astrophotography images acquisition and processing|https://github.com/pozar87/apts|{{AUR|python-apts}}}}
+* {{App|Astap|Astrometric (plate) solver, stacking of images, photometry and FITS viewer|https://www.hnsky.org/astap.htm|{{AUR|astap-bin-qt5}}}}
+* {{App|AstroCrop|Astronomical image preprocessing tool|https://www.astrodmx-capture.org.uk/astrocrop/|{{AUR|astrocrop}}}}
+* {{App|AstroImageJ|ImageJ for Astronomy|https://www.astro.louisville.edu/software/astroimagej/|{{AUR|astroimagej}}}}
+* {{App|Astrometry.net|Automatic recognition of astronomical images|https://astrometry.net/|{{AUR|astrometry.net}}}}
+* {{App|AudeLA|AudeLA is a TCL extension aimed at providing amateur astronomers with image processing, telescope controling, ccd camera driving, and various astronomical algorithms|https://sourceforge.net/projects/audela/|{{AUR|audela-bin}},{{AUR|audela-svn}}}}
+* {{App|CARTA|Cube Analysis and Rendering Tool for Astronomy|https://cartavis.org/|{{AUR|carta-appimage}}}}
+* {{App|FITSH|a software package for astronomical image processing|https://fitsh.net/|{{AUR|fitsh}}}}
+* {{App|GIMP Astronomy Plugins|Set of GIMP plugins for astronomical image processing.|http://hennigbuam.de/georg/gimp.html|{{AUR|gimp-plugin-astronomy}}}}
+* {{App|Ginga|A viewer for astronomical data FITS (Flexible Image Transport System) files|https://ejeschke.github.io/ginga/|{{AUR|python-ginga}}}}
+* {{App|SCAMP|reads SExtractor catalogs and computes astrometric and photometric solutions for any arbitrary sequence of FITS images in a completely automatic way.|https://www.astromatic.net/software/scamp/|{{AUR|astromatic-scamp}}}}
+* {{App|SExtractor|Is a program that builds a catalogue of objects from an astronomical image.|https://www.astromatic.net/software/sextractor/|{{AUR|astromatic-sextractor}}}}
+* {{App|Montage|An astronomical image mosaic engine|http://montage.ipac.caltech.edu/|{{AUR|montage}}}}
+* {{App|Munipack|A general astronomical image processing software|http://munipack.physics.muni.cz/|{{AUR|munipack}}, {{AUR|c-munipack}}}}
+* {{App|oaCapture|A planetary imaging application using Qt5|https://www.openastroproject.org/oacapture/|{{AUR|oacapture}}}}
+* {{App|PlanetarySystemStacker|Produce a sharp image of a planetary system object|https://github.com/Rolf-Hempel/PlanetarySystemStacker|{{AUR|planetarysystemstacker-git}}}}
+* {{App|THELI|THELI is a data processing pipeline for optical, near-infrared and mid-infrared astronomical images|https://github.com/schirmermischa/THELI|{{AUR|theli}}}}
+
+=== Image capture software ===
+
+* {{App|CCDciel|A CCD capture software intended for the amateur astronomer.|https://www.ap-i.net/ccdciel//en/start|{{AUR|ccdciel}}}}
+* {{App|FireCapture|The leading planetary capture tool|https://www.firecapture.de/|{{AUR|firecapture}}}}
+* {{App|GoQat|Camera acquisition software, especially for QSI cameras, that provides other features such as autoguiding, focusing help and others.|https://canburytech.net/GoQat/|{{AUR|goqat}}}}
+* {{App|lin_guider|astronomical autoguiding program|https://sourceforge.net/projects/linguider/|{{AUR|lin-guider}}}}
+* {{App|Mrcal|Is a generic toolkit built to solve the calibration and SFM-like problems we encounter at NASA/JPL.|https://mrcal.secretsauce.net/|{{AUR|mrcal}}}}
+* {{App|Open PHD Guiding|PHD2 astrophotography autoguiding tool|https://openphdguiding.org/|{{AUR|phd2}}}}
+* {{App|SAOImageDS9|SAOImage DS9: Astronomical Data Visualization Application|https://sites.google.com/cfa.harvard.edu/saoimageds9|{{AUR|ds9}}}}
+* {{App|[[Wikipedia:Siril (software)|Siril]]|Siril is a software application for astrophotography, which allows pre-processing and processing of images from any type of camera (CCD, planetary camera, webcam etc.)|https://siril.org/|{{AUR|siril}}}}
+
+=== Common Library ===
+
+* {{App|[[Wikipedia:Astropy|Astropy]]|The Astropy Project is a community effort to develop a common core package for Astronomy in Python and foster an ecosystem of interoperable astronomy packages.|https://www.astropy.org/|{{Pkg|python-astropy}}}}
+* {{App|CASA|the Common Astronomy Software Applications package.|https://casa.nrao.edu/|{{AUR|casa6-bin}}}}
+* {{App|Casacore|package contains the core libraries of the old AIPS++/CASA package.|https://casacore.github.io/casacore/|{{AUR|casacore}}, {{AUR|python-casacore}}}}
+* {{App|CDF|NASA Common Data Format (CDF) library for scientific data management|https://cdf.gsfc.nasa.gov/|{{AUR|cdf-nasa}}}}
+* {{App|ERFA|Essential Routines for Fundamental Astronomy|https://github.com/liberfa/erfa|{{pkg|erfa}}}}
+* {{App|HEASoft|NASA high energy astrophysics library|https://heasarc.gsfc.nasa.gov/docs/software/lheasoft/|{{AUR|heasoft}}}}
+* {{App|libTheSky|Fortran library to compute the positions of celestial bodies and events with great accuracy|https://libthesky.sourceforge.net/|{{AUR|libthesky}}, {{AUR|libthesky-data}}}}
+* {{App|Pal|Positional Astronomy Library.|https://github.com/Starlink/pal|{{AUR|starlink-pal}}}}
+* {{App|PyEphem|PyEphem provides scientific-grade astronomical computations|https://rhodesmill.org/pyephem/|{{AUR|python-pyephem}}}}
+* {{App|SOFA|Set of algorithms and procedures used in fundamental astronomy|http://www.iausofa.org/|{{AUR|sofa}}}}
+
+=== Toolkits ===
+
+* {{App|AstroML|Machine learning, statistics, and data mining for astronomy and astrophysics|https://www.astroml.org/|{{AUR|python-astroml}}}}
+* {{App|Exoplanet|exoplanet is a toolkit for probabilistic modeling of time series data in astronomy with a focus on observations of exoplanets|https://github.com/exoplanet-dev/exoplanet|{{AUR|exoplanet-git}}}}
+* {{App|Galpy|Galactic Dynamics in python|https://www.galpy.org/|{{AUR|python-galpy}}}}
+* {{App|Gammapy|A Python package for gamma-ray astronomy|https://gammapy.org/|{{AUR|python-gammapy}}}}
+* {{App|HEALPix|Software for pixelization, hierarchical indexation, synthesis, analysis, and visualization of data on the sphere|https://healpix.jpl.nasa.gov/|{{AUR|healpix}}}}
+* {{App|JHelioviewer|Visualization software for solar image data in space weather context|https://www.jhelioviewer.org/|{{AUR|jhelioviewer}}}}
+* {{App|JMARS|Java Mission-planning and Analysis for Remote Sensing.|https://jmars.mars.asu.edu/|{{AUR|jmars}}}}
+* {{App|JSkyCalc|A tool for observing preparation in java|https://caligari.dartmouth.edu/public/downloads/skycalc/|{{AUR|jskycalc}}}}
+* {{App|Period04|Period04 is a computer program especially dedicated to the statistical analysis of large astronomical time series containing gaps|https://period04.net/|{{AUR|period04}}}}
+* {{App|[[Wikipedia:WorldWide Telescope|Pywwt]]|Is the official toolkit for accessing AAS WorldWide Telescope (WWT) from Python|https://pywwt.readthedocs.io/en/stable/|{{AUR|python-pywwt}}}}
+* {{App|RochePlot|Plot the key stages in the evolution of a binary star|https://rocheplot.sourceforge.net/|{{AUR|rocheplot}}}}
+* {{App|Skyfield|Elegant astronomy for Python|https://rhodesmill.org/skyfield/|{{AUR|python-skyfield}}}}
+* {{App|SolTrack|A free, fast and accurate C/C++ routine to compute the position of the Sun|https://soltrack.sourceforge.net/|{{AUR|soltrack}}}}
+* {{App|SPICE|A comprehensive toolkit and api to design, simulate and analyse space missions|https://naif.jpl.nasa.gov/naif/index.html|{{AUR|cspice}}}}
+* {{App|STILTS|Starlink Tables Infrastructure Library Tool Set|https://www.star.bris.ac.uk/~mbt/stilts/|{{AUR|stilts}}}}
+* {{App|sunclock|An astronomical world map that shows day and night and the Sun and Moon positions|https://www.spinnaker.de/debian/sunclock.html|{{AUR|sunclock}}}}
+* {{App|Tempo|Pulsar Timing Software|https://tempo.sourceforge.net/tempo_idx.html|{{AUR|tempo-git}}}}
+* {{App|TOPCAT|Tool for OPerations on Catalogues And Tables|https://www.star.bris.ac.uk/~mbt/topcat/|{{AUR|topcat}}}}
+* {{App|VaST|VaST is a software tool for finding variable objects on a series of astronomical images|http://scan.sai.msu.ru/vast/|{{AUR|vast-astronomical-git}}}}
+* {{App|VStar|VStar is a multi-platform, easy-to-use variable star data visualization and analysis tool that was originally developed as part of the AAVSOs Citizen Sky project|https://www.aavso.org/vstar|{{AUR|vstar-aavso}}}}
+
+=== Calculators and CLI utils ===
+
+* {{App|astroTools|Command-line tools for astronomy and astrophysics|https://astrotools.sourceforge.net/|{{AUR|astrotools}}}}
+* {{App|Gnuastro|Various programs and library functions for the manipulation and analysis of astronomical data|https://www.gnu.org/software/gnuastro/|{{AUR|gnuastro}}}}
+* {{App|Kosmorro|A program to calculate the ephemerides|https://kosmorro.space/|{{AUR|kosmorro}}}}
+* {{App|Project Pluto|Project Pluto supplies astronomical software, both commercial and freeware, to amateur and professional astronomers|https://www.projectpluto.com/|{{AUR|pluto-lunar-git}}, {{AUR|pluto-sat-code-git}}, {{AUR|pluto-jpl-eph-git}}, {{AUR|pluto-find-orb-git}}}}}
+* {{App|star-charter|A command-line tool for producing vector-graphics charts of the night sky in SVG, PDF and PNG formats|https://github.com/dcf21/star-charter|{{AUR|star-charter-git}}}}
+* {{App|Sunwait|Calculate sunrise/sunset times with civil, nautical, astronomical and custom twilights|https://github.com/risacher/sunwait|{{AUR|sunwait}}}}
+
+=== Management of telescopes and observatories ===
+
+* {{App|GILDAS|Is a collection of state-of-the-art software oriented toward (sub-)millimeter radioastronomical applications (either single-dish or interferometer)|https://www.iram.fr/IRAMFR/GILDAS/|{{AUR|gildas}}}}
+* {{App|imSim|software package that simulates the LSST telescope and survey|https://github.com/LSSTDESC/imSim|{{AUR|python-imsim-git}}}}
+* {{App|rubin_sim|Scheduler, survey strategy analysis, and other simulation tools for Rubin Observatory|https://github.com/lsst/rubin_sim|{{AUR|python-rubinsim-git}}}}
+* {{App|Srt-py|Small Radio Telescope Control Code for Python.|https://github.com/MITHaystack/srt-py|{{AUR|srt-py-git}}}}
+
+=== Simulation ===
+
+* {{App|APSYNSIM|Aperture Synthesis Simulator for Radio Astronomy|https://launchpad.net/apsynsim|{{AUR|apsynsim}}}}
+* {{App|Galaxy2|Is program which simulates the motion of stars under the influence of gravity|https://www.kornelix.net/galaxy2/galaxy2.html|{{AUR|galaxy2}}}}
+* {{App|GalSim|Modular galaxy image simulation toolkit|https://github.com/GalSim-developers/GalSim|{{AUR|python-galsim}}}}
+* {{App|FriendlyVRI|Is designed to simulate astronomical observations using linked arrays of radio antennas in a technique called earth rotation aperture synthesis|https://github.com/crpurcell/friendlyVRI|{{AUR|friendlyvri-git}}}}
+* {{App|Pynterferometer|Is a graphical interface designed to demonstrated the techniques of radio interferometry used by telescopes|https://www.jb.man.ac.uk/pynterferometer/index.html|{{AUR|pynterferometer}}}}
+
+=== Space exploration programs ===
+
+* {{App|Cosmographia|Cosmographia is a visualization program rendering the solar system and its bodies in 3D to create a freely navigable map of the solar system|https://naif.jpl.nasa.gov/naif/cosmographia.html|{{AUR|cosmographia-bin}}}}
+* {{App|Cosmonium|3D astronomy and space exploration program|https://github.com/cosmonium/cosmonium|{{AUR|cosmonium-bin}}}}
+* {{App|OpenSpace|OpenSpace is an open source, non-commercial, and freely available interactive data visualization software designed to visualize the entire known universe and portray our ongoing efforts to investigate the cosmos|https://www.openspaceproject.com/|{{AUR|openspace-git}}}}
+* {{App|Our Galaxy|Is a unique app that helps you understand the structural components of the Galaxy and visualize the locations and physical properties of deep sky objects in and around it|https://www.otherwise.com/|{{AUR|ourgalaxy-bin}}}}
+
+=== Planetary and Virtual Atlas ===
+
+See also [[Wikipedia:Planetarium software]].
+
+See also [[Wikipedia:List of observatory software]].
+
+* {{App|Aladin|Interactive software sky atlas|http://aladin.u-strasbg.fr/aladin.gml|{{AUR|aladin}}}}
+* {{App|[[Wikipedia:Celestia|Celestia]]|3D astronomy simulation program that allows users to travel through an extensive universe, modeled after reality, at any speed, in any direction and at any time in history.|https://celestiaproject.space/|{{AUR|celestia}}}}
+* {{App|Gaia Sky|An open source 3D universe simulator with support for more than a billion objects|https://zah.uni-heidelberg.de/gaia/outreach/gaiasky|{{AUR|gaiasky}}}}
+* {{App|HNSKY|Hallo Northern Sky is the semi professional free planetarium program|https://sourceforge.net/projects/hnsky/|{{AUR|hnsky-hg}}}}
+* {{App|[[Wikipedia:KStars|KStars]]|Planetarium application that provides an accurate graphical simulation of the night sky, from any location on Earth, at any date and time. It is included in KDE Edu.|https://kstars.kde.org/|{{Pkg|kstars}}}}
+* {{App|[[Wikipedia:Cartes du Ciel|Skychart / Cartes du Ciel]]|Planetarium that maps out and labels most of the constellations, planets, and objects you can see with a telescope. It can also download Digitized Sky Survey Charts and superimpose images over these charts.|https://www.ap-i.net/skychart/|{{AUR|skychart-git}}}}
+* {{App|StarPlot|3-dimensional star chart viewer.|http://starplot.org/|{{AUR|starplot}}}}
+* {{App|[[Wikipedia:Stellarium (computer program)|Stellarium]]|Beautiful 3D planetarium that uses OpenGL to render a realistic sky in real time.|https://stellarium.org/|{{AUR|stellarium}}}}
+* {{App|Virtual Moon Atlas|Software for Moon observation and survey|https://www.ap-i.net/avl/en/start|{{AUR|virtualmoonatlas}}}}
+* {{App|[[Wikipedia:XEphem|XEphem]]|Motif-based ephemeris and planetarium program.|https://xephem.github.io/XEphem/Site/xephem.html|{{AUR|xephem}}}}
+
+== Biology ==
+
+=== Computational biology and bioinformatics ===
+
+See also [[Wikipedia:List of open source bioinformatics software]].
+
+* {{App|[[Wikipedia:Biopython|Biopython]]|Python package with tools for computational biology, as well as bioinformatics.|https://biopython.org/wiki/Biopython|{{AUR|python-biopython}}}}
+* {{App|[[Wikipedia:EMBOSS|EMBOSS]] (European Molecular Biology Open Software Suite)|Open source software analysis package specially developed for the needs of the molecular biology and bioinformatics user community.|https://emboss.sourceforge.net/|{{AUR|emboss}}}}
+* {{App|[[Wikipedia:MUMmer|MUMmer]]|Bioinformatics software system for sequence alignment based on suffix trees.|https://mummer.sourceforge.net/|{{AUR|mummer}}}}
+* {{App|Snapgene|Closed source molecular cloning application that offers a fast and easy way to plan, visualize, and document molecular biology procedures. Supports a wide range of cloning and PCR manipulations. The free version allows most common visualizations of a molecular biology workflow.|https://www.snapgene.com/|{{AUR|snapgene-viewer}}}}
+* {{App|[[Wikipedia:UGENE|UGENE]]|Application that integrates dozens of well-known biological tools and algorithms, providing both graphical user and command-line interfaces.|https://ugene.net/|{{AUR|ugene}}}}
+
+=== Genealogy ===
+
+* {{App|[[Wikipedia:Gramps (software)|Gramps]]|Genealogy program, which helps you track your family tree.|https://gramps-project.org/|{{Pkg|gramps}}}}
+
+* {{App|[[Wikipedia:LifeLines|LifeLines]]|Text based genealogy software for family trees and reports.|https://github.com/lifelines/|{{AUR|lifelines}}}}
+
+=== Image manipulation ===
+
+* {{App|[[Wikipedia:ImageJ|ImageJ]]|Java-based image processing and analysing program that provides extensibility via plugins and macros. It is widely used in microscopy (e.g. for cell counting).|https://imagej.net/ij/|{{AUR|imagej}}}}
+* {{App|[[Wikipedia:FIJI_(software)|Fiji]]| {{AUR|ImageJ2}} distribution with a lot of plugins organized into a coherent menu structure.|https://fiji.sc|{{AUR|fiji-bin}}}}
+
+=== DICOM viewers and volume rendering ===
+
+* {{App|aeskulap|Simple DICOM data viewer|https://www.nongnu.org/aeskulap/|{{AUR|aeskulap}}}}
+* {{App|weasis|Multipurpose DICOM viewer with a highly modular architecture|https://nroduit.github.io/en/|{{AUR|weasis-bin}}}}
+* {{App|aliza|Open 2D, 3D and 4D images in DICOM, MetaIO, Nifti, Nrrd and other formats, meshes in DICOM, VTK, STL and OBJ formats|https://www.aliza-dicom-viewer.com/|{{AUR|aliza}}}}
+* {{App|[[Wikipedia:3DSlicer|3DSlicer]]|Comprehensive [[Wikipedia:Magnetic resonance imaging|MRI]], [[Wikipedia:CT scan|CT]], [[Wikipedia:Laser scanning confocal microscopy|LSCM microscopy]] volume processing, segmentation and 3D-reconstruction|https://www.slicer.org/|{{AUR|3dslicer}}}}
+* {{App|[[Wikipedia:ParaView|ParaView]]|Interactive data visualization tool built using VTK that can scale across distributed computer hardware.|https://www.paraview.org/|{{Pkg|paraview}}}}
+
+== Engineering ==
+
+=== Computer-aided design ===
+
+See also [[Wikipedia:List of computer-aided design editors]].
+
+* {{App|[[Wikipedia:BRL-CAD|BRL-CAD]]|Constructive solid geometry modeling CAD system that includes an interactive geometry editor, ray tracing support for graphics rendering and geometric analysis, computer network distributed framebuffer support, scripting, image-processing and signal-processing tools.|https://brlcad.org/|{{AUR|brlcad}}}}
+* {{App|[[Wikipedia:FreeCAD|FreeCAD]]|Parametric 3D CAD modeler based on OpenCascade, Coin3D, Qt, and Python with features such as macro recording, workbenches and the ability to run as a server.|https://freecadweb.org/|{{Pkg|freecad}}}}
+* {{App|LeoCAD|CAD program for creating virtual LEGO models. It has an easy to use interface and currently includes over 10,000 different pieces created by the LDraw community.|https://www.leocad.org/|{{Pkg|leocad}}}}
+* {{App|[[Wikipedia:LibreCAD|LibreCAD]]|A 2D CAD application based on Qt5. Forked from QCAD Community Edition.|https://www.librecad.org/|{{Pkg|librecad}}}}
+* {{App|[[Wikipedia:OpenSCAD|OpenSCAD]]|A 3D CAD modeler that uses a textual, programmatic approach to creating and manipulating objects.|https://www.openscad.org|{{Pkg|openscad}}}}
+* {{App|[[Wikipedia:QCad|QCAD]]|A 2D CAD application based on Qt. Supports the DFX and HPGL standard file formats, and optionally the DWG format through a proprietary plugin.|https://www.qcad.org/|{{Pkg|qcad}}}}
+* {{App|[[Wikipedia:SolveSpace|SolveSpace]]|Powerful 3D CAD constraint-based parametric modeler with simple mechanical simulation capabilities.|https://solvespace.com/|{{AUR|solvespace}}}}
+
+=== 3D printing ===
+
+See also [[RepRap]].
+
+==== Slicers ====
+
+Slicers convert 3D models into a format supported by the 3D printer, usually this format is G-code.
+
+* {{App|PrusaSlicer|Slicer by Prusa Research. A fork of Slic3r. Aimed at their printers but supports other brands as well. Open source.|https://github.com/prusa3d/PrusaSlicer|{{Pkg|prusa-slicer}}}}
+* {{App|[[Wikipedia:Cura_(software)|Cura]]|Slicer by Ultimaker. Aimed at their printers but supports other brands as well. Open source.|https://ultimaker.com/software/ultimaker-cura|{{AUR|cura}}}}
+* {{App|SuperSlicer|Community maintained improved fork of PrusaSlicer. Not brand specific. Open source.|https://github.com/supermerill/SuperSlicer|{{AUR|superslicer-bin}}}}
+* {{App|BambuStudio|Slicer for printers from BambuLabs. Fork of PrusaSlicer. Open source.|https://github.com/bambulab/BambuStudio|{{AUR|bambustudio-git}}}}
+* {{App|orca-slicer|Community maintained fork of BambuStudio (in turn forked from PrusaSlicer). Open Source.|https://github.com/SoftFever/OrcaSlicer|{{AUR|orca-slicer}}}}
+* {{App|MatterControl|Simple 3D editor, slicer, and 3D printer control software by MatterHackers. Not brand specific. Open source.|http://www.mattercontrol.com|{{AUR|mattercontrol}}}}
+* {{App|IdeaMaker|Slicer by Raise3D. Aimed at their printers but supports other brands as well. Closed source.|https://www.raise3d.com/pages/ideamaker|{{AUR|ideamaker}}}}
+* {{App|Slic3r|One of the earliest slicers. Not used much any longer. Not brand specific. Open source.|https://slic3r.org/|{{AUR|slic3r}}}}
+* {{App|icesl|Modelling software with integrated slicer. Not brand specific. Closed source.|https://icesl.loria.fr/|{{AUR|icesl}}}}
+* {{App|FlashPrint|Slicer for the FlashForge 3D printers. Closed source.|http://www.ff3dp.com/|{{AUR|flashprint}}}}
+
+==== Control software ====
+
+Software for controlling 3D printers, usually over a cable or wireless.
+
+* {{App|OctoPrint|Web interface for FDM 3D printers using G-code. Open source.|https://octoprint.org/|{{AUR|octoprint}}}}
+* {{App|PrintRun|GUI control software for FDM 3D printers using G-code. Open source.|https://github.com/kliment/Printrun|{{AUR|printrun}}}}
+* {{App|[[Wikipedia:Repetier-Host|Repetier-Host]]|Combined slicer and control software for 3D printers. Closed source.|https://www.repetier.com/|{{AUR|repetier-host}}}}
+
+=== Electronics ===
+
+See also [[Wikipedia:Comparison of EDA software]].
+
+==== Digital logic ====
+
+Digital logic software are mainly simple educational tools that intended for only designing and simulating logic circuits.
+
+* {{App|Digital|Interactive simulator similiar to the discontinued Logisim. Features Karnaugh maps, logic tables, FSM editor, VHDL export and more, written in Java.|https://github.com/hneemann/Digital|{{AUR|digital}}}}
+* {{App|GTKWave|Fully featured GTK-based wave viewer which reads LXT, LXT2, VZT, FST, and GHW files as well as standard Verilog VCD/EVCD files and allows their viewing.|https://gtkwave.sourceforge.net/|{{Pkg|gtkwave}}}}
+* {{App|Logisim|Educational digital logic design and simulation software, written in Java, officially its development has stopped.|https://sourceforge.net/projects/circuit/|{{AUR|logisim}}}}
+* {{App|Logisim Evolution|Project which continue the development of the original Logisim with new features, written in Java.|https://github.com/reds-heig/logisim-evolution|{{AUR|logisim-evolution-git}}}}
+* {{App|PulseView|Logic analyzer, oscilloscope and MSO GUI.|https://sigrok.org/wiki/PulseView|{{Pkg|pulseview}}}}
+* {{App|SmartSim|Simple and beautiful digital logic circuit design and simulation software, mainly target teachers and students, very lightweight and cross platform, GPL licensed, written in Vala.|https://smartsim.org.uk|{{AUR|smartsim-git}}}}
+* {{App|WaveDrom editor|Timing diagram rendering in real-time from simple textual description. Can also be edited and embedded in the browser.|https://wavedrom.com/|{{AUR|wavedrom-editor}}}}
+
+==== HDL ====
+
+Also see [[Wikipedia:Hardware description language]].
+
+* {{App|Gowin EDA Edu IDE|An IDE for Gowin's FGPA devices, including Sipeed Tang Nano and Sipeed Tang Nano 4K.|https://www.gowinsemi.com.cn/faq.aspx|{{AUR|gowin-eda-edu-ide}}}}
+* {{App|[[Intel Quartus Prime]]|A set of design tools for Intel's FPGA devices that includes Quartus Prime, ModelSim-Intel, HLS Compiler, etc.|https://www.intel.com/content/www/us/en/software/programmable/overview.html|{{AUR|quartus-free}}}}
+* {{App|[[Lattice Diamond]]|A set of design tools for Lattice's FPGA chips.|https://www.latticesemi.com|{{AUR|lattice-diamond}}}}
+* {{App|[[Microsemi Libero]]|Development tools for designing with Microsemi's PolarFire, IGLOO2, SmartFusion2, RTG4, SmartFusion, IGLOO, ProASIC3 and Fusion families.|https://www.microsemi.com/product-directory/design-resources/1750-libero-soc#overview|see [[Microsemi Libero]]}}
+* {{App|[[Xilinx ISE WebPACK]]|FPGA programmable logic design suit.|https://www.xilinx.com/products/design-tools/ise-design-suite/ise-webpack.html|see [[Xilinx ISE WebPACK]]}}
+* {{App|GHDL|Free and Open Source VHDL 2008/93/87 analyzer, compiler and simulator.|https://github.com/ghdl/ghdl|{{AUR|ghdl}}}}
+* {{App|OpenFPGAloader|Universal utility for programming FPGA. Try {{AUR|openfpgaloader-git}} if your board is not managed by the stable version.|https://github.com/trabucayre/openFPGALoader|{{Pkg|openfpgaloader}}}}
+* {{App|[[Wikipedia:Verilator|Verilator]]|A Verilog/SystemVerilog simulator, performs lint code-quality checks, compile to threaded C++ code for simulation.|https://verilator.org|{{Pkg|verilator}}}}
+* {{App|iverilog|Icarus Verilog compiler and simulation tool (slower but older than Verilator).|https://steveicarus.github.io/iverilog/|{{Pkg|iverilog}}}}
+* {{App|VTR|Verilog to Routing, Open Source CAD Flow for FPGA ResearchVerilog to Route.|https://verilogtorouting.org|{{Pkg|vtr}}}}
+
+==== MCU IDE and programmers ====
+
+* {{App|[[Arduino]]|Arduino prototyping platform SDK.|https://www.arduino.cc/en/Main/Software|{{Grp|arduino}}}}
+* {{App|avrcalc|Calculator to speed development of Atmel AVRs.|https://sourceforge.net/projects/avrcalc|{{AUR|avrcalc}}}}
+* {{App|AVRDUDE|Download/upload/manipulate the ROM and EEPROM contents of AVR microcontrollers.|https://www.nongnu.org/avrdude/|{{Pkg|avrdude}}}}
+* {{App|stlink|Open source [https://www.st.com/en/microcontrollers-microprocessors.html STM32 MCU] programming toolset for ST microcontrollers.|https://github.com/texane/stlink|{{Pkg|stlink}}}}
+* {{App|dfu-util|Device firmware update (DFU) USB programmer.|https://dfu-util.sourceforge.net/|{{Pkg|dfu-util}}}}
+* {{App|SPIPGM|Tool for programming serial SPI FlashROM memories attached to PC via parallel port cable.|https://rayer.g6.cz/programm/programe.htm|{{AUR|spipgm-bin}}}}
+* {{App|esp-idf|Espressif IoT Development Framework. Official development framework for ESP32.|https://github.com/espressif/esp-idf|{{AUR|esp-idf}}}}
+* {{App|platformio|Collaborative platform for embedded development, embedded development, with debugger, unit testing, code analysis. Default IDE is [[VSCode]], but can be used by Atom, Eclipse, Emacs Qt Creator, Vim and several other IDE. Core CLI utils.|https://platformio.org/|{{Pkg|platformio-core}}}}
+* {{App|sdcc|Small Device C Compiler, appropriate for various 8-bit microcontrollers and microprocessors including those made by or based on Intel MCS51, Maxim/Dallas, DS80C390, Freescale/Motorola HC08, Zilog Z80, Padauk, ST Microelectronics STM8, MOS 6502, and WDC 65C02. Suite contains compiler, assembler, linker, preprocessor, various simulators, debuggers, etc. |https://sdcc.sourceforge.net/|{{Pkg|sdcc}}}}
+
+==== Electronic circuit simulation and schematic capture editing ====
+
+* {{App|easy_spice|Electronic circuit simulator. SPICE frontend, using gschem for schematics and ngspice as simulator.|https://easy-spice.sourceforge.net|{{AUR|easy_spice}}}}
+* {{App|[[Wikipedia:GNU Circuit Analysis Package|gnucap]]|GNU circuit simulator.|http://gnucap.org|{{AUR|gnucap}}}}
+* {{App|gspiceui|GUI to various freely available Spice electronic ciruit simulators.|https://sourceforge.net/projects/gspiceui/|{{AUR|gspiceui}}}}
+* {{App|[[Wikipedia:Oregano (software)|Oregano]]|Graphical software application for schematic capture and simulation of electrical circuits. The actual simulation is done by the [[Wikipedia:Ngspice|ngspice]] or [[Wikipedia:GNU Circuit Analysis Package|Gnucap]] engines.|https://github.com/drahnr/oregano|{{AUR|oregano}}}}
+* {{App|[[Wikipedia:ngspice|ngspice]]|The established Linux circuit simulator. Open source successor of the [[Wikipedia:SPICE|spice3f5]] code. Has the most versatile user interface; supporting scripting within the circuit descriptions, use through an interpreter, as a C library, through tcl or various external wrappers (e.g., Python).|https://ngspice.sourceforge.net/|{{Pkg|ngspice}}}}
+* {{App|[[Wikipedia:Quite Universal Circuit Simulator|Qucs]]|Electronics circuit simulator application that gives you the ability to set up a circuit with a graphical user interface and simulate its large-signal, small-signal and noise behaviour.|https://qucs.sourceforge.net|{{AUR|qucs}}}}
+* {{App|qucs-s|Electronics circuit simulator that gives you the ability to set up a circuit with a GUI and simulate it. Fork of qucs that uses external, better, programs to do actual simulation.|https://ra3xdh.github.io/|{{AUR|qucs-s}}}}
+* {{App|Xyce|SANDIA Xyce is an open source, SPICE-compatible, high-performance analog circuit simulator, capable of solving extremely large circuit problems by supporting large-scale parallel computing platforms.|https://xyce.sandia.gov https://github.com/Xyce/Xyce|{{AUR|xyce-serial}}}}
+
+==== Electronic design and schematic capture editing ====
+
+* {{App|asco|SPICE Circuit Optimizer.|https://asco.sourceforge.net|{{AUR|asco}}}}
+* {{App|[[Wikipedia:Fritzing|Fritzing]]|Easy to use program to draw good-looking circuit diagrams, and also create schematics and PCBs.|https://fritzing.org/home/|{{AUR|fritzing}}}}
+* {{App|[[gEDA]]|Full suite and toolkit of Electronic Design Automation tools that are used for electrical circuit design, schematic capture, simulation, prototyping, and production.|http://www.geda-project.org/|{{AUR|geda-gaf}}}}
+* {{App|[[gEDA]] PCB|Interactive printed circuit board editor.|http://pcb.geda-project.org/|{{AUR|pcb}}}}
+* {{App|[[Wikipedia:KiCad|KiCad]]|Software suite for electronic design automation (EDA) that facilitates the design of schematics for electronic circuits and their conversion to PCB (printed circuit board).|https://kicad.org/|{{Pkg|kicad}}}}
+* {{App|[[Wikipedia:KTechLab|KTechLab]]|IDE for microcontrollers and electronic circuit simulation.|https://apps.kde.org/ktechlab/|{{AUR|ktechlab}}}}
+* {{App|QElectroTech|Application used to draw advanced electrical circuits.|https://qelectrotech.org/|{{AUR|qelectrotech}}}}
+
+== Telecommunication ==
+
+* {{App|[[GNU Radio]]|Software development toolkit that provides signal processing blocks to implement software radios.|https://www.gnuradio.org/|{{Pkg|gnuradio}}}}
+* {{App|Gqrx|Software defined radio receiver implemented using GNU Radio and the Qt GUI toolkit.|https://gqrx.dk/|{{Pkg|gqrx}}}}
+* {{App|Pothos|The Pothos project is a complete data-flow framework for creating topologies of interconnected processing blocks. |https://github.com/pothosware/PothosCore/wiki|{{AUR|pothos}}, {{AUR|pothos-git}}}}
+* {{App|SDR#|The most popular SDR program.|https://airspy.com/|{{AUR|sdrsharp}}}}
+* {{App|SigDigger|Qt-based digital signal analyzer, using Suscan core and Sigutils DSP library.|https://github.com/BatchDrake/SigDigger|{{AUR|sigdigger-git}}}}
+
+=== Amateur radio ===
+
+See the main article: [[Amateur radio#Software]].
+
+See also [[Wikipedia:List of software-defined radios]].
+
+== Simulation modeling ==
+
+* {{App|[[Wikipedia:Flight Gear|Flight Gear]]|Open-source, multi-platform atmospheric and orbital flight simulator with a flight dynamics engine (JSBSim) that is part of a [https://web.archive.org/web/20201115084247/https://nescacademy.nasa.gov/src/flightsim/Reports/aiaa-15-1810-EOM_chkcases-II.pdf 2015 NASA benchmark] to judge new simulation code to space industry standards.|https://www.flightgear.org/|{{AUR|flightgear}}}}
+* {{App|[[Wikipedia:Gephi|gephi]]|Gephi is an open-source network analysis and visualization software package written in Java.|https://gephi.org/|{{Pkg|gephi}}}}
+* {{App|golly|Golly is an open source, cross-platform application for exploring Conway's Game of Life and many other types of cellular automata.|https://golly.sourceforge.net/|{{AUR|golly}}}}
+* {{App|Netlogo|NetLogo is a multi-agent programmable modeling environment.|http://ccl.northwestern.edu/netlogo/|{{AUR|netlogo}}}}
+* {{App|[[Wikipedia:AnyLogic|AnyLogic]]|AnyLogic is a cross-platform proprietary multimethod simulation modeling tool, which is also available for personal use.|https://www.anylogic.com/|{{AUR|anylogic-ple}}, {{AUR|anylogic-university}}, {{AUR|anylogic-professional}}}}
+
+== Computer science ==
+
+=== Architecture ===
+
+* {{App|edumips64|Cross-platform educational MIPS64 CPU simulator.|https://edumips.org/|{{AUR|edumips64}}}}
+* {{App|Qiskit Aer|A high performance simulator for quantum circuits that includes noise models.|https://github.com/Qiskit/qiskit-aer|{{AUR|python-qiskit-aer-gpu}}}}
+* {{App|QtMips|MIPS CPU simulator for education purposes with pipeline and cache visualization.|https://github.com/cvut/QtMips|{{AUR|qtmips}}}}
+* {{App|QtRvSim|RISC-V CPU simulator for education purposes.|https://github.com/cvut/qtrvsim|{{AUR|qtrvsim}}}}
+* {{App|QtSpim|Qt port of one of the first educational MIPS CPU simulators. No longer maintained, but still used in some classrooms.|https://spimsimulator.sourceforge.net/|{{AUR|qtspim}}}}
+
+=== Artificial intelligence ===
+
+See also [[Wikipedia:Comparison of deep learning software]].
+
+* {{App|[[Wikipedia:Fast Artificial Neural Network|Fast Artificial Neural Network]]|Library for developing feedforward Artificial Neural Networks.|https://leenissen.dk/fann/wp/|{{AUR|fann}}}}
+* {{App|[[Wikipedia:Mycroft (software)|Mycroft]]|Intelligent personal assistant and knowledge navigator with speech recognition.|https://mycroft.ai/|{{AUR|mycroft-core}}}}
+* {{App|[[Wikipedia:Orange (software)|Orange]]|Data visualization, machine learning and data mining toolkit, accessible via visual programming and Python.|https://orange.biolab.si/|{{AUR|python-orange}}}}
+* {{App|[[Wikipedia:Torch (machine learning)|Torch]]|Machine learning library, scientific computing framework, and script language based on LuaJIT.|http://torch.ch/|{{AUR|torch7-git}}}}
+* {{App|[[Wikipedia:Tensorflow|Tensorflow]]|An end-to-end open source machine learning platform.|https://www.tensorflow.org/ |{{Pkg|python-tensorflow}}, with non x86-64 CPU optimization {{Pkg|python-tensorflow-opt}}, with CUDA {{Pkg|python-tensorflow-cuda}}, with CUDA and with non x86-64 CPU optimizations {{Pkg|python-tensorflow-opt-cuda}}}}
+* {{App|[[Wikipedia:Prolog|Prolog]]|Prolog is a logic programming language associated with artificial intelligence and computational linguistics.|https://www.swi-prolog.org/|{{Pkg|swi-prolog}} {{AUR|gprolog}}}}
+* {{App|[[Wikipedia:PyTorch|PyTorch]]|An open source machine learning framework that accelerates the path from research prototyping to production deployment.|https://pytorch.org/|{{Pkg|python-pytorch}}, with CUDA {{Pkg|python-pytorch-cuda}}, with ROCm {{Pkg|python-pytorch-rocm}}}}
+* {{App|[[Wikipedia:Theano (software)|Theano]]|Theano is a Python library that allows you to define, optimize, and evaluate mathematical expressions involving multi-dimensional arrays efficiently.|http://deeplearning.net/software/theano/|{{AUR|python-theano-pymc}}}}
+
+=== Distributed systems ===
+
+* {{App|[[Wikipedia:SimGrid|SimGrid]]|A scientific instrument to study large-scale distributed systems.|https://simgrid.org/|{{AUR|simgrid}}}}
+* {{App|Shadow|An open-source distributed system/network simulator/emulator hybrid (e.g. for [[Tor]] and [[Bitcoin]]).|https://shadow.github.io/|{{AUR|tor-shadow}}}}
+
+=== Networking ===
+
+* {{App|CORE|Common Open Research Emulator.|https://www.nrl.navy.mil/Our-Work/Areas-of-Research/Information-Technology/NCS/CORE/|{{AUR|core}}}}
+* {{App|IMUNES|Integrated Multiprotocol Network Emulator/Simulator.|https://imunes.net/|{{AUR|imunes}}}}
+* {{App|[[Wikipedia:Graphical Network Simulator-3|GNS3]]|Network software emulator using a combination of virtual and real devices to simulate complex networks.|https://gns3.com/|{{AUR|gns3-gui}} (graphical user interface package), {{AUR|gns3-server}} (server package)}}
+* {{App|[[Wikipedia:Ns (simulator)|ns-2]]|Discrete event simulator targeted at networking research.|https://www.isi.edu/nsnam/ns/|{{AUR|ns}}}}
+* {{App|[[Wikipedia:Ns (simulator)|ns-3]]|Discrete-event network simulator for Internet systems.|https://www.nsnam.org/|{{AUR|ns3}}}}
+* {{App|[[Wikipedia:OMNeT++|OMNeT++]]|Component-based simulation package designed for modeling communication networks.|https://omnetpp.org/|{{AUR|omnetpp}}}}
+
+=== Photogrammetry ===
+
+See also [[Wikipedia:Comparison_of_photogrammetry_software]].
+
+* {{App|OpenMVS|A library for computer-vision scientists and especially targeted to the Multi-View Stereo reconstruction community. |https://cdcseacave.github.io|{{AUR|openmvs}}}}
+* {{App|OpenMVG|OpenMVG provides an end-to-end 3D reconstruction from images framework compounded of libraries, binaries, and pipelines.|https://github.com/openMVG/openMVG|{{AUR|openmvg-git}}}}
+* {{App|AliceVision|Photogrammetric Computer Vision Framework|https://alicevision.org/|{{AUR|alice-vision}}}}

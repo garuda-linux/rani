@@ -1,0 +1,1218 @@
+[
+  {
+    "name": "Abook",
+    "description": "Text-based contacts manager designed for use with mutt.",
+    "url": "https://abook.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["abook"],
+    "aur": true
+  },
+  {
+    "name": "AnythingLLM",
+    "description": "The all-in-one AI application, tool suite, and API for RAG & Agents for Docker & Desktop.",
+    "url": "https://anythingllm.com/",
+    "icon": "generic.png",
+    "pkgname": ["anythingllm-desktop-bin"],
+    "aur": true
+  },
+  {
+    "name": "AppEditor",
+    "description": "Edit application entries in the application menu.",
+    "url": "https://github.com/donadigo/appeditor",
+    "icon": "generic.png",
+    "pkgname": ["appeditor-git"],
+    "aur": true
+  },
+  {
+    "name": "arttime",
+    "description": "Clock, timer, pattern-based time manager, ASCII art viewer. Set a one-off, multiple, repeating, pattern-based timers.",
+    "url": "https://github.com/poetaman/arttime",
+    "icon": "generic.png",
+    "pkgname": ["arttime-git"],
+    "aur": true
+  },
+  {
+    "name": "Atomic Wallet",
+    "description": "Manage your Bitcoin, Ethereum, XRP, Litecoin, XLM, and over 300 other coins and tokens. ",
+    "url": "https://atomicwallet.io/",
+    "icon": "generic.png",
+    "pkgname": ["atomicwallet"],
+    "aur": true
+  },
+  {
+    "name": "Baïkal",
+    "description": "A lightweight CalDAV+CardDAV server.",
+    "url": "https://sabre.io/baikal/",
+    "icon": "generic.png",
+    "pkgname": ["baikal"],
+    "aur": true
+  },
+  {
+    "name": "Bashrun2",
+    "description": "Provides a different, barebones approach to a run dialog, using a specialized Bash session within a small xterm window.",
+    "url": "https://henning-bekel.de/bashrun2/",
+    "icon": "generic.png",
+    "pkgname": ["bashrun2"],
+    "aur": true
+  },
+  {
+    "name": "Beancount",
+    "description": "A double-entry bookkeeping computer language that lets you define financial transaction records in a text file, read them in memory, generate a variety of reports from them, and provides a web interface.",
+    "url": "https://beancount.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["beancount"],
+    "aur": true
+  },
+  {
+    "name": "bgs",
+    "description": "An extremely fast and small background setter for X based on imlib2.",
+    "url": "https://github.com/Gottox/bgs/",
+    "icon": "generic.png",
+    "pkgname": ["bgs-git"],
+    "aur": true
+  },
+  {
+    "name": "Bmpanel",
+    "description": "Lightweight, NETWM compliant panel.",
+    "url": "https://github.com/nsf/bmpanel2",
+    "icon": "generic.png",
+    "pkgname": ["bmpanel2"],
+    "aur": true
+  },
+  {
+    "name": "boomer",
+    "description": "Zoomer application for Linux.",
+    "url": "https://github.com/tsoding/boomer",
+    "icon": "generic.png",
+    "pkgname": ["boomer-git"],
+    "aur": true
+  },
+  {
+    "name": "c3",
+    "description": "A multi-platform TUI todo manager that extends calcurse's todo format to have a tree-like dependency structure, and even more! ",
+    "url": "https://github.com/nimaaskarian/c3",
+    "icon": "generic.png",
+    "pkgname": ["c3"],
+    "aur": true
+  },
+  {
+    "name": "Cake Wallet",
+    "description": "Multicurrency wallet.",
+    "url": "https://github.com/cake-tech/cake_wallet",
+    "icon": "generic.png",
+    "pkgname": ["cake-wallet-bin"],
+    "aur": true
+  },
+  {
+    "name": "ccal",
+    "description": "A console program which writes a calendar together with Chinese calendar to standard output.",
+    "url": "https://ccal.chinesebay.com/ccal/ccal.htm",
+    "icon": "generic.png",
+    "pkgname": ["ccal"],
+    "aur": true
+  },
+  {
+    "name": "chatbox",
+    "description": "Chatbox is a desktop app for GPT-4 / GPT-3.5 (OpenAI API) that supports Windows, Mac & Linux.",
+    "url": "https://chatboxai.app",
+    "icon": "generic.png",
+    "pkgname": ["chatbox-bin"],
+    "aur": true
+  },
+  {
+    "name": "chatGPT-shell-cli",
+    "description": "Use OpenAI's ChatGPT and DALL-E from the terminal.",
+    "url": "https://github.com/0xacx/chatGPT-shell-cli.git",
+    "icon": "generic.png",
+    "pkgname": ["chatgpt-shell-cli"],
+    "aur": true
+  },
+  {
+    "name": "clearine",
+    "description": "Beautiful Logout UI for X11 window manager",
+    "url": "https://github.com/okitavera/clearine",
+    "icon": "generic.png",
+    "pkgname": ["clearine-git"],
+    "aur": true
+  },
+  {
+    "name": "codai",
+    "description": "AI code assistant that helps developers through a session CLI",
+    "url": "https://github.com/meysamhadeli/codai",
+    "icon": "generic.png",
+    "pkgname": ["codai"],
+    "aur": true
+  },
+  {
+    "name": "Coinomi",
+    "description": "Securely store, manage and exchange Bitcoin, Ethereum, and more than 1,770 other blockchain assets.",
+    "url": "https://www.coinomi.com/",
+    "icon": "generic.png",
+    "pkgname": ["coinomi-wallet-bin"],
+    "aur": true
+  },
+  {
+    "name": "Cointop",
+    "description": "Terminal based application for tracking cryptocurrencies.",
+    "url": "https://cointop.sh/",
+    "icon": "generic.png",
+    "pkgname": ["cointop"],
+    "aur": true
+  },
+  {
+    "name": "CoreAction",
+    "description": "Side bar with some handy gadgets like system loads, calendar, calculator, notes etc. Part of C-Suite.",
+    "url": "https://gitlab.com/cubocore",
+    "icon": "generic.png",
+    "pkgname": ["coreaction"],
+    "aur": true
+  },
+  {
+    "name": "CoreTime",
+    "description": "Very simple Clock/Calendar application which shows a clock, supports alarms, reminders, a stop watch and a timer. Part of C-Suite.",
+    "url": "https://cubocore.gitlab.io/",
+    "icon": "generic.png",
+    "pkgname": ["coretime"],
+    "aur": true
+  },
+  {
+    "name": "dijo",
+    "description": "Scriptable, curses-based, digital habit tracker ",
+    "url": "https://github.com/nerdypepper/dijo",
+    "icon": "generic.png",
+    "pkgname": ["dijo"],
+    "aur": true
+  },
+  {
+    "name": "dmenu-extended",
+    "description": "Extension to ''dmenu'' for quickly opening files and folders.",
+    "url": "https://github.com/markjones112358/dmenu-extended",
+    "icon": "generic.png",
+    "pkgname": ["dmenu-extended-git"],
+    "aur": true
+  },
+  {
+    "name": "Docker",
+    "description": "Docking application which acts as a system tray.",
+    "url": "https://icculus.org/openbox/2/docker/",
+    "icon": "generic.png",
+    "pkgname": ["docker-tray"],
+    "aur": true
+  },
+  {
+    "name": "Dogecoin Core",
+    "description": "Dogecoin Core wallet, Allows you to connect to the Dogecoin P2P Network.",
+    "url": "https://dogecoin.com/",
+    "icon": "generic.png",
+    "pkgname": ["dogecoin-qt}}, {{AUR"],
+    "aur": true
+  },
+  {
+    "name": "dswitcher",
+    "description": "''dmenu''-based window switcher that works regardless of workspace or minimization.",
+    "url": "https://github.com/Antithesisx/dswitcher",
+    "icon": "generic.png",
+    "pkgname": ["dswitcher-git"],
+    "aur": true
+  },
+  {
+    "name": "Dvorak 7min",
+    "description": "Simple ncurses-based typing tutor for those trying to become fluent with the Dvorak keyboard layout.",
+    "url": "https://github.com/yaychris/dvorak7min",
+    "icon": "generic.png",
+    "pkgname": ["dvorak7min"],
+    "aur": true
+  },
+  {
+    "name": "Effitask",
+    "description": "Graphical task manager, based on the [http://todotxt.com/ Todo.txt] format.",
+    "url": "https://github.com/sanpii/effitask",
+    "icon": "generic.png",
+    "pkgname": ["effitask"],
+    "aur": true
+  },
+  {
+    "name": "Ekho",
+    "description": "Chinese text-to-speech (TTS) software for Cantonese, Mandarin, Zhaoan Hakka, Tibetan, Ngangien and Korean.",
+    "url": "https://eguidedog.net/ekho.php",
+    "icon": "generic.png",
+    "pkgname": ["ekho"],
+    "aur": true
+  },
+  {
+    "name": "Eqonomize!",
+    "description": "Cross-platform personal accounting software, with focus on efficiency and ease of use for the small household economy.",
+    "url": "https://eqonomize.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["eqonomize"],
+    "aur": true
+  },
+  {
+    "name": "ERPNext",
+    "description": "Free and open source Enterprise Resource Planning (ERP).",
+    "url": "https://github.com/frappe/erpnext",
+    "icon": "generic.png",
+    "pkgname": ["erpnext"],
+    "aur": true
+  },
+  {
+    "name": "esniper",
+    "description": "Simple, lightweight tool for sniping eBay auctions.",
+    "url": "https://esniper.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["esniper"],
+    "aur": true
+  },
+  {
+    "name": "eSpeak",
+    "description": "Compact speech synthesizer for more than 50 languages.",
+    "url": "https://espeak.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["espeak"],
+    "aur": true
+  },
+  {
+    "name": "etmtk (Event and Task Manager)",
+    "description": "Simple application with a \"Getting Things Done!\" approach to handling events, tasks, activities, reminders and projects.",
+    "url": "https://people.duke.edu/~dgraham/ETMtk/",
+    "icon": "generic.png",
+    "pkgname": ["etmtk"],
+    "aur": true
+  },
+  {
+    "name": "Exodus",
+    "description": "All-in-one proprietary application to secure, manage, and exchange blockchain assets. Based on the [https://electronjs.org/ Electron] platform.",
+    "url": "https://www.exodus.io/",
+    "icon": "generic.png",
+    "pkgname": ["exodus"],
+    "aur": true
+  },
+  {
+    "name": "Ezame",
+    "description": "Desktop and menu file editor.",
+    "url": "https://github.com/linux-man/ezame",
+    "icon": "generic.png",
+    "pkgname": ["ezame"],
+    "aur": true
+  },
+  {
+    "name": "fbpanel",
+    "description": "Lightweight, NETWM compliant desktop panel.",
+    "url": "https://aanatoly.github.io/fbpanel/",
+    "icon": "generic.png",
+    "pkgname": ["fbpanel"],
+    "aur": true
+  },
+  {
+    "name": "Feather Wallet",
+    "description": "Lightweight Monero wallet.",
+    "url": "https://featherwallet.org/",
+    "icon": "generic.png",
+    "pkgname": ["feather-wallet"],
+    "aur": true
+  },
+  {
+    "name": "flow",
+    "description": "Pomodoro app that blocks distractions while you work.",
+    "url": "https://github.com/iamsergio/flow-pomodoro",
+    "icon": "generic.png",
+    "pkgname": ["flow-pomodoro"],
+    "aur": true
+  },
+  {
+    "name": "Gahshomar",
+    "description": "Persian (Jalali/Farsi) calendar.",
+    "url": "https://gahshomar.github.io/gahshomar/",
+    "icon": "generic.png",
+    "pkgname": ["gahshomar"],
+    "aur": true
+  },
+  {
+    "name": "GanttProject",
+    "description": "Project scheduling application featuring gantt chart, resource management, calendaring.",
+    "url": "https://www.ganttproject.biz/",
+    "icon": "generic.png",
+    "pkgname": ["ganttproject"],
+    "aur": true
+  },
+  {
+    "name": "gDesklets",
+    "description": "System for bringing mini programs (desklets) onto your desktop.",
+    "url": "https://launchpad.net/gdesklets",
+    "icon": "generic.png",
+    "pkgname": ["gdesklets"],
+    "aur": true
+  },
+  {
+    "name": "Gespeaker",
+    "description": "GTK frontend for espeak. It allows you to play a text in many languages with settings for voice, pitch, volume and speed.",
+    "url": "https://muflone.com/gespeaker/english/",
+    "icon": "generic.png",
+    "pkgname": ["gespeaker"],
+    "aur": true
+  },
+  {
+    "name": "Gnomato",
+    "description": "Timer for the Pomodoro Technique.",
+    "url": "https://github.com/diegorubin/gnomato",
+    "icon": "generic.png",
+    "pkgname": ["gnomato"],
+    "aur": true
+  },
+  {
+    "name": "GNU Typist",
+    "description": "Universal typing tutor.",
+    "url": "https://www.gnu.org/software/gtypist/",
+    "icon": "generic.png",
+    "pkgname": ["gtypist"],
+    "aur": true
+  },
+  {
+    "name": "Go For It!",
+    "description": "Simple and stylish productivity app, featuring a to-do list, merged with a timer that keeps your focus on the current task. To-do lists are stored in the [http://todotxt.com/ Todo.txt] format.",
+    "url": "https://manuelkehl.de/projects/go-for-it/",
+    "icon": "generic.png",
+    "pkgname": ["go-for-it-git"],
+    "aur": true
+  },
+  {
+    "name": "Gourmand",
+    "description": "Simple but powerful recipe-managing application.",
+    "url": "https://github.com/GourmandRecipeManager/gourmand",
+    "icon": "generic.png",
+    "pkgname": ["gourmand"],
+    "aur": true
+  },
+  {
+    "name": "GPT4All",
+    "description": "Chat with Local LLMs on Any Device",
+    "url": "https://gpt4all.io/",
+    "icon": "generic.png",
+    "pkgname": ["gpt4all-chat"],
+    "aur": true
+  },
+  {
+    "name": "Grisbi",
+    "description": "Personal finance system which manages third party, expenditure and receipt categories, as well as budgetary lines, financial years, and other information that makes it suitable for associations.",
+    "url": "https://www.grisbi.org/",
+    "icon": "generic.png",
+    "pkgname": ["grisbi"],
+    "aur": true
+  },
+  {
+    "name": "habak",
+    "description": "A background changing app.",
+    "url": "https://fvwm-crystal.sourceforge.io/",
+    "icon": "generic.png",
+    "pkgname": ["habak}}{{Broken package link"],
+    "aur": true
+  },
+  {
+    "name": "Hanabi",
+    "description": "Live Wallpaper for GNOME.",
+    "url": "https://github.com/jeffshee/gnome-ext-hanabi",
+    "icon": "generic.png",
+    "pkgname": ["gnome-shell-extension-hanabi-git"],
+    "aur": true
+  },
+  {
+    "name": "Hidamari",
+    "description": "Video wallpaper for Linux. Written in Python.",
+    "url": "https://github.com/jeffshee/hidamari",
+    "icon": "generic.png",
+    "pkgname": ["hidamari"],
+    "aur": true
+  },
+  {
+    "name": "higgins",
+    "description": "Desktop agnostic application launcher, file finder, calculator and more. Plugin based and freely and easily extendable via user-written plugins",
+    "url": "https://github.com/kokoko3k/higgins",
+    "icon": "generic.png",
+    "pkgname": ["higgins-git"],
+    "aur": true
+  },
+  {
+    "name": "Hourglass",
+    "description": "Simple time keeping application designed for elementary OS.",
+    "url": "https://github.com/sgpthomas/hourglass",
+    "icon": "generic.png",
+    "pkgname": ["hourglass-git"],
+    "aur": true
+  },
+  {
+    "name": "HydraPaper",
+    "description": "GTK utility to set two different backgrounds for each monitor on GNOME.",
+    "url": "https://gabmus.gitlab.io/HydraPaper/",
+    "icon": "generic.png",
+    "pkgname": ["hydrapaper-git"],
+    "aur": true
+  },
+  {
+    "name": "IPager",
+    "description": "A configurable pager with transparency, originally developed for Fluxbox.",
+    "url": "https://useperl.ru/ipager/index.en.html",
+    "icon": "generic.png",
+    "pkgname": ["ipager"],
+    "aur": true
+  },
+  {
+    "name": "Jan",
+    "description": "Run AI on your own PC",
+    "url": "https://jan.ai/",
+    "icon": "generic.png",
+    "pkgname": ["jan-bin"],
+    "aur": true
+  },
+  {
+    "name": "jVLT",
+    "description": "Vocabulary learning tool.",
+    "url": "https://www.linuxlinks.com/jVLT/",
+    "icon": "generic.png",
+    "pkgname": ["jvlt"],
+    "aur": true
+  },
+  {
+    "name": "Kaldi",
+    "description": "Speech recognition toolkit.",
+    "url": "https://github.com/kaldi-asr/kaldi",
+    "icon": "generic.png",
+    "pkgname": ["kaldi"],
+    "aur": true
+  },
+  {
+    "name": "Kalliope",
+    "description": "Modular always-on voice controlled personal assistant designed for home automation.",
+    "url": "https://kalliope-project.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["kalliope}}{{Broken package link"],
+    "aur": true
+  },
+  {
+    "name": "Kapow",
+    "description": "Punch clock to track time spent on projects.",
+    "url": "https://gottcode.org/kapow/",
+    "icon": "generic.png",
+    "pkgname": ["kapow"],
+    "aur": true
+  },
+  {
+    "name": "Kaylee",
+    "description": "Somewhat fancy voice command recognition program that performs actions when a user speaks loosely preset sentences.",
+    "url": "https://github.com/Ratfink/kaylee",
+    "icon": "generic.png",
+    "pkgname": ["kayleevc"],
+    "aur": true
+  },
+  {
+    "name": "kcaldav",
+    "description": "Simple, safe, minimal CalDAV server.",
+    "url": "https://kristaps.bsd.lv/kcaldav",
+    "icon": "generic.png",
+    "pkgname": ["kcaldav"],
+    "aur": true
+  },
+  {
+    "name": "koboldcpp",
+    "description": "A simple one-file way to run various GGML and GGUF models with a KoboldAI UI",
+    "url": "https://github.com/LostRuins/koboldcpp",
+    "icon": "generic.png",
+    "pkgname": ["koboldcpp}}, {{AUR"],
+    "aur": true
+  },
+  {
+    "name": "krita-ai-diffusion",
+    "description": "Streamlined interface for generating images with AI in Krita. Inpaint and outpaint with optional text prompt, no tweaking required.",
+    "url": "https://github.com/Acly/krita-ai-diffusion",
+    "icon": "generic.png",
+    "pkgname": ["krita-ai-diffusion}}, {{AUR"],
+    "aur": true
+  },
+  {
+    "name": "Latte",
+    "description": "Dock based on Plasma frameworks that provides an elegant and intuitive experience for your tasks and plasmoids.",
+    "url": "https://invent.kde.org/plasma/latte-dock",
+    "icon": "generic.png",
+    "pkgname": ["latte-dock-git"],
+    "aur": true
+  },
+  {
+    "name": "launch",
+    "description": "Simple command for launching applications from a terminal emulator.",
+    "url": "https://github.com/silverhammermba/launch",
+    "icon": "generic.png",
+    "pkgname": ["launch-cmd"],
+    "aur": true
+  },
+  {
+    "name": "LDAP Administration Tool",
+    "description": "Browse LDAP-based directories and add/edit/delete entries contained within.",
+    "url": "https://sourceforge.net/projects/ldap-at/",
+    "icon": "generic.png",
+    "pkgname": ["lat"],
+    "aur": true
+  },
+  {
+    "name": "Lemonbar",
+    "description": "A featherweight bar based on XCB. Provides UTF-8 support, background and foreground colors, text alignment, and not much more.",
+    "url": "https://github.com/LemonBoy/bar",
+    "icon": "generic.png",
+    "pkgname": ["lemonbar-git"],
+    "aur": true
+  },
+  {
+    "name": "Lighthouse",
+    "description": "Simple scriptable popup dialog to run on X.",
+    "url": "https://github.com/emgram769/lighthouse",
+    "icon": "generic.png",
+    "pkgname": ["lighthouse-git"],
+    "aur": true
+  },
+  {
+    "name": "LiveWallpaper",
+    "description": "Animated 3D wallpapers.",
+    "url": "https://launchpad.net/livewallpaper",
+    "icon": "generic.png",
+    "pkgname": ["livewallpaper"],
+    "aur": true
+  },
+  {
+    "name": "llama.cpp",
+    "description": "Port of Facebook's LLaMA model in C/C++",
+    "url": "https://github.com/ggerganov/llama.cpp",
+    "icon": "generic.png",
+    "pkgname": ["llama.cpp-git"],
+    "aur": true
+  },
+  {
+    "name": "llamafile",
+    "description": "Distribute and run LLMs with a single file.",
+    "url": "https://github.com/Mozilla-Ocho/llamafile",
+    "icon": "generic.png",
+    "pkgname": ["llamafile"],
+    "aur": true
+  },
+  {
+    "name": "LM Studio",
+    "description": "Discover, download, and run local LLMs",
+    "url": "https://lmstudio.ai/",
+    "icon": "generic.png",
+    "pkgname": ["lmstudio"],
+    "aur": true
+  },
+  {
+    "name": "Lobe Chat",
+    "description": "An open-source, modern-design LLMs/AI chat framework. Supports Multi AI Providers( OpenAI / Claude 3 / Gemini / Ollama / Bedrock / Azure / Mistral / Perplexity ), Multi-Modals (Vision/TTS) and plugin system",
+    "url": "https://github.com/lobehub/lobe-chat",
+    "icon": "generic.png",
+    "pkgname": ["lobe-chat"],
+    "aur": true
+  },
+  {
+    "name": "lxmed",
+    "description": "Application menu editor written in Java.",
+    "url": "https://sourceforge.net/projects/lxmed/",
+    "icon": "generic.png",
+    "pkgname": ["lxmed"],
+    "aur": true
+  },
+  {
+    "name": "Magnus",
+    "description": "Very simple desktop magnifier, showing the area around the mouse pointer in a separate window magnified two, three, four, or five times.",
+    "url": "https://kryogenix.org/code/magnus/",
+    "icon": "generic.png",
+    "pkgname": ["magnus"],
+    "aur": true
+  },
+  {
+    "name": "mail2rem",
+    "description": "Small script for importing ''.ics'' calendars from Maildir to Remind calendar.",
+    "url": "https://github.com/esovetkin/mail2rem",
+    "icon": "generic.png",
+    "pkgname": ["mail2rem-git"],
+    "aur": true
+  },
+  {
+    "name": "Manager",
+    "description": "Proprietary accounting software for small business.",
+    "url": "https://www.manager.io/",
+    "icon": "generic.png",
+    "pkgname": ["manager-accounting"],
+    "aur": true
+  },
+  {
+    "name": "MaryTTS",
+    "description": "Multilingual text-to-speech synthesis platform written in Java.",
+    "url": "https://marytts.github.io/",
+    "icon": "generic.png",
+    "pkgname": ["marytts"],
+    "aur": true
+  },
+  {
+    "name": "Meow",
+    "description": "Application menu editor written in Java.",
+    "url": "https://pnmougel.github.io/meow/",
+    "icon": "generic.png",
+    "pkgname": ["meow-bin"],
+    "aur": true
+  },
+  {
+    "name": "Mimic",
+    "description": "Text-to-speech voice synthesis from the Mycroft project (based on Flite).",
+    "url": "https://mimic.mycroft.ai/",
+    "icon": "generic.png",
+    "pkgname": ["mimic"],
+    "aur": true
+  },
+  {
+    "name": "Mist",
+    "description": "[[Ethereum]] Dapp browser.",
+    "url": "https://github.com/ethereum/mist",
+    "icon": "generic.png",
+    "pkgname": ["mist"],
+    "aur": true
+  },
+  {
+    "name": "Mnemosyne",
+    "description": "Flash-card tool which optimizes your learning process.",
+    "url": "https://mnemosyne-proj.org/",
+    "icon": "generic.png",
+    "pkgname": ["mnemosyne"],
+    "aur": true
+  },
+  {
+    "name": "Money Manager EX",
+    "description": "An easy-to-use personal finance suite",
+    "url": "https://www.moneymanagerex.org/",
+    "icon": "generic.png",
+    "pkgname": ["moneymanagerex"],
+    "aur": true
+  },
+  {
+    "name": "Moodle",
+    "description": "Open-source software learning management system.",
+    "url": "https://moodle.org/",
+    "icon": "generic.png",
+    "pkgname": ["moodle"],
+    "aur": true
+  },
+  {
+    "name": "msty",
+    "description": "The easiest way to use local and online AI models.",
+    "url": "https://msty.app",
+    "icon": "generic.png",
+    "pkgname": ["msty-bin"],
+    "aur": true
+  },
+  {
+    "name": "Mycroft",
+    "description": "Hackable voice assistant.",
+    "url": "https://github.com/MycroftAI/mycroft-core",
+    "icon": "generic.png",
+    "pkgname": ["mycroft-core"],
+    "aur": true
+  },
+  {
+    "name": "nerd-dictation",
+    "description": "Light weight manually activated dictation using the VOSK-API",
+    "url": "https://github.com/ideasman42/nerd-dictation",
+    "icon": "generic.png",
+    "pkgname": ["nerd-dictation-git"],
+    "aur": true
+  },
+  {
+    "name": "Netwmpager",
+    "description": "A NetWM/EWMH compatible pager.",
+    "url": "https://sourceforge.net/projects/sf-xpaint/files/netwmpager/",
+    "icon": "generic.png",
+    "pkgname": ["netwmpager"],
+    "aur": true
+  },
+  {
+    "name": "Notion-app",
+    "description": "A note-taking software and project management software that is used for note-taking, task management, project management, knowledge management, and personal knowledge management. ",
+    "url": "https://www.notion.so/",
+    "icon": "generic.png",
+    "pkgname": ["notion-app"],
+    "aur": true
+  },
+  {
+    "name": "Numen",
+    "description": "Voice control for handsfree computing",
+    "url": "https://sr.ht/~geb/numen/",
+    "icon": "generic.png",
+    "pkgname": ["numen"],
+    "aur": true
+  },
+  {
+    "name": "oblogout",
+    "description": "Openbox logout script",
+    "url": "https://launchpad.net/oblogout",
+    "icon": "generic.png",
+    "pkgname": ["oblogout-py3-git"],
+    "aur": true
+  },
+  {
+    "name": "Odoo",
+    "description": "Open source ERP system purely in Python. Previously known as OpenERP.",
+    "url": "https://www.odoo.com/",
+    "icon": "generic.png",
+    "pkgname": ["odoo-venv"],
+    "aur": true
+  },
+  {
+    "name": "oguri",
+    "description": "An animated wallpaper daemon for Wayland compositors.",
+    "url": "https://github.com/vilhalmer/oguri",
+    "icon": "generic.png",
+    "pkgname": ["oguri-git"],
+    "aur": true
+  },
+  {
+    "name": "Open JTalk",
+    "description": "Japanese text-to-speech synthesis system.",
+    "url": "https://sourceforge.net/projects/open-jtalk/",
+    "icon": "generic.png",
+    "pkgname": ["open-jtalk"],
+    "aur": true
+  },
+  {
+    "name": "Outspline",
+    "description": "Extensible outliner with advanced time management features, supporting events with complex recurrence schemes.",
+    "url": "https://kynikos.github.io/outspline/",
+    "icon": "generic.png",
+    "pkgname": ["outspline"],
+    "aur": true
+  },
+  {
+    "name": "pacwall",
+    "description": "A live wallpaper that shows the dependency graph and status of installed packages.",
+    "url": "https://github.com/Kharacternyk/pacwall",
+    "icon": "generic.png",
+    "pkgname": ["pacwall-git"],
+    "aur": true
+  },
+  {
+    "name": "Pal",
+    "description": "Very lightweight calendar with both interactive and non-interactive interfaces.",
+    "url": "https://palcal.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["pal"],
+    "aur": true
+  },
+  {
+    "name": "Pauker",
+    "description": "Flash card based learning tool using shortterm and longterm memory training.",
+    "url": "https://pauker.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["pauker"],
+    "aur": true
+  },
+  {
+    "name": "pcal",
+    "description": "A tool to create pdf calendars from pcal input which can be exported by some calendar programs.",
+    "url": "https://sourceforge.net/projects/pcal/",
+    "icon": "generic.png",
+    "pkgname": ["pcal"],
+    "aur": true
+  },
+  {
+    "name": "PerlPanel",
+    "description": "The ideal accompaniment to a light-weight Window Manager such as OpenBox, or a desktop-drawing program like iDesk.",
+    "url": "https://savannah.nongnu.org/projects/perlpanel",
+    "icon": "generic.png",
+    "pkgname": ["perlpanel-git}}{{Broken package link"],
+    "aur": true
+  },
+  {
+    "name": "Pilorama",
+    "description": "Eye-candy timeboxing tool written in QML",
+    "url": "https://github.com/eplatonoff/pilorama",
+    "icon": "generic.png",
+    "pkgname": ["pilorama-git"],
+    "aur": true
+  },
+  {
+    "name": "piper",
+    "description": "A fast, local neural text to speech system.",
+    "url": "https://github.com/rhasspy/piper",
+    "icon": "generic.png",
+    "pkgname": ["piper-tts-bin"],
+    "aur": true
+  },
+  {
+    "name": "Pomodoro-Logger",
+    "description": "Pomodoro timer and logger with Kanban board for task management and tracking.",
+    "url": "https://github.com/zxch3n/PomodoroLogger",
+    "icon": "generic.png",
+    "pkgname": ["pomodoro-logger"],
+    "aur": true
+  },
+  {
+    "name": "potato-c",
+    "description": "A minimal and efficient pomodoro timer with server-client structure.",
+    "url": "https://github.com/nimaaskarian/potato-c",
+    "icon": "generic.png",
+    "pkgname": ["potato-c"],
+    "aur": true
+  },
+  {
+    "name": "ProjectLibre",
+    "description": "Project management software alternative to Microsoft Project.",
+    "url": "https://www.projectlibre.com/product/projectlibre-open-source",
+    "icon": "generic.png",
+    "pkgname": ["projectlibre"],
+    "aur": true
+  },
+  {
+    "name": "psani-profi",
+    "description": "Program that will teach you touchtyping (Czech).",
+    "url": "https://www.sallyx.org/sally/psani-vsemi-deseti/",
+    "icon": "generic.png",
+    "pkgname": ["psani-profi"],
+    "aur": true
+  },
+  {
+    "name": "ptask",
+    "description": "GTK task manager based on Taskwarrior.",
+    "url": "https://wpitchoune.net/ptask/",
+    "icon": "generic.png",
+    "pkgname": ["ptask"],
+    "aur": true
+  },
+  {
+    "name": "Pylote",
+    "description": "Tool to draw on the screen.",
+    "url": "https://pascal.peter.free.fr/pylote-en.html",
+    "icon": "generic.png",
+    "pkgname": ["pylote-git"],
+    "aur": true
+  },
+  {
+    "name": "pystopwatch",
+    "description": "Stopwatch written in Python with a clock and two countdown functions that can minimize to the tray.",
+    "url": "https://xyne.dev/projects/pystopwatch/",
+    "icon": "generic.png",
+    "pkgname": ["pystopwatch"],
+    "aur": true
+  },
+  {
+    "name": "QuickTile",
+    "description": "Lightweight standalone alternative to Compiz Grid plugin.",
+    "url": "https://ssokolow.com/quicktile/",
+    "icon": "generic.png",
+    "pkgname": ["quicktile-git"],
+    "aur": true
+  },
+  {
+    "name": "rlaunch",
+    "description": "An extremely fast and light-weight dmenu-like application launcher written in Rust",
+    "url": "https://github.com/PonasKovas/rlaunch",
+    "icon": "generic.png",
+    "pkgname": ["rlaunch"],
+    "aur": true
+  },
+  {
+    "name": "SeaMonkey Mail & Newsgroups with Lightning",
+    "description": "Extension to SeaMonkey that provides calendar and task support.",
+    "url": "https://www.seamonkey-project.org/",
+    "icon": "generic.png",
+    "pkgname": ["seamonkey"],
+    "aur": true
+  },
+  {
+    "name": "shellChatGPT",
+    "description": "Wrapper for ChatGPT, DALL-E, Whisper, and TTS. Features LocalAI, Ollama, and more",
+    "url": "https://gitlab.com/fenixdragao/shellchatgpt",
+    "icon": "generic.png",
+    "pkgname": ["chatgpt.sh"],
+    "aur": true
+  },
+  {
+    "name": "ShellGPT",
+    "description": "A command-line productivity tool powered by OpenAI's ChatGPT (GPT-3.5)",
+    "url": "https://github.com/TheR1D/shell_gpt",
+    "icon": "generic.png",
+    "pkgname": ["shellgpt-git"],
+    "aur": true
+  },
+  {
+    "name": "Show Me The Key",
+    "description": "A screenkey alternative that works under Wayland via libinput",
+    "url": "https://showmethekey.alynx.one",
+    "icon": "generic.png",
+    "pkgname": ["showmethekey"],
+    "aur": true
+  },
+  {
+    "name": "sleek",
+    "description": "todo.txt app with modern GUI. Based on the [https://electronjs.org/ Electron] platform.",
+    "url": "https://github.com/ransome1/sleek/",
+    "icon": "generic.png",
+    "pkgname": ["sleek"],
+    "aur": true
+  },
+  {
+    "name": "snore",
+    "description": "A program like sleep, but with feedback.",
+    "url": "https://github.com/clamiax/snore",
+    "icon": "generic.png",
+    "pkgname": ["snore-git"],
+    "aur": true
+  },
+  {
+    "name": "Sparrow Wallet",
+    "description": "Advanced Bitcoin client.",
+    "url": "https://sparrowwallet.com/",
+    "icon": "generic.png",
+    "pkgname": ["sparrow-wallet"],
+    "aur": true
+  },
+  {
+    "name": "StabilityMatrix",
+    "description": "Multi-Platform Package Manager for Stable Diffusion",
+    "url": "https://github.com/LykosAI/StabilityMatrix",
+    "icon": "generic.png",
+    "pkgname": ["stabilitymatrix"],
+    "aur": true
+  },
+  {
+    "name": "Stable Diffusion Web UI (AUTOMATIC1111)",
+    "description": "A web interface for Stable Diffusion, implemented using Gradio library.",
+    "url": "https://github.com/AUTOMATIC1111/stable-diffusion-webui",
+    "icon": "generic.png",
+    "pkgname": ["stable-diffusion-webui-git"],
+    "aur": true
+  },
+  {
+    "name": "stable-diffusion.cpp",
+    "description": "Inference of Stable Diffusion in pure C/C++",
+    "url": "https://github.com/leejet/stable-diffusion.cpp",
+    "icon": "generic.png",
+    "pkgname": ["stable-diffusion.cpp-git"],
+    "aur": true
+  },
+  {
+    "name": "StudyFlash",
+    "description": "Learn flashcards inside your terminal",
+    "url": "https://github.com/Alone2/studyFlash",
+    "icon": "generic.png",
+    "pkgname": ["studyflash"],
+    "aur": true
+  },
+  {
+    "name": "Taskbook",
+    "description": "Tasks, boards and notes for the command-line habitat.",
+    "url": "https://github.com/klauscfhq/taskbook",
+    "icon": "generic.png",
+    "pkgname": ["taskbook"],
+    "aur": true
+  },
+  {
+    "name": "Taskell",
+    "description": "A command-line kanban board/task manager.",
+    "url": "https://github.com/smallhadroncollider/taskell",
+    "icon": "generic.png",
+    "pkgname": ["taskell"],
+    "aur": true
+  },
+  {
+    "name": "TaskJuggler",
+    "description": "Modern and powerful project management tool. Its new approach to project planning and tracking is more flexible and superior to the commonly used Gantt chart editing tools.",
+    "url": "https://taskjuggler.org/",
+    "icon": "generic.png",
+    "pkgname": ["taskjuggler"],
+    "aur": true
+  },
+  {
+    "name": "TickTick",
+    "description": "Is a simple and effective to-do list and task manager app with seamless cloud synchronization across all your devices",
+    "url": "https://ticktick.com/",
+    "icon": "generic.png",
+    "pkgname": ["ticktick"],
+    "aur": true
+  },
+  {
+    "name": "Tider",
+    "description": "Lightweight time tracking application (GTK)",
+    "url": "https://github.com/naspeh/tider",
+    "icon": "generic.png",
+    "pkgname": ["tider-git"],
+    "aur": true
+  },
+  {
+    "name": "Timenaut",
+    "description": "Time tracker that tracks active windows and lets you sort them into categories. Based on the [https://electronjs.org/ Electron] platform.",
+    "url": "https://timenaut.app/",
+    "icon": "generic.png",
+    "pkgname": ["timenaut-appimage"],
+    "aur": true
+  },
+  {
+    "name": "Todo.txt",
+    "description": "Small command-line To-do manager.",
+    "url": "https://github.com/todotxt/todo.txt-cli/",
+    "icon": "generic.png",
+    "pkgname": ["todotxt"],
+    "aur": true
+  },
+  {
+    "name": "Tomate",
+    "description": "Timer for the Pomodoro Technique.",
+    "url": "https://github.com/eliostvs/tomate-gtk",
+    "icon": "generic.png",
+    "pkgname": ["tomate-gtk"],
+    "aur": true
+  },
+  {
+    "name": "Tomighty",
+    "description": "Desktop timer for the Pomodoro Technique.",
+    "url": "https://tomighty.github.io",
+    "icon": "generic.png",
+    "pkgname": ["tomighty"],
+    "aur": true
+  },
+  {
+    "name": "TuDu",
+    "description": "Ncurses-based hierarchical To-do list manager with vim-like keybindings.",
+    "url": "https://code.meskio.net/tudu/",
+    "icon": "generic.png",
+    "pkgname": ["tudu"],
+    "aur": true
+  },
+  {
+    "name": "twin",
+    "description": "Text-mode window manager.",
+    "url": "https://sourceforge.net/projects/twin/",
+    "icon": "generic.png",
+    "pkgname": ["twin"],
+    "aur": true
+  },
+  {
+    "name": "Typespeed",
+    "description": "Test your typing speed, and get your fingers' CPS.",
+    "url": "https://typespeed.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["typespeed"],
+    "aur": true
+  },
+  {
+    "name": "TypingTest",
+    "description": "Typing test desktop program with a large amount of customization.",
+    "url": "https://github.com/laelath/typingtest",
+    "icon": "generic.png",
+    "pkgname": ["typingtest-git"],
+    "aur": true
+  },
+  {
+    "name": "typiskt",
+    "description": "touchtype training in the terminal (Bash).",
+    "url": "https://github.com/budlabs/typiskt",
+    "icon": "generic.png",
+    "pkgname": ["typiskt"],
+    "aur": true
+  },
+  {
+    "name": "Virtual Magnifying Glass",
+    "description": "Simple, customizable and easy-to-use screen magnification tool.",
+    "url": "https://magnifier.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["vmg"],
+    "aur": true
+  },
+  {
+    "name": "vonal",
+    "description": "Modern customizable global menu with unlimiting plugin system written in Rust",
+    "url": "https://github.com/fxdave/vonal-rust",
+    "icon": "generic.png",
+    "pkgname": ["vonal-bin"],
+    "aur": true
+  },
+  {
+    "name": "whisper",
+    "description": "General-purpose speech-recognition model by OpenAI",
+    "url": "https://github.com/openai/whisper",
+    "icon": "generic.png",
+    "pkgname": ["whisper-git}}{{Broken package link"],
+    "aur": true
+  },
+  {
+    "name": "whisper.cpp",
+    "description": "Port of OpenAI's Whisper model in C/C++",
+    "url": "https://github.com/ggerganov/whisper.cpp",
+    "icon": "generic.png",
+    "pkgname": ["whisper.cpp"],
+    "aur": true
+  },
+  {
+    "name": "Wmutils",
+    "description": "A set of tools for X windows manipulation.",
+    "url": "https://github.com/wmutils/core",
+    "icon": "generic.png",
+    "pkgname": ["wmutils-git"],
+    "aur": true
+  },
+  {
+    "name": "Work-break",
+    "description": "Work and rest time balancer taking into account your current and today strain.",
+    "url": "https://github.com/ShadoySV/work-break/",
+    "icon": "generic.png",
+    "pkgname": ["work-break"],
+    "aur": true
+  },
+  {
+    "name": "wumwum",
+    "description": "The Window Manager manager. It can turn emwh compliant window managers into a tiling window manager while retaining all initial functionalities.",
+    "url": "https://wumwum.sourceforge.net/",
+    "icon": "generic.png",
+    "pkgname": ["wumwum"],
+    "aur": true
+  },
+  {
+    "name": "Wyrd",
+    "description": "Text-based front-end to Remind, a calendar and alarm program used on UNIX and Linux computers.",
+    "url": "https://gitlab.com/wyrd-calendar/wyrd",
+    "icon": "generic.png",
+    "pkgname": ["wyrd"],
+    "aur": true
+  },
+  {
+    "name": "xandikos",
+    "description": "A lightweight yet complete CardDAV/CalDAV server that backs onto a Git repository.",
+    "url": "https://www.xandikos.org",
+    "icon": "generic.png",
+    "pkgname": ["xandikos-git"],
+    "aur": true
+  },
+  {
+    "name": "Xlivebg",
+    "description": "A live wallpaper framework and collection of live wallpapers for the X window system.",
+    "url": "https://nuclear.mutantstargoat.com/sw/xlivebg/",
+    "icon": "generic.png",
+    "pkgname": ["xlivebg"],
+    "aur": true
+  },
+  {
+    "name": "xzoom",
+    "description": "Zoom, rotate and mirror area of X display.",
+    "url": "https://www.ibiblio.org/pub/Linux/X11/libs/!INDEX.short.html",
+    "icon": "generic.png",
+    "pkgname": ["xzoom"],
+    "aur": true
+  },
+  {
+    "name": "yambar",
+    "description": "A modular and lightweight status panel for X11 and Wayland that goes to great lengths to be both CPU and battery efficient.",
+    "url": "https://codeberg.org/dnkl/yambar",
+    "icon": "generic.png",
+    "pkgname": ["yambar"],
+    "aur": true
+  },
+  {
+    "name": "yofi",
+    "description": "Minimalistic menu for Wayland-based compositors.",
+    "url": "https://github.com/l4l/yofi",
+    "icon": "generic.png",
+    "pkgname": ["yofi"],
+    "aur": true
+  }
+]

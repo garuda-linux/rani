@@ -23,7 +23,7 @@
   {
     "name": "Armagetron Advanced",
     "description": "Tron Clone in 3D.",
-    "url": "http://armagetronad.org/",
+    "url": "https://armagetronad.org/",
     "icon": "generic.png",
     "pkgname": ["armagetronad"]
   },
@@ -65,7 +65,7 @@
   {
     "name": "Blockout II",
     "description": "3D tetris, free adaptation of the original BlockOut DOS game edited by California Dreams in 1989.",
-    "url": "http://www.blockout.net/blockout2/",
+    "url": "https://www.blockout.net/blockout2/",
     "icon": "generic.png",
     "pkgname": ["blockout2"]
   },
@@ -93,7 +93,7 @@
   {
     "name": "Cube 2: Sauerbraten",
     "description": "Improved version of the Cube engine.",
-    "url": "http://sauerbraten.org/",
+    "url": "https://sauerbraten.org/",
     "icon": "generic.png",
     "pkgname": ["sauerbraten"]
   },
@@ -135,14 +135,14 @@
   {
     "name": "Fish Fillets",
     "description": "Port of the wonderful puzzle game Fish Fillets.",
-    "url": "http://fillets.sf.net/",
+    "url": "https://fillets.sf.net/",
     "icon": "generic.png",
     "pkgname": ["fillets-ng"]
   },
   {
     "name": "Flare",
     "description": "Action game similar to Diablo.",
-    "url": "http://www.flarerpg.org/",
+    "url": "https://www.flarerpg.org/",
     "icon": "generic.png",
     "pkgname": ["flare-game"]
   },

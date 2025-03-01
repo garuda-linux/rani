@@ -1,0 +1,551 @@
+[[Category:Applications]]
+[[Category:Lists of software]]
+[[es:List of applications (Español)/Other]]
+[[ja:アプリケーション一覧/その他]]
+[[pl:List of applications (Polski)/Other]]
+[[zh-hans:List of applications/Other]]
+{{List of applications navigation}}
+
+== Organization ==
+
+=== CalDAV/CardDAV servers ===
+
+* {{App|Baïkal|A lightweight CalDAV+CardDAV server.|https://sabre.io/baikal/|{{AUR|baikal}}}}
+* {{App|kcaldav|Simple, safe, minimal CalDAV server.|https://kristaps.bsd.lv/kcaldav|{{AUR|kcaldav}}}}
+* {{App|[[Radicale]]|Free and Open-Source CalDAV and CardDAV Server.|https://radicale.org|{{Pkg|radicale}}}}
+* {{App|xandikos|A lightweight yet complete CardDAV/CalDAV server that backs onto a Git repository.|https://www.xandikos.org|{{AUR|xandikos-git}}}}
+
+=== Personal information managers ===
+
+These applications support time, task and contacts management.
+
+* {{App|[[Evolution]]|Personal information management application that provides integrated mail, calendaring and address book functionality. Part of {{Grp|gnome-extra}}.|https://gitlab.gnome.org/GNOME/evolution/-/wikis/home|{{Pkg|evolution}}}}
+* {{App|[[Wikipedia:Kontact|Kontact]]|Integrated solution to your personal information management. Part of {{Grp|kde-pim}}.|https://kontact.kde.org/|{{Pkg|kontact}}}}
+* {{App|Merkuro|Calendar and contact application that allows you to manage your tasks, events and contacts. Part of {{Grp|kde-pim}}.|https://apps.kde.org/merkuro/|{{Pkg|merkuro}}}}
+* {{App|Osmo|GTK personal organizer, which includes calendar, tasks manager and address book modules.|https://osmo-pim.sourceforge.net|{{Pkg|osmo}}}}
+* {{App|[[Wikipedia:SeaMonkey#Mail|SeaMonkey Mail & Newsgroups]] with [[Wikipedia:Lightning (software)|Lightning]]|Extension to SeaMonkey that provides calendar and task support.|https://www.seamonkey-project.org/|{{AUR|seamonkey}}}}
+* {{App|[[Thunderbird]]|A fully featured E-mail client formerly developed by Mozilla.|https://www.thunderbird.net|{{Pkg|thunderbird}}}}
+
+=== Time management ===
+
+==== Console ====
+
+* {{App|Calcurse|Text-based ncurses calendar and scheduling system (supports CalDAV)|https://calcurse.org|{{Pkg|calcurse}}}}
+* {{App|ccal|A console program which writes a calendar together with Chinese calendar to standard output.|https://ccal.chinesebay.com/ccal/ccal.htm|{{AUR|ccal}}}}
+* {{App|khal|Command-line (non-interactive) and ncurses (interactive) calendar system (supports CalDAV)|https://github.com/pimutils/khal|{{Pkg|khal}}}}
+* {{App|mail2rem|Small script for importing ''.ics'' calendars from Maildir to Remind calendar.|https://github.com/esovetkin/mail2rem|{{AUR|mail2rem-git}}}}
+* {{App|Pal|Very lightweight calendar with both interactive and non-interactive interfaces.|https://palcal.sourceforge.net/|{{AUR|pal}}}}
+* {{App|pcal|A tool to create pdf calendars from pcal input which can be exported by some calendar programs.|https://sourceforge.net/projects/pcal/|{{AUR|pcal}}}}
+* {{App|[[Remind]]|Highly sophisticated text-based calendaring and notification system.|https://dianne.skoll.ca/projects/remind/|{{Pkg|remind}}}}
+* {{App|When|Simple personal calendar program.|http://lightandmatter.com/when/when.html|{{Pkg|when}}}}
+* {{App|Wyrd|Text-based front-end to Remind, a calendar and alarm program used on UNIX and Linux computers.|https://gitlab.com/wyrd-calendar/wyrd|{{AUR|wyrd}}}}
+
+==== Graphical ====
+
+* {{App|Agenda|Calendar application built with MauiKit. Part of {{Grp|maui}}.|https://mauikit.org/apps/|{{Pkg|maui-agenda}}}}
+* {{App|Calindori|Calendar application for Plasma Mobile.|https://apps.kde.org/calindori/|{{Pkg|calindori}}}}
+* {{App|chinese-calendar|Chinese traditional calendar for Ubuntu Kylin.|https://launchpad.net/chinese-calendar/|{{Pkg|chinese-calendar}}}}
+* {{App|CoreTime|Very simple Clock/Calendar application which shows a clock, supports alarms, reminders, a stop watch and a timer. Part of C-Suite.|https://cubocore.gitlab.io/|{{AUR|coretime}}}}
+* {{App|Deepin Calendar|Calendar application for Deepin.|https://www.deepin.org/en/original/dde-calendar/|{{Pkg|deepin-calendar}}}}
+* {{App|etmtk (Event and Task Manager)|Simple application with a "Getting Things Done!" approach to handling events, tasks, activities, reminders and projects.|https://people.duke.edu/~dgraham/ETMtk/|{{AUR|etmtk}}}}
+* {{App|Gahshomar|Persian (Jalali/Farsi) calendar.|https://gahshomar.github.io/gahshomar/|{{AUR|gahshomar}}}}
+* {{App|GNOME Calendar|Calendar application for GNOME. Part of {{Grp|gnome}}.|https://apps.gnome.org/Calendar/|{{Pkg|gnome-calendar}}}}
+* {{App|[[Wikipedia:KAlarm|KAlarm]]|Personal alarm message, command and email scheduler, part of {{Grp|kde-pim}}.|https://apps.kde.org/kalarm/|{{Pkg|kalarm}}}}
+* {{App|Kongress|Companion application for conferences made by KDE. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kongress/|{{Pkg|kongress}}}}
+* {{App|[[Wikipedia:Kontact#Organizer|KOrganizer]]|Calendar and scheduling program, part of {{Grp|kde-pim}}.|https://kontact.kde.org/components/korganizer|{{Pkg|korganizer}}}}
+* {{App|Merkuro Calendar|Calendar application using Akonadi that supports both local and online calendars: Nextcloud, Google Calendar, Outlook, Caldav and more. Part of {{Grp|kde-pim}}.|https://apps.kde.org/merkuro.calendar/|{{Pkg|merkuro}}}}
+* {{App|[[Nextcloud]] Calendar|Calendar app for Nextcloud.|https://github.com/nextcloud/calendar|{{Pkg|nextcloud-app-calendar}}}}
+* {{App|Outspline|Extensible outliner with advanced time management features, supporting events with complex recurrence schemes.|https://kynikos.github.io/outspline/|{{AUR|outspline}}}}
+* {{App|TkRemind|Sophisticated calendar and alarm program.|https://dianne.skoll.ca/projects/remind/|{{Pkg|remind}}}}
+
+=== Timers ===
+
+==== Countdown timers and stopwatch ====
+
+* {{App|arttime|Clock, timer, pattern-based time manager, ASCII art viewer. Set a one-off, multiple, repeating, pattern-based timers.|https://github.com/poetaman/arttime|{{AUR|arttime-git}}}}
+* {{App|Chess Clock|Simple application to provide time control for over-the-board chess games.|https://apps.gnome.org/Chessclock/|{{Pkg|chess-clock}}}}
+* {{App|GNOME Clocks|Clocks application for GNOME, including alarm, stopwatch and timer functionality. Part of {{Grp|gnome}}.|https://apps.gnome.org/Clocks/|{{Pkg|gnome-clocks}}}}
+* {{App|Hourglass|Simple time keeping application designed for elementary OS.|https://github.com/sgpthomas/hourglass|{{AUR|hourglass-git}}}}
+* {{App|KClock|A convergent clock application for Plasma. It contains alarm, timer, stopwatch and timezone functionalities. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kclock/|{{Pkg|kclock}}}}
+* {{App|Kronometer|Stopwatch application for KDE.|https://apps.kde.org/kronometer/|{{Pkg|kronometer}}}}
+* {{App|KTeaTime|Handy timer for steeping tea. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kteatime/|{{Pkg|kteatime}}}}
+* {{App|pystopwatch|Stopwatch written in Python with a clock and two countdown functions that can minimize to the tray.|https://xyne.dev/projects/pystopwatch/|{{AUR|pystopwatch}}}}
+* {{App|snore|A program like sleep, but with feedback.|https://github.com/clamiax/snore|{{AUR|snore-git}}}}
+* {{App|termdown|Countdown timer and stopwatch in your terminal.|https://github.com/trehn/termdown|{{Pkg|termdown}}}}
+
+==== Break timers ====
+
+* {{App|Break Timer|Keeps track of how much you are using the computer, and it reminds you to take regular breaks. Works only in GNOME.|https://wiki.gnome.org/Apps/BreakTimer|{{Pkg|gnome-break-timer}}}}
+* {{App|RSI Break|Takes care of your health and regularly breaks your work to avoid repetitive strain injury (RSI).|https://apps.kde.org/rsibreak/|{{Pkg|rsibreak}}}}
+* {{App|Safe Eyes|Tool to reduce and prevent repetitive strain injury (RSI).|https://slgobinath.github.io/SafeEyes/|{{AUR|safeeyes}}}}
+* {{App|Work-break|Work and rest time balancer taking into account your current and today strain.|https://github.com/ShadoySV/work-break/|{{AUR|work-break}}}}
+* {{App|[[Wikipedia:Workrave|Workrave]]|Program that assists in the recovery and prevention of RSI [https://bbs.archlinux.org/viewtopic.php?id{{=}}285701 on Xorg].|https://workrave.org/|{{Pkg|workrave}}}}
+
+==== Pomodoro timers ====
+
+See [[Wikipedia:Pomodoro Technique]] for an introduction.
+
+* {{App|flow|Pomodoro app that blocks distractions while you work.|https://github.com/iamsergio/flow-pomodoro|{{AUR|flow-pomodoro}}}}
+* {{App|Francis|App that uses the well-known pomodoro technique to help you get more productive. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/francis/|{{Pkg|francis}}}}
+* {{App|Gnomato|Timer for the Pomodoro Technique.|https://github.com/diegorubin/gnomato|{{AUR|gnomato}}}}
+* {{App|Pilorama|Eye-candy timeboxing tool written in QML|https://github.com/eplatonoff/pilorama|{{AUR|pilorama-git}}}}
+* {{App|Pomodoro|Time management utility for GNOME based on the Pomodoro Technique.|https://gnomepomodoro.org/|{{AUR|gnome-shell-pomodoro}}}}
+* {{App|Pomodoro-Logger|Pomodoro timer and logger with [[Wikipedia:Kanban board|Kanban board]] for task management and tracking.|https://github.com/zxch3n/PomodoroLogger|{{AUR|pomodoro-logger}}}}
+* {{App|potato-c|A minimal and efficient pomodoro timer with server-client structure.|https://github.com/nimaaskarian/potato-c|{{AUR|potato-c}}}}
+* {{App|Solanum|Pomodoro timer for the GNOME desktop.|https://apps.gnome.org/Solanum/|{{Pkg|solanum}}}}
+* {{App|Tomate|Timer for the Pomodoro Technique.|https://github.com/eliostvs/tomate-gtk|{{AUR|tomate-gtk}}}}
+* {{App|Tomighty|Desktop timer for the Pomodoro Technique.|https://tomighty.github.io|{{AUR|tomighty}}}}
+
+=== Time trackers ===
+
+* {{App|ActivityWatch|A self/local-hosted, cross-platform, client-server, privacy-focused active window tracker.|https://github.com/ActivityWatch/activitywatch|{{AUR|activitywatch-bin}}}}
+* {{App|Hamster|Time tracking application that helps you to keep track on how much time you have spent during the day on activities you choose to track.|http://projecthamster.org/|{{Pkg|hamster-time-tracker}}}}
+* {{App|Kapow|Punch clock to track time spent on projects.|https://gottcode.org/kapow/|{{AUR|kapow}}}}
+* {{App|KTimeTracker|Todo management and time tracking application.|https://apps.kde.org/ktimetracker/|{{Pkg|ktimetracker}}}}
+* {{App|Tider|Lightweight time tracking application (GTK)|https://github.com/naspeh/tider|{{AUR|tider-git}}}}
+* {{App|Timenaut|Time tracker that tracks active windows and lets you sort them into categories. Based on the [https://electronjs.org/ Electron] platform.|https://timenaut.app/|{{AUR|timenaut-appimage}}}}
+* {{App|Timewarrior|A command-line time-tracking application.|https://timewarrior.net/|{{Pkg|timew}}}}
+* {{App|Timetrack|Simple time-tracking app for GNOME.|https://gitlab.gnome.org/danigm/timetrack|{{AUR|timetrack}}}}
+* {{App|Wakatime|Open source plugins for metrics about your programming with intuitive web-interface.|https://wakatime.com/|{{Pkg|wakatime}}}}
+
+=== Task management ===
+
+==== Console ====
+
+* {{App|c3|A multi-platform TUI todo manager that extends calcurse's todo format to have a tree-like dependency structure, and even more! |https://github.com/nimaaskarian/c3|{{AUR|c3}}}}
+* {{App|dijo|Scriptable, curses-based, digital habit tracker |https://github.com/nerdypepper/dijo|{{AUR|dijo}}}}
+* {{App|Taskbook|Tasks, boards and notes for the command-line habitat.|https://github.com/klauscfhq/taskbook|{{AUR|taskbook}}}}
+* {{App|Taskell|A command-line kanban board/task manager.|https://github.com/smallhadroncollider/taskell|{{AUR|taskell}}}}
+* {{App|[[Wikipedia:Taskwarrior|Taskwarrior]]|Command-line To-do list application with support for lua customization and more.|https://taskwarrior.org/|{{Pkg|task}}}}
+* {{App|todoman|Command-line To-do list manager (supports CalDAV)|https://github.com/pimutils/todoman|{{Pkg|todoman}}}}
+* {{App|Todo.txt|Small command-line To-do manager.|https://github.com/todotxt/todo.txt-cli/|{{AUR|todotxt}}}}
+* {{App|TuDu|Ncurses-based hierarchical To-do list manager with vim-like keybindings.|https://code.meskio.net/tudu/|{{AUR|tudu}}}}
+
+==== Graphical ====
+
+* {{App|Agenda|Simple, fast, no-nonsense to-do (task) list for elementary OS.|https://github.com/dahenson/agenda|{{AUR|agenda-git}}}}
+* {{App|Effitask|Graphical task manager, based on the [http://todotxt.com/ Todo.txt] format.|https://github.com/sanpii/effitask|{{AUR|effitask}}}}
+* {{App|Endeavour|Personal task manager for GNOME. Part of {{Grp|gnome-extra}}.|https://wiki.gnome.org/Apps/Todo|{{Pkg|endeavour}}}}
+* {{App|Errands|Todo application for those who prefer simplicity.|https://apps.gnome.org/List/|{{Pkg|errands}}}}
+* {{App|Go For It!|Simple and stylish productivity app, featuring a to-do list, merged with a timer that keeps your focus on the current task. To-do lists are stored in the [http://todotxt.com/ Todo.txt] format.|https://manuelkehl.de/projects/go-for-it/|{{AUR|go-for-it-git}}}}
+* {{App|GTG|Personal tasks and TODO list items organizer for GNOME inspired by the [[Wikipedia:Getting Things Done|Getting Things Done (GTD)]] methodology.|https://github.com/getting-things-gnome/gtg|{{AUR|gtg}}}}
+* {{App|[[Nextcloud]] Tasks|Tasks app for Nextcloud.|https://github.com/nextcloud/tasks|{{Pkg|nextcloud-app-tasks}}}}
+* {{App|Planner|Task manager with Todoist support.|https://useplanner.com/|{{AUR|planify}}}}
+* {{App|ptask|GTK task manager based on [[Wikipedia:Taskwarrior|Taskwarrior]].|https://wpitchoune.net/ptask/|{{AUR|ptask}}}}
+* {{App|sleek|todo.txt app with modern GUI. Based on the [https://electronjs.org/ Electron] platform.|https://github.com/ransome1/sleek/|{{AUR|sleek}}}}
+* {{App|TickTick|Is a simple and effective to-do list and task manager app with seamless cloud synchronization across all your devices|https://ticktick.com/|{{AUR|ticktick}}}}
+* {{App|Zanshin|To-do management application for KDE. Part of {{Grp|kde-pim}}.|https://apps.kde.org/zanshin/|{{Pkg|zanshin}}}}
+
+=== Contacts management ===
+
+==== Console ====
+
+* {{App|Abook|Text-based contacts manager designed for use with mutt.|https://abook.sourceforge.net/|{{AUR|abook}}}}
+* {{App|Khard|Command-line addressbook that is able to sync with CardDAV-servers.|https://github.com/scheibler/khard|{{Pkg|khard}}}}
+
+==== Graphical ====
+
+* {{App|Communicator|Integrated address book and dialer application features the search for and view of contacts, edit contact details, and make new contacts, favorites, and dialer pad. Part of {{Grp|maui}}.|https://mauikit.org/apps/communicator/|{{Pkg|communicator}}}}
+* {{App|GNOME Contacts|Contacts manager for GNOME. Part of {{Grp|gnome}}.|https://apps.gnome.org/Contacts/|{{Pkg|gnome-contacts}}}}
+* {{App|KAddressBook|Address book manager for KDE. Part of {{Grp|kde-pim}}.|https://kontact.kde.org/components/kaddressbook|{{Pkg|kaddressbook}}}}
+* {{App|LDAP Administration Tool|Browse LDAP-based directories and add/edit/delete entries contained within.|https://sourceforge.net/projects/ldap-at/|{{AUR|lat}}}}
+* {{App|Merkuro Contacts|Address book using Akonadi. Part of {{Grp|kde-pim}}.|https://apps.kde.org/merkuro.contact/|{{Pkg|merkuro}}}}
+* {{App|[[Nextcloud]] Contacts|Contacts app for Nextcloud.|https://github.com/nextcloud/contacts|{{Pkg|nextcloud-app-contacts}}}}
+* {{App|[[phpLDAPadmin]]|LDAP client webapp. Its hierarchical tree-viewer and advanced search functionality make it intuitive to browse and administer your LDAP directory.|https://phpldapadmin.sourceforge.net/|{{Pkg|phpldapadmin}}}}
+* {{App|[[Thunderbird]] with [https://gitlab.com/CardBook/CardBook CardBook] extension|address book based on the CardDAV and vCard standards.|https://gitlab.com/CardBook/CardBook|{{Pkg|thunderbird}}}}
+
+=== Financial management ===
+
+See also [[Wikipedia:Comparison of accounting software]].
+
+==== Console ====
+
+* {{App|Beancount|A double-entry bookkeeping computer language that lets you define financial transaction records in a text file, read them in memory, generate a variety of reports from them, and provides a web interface.|https://beancount.github.io/|{{AUR|beancount}}}}
+* {{App|esniper|Simple, lightweight tool for [[Wikipedia:Auction_sniping|sniping]] eBay auctions.|https://esniper.sourceforge.net/|{{AUR|esniper}}}}
+* {{App|hledger|An accounting program for tracking money, time, or any other commodity, using double-entry accounting and a simple, editable file format. hledger is inspired by and largely compatible with ledger.|https://hledger.org/|{{Pkg|hledger}}}}
+* {{App|[[Ledger]]|Ledger is a powerful, double-entry accounting system that is accessed from the UNIX command-line.|https://www.ledger-cli.org/|{{Pkg|ledger}}}}
+
+==== Graphical ====
+
+* {{App|Eqonomize!|Cross-platform personal accounting software, with focus on efficiency and ease of use for the small household economy.|https://eqonomize.github.io/|{{AUR|eqonomize}}}}
+* {{App|[[ERPNext]]|Free and open source Enterprise Resource Planning (ERP).|https://github.com/frappe/erpnext|{{AUR|erpnext}}}}
+* {{App|[[Wikipedia:GnuCash|GnuCash]]|Financial application that implements a double-entry book-keeping system with features for small business accounting.|https://www.gnucash.org/|{{Pkg|gnucash}}}}
+* {{App|Grisbi|Personal finance system which manages third party, expenditure and receipt categories, as well as budgetary lines, financial years, and other information that makes it suitable for associations.|https://www.grisbi.org/|{{AUR|grisbi}}}}
+* {{App|[[Wikipedia:HomeBank|HomeBank]]|Easy to use finance manager that can analyse your personal finance in detail using powerful filtering tools and graphs.|http://homebank.free.fr/|{{Pkg|homebank}}}}
+* {{App|[[Wikipedia:KMyMoney|KMyMoney]]|Personal finance manager that operates in a similar way to [[Wikipedia:Microsoft Money|Microsoft Money]]. It supports different account types, categorisation of expenses and incomes, reconciliation of bank accounts and import/export to the “QIF” file format.|https://kmymoney.org/|{{Pkg|kmymoney}}}}
+* {{App|Kresus|Self-hosted personal finance management software. It automatically retrieves every day all your new bank transactions and lets you categorize them, study them through charts and establish a budget.|https://kresus.org/en/|{{Pkg|kresus}}}}
+* {{App|Manager|Proprietary accounting software for small business.|https://www.manager.io/|{{AUR|manager-accounting}}}}
+* {{App|Money Manager EX|An easy-to-use personal finance suite|https://www.moneymanagerex.org/|{{AUR|moneymanagerex}}}}
+* {{App|[[Odoo]]|Open source ERP system purely in Python. Previously known as OpenERP.|https://www.odoo.com/|{{AUR|odoo-venv}}}}
+* {{App|Skrooge|Personal finances manager for the KDE desktop.|https://skrooge.org/|{{Pkg|skrooge}}}}
+
+=== Cryptocurrency ===
+
+* {{App|Atomic Wallet|Manage your Bitcoin, Ethereum, XRP, Litecoin, XLM, and over 300 other coins and tokens. |https://atomicwallet.io/|{{AUR|atomicwallet}}}}
+* {{App|Bitcoin Core|Connect to the Bitcoin P2P Network.|https://bitcoincore.org/|{{Pkg|bitcoin-qt}}}}
+* {{App|Cake Wallet|Multicurrency wallet.|https://github.com/cake-tech/cake_wallet|{{AUR|cake-wallet-bin}}}}
+* {{App|Sparrow Wallet|Advanced Bitcoin client.|https://sparrowwallet.com/|{{AUR|sparrow-wallet}}}}
+* {{App|Coinomi|Securely store, manage and exchange Bitcoin, Ethereum, and more than 1,770 other blockchain assets.|https://www.coinomi.com/|{{AUR|coinomi-wallet-bin}}}}
+* {{App|Cointop|Terminal based application for tracking cryptocurrencies.|https://cointop.sh/|{{AUR|cointop}}}}
+* {{App|Electrum|Lightweight Bitcoin client.|https://electrum.org/|{{Pkg|electrum}}}}
+* {{App|Etherwall|[[Ethereum]] wallet.|https://www.etherwall.com/|{{Pkg|etherwall}}}}
+* {{App|Exodus|All-in-one proprietary application to secure, manage, and exchange blockchain assets. Based on the [https://electronjs.org/ Electron] platform.|https://www.exodus.io/|{{AUR|exodus}}}}
+* {{App|Mist|[[Ethereum]] Dapp browser.|https://github.com/ethereum/mist|{{AUR|mist}}}}
+* {{App|Monero|Monero wallet.|https://getmonero.org/|{{Pkg|monero-gui}}, {{Pkg|monero}}}}
+* {{App|Feather Wallet|Lightweight Monero wallet.|https://featherwallet.org/|{{AUR|feather-wallet}}}}
+* {{App|Dogecoin Core|Dogecoin Core wallet, Allows you to connect to the Dogecoin P2P Network.|https://dogecoin.com/|{{AUR|dogecoin-qt}}, {{AUR|multidoge}}}}
+
+=== Project management ===
+
+See also [[Wikipedia:Comparison of project management software]].
+
+* {{App|[[Wikipedia:Calligra Plan|Calligra Plan]]|Project management application, which is intended for managing moderately large projects with multiple resources.|https://calligra.org/components/plan/|{{Pkg|calligra-plan}}}}
+* {{App|[[Wikipedia:GanttProject|GanttProject]]|Project scheduling application featuring gantt chart, resource management, calendaring.|https://www.ganttproject.biz/|{{AUR|ganttproject}}}}
+* {{App|[[Notion-app]]|A note-taking software and project management software that is used for note-taking, task management, project management, knowledge management, and personal knowledge management. |https://www.notion.so/|{{AUR|notion-app}}}}
+* {{App|Planner|Project management application for GNOME.|https://wiki.gnome.org/Apps/Planner|{{Pkg|planner}}}}
+* {{App|[[Wikipedia:ProjectLibre|ProjectLibre]]|Project management software alternative to [[Wikipedia:Microsoft Project|Microsoft Project]].|https://www.projectlibre.com/product/projectlibre-open-source|{{AUR|projectlibre}}}}
+* {{App|[[Wikipedia:TaskJuggler|TaskJuggler]]|Modern and powerful project management tool. Its new approach to project planning and tracking is more flexible and superior to the commonly used Gantt chart editing tools.|https://taskjuggler.org/|{{AUR|taskjuggler}}}}
+
+=== Bookmark management ===
+
+* {{App|KEditBookmarks|Bookmark organizer and editor. Part of {{Grp|kde-utilities}}.|https://invent.kde.org/utilities/keditbookmarks|{{Pkg|keditbookmarks}}}}
+* {{App|Read It Later|Simple Wallabag client.|https://gitlab.gnome.org/World/read-it-later|{{Pkg|read-it-later}}}}
+
+=== Recipe management ===
+
+* {{App|Gourmand|Simple but powerful recipe-managing application.|https://github.com/GourmandRecipeManager/gourmand|{{AUR|gourmand}}}}
+* {{App|Recipes|Recipe management application for GNOME. Part of {{Grp|gnome-extra}}.|https://wiki.gnome.org/Apps/Recipes|{{Pkg|gnome-recipes}}}}
+
+=== Travel management ===
+
+See also [[List of applications/Science#Navigation and routing]].
+
+* {{App|Itinerary|Digital travel assistant with a priority on protecting your privacy. Part of {{Grp|kde-pim}}.|https://apps.kde.org/itinerary/|{{Pkg|itinerary}}}}
+
+=== Health management ===
+
+* {{App|Health|Health tracking app for the GNOME desktop.|https://apps.gnome.org/Health/|{{Pkg|health}}}}
+
+== Education ==
+
+See also [[List of games#Education]].
+
+* {{App|Artikulate|Pronunciation trainer that helps improving and perfecting a learner's pronunciation skills for a foreign language. Part of {{Grp|kde-education}}.|https://apps.kde.org/artikulate/|{{Pkg|artikulate}}}}
+* {{App|Fretboard|Look up guitar chords.|https://apps.gnome.org/Fretboard/|{{Pkg|fretboard}}}}
+* {{App|Kalm|Teach you different breathing techniques. Part of {{Grp|kde-utilities}}.|https://apps.kde.org/kalm/|{{Pkg|kalm}}}}
+* {{App|[[Moodle]]|Open-source software learning management system.|https://moodle.org/|{{AUR|moodle}}}}
+* {{App|[[Wikipedia:OpenBoard|OpenBoard]]|Interactive whiteboard software for schools and universities.|https://openboard.ch/index.en.html|{{AUR|openboard}}}}
+* {{App|Wike|Wikipedia reader for the GNOME desktop.|https://apps.gnome.org/Wike/|{{Pkg|wike}}}}
+* {{App|Wildcard|Provides a simple interface to test/practice regular expressions.|https://gitlab.gnome.org/World/Wildcard|{{Pkg|wildcard}}}}
+
+=== Flashcards ===
+
+See also [[Wikipedia:List of flashcard software]].
+
+* {{App|[[Anki]]|Intelligent spaced-repetition memory training program.|https://apps.ankiweb.net/|{{AUR|anki}}}}
+* {{App|jVLT|Vocabulary learning tool.|https://www.linuxlinks.com/jVLT/|{{AUR|jvlt}}}}
+* {{App|KWordQuiz|Tool that gives you a powerful way to master new vocabularies. Part of {{Grp|kde-education}}.|https://apps.kde.org/kwordquiz/|{{Pkg|kwordquiz}}}}
+* {{App|[[Mnemosyne]]|Flash-card tool which optimizes your learning process.|https://mnemosyne-proj.org/|{{AUR|mnemosyne}}}}
+* {{App|Parley|Program to help you memorize things. It uses the spaced repetition learning method, also known as flash cards. Part of {{Grp|kde-education}}.|https://apps.kde.org/parley/|{{Pkg|parley}}}}
+* {{App|Pauker|Flash card based learning tool using shortterm and longterm memory training.|https://pauker.sourceforge.net/|{{AUR|pauker}}}}
+* {{App|StudyFlash|Learn flashcards inside your terminal|https://github.com/Alone2/studyFlash|{{AUR|studyflash}}}}
+
+=== Touch typing ===
+
+==== Console ====
+
+* {{App|Dvorak 7min|Simple ncurses-based typing tutor for those trying to become fluent with the Dvorak keyboard layout.|https://github.com/yaychris/dvorak7min|{{AUR|dvorak7min}}}}
+* {{App|GNU Typist|Universal typing tutor.|https://www.gnu.org/software/gtypist/|{{AUR|gtypist}}}}
+* {{App|psani-profi|Program that will teach you touchtyping (Czech).|https://www.sallyx.org/sally/psani-vsemi-deseti/|{{AUR|psani-profi}}}}
+* {{App|Typespeed|Test your typing speed, and get your fingers' CPS.|https://typespeed.sourceforge.net/|{{AUR|typespeed}}}}
+* {{App|typiskt|touchtype training in the terminal (Bash).|https://github.com/budlabs/typiskt|{{AUR|typiskt}}}}
+
+==== Graphical ====
+
+* {{App|Klavaro|Teaching touch typing that intends to be keyboard and language independent.|https://klavaro.sourceforge.io/|{{Pkg|klavaro}}}}
+* {{App|[[Wikipedia:KTouch|KTouch]]|Program to learn and practice touch typing. Part of {{Grp|kde-education}}.|https://apps.kde.org/ktouch/|{{Pkg|ktouch}}}}
+* {{App|TIPP10|Intelligent touch typing tutor.|https://www.tipp10.com/|{{Pkg|tipp10}}}}
+* {{App|TypingTest|Typing test desktop program with a large amount of customization.|https://github.com/laelath/typingtest|{{AUR|typingtest-git}}}}
+
+== Accessibility ==
+
+See [[Accessibility]] for tips on operating the desktop and [[:Category:Accessibility]] for all available articles. See also [[List of applications/Utilities#On-screen keyboards|On-screen keyboards]].
+
+=== Speech synthesizers ===
+
+See also [[Wikipedia:Comparison of speech synthesizers]] and [https://tools.wmflabs.org/tts-comparison/ listening comparison of the different engines].
+
+* {{App|Ekho|Chinese text-to-speech (TTS) software for Cantonese, Mandarin, Zhaoan Hakka, Tibetan, Ngangien and Korean.|https://eguidedog.net/ekho.php|{{AUR|ekho}}}}
+* {{App|eSpeak|Compact speech synthesizer for more than 50 languages.|https://espeak.sourceforge.net/|{{AUR|espeak}}}}
+* {{App|[[Wikipedia:eSpeakNG|eSpeak NG]]|Fork of eSpeak (due to inactivity of original maintainer).|https://github.com/espeak-ng/espeak-ng|{{Pkg|espeak-ng}}}}
+* {{App|[[Festival]]|General framework for building speech synthesis systems as well as including examples of various modules. As a whole it offers full text to speech.|https://www.cstr.ed.ac.uk/projects/festival/|{{Pkg|festival}}}}
+* {{App|Flite|Lightweight speech synthesis engine.|http://festvox.org/flite/|{{Pkg|flite}}}}
+* {{App|Gespeaker|GTK frontend for espeak. It allows you to play a text in many languages with settings for voice, pitch, volume and speed.|https://muflone.com/gespeaker/english/|{{AUR|gespeaker}}}}
+* {{App|KMouth|Speech synthesizer frontend which enables persons that cannot speak to let their computer speak. Part of {{Grp|kde-accessibility}}.|https://apps.kde.org/kmouth/|{{Pkg|kmouth}}}}
+* {{App|MaryTTS|Multilingual text-to-speech synthesis platform written in Java.|https://marytts.github.io/|{{AUR|marytts}}}}
+* {{App|[[Mbrola|MBROLA]]|Proprietary phonemes-to-audio program which supports more than 70 languages. Mbrola-voices can also be used with eSpeak.|http://tcts.fpms.ac.be/synthesis/mbrola.html|{{AUR|mbrola}}}}
+* {{App|Mimic|Text-to-speech voice synthesis from the Mycroft project (based on Flite).|https://mimic.mycroft.ai/|{{AUR|mimic}}}}
+* {{App|Open JTalk|Japanese text-to-speech synthesis system.|https://sourceforge.net/projects/open-jtalk/|{{AUR|open-jtalk}}}}
+* {{App|Orca|Screen reader for individuals who are blind or visually impaired, using eSpeak (via Speech Dispatcher). Part of {{Grp|gnome}}.|https://wiki.gnome.org/Projects/Orca|{{Pkg|orca}}}}
+* {{App|piper|A fast, local neural text to speech system.|https://github.com/rhasspy/piper|{{AUR|piper-tts-bin}}}}
+* {{App|[[RHVoice]]|Cross-platform (including Android) text-to-speech from a blind Russian-speaking developer, based on [https://hts.sp.nitech.ac.jp HTS] (ru, ka, uk, ky, tt, en, pt, eo)|https://github.com/RHVoice/RHVoice|{{Pkg|rhvoice}}}}
+* {{App|[[Simple Orca Plugin System|SOPS]]|Provides a simple way to write custom plugins for screen reader Orca.|https://github.com/chrys87/simple-orca-plugin-system|{{AUR|simpleorcapluginsystem}}}}
+* {{App|[[Speech dispatcher]]|Common interface to speech synthesis. It has backends for eSpeak, Festival, and a few other speech synthesizers.|https://freebsoft.org/speechd|{{Pkg|speech-dispatcher}}}}
+
+=== Speech recognition ===
+
+See also [[Wikipedia:Speech recognition software for Linux]].
+
+* {{App|[[Wikipedia:Julius (software)|Julius]]|Large vocabulary continuous speech recognition engine.|https://github.com/julius-speech/julius|{{Pkg|julius}}}}
+* {{App|[[Wikipedia:Kaldi (software)|Kaldi]]|Speech recognition toolkit.|https://github.com/kaldi-asr/kaldi|{{AUR|kaldi}}}}
+* {{App|Kalliope|Modular always-on voice controlled personal assistant designed for home automation.|https://kalliope-project.github.io/|{{AUR|kalliope}}{{Broken package link|package not found}}}}
+* {{App|Kaylee|Somewhat fancy voice command recognition program that performs actions when a user speaks loosely preset sentences.|https://github.com/Ratfink/kaylee|{{AUR|kayleevc}}}}
+* {{App|[[Wikipedia:Mycroft (software)|Mycroft]]|Hackable voice assistant.|https://github.com/MycroftAI/mycroft-core|{{AUR|mycroft-core}}}}
+* {{App|Numen|Voice control for handsfree computing|https://sr.ht/~geb/numen/|{{AUR|numen}}}}
+* {{App|nerd-dictation|Light weight manually activated dictation using the VOSK-API|https://github.com/ideasman42/nerd-dictation|{{AUR|nerd-dictation-git}}}}
+
+=== Screen magnifiers ===
+
+* {{App|boomer|Zoomer application for Linux.|https://github.com/tsoding/boomer|{{AUR|boomer-git}}}}
+* {{App|KMag|Small KDE utility to magnify a part of the screen. Part of {{Grp|kde-accessibility}}.|https://apps.kde.org/kmag/|{{Pkg|kmag}}}}
+* {{App|Magnus|Very simple desktop magnifier, showing the area around the mouse pointer in a separate window magnified two, three, four, or five times.|https://kryogenix.org/code/magnus/|{{AUR|magnus}}}}
+* {{App|Virtual Magnifying Glass|Simple, customizable and easy-to-use screen magnification tool.|https://magnifier.sourceforge.net/|{{AUR|vmg}}}}
+* {{App|xzoom|Zoom, rotate and mirror area of X display.|https://www.ibiblio.org/pub/Linux/X11/libs/!INDEX.short.html|{{AUR|xzoom}}}}
+
+=== On-screen annotation ===
+
+* {{App|Gromit-MPX|Tool to make annotations on the screen.|https://github.com/bk138/gromit-mpx|{{AUR|gromit-mpx}}}}
+* {{App|Pylote|Tool to draw on the screen.|http://pascal.peter.free.fr/pylote-en.html|{{AUR|pylote-git}}}}
+* {{App|Screenkey|Tool to display pressed keys.|https://www.thregr.org/~wavexx/software/screenkey/|{{Pkg|screenkey}}}}
+* {{App|Show Me The Key|A screenkey alternative that works under Wayland via libinput|https://showmethekey.alynx.one|{{AUR|showmethekey}}}}
+
+=== Mouse ===
+
+* {{App|Easystroke|Use mouse gestures to initiate commands and hotkeys.|https://github.com/thjaeger/easystroke/wiki|{{AUR|easystroke}}}}
+* {{App|KMouseTool|Clicks the mouse whenever the mouse cursor pauses briefly. It was designed to help those with repetitive strain injuries, for whom pressing buttons hurts. Part of {{Grp|kde-accessibility}}.|https://apps.kde.org/kmousetool/|{{Pkg|kmousetool}}}}
+* {{App|Mousetweaks|Accessibility enhancements for pointing devices.|https://wiki.gnome.org/Projects/Mousetweaks|{{Pkg|mousetweaks}}}}
+
+== Display managers ==
+
+See the main article: [[Display manager#List of display managers]].
+
+== Desktop environments ==
+
+See the main article: [[Desktop environment#List of desktop environments]].
+
+=== Window managers ===
+
+==== Console ====
+
+See also [[List of applications/Utilities#Terminal multiplexers]], which offer some of the functions of window managers for the console.
+
+* {{App|twin|Text-mode window manager.|https://sourceforge.net/projects/twin/|{{AUR|twin}}}}
+* {{App|Wmutils|A set of tools for X windows manipulation.|https://github.com/wmutils/core|{{AUR|wmutils-git}}}}
+
+==== Graphical ====
+
+See the main article: [[Window manager#List of window managers]].
+
+==== Composite managers ====
+
+See the main article: [[Xorg#List of composite managers]].
+
+=== Wayland Compositors ===
+
+See the main article: [[Wayland#Compositors]].
+
+=== Window tilers ===
+
+* {{App|QuickTile|Lightweight standalone alternative to Compiz Grid plugin.|http://ssokolow.com/quicktile/|{{AUR|quicktile-git}}}}
+* {{App|wumwum|The Window Manager manager. It can turn emwh compliant window managers into a tiling window manager while retaining all initial functionalities.|https://wumwum.sourceforge.net/|{{AUR|wumwum}}}}
+
+=== Taskbars ===
+
+See also [[Wikipedia:Taskbar]].
+
+* {{App|[[Bmpanel]]|Lightweight, NETWM compliant panel.|https://github.com/nsf/bmpanel2|{{AUR|bmpanel2}}}}
+* {{App|[[Cairo-Dock]]|Highly customizable dock and launcher application.|https://www.glx-dock.org/|{{Pkg|cairo-dock}}}}
+* {{App|CoreAction|Side bar with some handy gadgets like system loads, calendar, calculator, notes etc. Part of C-Suite.|https://gitlab.com/cubocore|{{AUR|coreaction}}}}
+* {{App|Dash to Panel|A fully customizable icon taskbar for {{Pkg|gnome-shell}}. Moves the dash into the GNOME main panel, similar to KDE Plasma and Windows 10.|https://github.com/home-sweet-gnome/dash-to-panel|{{Pkg|gnome-shell-extension-dash-to-panel}}}}
+* {{App|eww|Elkowars Wacky Widgets is a standalone widget system made in Rust that allows you to implement your own, custom widgets in any window manager.|https://github.com/elkowar/eww|{{AUR|eww}}}}
+* {{App|[[fbpanel]]|Lightweight, NETWM compliant desktop panel.|https://aanatoly.github.io/fbpanel/|{{AUR|fbpanel}}}}
+* {{App|[[Wikipedia:GNOME Panel|GNOME Panel]]|Panel included in the [[GNOME Flashback]] desktop.|https://wiki.gnome.org/Projects/GnomePanel|{{Pkg|gnome-panel}}}}
+* {{App|Latte|Dock based on Plasma frameworks that provides an elegant and intuitive experience for your tasks and plasmoids.|https://invent.kde.org/plasma/latte-dock|{{AUR|latte-dock-git}}}}
+* {{App|[[Lemonbar]]|A featherweight bar based on XCB. Provides UTF-8 support, background and foreground colors, text alignment, and not much more.|https://github.com/LemonBoy/bar|{{AUR|lemonbar-git}}}}
+* {{App|LXPanel|Lightweight X11 desktop panel and part of the LXDE desktop.|https://lxde.org/|{{Pkg|lxpanel}}}}
+* {{App|MATE Panel|Panel included in the [[MATE]] desktop.|https://github.com/mate-desktop/mate-panel/|{{Pkg|mate-panel}}}}
+* {{App|nwg-dock|GTK-based dock designed for the Sway window manager.|https://github.com/nwg-piotr/nwg-dock|{{Pkg|nwg-dock}}}}
+* {{App|nwg-panel|GTK3-based panel for sway and Hyprland Wayland compositors.|https://github.com/nwg-piotr/nwg-panel|{{Pkg|nwg-panel}}}}
+* {{App|PerlPanel|The ideal accompaniment to a light-weight Window Manager such as OpenBox, or a desktop-drawing program like iDesk.|https://savannah.nongnu.org/projects/perlpanel|{{AUR|perlpanel-git}}{{Broken package link|package not found}}}}
+* {{App|[[Plank]]|Elegant, simple, clean dock from [[pantheon]] desktop environment.|https://launchpad.net/plank|{{pkg|plank}}}}
+* {{App|[[Polybar]]|a fast and easy-to-use tool for creating status bars.|https://github.com/jaagr/polybar|{{Pkg|polybar}}}}
+* {{App|[[Tint2]]|Simple panel/taskbar developed specifically for Openbox.|https://gitlab.com/o9000/tint2|{{Pkg|tint2}}}}
+* {{App|Vala Panel|Gtk3 panel for compositing window managers|https://gitlab.com/vala-panel-project/vala-panel|{{AUR|vala-panel-git}}}}
+* {{App|Xfce Panel|Panel included in the [[Xfce]] desktop.|https://docs.xfce.org/xfce/xfce4-panel/start|{{Pkg|xfce4-panel}}}}
+* {{App|[[xmobar]]|A lightweight, text-based, status bar written in Haskell.|https://archives.haskell.org/projects.haskell.org/xmobar/|{{Pkg|xmobar}}}}
+* {{App|Waybar|A customizable taskbar for Wlroots-based Wayland compositors.|https://github.com/Alexays/Waybar/|{{Pkg|waybar}}}}
+* {{App|yambar|A modular and lightweight status panel for X11 and Wayland that goes to great lengths to be both CPU and battery efficient.|https://codeberg.org/dnkl/yambar|{{AUR|yambar}}}}
+
+=== System tray ===
+
+[[Desktop environments]] typically have their own system tray implementation. E.g. [[KDE]] ships with Plasma Panel and [[Xfce]] ships with {{pkg|xfce4-panel}}. For [[GNOME]], see [[GNOME#AppIndicators/Top bar icons]]. For [[dwm]], see [https://dwm.suckless.org/patches/systray/ systray patch].
+
+* {{App|AllTray|Dock other applications into the system tray (notification area).|https://github.com/mbt/alltray|{{Pkg|alltray}}}}
+* {{App|Docker|Docking application which acts as a system tray.|https://icculus.org/openbox/2/docker/|{{AUR|docker-tray}}}}
+* {{App|KDocker|Dock any application in the system tray (notification area).|https://github.com/user-none/KDocker|{{AUR|kdocker}}}}
+* {{App|[[Stalonetray]]|Stand-alone freedesktop.org and KDE system tray (notification area) for [[Xorg]]. It has full XEMBED support and minimal dependencies: an X11 lib only. Stalonetray works with virtually any EWMH-compliant window manager.|https://stalonetray.sourceforge.net/|{{Pkg|stalonetray}}}}
+* {{App|Trayer|Lightweight GTK-based system tray (notification area).|https://github.com/sargon/trayer-srg/|{{Pkg|trayer}}}}
+
+==== Tray indicators ====
+
+Desktop-independent tray indicators. Useful for window managers without built-in tray widgets: 
+
+* {{Pkg|cbatticon}}: battery
+* {{Pkg|volumeicon}}: volume
+* {{Pkg|pasystray}}: pulseaudio
+* {{Pkg|sbxkb}}: keyboard layout
+* {{Pkg|python-pystray}}: Python library for creating tray entries.
+* {{AUR|tktray}}: Tk extension to create system tray icons following XDG specifications.
+
+=== Application launchers ===
+
+See also [[Wikipedia:Comparison of desktop application launchers]].
+
+* {{App|Albert|Sophisticated, plugin based standalone keyboard launcher.|https://albertlauncher.github.io/|{{aur|albert}}}}
+* {{App|Application Finder|Easy-to-use application launcher from Xfce.|https://docs.xfce.org/xfce/xfce4-appfinder/start|{{pkg|xfce4-appfinder}}}}
+* {{App|Bashrun2|Provides a different, barebones approach to a run dialog, using a specialized Bash session within a small xterm window.|http://henning-bekel.de/bashrun2/|{{AUR|bashrun2}}}}
+* {{App|bemenu|Lightweight dynamic menu inspired by dmenu. Works natively on Wayland.|https://github.com/Cloudef/bemenu|{{Pkg|bemenu}}}}
+* {{App|Cartridges|Simple game launcher written in Python using GTK4 and Libadwaita.|https://apps.gnome.org/Cartridges/|{{Pkg|cartridges}}}}
+* {{App|[[dmenu]]|Fast and lightweight dynamic menu for X which is also useful as an application launcher.|https://tools.suckless.org/dmenu/|{{Pkg|dmenu}}}}
+* {{App|dmenu-extended|Extension to ''dmenu'' for quickly opening files and folders.|https://github.com/markjones112358/dmenu-extended|{{AUR|dmenu-extended-git}}}}
+* {{App|dswitcher|''dmenu''-based window switcher that works regardless of workspace or minimization.|https://github.com/Antithesisx/dswitcher|{{AUR|dswitcher-git}}}}
+* {{App|fuzzel|Application launcher for wlroots based Wayland compositors, similar to rofi's `drun` mode.|https://codeberg.org/dnkl/fuzzel|{{Pkg|fuzzel}}}}
+* {{App|[[Gmrun]]|Lightweight GTK-based application launcher, with the ability to run programs inside a terminal and other handy features.|https://sourceforge.net/projects/gmrun/|{{Pkg|gmrun}}}}
+* {{App|GNOME Games|GNOME application to browse your local video games library and to easily pick and play a game from it. Part of {{Grp|gnome-extra}}.|https://wiki.gnome.org/Apps/Games|{{Pkg|gnome-games}}}}
+* {{App|Gnome-Pie|Circular application launcher (pie menu) for Linux. It is made of several pies, each consisting of multiple slices.|https://simmesimme.github.io/gnome-pie.html|{{Pkg|gnome-pie}}}}
+* {{App|higgins|Desktop agnostic application launcher, file finder, calculator and more. Plugin based and freely and easily extendable via user-written plugins|https://github.com/kokoko3k/higgins|{{AUR|higgins-git}}}}
+* {{App|j4-dmenu-desktop|Very fast dmenu application launcher.|https://github.com/enkore/j4-dmenu-desktop|{{Pkg|j4-dmenu-desktop}}}}
+* {{App|jgmenu|Simple, independent, contemporary-looking X11 menu, designed for scripting, ricing and tweaking.|https://github.com/johanmalm/jgmenu|{{Pkg|jgmenu}}}}
+* {{App|Junction|Application chooser to open files and links.|https://apps.gnome.org/Junction/|{{Pkg|junction}}}}
+* {{App|Kupfer|Convenient command and access tool for the GNOME desktop that can launch applications, open documents and access different types of objects and act on them.|https://kupferlauncher.github.io/|{{Pkg|kupfer}}}}
+* {{App|launch|Simple command for launching applications from a terminal emulator.|https://github.com/silverhammermba/launch|{{AUR|launch-cmd}}}}
+* {{App|[[Wikipedia:Launchy|Launchy]]|Very popular cross-platform application launcher with a plugin-based system used to provide extra functionality.|https://www.launchy.net/|{{Pkg|launchy}}}}
+* {{App|Lighthouse|Simple scriptable popup dialog to run on X.|https://github.com/emgram769/lighthouse|{{AUR|lighthouse-git}}}}
+* {{App|nwg-drawer|GTK-based application drawer designed for the Sway compositor.|https://github.com/nwg-piotr/nwg-drawer|{{Pkg|nwg-drawer}}}}
+* {{App|nwg-menu|GTK-based application menu designed for the Sway compositor.|https://github.com/nwg-piotr/nwg-menu|{{Pkg|nwg-menu}}}}
+* {{App|[[rofi]]|Popup window switcher roughly based on superswitcher, requiring only xlib and pango.|https://github.com/davatorium/rofi/|{{Pkg|rofi}}}}
+* {{App|rlaunch|An extremely fast and light-weight dmenu-like application launcher written in Rust|https://github.com/PonasKovas/rlaunch|{{AUR|rlaunch}}}}
+* {{App|Synapse|Semantic launcher written in Vala that you can use to start applications as well as find and access relevant documents and files by making use of the Zeitgeist engine.|https://launchpad.net/synapse-project|{{Pkg|synapse}}}}
+* {{App|Ulauncher|Modern and shiny launcher that provides fuzzy search, extensions, and themes|https://ulauncher.io/|{{AUR|ulauncher}}}}
+* {{App|vonal|Modern customizable global menu with unlimiting plugin system written in Rust|https://github.com/fxdave/vonal-rust|{{AUR|vonal-bin}}}}
+* {{App|wofi|GTK-based popup window switcher for Wayland compositors such as {{Pkg|sway}}. Inspired by {{Pkg|rofi}}.|https://hg.sr.ht/~scoopta/wofi|{{Pkg|wofi}}}}
+* {{App|wmenu|Dynamic menu for Sway and wlroots based Wayland compositors. Provides a Wayland-native dmenu replacement which maintains the look and feel of dmenu|https://git.sr.ht/~adnano/wmenu|{{Pkg|wmenu}}}}
+* {{App|yofi|Minimalistic menu for Wayland-based compositors.|https://github.com/l4l/yofi|{{AUR|yofi}}}}
+* {{App|tofi|Tiny dynamic menu, fast and simple dmenu/rofi replacement for Wayland compositors such as {{Pkg|sway}}.|https://github.com/philj56/tofi|{{AUR|tofi}}}}
+
+=== Application menu editors ===
+
+* {{App|[[Wikipedia:Alacarte|Alacarte]]|Add or remove applications from the main menu.|https://gitlab.gnome.org/GNOME/alacarte|{{Pkg|alacarte}}}}
+* {{App|AppEditor|Edit application entries in the application menu.|https://github.com/donadigo/appeditor|{{AUR|appeditor-git}}}}
+* {{App|Ezame|Desktop and menu file editor.|https://github.com/linux-man/ezame|{{AUR|ezame}}}}
+* {{App|KMenuEdit|Edit one of the KDE application launchers. Part of {{Grp|plasma}}.|https://invent.kde.org/plasma/kmenuedit|{{Pkg|kmenuedit}}}}
+* {{App|lxmed|Application menu editor written in Java.|https://sourceforge.net/projects/lxmed/|{{AUR|lxmed}}}}
+* {{App|MenuLibre|Advanced menu editor that provides modern features in a clean, easy-to-use interface.|https://launchpad.net/menulibre|{{AUR|menulibre}}}}
+* {{App|Meow|Application menu editor written in Java.|https://pnmougel.github.io/meow/|{{AUR|meow-bin}}}}
+* {{App|Mozo|Change which applications are shown on the main menu.|https://github.com/mate-desktop/mozo|{{Pkg|mozo}}}}
+
+=== Wallpaper setters ===
+
+See also [[Wikipedia:Wallpaper (computing)]].
+
+* {{App|bgs|An extremely fast and small background setter for X based on imlib2.|https://github.com/Gottox/bgs/|{{AUR|bgs-git}}}}
+* {{App|[[feh]]|A lightweight and powerful image viewer that can also be used to manage the desktop wallpaper.|https://feh.finalrewind.org/|{{Pkg|feh}}‎}}
+* {{App|Fondo|Find a variety of the most beautiful wallpapers from Unsplash.com.|https://github.com/calo001/fondo|{{AUR|fondo}}}}
+* {{App|habak|A background changing app.|https://fvwm-crystal.sourceforge.io/|{{AUR|habak}}{{Broken package link|package not found}}}}
+* {{App|Hanabi|Live Wallpaper for GNOME.|https://github.com/jeffshee/gnome-ext-hanabi|{{AUR|gnome-shell-extension-hanabi-git}}}}
+* {{App|Hidamari|Video wallpaper for Linux. Written in Python.|https://github.com/jeffshee/hidamari|{{AUR|hidamari}}}}
+* {{App|hsetroot|A tool to create compose wallpapers.|https://packages.debian.org/sid/hsetroot|{{Pkg|hsetroot}}}}
+* {{App|HydraPaper|GTK utility to set two different backgrounds for each monitor on GNOME.|https://gabmus.gitlab.io/HydraPaper/|{{AUR|hydrapaper-git}}}}
+* {{App|Hyprpaper|Hyprpaper is a blazing fast wayland wallpaper utility with IPC controls.|https://github.com/hyprwm/hyprpaper|{{AUR|hyprpaper-git}}}}
+* {{App|LiveWallpaper|Animated 3D wallpapers.|https://launchpad.net/livewallpaper|{{AUR|livewallpaper}}}}
+* {{App|mpvpaper|A video wallpaper program for wlroots based wayland compositors.|https://github.com/GhostNaN/mpvpaper|{{AUR|mpvpaper}}}}
+* {{App|[[Nitrogen]]|A fast and lightweight desktop background browser and setter for X windows.|https://github.com/l3ib/nitrogen|{{Pkg|nitrogen}}}}
+* {{App|oguri|An animated wallpaper daemon for Wayland compositors.|https://github.com/vilhalmer/oguri|{{AUR|oguri-git}}}}
+* {{App|pacwall|A live wallpaper that shows the dependency graph and status of installed packages.|https://github.com/Kharacternyk/pacwall|{{AUR|pacwall-git}}}}
+* {{App|pybgsetter|Multi-backend (hsetroot, Esetroot, habak, feh) to set desktop wallpaper.|3=https://bbs.archlinux.org/viewtopic.php?id=88997|4={{AUR|pybgsetter}}{{Broken package link|package not found}}}}
+* {{App|pywal|Changes the wallpaper and creates matching colorschemes for various applications (rofi, i3, terminals)|https://github.com/dylanaraps/pywal|{{Pkg|python-pywal}}}}
+* {{App|swaybg|Wallpaper tool for Wayland compositors.|https://github.com/swaywm/swaybg|{{Pkg|swaybg}}}}
+* {{App|swww|Efficient animated wallpaper daemon for wayland, controlled at runtime.|https://github.com/Horus645/swww|{{Pkg|swww}}}}
+* {{App|Variety|Changes the wallpaper on a regular interval using user-specified or automatically downloaded images.|https://peterlevi.com/variety/|{{Pkg|variety}}}}
+* {{App|[[Xlivebg]]|A live wallpaper framework and collection of live wallpapers for the X window system.|http://nuclear.mutantstargoat.com/sw/xlivebg/|{{AUR|xlivebg}}}}
+* {{App|xwallpaper|Minimalistic wallpaper setting utility for X.|https://github.com/stoeckmann/xwallpaper|{{Pkg|xwallpaper}}}}
+
+{{Tip|In order to avoid installing one more package, you may find convenient to use the {{ic|display}} utility from {{Pkg|imagemagick}} or {{ic|gm display}} from {{Pkg|graphicsmagick}}. E.g.: {{ic|display -backdrop -background '#3f3f3f' -flatten -window root ''image''}}.}}
+
+=== Virtual desktop pagers ===
+
+See also [[Wikipedia:Pager (GUI)]].
+
+* {{App|bbpager|Dockable pager for [[blackbox]] and other window managers.|https://sourceforge.net/projects/bbtools/|4={{Pkg|bbpager}}}}
+* {{App|fbpager|Virtual desktop pager for fluxbox.|http://www.fluxbox.org/fbpager{{Dead link|2025|01|22|status=404}}|{{AUR|fbpager-git}}}}
+* {{App|IPager|A configurable pager with transparency, originally developed for Fluxbox.|http://useperl.ru/ipager/index.en.html|{{AUR|ipager}}}}
+* {{App|Netwmpager|A NetWM/EWMH compatible pager.|https://sourceforge.net/projects/sf-xpaint/files/netwmpager/|{{AUR|netwmpager}}}}
+
+=== Desktop widgets ===
+
+* {{App|[[Wikipedia:gDesklets|gDesklets]]|System for bringing mini programs (desklets) onto your desktop.|https://launchpad.net/gdesklets|{{AUR|gdesklets}}}}
+* {{App|KRuler|Displays on screen a ruler measuring pixels. Part of {{Grp|kde-graphics}}.|https://apps.kde.org/kruler/|{{Pkg|kruler}}}}
+
+=== Desktop notifications ===
+
+See: [[Desktop notifications#Notification servers|Notification servers]].
+
+=== Clipboard managers ===
+
+See [[Clipboard#Managers]].
+
+=== Logout UI ===
+
+* {{App|clearine|Beautiful Logout UI for X11 window manager|https://github.com/okitavera/clearine|{{AUR|clearine-git}}}}
+* {{App|nwg-bar|Configurable button bar for wlroots-based compositors.|https://github.com/nwg-piotr/nwg-bar|{{Pkg|nwg-bar}}}}
+* {{App|[[oblogout]]|Openbox logout script|https://launchpad.net/oblogout|{{AUR|oblogout-py3-git}}}}
+* {{App|wlogout|Logout menu for wayland|https://github.com/ArtsyMacaw/wlogout|{{AUR|wlogout}}}}
+
+
+== Artificial intelligence ==
+
+=== Text-to-image models ===
+
+* {{App|Stable Diffusion Web UI (AUTOMATIC1111)|A web interface for Stable Diffusion, implemented using Gradio library.|https://github.com/AUTOMATIC1111/stable-diffusion-webui|{{AUR|stable-diffusion-webui-git}}}}
+* {{App|stable-diffusion.cpp|Inference of Stable Diffusion in pure C/C++|https://github.com/leejet/stable-diffusion.cpp|{{AUR|stable-diffusion.cpp-git}}}}
+* {{App|StabilityMatrix|Multi-Platform Package Manager for Stable Diffusion|https://github.com/LykosAI/StabilityMatrix|{{AUR|stabilitymatrix}}}}
+* {{App|krita-ai-diffusion|Streamlined interface for generating images with AI in Krita. Inpaint and outpaint with optional text prompt, no tweaking required.|https://github.com/Acly/krita-ai-diffusion|{{AUR|krita-ai-diffusion}}, {{AUR|krita-ai-tools}}}}
+* {{App|Upscayl|Free and Open Source AI Image Upscaler|https://github.com/upscayl/upscayl|{{AUR|upscayl-bin}}}}
+
+=== AI assistance tools ===
+
+* {{App|AIChat|All-in-one AI CLI tool featuring Chat-REPL, ChatGPT, Shell Assistant, RAG, AI tools & agents, with access to OpenAI, Claude, Gemini, Ollama, Groq, and more.|https://github.com/sigoden/aichat|{{Pkg|aichat}}}}
+* {{App|AnythingLLM|The all-in-one AI application, tool suite, and API for RAG & Agents for Docker & Desktop.|https://anythingllm.com/|{{AUR|anythingllm-desktop-bin}}}}
+* {{App|chatbox|Chatbox is a desktop app for GPT-4 / GPT-3.5 (OpenAI API) that supports Windows, Mac & Linux.|https://chatboxai.app|{{AUR|chatbox-bin}}}}
+* {{App|ChatGPT Desktop Application|ChatGPT Desktop Application|https://github.com/lencx/ChatGPT|{{AUR|chatgpt-desktop-bin}}}}
+* {{App|chatGPT-shell-cli|Use OpenAI's ChatGPT and DALL-E from the terminal.|https://github.com/0xacx/chatGPT-shell-cli.git|{{AUR|chatgpt-shell-cli}}}}
+* {{App|codai|AI code assistant that helps developers through a session CLI|https://github.com/meysamhadeli/codai|{{AUR|codai}}}}
+* {{App|shellChatGPT|Wrapper for ChatGPT, DALL-E, Whisper, and TTS. Features LocalAI, Ollama, and more|https://gitlab.com/fenixdragao/shellchatgpt|{{AUR|chatgpt.sh}}}}
+
+=== Local LLM deployment and usage ===
+
+* {{App|GPT4All|Chat with Local LLMs on Any Device|https://gpt4all.io/|{{AUR|gpt4all-chat}}}}
+* {{App|Jan|Run AI on your own PC|https://jan.ai/|{{AUR|jan-bin}}}}
+* {{App|koboldcpp|A simple one-file way to run various GGML and GGUF models with a KoboldAI UI|https://github.com/LostRuins/koboldcpp|{{AUR|koboldcpp}}, {{AUR|koboldcpp-cuda}}, {{AUR|koboldcpp-hipblas}}}}
+* {{App|llama.cpp|Port of Facebook's LLaMA model in C/C++|https://github.com/ggerganov/llama.cpp|{{AUR|llama.cpp-git}}}}
+* {{App|llamafile|Distribute and run LLMs with a single file.|https://github.com/Mozilla-Ocho/llamafile|{{AUR|llamafile}}}}
+* {{App|LM Studio|Discover, download, and run local LLMs|https://lmstudio.ai/|{{AUR|lmstudio}}}}
+* {{App|msty|The easiest way to use local and online AI models.|https://msty.app|{{AUR|msty-bin}}}}
+
+=== Multi-model and advanced frameworks ===
+
+* {{App|Lobe Chat|An open-source, modern-design LLMs/AI chat framework. Supports Multi AI Providers( OpenAI / Claude 3 / Gemini / Ollama / Bedrock / Azure / Mistral / Perplexity ), Multi-Modals (Vision/TTS) and plugin system|https://github.com/lobehub/lobe-chat|{{AUR|lobe-chat}}}}
+* {{App|ollama|Create, run and share large language models (LLMs)|https://github.com/ollama/ollama|{{Pkg|ollama}}, {{Pkg|ollama-cuda}}}}
+* {{App|ShellGPT|A command-line productivity tool powered by OpenAI's ChatGPT (GPT-3.5)|https://github.com/TheR1D/shell_gpt|{{AUR|shellgpt-git}}}}
+* {{App|whisper.cpp|Port of OpenAI's Whisper model in C/C++|https://github.com/ggerganov/whisper.cpp|{{AUR|whisper.cpp}}}}
+* {{App|whisper|General-purpose speech-recognition model by OpenAI|https://github.com/openai/whisper|{{AUR|whisper-git}}{{Broken package link|package not found}}}}
