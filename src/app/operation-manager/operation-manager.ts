@@ -366,7 +366,7 @@ export class OperationManager {
       commandArgs: [],
       command: (): string => {
         this.logger.info('Enabling hblock');
-        return 'systemctl enable --now hblock.timer && hblock -S none -D none';
+        return 'systemctl enable --now hblock.timer && hblock';
       },
     };
     this.pending.update((value) => [...value, operation]);
