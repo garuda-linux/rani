@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  model,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
@@ -8,7 +17,7 @@ import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
-import { OperationType } from '../operation-manager/interfaces';
+import type { Operation, OperationType } from '../operation-manager/interfaces';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
@@ -326,6 +335,19 @@ export class MaintenanceComponent implements OnInit {
 
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
+
+  constructor() {
+    effect(() => {
+      const pendingActions: Operation[] = this.operationManager.pending();
+      for (const action of this.actions) {
+        action.addedToPending = pendingActions.some((operation) => operation.name === action.name);
+      }
+      for (const action of this.actionsGarudaUpdate) {
+        action.addedToPending = pendingActions.some((operation) => operation.name === action.name);
+      }
+      this.cdr.markForCheck();
+    });
+  }
 
   async ngOnInit(): Promise<void> {
     this.logger.debug('Initializing maintenance');

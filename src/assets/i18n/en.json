@@ -433,7 +433,7 @@
     "removeApps": "Remove apps",
     "installApps": "Install apps",
     "installAppsAur": "Installs apps from AUR",
-    "addGroups": "Add user to group",
+    "addGroup": "Add user to group",
     "removeGroup": "Remove user from group",
     "disableService": "Disable service",
     "enableService": "Enable service",

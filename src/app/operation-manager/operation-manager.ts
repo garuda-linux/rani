@@ -10,19 +10,19 @@ import {
   ENABLE_USER_SERVICE_ACTION_NAME,
   INSTALL_ACTION_AUR_NAME,
   INSTALL_ACTION_NAME,
-  Operation,
-  OperationType,
+  type Operation,
+  type OperationType,
   REMOVE_ACTION_NAME,
   REMOVE_USER_GROUP_ACTION_NAME,
   RESET_DNS_SERVER,
   SET_DEFAULT_SHELL_ACTION_NAME,
   SET_NEW_DNS_SERVER,
 } from './interfaces';
-import { SystemToolsSubEntry } from '../interfaces';
-import { Child, ChildProcess, Command, TerminatedPayload } from '@tauri-apps/plugin-shell';
-import { Nullable } from 'primeng/ts-helpers';
+import type { SystemToolsSubEntry } from '../interfaces';
+import { type Child, type ChildProcess, Command, type TerminatedPayload } from '@tauri-apps/plugin-shell';
+import type { Nullable } from 'primeng/ts-helpers';
 import { effect, EventEmitter, signal } from '@angular/core';
-import { DnsProvider, ShellEntry } from '../system-settings/types';
+import type { DnsProvider, ShellEntry } from '../system-settings/types';
 import { type PrivilegeManager, PrivilegeManagerInstance } from '../privilege-manager/privilege-manager';
 import { TranslocoService } from '@jsverse/transloco';
 import { Logger } from '../logging/logging';
