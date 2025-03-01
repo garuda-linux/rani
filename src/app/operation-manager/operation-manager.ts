@@ -19,7 +19,7 @@ import {
   SET_NEW_DNS_SERVER,
 } from './interfaces';
 import type { MaintenanceAction, SystemToolsSubEntry } from '../interfaces';
-import { type Child, type ChildProcess, Command, type TerminatedPayload } from '@tauri-apps/plugin-shell';
+import { type ChildProcess, Command, type TerminatedPayload } from '@tauri-apps/plugin-shell';
 import type { Nullable } from 'primeng/ts-helpers';
 import { effect, EventEmitter, signal } from '@angular/core';
 import type { DnsProvider, ShellEntry } from '../system-settings/types';
@@ -35,6 +35,7 @@ export class OperationManager {
   public loading = signal<boolean>(false);
   public operationOutput = signal<Nullable<string>>(null);
   public pending = signal<Operation[]>([]);
+  public shutdownRequested = signal<Nullable<boolean>>(null);
   public user = signal<Nullable<string>>(null);
 
   public operationOutputEmitter = new EventEmitter<string>();
@@ -51,7 +52,13 @@ export class OperationManager {
   ) {
     void this.init();
 
-    effect(() => this.pending.update((values) => values.sort((a, b) => a.order ?? 50 - (b.order ?? 50))));
+    effect(() =>
+      this.pending.update((values: Operation[]) => {
+        const newValues: Operation[] = values.sort((a, b) => a.order ?? 50 - (b.order ?? 50));
+        this.store?.set('pendingOperations', newValues);
+        return newValues;
+      }),
+    );
   }
 
   async init() {
@@ -554,6 +561,8 @@ export class OperationManager {
 
     let i = 1;
     for (const operation of this.pending()) {
+      if (this.shutdownRequested()) continue;
+
       await getCurrentWindow().setProgressBar({
         status: ProgressBarStatus.Normal,
         progress: parseInt((i / this.pending().length).toFixed(0)),
@@ -580,6 +589,8 @@ export class OperationManager {
       this.logger.trace('Proceeding to clear explicitly cached password');
       this.privilegeManager.clearCachedPassword();
     }
+
+    this.shutdownRequested.set(null);
   }
 
   /**
@@ -623,14 +634,16 @@ export class OperationManager {
         this.logger.info(`child process exited with code ${code.code}`);
       });
 
-      const child: Child = await cmd.spawn();
-      this.logger.trace(`Process spawned with pid ${child.pid}`);
+      operation.childRef = await cmd.spawn();
+      this.logger.trace(`Process spawned with pid ${operation.childRef.pid}`);
 
       while (finished === null) {
         await new Promise((r) => setTimeout(r, 100));
       }
+
       operation.output = this.operationOutput()!;
       operation.status = (finished as TerminatedPayload).code === 0 ? 'complete' : 'error';
+      delete operation.childRef;
     } else {
       try {
         const output: string | void = await op;
@@ -747,6 +760,17 @@ export class OperationManager {
       this.logger.trace(`Removing ${action.name} from pending`);
       this.pending.update((pending) => pending.filter((op) => op.name !== action.name));
       action.addedToPending = false;
+    }
+  }
+
+  abortRunning(all: boolean) {
+    const operation = this.pending().find((op) => op.status === 'running');
+    this.logger.info(`Stopping execution of ${operation?.name} with pid ${operation?.childRef?.pid}`);
+    operation?.childRef?.kill();
+
+    if (all) {
+      this.logger.info('Aborting all operations as well, as instructed');
+      this.shutdownRequested.set(true);
     }
   }
 

@@ -15,38 +15,48 @@
                       'text-green-500 pi-check-circle': op.status === 'complete',
                       'text-red-500 pi-times-circle': op.status === 'error',
                     }"
-                    class="pi"
+                    class="pi mr-2"
                   ></i>
+                  @if (op.commandArgs.length > 0) {
+                    <span (click)="popover.toggle($event)" class="cursor-pointer mr-2">
+                      <i class="pi pi-list mr-1 text-primary"></i>
+                    </span>
+                    <p-popover #popover>
+                      <div class="flex flex-col gap-4">
+                        <div>
+                          <span class="font-medium block mb-2">{{ t('operation.args') }}</span>
+                          <ul class="list-none p-0 m-0 flex flex-col">
+                            @for (arg of op.commandArgs; track arg) {
+                              <li
+                                class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border"
+                              >
+                                <span class="font-medium">{{ arg }}</span>
+                              </li>
+                            }
+                          </ul>
+                        </div>
+                      </div>
+                    </p-popover>
+                  }
                 </div>
               </ng-template>
               <div class="mt-2.5 text-center">
                 <span (click)="showOperationLogs(op)" class="cursor-pointer mr-2.5">
                   <i class="pi pi-receipt mr-1 text-primary"></i>{{ t('operation.logs') }}
                 </span>
-                @if (op.commandArgs.length > 0) {
-                  <span (click)="popover.toggle($event)" class="cursor-pointer mr-2.5">
-                    <i class="pi pi-list mr-1 text-primary"></i>{{ t('operation.args') }}
-                  </span>
-                  <p-popover #popover>
-                    <div class="flex flex-col gap-4">
-                      <div>
-                        <span class="font-medium block mb-2">{{ t('operation.args') }}</span>
-                        <ul class="list-none p-0 m-0 flex flex-col">
-                          @for (arg of op.commandArgs; track arg) {
-                            <li
-                              class="flex items-center gap-2 px-2 py-3 hover:bg-emphasis cursor-pointer rounded-border"
-                            >
-                              <span class="font-medium">{{ arg }}</span>
-                            </li>
-                          }
-                        </ul>
-                      </div>
-                    </div>
-                  </p-popover>
-                }
-                <span (click)="removeOperation(op)" class="cursor-pointer">
+                <span (click)="operationManager.removeFromPending(op)" class="cursor-pointer mr-2.5">
                   <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
+                @if (op.status === 'running') {
+                  <span (click)="operationManager.abortRunning()" class="cursor-pointer mr-2.5">
+                    <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.abort') }}
+                  </span>
+                }
+                @if (op.status !== 'running' && !operationManager.currentAction()) {
+                  <span (click)="operationManager.runNow(op)" class="cursor-pointer mr-2.5">
+                    <i class="pi pi-play-circle mr-1 text-green-300"></i>{{ t('operation.run') }}
+                  </span>
+                }
               </div>
             </p-card>
           }
@@ -78,6 +88,11 @@
         <span (click)="operationManager.clearPending()" class="cursor-pointer">
           <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
         </span>
+        @if (operationManager.pending().length > 0 && operationManager.currentAction()) {
+          <span (click)="operationManager.abortRunning(true)" class="cursor-pointer">
+            <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.abortAll') }}
+          </span>
+        }
       </div>
     </ng-template>
 

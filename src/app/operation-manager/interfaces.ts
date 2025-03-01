@@ -1,4 +1,4 @@
-import { Command } from '@tauri-apps/plugin-shell';
+import { Child, Command } from '@tauri-apps/plugin-shell';
 
 export interface Operation {
   command: ((args?: string[]) => string) | (() => Promise<string | void>) | ((args?: string[]) => Command<string>);
@@ -10,6 +10,7 @@ export interface Operation {
   prettyName: string;
   sudo?: boolean;
   status: OperationStatus;
+  childRef?: Child;
 }
 
 export type OperationStatus = 'pending' | 'running' | 'complete' | 'error';

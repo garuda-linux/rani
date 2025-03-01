@@ -147,6 +147,7 @@
     "title": "Terminal",
     "runActions": "Run actions",
     "removeAll": "Remove all actions",
+    "abortAll": "Abort all actions",
     "noOutput": "No output",
     "outputExists": "It seems like there is an action running already. Please wait for it to finish before trying to view logs.",
     "opRunning": "The operation is already running."
@@ -445,7 +446,9 @@
     "resetDnsServer": "Reset DNS server",
     "args": "Arguments",
     "logs": "Logs",
-    "remove": "Remove"
+    "remove": "Remove",
+    "abort": "Abort",
+    "run": "Run now"
   },
   "systemStatus": {
     "pendingUpdates": "Pending updates",

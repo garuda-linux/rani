@@ -164,15 +164,6 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   }
 
   /**
-   * Remove an operation from the pending operations list.
-   * @param operation The operation to remove
-   */
-  removeOperation(operation: Operation) {
-    this.operationManager.removeFromPending(operation);
-    this.cdr.markForCheck();
-  }
-
-  /**
    * Load the xterm terminal into the terminal div, and set up the terminal.
    */
   private async loadXterm(): Promise<void> {

@@ -207,4 +207,23 @@ export class OperationManagerService {
       this.logger.error(err);
     }
   }
+
+  /**
+   * Abort the currently running operation. If all is true, abort all running operations and wait for them to finish.
+   * @param all Whether to abort all running operations.
+   * @return A Promise resolving when either all operations or the current one are no longer running.
+   */
+  async abortRunning(all = false): Promise<void> {
+    try {
+      this.manager.abortRunning(all);
+
+      if (all) {
+        while (this.manager.shutdownRequested()) {
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+      }
+    } catch (err: any) {
+      this.logger.error(err);
+    }
+  }
 }
