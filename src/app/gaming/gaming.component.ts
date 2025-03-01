@@ -195,7 +195,6 @@ export class GamingComponent implements OnInit {
         {
           name: 'BSD Games',
           description: 'Collection of classic text games distributed with *BSD',
-          url: '[[LQWiki:BSD games]]',
           icon: 'generic.png',
           pkgname: ['bsd-games'],
         },
@@ -415,7 +414,7 @@ export class GamingComponent implements OnInit {
           description: 'Voxel-based sandbox game engine and game.',
           url: 'https://www.luanti.org/',
           icon: 'generic.png',
-          pkgname: ['luanti}}, {{Pkg'],
+          pkgname: ['luanti'],
         },
         {
           name: 'Mari0',
@@ -576,7 +575,7 @@ export class GamingComponent implements OnInit {
           description: 'Dungeon Crawl Stone Soup.',
           url: 'https://crawl.develz.org/wordpress/',
           icon: 'generic.png',
-          pkgname: ['crawl-ncurses}}, {{Pkg'],
+          pkgname: ['crawl-ncurses'],
         },
         {
           name: 'SuperTux',
@@ -711,7 +710,7 @@ export class GamingComponent implements OnInit {
             '2D sidescrolling action-adventure game, heavily focused on exploration and puzzle-solving, with non-linear gameplay. The game engine is open source.',
           url: 'https://www.bit-blot.com/aquaria',
           icon: 'generic.png',
-          pkgname: ['aquaria-ose}}, {{AUR'],
+          pkgname: ['aquaria-ose'],
           aur: true,
         },
         {
@@ -998,7 +997,7 @@ export class GamingComponent implements OnInit {
           description: 'Doom-themed platformer by Prikol Software, modern ports of original game (use flatwaifu).',
           url: 'https://doom2d.org',
           icon: 'generic.png',
-          pkgname: ['doom2d-rembo}} or {{AUR'],
+          pkgname: ['doom2d-rembo'],
           aur: true,
         },
         {
@@ -1170,7 +1169,7 @@ export class GamingComponent implements OnInit {
             'A proprietary game about mining resources, planning and building factories, automating production and fighting alien enemies.',
           url: 'https://www.factorio.com/',
           icon: 'generic.png',
-          pkgname: ['factorio}}, {{AUR'],
+          pkgname: ['factorio'],
           aur: true,
         },
         {
@@ -1785,20 +1784,12 @@ export class GamingComponent implements OnInit {
           aur: true,
         },
         {
-          name: 'Orbiter 2016',
-          description: 'Orbiter Space Flight Simulator.',
-          url: 'https://orbit.medphys.ucl.ac.uk/index.html',
-          icon: 'generic.png',
-          pkgname: ['orbiter2016-git}}{{Broken package link'],
-          aur: true,
-        },
-        {
           name: 'osu!',
           description:
             'A free-to-win rhythm game with four game modes: osu!standard, a circle clicking simulator; osu!taiko, a drumming emulator; osu!catch, a fruit salad catcher; and osu!mania, a key smashing synthesizer.',
           url: 'https://osu.ppy.sh/',
           icon: 'generic.png',
-          pkgname: ['osu}}, {{AUR'],
+          pkgname: ['osu'],
           aur: true,
         },
         {
@@ -2004,7 +1995,7 @@ export class GamingComponent implements OnInit {
           description: 'Massive online adventure game by Jagex.',
           url: 'https://www.runescape.com',
           icon: 'generic.png',
-          pkgname: ['bolt-launcher}} (unofficial Jagex Launcher), {{AUR'],
+          pkgname: ['bolt-launcher'],
           aur: true,
         },
         {
@@ -2329,7 +2320,7 @@ export class GamingComponent implements OnInit {
           description: 'A free, open source monster-fighting RPG.',
           url: 'https://www.tuxemon.org/',
           icon: 'generic.png',
-          pkgname: ['tuxemon-git}}{{Broken package link'],
+          pkgname: ['tuxemon-git'],
           aur: true,
         },
         {
