@@ -201,7 +201,7 @@ export class AppComponent implements OnInit {
           icon: 'pi pi-moon',
           id: 'darkMode',
           label: 'Dark mode',
-          translocoKey: 'menu.settings.darkMode',
+          translocoKey: 'menu.settings.enableDarkMode',
           command: () => this.appService.themeHandler.toggleDarkMode(),
         },
         {
