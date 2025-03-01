@@ -55,6 +55,7 @@
     "byte-base64": "^1.1.0",
     "emoji-js": "^3.8.1",
     "inter-ui": "^4.1.0",
+    "isomorphic-webcrypto": "^2.3.8",
     "ng-terminal": "^6.3.0",
     "pako": "^2.1.0",
     "primeicons": "^7.0.0",
