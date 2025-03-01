@@ -59,6 +59,8 @@ export class DiagnosticsComponent implements AfterViewInit {
       this.cdr.markForCheck();
       this.logger.trace('Terminal theme switched via effect');
     });
+
+    this.logger.debug('Diagnostics component initialized');
   }
 
   ngAfterViewInit(): void {
@@ -70,6 +72,8 @@ export class DiagnosticsComponent implements AfterViewInit {
    * Get the full logs for the system and copy them to the clipboard.
    */
   async getFullLogs(): Promise<void> {
+    this.logger.debug('Getting full logs');
+
     for (const type of ['inxi', 'systemd-analyze', 'journalctl', 'pacman-log', 'dmesg']) {
       await this.getOutput(type, true);
     }
@@ -87,6 +91,8 @@ export class DiagnosticsComponent implements AfterViewInit {
    * Upload the output to PrivateBin and copy the URL to the clipboard.
    */
   async uploadPrivateBin() {
+    this.logger.trace('Uploading buffer to PrivateBin');
+
     this.loadingService.loadingOn();
     const url = await this.garudaBin.sendText(this.outputCache);
     this.logger.info(`Uploaded to ${url}`);
@@ -102,6 +108,8 @@ export class DiagnosticsComponent implements AfterViewInit {
    * @param writeToBuffer Whether to write the output to the buffer, appending to the existing content.
    */
   async getOutput(type: string, writeToBuffer = false): Promise<void> {
+    this.logger.debug(`Getting output for ${type}`);
+
     this.loadingService.loadingOn();
     try {
       let cmd: string;
@@ -137,6 +145,7 @@ export class DiagnosticsComponent implements AfterViewInit {
       this.logger.trace(`Error getting output for ${type}: ${err}`);
     }
 
+    this.logger.trace(`Done getting output for ${type}`);
     this.cdr.markForCheck();
     this.loadingService.loadingOff();
   }

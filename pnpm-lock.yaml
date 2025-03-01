@@ -119,6 +119,9 @@ importers:
       bs58:
         specifier: ^6.0.0
         version: 6.0.0
+      byte-base64:
+        specifier: ^1.1.0
+        version: 1.1.0
       emoji-js:
         specifier: ^3.8.1
         version: 3.8.1
@@ -128,6 +131,9 @@ importers:
       ng-terminal:
         specifier: ^6.3.0
         version: 6.3.0(@angular/common@19.2.0(@angular/core@19.2.0(rxjs@7.8.2)(zone.js@0.15.0))(rxjs@7.8.2))(@angular/core@19.2.0(rxjs@7.8.2)(zone.js@0.15.0))
+      pako:
+        specifier: ^2.1.0
+        version: 2.1.0
       primeicons:
         specifier: ^7.0.0
         version: 7.0.0
@@ -201,6 +207,9 @@ importers:
       '@types/jasmine':
         specifier: ~5.1.7
         version: 5.1.7
+      '@types/pako':
+        specifier: ^2.0.3
+        version: 2.0.3
       angular-eslint:
         specifier: ^19.1.0
         version: 19.1.0(chokidar@4.0.3)(eslint@9.21.0(jiti@1.21.7))(typescript-eslint@8.25.0(eslint@9.21.0(jiti@1.21.7))(typescript@5.6.3))(typescript@5.6.3)
@@ -2798,6 +2807,9 @@ packages:
 
   '@types/node@22.13.5':
     resolution: {integrity: sha512-+lTU0PxZXn0Dr1NBtC7Y8cR21AJr87dLLU953CWA6pMxxv/UDc7jYAY90upcrie1nRcD6XNG5HOYEDtgW5TxAg==}
+
+  '@types/pako@2.0.3':
+    resolution: {integrity: sha512-bq0hMV9opAcrmE0Byyo0fY3Ew4tgOevJmQ9grUhpXQhYfyLJ1Kqg3P33JT5fdbT2AjeAjR51zqqVjAL/HMkx7Q==}
 
   '@types/qs@6.9.18':
     resolution: {integrity: sha512-kK7dgTYDyGqS+e2Q4aK9X3D7q234CIZ1Bv0q/7Z5IwRDoADNU81xXJK/YVyLbLTZCoIwUoDoffFeF+p/eIklAA==}
@@ -11065,6 +11077,8 @@ snapshots:
   '@types/node@22.13.5':
     dependencies:
       undici-types: 6.20.0
+
+  '@types/pako@2.0.3': {}
 
   '@types/qs@6.9.18': {}
 
