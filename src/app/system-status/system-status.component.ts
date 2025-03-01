@@ -23,6 +23,7 @@ export class SystemStatusComponent {
   pacdiffDialogVisible = signal<boolean>(false);
   pacFiles: string[] = [];
   updates: { pkg: string; version: string; newVersion: string }[] = [];
+  warnUpdate = signal<boolean>(false);
 
   protected readonly open = open;
   private readonly cdr = inject(ChangeDetectorRef);
@@ -44,7 +45,7 @@ export class SystemStatusComponent {
     this.logger.debug('Initializing SystemStatusComponent');
     this.loadingService.loadingOn();
 
-    const initPromises: Promise<void>[] = [this.getPacFiles(), this.getUpdates()];
+    const initPromises: Promise<void>[] = [this.getPacFiles(), this.getUpdates(), this.checkLastUpdate()];
     await Promise.all(initPromises);
 
     this.cdr.markForCheck();
@@ -111,5 +112,25 @@ export class SystemStatusComponent {
 
     this.operationManager.toggleMaintenanceActionPending(operation);
     this.dialogVisible.set(false);
+  }
+
+  /**
+   * Check the last update time.
+   */
+  async checkLastUpdate(): Promise<void> {
+    const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code === 0) {
+      const date = new Date(result.stdout.trim().replace(']', ''));
+      this.logger.info(`Last update: ${date.toDateString()}`);
+
+      if (date < new Date(new Date().setDate(new Date().getDate() - 14))) {
+        this.logger.warn('Last update was more than two week ago');
+        this.warnUpdate.set(true);
+      }
+    } else {
+      this.logger.error(`Failed to get last update: ${result.stderr}`);
+    }
   }
 }

@@ -457,7 +457,8 @@
     "cancel": "Cancel",
     "scheduleUpdates": "Schedule updates",
     "pendingPacdiff": "Pending pacdiff files",
-    "findMore": "Find out how to proceed"
+    "findMore": "Find out how to proceed",
+    "warnUpdate": "Your system not been updated in 2 weeks. Please update your system to ensure security and stability."
   },
   "operationManager": {
     "refusing": "Refusing execution",

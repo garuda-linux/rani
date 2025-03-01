@@ -11,11 +11,18 @@
       <div class="cursor-pointer" (click)="pacdiffDialogVisible.set(true)">
         <p-overlay-badge
           [value]="pacFiles.length"
-          severity="danger"
+          severity="warn"
           [pTooltip]="t('systemStatus.pacFiles')"
           tooltipPosition="bottom"
         >
           <i class="pi pi-pen-to-square" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+    @if (warnUpdate()) {
+      <div class="cursor-pointer" (click)="scheduleUpdates()">
+        <p-overlay-badge [pTooltip]="t('systemStatus.warnUpdate')" value="!" severity="danger" tooltipPosition="bottom">
+          <i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i>
         </p-overlay-badge>
       </div>
     }
