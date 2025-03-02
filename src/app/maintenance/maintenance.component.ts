@@ -166,7 +166,7 @@ export class MaintenanceComponent implements OnInit {
       order: 5,
       command: (): string => {
         this.logger.info('Updating system');
-        return 'garuda-update --aur --noconfirm';
+        return 'garuda-update --skip-mirrorlist --aur --noconfirm';
       },
     },
     {

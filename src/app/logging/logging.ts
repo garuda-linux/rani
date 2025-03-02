@@ -2,8 +2,7 @@ import { debug, error, info, trace, warn } from '@tauri-apps/plugin-log';
 import { LogLevel } from './interfaces';
 
 export class Logger {
-  // TODO: set this to info once no longer testing
-  public static readonly logLevel = LogLevel.TRACE;
+  public static logLevel = LogLevel.INFO;
 
   private static instance: Logger;
 
