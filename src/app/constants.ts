@@ -25,4 +25,22 @@ export const settingsMenuMappings: MenuToggleMappings = {
     onIcon: 'pi pi-clipboard',
     offIcon: 'pi pi-ban',
   },
+  autoStart: {
+    on: 'menu.settings.autoStart',
+    off: 'menu.settings.dontAutoStart',
+    onIcon: 'pi pi-check',
+    offIcon: 'pi pi-ban',
+  },
+  systemdUserContext: {
+    on: 'menu.settings.systemdUserContext',
+    off: 'menu.settings.systemdSystemContext',
+    onIcon: 'pi pi-user',
+    offIcon: 'pi pi-server',
+  },
+  showHidden: {
+    on: 'menu.settings.autoRefresh',
+    off: 'menu.settings.noAutoRefresh',
+    onIcon: 'pi pi-eye',
+    offIcon: 'pi pi-eye-slash',
+  },
 };

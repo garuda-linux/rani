@@ -6,6 +6,7 @@ export interface AppSettings {
   autoRefresh: boolean;
   leftButtons: boolean;
   showMainLinks: boolean;
+  autoStart: boolean;
   [key: string]: any;
 }
 

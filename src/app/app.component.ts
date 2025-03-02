@@ -17,7 +17,7 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { AppService } from './app.service';
 import { DialogModule } from 'primeng/dialog';
-import { open } from '@tauri-apps/plugin-shell';
+import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
@@ -203,6 +203,33 @@ export class AppComponent implements OnInit {
           label: 'Dark mode',
           translocoKey: 'menu.settings.enableDarkMode',
           command: () => this.appService.themeHandler.toggleDarkMode(),
+        },
+        {
+          icon: 'pi pi-user',
+          id: 'systemdUserContext',
+          label: 'Use systemd user context',
+          translocoKey: 'menu.settings.useSystemdUserContext',
+          command: () =>
+            this.configService.settings.update((settings) => {
+              return { ...settings, systemdUserContext: !settings.systemdUserContext };
+            }),
+        },
+        {
+          icon: 'pi pi-refresh',
+          id: 'autoRefresh',
+          label: 'Auto-refresh systemd services',
+          translocoKey: 'menu.settings.autoRefresh',
+          command: () =>
+            this.configService.settings.update((settings) => {
+              return { ...settings, autoRefresh: !settings.autoRefresh };
+            }),
+        },
+        {
+          icon: 'pi pi-refresh',
+          id: 'autoStart',
+          label: "Auto-start Garuda's Rani",
+          translocoKey: 'menu.settings.autoStart',
+          command: () => this.toggleAutoStart(),
         },
         {
           icon: 'pi pi-language',
@@ -454,5 +481,30 @@ export class AppComponent implements OnInit {
     }
 
     this.cdr.markForCheck();
+  }
+
+  /**
+   * Toggle the auto-start for Garuda's Rani, copying the desktop file to the autostart directory
+   * or removing it if it already exists.
+   * @private
+   */
+  private async toggleAutoStart(checkOnly = false) {
+    const cmd = 'test -f ~/.config/autostart/org.garudalinux.rani.desktop';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      await Command.create('exec-bash', [
+        '-c',
+        'cp /usr/share/applications/org.garudalinux.rani.desktop ~/.config/autostart/',
+      ]).execute();
+
+      await this.configService.updateConfig('autoStart', true);
+      this.logger.info('Enabled auto-start');
+    } else {
+      await Command.create('exec-bash', ['-c', 'rm ~/.config/autostart/org.garudalinux.rani.desktop']).execute();
+
+      await this.configService.updateConfig('autoStart', false);
+      this.logger.info('Disabled auto-start');
+    }
   }
 }

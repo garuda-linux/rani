@@ -16,7 +16,13 @@
       "dontCopyDiagnostics": "Don't copy diagnostics to clipboard",
       "enableDarkMode": "Enable dark mode",
       "enableLightMode": "Enable light mode",
-      "language": "Configure active language"
+      "language": "Configure active language",
+      "dontAutoStart": "Don't auto start Garuda's Rani",
+      "autoStart": "Auto start Garuda's Rani",
+      "systemdUserContext": "Show user services",
+      "systemdSystemContext": "Show system services",
+      "enableAutoRefresh": "Enable auto refresh",
+      "disableAutoRefresh": "Disable auto refresh"
     },
     "help": {
       "title": "Help",
@@ -229,9 +235,6 @@
       },
       "userKvm": {
         "description": "User in kvm group"
-      },
-      "virtualboxKvm": {
-        "description": "VirtualBox with KVM support"
       },
       "docker": {
         "description": "Docker support"

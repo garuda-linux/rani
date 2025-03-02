@@ -21,8 +21,12 @@
         />
         <p-button
           (click)="toggleContext()"
-          [icon]="userContext() ? 'pi pi-lock' : 'pi pi-lock-open'"
-          [label]="userContext() ? t('systemdServices.systemContext') : t('systemdServices.userContext')"
+          [icon]="configService.settings().systemdUserContext ? 'pi pi-server' : 'pi pi-user'"
+          [label]="
+            configService.settings().systemdUserContext
+              ? t('systemdServices.systemContext')
+              : t('systemdServices.userContext')
+          "
           [outlined]="true"
           class="mr-2.5"
         />

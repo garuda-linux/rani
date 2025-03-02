@@ -27,6 +27,7 @@ export class ConfigService {
     copyDiagnostics: true,
     showMainLinks: false,
     systemdUserContext: false,
+    autoStart: true,
   });
 
   public store!: Store;
@@ -40,10 +41,14 @@ export class ConfigService {
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
     try {
-      await this.initStore();
-      await this.initIsLive();
-      await this.initUser();
-      await this.initCodeName();
+      const initPromises: Promise<void>[] = [
+        this.initStore(),
+        this.initIsLive(),
+        this.initUser(),
+        this.initCodeName(),
+        this.checkAutoStart(),
+      ];
+      await Promise.all(initPromises);
 
       const host: string = (await hostname())!;
       this.state.update((state) => {
@@ -169,5 +174,15 @@ export class ConfigService {
         return { ...state, isLiveSystem: isLiveSystem };
       });
     }
+  }
+
+  /**
+   * Check if the system is set to auto-start.
+   * @private
+   */
+  private async checkAutoStart(): Promise<void> {
+    const cmd = 'test -f ~/.config/autostart/org.garudalinux.rani.desktop';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+    await this.updateConfig('autoStart', result.code === 0);
   }
 }

@@ -24,7 +24,6 @@ import { Logger } from '../logging/logging';
 })
 export class SystemdServicesComponent implements OnInit {
   activeService = signal<SystemdService | null>(null);
-  userContext = signal<boolean>(false);
   includeDisabled = signal<boolean>(false);
   loading = signal<boolean>(true);
   serviceSearch = signal<string>('');
@@ -41,10 +40,6 @@ export class SystemdServicesComponent implements OnInit {
 
   async ngOnInit() {
     this.logger.debug('Initializing system tools');
-
-    if (this.configService.settings().systemdUserContext) {
-      this.userContext.set(true);
-    }
     this.systemdServices.set(await this.getServices());
 
     if (this.configService.settings().autoRefresh) {
@@ -63,11 +58,11 @@ export class SystemdServicesComponent implements OnInit {
    */
   async getServices(): Promise<SystemdService[]> {
     const toDo: string[] = [
-      `systemctl ${this.userContext() ? '--user' : ''} list-units --type service --full --all --output json --no-pager`,
+      `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} list-units --type service --full --all --output json --no-pager`,
     ];
     if (this.includeDisabled()) {
       toDo.push(
-        `systemctl ${this.userContext() ? '--user' : ''} list-unit-files --type=service --state=disabled --full --all --output json --no-pager`,
+        `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} list-unit-files --type=service --state=disabled --full --all --output json --no-pager`,
       );
     }
 
@@ -127,36 +122,36 @@ export class SystemdServicesComponent implements OnInit {
     let action: string;
     switch (event) {
       case 'start':
-        action = `systemctl ${this.userContext() ? '--user' : ''} start`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} start`;
         break;
       case 'stop':
-        action = `systemctl ${this.userContext() ? '--user' : ''} stop`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} stop`;
         break;
       case 'restart':
-        action = `systemctl ${this.userContext() ? '--user' : ''} restart`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} restart`;
         break;
       case 'reload':
-        action = `systemctl ${this.userContext() ? '--user' : ''} reload`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} reload`;
         break;
       case 'enable':
-        action = `systemctl ${this.userContext() ? '--user' : ''} enable --now`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} enable --now`;
         break;
       case 'disable':
-        action = `systemctl ${this.userContext() ? '--user' : ''} disable --now`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} disable --now`;
         break;
       case 'mask':
-        action = `systemctl ${this.userContext() ? '--user' : ''} mask`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} mask`;
         break;
       case 'unmask':
-        action = `systemctl ${this.userContext() ? '--user' : ''} unmask`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} unmask`;
         break;
       case 'logs':
-        action = `journalctl ${this.userContext() ? '--user' : ''} --no-pager -eu`;
+        action = `journalctl ${this.configService.settings().systemdUserContext ? '--user' : ''} --no-pager -eu`;
         break;
     }
 
     let output: string | null;
-    if (!this.userContext()) {
+    if (!this.configService.settings().systemdUserContext) {
       output = await this.operationManager.getSudoCommandOutput<string>(`${action} ${this.activeService()!.unit}`);
     } else {
       output = await this.operationManager.getCommandOutput<string>(`${action} ${this.activeService()!.unit}`);
@@ -222,7 +217,7 @@ export class SystemdServicesComponent implements OnInit {
    */
   async toggleContext(): Promise<void> {
     this.loading.set(true);
-    this.userContext.set(!this.userContext());
+    await this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext);
     this.systemdServices.set(await this.getServices());
 
     this.cdr.markForCheck();

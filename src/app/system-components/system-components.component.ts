@@ -136,15 +136,6 @@ export class SystemComponentsComponent {
           check: { type: 'pkg', name: 'qemu' },
         },
         {
-          name: 'virtualboxKvm',
-          fancyTitle: 'systemTools.virtualization.virtualboxKvm.title',
-          description: 'systemTools.virtualization.virtualboxKvm.description',
-          checked: false,
-          handler: () => {},
-          initialState: false,
-          check: { type: 'pkg', name: 'qemu-kvm' },
-        },
-        {
           name: 'docker',
           fancyTitle: 'systemTools.virtualization.docker.title',
           description: 'systemTools.virtualization.docker.description',
