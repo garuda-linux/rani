@@ -344,8 +344,8 @@ export class OperationManager {
       order: 70,
       commandArgs: [action.check.name],
       command: (args?: string[]): string => {
-        this.logger.info(`Adding user ${this.user} to group ${action.check.name}`);
-        return `gpasswd -a ${this.user} ${args![0]}`;
+        this.logger.info(`Adding user ${this.user()} to group ${action.check.name}`);
+        return `gpasswd -a ${this.user()} ${args![0]}`;
       },
     };
     this.pending.update((value) => [...value, operation]);
@@ -364,8 +364,8 @@ export class OperationManager {
       status: 'pending',
       commandArgs: [action.check.name],
       command: (args?: string[]): string => {
-        this.logger.info(`Removing user ${this.user} from group ${action.check.name}`);
-        return `gpasswd -d ${this.user} ${args![0]}`;
+        this.logger.info(`Removing user ${this.user()} from group ${action.check.name}`);
+        return `gpasswd -d ${this.user()} ${args![0]}`;
       },
     };
     this.pending.update((value) => [...value, operation]);
@@ -725,7 +725,7 @@ export class OperationManager {
         commandArgs: [shellEntry.name],
         command: (args?: string[]): string => {
           this.logger.info(`Changing default shell to ${args![0]}`);
-          return `chsh -s $(which ${args![0]}) ${this.user}`;
+          return `chsh -s $(which ${args![0]}) ${this.user()}`;
         },
       };
       this.pending.update((value) => [...value, operation]);

@@ -73,7 +73,7 @@ export class DynamicCheckboxesComponent implements OnInit {
 
             if (installed) {
               this.logger.trace(`Package ${entry.check.name} is ${installed}`);
-              this.selectedBoxes.set([...this.selectedBoxes(), entry]);
+              this.selectedBoxes.update((values) => [...values, entry]);
             }
             break;
           }
@@ -100,7 +100,7 @@ export class DynamicCheckboxesComponent implements OnInit {
 
             if (group) {
               this.logger.trace(`Group ${entry.check.name} is ${group}`);
-              this.selectedBoxes.set([...this.selectedBoxes(), entry]);
+              this.selectedBoxes.update((values) => [...values, entry]);
             }
             break;
           }
