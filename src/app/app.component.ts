@@ -26,7 +26,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ContextMenu } from 'primeng/contextmenu';
 import { ConfirmationService, MenuItem } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
-import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from './shell';
+import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from '@garudalinux/core';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { LoadingService } from './loading-indicator/loading-indicator.service';
 import { TerminalComponent } from './terminal/terminal.component';
@@ -80,6 +80,7 @@ export class AppComponent implements OnInit {
   readonly appWindow = getCurrentWindow();
   readonly confirmationService = inject(ConfirmationService);
   readonly loadingService = inject(LoadingService);
+
   rightClickMenu = signal<MenuItem[]>([
     {
       label: 'Apply',
@@ -425,7 +426,7 @@ export class AppComponent implements OnInit {
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
-      this.logger.info(`Close requested, ${this.operationManager.currentAction() ? 'an' : 'no'} action running'`);
+      this.logger.info(`Close requested, ${this.operationManager.currentAction() ? 'one' : 'no'} action is running'`);
 
       this.confirmationService.confirm({
         message: this.operationManager.currentAction()
@@ -488,7 +489,7 @@ export class AppComponent implements OnInit {
    * or removing it if it already exists.
    * @private
    */
-  private async toggleAutoStart(checkOnly = false) {
+  private async toggleAutoStart() {
     const cmd = 'test -f ~/.config/autostart/org.garudalinux.rani.desktop';
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 

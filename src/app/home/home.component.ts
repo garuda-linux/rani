@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
 import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
-import { Command, open } from '@tauri-apps/plugin-shell';
+import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
 import { ExternalLink, HomepageLink } from '../interfaces';
 import { ConfigService } from '../config/config.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
@@ -11,6 +11,7 @@ import { faBluesky, faDiscord, faDiscourse, faMastodon, faTelegram } from '@fort
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { NgOptimizedImage } from '@angular/common';
 import { SystemStatusComponent } from '../system-status/system-status.component';
+import { MessageToastService } from '@garudalinux/core';
 
 @Component({
   selector: 'app-home',
@@ -105,6 +106,8 @@ export class HomeComponent implements OnInit {
 
   protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly messageToastService = inject(MessageToastService);
+  private readonly translocoService = inject(TranslocoService);
   private readonly privilegeManager = inject(PrivilegeManagerService);
 
   mainLinks: HomepageLink[] = [
@@ -174,14 +177,30 @@ export class HomeComponent implements OnInit {
         {
           title: 'welcome.install',
           subTitle: 'welcome.installSub',
-          command: () => void Command.create('exec-bash', ['-c', 'sudo calamares']),
+          command: async () => {
+            const result: ChildProcess<string> = await Command.create('exec-bash', [
+              '-c',
+              'sudo -E calamares',
+            ]).execute();
+            if (result.code !== 0) {
+              this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
+            }
+          },
           icon: 'pi pi-download',
         },
         {
           title: 'welcome.chroot',
           subTitle: 'welcome.chrootSub',
           routerLink: '/update',
-          command: () => this.privilegeManager.executeCommandAsSudo('garuda-chroot -a', true),
+          command: async () => {
+            const result: ChildProcess<string> = await this.privilegeManager.executeCommandAsSudo(
+              'garuda-chroot -a',
+              true,
+            );
+            if (result.code !== 0) {
+              this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
+            }
+          },
           icon: 'pi pi-refresh',
         },
       );

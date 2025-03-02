@@ -82,7 +82,8 @@
     "startpageSub": "Open the Garuda Linux startpage",
     "setupAssistant": "Setup assistant",
     "setupAssistantSub": "Run the Garuda setup assistant",
-    "hello": "Hello"
+    "hello": "Hello",
+    "error": "An error occurred."
   },
   "gaming": {
     "title": "Gaming ",

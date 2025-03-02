@@ -17,8 +17,6 @@
         "height": 710,
         "minWidth": 1320,
         "minHeight": 710,
-        "maxWidth": 1920,
-        "maxHeight": 1080,
         "decorations": false,
         "titleBarStyle": "Transparent",
         "center": true
