@@ -426,7 +426,7 @@ export class AppComponent implements OnInit {
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
-      this.logger.info(`Close requested, ${this.operationManager.currentAction() ? 'one' : 'no'} action is running'`);
+      this.logger.info(`Close requested, ${this.operationManager.currentAction() ? 'one' : 'no'} action is running`);
 
       this.confirmationService.confirm({
         message: this.operationManager.currentAction()

@@ -6,6 +6,8 @@ import { Logger } from '../logging/logging';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { hostname } from '@tauri-apps/plugin-os';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { checkFirstBoot } from './first-boot';
+import { getCurrentWindow, Window } from '@tauri-apps/api/window';
 
 @Injectable({
   providedIn: 'root',
@@ -28,6 +30,7 @@ export class ConfigService {
     showMainLinks: false,
     systemdUserContext: false,
     autoStart: true,
+    firstBoot: true,
   });
 
   public store!: Store;
@@ -40,6 +43,14 @@ export class ConfigService {
 
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
+
+    // Window is hidden by default, after checking whether we are not required to autostart the
+    // setup assistant, we can show it
+    await checkFirstBoot();
+
+    const window: Window = getCurrentWindow();
+    void window.show();
+
     try {
       const initPromises: Promise<void>[] = [
         this.initStore(),

@@ -8,6 +8,7 @@
     "core:default",
     "core:window:allow-close",
     "core:window:allow-destroy",
+    "core:window:allow-hide",
     "core:window:allow-maximize",
     "core:window:allow-minimize",
     "core:window:allow-request-user-attention",
@@ -15,6 +16,7 @@
     "core:window:allow-start-dragging",
     "core:window:allow-toggle-maximize",
     "core:window:default",
+    "core:window:allow-show",
     "fs:default",
     {
       "identifier": "http:default",
@@ -31,6 +33,7 @@
     "os:allow-locale",
     "os:allow-os-type",
     "os:allow-version",
+    "process:allow-restart",
     "store:default",
     {
       "identifier": "shell:allow-execute",

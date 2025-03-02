@@ -7,6 +7,7 @@ export interface AppSettings {
   leftButtons: boolean;
   showMainLinks: boolean;
   autoStart: boolean;
+  firstBoot: boolean;
   [key: string]: any;
 }
 
