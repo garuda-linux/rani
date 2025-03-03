@@ -405,13 +405,6 @@ export class AppComponent implements OnInit {
   private async shutdown(): Promise<void> {
     this.logger.info('Shutting down');
 
-    if (this.operationManager.pending().length > 0) {
-      await this.configService.store.set(
-        'pendingOperations',
-        this.operationManager.pending().filter((op) => op.status !== 'complete'),
-      );
-    }
-
     void this.appWindow.destroy();
   }
 

@@ -51,23 +51,10 @@ export class OperationManager {
     private messageToastService: MessageToastService,
   ) {
     void this.init();
-
-    effect(() =>
-      this.pending.update((values: Operation[]) => {
-        const newValues: Operation[] = values.sort((a, b) => a.order ?? 50 - (b.order ?? 50));
-        this.store?.set('pendingOperations', newValues);
-        return newValues;
-      }),
-    );
   }
 
   async init() {
     this.store = await getConfigStore();
-
-    const savedOperations: Operation[] | undefined = await this.store!.get<Operation[]>('pendingOperations');
-    if (savedOperations && savedOperations.length > 0) {
-      this.pending.set(savedOperations);
-    }
 
     this.user.set((await this.getCommandOutput<string>('whoami', (value: string) => value.trim())) ?? null);
     this.logger.trace(`User's name is set to: ${this.user()}`);
