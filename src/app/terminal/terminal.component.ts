@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   effect,
   inject,
   OnDestroy,
+  Signal,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -46,12 +48,12 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   private readonly configService = inject(ConfigService);
-  readonly xtermOptions: ITerminalOptions = {
+  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => { return {
     disableStdin: false,
     scrollback: 10000,
     convertEol: true,
-    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
-  };
+    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light
+  };});
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);

@@ -3,8 +3,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  computed,
   effect,
   inject,
+  Signal,
   ViewChild,
 } from '@angular/core';
 import { Button } from 'primeng/button';
@@ -34,12 +36,12 @@ export class DiagnosticsComponent implements AfterViewInit {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   private readonly configService = inject(ConfigService);
-  readonly xtermOptions: ITerminalOptions = {
+  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => { return {
     disableStdin: false,
     scrollback: 10000,
     convertEol: true,
-    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
-  };
+    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light
+  };});
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
