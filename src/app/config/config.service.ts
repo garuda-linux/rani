@@ -7,7 +7,6 @@ import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { hostname } from '@tauri-apps/plugin-os';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { checkFirstBoot } from './first-boot';
-import { getCurrentWindow, Window } from '@tauri-apps/api/window';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 
 class PendingConfigUpdate {
@@ -52,10 +51,8 @@ export class ConfigService {
 
     // Window is hidden by default, after checking whether we are not required to autostart the
     // setup assistant, we can show it
-    await checkFirstBoot();
-
-    const window: Window = getCurrentWindow();
-    void window.show();
+    if (await checkFirstBoot())
+      return;
 
     try {
       const initPromises: Promise<PendingConfigUpdate>[] = [

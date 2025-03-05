@@ -1,9 +1,10 @@
-import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
-import { getCurrentWindow, Window } from '@tauri-apps/api/window';
+import { Command, ChildProcess } from '@tauri-apps/plugin-shell';
 import { Logger } from '../logging/logging';
 import { getConfigStore } from './store';
 import { Store } from '@tauri-apps/plugin-store';
 import { relaunch } from '@tauri-apps/plugin-process';
+import { exists } from '@tauri-apps/plugin-fs';
+import { getCurrentWindow, Window } from '@tauri-apps/api/window';
 
 const logger = Logger.getInstance();
 
@@ -11,62 +12,53 @@ const logger = Logger.getInstance();
  * Check if the system is on first boot and act accordingly, showing the setup assistant if required.
  * Sets the firstBoot flag to false after the first boot is detected.
  */
-export async function checkFirstBoot(): Promise<void> {
+export async function checkFirstBoot(): Promise<boolean> {
   const store: Store = await getConfigStore();
   const firstBoot: boolean | undefined = await store.get<boolean>('firstBoot');
-  if (firstBoot === false) return;
 
-  const cmd = 'last reboot';
-  const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+  // Check if we've been through this before
+  if (firstBoot === false) return false;
 
-  if (result.code === 0) {
-    if (result.stdout.split('\n').length <= 3) {
-      logger.info('First boot detected');
+   const cmd = 'last reboot -n 2 --time-format notime';
+   const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
-      const cmd = 'test -f /usr/bin/setup-assistant';
-      const setupAssistantExists: boolean = (await Command.create('exec-bash', ['-c', cmd]).execute()).code === 0;
-      if (setupAssistantExists) {
-        logger.info('Setup assistant exists, running');
-        await runSetupAssistant();
-
-        // Set first boot flag to false
-        await store.set('firstBoot', false);
-
-        // And finally relaunch
-        await relaunch();
-      }
-    } else {
-      logger.info('Not first boot');
-      if (firstBoot === undefined) {
-        await store.set('firstBoot', false);
-      }
-    }
-  } else {
-    logger.error('Failed to check first boot');
+  // If row count of the result is 1, then it's the first boot, otherwise it's not
+  if (result.stdout.split('\n').length !== 2) {
+    logger.info('Not first boot');
+    await store.set('firstBoot', false);
+    return false;
   }
+
+  if (await exists('/usr/bin/setup-assistant')) {
+    logger.info('Setup assistant exists, running');
+
+    const window: Window = getCurrentWindow();
+    await window.hide();
+
+    await runSetupAssistant();
+
+    // Set first boot flag to false
+    await store.set('firstBoot', false);
+    await store.save();
+
+    // And finally relaunch
+    await relaunch();
+    return true;
+  }
+  else {
+    logger.info('Setup assistant does not exist');
+  }
+  return false;
 }
 
 /**
  * Run the setup assistant and wait until it's done.
  */
 async function runSetupAssistant(): Promise<void> {
-  const cmdRef: Command<string> = Command.create('exec-bash', ['-c', 'VERSION=2 setup-assistant']);
-  let stillRunning: boolean = true;
-
-  const window: Window = getCurrentWindow();
-  await window.hide();
-
-  cmdRef.on('close', () => {
-    stillRunning = false;
-  });
-  cmdRef.on('error', () => {
-    stillRunning = false;
-  });
-
-  while (stillRunning) {
-    await new Promise((r) => setTimeout(r, 1000));
+  const cmdRef: Command<string> = Command.create('exec-bash', ['-c', 'VERSION=3 setup-assistant']);
+  try {
+    await cmdRef.execute();
+  } catch (error) {
+    logger.error(`Error running setup assistant: ${error}`);
   }
-
-  logger.info('Setup assistant closed, proceeding to show UI');
-  await window.show();
 }
