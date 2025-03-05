@@ -117,7 +117,7 @@ export class DiagnosticsComponent implements AfterViewInit {
 
       switch (type) {
         case 'inxi':
-          cmd = 'garuda-inxi funstuff';
+          cmd = 'garuda-inxi';
           break;
         case 'systemd-analyze':
           cmd = 'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
