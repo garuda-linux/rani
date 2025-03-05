@@ -2,10 +2,10 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  effect,
   inject,
   input,
   OnDestroy,
-  OnInit,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -26,7 +26,7 @@ import { Logger } from '../logging/logging';
   providers: [DialogService],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LanguageSwitcherComponent implements OnInit, OnDestroy {
+export class LanguageSwitcherComponent implements OnDestroy {
   languages = signal<string[]>([]);
   ref: DynamicDialogRef | undefined;
   showButton = input<boolean>(false);
@@ -38,35 +38,26 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
   private readonly logger = Logger.getInstance();
   private readonly translocoService = inject(TranslocoService);
 
-  /**
-   * Initialize the component and subscribe to the router events to detect language changes
-   * via query parameters.
-   */
-  async ngOnInit(): Promise<void> {
-    const sysLang: string | null = await locale();
-    const savedLang: string = this.configService.settings().language;
+  constructor() {
+    effect(() => {
+      const savedLang: string = this.configService.settings().language;
+      (async (): Promise<void> => {
+        const sysLang: string | null = await locale();
+        let activeLang: string = savedLang ?? sysLang;
+        if (activeLang.match(/en-/)) {
+          activeLang = 'en';
+        }
+        this.logger.trace(`Active language: ${activeLang}`);
 
-    let activeLang: string = savedLang ?? sysLang;
-    if (activeLang.match(/en-/)) {
-      activeLang = 'en';
-    }
-    this.logger.trace(`Active language: ${activeLang}`);
+        if (activeLang && activeLang !== this.translocoService.getActiveLang() && (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)) {
+          this.translocoService.setActiveLang(activeLang);
+        }
 
-    if (activeLang && activeLang !== this.translocoService.getActiveLang()) {
-      this.translocoService.setActiveLang(activeLang);
-      await this.configService.updateConfig('language', activeLang);
-    } else if (
-      !savedLang &&
-      sysLang &&
-      (this.translocoService.getAvailableLangs() as unknown as string).includes(sysLang)
-    ) {
-      this.translocoService.setActiveLang(sysLang);
-    }
+        this.languages.set(this.translocoService.getAvailableLangs() as string[]);
 
-    await this.configService.updateConfig('language', this.translocoService.getActiveLang());
-    this.languages.set(this.translocoService.getAvailableLangs() as string[]);
-
-    this.cdr.markForCheck();
+        this.cdr.markForCheck();
+      })();
+    });
   }
 
   /**
@@ -75,7 +66,6 @@ export class LanguageSwitcherComponent implements OnInit, OnDestroy {
    * @param language The selected language
    */
   selectLanguage(language: string): void {
-    this.translocoService.setActiveLang(language);
     void this.configService.updateConfig('language', language);
     this.cdr.markForCheck();
   }
