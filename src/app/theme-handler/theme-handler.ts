@@ -1,6 +1,5 @@
 import { inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { getConfigStore } from '../config/store';
 import { CatppuccinScrollbars } from '../theme';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
@@ -18,9 +17,7 @@ export class ThemeHandler {
    * Toggle dark mode, updating the local storage and the document accordingly.
    */
   public async toggleDarkMode(): Promise<void> {
-    this.configService.settings.update((settings) => {
-      return { ...settings, darkMode: !settings.darkMode };
-    });
+    await this.configService.updateConfig('darkMode', !this.configService.settings().darkMode);
 
     this.document.documentElement.classList.toggle('p-dark', this.configService.settings().darkMode);
     this.document.documentElement.style.scrollbarColor = this.configService.settings().darkMode
@@ -31,7 +28,6 @@ export class ThemeHandler {
       : '#eff1f5';
 
     this.logger.debug(`Dark mode ${this.configService.settings().darkMode ? 'enabled' : 'disabled'}`);
-    void (await getConfigStore()).set('darkMode', this.configService.settings().darkMode);
   }
 
   /**
