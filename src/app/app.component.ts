@@ -39,6 +39,7 @@ import { Logger } from './logging/logging';
 import { AppSettings } from './config/interfaces';
 import { settingsMenuMappings } from './constants';
 import { MenuToggleMapping } from './interfaces';
+import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 
 @Component({
   imports: [
@@ -488,10 +489,7 @@ export class AppComponent implements OnInit {
    * @private
    */
   private async toggleAutoStart() {
-    const cmd = 'test -f ~/.config/autostart/org.garudalinux.rani.desktop';
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-
-    if (result.code !== 0) {
+    if (await exists('.config/autostart/org.garudalinux.rani.desktop', { baseDir: BaseDirectory.Home })) {
       await Command.create('exec-bash', [
         '-c',
         'cp /usr/share/applications/org.garudalinux.rani.desktop ~/.config/autostart/',

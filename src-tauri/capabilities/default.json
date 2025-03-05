@@ -19,6 +19,13 @@
     "core:window:allow-show",
     "fs:default",
     {
+      "identifier": "fs:scope",
+      "allow": [
+        { "path": "$HOME/.config/autostart/org.garudalinux.rani.desktop" },
+        { "path": "/usr/bin/setup-assistant" }
+      ]
+    },
+    {
       "identifier": "http:default",
       "allow": [
         {
