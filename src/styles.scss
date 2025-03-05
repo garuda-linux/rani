@@ -37,6 +37,7 @@ html {
 body {
   @apply selection:bg-primary m-2 selection:text-surface-0;
   font-optical-sizing: auto;
+  user-select: none;
 }
 
 html {
