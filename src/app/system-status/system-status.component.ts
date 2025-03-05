@@ -85,6 +85,8 @@ export class SystemStatusComponent {
         let [pkg, version, invalid, newVersion] = update.split(' ');
         this.updates.push({ pkg, version, newVersion: newVersion });
       }
+    } else if (result.code === 2) {
+      this.logger.info('No updates available');
     } else {
       this.logger.error(`Failed to get updates: ${result.stderr}`);
     }
@@ -123,7 +125,7 @@ export class SystemStatusComponent {
 
     if (result.code === 0) {
       const date = new Date(result.stdout.trim().replace(']', ''));
-      this.logger.info(`Last update: ${date.toDateString()}`);
+      this.logger.info(`Last update: ${date.toISOString()}`);
 
       if (date < new Date(new Date().setDate(new Date().getDate() - 14))) {
         this.logger.warn('Last update was more than two week ago');
