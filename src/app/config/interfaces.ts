@@ -1,3 +1,5 @@
+import { LogLevel } from '../logging/interfaces';
+
 export interface AppSettings {
   systemdUserContext: boolean;
   copyDiagnostics: boolean;
@@ -7,6 +9,7 @@ export interface AppSettings {
   leftButtons: boolean;
   showMainLinks: boolean;
   autoStart: boolean;
+  logLevel: LogLevel;
   firstBoot: boolean | undefined;
   [key: string]: any;
 }

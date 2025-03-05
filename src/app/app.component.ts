@@ -17,7 +17,7 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { lastValueFrom } from 'rxjs';
 import { AppService } from './app.service';
 import { DialogModule } from 'primeng/dialog';
-import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
+import { Command, open } from '@tauri-apps/plugin-shell';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
@@ -40,6 +40,7 @@ import { AppSettings } from './config/interfaces';
 import { settingsMenuMappings } from './constants';
 import { MenuToggleMapping } from './interfaces';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
+import { LogLevel } from './logging/interfaces';
 
 @Component({
   imports: [
@@ -184,10 +185,7 @@ export class AppComponent implements OnInit {
           id: 'leftButtons',
           label: 'Show window buttons left',
           translocoKey: 'menu.settings.windowButtonsLeft',
-          command: () =>
-            this.configService.settings.update((settings) => {
-              return { ...settings, leftButtons: !settings.leftButtons };
-            }),
+          command: () => this.configService.updateConfig('leftButtons', !this.configService.settings().leftButtons),
         },
         {
           icon: 'pi pi-clipboard',
@@ -195,9 +193,7 @@ export class AppComponent implements OnInit {
           label: 'Copy diagnostics to clipboard',
           translocoKey: 'menu.settings.copyDiagnostics',
           command: () =>
-            this.configService.settings.update((settings) => {
-              return { ...settings, copyDiagnostics: !settings.copyDiagnostics };
-            }),
+            this.configService.updateConfig('copyDiagnostics', !this.configService.settings().copyDiagnostics),
         },
         {
           icon: 'pi pi-moon',
@@ -212,9 +208,7 @@ export class AppComponent implements OnInit {
           label: 'Use systemd user context',
           translocoKey: 'menu.settings.useSystemdUserContext',
           command: () =>
-            this.configService.settings.update((settings) => {
-              return { ...settings, systemdUserContext: !settings.systemdUserContext };
-            }),
+            this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext),
         },
         {
           icon: 'pi pi-refresh',
@@ -222,16 +216,21 @@ export class AppComponent implements OnInit {
           label: 'Auto-refresh systemd services',
           translocoKey: 'menu.settings.autoRefresh',
           command: () =>
-            this.configService.settings.update((settings) => {
-              return { ...settings, autoRefresh: !settings.autoRefresh };
-            }),
+            this.configService.updateConfig('autoRefresh', !this.configService.settings().systemdUserContext),
         },
         {
           icon: 'pi pi-refresh',
           id: 'autoStart',
-          label: "Auto-start Garuda's Rani",
+          label: 'Auto-start Garuda Rani',
           translocoKey: 'menu.settings.autoStart',
           command: () => this.toggleAutoStart(),
+        },
+        {
+          icon: 'pi pi-info',
+          id: 'logLevel',
+          label: 'Set the log level used',
+          translocoKey: 'menu.settings.logLevel',
+          command: () => this.toggleLoglevel(),
         },
         {
           icon: 'pi pi-language',
@@ -464,7 +463,12 @@ export class AppComponent implements OnInit {
         const setting: MenuItem | undefined = settingsMenu.items!.find((item) => item['id'] === key);
         this.logger.trace(`${setting ? 'Found' : 'Did not find'} setting for ${key}`);
 
-        if (setting && key !== 'language') {
+        if (setting && key === 'logLevel') {
+          setting.label = `${this.translocoService.translate('menu.settings.logLevel')}`;
+        } else if (setting && key === 'language') {
+          setting.label = `${this.translocoService.translate('menu.settings.language')} (${this.translocoService.getActiveLang()})`;
+          this.logger.trace(`Updated ${key} to ${setting.label}`);
+        } else if (setting) {
           // @ts-ignore - no idea why the Angular compiler is acting up here
           const mapping: MenuToggleMapping = settingsMenuMappings[key];
           const toTranslate: string = value ? mapping.off : mapping.on;
@@ -472,9 +476,6 @@ export class AppComponent implements OnInit {
           setting.label = this.translocoService.translate(toTranslate);
           setting.icon = value ? mapping.offIcon : mapping.onIcon;
 
-          this.logger.trace(`Updated ${key} to ${setting.label}`);
-        } else if (setting && key === 'language') {
-          setting.label = `${this.translocoService.translate('menu.settings.language')} (${this.translocoService.getActiveLang()})`;
           this.logger.trace(`Updated ${key} to ${setting.label}`);
         }
       }
@@ -489,7 +490,7 @@ export class AppComponent implements OnInit {
    * @private
    */
   private async toggleAutoStart() {
-    if (await exists('.config/autostart/org.garudalinux.rani.desktop', { baseDir: BaseDirectory.Home })) {
+    if (!(await exists('.config/autostart/org.garudalinux.rani.desktop', { baseDir: BaseDirectory.Home }))) {
       await Command.create('exec-bash', [
         '-c',
         'cp /usr/share/applications/org.garudalinux.rani.desktop ~/.config/autostart/',
@@ -503,5 +504,22 @@ export class AppComponent implements OnInit {
       await this.configService.updateConfig('autoStart', false);
       this.logger.info('Disabled auto-start');
     }
+  }
+
+  /**
+   * Toggle the log level used by the logger.
+   * @private
+   */
+  private toggleLoglevel() {
+    this.logger.trace('Toggling log level');
+
+    if (Logger.logLevel === LogLevel.ERROR) {
+      Logger.logLevel = LogLevel.TRACE;
+    } else {
+      Logger.logLevel += 1;
+    }
+
+    this.logger.info(`Set log level to ${LogLevel[Logger.logLevel]}`);
+    void this.configService.updateConfig('logLevel', Logger.logLevel);
   }
 }
