@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
@@ -20,7 +20,7 @@ import { MessageToastService } from '@garudalinux/core';
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent {
   webLinks: ExternalLink[] = [
     // {
     //   title: 'Garuda Wiki',
@@ -149,11 +149,53 @@ export class HomeComponent implements OnInit {
       icon: 'pi pi-globe',
       command: () => this.privilegeManager.executeCommandAsSudo('garuda-network-assistant', true),
     },
+    {
+      title: 'welcome.install',
+      subTitle: 'welcome.installSub',
+      command: async () => {
+        const result: ChildProcess<string> = await Command.create('exec-bash', [
+          '-c',
+          'sudo -E calamares',
+        ]).execute();
+        if (result.code !== 0) {
+          this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
+        }
+      },
+      icon: 'pi pi-download',
+      condition: () => this.configService.state().isLiveSystem === true,
+    },
+    {
+      title: 'welcome.chroot',
+      subTitle: 'welcome.chrootSub',
+      routerLink: '/update',
+      command: async () => {
+        const result: ChildProcess<string> = await this.privilegeManager.executeCommandAsSudo(
+          'garuda-chroot -a',
+          true,
+        );
+        if (result.code !== 0) {
+          this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
+        }
+      },
+      icon: 'pi pi-refresh',
+      condition: () => this.configService.state().isLiveSystem === true,
+    },
+    {
+      title: 'welcome.setupAssistant',
+      subTitle: 'welcome.setupAssistantSub',
+      command: () => this.privilegeManager.ensurePackageAndRun('garuda-setup-assistant', 'setup-assistant'),
+      icon: 'pi pi-download',
+      condition: () => this.configService.state().isLiveSystem === false,
+    },
+    {
+      title: 'welcome.startpage',
+      subTitle: 'welcome.startpageSub',
+      routerLink: '/update',
+      command: () => void open('https://start.garudalinux.org'),
+      icon: 'pi pi-refresh',
+      condition: () => this.configService.state().isLiveSystem === false,
+    },
   ];
-
-  ngOnInit(): void {
-    this.setupDynamicLinks();
-  }
 
   /**
    * Respond to a click on an item.
@@ -165,63 +207,5 @@ export class HomeComponent implements OnInit {
     } else if (item.externalLink) {
       void open(item.externalLink);
     }
-  }
-
-  /**
-   * Set up any dynamic links that need to be added.
-   */
-  setupDynamicLinks(): void {
-    if (this.configService.state().isLiveSystem) {
-      // On live we have polkit rules for Calamares set up, so no need to authenticate with a password first
-      this.mainLinks.push(
-        {
-          title: 'welcome.install',
-          subTitle: 'welcome.installSub',
-          command: async () => {
-            const result: ChildProcess<string> = await Command.create('exec-bash', [
-              '-c',
-              'sudo -E calamares',
-            ]).execute();
-            if (result.code !== 0) {
-              this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
-            }
-          },
-          icon: 'pi pi-download',
-        },
-        {
-          title: 'welcome.chroot',
-          subTitle: 'welcome.chrootSub',
-          routerLink: '/update',
-          command: async () => {
-            const result: ChildProcess<string> = await this.privilegeManager.executeCommandAsSudo(
-              'garuda-chroot -a',
-              true,
-            );
-            if (result.code !== 0) {
-              this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
-            }
-          },
-          icon: 'pi pi-refresh',
-        },
-      );
-    } else {
-      this.mainLinks.push(
-        {
-          title: 'welcome.setupAssistant',
-          subTitle: 'welcome.setupAssistantSub',
-          command: () => this.privilegeManager.ensurePackageAndRun('garuda-setup-assistant', 'setup-assistant'),
-          icon: 'pi pi-download',
-        },
-        {
-          title: 'welcome.startpage',
-          subTitle: 'welcome.startpageSub',
-          routerLink: '/update',
-          command: () => void open('https://start.garudalinux.org'),
-          icon: 'pi pi-refresh',
-        },
-      );
-    }
-
-    this.cdr.markForCheck();
   }
 }

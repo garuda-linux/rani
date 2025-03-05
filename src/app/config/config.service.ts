@@ -8,6 +8,12 @@ import { hostname } from '@tauri-apps/plugin-os';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { checkFirstBoot } from './first-boot';
 import { getCurrentWindow, Window } from '@tauri-apps/api/window';
+import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
+
+class PendingConfigUpdate {
+  state?: object;
+  settings?: object;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -18,7 +24,7 @@ export class ConfigService {
     user: '',
     codeName: '',
     hostname: '',
-    isLiveSystem: false,
+    isLiveSystem: undefined,
   });
 
   settings = signal<AppSettings>({
@@ -30,7 +36,7 @@ export class ConfigService {
     showMainLinks: false,
     systemdUserContext: false,
     autoStart: true,
-    firstBoot: true,
+    firstBoot: undefined,
   });
 
   public store!: Store;
@@ -52,19 +58,21 @@ export class ConfigService {
     void window.show();
 
     try {
-      const initPromises: Promise<void>[] = [
+      const initPromises: Promise<PendingConfigUpdate>[] = [
         this.initStore(),
         this.initIsLive(),
         this.initUser(),
         this.initCodeName(),
         this.checkAutoStart(),
+        this.initHostname(),
       ];
-      await Promise.all(initPromises);
+      const config_updates = await Promise.all(initPromises);
+      const settings_updates = config_updates.map((update) => update.settings);
+      const state_updates = config_updates.map((update) => update.state);
 
-      const host: string = (await hostname())!;
-      this.state.update((state) => {
-        return { ...state, hostname: host };
-      });
+      this.settings.set(Object.assign({}, ...settings_updates));
+      this.state.set(Object.assign({}, ...state_updates));
+
       this.logger.debug('ConfigService initialized successfully');
     } catch (err: any) {
       this.logger.error(`Failed while initializing ConfigService: ${err}`);
@@ -108,52 +116,54 @@ export class ConfigService {
    * Initializes the app key store, overwriting the default settings with saved ones.
    * @private
    */
-  private async initStore(): Promise<void> {
+  private async initStore(): Promise<PendingConfigUpdate> {
     this.store = await getConfigStore();
 
     let storedSettings = 0;
+    const settings: { [key: string]: any } = { };
     if (this.store) {
       for (const key in this.settings()) {
-        const value: any = await this.store.get(key);
+        const value: any = await this.store.has(key)
         if (value) {
           this.logger.trace(`Setting ${key} to ${value}`);
-          this.settings.set({ ...this.settings(), [key]: value });
+          settings[key] = value;
           storedSettings++;
         }
       }
 
       this.logger.info(`Loaded ${storedSettings} settings from store`);
     }
+
+    return { settings: settings };
   }
 
   /**
    * Initializes the current user.
    * @private
    */
-  private async initUser(): Promise<void> {
+  private async initUser(): Promise<PendingConfigUpdate> {
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', 'whoami']).execute();
     if (result.code !== 0) {
       this.logger.error('Could not get user');
     } else {
-      this.state.update((state) => {
-        state.user = result.stdout.trim();
-        this.logger.debug(`User ${state.user}, welcome!`);
-        return state;
-      });
+      const user: string = result.stdout.trim();
+      this.logger.debug(`User ${user}, welcome!`);
+      return { state: { user: user } };
     }
+    return { };
   }
 
   /**
    * Get the hostname of the system.
    * @private
    */
-  private async initCodeName(): Promise<void> {
+  private async initCodeName(): Promise<PendingConfigUpdate> {
     const cmd = 'lsb_release -c';
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
     if (result.code !== 0) {
       this.logger.error('Could not get code name');
-      return;
+      return {};
     } else {
       const codeName: string =
         result.stdout
@@ -161,9 +171,7 @@ export class ConfigService {
           .trim()
           .match(/[A-Z][a-z]+/g)
           ?.join(' ') ?? 'Unknown';
-      this.state.update((state) => {
-        return { ...state, codeName: codeName };
-      });
+      return { state: { codeName: codeName } };
     }
   }
 
@@ -171,19 +179,17 @@ export class ConfigService {
    * Check if the system is a live system.
    * @private
    */
-  private async initIsLive(): Promise<void> {
+  private async initIsLive(): Promise<PendingConfigUpdate> {
     const cmd = "df -T / |tail -n1 |awk '{print $2}'";
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
     if (result.code !== 0) {
       this.logger.error('Could not get filesystem type');
-      return;
+      return { };
     } else {
       const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
       this.logger.debug(`Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? 'live' : 'installed'}`);
-      this.state.update((state) => {
-        return { ...state, isLiveSystem: isLiveSystem };
-      });
+      return { state: { isLiveSystem: isLiveSystem } };
     }
   }
 
@@ -191,9 +197,17 @@ export class ConfigService {
    * Check if the system is set to auto-start.
    * @private
    */
-  private async checkAutoStart(): Promise<void> {
-    const cmd = 'test -f ~/.config/autostart/org.garudalinux.rani.desktop';
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-    await this.updateConfig('autoStart', result.code === 0);
+  private async checkAutoStart(): Promise<PendingConfigUpdate> {
+    const has_autostartfile = await exists('.config/autostart/org.garudalinux.rani.desktop', { baseDir: BaseDirectory.Home });
+    return { settings: { autoStart: has_autostartfile } };
+  }
+
+  /**
+   * Get hostname of the system.
+   * @private
+   */
+  private async initHostname(): Promise<PendingConfigUpdate> {
+    const host: string = (await hostname())!;
+    return { state: { hostname: host } };
   }
 }

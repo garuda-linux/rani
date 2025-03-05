@@ -7,13 +7,13 @@ export interface AppSettings {
   leftButtons: boolean;
   showMainLinks: boolean;
   autoStart: boolean;
-  firstBoot: boolean;
+  firstBoot: boolean | undefined;
   [key: string]: any;
 }
 
 export interface AppState {
   isMaximized: boolean;
-  isLiveSystem: boolean;
+  isLiveSystem: boolean | undefined;
   hostname: string;
   codeName: string;
   user: string;

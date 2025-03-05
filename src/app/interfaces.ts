@@ -87,4 +87,5 @@ export type ExternalLink = Link & {
 export type HomepageLink = Link & {
   routerLink?: string;
   command?: () => void;
+  condition?: () => boolean;
 };
