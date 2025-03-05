@@ -6,7 +6,6 @@ import { Logger } from '../logging/logging';
 import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { hostname } from '@tauri-apps/plugin-os';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
-import { checkFirstBoot } from './first-boot';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 import { LogLevel } from '../logging/interfaces';
 
@@ -44,16 +43,8 @@ export class ConfigService {
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
 
-  constructor() {
-    void this.init();
-  }
-
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
-
-    // Window is hidden by default, after checking whether we are not required to autostart the
-    // setup assistant, we can show it
-    if (await checkFirstBoot()) return;
 
     try {
       const initPromises: Promise<PendingConfigUpdate>[] = [
@@ -65,11 +56,11 @@ export class ConfigService {
         this.initHostname(),
       ];
       const config_updates = await Promise.all(initPromises);
-      const settings_updates = config_updates.map((update) => update.settings);
-      const state_updates = config_updates.map((update) => update.state);
+      const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
+      const state_updates = config_updates.map((update) => update.state).filter((update) => update);
 
-      this.settings.set(Object.assign({}, ...settings_updates));
-      this.state.set(Object.assign({}, ...state_updates));
+      this.settings.set(Object.assign({}, this.settings(), ...settings_updates));
+      this.state.set(Object.assign({}, this.state(), ...state_updates));
 
       Logger.logLevel = this.settings().logLevel;
       this.logger.debug('ConfigService initialized successfully');
@@ -121,9 +112,9 @@ export class ConfigService {
     let storedSettings = 0;
     const settings: { [key: string]: any } = {};
     if (this.store) {
-      for (const key in this.settings()) {
-        const value: any = await this.store.has(key);
-        if (value) {
+      for (const key of Object.keys(this.settings())) {
+        if (await this.store.has(key)) {
+          const value: any = await this.store.get(key)
           this.logger.trace(`Setting ${key} to ${value}`);
           settings[key] = value;
           storedSettings++;

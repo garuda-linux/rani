@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, isDevMode, LOCALE_ID, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, isDevMode, LOCALE_ID, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { MessageToastService, provideGarudaNG } from '@garudalinux/core';
@@ -14,9 +14,23 @@ import { PrivilegeManagerService } from './privilege-manager/privilege-manager.s
 import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
 import { ConfigService } from './config/config.service';
+import { getCurrentWindow, Window } from '@tauri-apps/api/window';
+import { checkFirstBoot } from './first-boot';
 
 export const appConfig: ApplicationConfig = {
   providers: [
+    provideAppInitializer(async () => {
+      const configService = inject(ConfigService);
+      await configService.init();
+
+      // Window is hidden by default, after checking whether we are not required to autostart the
+      // setup assistant, we can show it
+      if (await checkFirstBoot())
+        return;
+
+      const window: Window = getCurrentWindow();
+      await window.show();
+    }),
     ConfigService,
     ConfirmationService,
     MessageToastService,

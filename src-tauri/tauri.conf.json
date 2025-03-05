@@ -19,7 +19,8 @@
         "minHeight": 710,
         "decorations": false,
         "titleBarStyle": "Transparent",
-        "center": true
+        "center": true,
+        "visible": false
       }
     ],
     "enableGTKAppId": true,
