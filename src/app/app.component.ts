@@ -14,7 +14,6 @@ import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { lastValueFrom } from 'rxjs';
 import { AppService } from './app.service';
 import { DialogModule } from 'primeng/dialog';
 import { Command, open } from '@tauri-apps/plugin-shell';
@@ -200,7 +199,7 @@ export class AppComponent implements OnInit {
           id: 'darkMode',
           label: 'Dark mode',
           translocoKey: 'menu.settings.enableDarkMode',
-          command: () => this.appService.themeHandler.toggleDarkMode(),
+          command: () => this.configService.updateConfig('darkMode', !this.configService.settings().darkMode),
         },
         {
           icon: 'pi pi-user',
@@ -216,7 +215,7 @@ export class AppComponent implements OnInit {
           label: 'Auto-refresh systemd services',
           translocoKey: 'menu.settings.autoRefresh',
           command: () =>
-            this.configService.updateConfig('autoRefresh', !this.configService.settings().systemdUserContext),
+            this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh),
         },
         {
           icon: 'pi pi-refresh',
@@ -325,10 +324,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    void this.setupLabels(this.translocoService.getActiveLang());
-
-    this.translocoService.langChanges$.subscribe((lang) => {
-      void this.setupLabels(lang);
+    this.translocoService.events$.subscribe((event) => {
+      if (event.type === 'translationLoadSuccess' || event.type === 'langChanged') {
+        this.menuItems.update((items: MenuItem[]) => {
+          return this.setupLabels(this.translocoService.getActiveLang(), items);
+        });
+      }
     });
 
     this.attachTauriListeners();
@@ -369,33 +370,20 @@ export class AppComponent implements OnInit {
    * Set up the labels for the menu items with the given language.
    * @param lang The language to set the labels in
    */
-  async setupLabels(lang: string): Promise<void> {
-    const newItemPromises: Promise<any>[] = [];
+  setupLabels(lang: string, entries: MenuItem[]): MenuItem[] {
+    const newItems: MenuItem[] = [ ];
 
-    for (const item of this.menuItems()) {
-      newItemPromises.push(lastValueFrom(this.translocoService.selectTranslate(item['translocoKey'], {}, lang)));
-    }
-
-    const results: string[] = await Promise.all(newItemPromises);
-    const newItems = [];
-
-    for (const [index, item] of this.menuItems().entries()) {
-      newItems.push({ ...item, label: results[index] });
-    }
-
-    this.menuItems.set(newItems);
-
-    const newSubItems = [...newItems];
-    for (const item of newSubItems) {
+    for (const item of entries) {
+      const newSubItems: MenuItem[] = [ ];
       if (item.items) {
-        for (const subitem of item.items) {
-          subitem.label = await lastValueFrom(this.translocoService.selectTranslate(subitem['translocoKey'], {}, lang));
+        for (const subItem of item.items) {
+          newSubItems.push(Object.assign({ }, subItem, { label: this.translocoService.translate(subItem['translocoKey'], { }, lang) }));
         }
       }
+      newItems.push(Object.assign({ }, item, { label: this.translocoService.translate(item['translocoKey'], { }, lang), items: newSubItems }));
     }
 
-    this.menuItems.set(newSubItems);
-    this.cdr.markForCheck();
+    return newItems;
   }
 
   /**
