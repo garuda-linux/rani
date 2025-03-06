@@ -63,6 +63,16 @@
           "sidecar": false
         },
         {
+          "name": "launch-terminal",
+          "cmd": "/usr/lib/garuda/launch-terminal",
+          "args": [
+            {
+              "validator": ".*"
+            }
+          ],
+          "sidecar": false
+        },
+        {
           "name": "sidecar/change-dns.sh",
           "args": [
             {
@@ -82,6 +92,16 @@
           "cmd": "bash",
           "args": [
             "-c",
+            {
+              "validator": ".*"
+            }
+          ],
+          "sidecar": false
+        },
+        {
+          "name": "launch-terminal",
+          "cmd": "/usr/lib/garuda/launch-terminal",
+          "args": [
             {
               "validator": ".*"
             }

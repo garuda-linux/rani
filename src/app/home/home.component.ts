@@ -169,10 +169,7 @@ export class HomeComponent {
       subTitle: 'welcome.chrootSub',
       routerLink: '/update',
       command: async () => {
-        const result: ChildProcess<string> = await this.privilegeManager.executeCommandAsSudo(
-          'garuda-chroot -a',
-          true,
-        );
+        const result = await Command.create('launch-terminal', ["pkexec garuda-chroot -a; read -p 'Press enter to exit'"]).execute();
         if (result.code !== 0) {
           this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
         }
