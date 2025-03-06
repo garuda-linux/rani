@@ -22,14 +22,12 @@ tauri-plugin-clipboard = "2"
 tauri-plugin-fs = "2"
 tauri-plugin-http = { version = "2", features = ["rustls-tls", "unsafe-headers"] }
 tauri-plugin-log = "2"
-tauri-plugin-network = "2"
 tauri-plugin-notification = "2"
 tauri-plugin-os = "2"
 tauri-plugin-prevent-default = "1.2"
 tauri-plugin-process = "2"
 tauri-plugin-shell = "2"
 tauri-plugin-store = "2"
-tauri-plugin-system-info = "2"
 
 [target.'cfg(not(any(target_os = "android", target_os = "ios")))'.dependencies]
 tauri-plugin-positioner = "2"

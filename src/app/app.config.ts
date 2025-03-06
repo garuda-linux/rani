@@ -7,7 +7,6 @@ import { routes } from './app.routes';
 import { Catppuccin } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
-import { provideTranslocoPersistLang } from '@jsverse/transloco-persist-lang';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
 import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
@@ -103,11 +102,6 @@ export const appConfig: ApplicationConfig = {
       langToLocaleMapping: {
         en: 'en-US',
         de: 'de-DE',
-      },
-    }),
-    provideTranslocoPersistLang({
-      storage: {
-        useValue: localStorage,
       },
     }),
     { provide: LOCALE_ID, useValue: 'en-GB' },

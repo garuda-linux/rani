@@ -2,7 +2,9 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": ["main"],
+  "windows": [
+    "main"
+  ],
   "permissions": [
     "clipboard:write-all",
     "core:default",
@@ -21,8 +23,12 @@
     {
       "identifier": "fs:scope",
       "allow": [
-        { "path": "$HOME/.config/autostart/org.garudalinux.rani.desktop" },
-        { "path": "/usr/bin/setup-assistant" }
+        {
+          "path": "$HOME/.config/autostart/org.garudalinux.rani.desktop"
+        },
+        {
+          "path": "/usr/bin/setup-assistant"
+        }
       ]
     },
     {
