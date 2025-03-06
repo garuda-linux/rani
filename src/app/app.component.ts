@@ -121,7 +121,7 @@ export class AppComponent implements OnInit {
   private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
 
-  menuItems = signal<MenuItem[]>([
+  menuItems = signal<MenuItem[]>(this.setupLabels(this.translocoService.getActiveLang(), [
     {
       icon: 'pi pi-home',
       label: 'Welcome',
@@ -291,7 +291,7 @@ export class AppComponent implements OnInit {
         },
       ],
     },
-  ]);
+  ]));
 
   constructor() {
     effect(() => {
@@ -325,7 +325,8 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.translocoService.events$.subscribe((event) => {
-      if (event.type === 'translationLoadSuccess' || event.type === 'langChanged') {
+      if (event.type === 'langChanged') {
+        this.logger.trace('Updating menu labels via event');
         this.menuItems.update((items: MenuItem[]) => {
           return this.setupLabels(this.translocoService.getActiveLang(), items);
         });

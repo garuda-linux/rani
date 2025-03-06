@@ -14,9 +14,7 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DialogModule } from 'primeng/dialog';
 import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LanguageSelectionComponent } from './language-selection.component';
-import { locale } from '@tauri-apps/plugin-os';
 import { ConfigService } from '../config/config.service';
-import { Logger } from '../logging/logging';
 
 @Component({
   selector: 'rani-language-switcher',
@@ -35,29 +33,10 @@ export class LanguageSwitcherComponent implements OnDestroy {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly dialogService = inject(DialogService);
-  private readonly logger = Logger.getInstance();
   private readonly translocoService = inject(TranslocoService);
 
   constructor() {
-    effect(() => {
-      const savedLang: string = this.configService.settings().language;
-      (async (): Promise<void> => {
-        const sysLang: string | null = await locale();
-        let activeLang: string = savedLang ?? sysLang;
-        if (activeLang.match(/en-/)) {
-          activeLang = 'en';
-        }
-        this.logger.trace(`Active language: ${activeLang}`);
-
-        if (activeLang && activeLang !== this.translocoService.getActiveLang() && (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)) {
-          this.translocoService.setActiveLang(activeLang);
-        }
-
-        this.languages.set(this.translocoService.getAvailableLangs() as string[]);
-
-        this.cdr.markForCheck();
-      })();
-    });
+    this.languages.set(this.translocoService.getAvailableLangs() as string[]);
   }
 
   /**

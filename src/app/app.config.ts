@@ -15,11 +15,13 @@ import { LoadingInterceptor } from './loading-indicator/loading-indicator.interc
 import { ConfigService } from './config/config.service';
 import { getCurrentWindow, Window } from '@tauri-apps/api/window';
 import { checkFirstBoot } from './first-boot';
+import { LanguageManagerService } from './language-manager/language-manager.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideAppInitializer(async () => {
       const configService = inject(ConfigService);
+      const languageManagerService = inject(LanguageManagerService);
       await configService.init();
 
       // Window is hidden by default, after checking whether we are not required to autostart the
@@ -27,10 +29,13 @@ export const appConfig: ApplicationConfig = {
       if (await checkFirstBoot())
         return;
 
+      await languageManagerService.init();
+
       const window: Window = getCurrentWindow();
       await window.show();
     }),
     ConfigService,
+    LanguageManagerService,
     ConfirmationService,
     MessageToastService,
     OperationManagerService,
