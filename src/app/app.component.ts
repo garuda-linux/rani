@@ -73,7 +73,6 @@ import { LogLevel } from './logging/interfaces';
 })
 export class AppComponent implements OnInit {
   @ViewChild('languageSwitcherComponent') langSwitcher!: LanguageSwitcherComponent;
-  @ViewChild('privilegeManagerComponent') privilegeManager!: PrivilegeManagerComponent;
   @ViewChild('terminalComponent') terminalComponent!: TerminalComponent;
   @ViewChild('operationManagerComponent') operationManagerComponent!: OperationManagerComponent;
 

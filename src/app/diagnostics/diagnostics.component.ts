@@ -18,12 +18,12 @@ import { clear, writeText } from 'tauri-plugin-clipboard-api';
 import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
-import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { WebLinksAddon } from '@xterm/addon-web-links';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'app-diagnostics',
@@ -47,8 +47,8 @@ export class DiagnosticsComponent implements AfterViewInit {
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
-  private readonly privilegeManager = inject(PrivilegeManagerService);
   private readonly translocoService = inject(TranslocoService);
+  private readonly taskManagerService = inject(TaskManagerService);
   private readonly garudaBin = new GarudaBin();
   private outputCache = '';
 
@@ -193,9 +193,9 @@ export class DiagnosticsComponent implements AfterViewInit {
    */
   private async getCommand(command: string, needsSudo = false): Promise<ChildProcess<string>> {
     if (needsSudo) {
-      return await this.privilegeManager.executeCommandAsSudo(command);
+      return await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
     } else {
-      return Command.create('exec-bash', ['-c', command]).execute();
+      return await this.taskManagerService.executeAndWaitBash(command);
     }
   }
 }

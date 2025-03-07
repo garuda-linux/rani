@@ -20,6 +20,7 @@
     "core:window:default",
     "core:window:allow-show",
     "fs:default",
+    "fs:allow-write-text-file",
     {
       "identifier": "fs:scope",
       "allow": [
@@ -28,6 +29,9 @@
         },
         {
           "path": "/usr/bin/setup-assistant"
+        },
+        {
+          "path": "$APPLOCALDATA/taskscript.tmp"
         }
       ]
     },
@@ -59,8 +63,7 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
         },
         {
           "name": "launch-terminal",
@@ -69,8 +72,19 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
+        },
+        {
+          "name": "bash",
+          "cmd": "bash",
+          "args": false
+        },
+        {
+          "name": "root-bash",
+          "cmd": "pkexec",
+          "args": [
+            "bash"
+          ]
         },
         {
           "name": "sidecar/change-dns.sh",
@@ -95,8 +109,7 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
         },
         {
           "name": "launch-terminal",
@@ -105,8 +118,36 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
+        },
+        {
+          "name": "bash",
+          "cmd": "bash",
+          "args": false
+        },
+        {
+          "name": "root-bash",
+          "cmd": "pkexec",
+          "args": [
+            "bash"
+          ]
+        }
+      ]
+    },
+    {
+      "identifier": "shell:allow-stdin-write",
+      "allow": [
+        {
+          "name": "bash",
+          "cmd": "bash",
+          "args": false
+        },
+        {
+          "name": "root-bash",
+          "cmd": "pkexec",
+          "args": [
+            "bash"
+          ]
         }
       ]
     }

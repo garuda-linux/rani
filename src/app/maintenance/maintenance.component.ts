@@ -18,12 +18,12 @@ import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
 import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import type { Operation, OperationType } from '../operation-manager/interfaces';
-import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
 import { Logger } from '../logging/logging';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -149,11 +149,11 @@ export class MaintenanceComponent implements OnInit {
   ];
 
   protected readonly operationManager = inject(OperationManagerService);
-  protected readonly privilegeManager = inject(PrivilegeManagerService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
+  private readonly taskManager = inject(TaskManagerService);
 
   actions: MaintenanceAction[] = [
     {
@@ -206,7 +206,9 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
-        void this.privilegeManager.ensurePackageAndRun('reflector-simple');
+        if (await this.taskManager.ensurePackageArchlinux('reflector-simple')) {
+          void this.taskManager.executeAndWaitBash('reflector-simple');
+        }
       },
     },
     {
@@ -220,7 +222,9 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
-        void this.privilegeManager.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
+        if (await this.taskManager.ensurePackageArchlinux('btrfs-assistant')) {
+          void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
+        }
       },
     },
     {
@@ -247,7 +251,9 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Editing repositories, checking for pace');
-        void this.privilegeManager.ensurePackageAndRun('pace');
+        if (await this.taskManager.ensurePackageArchlinux('pace')) {
+          void this.taskManager.executeAndWaitBash('pace');
+        }
       },
     },
   ];

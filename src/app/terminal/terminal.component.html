@@ -41,9 +41,6 @@
                 </div>
               </ng-template>
               <div class="mt-2.5 text-center">
-                <span (click)="showOperationLogs(op)" class="cursor-pointer mr-2.5">
-                  <i class="pi pi-receipt mr-1 text-primary"></i>{{ t('operation.logs') }}
-                </span>
                 <span (click)="operationManager.removeFromPending(op)" class="cursor-pointer mr-2.5">
                   <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
