@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  effect,
   inject,
   input,
   model,
@@ -14,9 +15,10 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { Card } from 'primeng/card';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'rani-dynamic-checkboxes',
@@ -34,10 +36,22 @@ export class DynamicCheckboxesComponent implements OnInit {
   systemdUserServices = signal<SystemdService[]>([]);
   userGroups = signal<string[]>([]);
 
-  protected operationManager = inject(OperationManagerService);
+  protected readonly taskManagerService = inject(TaskManagerService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
+  private readonly config = inject(ConfigService);
+
+  constructor() {
+    effect(() => {
+      if (!this.taskManagerService.running()) {
+        (async () => {
+          await this.refreshUi();
+          this.generateTask();
+        })();
+      }
+    });
+  }
 
   ngOnInit(): void {
     void this.refreshUi();
@@ -156,13 +170,77 @@ export class DynamicCheckboxesComponent implements OnInit {
   }
 
   /**
+   * Generates the command/script where the selected entries are passed to.
+   */
+  generateTask(): void {
+    if (this.taskManagerService.running())
+      return;
+
+    var command = '';
+    var command_user = '';
+    const entries = this.selectedBoxes().filter((entry) => !entry.disabled);
+  
+    for (const entry of entries) {
+      if (!entry.initialState) {
+        if (entry.checked) {
+          switch (entry.check.type) {
+            case 'group':
+              command += `gpasswd -a ${this.config.state().user} ${entry.check.name}\n`;
+              break;
+            case 'service':
+              command += `systemctl enable --now ${entry.check.name}\n`;
+              break;
+            case 'serviceUser':
+              command_user += `systemctl --user enable --now ${entry.check.name}\n`;
+              break;
+          }
+        }
+      } else {
+        if (!entry.checked) {
+          switch (entry.check.type) {
+            case 'group':
+              command += `gpasswd -d ${this.config.state().user} ${entry.check.name}\n`;
+              break;
+            case 'service':
+              command += `systemctl disable --now ${entry.check.name}\n`;
+              break;
+            case 'serviceUser':
+              command_user += `systemctl --user disable --now ${entry.check.name}\n`;
+              break;
+          }
+        }
+      }
+    }
+
+    const task = this.taskManagerService.findTaskById('systemTools');
+    const userTask = this.taskManagerService.findTaskById('systemToolsUser');
+
+    if (task) {
+      this.taskManagerService.removeTask(task);
+    }
+    if (userTask) {
+      this.taskManagerService.removeTask(userTask);
+    }
+
+    if (command) {
+      const task = this.taskManagerService.createTask(3, 'systemTools', true, 'System Tools', 'pi pi-cog', command);
+      this.taskManagerService.scheduleTask(task);
+    }
+
+    if (command_user) {
+      const task = this.taskManagerService.createTask(3, 'systemToolsUser', false, 'System Tools User', 'pi pi-cog', command_user);
+      this.taskManagerService.scheduleTask(task);
+    }
+  }
+
+  /**
    * Toggle the entry, adding or removing it from the selected boxes. This is needed
    * to provide the necessary metadata to the operation manager (instead of just using the model).
    * @param entry The entry to toggle
    */
   private toggleEntry(entry: SystemToolsSubEntry): void {
     entry.checked = !entry.checked;
-    this.operationManager.handleToggleSystemTools(entry);
+    this.generateTask();
   }
 
   /**
@@ -171,13 +249,10 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @private
    */
   private async getInstalledPkgs(): Promise<string[]> {
-    const cmd = `pacman -Qq`;
-    const result: string[] | null = await this.operationManager.getCommandOutput<string[]>(cmd, (stdout: string) =>
-      stdout.split('\n'),
-    );
+    const commandoutput = await this.taskManagerService.executeAndWaitBash('pacman -Qq');
+    const result: string[] = commandoutput.stdout.split('\n');
 
-    if (result) return result;
-    return [];
+    return result;
   }
 
   /**
@@ -186,14 +261,10 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @private
    */
   private async getActiveServices(): Promise<SystemdService[]> {
-    const cmd = 'systemctl list-units --type service --full --output json --no-pager';
-    const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
-      cmd,
-      (stdout: string) => JSON.parse(stdout),
-    );
+    const commandoutput = await this.taskManagerService.executeAndWaitBash('systemctl list-units --type service --full --output json --no-pager');
+    const result = JSON.parse(commandoutput.stdout) as SystemdService[];
 
-    if (result) return result;
-    return [];
+    return result;
   }
 
   /**
@@ -216,13 +287,10 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @private
    */
   private async getUserGroups(): Promise<string[]> {
-    const cmd = 'groups';
-    const result: string[] | null = await this.operationManager.getCommandOutput<string[]>(cmd, (stdout: string) =>
-      stdout.split(' '),
-    );
+    const commandoutput = await this.taskManagerService.executeAndWaitBash('groups');
+    const result: string[] = commandoutput.stdout.split(' ');
 
-    if (result) return result;
-    return [];
+    return result;
   }
 
   /**
@@ -231,13 +299,9 @@ export class DynamicCheckboxesComponent implements OnInit {
    * @private
    */
   private async getActiveUserServices(): Promise<SystemdService[]> {
-    const cmd = 'systemctl list-units --type service --global --user --full --output json --no-pager';
-    const result: SystemdService[] | null = await this.operationManager.getCommandOutput<SystemdService[]>(
-      cmd,
-      (stdout: string) => JSON.parse(stdout),
-    );
+    const commandoutput = await this.taskManagerService.executeAndWaitBash('systemctl list-units --type service --global --user --full --output json --no-pager');
+    const result = JSON.parse(commandoutput.stdout) as SystemdService[];
 
-    if (result) return result;
-    return [];
+    return result;
   }
 }

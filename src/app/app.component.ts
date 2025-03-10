@@ -29,9 +29,7 @@ import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from '@g
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { LoadingService } from './loading-indicator/loading-indicator.service';
 import { TerminalComponent } from './terminal/terminal.component';
-import { PrivilegeManagerComponent } from './privilege-manager/privilege-manager.component';
 import { OperationManagerComponent } from './operation-manager/operation-manager.component';
-import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfigService } from './config/config.service';
 import { Logger } from './logging/logging';
@@ -40,6 +38,7 @@ import { settingsMenuMappings } from './constants';
 import { MenuToggleMapping } from './interfaces';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 import { LogLevel } from './logging/interfaces';
+import { TaskManagerService } from './task-manager/task-manager.service';
 
 @Component({
   imports: [
@@ -62,7 +61,6 @@ import { LogLevel } from './logging/interfaces';
     AsyncPipe,
     ShellBarEndDirective,
     TerminalComponent,
-    PrivilegeManagerComponent,
     OperationManagerComponent,
     ConfirmDialog,
   ],
@@ -80,6 +78,7 @@ export class AppComponent implements OnInit {
   readonly appWindow = getCurrentWindow();
   readonly confirmationService = inject(ConfirmationService);
   readonly loadingService = inject(LoadingService);
+  readonly taskManager = inject(TaskManagerService);
 
   rightClickMenu = signal<MenuItem[]>([
     {
@@ -117,7 +116,6 @@ export class AppComponent implements OnInit {
   protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
-  private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
 
   menuItems = signal<MenuItem[]>(this.setupLabels(this.translocoService.getActiveLang(), [
@@ -294,24 +292,21 @@ export class AppComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const pending: boolean =
-        this.operationManager.pending().length > 0 &&
-        this.operationManager.pending().find((op) => op.status !== 'complete') !== undefined;
-      const allDone: boolean = this.operationManager.pending().length > 0 && !pending;
       this.menuItems.update((items: MenuItem[]) => {
         const index: number = items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
-        if (index !== -1 && !this.operationManager.currentAction() && !allDone) {
-          pending ? (items[index].icon = 'pi pi-hourglass') : (items[index].icon = 'pi pi-expand');
-        } else if (index !== -1 && !this.operationManager.currentAction() && allDone) {
-          items[index].icon = 'pi pi-check';
-        } else if (this.operationManager.currentAction()) {
+        if (index === -1)
+          return items;
+
+        if (this.taskManager.running())
           items[index].icon = 'pi pi-spin pi-spinner';
-        } else {
+        else if (this.taskManager.count() > 0)
+          items[index].icon = 'pi pi-hourglass';
+        else
           items[index].icon = 'pi pi-expand';
-        }
+
+        this.cdr.markForCheck();
         return items;
       });
-      this.cdr.markForCheck();
     });
 
     effect(() => {
@@ -407,15 +402,15 @@ export class AppComponent implements OnInit {
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
-      this.logger.info(`Close requested, ${this.operationManager.currentAction() ? 'one' : 'no'} action is running`);
+      this.logger.info(`Close requested, ${this.taskManager.currentTask() ? 'one' : 'no'} action is running`);
 
-      if (!this.operationManager.currentAction() && !this.operationManager.pending().length) {
+      if (!this.taskManager.running() && !this.taskManager.count()) {
         void this.shutdown();
         return;
       }
 
       this.confirmationService.confirm({
-        message: this.operationManager.currentAction()
+        message: this.taskManager.running()
           ? this.translocoService.translate('confirmation.exitAppRunningAction')
           : this.translocoService.translate('confirmation.exitApp'),
         header: this.translocoService.translate('confirmation.exitAppHeader'),
@@ -423,7 +418,7 @@ export class AppComponent implements OnInit {
         acceptIcon: 'pi pi-check',
         rejectIcon: 'pi pi-times',
         acceptButtonProps: {
-          severity: this.operationManager.currentAction() ? 'danger' : 'success',
+          severity: this.taskManager.running() ? 'danger' : 'success',
           label: this.translocoService.translate('confirmation.accept'),
         },
         rejectButtonProps: {

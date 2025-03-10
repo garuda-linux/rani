@@ -22,13 +22,14 @@
     "fs:default",
     "fs:allow-write-text-file",
     {
+      "identifier": "fs:allow-exists",
+      "allow": [{ "path": "*" }]
+    },
+    {
       "identifier": "fs:scope",
       "allow": [
         {
           "path": "$HOME/.config/autostart/org.garudalinux.rani.desktop"
-        },
-        {
-          "path": "/usr/bin/setup-assistant"
         },
         {
           "path": "$APPLOCALDATA/taskscript.tmp"

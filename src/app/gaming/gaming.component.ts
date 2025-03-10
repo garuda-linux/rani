@@ -8,7 +8,6 @@ import { Card } from 'primeng/card';
 import { flavors } from '@catppuccin/palette';
 import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
@@ -2609,7 +2608,6 @@ export class GamingComponent implements OnInit {
     },
   ];
 
-  protected readonly operationManager = inject(OperationManagerService);
   protected readonly open = open;
   protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);

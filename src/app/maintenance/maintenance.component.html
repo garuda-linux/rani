@@ -44,7 +44,7 @@
         </p-tabpanel>
         <p-tabpanel [value]="1">
           <div class="grid grid-cols-12 mt-10">
-            @for (config of resettableConfigs; track config.name) {
+            @for (config of resettableConfigs(); track config.name) {
               @if (config.exists) {
                 <div class="ml-32 col-span-6 lg:col-span-4">
                   <p-checkbox

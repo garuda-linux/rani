@@ -18,7 +18,6 @@ import { NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Dialog } from 'primeng/dialog';
 import { ProgressBar } from 'primeng/progressbar';
-import { Operation } from '../operation-manager/interfaces';
 import { MessageToastService } from '@garudalinux/core';
 import { Card } from 'primeng/card';
 import { Popover } from 'primeng/popover';
@@ -44,12 +43,16 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   private readonly configService = inject(ConfigService);
-  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => { return {
-    disableStdin: false,
-    scrollback: 10000,
-    convertEol: true,
-    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light
-  };});
+  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
+    return {
+      disableStdin: false,
+      scrollback: 10000,
+      convertEol: true,
+      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light
+    };
+  });
+  readonly visible = signal<boolean>(false);
+
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);
@@ -86,8 +89,9 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       }),
     );
     this.subscriptions.push(
-      this.taskManagerService.dataEvents.subscribe((output: string) => {
-        this.term.underlying?.clear();
+      this.taskManagerService.events.subscribe((output: string) => {
+        if (output === 'clear')
+          this.term.underlying?.clear();
       }),
     );
   }
@@ -104,9 +108,9 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
   private async loadXterm(): Promise<void> {
     this.term.underlying?.loadAddon(new WebglAddon());
     this.term.underlying?.loadAddon(new WebLinksAddon());
+    this.term.underlying?.clear();
 
     if (this.taskManagerService.data) {
-      this.term.underlying?.clear();
       this.logger.trace('Terminal output cleared, now writing to terminal');
       this.term.write(this.taskManagerService.data);
     }

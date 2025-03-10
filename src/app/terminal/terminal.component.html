@@ -3,20 +3,19 @@
     <div class="flex h-[96%]">
       <div>
         <p-scroll-panel [style]="{ width: '100%', height: '100%' }">
-          @for (op of operationManager.pending(); track op.name) {
+          @for (op of taskManagerService.sortedTasks(); track op.id) {
             <p-card styleClass="mt-2" [style]="{ width: '20rem' }">
               <ng-template #header>
                 <div class="text-center mt-4">
-                  <span class="mr-2 font-bold">{{ t(op.prettyName) }}</span>
+                  <span class="mr-2 font-bold">{{ t(op.name) }}</span>
                   <i
                     [ngClass]="{
-                      'text-yellow-500 pi-hourglass': op.status === 'pending',
-                      'text-orange-500 pi-spin pi-spinner': op.status === 'running',
-                      'text-green-500 pi-check-circle': op.status === 'complete',
-                      'text-red-500 pi-times-circle': op.status === 'error',
+                      'text-yellow-500 pi-hourglass': taskManagerService.currentTask().id !== op.id,
+                      'text-orange-500 pi-spin pi-spinner': taskManagerService.currentTask().id === op.id,
                     }"
                     class="pi mr-2"
                   ></i>
+                  <!--
                   @if (op.commandArgs.length > 0) {
                     <span (click)="popover.toggle($event)" class="cursor-pointer mr-2">
                       <i class="pi pi-list mr-1 text-primary"></i>
@@ -38,19 +37,22 @@
                       </div>
                     </p-popover>
                   }
+                  -->
                 </div>
               </ng-template>
               <div class="mt-2.5 text-center">
-                <span (click)="operationManager.removeFromPending(op)" class="cursor-pointer mr-2.5">
+                <span (click)="taskManagerService.removeTask(op)" class="cursor-pointer mr-2.5">
                   <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
+                <!--
                 @if (op.status === 'running') {
                   <span (click)="operationManager.abortRunning()" class="cursor-pointer mr-2.5">
                     <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.abort') }}
                   </span>
                 }
-                @if (op.status !== 'running' && !operationManager.currentAction()) {
-                  <span (click)="operationManager.runNow(op)" class="cursor-pointer mr-2.5">
+                  -->
+                @if (!taskManagerService.running()) {
+                  <span (click)="taskManagerService.executeTask(op)" class="cursor-pointer mr-2.5">
                     <i class="pi pi-play-circle mr-1 text-green-300"></i>{{ t('operation.run') }}
                   </span>
                 }
@@ -76,17 +78,17 @@
       <div class="inline-flex items-center justify-center gap-2">
         <span class="cursor-pointer font-bold whitespace-nowrap mr-2.5"
           >{{
-            t('terminal.title') + (operationManager.currentAction() ? ' - ' + operationManager.currentAction() : '')
+            t('terminal.title') + (taskManagerService.currentTask() ? ' - ' + taskManagerService.currentTask() : '')
           }}
         </span>
-        <span (click)="operationManager.executeOperations()" class="cursor-pointer mr-2.5">
+        <span (click)="taskManagerService.executeTasks()" class="cursor-pointer mr-2.5">
           <i class="pi pi-play-circle mr-1 text-primary"></i>{{ t('terminal.runActions') }}
         </span>
-        <span (click)="operationManager.clearPending()" class="cursor-pointer">
+        <span (click)="taskManagerService.clearTasks()" class="cursor-pointer">
           <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
         </span>
-        @if (operationManager.pending().length > 0 && operationManager.currentAction()) {
-          <span (click)="operationManager.abortRunning(true)" class="cursor-pointer">
+        @if (taskManagerService.count() > 0 && taskManagerService.running()) {
+          <span (click)="taskManagerService.abort()" class="cursor-pointer">
             <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.abortAll') }}
           </span>
         }

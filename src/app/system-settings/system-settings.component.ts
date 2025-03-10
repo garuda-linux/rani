@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { FormsModule } from '@angular/forms';
 import { Nullable } from 'primeng/ts-helpers';
 import { Select } from 'primeng/select';
@@ -11,6 +10,7 @@ import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkb
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
 import { StatefulPackage } from '../gaming/interfaces';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'rani-system-settings',
@@ -233,10 +233,10 @@ export class SystemSettingsComponent {
     },
   ];
 
-  protected operationManager = inject(OperationManagerService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
+  private readonly taskManagerService = inject(TaskManagerService);
 
   constructor() {
     void this.init();
@@ -269,9 +269,7 @@ export class SystemSettingsComponent {
     }
 
     const cmd = `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`;
-    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) =>
-      stdout.trim(),
-    );
+    const result: string | null = (await this.taskManagerService.executeAndWaitBash(cmd)).stdout.trim();
 
     if (result) {
       this.logger.trace(`Got initial shell ${result}`);
@@ -288,9 +286,7 @@ export class SystemSettingsComponent {
    */
   async getCurrentDns(): Promise<void> {
     const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
-    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) =>
-      stdout.trim(),
-    );
+    const result: string | null = (await this.taskManagerService.executeAndWaitBash(cmd)).stdout.trim();
 
     if (result) {
       const providerExists = dnsProviders.find((provider) => provider.ips.includes(result));
@@ -312,9 +308,8 @@ export class SystemSettingsComponent {
    */
   async getCurrentHblockStatus(): Promise<void> {
     const cmd = 'cat /etc/hosts | grep -A1 \"Blocked domains\" | awk \'/Blocked domains/ { print $NF }\'';
-    const result: number | null = await this.operationManager.getCommandOutput<number>(cmd, (stdout: string) =>
-      parseInt(stdout.trim()),
-    );
+    const output: string | null = (await this.taskManagerService.executeAndWaitBash(cmd)).stdout.trim();
+    const result = parseInt(output);
 
     if (result !== null && result > 0) {
       this.state.initialHblock = true;

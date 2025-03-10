@@ -9,8 +9,6 @@ import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
-import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
-import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
 import { ConfigService } from './config/config.service';
 import { getCurrentWindow, Window } from '@tauri-apps/api/window';
@@ -38,8 +36,6 @@ export const appConfig: ApplicationConfig = {
     LanguageManagerService,
     ConfirmationService,
     MessageToastService,
-    OperationManagerService,
-    PrivilegeManagerService,
     provideAnimationsAsync(),
     provideGarudaNG(
       { font: 'Inter' },

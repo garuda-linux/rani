@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  effect,
   inject,
   model,
   OnInit,
@@ -16,14 +15,13 @@ import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
-import type { Operation, OperationType } from '../operation-manager/interfaces';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
 import { Logger } from '../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import { exists } from '@tauri-apps/plugin-fs';
 
 @Component({
   selector: 'app-maintenance',
@@ -36,7 +34,7 @@ export class MaintenanceComponent implements OnInit {
   selectedResetConfigs = model<any[]>([]);
   tabIndex = signal<number>(0);
 
-  resettableConfigs: ResettableConfig[] = [
+  resettableConfigs = signal<ResettableConfig[]>([
     {
       name: 'Bash',
       description: 'maintenance.resettableConfigs.bash',
@@ -146,9 +144,8 @@ export class MaintenanceComponent implements OnInit {
         '/etc/skel/.local/share/kxmlgui5/dolphin/dolphinui.rc',
       ],
     },
-  ];
+  ]);
 
-  protected readonly operationManager = inject(OperationManagerService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
@@ -342,19 +339,6 @@ export class MaintenanceComponent implements OnInit {
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
-  constructor() {
-    effect(() => {
-      const pendingActions: Operation[] = this.operationManager.pending();
-      for (const action of this.actions) {
-        action.addedToPending = pendingActions.some((operation) => operation.name === action.name);
-      }
-      for (const action of this.actionsGarudaUpdate) {
-        action.addedToPending = pendingActions.some((operation) => operation.name === action.name);
-      }
-      this.cdr.markForCheck();
-    });
-  }
-
   async ngOnInit(): Promise<void> {
     this.logger.debug('Initializing maintenance');
     await this.checkExistingConfigs();
@@ -365,23 +349,23 @@ export class MaintenanceComponent implements OnInit {
    */
   async checkExistingConfigs() {
     this.loadingService.loadingOn();
-    for (const config of this.resettableConfigs) {
-      config.files.some(async (file) => {
-        this.logger.trace(`Checking file: ${file}`);
-        void this.operationManager.getCommandOutput<string>(`test -e ${file}`, (stdout: string | null) => {
-          if (stdout !== null) {
-            this.logger.trace(`Found existing config: ${file}`);
-            config.exists = true;
-            return true;
+    const promises: Promise<ResettableConfig>[] = [];
+
+    for (const config of this.resettableConfigs()) {
+      const promise = new Promise<ResettableConfig>(async (resolve) => {
+        for (const file of config.files) {
+          if (await exists(file)) {
+            resolve({ ...config, exists: true });
           }
-          this.logger.trace(`No existing config: ${file}`);
-          return false;
-        });
+        }
+        return resolve({ ...config, exists: false });
       });
+      promises.push(promise);
     }
+    this.resettableConfigs.set(await Promise.all(promises));
 
     this.loadingService.loadingOff();
-    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs)}`);
+    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs())}`);
   }
 
   /**
@@ -398,11 +382,8 @@ export class MaintenanceComponent implements OnInit {
         const cmd = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
         this.logger.debug(`Running command: ${cmd}`);
 
-        const result: string | null = await this.operationManager.getCommandOutput<string>(
-          cmd,
-          (stdout: string) => stdout,
-        );
-        if (result !== null) {
+        const output = await this.taskManager.executeAndWaitBash(cmd);
+        if (output.code === 0) {
           this.logger.info(`Successfully reset ${file}`);
         } else {
           this.logger.error(`Failed to reset ${file}`);
@@ -419,31 +400,20 @@ export class MaintenanceComponent implements OnInit {
    * @param action The action to add
    */
   addToPending(action: MaintenanceAction) {
-    if (!this.operationManager.pending().find((operation) => operation.name === action.name)) {
+    const entry = this.taskManager.findTaskById(action.name);
+
+    // Not a thing
+    if (!action.onlyDirect || action.command.constructor.name === 'AsyncFunction')
+      return;
+
+    if (!entry) {
       this.logger.debug(`Adding ${action.name} to pending`);
-      this.operationManager.pending.update((pending) => [
-        ...pending,
-        {
-          name: action.name as unknown as OperationType,
-          prettyName: action.label,
-          order: action.order,
-          command: action.command,
-          commandArgs: [],
-          sudo: action.sudo,
-          status: 'pending',
-          hasOutput: action.hasOutput,
-        },
-      ]);
-      action.addedToPending = true;
+      const task = this.taskManager.createTask(action.order, action.name, action.sudo, action.label, action.icon, (action as any).command());
+      this.taskManager.scheduleTask(task);
     } else {
       this.logger.trace(`Removing ${action.name} from pending`);
-      this.operationManager.pending.set(
-        this.operationManager.pending().filter((operation) => operation.name !== action.name),
-      );
-      action.addedToPending = false;
+      this.taskManager.removeTask(entry);
     }
-
-    this.cdr.markForCheck();
   }
 
   /**
@@ -456,17 +426,12 @@ export class MaintenanceComponent implements OnInit {
       this.logger.debug('Boom its a direct action');
       void action.command();
     } else {
-      this.logger.debug('Adding to pending and executing, clearing pending');
-      void this.operationManager.runNow({
-        name: action.name as unknown as OperationType,
-        prettyName: action.label,
-        order: action.order,
-        command: action.command,
-        commandArgs: [],
-        sudo: action.sudo,
-        status: 'pending',
-        hasOutput: action.hasOutput,
-      });
+      if (!this.taskManager.running()) {
+        this.messageToastService.error('Error running maintenance action', 'There is already a task running');
+        return;
+      }
+      const task = this.taskManager.createTask(action.order, action.name, action.sudo, action.label, action.icon, (action as any).command());
+      void this.taskManager.executeTask(task);
     }
   }
 

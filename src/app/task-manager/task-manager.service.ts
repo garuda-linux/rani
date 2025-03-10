@@ -5,18 +5,20 @@ import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';
 
 class Task {
-  constructor (priority: number, script: string, escalate: boolean, id: string, name: string = '') {
+  constructor (priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
     this.priority = priority;
     this.script = script;
     this.escalate = escalate;
     this.id = id;
     this.name = name;
+    this.icon = icon;
   }
   priority: number;
   script: string;
   escalate: boolean;
   id: string;
   name: string;
+  icon: string;
 }
 class TrackedShell {
   constructor (shell: Command<string>, outputs: EventEmitter<string>) {
@@ -76,6 +78,7 @@ export class TaskManagerService {
   readonly sortedTasks = computed(() => this.tasks().sort((a, b) => a.priority - b.priority));
   readonly currentTask = signal<Task | null>(null);
   readonly running = signal<boolean>(false);
+  readonly aborting = signal<boolean>(false);
   readonly count = computed(() => this.tasks().length);
   // progress can be null when currentTask is null. If currentTask is not in sortedList, currentIndex is 1. In all other cases, currentIndex is the index of currentTask in sortedList.
   readonly progress = computed(() => {
@@ -91,13 +94,18 @@ export class TaskManagerService {
     return currentIndex + 1;
   });
 
-  readonly dataEvents = new EventEmitter<string>();
   readonly events = new EventEmitter<string>();
+  readonly dataEvents = new EventEmitter<string>();
   data: string = '';
 
   constructor() {
-    this.events.subscribe((data) => {
+    this.dataEvents.subscribe((data) => {
       this.data += data;
+    });
+    this.events.subscribe((event) => {
+      if (event === 'clear') {
+        this.data = '';
+      }
     });
   }
 
@@ -134,8 +142,8 @@ export class TaskManagerService {
     }
   }
 
-  createTask(priority: number, id: string, script: string, escalate: boolean = false): Task {
-    return new Task(priority, script, escalate, id);
+  createTask(priority: number, id: string, escalate: boolean, name: string, icon: string, script: string): Task {
+    return new Task(priority, script, escalate, id, name, icon);
   }
 
   /**
@@ -166,6 +174,14 @@ export class TaskManagerService {
   }
 
   /**
+   * Find a task by its id.
+   * @param id The id of the task to find.
+   */
+  findTaskById(id: string): Task | null {
+    return this.tasks().find((task) => task.id === id) || null;
+  }
+
+  /**
    * Create requested shells
    * @param normal Whether to create a normal shell or not.
    * @param escalted Whether to create a root shell or not.
@@ -175,9 +191,36 @@ export class TaskManagerService {
     const shell_escalated = escalated ? await Command.create('root-bash', ['bash']) : null;
 
     return new TrackedShells(
-      shell_normal ? new TrackedShell(shell_normal, this.events) : null,
-      shell_escalated ? new TrackedShell(shell_escalated, this.events) : null
+      shell_normal ? new TrackedShell(shell_normal, this.dataEvents) : null,
+      shell_escalated ? new TrackedShell(shell_escalated, this.dataEvents) : null
     );
+  }
+
+  /**
+   * Remove all tasks from the task list.
+   */
+  clearTasks(): void {
+    this.tasks.set([]);
+  }
+
+  /**
+   * Clear terminal and optionally set content to a string.
+   * @param content The content to set the terminal to.
+   */
+  clearTerminal(content: string = ''): void {
+    this.data = content;
+    this.events.emit('clear');
+    if (content !== '') {
+      this.dataEvents.emit(content);
+    }
+  }
+
+  abort(): void {
+    if (!this.running()) {
+      this.logger.error('Abort attempted while not running.');
+      return;
+    }
+    this.aborting.set(true);
   }
 
   /**
@@ -187,8 +230,7 @@ export class TaskManagerService {
   private async internalExecuteTask(task: Task, shells: TrackedShells): Promise<void> {
     this.logger.info('Executing task: ' + task.script);
 
-    this.events.emit('newtask');
-    this.data = '';
+    this.events.emit('clear');
 
     const shell = (task.escalate ? shells.escalated : shells.normal)!;
 
@@ -240,10 +282,12 @@ export class TaskManagerService {
     this.currentTask.set(task);
     await this.internalExecuteTask(task, shells);
     this.currentTask.set(null);
+    this.removeTask(task);
 
     await shells.stop();
 
     this.running.set(false);
+    this.aborting.set(false);
   }
 
   /**
@@ -262,6 +306,9 @@ export class TaskManagerService {
 
     // Execute tasks in correct order
     for (const task of this.sortedTasks()) {
+      if (this.aborting()) {
+        break;
+      }
       this.currentTask.set(task);
       await this.internalExecuteTask(task, shells);
     }
@@ -271,6 +318,7 @@ export class TaskManagerService {
     await shells.stop();
 
     this.running.set(false);
+    this.aborting.set(false);
   }
 
   private async isPackageInstalledArchlinux(pkg: string): Promise<boolean> {
