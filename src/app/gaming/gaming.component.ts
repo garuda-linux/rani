@@ -8,10 +8,10 @@ import { Card } from 'primeng/card';
 import { flavors } from '@catppuccin/palette';
 import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
 import { GamingSections, StatefulPackage } from './interfaces';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'rani-gaming',
@@ -20,11 +20,12 @@ import { GamingSections, StatefulPackage } from './interfaces';
   styleUrl: './gaming.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamingComponent implements OnInit {
+export class GamingComponent {
   backgroundColor = signal<string>('background-color');
   tabIndex = signal<number>(0);
+  osInteractService = inject(OsInteractService);
 
-  data: GamingSections = [
+  data = signal<GamingSections>([
     {
       name: 'gaming.launchers',
       sections: [
@@ -2606,47 +2607,29 @@ export class GamingComponent implements OnInit {
         { name: 'mupen64plus', pkgname: ['m64py'], icon: 'mupen64plus.png' },
       ],
     },
-  ];
+  ]);
 
   protected readonly open = open;
   protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
-  private readonly loadingService = inject(LoadingService);
 
   constructor() {
     effect(() => {
       const darkMode = this.configService.settings().darkMode;
       this.backgroundColor.set(darkMode ? flavors.mocha.colors.surface0.hex : flavors.latte.colors.surface0.hex);
+      this.updateUi();
       this.cdr.markForCheck();
     });
   }
 
-  async ngOnInit(): Promise<void> {
-    this.loadingService.loadingOn();
-    await this.checkInstalled();
-    this.loadingService.loadingOff();
-  }
-
-  async checkInstalled() {
-    this.logger.info('Checking installed packages');
-    const cmd = 'pacman -Qq';
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-
-    if (result.code !== 0) {
-      this.logger.error(`Error checking installed packages: ${result.stderr}`);
-      return;
-    }
-
-    const installedPackages: string[] = result.stdout.split('\n');
-    for (const sections of this.data) {
+  updateUi(): void {
+    const installed_packages = this.osInteractService.packages();
+    for (const sections of this.data()) {
       for (const pkg of sections.sections) {
-        pkg.selected = installedPackages.includes(pkg.pkgname[0]);
-        pkg.initialState = pkg.selected;
+        pkg.selected = installed_packages.has(pkg.pkgname[0]);
       }
     }
-
-    this.cdr.markForCheck();
   }
 
   /**
@@ -2654,8 +2637,8 @@ export class GamingComponent implements OnInit {
    * @param item The package to toggle.
    */
   togglePackage(item: StatefulPackage): void {
-    item.selected = !item.selected;
-    this.operationManager.handleTogglePackage(item);
-    this.cdr.markForCheck();
+    for (const pkgname of item.pkgname) {
+      this.osInteractService.togglePackage(pkgname, item.aur ?? false);
+    }
   }
 }

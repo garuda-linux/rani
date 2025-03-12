@@ -10,8 +10,8 @@
                   <span class="mr-2 font-bold">{{ t(op.name) }}</span>
                   <i
                     [ngClass]="{
-                      'text-yellow-500 pi-hourglass': taskManagerService.currentTask().id !== op.id,
-                      'text-orange-500 pi-spin pi-spinner': taskManagerService.currentTask().id === op.id,
+                      'text-yellow-500 pi-hourglass': taskManagerService.currentTask()?.id !== op.id,
+                      'text-orange-500 pi-spin pi-spinner': taskManagerService.currentTask()?.id === op.id,
                     }"
                     class="pi mr-2"
                   ></i>

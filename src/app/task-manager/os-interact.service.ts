@@ -1,6 +1,7 @@
 import { computed, effect, inject, Injectable, Signal, signal } from "@angular/core";
 import { TaskManagerService } from "./task-manager.service";
 import { ConfigService } from "../config/config.service";
+import { SystemToolsSubEntry } from "../interfaces";
 
 @Injectable({
     providedIn: 'root'
@@ -16,14 +17,15 @@ export class OsInteractService {
     private readonly currentGroups = signal<Map<string, boolean>>(new Map());
 
     private readonly wantedPackages = signal<Map<string, boolean>>(new Map());
+    private readonly wantedPackagesAur = signal<Map<string, boolean>>(new Map());
     private readonly wantedServices = signal<Map<string, boolean>>(new Map());
     private readonly wantedServicesUser = signal<Map<string, boolean>>(new Map());
     private readonly wantedGroups = signal<Map<string, boolean>>(new Map());
 
-    private packages = computed(() => { return new Map([...this.installedPackages(), ...this.wantedPackages()]); });
-    private services = computed(() => { return new Map([...this.currentServices(), ...this.wantedServices()]); });
-    private servicesUser = computed(() => { return new Map([...this.currentServicesUser(), ...this.wantedServicesUser()]); });
-    private groups = computed(() => { return new Map([...this.currentGroups(), ...this.wantedGroups()]); });
+    readonly packages = computed(() => { return new Map([...this.installedPackages(), ...this.wantedPackages(), ...this.wantedPackagesAur()]); });
+    readonly services = computed(() => { return new Map([...this.currentServices(), ...this.wantedServices()]); });
+    readonly servicesUser = computed(() => { return new Map([...this.currentServicesUser(), ...this.wantedServicesUser()]); });
+    readonly groups = computed(() => { return new Map([...this.currentGroups(), ...this.wantedGroups()]); });
 
     constructor() {
         effect(() => {
@@ -35,6 +37,7 @@ export class OsInteractService {
         });
         effect(() => {
             this.wantedPackages.update((wanted) => this.wantedPrune(wanted, this.installedPackages()));
+            this.wantedPackagesAur.update((wanted) => this.wantedPrune(wanted, this.installedPackages()));
             this.wantedServices.update((wanted) => this.wantedPrune(wanted, this.currentServices()));
             this.wantedServicesUser.update((wanted) => this.wantedPrune(wanted, this.currentServicesUser()));
         });
@@ -93,6 +96,14 @@ export class OsInteractService {
             script_packages += `pacman --noconfirm -S ${install.join(' ')}\n`;
         }
 
+        let script_packages_aur = '';
+        if (uninstall.length > 0) {
+            script_packages_aur += `paru --noconfirm -R ${uninstall.join(' ')}\n`;
+        }
+        if (install.length > 0) {
+            script_packages_aur += `paru --noconfirm -S ${install.join(' ')}\n`;
+        }
+
         let script_services = '';
         if (enable.length > 0) {
             script_services += `systemctl enable --now ${enable.join(' ')}\n`;
@@ -119,6 +130,7 @@ export class OsInteractService {
 
         [
             this.taskManagerService.findTaskById('os-interact-packages'),
+            this.taskManagerService.findTaskById('os-interact-packages-aur'),
             this.taskManagerService.findTaskById('os-interact-services'),
             this.taskManagerService.findTaskById('os-interact-services-user'),
             this.taskManagerService.findTaskById('os-interact-groups'),
@@ -132,6 +144,8 @@ export class OsInteractService {
 
         if (script_packages !== '')
             tasks.push(this.taskManagerService.createTask(2, 'os-interact-packages', true, 'os-interact.packages', 'pi pi-box', script_packages));
+        if (script_packages_aur !== '')
+            tasks.push(this.taskManagerService.createTask(2, 'os-interact-packages-aur', true, 'os-interact.packages-aur', 'pi pi-box', script_packages_aur));
         if (script_services !== '')
             tasks.push(this.taskManagerService.createTask(5, 'os-interact-services', true, 'os-interact.services', 'pi pi-receipt', script_services));
         if (script_services_user !== '')
@@ -171,7 +185,7 @@ export class OsInteractService {
 
     private async getServices(): Promise<Map<string, boolean>> {
         const commandoutput = await this.taskManagerService.executeAndWaitBash('systemctl list-units --type service --full --output json --no-pager');
-        const result = JSON.parse(commandoutput.stdout) as object[];
+        const result = JSON.parse(commandoutput.stdout) as any[];
 
         const services = new Map<string, boolean>();
         for (const service of result) {
@@ -183,7 +197,7 @@ export class OsInteractService {
 
     private async getUserServices(): Promise<Map<string, boolean>> {
         const commandoutput = await this.taskManagerService.executeAndWaitBash('systemctl --user list-units --type service --full --output json --no-pager');
-        const result = JSON.parse(commandoutput.stdout) as object[];
+        const result = JSON.parse(commandoutput.stdout) as any[];
 
         const services = new Map<string, boolean>();
         for (const service of result) {
@@ -193,8 +207,11 @@ export class OsInteractService {
         return services;
     }
 
-    togglePackage(pkg: string): void {
-        this.wantedPackages.update((wanted) => wanted.set(pkg, !this.packages().get(pkg)));
+    togglePackage(pkg: string, aur: boolean = false): void {
+        if (aur)
+            this.wantedPackagesAur.update((wanted) => wanted.set(pkg, !this.packages().get(pkg)));
+        else
+            this.wantedPackages.update((wanted) => wanted.set(pkg, !this.packages().get(pkg)));
     }
 
     toggleService(service: string): void {
@@ -207,5 +224,40 @@ export class OsInteractService {
 
     toggleGroup(group: string): void {
         this.wantedGroups.update((wanted) => wanted.set(group, !this.groups().get(group)));
+    }
+
+    toggle(entry: SystemToolsSubEntry): void {
+        switch (entry.check.type) {
+            case 'pkg':
+                this.togglePackage(entry.check.name);
+                break;
+            case 'service':
+                this.toggleService(entry.check.name);
+                break;
+            case 'serviceUser':
+                this.toggleServiceUser(entry.check.name);
+                break;
+            case 'group':
+                this.toggleGroup(entry.check.name);
+                break;
+        }
+    }
+
+    private async isPackageInstalledArchlinux(pkg: string): Promise<boolean> {
+        const result = await this.taskManagerService.executeAndWaitBash(`pacman -Qq ${pkg}`);
+        return result.code === 0;
+    }
+
+    /**
+     * Ensure that a package/command is installed
+     * @param pkg The name of the package that will be installed if the executable is not found.
+     */
+    async ensurePackageArchlinux(pkg: string): Promise<boolean> {
+        if (this.packages().get(pkg) !== true) {
+            const task = this.taskManagerService.createTask(0, 'install-' + pkg, true, `Install ${pkg}`, 'pi pi-box', `pacman -S --noconfirm ${pkg}`);
+            await this.taskManagerService.executeTask(task);
+            return await this.isPackageInstalledArchlinux(pkg);
+        }
+        return true;
     }
 }

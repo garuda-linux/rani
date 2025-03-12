@@ -48,8 +48,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.psd.title',
           description: 'systemSettings.common.psd.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'profile-sync-daemon' },
         },
         {
@@ -57,8 +55,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.psdEnabled.title',
           description: 'systemSettings.common.psdEnabled.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'serviceUser', name: 'psd.service' },
         },
         {
@@ -66,8 +62,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.oomd.title',
           description: 'systemSettings.common.oomd.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'systemd-oomd.service' },
         },
         {
@@ -75,8 +69,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.guestUser.title',
           description: 'systemSettings.common.guestUser.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'systemd-guest-user' },
         },
       ],
@@ -90,8 +82,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.performance.performanceTweaks.title',
           description: 'systemSettings.performance.performanceTweaks.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'performance-tweaks' },
         },
         {
@@ -100,8 +90,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.ananicyCpp.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'ananicy-cpp' },
         },
         {
@@ -110,8 +98,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.ananicyCppEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'ananicy-cpp.service' },
         },
         {
@@ -120,8 +106,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.preloadEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'preload.service' },
         },
         {
@@ -130,8 +114,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.irqbalanceEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'irqbalance.service' },
         },
       ],
@@ -145,8 +127,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.powersaveTweaks.title',
           description: 'systemSettings.powersave.powersaveTweaks.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'powersave-tweaks' },
         },
         {
@@ -154,8 +134,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.thermald.title',
           description: 'systemSettings.powersave.thermald.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'thermald.service' },
         },
         {
@@ -164,8 +142,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.powersave.thermaldEnabled.description',
           checked: false,
           disabler: 'thermald',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'thermald.service' },
         },
         {
@@ -173,8 +149,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.powerProfilesDaemon.title',
           description: 'systemSettings.powersave.powerProfilesDaemon.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'power-profiles-daemon' },
         },
         {
@@ -182,8 +156,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.powerProfilesDaemonEnabled.title',
           description: 'systemSettings.powersave.powerProfilesDaemonEnabled.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'power-profiles-daemon.service' },
         },
         {
@@ -191,8 +163,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.intelUndervolt.title',
           description: 'systemSettings.powersave.intelUndervolt.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'intel-undervolt' },
         },
         {
@@ -201,8 +171,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.powersave.intelUndervoltEnabled.description',
           checked: false,
           disabler: 'intel-untervolt',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'intel-undervolt.service' },
         },
       ],
@@ -216,8 +184,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.rightclickEmulation.evdevLongPressRightClick.title',
           description: 'systemSettings.rightclickEmulation.evdevLongPressRightClick.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'rightclick-emulation' },
         },
         {
@@ -225,8 +191,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.rightclickEmulation.evdevRce.title',
           description: 'systemSettings.rightclickEmulation.evdevRce.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'rightclick-emulation' },
         },
       ],
@@ -323,9 +287,9 @@ export class SystemSettingsComponent {
    */
   async handleToggle(type: 'dns' | 'shell' | 'shellConfigs' | 'hblock'): Promise<void> {
     // Workaround for ngModelChange event seemingly firing before the model is updated
-    await new Promise((resolve) => setTimeout(resolve, 200));
+    // await new Promise((resolve) => setTimeout(resolve, 200));
 
-    switch (type) {
+    /*switch (type) {
       case 'dns': {
         this.operationManager.toggleDnsServer(this.currentDns()!.name === this.state.initialDns, this.currentDns()!);
         break;
@@ -348,7 +312,7 @@ export class SystemSettingsComponent {
       case 'hblock': {
         this.operationManager.toggleHblock(this.state.initialHblock ?? false, this.selectedBoxes().includes('hblock'));
       }
-    }
+    }*/
 
     this.cdr.markForCheck();
   }

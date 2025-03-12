@@ -12,6 +12,7 @@ import { NgOptimizedImage } from '@angular/common';
 import { SystemStatusComponent } from '../system-status/system-status.component';
 import { MessageToastService } from '@garudalinux/core';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'app-home',
@@ -108,6 +109,7 @@ export class HomeComponent {
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
   private readonly taskManagerService = inject(TaskManagerService);
+  private readonly osInteractService = inject(OsInteractService);
 
   mainLinks: HomepageLink[] = [
     {
@@ -133,7 +135,7 @@ export class HomeComponent {
       subTitle: 'welcome.bootToolsSub',
       // routerLink: '/boot-tools',
       icon: 'pi pi-hammer',
-      command: async () => this.taskManagerService.ensurePackageArchlinux('garuda-boot-options').then((installed) => {
+      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-boot-options').then((installed) => {
         if (installed) {
           this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-boot-options');
         }
@@ -150,7 +152,7 @@ export class HomeComponent {
       subTitle: 'welcome.networkSub',
       // routerLink: '/network',
       icon: 'pi pi-globe',
-      command: async () => this.taskManagerService.ensurePackageArchlinux('garuda-network-assistant').then((installed) => {
+      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-network-assistant').then((installed) => {
         if (installed) {
           this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-network-assistant');
         }
@@ -183,7 +185,7 @@ export class HomeComponent {
     {
       title: 'welcome.setupAssistant',
       subTitle: 'welcome.setupAssistantSub',
-      command: async () => this.taskManagerService.ensurePackageArchlinux('garuda-setup-assistant').then((installed) => {
+      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-setup-assistant').then((installed) => {
         if (installed) {
           this.taskManagerService.executeAndWaitBash('setup-assistant');
         }

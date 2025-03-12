@@ -169,8 +169,7 @@ export class SystemdServicesComponent implements OnInit {
     this.logger.trace(`Command ${action} executed successfully`);
     if (event === 'logs') {
       this.taskManagerService.clearTerminal(output);
-
-      this.operationManager.showTerminal.set(true);
+      this.taskManagerService.toggleTerminal(true);
     } else {
       this.systemdServices.set(await this.getServices());
       this.cdr.markForCheck();

@@ -7,6 +7,7 @@ import {
   effect,
   inject,
   OnDestroy,
+  OnInit,
   Signal,
   signal,
   ViewChild,
@@ -36,7 +37,7 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   styleUrl: './terminal.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TerminalComponent implements AfterViewInit, OnDestroy {
+export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   subscriptions: Subscription[] = [];
 
   @ViewChild('dialog', { static: false }) dialog!: Dialog;
@@ -55,9 +56,7 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
 
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
-  private readonly taskManagerService = inject(TaskManagerService);
-  private readonly messageToastService = inject(MessageToastService);
-  private readonly translocoService = inject(TranslocoService);
+  protected readonly taskManagerService = inject(TaskManagerService);
 
   readonly progressTracker = computed(() => {
     const progress = this.taskManagerService.progress();
@@ -76,6 +75,17 @@ export class TerminalComponent implements AfterViewInit, OnDestroy {
       this.cdr.markForCheck();
       this.logger.trace('Terminal theme switched via effect');
     });
+  }
+
+  ngOnInit(): void {
+    this.subscriptions.push(
+      this.taskManagerService.events.subscribe((output: string) => {
+        if (output === 'show')
+          this.visible.set(true);
+        else if (output === 'hide')
+          this.visible.set(false);
+      }),
+    );
   }
 
   async ngAfterViewInit() {

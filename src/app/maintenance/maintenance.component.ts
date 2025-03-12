@@ -22,6 +22,7 @@ import { MessageToastService } from '@garudalinux/core';
 import { Logger } from '../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { exists } from '@tauri-apps/plugin-fs';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -151,6 +152,7 @@ export class MaintenanceComponent implements OnInit {
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly taskManager = inject(TaskManagerService);
+  private readonly osInteractService = inject(OsInteractService);
 
   actions: MaintenanceAction[] = [
     {
@@ -203,7 +205,7 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
-        if (await this.taskManager.ensurePackageArchlinux('reflector-simple')) {
+        if (await this.osInteractService.ensurePackageArchlinux('reflector-simple')) {
           void this.taskManager.executeAndWaitBash('reflector-simple');
         }
       },
@@ -219,7 +221,7 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
-        if (await this.taskManager.ensurePackageArchlinux('btrfs-assistant')) {
+        if (await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')) {
           void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
         }
       },
@@ -248,7 +250,7 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Editing repositories, checking for pace');
-        if (await this.taskManager.ensurePackageArchlinux('pace')) {
+        if (await this.osInteractService.ensurePackageArchlinux('pace')) {
           void this.taskManager.executeAndWaitBash('pace');
         }
       },

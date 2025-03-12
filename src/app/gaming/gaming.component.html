@@ -8,12 +8,12 @@
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
-        @for (section of data; track section.name) {
+        @for (section of data(); track section.name) {
           <p-tab [value]="$index">{{ t(section.name) }}</p-tab>
         }
       </p-tablist>
       <p-tabpanels>
-        @for (section of data; track section.name) {
+        @for (section of data(); track section.name) {
           <p-tabpanel [value]="$index">
             @if (section.hint) {
               <div class="text-center text-primary-emphasis mt-5">{{ t(section.hint) }}</div>

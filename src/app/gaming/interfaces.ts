@@ -1,6 +1,5 @@
 export interface StatefulPackage {
   aur?: boolean;
-  initialState?: boolean;
   pkgname: string[];
   selected?: boolean;
 }

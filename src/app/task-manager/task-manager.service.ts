@@ -215,6 +215,16 @@ export class TaskManagerService {
     }
   }
 
+  /**
+   * Show the terminal.
+   */
+  toggleTerminal(show: boolean): void {
+    if (show)
+      this.events.emit('show');
+    else
+      this.events.emit('hide');
+  }
+
   abort(): void {
     if (!this.running()) {
       this.logger.error('Abort attempted while not running.');
@@ -319,23 +329,5 @@ export class TaskManagerService {
 
     this.running.set(false);
     this.aborting.set(false);
-  }
-
-  private async isPackageInstalledArchlinux(pkg: string): Promise<boolean> {
-    const result = await this.executeAndWaitBash(`pacman -Qq ${pkg}`);
-    return result.code === 0;
-  }
-
-  /**
-   * Ensure that a package/command is installed
-   * @param pkg The name of the package that will be installed if the executable is not found.
-   */
-  async ensurePackageArchlinux(pkg: string): Promise<boolean> {
-    if (!(await this.isPackageInstalledArchlinux(pkg))) {
-      const task = this.createTask(0, 'install-' + pkg, `pacman -S --noconfirm ${pkg}`, true);
-      await this.executeTask(task);
-      return await this.isPackageInstalledArchlinux(pkg);
-    }
-    return true;
   }
 }

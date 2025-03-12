@@ -66,8 +66,6 @@ export interface SystemToolsSubEntry {
   checked: boolean;
   disabler?: string;
   disabled?: boolean;
-  handler: () => void;
-  initialState: boolean;
   check: {
     type: 'pkg' | 'group' | 'service' | 'serviceUser';
     name: string;
