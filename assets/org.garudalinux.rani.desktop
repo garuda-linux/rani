@@ -1,7 +1,7 @@
 [Desktop Entry]
 Encoding=UTF-8
-Name=Garuda's Rani
-Name[de]=Garuda's Rani
+Name=Garuda Rani
+Name[de]=Garuda Rani
 Comment=Feature rich system assistant
 Comment[de]=Feature reicher Systemassistent
 Exec=garuda-rani
