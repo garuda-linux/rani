@@ -19,8 +19,8 @@ export async function checkFirstBoot(): Promise<boolean> {
   // Check if we've been through this before
   if (firstBoot === false) return false;
 
-   const cmd = 'last reboot -n 2 --time-format notime';
-   const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+  const cmd = 'last reboot -n 2 --time-format notime';
+  const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
   // If row count of the result is 1, then it's the first boot, otherwise it's not
   if (result.stdout.split('\n').length !== 2) {
@@ -44,8 +44,7 @@ export async function checkFirstBoot(): Promise<boolean> {
     // And finally relaunch
     await relaunch();
     return true;
-  }
-  else {
+  } else {
     logger.info('Setup assistant does not exist');
   }
   return false;

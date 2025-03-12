@@ -7,10 +7,19 @@ pub fn run() {
         if std::path::Path::new("/proc/driver/nvidia/version").exists()
             && std::env::var("WAYLAND_DISPLAY").is_ok()
         {
-            // SAFETY: There's potential for race conditions in a multi-threaded context.
+            // SAFETY: There's potential for race conditions in a multi-threaded context
             unsafe {
-                log::info!("Nvidia GPU detected, disabling WebKit DMABuf renderer");
+                log::info!("Nvidia GPU and Wayland detected, disabling WebKit DMABuf renderer");
                 std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+            }
+        }
+
+        // https://www.reddit.com/r/tauri/comments/16tzsi8/tauri_desktop_app_not_rendering_but_web_does
+        if std::path::Path::new("/proc/driver/nvidia/version").exists() {
+            // SAFETY: There's potential for race conditions in a multi-threaded context
+            unsafe {
+                log::info!("Nvidia GPU detected, disabling compositing mode");
+                std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
             }
         }
     }
