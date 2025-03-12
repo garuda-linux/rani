@@ -75,7 +75,7 @@ export class TaskManagerService {
   private readonly logger = Logger.getInstance();
 
   readonly tasks = signal<Task[]>([]);
-  readonly sortedTasks = computed(() => this.tasks().sort((a, b) => a.priority - b.priority));
+  readonly sortedTasks = computed(() => [...this.tasks()].sort((a, b) => a.priority - b.priority));
   readonly currentTask = signal<Task | null>(null);
   readonly running = signal<boolean>(false);
   readonly aborting = signal<boolean>(false);
@@ -152,8 +152,9 @@ export class TaskManagerService {
    */
   scheduleTask(task: Task): Task {
     this.tasks.update((tasks) => {
-      tasks.push(task);
-      return tasks;
+      const newtasks = [...tasks];
+      newtasks.push(task);
+      return newtasks;
     });
     return task;
   }

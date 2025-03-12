@@ -23,7 +23,6 @@ export type SystemdServiceAction =
   | 'unmask';
 
 export interface MaintenanceAction {
-  addedToPending?: boolean;
   command: ((args?: string[]) => string) | (() => Promise<void>);
   description: string;
   hasOutput: boolean;
@@ -31,7 +30,7 @@ export interface MaintenanceAction {
   label: string;
   name: string;
   onlyDirect?: boolean;
-  order: number;
+  priority: number;
   sudo: boolean;
 }
 

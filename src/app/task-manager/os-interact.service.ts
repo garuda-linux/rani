@@ -1,4 +1,4 @@
-import { computed, effect, inject, Injectable, Signal, signal } from "@angular/core";
+import { computed, effect, inject, Injectable, Signal, signal, untracked } from "@angular/core";
 import { TaskManagerService } from "./task-manager.service";
 import { ConfigService } from "../config/config.service";
 import { SystemToolsSubEntry } from "../interfaces";
@@ -36,10 +36,10 @@ export class OsInteractService {
             }
         });
         effect(() => {
-            this.wantedPackages.update((wanted) => this.wantedPrune(wanted, this.installedPackages()));
-            this.wantedPackagesAur.update((wanted) => this.wantedPrune(wanted, this.installedPackages()));
-            this.wantedServices.update((wanted) => this.wantedPrune(wanted, this.currentServices()));
-            this.wantedServicesUser.update((wanted) => this.wantedPrune(wanted, this.currentServicesUser()));
+            this.wantedPackages.set(this.wantedPrune(untracked(this.wantedPackages), this.installedPackages()));
+            this.wantedPackagesAur.set(this.wantedPrune(untracked(this.wantedPackagesAur), this.installedPackages()));
+            this.wantedServices.set(this.wantedPrune(untracked(this.wantedServices), this.currentServices()));
+            this.wantedServicesUser.set(this.wantedPrune(untracked(this.wantedServicesUser), this.currentServicesUser()));
         });
         effect(() => {
             this.generateTasks();
@@ -128,16 +128,18 @@ export class OsInteractService {
             script_groups += `gpasswd -d ${this.configService.state().user} ${groupRemove.join(' ')}\n`;
         }
 
-        [
-            this.taskManagerService.findTaskById('os-interact-packages'),
-            this.taskManagerService.findTaskById('os-interact-packages-aur'),
-            this.taskManagerService.findTaskById('os-interact-services'),
-            this.taskManagerService.findTaskById('os-interact-services-user'),
-            this.taskManagerService.findTaskById('os-interact-groups'),
-        ].forEach(task => {
-            if (task !== undefined) {
-                this.taskManagerService.removeTask(task!);
-            }
+        untracked(() => {
+            [
+                this.taskManagerService.findTaskById('os-interact-packages'),
+                this.taskManagerService.findTaskById('os-interact-packages-aur'),
+                this.taskManagerService.findTaskById('os-interact-services'),
+                this.taskManagerService.findTaskById('os-interact-services-user'),
+                this.taskManagerService.findTaskById('os-interact-groups'),
+            ].forEach(task => {
+                if (task !== undefined) {
+                    this.taskManagerService.removeTask(task!);
+                }
+            });
         });
 
         const tasks: any[] = [];

@@ -23,7 +23,7 @@
     "fs:allow-write-text-file",
     {
       "identifier": "fs:allow-exists",
-      "allow": [{ "path": "*" }]
+      "allow": [{ "path": "**" }]
     },
     {
       "identifier": "fs:scope",

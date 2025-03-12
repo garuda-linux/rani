@@ -151,7 +151,7 @@ export class MaintenanceComponent implements OnInit {
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
-  private readonly taskManager = inject(TaskManagerService);
+  protected readonly taskManager = inject(TaskManagerService);
   private readonly osInteractService = inject(OsInteractService);
 
   actions: MaintenanceAction[] = [
@@ -162,7 +162,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: true,
-      order: 5,
+      priority: 5,
       command: (): string => {
         this.logger.info('Updating system');
         return 'garuda-update --skip-mirrorlist --aur --noconfirm';
@@ -175,7 +175,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-trash',
       sudo: true,
       hasOutput: true,
-      order: 99,
+      priority: 99,
       command: (): string => {
         this.logger.info('Cleaning cache');
         return 'paccache -ruk 0';
@@ -188,7 +188,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-trash',
       sudo: true,
       hasOutput: true,
-      order: 98,
+      priority: 8,
       command: (): string => {
         this.logger.info('Cleaning orphans');
         return 'pacman --noconfirm -Rns $(pacman -Qtdq)';
@@ -201,7 +201,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-refresh',
       sudo: false,
       hasOutput: false,
-      order: 0,
+      priority: 3,
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
@@ -217,7 +217,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: false,
-      order: 0,
+      priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
@@ -233,7 +233,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-trash',
       hasOutput: false,
       sudo: true,
-      order: 1,
+      priority: 0,
       command: (): string => {
         this.logger.info('Removing database lock');
         return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
@@ -246,7 +246,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: false,
-      order: 0,
+      priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Editing repositories, checking for pace');
@@ -265,7 +265,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 5,
       command: (): string => {
         this.logger.info('Running remote fix');
         return 'garuda-update remote fix';
@@ -278,7 +278,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 5,
       command: (): string => {
         this.logger.info('Running remote keyring');
         return 'garuda-update remote keyring';
@@ -291,7 +291,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 5,
       command: (): string => {
         this.logger.info('Running remote full fix');
         return 'garuda-update remote fullfix';
@@ -304,7 +304,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 7,
       command: (): string => {
         this.logger.info('Running remote reset audio');
         return 'garuda-update remote reset-audio';
@@ -317,7 +317,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 7,
       command: (): string => {
         this.logger.info('Running remote reset snapper');
         return 'garuda-update remote reset-snapper';
@@ -330,7 +330,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: true,
-      order: 5,
+      priority: 6,
       command: (): string => {
         this.logger.info('Reinstalling packages');
         return 'garuda-update remote reinstall';
@@ -356,8 +356,13 @@ export class MaintenanceComponent implements OnInit {
     for (const config of this.resettableConfigs()) {
       const promise = new Promise<ResettableConfig>(async (resolve) => {
         for (const file of config.files) {
-          if (await exists(file)) {
-            resolve({ ...config, exists: true });
+          try {
+            if (await exists(file)) {
+              resolve({ ...config, exists: true });
+              return;
+            }
+          } catch (error) {
+            resolve({ ...config, exists: false });
           }
         }
         return resolve({ ...config, exists: false });
@@ -405,12 +410,12 @@ export class MaintenanceComponent implements OnInit {
     const entry = this.taskManager.findTaskById(action.name);
 
     // Not a thing
-    if (!action.onlyDirect || action.command.constructor.name === 'AsyncFunction')
+    if (action.onlyDirect || action.command.constructor.name === 'AsyncFunction')
       return;
 
     if (!entry) {
       this.logger.debug(`Adding ${action.name} to pending`);
-      const task = this.taskManager.createTask(action.order, action.name, action.sudo, action.label, action.icon, (action as any).command());
+      const task = this.taskManager.createTask(action.priority, action.name, action.sudo, action.label, action.icon, (action as any).command());
       this.taskManager.scheduleTask(task);
     } else {
       this.logger.trace(`Removing ${action.name} from pending`);
@@ -432,7 +437,7 @@ export class MaintenanceComponent implements OnInit {
         this.messageToastService.error('Error running maintenance action', 'There is already a task running');
         return;
       }
-      const task = this.taskManager.createTask(action.order, action.name, action.sudo, action.label, action.icon, (action as any).command());
+      const task = this.taskManager.createTask(action.priority, action.name, action.sudo, action.label, action.icon, (action as any).command());
       void this.taskManager.executeTask(task);
     }
   }
