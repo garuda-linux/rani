@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, OnInit, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { Nullable } from 'primeng/ts-helpers';
@@ -19,7 +19,7 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   styleUrl: './system-settings.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SystemSettingsComponent {
+export class SystemSettingsComponent implements OnInit {
   currentShell = signal<Nullable<Shell>>(null);
   currentDns = signal<Nullable<DnsProvider>>(null);
   loading = signal<boolean>(true);
@@ -202,11 +202,12 @@ export class SystemSettingsComponent {
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);
 
-  constructor() {
-    void this.init();
+  async ngOnInit(): Promise<void> {
+    await this.init();
   }
 
   async init(): Promise<void> {
+    this.loading.set(true);
     const initPromises: Promise<any>[] = [this.getCurrentShell(), this.getCurrentDns(), this.getCurrentHblockStatus()];
 
     const results = await Promise.allSettled(initPromises);

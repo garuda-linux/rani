@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  @for (section of data(); track section.name) {
+  @for (section of transformed(); track section.name) {
     <p-card [header]="t(section.name)" [style]="{ 'margin-top': '1rem' }">
       <div class="items-center mt-10 grid grid-cols-12">
         @for (entry of section.sections; track entry.name) {
@@ -9,7 +9,8 @@
               (click)="clickAction(entry)"
               [inputId]="entry.name"
               [value]="entry"
-              [(ngModel)]="selectedBoxes"
+              [binary]="true"
+              [(ngModel)]="entry.checked"
               name="group"
             />
             <label [for]="entry.name" class="mx-2.5" [ngClass]="{ 'text-surface-300': entry.disabled }">

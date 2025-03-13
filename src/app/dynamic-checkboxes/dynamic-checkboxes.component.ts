@@ -8,6 +8,7 @@ import {
   model,
   OnInit,
   signal,
+  untracked,
 } from '@angular/core';
 import { SystemdService, SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
 import { Checkbox } from 'primeng/checkbox';
@@ -30,82 +31,66 @@ import { OsInteractService } from '../task-manager/os-interact.service';
 })
 export class DynamicCheckboxesComponent {
   data = input.required<SystemToolsEntry[]>();
-  selectedBoxes = model<SystemToolsSubEntry[]>([]);
+  transformed = signal<SystemToolsEntry[]>([]);
 
   protected readonly taskManagerService = inject(TaskManagerService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
-  private readonly config = inject(ConfigService);
   private readonly osInteractService = inject(OsInteractService);
 
   constructor() {
-    this.refreshUi();
+    effect(() => {
+      this.refreshUi();
+    });
   }
 
-  ngOnInit(): void {
-    void this.refreshUi();
+  private checkState(entry: SystemToolsSubEntry): boolean {
+    switch (entry.check.type) {
+      case 'pkg': {
+        this.logger.trace(`Checking package ${entry.check.name} as pkg`);
+        const installed: boolean =
+          this.osInteractService.packages().get(entry.check.name) === true ||
+          this.osInteractService.packages().get(`${entry.check.name}-git`) === true;
+
+        return installed;
+      }
+      case 'service': {
+        this.logger.trace(`Checking service ${entry.check.name} as service`);
+        const enabled: boolean = this.osInteractService.services().get(entry.check.name) === true;
+
+        return enabled;
+      }
+      case 'serviceUser': {
+        this.logger.trace(`Checking service ${entry.check.name} as user service`);
+        const enabled: boolean = this.osInteractService.servicesUser().get(entry.check.name) === true;
+
+        return enabled;
+      }
+      case 'group': {
+        this.logger.trace(`Checking group ${entry.check.name} as group`);
+        const group: boolean = this.osInteractService.groups().get(entry.check.name) === true;
+
+        return group;
+      }
+    }
   }
 
   refreshUi(): void {
-    for (const service of this.data()) {
+    const data = structuredClone(this.data());
+    for (const service of data) {
       this.logger.trace(`Checking ${service.name}`);
 
       for (const entry of service.sections) {
-        switch (entry.check.type) {
-          case 'pkg': {
-            this.logger.trace(`Checking package ${entry.check.name} as pkg`);
-            const installed: boolean =
-              this.osInteractService.packages().get(entry.check.name) === true ||
-              this.osInteractService.packages().get(`${entry.check.name}-git`) === true;
-            entry.checked = installed;
-
-            /*if (installed) {
-              this.logger.trace(`Package ${entry.check.name} is ${installed}`);
-              this.selectedBoxes.update((values) => [...values, entry]);
-            }*/
-            break;
-          }
-          case 'service': {
-            this.logger.trace(`Checking service ${entry.check.name} as service`);
-            const enabled: boolean = this.osInteractService.services().get(entry.check.name) === true;
-            entry.checked = enabled;
-
-            /*if (enabled) {
-              this.logger.trace(`Service ${entry.check.name} is ${enabled}`);
-              this.selectedBoxes.update((values) => [...values, entry]);
-            }*/
-           break;
-          }
-          case 'serviceUser': {
-            this.logger.trace(`Checking service ${entry.check.name} as user service`);
-            const enabled: boolean = this.osInteractService.servicesUser().get(entry.check.name) === true;
-            entry.checked = enabled;
-
-            /*if (enabled) {
-              this.logger.trace(`Service ${entry.check.name} is ${enabled}`);
-              this.selectedBoxes.update((values) => [...values, entry]);
-            }*/
-            break;
-          }
-          case 'group': {
-            this.logger.trace(`Checking group ${entry.check.name} as group`);
-            const group: boolean = this.osInteractService.groups().get(entry.check.name) === true;
-            entry.checked = group;
-
-            if (group) {
-              this.logger.trace(`Group ${entry.check.name} is ${group}`);
-              this.selectedBoxes.update((values) => [...values, entry]);
-            }
-            break;
-          }
+        if (this.checkState(entry)) {
+          entry.checked = true;
         }
       }
     }
 
-    this.checkDisabled();
+    this.checkDisabled(data);
 
-    this.cdr.markForCheck();
+    this.transformed.set(data);
   }
 
   /**
@@ -114,33 +99,33 @@ export class DynamicCheckboxesComponent {
    */
   async clickAction(entry: any): Promise<void> {
     this.osInteractService.toggle(entry);
-
-    this.checkDisabled();
-
-    this.cdr.markForCheck();
   }
 
   /**
    * Check if the entry should be disabled based on the disabler.
    */
-  private checkDisabled(): void {
-    this.loadingService.loadingOn();
-
-    for (const section of this.data()) {
+  private checkDisabled(entries: SystemToolsEntry[]): void {
+    for (const section of entries) {
       for (const entry of section.sections) {
-        if (!entry.disabler) continue;
-        const disabler: SystemToolsSubEntry | undefined = this.selectedBoxes().find(
-          (selected) => selected.name === entry.disabler,
-        );
+        if (entry.disabler === undefined) continue;
+        let disabler: SystemToolsSubEntry | undefined;
+        for (const section of entries) {
+          disabler = section.sections.find((e) => e.name === entry.disabler);
+          if (disabler) break;
+        }
+
+        let disabled: boolean = false;
 
         if (!disabler) {
-          entry.disabled = true;
-        } else if (disabler.checked) {
-          entry.disabled = false;
+          disabled = true;
+        } else {
+          disabled = !disabler.checked;
         }
+
+        if (disabled)
+          this.osInteractService.toggle(entry, true);
+        entry.disabled = disabled;
       }
     }
-
-    this.loadingService.loadingOff();
   }
 }

@@ -49,6 +49,7 @@ export class OsInteractService {
     private generateTasks(): void {
         let install: string[] = [];
         let uninstall: string[] = [];
+        let installAur: string[] = [];
         let enable: string[] = [];
         let disable: string[] = [];
         let enableUser: string[] = [];
@@ -59,6 +60,14 @@ export class OsInteractService {
         for (const [pkg, wanted] of this.wantedPackages()) {
             if (wanted) {
                 install.push(pkg);
+            } else {
+                uninstall.push(pkg);
+            }
+        }
+
+        for (const [pkg, wanted] of this.wantedPackagesAur()) {
+            if (wanted) {
+                installAur.push(pkg);
             } else {
                 uninstall.push(pkg);
             }
@@ -97,11 +106,8 @@ export class OsInteractService {
         }
 
         let script_packages_aur = '';
-        if (uninstall.length > 0) {
-            script_packages_aur += `paru --noconfirm -R ${uninstall.join(' ')}\n`;
-        }
-        if (install.length > 0) {
-            script_packages_aur += `paru --noconfirm -S ${install.join(' ')}\n`;
+        if (installAur.length > 0) {
+            script_packages_aur += `paru --noconfirm -S ${install.join(' ')}`;
         }
 
         let script_services = '';
@@ -136,7 +142,7 @@ export class OsInteractService {
                 this.taskManagerService.findTaskById('os-interact-services-user'),
                 this.taskManagerService.findTaskById('os-interact-groups'),
             ].forEach(task => {
-                if (task !== undefined) {
+                if (task !== null) {
                     this.taskManagerService.removeTask(task!);
                 }
             });
@@ -145,15 +151,15 @@ export class OsInteractService {
         const tasks: any[] = [];
 
         if (script_packages !== '')
-            tasks.push(this.taskManagerService.createTask(2, 'os-interact-packages', true, 'os-interact.packages', 'pi pi-box', script_packages));
+            tasks.push(this.taskManagerService.createTask(8, 'os-interact-packages', true, 'os-interact.packages', 'pi pi-box', script_packages));
         if (script_packages_aur !== '')
-            tasks.push(this.taskManagerService.createTask(2, 'os-interact-packages-aur', true, 'os-interact.packages-aur', 'pi pi-box', script_packages_aur));
+            tasks.push(this.taskManagerService.createTask(9, 'os-interact-packages-aur', true, 'os-interact.packages-aur', 'pi pi-box', script_packages_aur));
         if (script_services !== '')
-            tasks.push(this.taskManagerService.createTask(5, 'os-interact-services', true, 'os-interact.services', 'pi pi-receipt', script_services));
+            tasks.push(this.taskManagerService.createTask(11, 'os-interact-services', true, 'os-interact.services', 'pi pi-receipt', script_services));
         if (script_services_user !== '')
-            tasks.push(this.taskManagerService.createTask(5, 'os-interact-services-user', true, 'os-interact.services-user', 'pi pi-receipt', script_services_user));
+            tasks.push(this.taskManagerService.createTask(11, 'os-interact-services-user', true, 'os-interact.services-user', 'pi pi-receipt', script_services_user));
         if (script_groups !== '')
-            tasks.push(this.taskManagerService.createTask(7, 'os-interact-groups', true, 'os-interact.groups', 'pi pi-users', script_groups));
+            tasks.push(this.taskManagerService.createTask(11, 'os-interact-groups', true, 'os-interact.groups', 'pi pi-users', script_groups));
 
         tasks.forEach(task => {
             this.taskManagerService.scheduleTask(task);
@@ -209,38 +215,91 @@ export class OsInteractService {
         return services;
     }
 
-    togglePackage(pkg: string, aur: boolean = false): void {
+    togglePackage(pkg: string, aur: boolean = false, remove: boolean = false): void {
+        let arrow = (wanted: Map<string, boolean>) => {
+            // If already in the map, remove it
+            if (wanted.has(pkg)) {
+                let newMap = new Map(wanted);
+                newMap.delete(pkg);
+                return newMap;
+            } else if (!remove) {
+                // Otherwise, add it
+                let newMap = new Map(wanted);
+                newMap.set(pkg, !this.installedPackages().has(pkg));
+                return newMap;
+            }
+            return wanted;
+        }
         if (aur)
-            this.wantedPackagesAur.update((wanted) => wanted.set(pkg, !this.packages().get(pkg)));
+            this.wantedPackagesAur.update(arrow);
         else
-            this.wantedPackages.update((wanted) => wanted.set(pkg, !this.packages().get(pkg)));
+            this.wantedPackages.update(arrow);
     }
 
-    toggleService(service: string): void {
-        this.wantedServices.update((wanted) => wanted.set(service, !this.services().get(service)));
+    toggleService(service: string, remove: boolean = false): void {
+        this.wantedServices.update((wanted) => {
+            // If already in the map, remove it
+            if (wanted.has(service)) {
+                let newMap = new Map(wanted);
+                newMap.delete(service);
+                return newMap;
+            } else if (!remove) {
+                // Otherwise, add it
+                let newMap = new Map(wanted);
+                newMap.set(service, this.services().has(service) ? !this.services().get(service) : true);
+                return newMap;
+            }
+            return wanted;
+        });
     }
 
-    toggleServiceUser(service: string): void {
-        this.wantedServicesUser.update((wanted) => wanted.set(service, !this.servicesUser().get(service)));
+    toggleServiceUser(service: string, remove: boolean = false): void {
+        this.wantedServicesUser.update((wanted) => {
+            // If already in the map, remove it
+            if (wanted.has(service)) {
+                let newMap = new Map(wanted);
+                newMap.delete(service);
+                return newMap;
+            } else if (!remove) {
+                // Otherwise, add it
+                let newMap = new Map(wanted);
+                newMap.set(service, this.servicesUser().has(service) ? !this.servicesUser().get(service) : true);
+                return newMap;
+            }
+            return wanted;
+        });
     }
 
-    toggleGroup(group: string): void {
-        this.wantedGroups.update((wanted) => wanted.set(group, !this.groups().get(group)));
+    toggleGroup(group: string, remove: boolean = false): void {
+        this.wantedGroups.update((wanted) => {
+            // If already in the map, remove it
+            if (wanted.has(group)) {
+                let newMap = new Map(wanted);
+                newMap.delete(group);
+                return newMap;
+            } else if (!remove) {
+                // Otherwise, add it
+                let newMap = new Map(wanted);
+                newMap.set(group, !this.groups().has(group));
+                return newMap;
+            }
+            return wanted;
+        });
     }
 
-    toggle(entry: SystemToolsSubEntry): void {
+    toggle(entry: SystemToolsSubEntry, remove: boolean = false): void {
         switch (entry.check.type) {
             case 'pkg':
-                this.togglePackage(entry.check.name);
+                this.togglePackage(entry.check.name, false, remove);
                 break;
             case 'service':
-                this.toggleService(entry.check.name);
+                this.toggleService(entry.check.name, remove);
                 break;
             case 'serviceUser':
-                this.toggleServiceUser(entry.check.name);
+                this.toggleServiceUser(entry.check.name, remove);
                 break;
             case 'group':
-                this.toggleGroup(entry.check.name);
+                this.toggleGroup(entry.check.name, remove);
                 break;
         }
     }

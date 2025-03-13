@@ -188,7 +188,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-trash',
       sudo: true,
       hasOutput: true,
-      priority: 8,
+      priority: 10,
       command: (): string => {
         this.logger.info('Cleaning orphans');
         return 'pacman --noconfirm -Rns $(pacman -Qtdq)';
