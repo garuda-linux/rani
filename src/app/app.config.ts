@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, inject, isDevMode, LOCALE_ID, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, isDevMode, LOCALE_ID, provideAppInitializer, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { MessageToastService, provideGarudaNG } from '@garudalinux/core';
@@ -9,8 +9,6 @@ import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
-import { PrivilegeManagerService } from './privilege-manager/privilege-manager.service';
-import { OperationManagerService } from './operation-manager/operation-manager.service';
 import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
 import { ConfigService } from './config/config.service';
 import { getCurrentWindow, Window } from '@tauri-apps/api/window';
@@ -37,9 +35,6 @@ export const appConfig: ApplicationConfig = {
     ConfigService,
     LanguageManagerService,
     ConfirmationService,
-    MessageToastService,
-    OperationManagerService,
-    PrivilegeManagerService,
     provideAnimationsAsync(),
     provideGarudaNG(
       { font: 'Inter' },
@@ -61,7 +56,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
       }),
     ),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideExperimentalZonelessChangeDetection(),
     provideHttpClient(),
     provideTransloco({
       config: {

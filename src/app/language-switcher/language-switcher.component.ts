@@ -1,8 +1,6 @@
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
-  effect,
   inject,
   input,
   OnDestroy,
@@ -30,7 +28,6 @@ export class LanguageSwitcherComponent implements OnDestroy {
   showButton = input<boolean>(false);
   visible = signal<boolean>(false);
 
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly dialogService = inject(DialogService);
   private readonly translocoService = inject(TranslocoService);
@@ -46,7 +43,6 @@ export class LanguageSwitcherComponent implements OnDestroy {
    */
   selectLanguage(language: string): void {
     void this.configService.updateConfig('language', language);
-    this.cdr.markForCheck();
   }
 
   /**

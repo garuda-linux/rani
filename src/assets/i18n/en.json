@@ -37,7 +37,9 @@
       "callExorcistTitle": "Called the exorcist!",
       "callExorcistBody": "You must be pretty desperate to click this button! I set up some special voodoo for you, if you're still having issues with the app, please report them on the Garuda Linux forum or our issue tracker."
     },
-    "terminal": "Terminal",
+    "terminal": "Show terminal",
+    "terminalRunning": "Running tasks",
+    "terminalTasks": "Execute tasks",
     "pending": "Pending"
   },
   "diagnostics": {
@@ -50,10 +52,12 @@
     "dmesg": "Kernel logs (dmesg)",
     "full": "Full diagnostics",
     "upload": "Upload to PrivateBin",
+    "failedCmdHeader": "Failed to run command",
+    "failedCmd": "Something bad happened and no diagnostics could be retrieved",
     "pacman": "Latest Pacman logs",
     "copied": "Successfully copied to clipboard",
     "success": "Success",
-    "uploadSuccess": "Successfully uploaded to PrivateBin"
+    "uploadSuccess": "Successfully uploaded to PrivateBin, URL copied to clipboard"
   },
   "lang": {
     "title": "Language selection",
@@ -91,6 +95,7 @@
     "titleTwo": "apps",
     "subtitle": "Let's get you started with some gaming apps!",
     "launchers": "Game launchers",
+    "loading": "Loading...",
     "wine": "WINE",
     "tools": "Gaming tools",
     "emulators": "Emulators",
@@ -110,11 +115,15 @@
     "addPending": "Add pending",
     "removePending": "Remove pending",
     "runNow": "Run now",
+    "failedReset": "Error resetting config file",
+    "failedResetFile": "Error occurred during reset of {{file}}",
     "editRepos": "Edit repositories",
     "onlyDirect": "This action can not be queued and needs to be run directly.",
     "cleanCache": "Clean cache",
     "cleanCacheSub": "Remove all cached packages",
     "updateSystem": "Update system",
+    "taskRunningHeader": "Error running maintenance action",
+    "taskRunning": "There is already a task running, wait for it to be done first.",
     "updateSystemSub": "Update your system via garuda-update",
     "editReposSub": "Edit your repositories with Pace",
     "addPendingSub": "Add pending operations",
@@ -469,5 +478,12 @@
     "refusing": "Refusing execution",
     "pendingOperationsRunning": "There are operations running, I'm only going to remove the ones already done.",
     "thisOperationRunning": "Are you out of your mind? This operation is currently running!"
+  },
+  "os-interact": {
+    "packages": "Change installed packages",
+    "packages-aur": "Change AUR packages",
+    "services": "Change services",
+    "services-user": "Change user services",
+    "groups": "Change user groups"
   }
 }

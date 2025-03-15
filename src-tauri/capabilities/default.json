@@ -2,9 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "clipboard:write-all",
     "core:default",
@@ -20,6 +18,21 @@
     "core:window:default",
     "core:window:allow-show",
     "fs:default",
+    "fs:allow-write-text-file",
+    {
+      "identifier": "fs:allow-exists",
+      "allow": [
+        {
+          "path": "**/.*"
+        },
+        {
+          "path": "**/.*/**"
+        },
+        {
+          "path": "**"
+        }
+      ]
+    },
     {
       "identifier": "fs:scope",
       "allow": [
@@ -27,7 +40,7 @@
           "path": "$HOME/.config/autostart/org.garudalinux.rani.desktop"
         },
         {
-          "path": "/usr/bin/setup-assistant"
+          "path": "$APPLOCALDATA/taskscript.tmp"
         }
       ]
     },
@@ -59,8 +72,7 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
         },
         {
           "name": "launch-terminal",
@@ -69,17 +81,17 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
         },
         {
-          "name": "sidecar/change-dns.sh",
-          "args": [
-            {
-              "validator": ".*"
-            }
-          ],
-          "sidecar": true
+          "name": "bash",
+          "cmd": "bash",
+          "args": false
+        },
+        {
+          "name": "root-bash",
+          "cmd": "pkexec",
+          "args": ["bash"]
         }
       ]
     },
@@ -95,8 +107,7 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
         },
         {
           "name": "launch-terminal",
@@ -105,8 +116,32 @@
             {
               "validator": ".*"
             }
-          ],
-          "sidecar": false
+          ]
+        },
+        {
+          "name": "bash",
+          "cmd": "bash",
+          "args": false
+        },
+        {
+          "name": "root-bash",
+          "cmd": "pkexec",
+          "args": ["bash"]
+        }
+      ]
+    },
+    {
+      "identifier": "shell:allow-stdin-write",
+      "allow": [
+        {
+          "name": "bash",
+          "cmd": "bash",
+          "args": false
+        },
+        {
+          "name": "root-bash",
+          "cmd": "pkexec",
+          "args": ["bash"]
         }
       ]
     }

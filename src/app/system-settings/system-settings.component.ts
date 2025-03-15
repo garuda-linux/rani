@@ -1,16 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { FormsModule } from '@angular/forms';
 import { Nullable } from 'primeng/ts-helpers';
 import { Select } from 'primeng/select';
-import { DnsProvider, DnsProviderName, dnsProviders, Shell, ShellEntry, ShellName, shells } from './types';
+import { DnsProvider, dnsProviders, Shell, shells } from './types';
 import { Checkbox } from 'primeng/checkbox';
 import { SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
-import { Logger } from '../logging/logging';
-import { ConfigService } from '../config/config.service';
-import { StatefulPackage } from '../gaming/interfaces';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'rani-system-settings',
@@ -22,21 +19,10 @@ import { StatefulPackage } from '../gaming/interfaces';
 export class SystemSettingsComponent {
   currentShell = signal<Nullable<Shell>>(null);
   currentDns = signal<Nullable<DnsProvider>>(null);
-  loading = signal<boolean>(true);
   selectedBoxes = model<string[]>([]);
 
   dnsProviders: DnsProvider[] = dnsProviders;
   shells: Shell[] = shells;
-
-  state: {
-    initialDns: Nullable<DnsProviderName>;
-    initialShell: Nullable<ShellName>;
-    initialHblock: Nullable<boolean>;
-  } = {
-    initialDns: null,
-    initialShell: null,
-    initialHblock: null,
-  };
 
   sections: SystemToolsEntry[] = [
     {
@@ -48,8 +34,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.psd.title',
           description: 'systemSettings.common.psd.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'profile-sync-daemon' },
         },
         {
@@ -57,8 +41,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.psdEnabled.title',
           description: 'systemSettings.common.psdEnabled.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'serviceUser', name: 'psd.service' },
         },
         {
@@ -66,8 +48,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.oomd.title',
           description: 'systemSettings.common.oomd.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'systemd-oomd.service' },
         },
         {
@@ -75,8 +55,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.common.guestUser.title',
           description: 'systemSettings.common.guestUser.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'systemd-guest-user' },
         },
       ],
@@ -90,8 +68,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.performance.performanceTweaks.title',
           description: 'systemSettings.performance.performanceTweaks.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'performance-tweaks' },
         },
         {
@@ -100,8 +76,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.ananicyCpp.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'ananicy-cpp' },
         },
         {
@@ -110,8 +84,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.ananicyCppEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'ananicy-cpp.service' },
         },
         {
@@ -120,8 +92,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.preloadEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'preload.service' },
         },
         {
@@ -130,8 +100,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.performance.irqbalanceEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'irqbalance.service' },
         },
       ],
@@ -145,8 +113,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.powersaveTweaks.title',
           description: 'systemSettings.powersave.powersaveTweaks.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'powersave-tweaks' },
         },
         {
@@ -154,8 +120,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.thermald.title',
           description: 'systemSettings.powersave.thermald.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'thermald.service' },
         },
         {
@@ -164,8 +128,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.powersave.thermaldEnabled.description',
           checked: false,
           disabler: 'thermald',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'thermald.service' },
         },
         {
@@ -173,8 +135,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.powerProfilesDaemon.title',
           description: 'systemSettings.powersave.powerProfilesDaemon.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'power-profiles-daemon' },
         },
         {
@@ -182,8 +142,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.powerProfilesDaemonEnabled.title',
           description: 'systemSettings.powersave.powerProfilesDaemonEnabled.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'power-profiles-daemon.service' },
         },
         {
@@ -191,8 +149,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.intelUndervolt.title',
           description: 'systemSettings.powersave.intelUndervolt.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'intel-undervolt' },
         },
         {
@@ -201,8 +157,6 @@ export class SystemSettingsComponent {
           description: 'systemSettings.powersave.intelUndervoltEnabled.description',
           checked: false,
           disabler: 'intel-untervolt',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'intel-undervolt.service' },
         },
       ],
@@ -216,8 +170,6 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.rightclickEmulation.evdevLongPressRightClick.title',
           description: 'systemSettings.rightclickEmulation.evdevLongPressRightClick.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'rightclick-emulation' },
         },
         {
@@ -225,101 +177,20 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.rightclickEmulation.evdevRce.title',
           description: 'systemSettings.rightclickEmulation.evdevRce.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'rightclick-emulation' },
         },
       ],
     },
   ];
 
-  protected operationManager = inject(OperationManagerService);
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly configService = inject(ConfigService);
-  private readonly logger = Logger.getInstance();
+  protected readonly osInteractService = inject(OsInteractService);
 
   constructor() {
-    void this.init();
-  }
-
-  async init(): Promise<void> {
-    const initPromises: Promise<any>[] = [this.getCurrentShell(), this.getCurrentDns(), this.getCurrentHblockStatus()];
-
-    const results = await Promise.allSettled(initPromises);
-    for (const result of results) {
-      if (result.status === 'rejected') {
-        this.logger.error(JSON.stringify(result.reason));
-      }
-    }
-
-    this.logger.debug(
-      `System settings initialized: ${JSON.stringify(this.currentShell())}, selected: ${this.selectedBoxes().join(', ')}, dns: ${JSON.stringify(this.currentDns())}`,
-    );
-
-    this.cdr.markForCheck();
-    this.loading.set(false);
-  }
-
-  /**
-   * Get the current shell, writing it to the currentShell signal and setting the initial shell.
-   */
-  async getCurrentShell(): Promise<void> {
-    while (!this.configService.state().user) {
-      await new Promise((resolve) => setTimeout(resolve, 200));
-    }
-
-    const cmd = `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`;
-    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) =>
-      stdout.trim(),
-    );
-
-    if (result) {
-      this.logger.trace(`Got initial shell ${result}`);
-      if (!this.state.initialShell) this.state.initialShell = result;
-      const currShell: ShellEntry | undefined = shells.find((entry) => result === entry.name);
-      this.currentShell.set(currShell ?? null);
-    } else {
-      throw new Error('Failed to get current shell');
-    }
-  }
-
-  /**
-   * Get the current DNS server, writing it to the currentDns signal and setting the initial DNS server.
-   */
-  async getCurrentDns(): Promise<void> {
-    const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
-    const result: string | null = await this.operationManager.getCommandOutput<string>(cmd, (stdout: string) =>
-      stdout.trim(),
-    );
-
-    if (result) {
-      const providerExists = dnsProviders.find((provider) => provider.ips.includes(result));
-      if (providerExists) {
-        this.currentDns.set(providerExists);
-      } else {
-        const newCustomDns = { name: 'Custom', ips: [result], description: 'Custom DNS' };
-        this.dnsProviders.push(newCustomDns);
-        this.currentDns.set(newCustomDns);
-      }
-      if (!this.state.initialDns) this.state.initialDns = this.currentDns()?.name;
-    } else {
-      throw new Error('Failed to get current DNS');
-    }
-  }
-
-  /**
-   * Get the current status of hblock, setting the initial status and adding it to the selected boxes if enabled.
-   */
-  async getCurrentHblockStatus(): Promise<void> {
-    const cmd = 'cat /etc/hosts | grep -A1 \"Blocked domains\" | awk \'/Blocked domains/ { print $NF }\'';
-    const result: number | null = await this.operationManager.getCommandOutput<number>(cmd, (stdout: string) =>
-      parseInt(stdout.trim()),
-    );
-
-    if (result !== null && result > 0) {
-      this.state.initialHblock = true;
-      this.selectedBoxes.update((boxes) => [...boxes, 'hblock']);
-    }
+    effect(() => {
+       this.selectedBoxes.set(this.osInteractService.hblock() ? ['hblock'] : []);
+       this.currentDns.set(this.osInteractService.dns());
+       this.currentShell.set(this.osInteractService.shell());
+    });
   }
 
   /**
@@ -332,14 +203,14 @@ export class SystemSettingsComponent {
 
     switch (type) {
       case 'dns': {
-        this.operationManager.toggleDnsServer(this.currentDns()!.name === this.state.initialDns, this.currentDns()!);
+        this.osInteractService.wantedDns.set(this.currentDns() ?? null);
         break;
       }
       case 'shell': {
-        this.operationManager.toggleShell(this.currentShell()!.name === this.state.initialShell, this.currentShell()!);
+        this.osInteractService.wantedShell.set(this.currentShell() ?? null);
         break;
       }
-      case 'shellConfigs': {
+      /*case 'shellConfigs': {
         if (this.currentShell()?.defaultSettings) {
           const packageDef: StatefulPackage = {
             pkgname: [this.currentShell()!.defaultSettings!],
@@ -349,12 +220,10 @@ export class SystemSettingsComponent {
           this.operationManager.handleTogglePackage(packageDef);
         }
         break;
-      }
+      }*/
       case 'hblock': {
-        this.operationManager.toggleHblock(this.state.initialHblock ?? false, this.selectedBoxes().includes('hblock'));
+        this.osInteractService.wantedHblock.set(this.selectedBoxes().includes('hblock'));
       }
     }
-
-    this.cdr.markForCheck();
   }
 }

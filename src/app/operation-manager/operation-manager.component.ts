@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ConfirmationService, MenuItemCommandEvent } from 'primeng/api';
-import { OperationManagerService } from './operation-manager.service';
 import { MessageToastService } from '@garudalinux/core';
 import { TranslocoService } from '@jsverse/transloco';
 import { Logger } from '../logging/logging';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'rani-operation-manager',
@@ -16,7 +16,7 @@ export class OperationManagerComponent {
   private readonly confirmationService = inject(ConfirmationService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
-  private readonly operationManager = inject(OperationManagerService);
+  private readonly taskManagerService = inject(TaskManagerService);
   private readonly translocoService = inject(TranslocoService);
 
   /**
@@ -42,7 +42,7 @@ export class OperationManagerComponent {
 
       accept: () => {
         this.logger.debug('Firing apply operations');
-        void this.operationManager.executeOperations();
+        void this.taskManagerService.executeTasks();
       },
       reject: () => {
         this.logger.debug('Rejected applying operations');
@@ -57,10 +57,10 @@ export class OperationManagerComponent {
    */
   clearOperations(event: Event | MenuItemCommandEvent): void {
     this.logger.debug('Firing clear operations');
-    const operations = this.operationManager.pending().length === 1 ? 'operation' : 'operations';
+    const operations = this.taskManagerService.count() === 1 ? 'operation' : 'operations';
     this.confirmationService.confirm({
       target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
-      message: `Do you want to delete ${this.operationManager.pending().length} ${operations}?`,
+      message: `Do you want to delete ${this.taskManagerService.count()} ${operations}?`,
       header: 'Clear pending operations?',
       icon: 'pi pi-trash',
       rejectLabel: 'Cancel',
@@ -75,7 +75,7 @@ export class OperationManagerComponent {
       },
 
       accept: () => {
-        this.operationManager.pending.set([]);
+        this.taskManagerService.clearTasks();
         this.messageToastService.info('Confirmed', 'Pending operations cleared');
         this.logger.debug('Cleared pending operations');
       },

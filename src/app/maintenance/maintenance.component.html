@@ -26,8 +26,8 @@
                       (click)="addToPending(action)"
                       [disabled]="action.onlyDirect"
                       [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
-                      [label]="action.addedToPending ? t('maintenance.removePending') : t('maintenance.addPending')"
-                      [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
+                      [label]="taskManager.findTaskById(action.name) ? t('maintenance.removePending') : t('maintenance.addPending')"
+                      [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
                     ></p-button>
                     <p-button
                       [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
@@ -44,7 +44,7 @@
         </p-tabpanel>
         <p-tabpanel [value]="1">
           <div class="grid grid-cols-12 mt-10">
-            @for (config of resettableConfigs; track config.name) {
+            @for (config of resettableConfigs(); track config.name) {
               @if (config.exists) {
                 <div class="ml-32 col-span-6 lg:col-span-4">
                   <p-checkbox
@@ -90,8 +90,8 @@
                       (click)="addToPending(action)"
                       [disabled]="action.onlyDirect"
                       [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
-                      [label]="action.addedToPending ? t('maintenance.removePending') : t('maintenance.addPending')"
-                      [icon]="action.addedToPending ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
+                      [label]="taskManager.findTaskById(action.name) ? t('maintenance.removePending') : t('maintenance.addPending')"
+                      [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
                     ></p-button>
                     <p-button
                       [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"

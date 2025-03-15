@@ -38,8 +38,8 @@ export const settingsMenuMappings: MenuToggleMappings = {
     offIcon: 'pi pi-server',
   },
   showHidden: {
-    on: 'menu.settings.autoRefresh',
-    off: 'menu.settings.noAutoRefresh',
+    on: 'menu.settings.enableAutoRefresh',
+    off: 'menu.settings.disableAutoRefresh',
     onIcon: 'pi pi-eye',
     offIcon: 'pi pi-eye-slash',
   },

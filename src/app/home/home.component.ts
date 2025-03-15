@@ -1,8 +1,7 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
-import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
 import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
 import { ExternalLink, HomepageLink } from '../interfaces';
 import { ConfigService } from '../config/config.service';
@@ -12,6 +11,8 @@ import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { NgOptimizedImage } from '@angular/common';
 import { SystemStatusComponent } from '../system-status/system-status.component';
 import { MessageToastService } from '@garudalinux/core';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'app-home',
@@ -105,10 +106,10 @@ export class HomeComponent {
   ];
 
   protected readonly configService = inject(ConfigService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
-  private readonly privilegeManager = inject(PrivilegeManagerService);
+  private readonly taskManagerService = inject(TaskManagerService);
+  private readonly osInteractService = inject(OsInteractService);
 
   mainLinks: HomepageLink[] = [
     {
@@ -134,7 +135,11 @@ export class HomeComponent {
       subTitle: 'welcome.bootToolsSub',
       // routerLink: '/boot-tools',
       icon: 'pi pi-hammer',
-      command: () => this.privilegeManager.executeCommandAsSudo('garuda-boot-options', true),
+      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-boot-options').then((installed) => {
+        if (installed) {
+          this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-boot-options');
+        }
+      }),
     },
     {
       title: 'welcome.diagnostics',
@@ -147,16 +152,17 @@ export class HomeComponent {
       subTitle: 'welcome.networkSub',
       // routerLink: '/network',
       icon: 'pi pi-globe',
-      command: () => this.privilegeManager.executeCommandAsSudo('garuda-network-assistant', true),
+      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-network-assistant').then((installed) => {
+        if (installed) {
+          this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-network-assistant');
+        }
+      }),
     },
     {
       title: 'welcome.install',
       subTitle: 'welcome.installSub',
       command: async () => {
-        const result: ChildProcess<string> = await Command.create('exec-bash', [
-          '-c',
-          'sudo -E calamares',
-        ]).execute();
+        const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash('sudo -E calamares');
         if (result.code !== 0) {
           this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
         }
@@ -167,7 +173,6 @@ export class HomeComponent {
     {
       title: 'welcome.chroot',
       subTitle: 'welcome.chrootSub',
-      routerLink: '/update',
       command: async () => {
         const result = await Command.create('launch-terminal', ["pkexec garuda-chroot -a; read -p 'Press enter to exit'"]).execute();
         if (result.code !== 0) {
@@ -180,7 +185,11 @@ export class HomeComponent {
     {
       title: 'welcome.setupAssistant',
       subTitle: 'welcome.setupAssistantSub',
-      command: () => this.privilegeManager.ensurePackageAndRun('garuda-setup-assistant', 'setup-assistant'),
+      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-setup-assistant').then((installed) => {
+        if (installed) {
+          this.taskManagerService.executeAndWaitBash('setup-assistant');
+        }
+      }),
       icon: 'pi pi-download',
       condition: () => this.configService.state().isLiveSystem === false,
     },
