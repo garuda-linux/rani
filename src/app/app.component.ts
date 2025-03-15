@@ -8,6 +8,7 @@ import {
   inject,
   OnInit,
   signal,
+  untracked,
   ViewChild,
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
@@ -293,27 +294,27 @@ export class AppComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      this.menuItems.update((items: MenuItem[]) => {
-        const index: number = items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
-        if (index === -1) return items;
+      const cur_items = untracked(this.menuItems);
 
-        if (this.taskManager.running()) {
-          items[index].icon = 'pi pi-spin pi-spinner';
-          items[index].label = this.translocoService.translate('menu.terminalRunning');
-          items[index].badge = undefined;
-        } else if (this.taskManager.count() > 0) {
-          items[index].icon = 'pi pi-hourglass';
-          items[index].label = this.translocoService.translate('menu.terminalTasks');
-          items[index].badge = this.taskManager.count().toString();
-        } else {
-          items[index].icon = 'pi pi-expand';
-          items[index].label = this.translocoService.translate('menu.terminal');
-          items[index].badge = undefined;
-        }
+      const index: number = cur_items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
+      if (index === -1) return;
 
-        this.cdr.markForCheck();
-        return items;
-      });
+      let items = [...cur_items];
+
+      if (this.taskManager.running()) {
+        items[index].icon = 'pi pi-spin pi-spinner';
+        items[index].label = this.translocoService.translate('menu.terminalRunning');
+        items[index].badge = undefined;
+      } else if (this.taskManager.count() > 0) {
+        items[index].icon = 'pi pi-hourglass';
+        items[index].label = this.translocoService.translate('menu.terminalTasks');
+      } else {
+        items[index].icon = 'pi pi-expand';
+        items[index].label = this.translocoService.translate('menu.terminal');
+        items[index].badge = undefined;
+      }
+
+      this.menuItems.set(items);
     });
 
     effect(() => {
@@ -454,7 +455,7 @@ export class AppComponent implements OnInit {
    * @private
    */
   private setSettingsLabels(settings: AppSettings): void {
-    const settingsMenu: MenuItem | undefined = this.menuItems().find(
+    const settingsMenu: MenuItem | undefined = untracked(this.menuItems).find(
       (item) => item['translocoKey'] === 'menu.settings.title',
     );
     if (settingsMenu) {

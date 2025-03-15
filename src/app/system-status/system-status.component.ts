@@ -78,7 +78,7 @@ export class SystemStatusComponent {
       for (const update of updates) {
         this.logger.trace(`Update: ${update}`);
 
-        let [pkg, version, invalid, newVersion] = update.split(' ');
+        let [pkg, version, newVersion] = update.split(' ');
         this.updates.push({ pkg, version, newVersion: newVersion });
       }
     } else if (result.code === 2) {

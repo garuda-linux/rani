@@ -1,5 +1,5 @@
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, inject, isDevMode, LOCALE_ID, provideAppInitializer, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig, inject, isDevMode, LOCALE_ID, provideAppInitializer, provideExperimentalZonelessChangeDetection } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { MessageToastService, provideGarudaNG } from '@garudalinux/core';
@@ -35,7 +35,6 @@ export const appConfig: ApplicationConfig = {
     ConfigService,
     LanguageManagerService,
     ConfirmationService,
-    MessageToastService,
     provideAnimationsAsync(),
     provideGarudaNG(
       { font: 'Inter' },
@@ -57,7 +56,7 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
       }),
     ),
-    provideZoneChangeDetection({ eventCoalescing: true }),
+    provideExperimentalZonelessChangeDetection(),
     provideHttpClient(),
     provideTransloco({
       config: {

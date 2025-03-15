@@ -1,11 +1,10 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import { SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
 import { Card } from 'primeng/card';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { OsInteractService } from '../task-manager/os-interact.service';
@@ -22,8 +21,6 @@ export class DynamicCheckboxesComponent {
   transformed = signal<SystemToolsEntry[]>([]);
 
   protected readonly taskManagerService = inject(TaskManagerService);
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly osInteractService = inject(OsInteractService);
 

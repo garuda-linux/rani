@@ -25,7 +25,7 @@ export class GamingComponent {
   tabIndex = signal<number>(0);
   osInteractService = inject(OsInteractService);
 
-  dataInitial = signal<GamingSection>({
+  protected dataInitial: GamingSection = ({
     name: 'gaming.launchers',
     sections: [
       { name: 'Bottles', pkgname: ['bottles'], icon: 'bottles.svg' },
@@ -38,7 +38,7 @@ export class GamingComponent {
       { name: 'Steam (runtime)', pkgname: ['steam'], icon: 'steam.png' },
     ],
   });
-  data = signal<GamingSections>([
+  protected data: GamingSections = ([
     {
       name: 'gaming.wine',
       sections: [
@@ -2619,17 +2619,18 @@ export class GamingComponent {
       const darkMode = this.configService.settings().darkMode;
       this.backgroundColor.set(darkMode ? flavors.mocha.colors.surface0.hex : flavors.latte.colors.surface0.hex);
       this.updateUi();
-      this.cdr.markForCheck();
     });
   }
 
   updateUi(): void {
     const installed_packages = this.osInteractService.packages();
-    for (const sections of this.data()) {
+    for (const sections of [...this.data, this.dataInitial]) {
       for (const pkg of sections.sections) {
         pkg.selected = installed_packages.get(pkg.pkgname[0]) === true;
       }
     }
+    (window as any).aaaaaaap = this.data;
+    this.cdr.markForCheck();
   }
 
   /**

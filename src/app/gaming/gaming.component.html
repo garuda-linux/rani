@@ -8,15 +8,15 @@
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
-        <p-tab [value]="0">{{ t(dataInitial().name) }}</p-tab>
+        <p-tab [value]="0">{{ t(dataInitial.name) }}</p-tab>
 
-        @for (section of data(); track section.name) {
+        @for (section of data; track section.name) {
           <p-tab [value]="$index + 1" #tab>{{ t(section.name) }}</p-tab>
         }
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
-          <p-data-view [value]="dataInitial().sections" [title]="t(dataInitial().name)">
+          <p-data-view [value]="dataInitial.sections" [title]="t(dataInitial.name)">
             <ng-template #list let-items>
               <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
                 <div *ngFor="let item of items" class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
@@ -65,7 +65,7 @@
           </p-data-view>
         </p-tabpanel>
 
-        @for (section of data(); track section.name) {
+        @for (section of data; track section.name) {
           <p-tabpanel [value]="$index + 1">
             @if (section.hint) {
               <div class="text-center text-primary-emphasis mt-5">{{ t(section.hint) }}</div>

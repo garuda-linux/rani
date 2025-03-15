@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   effect,
@@ -37,7 +36,6 @@ export class DiagnosticsComponent implements AfterViewInit {
 
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
@@ -61,7 +59,6 @@ export class DiagnosticsComponent implements AfterViewInit {
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
-      this.cdr.markForCheck();
       this.logger.trace('Terminal theme switched via effect');
     });
 
@@ -140,7 +137,6 @@ export class DiagnosticsComponent implements AfterViewInit {
     }
 
     this.logger.trace(`Done getting output for ${type}`);
-    this.cdr.markForCheck();
     this.loadingService.loadingOff();
   }
 

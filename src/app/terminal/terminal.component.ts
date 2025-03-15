@@ -1,7 +1,6 @@
 import {
   AfterViewInit,
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   computed,
   effect,
@@ -43,7 +42,6 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   protected readonly taskManagerService = inject(TaskManagerService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
 
@@ -69,7 +67,6 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
-      this.cdr.markForCheck();
       this.logger.trace('Terminal theme switched via effect');
     });
   }

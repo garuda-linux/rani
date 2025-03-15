@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   contentChild,
   ElementRef,
@@ -32,6 +33,7 @@ const MENU_TOGGLE_GLOBAL_STYLE_ID = 'garuda-ng__menu-toggle-style';
   host: {
     class: 'garuda-shell',
   },
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ShellComponent implements OnInit, OnDestroy {
   menuItems = input<MenuItem[]>([]);

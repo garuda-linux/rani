@@ -1,16 +1,12 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { Nullable } from 'primeng/ts-helpers';
 import { Select } from 'primeng/select';
-import { DnsProvider, DnsProviderName, dnsProviders, Shell, ShellEntry, ShellName, shells } from './types';
+import { DnsProvider, dnsProviders, Shell, shells } from './types';
 import { Checkbox } from 'primeng/checkbox';
 import { SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
-import { Logger } from '../logging/logging';
-import { ConfigService } from '../config/config.service';
-import { StatefulPackage } from '../gaming/interfaces';
-import { TaskManagerService } from '../task-manager/task-manager.service';
 import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
@@ -187,7 +183,6 @@ export class SystemSettingsComponent {
     },
   ];
 
-  private readonly cdr = inject(ChangeDetectorRef);
   protected readonly osInteractService = inject(OsInteractService);
 
   constructor() {
@@ -230,7 +225,5 @@ export class SystemSettingsComponent {
         this.osInteractService.wantedHblock.set(this.selectedBoxes().includes('hblock'));
       }
     }
-
-    this.cdr.markForCheck();
   }
 }

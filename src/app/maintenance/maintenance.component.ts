@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
@@ -141,7 +141,6 @@ export class MaintenanceComponent implements OnInit {
   ]);
 
   protected readonly taskManager = inject(TaskManagerService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
@@ -358,7 +357,7 @@ export class MaintenanceComponent implements OnInit {
               return;
             }
           } catch (error) {
-            this.logger.trace(`${file} does not exist`);
+            this.logger.error(`Error checking ${file}: ${error}`);
             resolve({ ...config, exists: false });
           }
         }
@@ -482,7 +481,5 @@ export class MaintenanceComponent implements OnInit {
         void this.resetConfigs();
       },
     });
-
-    this.cdr.markForCheck();
   }
 }

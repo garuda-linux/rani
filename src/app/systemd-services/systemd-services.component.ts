@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -32,7 +32,6 @@ export class SystemdServicesComponent implements OnInit {
   intervalRef: Nullable<number> = null;
 
   protected readonly configService = inject(ConfigService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
@@ -49,7 +48,6 @@ export class SystemdServicesComponent implements OnInit {
       this.logger.debug('Started auto-refresh');
     }
 
-    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -172,7 +170,6 @@ export class SystemdServicesComponent implements OnInit {
       this.taskManagerService.toggleTerminal(true);
     } else {
       this.systemdServices.set(await this.getServices());
-      this.cdr.markForCheck();
     }
   }
 
@@ -185,7 +182,6 @@ export class SystemdServicesComponent implements OnInit {
   openPopover($event: MouseEvent, op: Popover, service: SystemdService): void {
     this.activeService.set(service);
     op.toggle($event);
-    this.cdr.markForCheck();
   }
 
   /**
@@ -203,8 +199,6 @@ export class SystemdServicesComponent implements OnInit {
       clearInterval(this.intervalRef);
       this.logger.debug('Stopped auto-refresh');
     }
-
-    this.cdr.markForCheck();
   }
 
   /**
@@ -215,7 +209,6 @@ export class SystemdServicesComponent implements OnInit {
     await this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext);
     this.systemdServices.set(await this.getServices());
 
-    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -224,7 +217,6 @@ export class SystemdServicesComponent implements OnInit {
     this.includeDisabled.set(!this.includeDisabled());
     this.systemdServices.set(await this.getServices());
 
-    this.cdr.markForCheck();
     this.loading.set(false);
   }
 }

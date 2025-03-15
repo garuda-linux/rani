@@ -23,19 +23,13 @@
       "identifier": "fs:allow-exists",
       "allow": [
         {
-          "path": "/etc/skel/.*"
+          "path": "**/.*"
         },
         {
-          "path": "/etc/skel/.*/*"
+          "path": "**/.*/**"
         },
         {
-          "path": "/etc/skel/.*/*/*"
-        },
-        {
-          "path": "/etc/skel/.*/*/*/*"
-        },
-        {
-          "path": "/etc/skel/.*/*/*/*/*"
+          "path": "**"
         }
       ]
     },
