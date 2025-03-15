@@ -2,9 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "Capability for the main window",
-  "windows": [
-    "main"
-  ],
+  "windows": ["main"],
   "permissions": [
     "clipboard:write-all",
     "core:default",
@@ -23,7 +21,23 @@
     "fs:allow-write-text-file",
     {
       "identifier": "fs:allow-exists",
-      "allow": [{ "path": "**" }]
+      "allow": [
+        {
+          "path": "/etc/skel/.*"
+        },
+        {
+          "path": "/etc/skel/.*/*"
+        },
+        {
+          "path": "/etc/skel/.*/*/*"
+        },
+        {
+          "path": "/etc/skel/.*/*/*/*"
+        },
+        {
+          "path": "/etc/skel/.*/*/*/*/*"
+        }
+      ]
     },
     {
       "identifier": "fs:scope",
@@ -83,9 +97,7 @@
         {
           "name": "root-bash",
           "cmd": "pkexec",
-          "args": [
-            "bash"
-          ]
+          "args": ["bash"]
         }
       ]
     },
@@ -120,9 +132,7 @@
         {
           "name": "root-bash",
           "cmd": "pkexec",
-          "args": [
-            "bash"
-          ]
+          "args": ["bash"]
         }
       ]
     },
@@ -137,9 +147,7 @@
         {
           "name": "root-bash",
           "cmd": "pkexec",
-          "args": [
-            "bash"
-          ]
+          "args": ["bash"]
         }
       ]
     }
