@@ -5,7 +5,7 @@ import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';
 
 class Task {
-  constructor (priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
+  constructor(priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
     this.priority = priority;
     this.script = script;
     this.escalate = escalate;
@@ -13,6 +13,7 @@ class Task {
     this.name = name;
     this.icon = icon;
   }
+
   priority: number;
   script: string;
   escalate: boolean;
@@ -20,8 +21,9 @@ class Task {
   name: string;
   icon: string;
 }
+
 class TrackedShell {
-  constructor (shell: Command<string>, outputs: EventEmitter<string>) {
+  constructor(shell: Command<string>, outputs: EventEmitter<string>) {
     this.shell = shell;
 
     shell.stdout.on('data', (data) => outputs.emit(data));
@@ -31,12 +33,14 @@ class TrackedShell {
       this.running = false;
     });
   }
+
   async process() {
     if (this._process === null) {
       this._process = await this.shell.spawn();
     }
     return this._process;
   }
+
   async stop() {
     if (this._process !== null) {
       await this._process.write(`
@@ -48,16 +52,18 @@ class TrackedShell {
       }
     }
   }
+
   shell: Command<string>;
   private _process: Child | null = null;
   running: boolean = true;
 }
 
 class TrackedShells {
-  constructor (normal: TrackedShell | null, escalated: TrackedShell | null) {
+  constructor(normal: TrackedShell | null, escalated: TrackedShell | null) {
     this.escalated = escalated;
     this.normal = normal;
   }
+
   async stop() {
     const promises: Promise<void>[] = [];
     if (this.escalated !== null) {
@@ -68,16 +74,16 @@ class TrackedShells {
     }
     await Promise.all(promises);
   }
+
   escalated: TrackedShell | null;
   normal: TrackedShell | null;
 }
 
 // Task manager keeps track of scheduled tasks as well as tasks that are executed now.
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskManagerService {
-
   private readonly logger = Logger.getInstance();
 
   readonly tasks = signal<Task[]>([]);
@@ -86,6 +92,7 @@ export class TaskManagerService {
   readonly running = signal<boolean>(false);
   readonly aborting = signal<boolean>(false);
   readonly count = computed(() => this.tasks().length);
+
   // progress can be null when currentTask is null. If currentTask is not in sortedList, currentIndex is 1. In all other cases, currentIndex is the index of currentTask in sortedList.
   readonly progress = computed(() => {
     const currentTask = this.currentTask();
@@ -113,18 +120,17 @@ export class TaskManagerService {
   /**
    * Execute a bash scriptlet using basic bash and wait for it to finish.
    * @param script The bash scriptlet to execute
-  */
+   */
   async executeAndWaitBash(script: string): Promise<ChildProcess<string>> {
     try {
-      this.logger.info("Executing bash code: " + script);
-      const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', script]).execute();
-      return result;
+      this.logger.info('Executing bash code: ' + script);
+      return await Command.create('exec-bash', ['-c', script]).execute();
     } catch (error) {
-      this.logger.error("Unexpected error while executing bash script: " + error);
+      this.logger.error('Unexpected error while executing bash script: ' + error);
       return {
         code: 1,
-        stdout: "",
-        stderr: "",
+        stdout: '',
+        stderr: '',
         signal: null,
       };
     }
@@ -136,13 +142,23 @@ export class TaskManagerService {
    */
   async executeAndWaitBashTerminal(script: string): Promise<void> {
     try {
-      this.logger.info("Executing bash code in terminal: " + script);
+      this.logger.info('Executing bash code in terminal: ' + script);
       await Command.create('launch-terminal', [script]).spawn();
     } catch (error) {
-      this.logger.error("Unexpected error while executing bash script in terminal: " + error);
+      this.logger.error('Unexpected error while executing bash script in terminal: ' + error);
     }
   }
 
+  /**
+   * Create a new task, returning the task.
+   * @param priority The priority of the task.
+   * @param id The id of the task.
+   * @param escalate Whether the task should escalate to root.
+   * @param name The name of the task.
+   * @param icon The icon of the task.
+   * @param script The script to execute.
+   * @returns The created task.
+   */
   createTask(priority: number, id: string, escalate: boolean, name: string, icon: string, script: string): Task {
     return new Task(priority, script, escalate, id, name, icon);
   }
@@ -153,13 +169,18 @@ export class TaskManagerService {
    */
   scheduleTask(task: Task): Task {
     this.tasks.update((tasks) => {
-      const newtasks = [...tasks];
-      newtasks.push(task);
-      return newtasks;
+      const newTasks: Task[] = [...tasks];
+      newTasks.push(task);
+      return newTasks;
     });
     return task;
   }
 
+  /**
+   * Check if a task is in the task list.
+   * @param task The task to check.
+   * @returns Whether the task is in the task list as a boolean.
+   */
   hasTask(task: Task): boolean {
     return this.tasks().findIndex((t) => t.id === task.id) !== -1;
   }
@@ -184,17 +205,17 @@ export class TaskManagerService {
   }
 
   /**
-   * Create requested shells
+   * Create requested shells and return them.
    * @param normal Whether to create a normal shell or not.
-   * @param escalted Whether to create a root shell or not.
+   * @param escalated Whether to create an escalated shell or not.
    */
   private async createShells(normal: boolean, escalated: boolean): Promise<TrackedShells> {
-    const shell_normal = normal ? await Command.create('bash', []) : null;
-    const shell_escalated = escalated ? await Command.create('root-bash', ['bash']) : null;
+    const shell_normal: Command<string> | null = normal ? Command.create('bash', []) : null;
+    const shell_escalated: Command<string> | null = escalated ? Command.create('root-bash', ['bash']) : null;
 
     return new TrackedShells(
       shell_normal ? new TrackedShell(shell_normal, this.dataEvents) : null,
-      shell_escalated ? new TrackedShell(shell_escalated, this.dataEvents) : null
+      shell_escalated ? new TrackedShell(shell_escalated, this.dataEvents) : null,
     );
   }
 
@@ -219,14 +240,16 @@ export class TaskManagerService {
 
   /**
    * Show the terminal.
+   * @param show Whether to show the terminal or not.
    */
   toggleTerminal(show: boolean): void {
-    if (show)
-      this.events.emit('show');
-    else
-      this.events.emit('hide');
+    if (show) this.events.emit('show');
+    else this.events.emit('hide');
   }
 
+  /**
+   * Abort the current task.
+   */
   abort(): void {
     if (!this.running()) {
       this.logger.error('Abort attempted while not running.');
@@ -236,8 +259,10 @@ export class TaskManagerService {
   }
 
   /**
-   * Execute a specific task
+   * Execute a specific task with extra safeguards.
    * @param task The task to execute.
+   * @param shells The shells to use.
+   * @private
    */
   private async internalExecuteTask(task: Task, shells: TrackedShells): Promise<void> {
     this.logger.info('Executing task: ' + task.script);
@@ -257,10 +282,14 @@ export class TaskManagerService {
     await writeTextFile(path, script);
     const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(script));
     // hex encoding
-    const hash = Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
+    const hash = Array.from(new Uint8Array(digest))
+      .map((b) => b.toString(16).padStart(2, '0'))
+      .join('');
 
     // Execute the script with extra safeguards
-    await (await shell.process()).write(`
+    await (
+      await shell.process()
+    ).write(`
       # Read file into variable
       script=$(<'${path}')
       # Check if the script is the same as the one we wrote
@@ -275,13 +304,17 @@ export class TaskManagerService {
     `);
 
     // Wait until the file is deleted
-    while (await exists(path) && shell.running) {
+    while ((await exists(path)) && shell.running) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
     this.logger.info('Task has finished.');
   }
 
+  /**
+   * Execute a given task a single time.
+   * @param task The task to execute.
+   */
   async executeTask(task: Task): Promise<void> {
     if (this.running()) {
       this.logger.error('Task manager is already running a task');
