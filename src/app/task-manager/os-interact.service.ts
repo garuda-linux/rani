@@ -30,9 +30,9 @@ export class OsInteractService {
     constructor() {
         effect(() => {
             if (this.taskManagerService.running() === false) {
-                (async () => {
-                    await this.update();
-                })();
+                untracked(async () => {
+                  await this.update();
+                });
             }
         });
         effect(() => {
@@ -40,6 +40,7 @@ export class OsInteractService {
             this.wantedPackagesAur.set(this.wantedPrune(untracked(this.wantedPackagesAur), this.installedPackages()));
             this.wantedServices.set(this.wantedPrune(untracked(this.wantedServices), this.currentServices()));
             this.wantedServicesUser.set(this.wantedPrune(untracked(this.wantedServicesUser), this.currentServicesUser()));
+            this.wantedGroups.set(this.wantedPrune(untracked(this.wantedGroups), this.currentGroups()));
         });
         effect(() => {
             this.generateTasks();
@@ -167,18 +168,26 @@ export class OsInteractService {
     }
 
     private wantedPrune(wanted: Map<string, boolean>, current: Map<string, boolean>): Map<string, boolean> {
-        return new Map([...wanted].filter(([key, value]) => !current.has(key) || current.get(key) !== value));
+        return new Map([...wanted].filter(([key, value]) => {
+          if (!current.has(key)) {
+            return value === true;
+          } else {
+            return current.get(key) !== value;
+          }
+        }));
     }
 
     async update(): Promise<void> {
-        const [services, servicesUser, installedPackages] = await Promise.all([
+        const [services, servicesUser, installedPackages, groups] = await Promise.all([
             this.getServices(),
             this.getUserServices(),
             this.getInstalledPackages(),
+            this.getGroups(),
         ]);
         this.installedPackages.set(installedPackages);
         this.currentServices.set(services);
         this.currentServicesUser.set(servicesUser);
+        this.currentGroups.set(groups);
     }
 
     private async getInstalledPackages(): Promise<Map<string, boolean>> {
@@ -215,20 +224,28 @@ export class OsInteractService {
         return services;
     }
 
+    private async getGroups(): Promise<Map<string, boolean>> {
+      const result = await this.taskManagerService.executeAndWaitBash(`groups ${this.configService.state().user} | cut -d ' ' -f 3-`);
+      if (result.code !== 0) {
+        return new Map<string, boolean>();
+      }
+
+      return result.stdout.trim().split(' ').reduce((map, group) => { map.set(group, true); return map; }, new Map<string, boolean>());
+    }
+
     togglePackage(pkg: string, aur: boolean = false, remove: boolean = false): void {
         let arrow = (wanted: Map<string, boolean>) => {
-            // If already in the map, remove it
-            if (wanted.has(pkg)) {
+            if (remove) {
+              if (wanted.has(pkg)) {
                 let newMap = new Map(wanted);
                 newMap.delete(pkg);
                 return newMap;
-            } else if (!remove) {
-                // Otherwise, add it
-                let newMap = new Map(wanted);
-                newMap.set(pkg, !this.installedPackages().has(pkg));
-                return newMap;
+              }
+              return wanted;
             }
-            return wanted;
+            let newMap = new Map(wanted);
+            newMap.set(pkg, this.packages().has(pkg) ? !this.packages().get(pkg) : true);
+            return this.wantedPrune(newMap, this.installedPackages());
         }
         if (aur)
             this.wantedPackagesAur.update(arrow);

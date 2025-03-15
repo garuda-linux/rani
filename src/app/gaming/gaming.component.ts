@@ -2627,7 +2627,7 @@ export class GamingComponent {
     const installed_packages = this.osInteractService.packages();
     for (const sections of this.data()) {
       for (const pkg of sections.sections) {
-        pkg.selected = installed_packages.has(pkg.pkgname[0]);
+        pkg.selected = installed_packages.get(pkg.pkgname[0]) === true;
       }
     }
   }

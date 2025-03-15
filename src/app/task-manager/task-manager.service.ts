@@ -39,7 +39,13 @@ class TrackedShell {
   }
   async stop() {
     if (this._process !== null) {
-      await this._process.kill();
+      await this._process.write(`
+        exit 0
+      `);
+      // Wait until stopped
+      while (this.running) {
+        await new Promise((resolve) => setTimeout(resolve, 100));
+      }
     }
   }
   shell: Command<string>;
@@ -101,11 +107,6 @@ export class TaskManagerService {
   constructor() {
     this.dataEvents.subscribe((data) => {
       this.data += data;
-    });
-    this.events.subscribe((event) => {
-      if (event === 'clear') {
-        this.data = '';
-      }
     });
   }
 
@@ -241,8 +242,6 @@ export class TaskManagerService {
   private async internalExecuteTask(task: Task, shells: TrackedShells): Promise<void> {
     this.logger.info('Executing task: ' + task.script);
 
-    this.events.emit('clear');
-
     const shell = (task.escalate ? shells.escalated : shells.normal)!;
 
     const path = await resolve(await appLocalDataDir(), 'taskscript.tmp');
@@ -254,8 +253,9 @@ export class TaskManagerService {
     }
 
     // Write script to a temporary file
-    await writeTextFile(path, task.script);
-    const digest = ((await crypto.subtle.digest('SHA-256', new TextEncoder().encode(task.script))));
+    const script = task.script.trim();
+    await writeTextFile(path, script);
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(script));
     // hex encoding
     const hash = Array.from(new Uint8Array(digest)).map(b => b.toString(16).padStart(2, '0')).join('');
 
@@ -275,7 +275,7 @@ export class TaskManagerService {
     `);
 
     // Wait until the file is deleted
-    while (await exists(path) || !shell.running) {
+    while (await exists(path) && shell.running) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
@@ -288,6 +288,7 @@ export class TaskManagerService {
       return;
     }
     this.running.set(true);
+    this.clearTerminal();
 
     const shells = await this.createShells(!task.escalate, task.escalate);
     this.currentTask.set(task);
@@ -310,6 +311,7 @@ export class TaskManagerService {
       return;
     }
     this.running.set(true);
+    this.clearTerminal();
 
     const needsNormal = this.tasks().some((task) => !task.escalate);
     const needsEscalated = this.tasks().some((task) => task.escalate);

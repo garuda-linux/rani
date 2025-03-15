@@ -78,7 +78,7 @@
       <div class="inline-flex items-center justify-center gap-2">
         <span class="cursor-pointer font-bold whitespace-nowrap mr-2.5"
           >{{
-            t('terminal.title') + (taskManagerService.currentTask() ? ' - ' + taskManagerService.currentTask() : '')
+            t('terminal.title') + (taskManagerService.currentTask() ? ' - ' + taskManagerService.currentTask()!.name : '')
           }}
         </span>
         <span (click)="taskManagerService.executeTasks()" class="cursor-pointer mr-2.5">
