@@ -148,21 +148,22 @@ export class OsInteractService {
     }
 
     if (this.dns() !== this.currentDNS()) {
-      script_services += `
+      const file = "/etc/NetworkManager/conf.d/10-garuda-assistant-dns.conf";
+      if (this.dns().ips[0] === "0.0.0.0") {
+        script_services += `
             set -e
-            DNSFILE="/etc/NetworkManager/conf.d/10-garuda-assistant-dns.conf"
-
-            chattr -i /etc/resolv.conf
-
-            if [ "$1" == "0.0.0.0" ]; then
-                rm -f "$DNSFILE"
-            else
-                echo -e "[global-dns-domain-*]\\nservers=${this.dns().ips[0]}" > "$DNSFILE"
-            fi
-
+            rm -f "${file}"
             nmcli general reload
             echo "DNS settings changed."
             `;
+      } else {
+        script_services += `
+            set -e
+            echo -e "[global-dns-domain-*]\\nservers=${this.dns().ips[0]}" > "${file}"
+            nmcli general reload
+            echo "DNS settings changed."
+            `;
+      }
     }
 
     const shell = this.shell();
