@@ -27,7 +27,7 @@
           "configurations": {
             "production": {
               "optimization": {
-                "scripts": true,
+                "scripts": false,
                 "styles": true,
                 "fonts": true
               },
