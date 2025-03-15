@@ -10,7 +10,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { Button } from 'primeng/button';
-import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { ChildProcess } from '@tauri-apps/plugin-shell';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { CatppuccinXtermJs } from '../theme';
 import { ITerminalOptions } from '@xterm/xterm';
@@ -33,28 +33,31 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiagnosticsComponent implements AfterViewInit {
+  private outputCache = '';
+
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
-  private readonly configService = inject(ConfigService);
-  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => { return {
-    disableStdin: false,
-    scrollback: 10000,
-    convertEol: true,
-    theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light
-  };});
-
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly garudaBin = new GarudaBin();
-  private outputCache = '';
+
+  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
+    return {
+      disableStdin: false,
+      scrollback: 10000,
+      convertEol: true,
+      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+    };
+  });
 
   constructor() {
     effect(() => {
-      const darkMode = this.configService.settings().darkMode;
+      const darkMode: boolean = this.configService.settings().darkMode;
       if (this.term?.underlying) {
         this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
@@ -75,18 +78,21 @@ export class DiagnosticsComponent implements AfterViewInit {
    */
   async getFullLogs(): Promise<void> {
     this.logger.debug('Getting full logs');
+    this.loadingService.loadingOn();
 
+    let cmd = '';
     for (const type of ['inxi', 'systemd-analyze', 'journalctl', 'pacman-log', 'dmesg']) {
-      await this.getOutput(type, true);
+      const command = this.getCommand(type);
+      if (!command) {
+        this.logger.error(`Failed to get command for ${type}`);
+        continue;
+      }
+
+      cmd += `echo "### ${type} ###"; ${command.cmd}; echo "### END ${command.cmd} ###"; echo`;
     }
 
-    if (this.configService.settings().copyDiagnostics) {
-      await writeText(this.outputCache);
-      this.messageToastService.info(
-        this.translocoService.translate('diagnostics.copySuccess'),
-        this.translocoService.translate('diagnostics.copied'),
-      );
-    }
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(`pkexec sh -c '${cmd}'`);
+    await this.processResult(result);
   }
 
   /**
@@ -94,55 +100,41 @@ export class DiagnosticsComponent implements AfterViewInit {
    */
   async uploadPrivateBin() {
     this.logger.trace('Uploading buffer to PrivateBin');
-
     this.loadingService.loadingOn();
-    const url = await this.garudaBin.sendText(this.outputCache);
+
+    const url: string = await this.garudaBin.sendText(this.outputCache);
     this.logger.info(`Uploaded to ${url}`);
 
     void writeText(url);
+    this.messageToastService.info(
+      this.translocoService.translate('diagnostics.success'),
+      this.translocoService.translate('diagnostics.uploadSuccess'),
+    );
+
     this.loadingService.loadingOff();
-    this.messageToastService.info('Success', 'URL copied to clipboard');
   }
 
   /**
    * Get the output for the specified type of diagnostic.
    * @param type The type of diagnostic to get the output for.
-   * @param writeToBuffer Whether to write the output to the buffer, appending to the existing content.
    */
-  async getOutput(type: string, writeToBuffer = false): Promise<void> {
+  async getOutput(type: string): Promise<void> {
     this.logger.debug(`Getting output for ${type}`);
 
     this.loadingService.loadingOn();
     try {
-      let cmd: string;
-      let sudo = false;
-
-      switch (type) {
-        case 'inxi':
-          cmd = 'garuda-inxi';
-          break;
-        case 'systemd-analyze':
-          cmd = 'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
-          break;
-        case 'journalctl':
-          cmd = 'journalctl -xe --no-pager';
-          sudo = true;
-          break;
-        case 'pacman':
-          cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac";
-          break;
-        case 'dmesg':
-          cmd = 'dmesg';
-          sudo = true;
-          break;
-        default:
-          this.logger.error('Invalid type');
-          return;
+      const command = this.getCommand(type);
+      if (!command) {
+        this.messageToastService.error(
+          this.translocoService.translate('diagnostics.failedCmdHeader'),
+          this.translocoService.translate('diagnostics.failedCmd'),
+        );
+        return;
       }
 
       this.logger.trace(`Getting output for ${type}`);
-      const result: ChildProcess<string> = await this.getCommand(cmd!, sudo);
-      await this.processResult(result, writeToBuffer);
+      const result: ChildProcess<string> = await this.executeCommand(command.cmd, command.sudo);
+      await this.processResult(result);
     } catch (err: any) {
       this.logger.trace(`Error getting output for ${type}: ${err}`);
     }
@@ -155,21 +147,15 @@ export class DiagnosticsComponent implements AfterViewInit {
   /**
    * Process the result of the command execution.
    * @param result The result of the command execution
-   * @param writeToBuffer Whether to write the output to the buffer, appending to the existing content.
    * @private
    */
-  private async processResult(result: ChildProcess<string>, writeToBuffer = false): Promise<void> {
+  private async processResult(result: ChildProcess<string>): Promise<void> {
     if (result.code === 0) {
-      if (writeToBuffer) {
-        this.logger.trace('Appending to terminal and buffer');
-        this.outputCache += `\n\n\n${result.stdout}`;
-        this.term.write(`\n\n\n${result.stdout}`);
-      } else {
-        this.logger.trace('Writing to clear terminal and buffer');
-        this.term.underlying?.clear();
-        this.outputCache = result.stdout;
-        this.term.write(result.stdout);
-      }
+      this.logger.trace('Writing to clear terminal and buffer');
+      this.term.underlying?.clear();
+      this.term.write(result.stdout);
+
+      this.outputCache = result.stdout;
 
       if (this.configService.settings().copyDiagnostics) {
         this.logger.trace('Writing to clipboard');
@@ -181,7 +167,7 @@ export class DiagnosticsComponent implements AfterViewInit {
         );
       }
     } else {
-      this.messageToastService.error('Error collecting output', result.stderr);
+      this.messageToastService.error(this.translocoService.translate('diagnostics.failedCmdHeader'), result.stderr);
       this.logger.error(`Error collecting output: ${result.stderr}`);
     }
   }
@@ -191,11 +177,45 @@ export class DiagnosticsComponent implements AfterViewInit {
    * @param command The command to be executed.
    * @param needsSudo Whether the command needs to be run with sudo.
    */
-  private async getCommand(command: string, needsSudo = false): Promise<ChildProcess<string>> {
+  private async executeCommand(command: string, needsSudo = false): Promise<ChildProcess<string>> {
     if (needsSudo) {
       return await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
     } else {
       return await this.taskManagerService.executeAndWaitBash(command);
     }
+  }
+
+  /**
+   * Get the command to be executed based on the type of diagnostic.
+   * @param command The type of diagnostic to get the command for.
+   * @private
+   */
+  private getCommand(command: string): { sudo: boolean; cmd: string } | null {
+    const result = { sudo: false, cmd: '' };
+
+    switch (command) {
+      case 'inxi':
+        result.cmd = 'garuda-inxi';
+        break;
+      case 'systemd-analyze':
+        result.cmd = 'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
+        break;
+      case 'journalctl':
+        result.cmd = 'journalctl -xe --no-pager';
+        result.sudo = true;
+        break;
+      case 'pacman':
+        result.cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac";
+        break;
+      case 'dmesg':
+        result.cmd = 'dmesg';
+        result.sudo = true;
+        break;
+      default:
+        this.logger.error('Invalid type');
+        return null;
+    }
+
+    return result;
   }
 }
