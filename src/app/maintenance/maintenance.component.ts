@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  inject,
-  model,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
@@ -15,14 +7,15 @@ import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
-import { ConfirmationService } from 'primeng/api';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
-import { Logger } from '../logging/logging';
-import { TaskManagerService } from '../task-manager/task-manager.service';
 import { exists } from '@tauri-apps/plugin-fs';
 import { OsInteractService } from '../task-manager/os-interact.service';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { ConfirmationService } from 'primeng/api';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Logger } from '../logging/logging';
+import { ChildProcess } from '@tauri-apps/plugin-shell';
 
 @Component({
   selector: 'app-maintenance',
@@ -147,13 +140,93 @@ export class MaintenanceComponent implements OnInit {
     },
   ]);
 
+  protected readonly taskManager = inject(TaskManagerService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
-  protected readonly taskManager = inject(TaskManagerService);
   private readonly osInteractService = inject(OsInteractService);
 
+  actionsGarudaUpdate: MaintenanceAction[] = [
+    {
+      name: 'updateRemoteFix',
+      label: 'maintenance.updateRemoteFix',
+      description: 'maintenance.updateRemoteFixSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      priority: 5,
+      command: (): string => {
+        this.logger.info('Running remote fix');
+        return 'garuda-update remote fix';
+      },
+    },
+    {
+      name: 'updateRemoteKeyring',
+      label: 'maintenance.updateRemoteKeyring',
+      description: 'maintenance.updateRemoteKeyringSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      priority: 5,
+      command: (): string => {
+        this.logger.info('Running remote keyring');
+        return 'garuda-update remote keyring';
+      },
+    },
+    {
+      name: 'updateRemoteFullFix',
+      label: 'maintenance.updateRemoteFullFix',
+      description: 'maintenance.updateRemoteFullFixSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      priority: 5,
+      command: (): string => {
+        this.logger.info('Running remote full fix');
+        return 'garuda-update remote fullfix';
+      },
+    },
+    {
+      name: 'updateRemoteResetAudio',
+      label: 'maintenance.updateRemoteResetAudio',
+      description: 'maintenance.updateRemoteResetAudioSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      priority: 7,
+      command: (): string => {
+        this.logger.info('Running remote reset audio');
+        return 'garuda-update remote reset-audio';
+      },
+    },
+    {
+      name: 'updateRemoteResetSnapper',
+      label: 'maintenance.updateRemoteResetSnapper',
+      description: 'maintenance.updateRemoteResetSnapperSub',
+      icon: 'pi pi-pencil',
+      hasOutput: true,
+      sudo: true,
+      priority: 7,
+      command: (): string => {
+        this.logger.info('Running remote reset snapper');
+        return 'garuda-update remote reset-snapper';
+      },
+    },
+    {
+      name: 'reinstallPackages',
+      label: 'maintenance.reinstallPackages',
+      description: 'maintenance.reinstallPackagesSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: true,
+      priority: 6,
+      command: (): string => {
+        this.logger.info('Reinstalling packages');
+        return 'garuda-update remote reinstall';
+      },
+    },
+  ];
   actions: MaintenanceAction[] = [
     {
       name: 'updateSystem',
@@ -236,7 +309,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: (): string => {
         this.logger.info('Removing database lock');
-        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
+        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck && echo "Successfully removed lock" || echo "No lock found"';
       },
     },
     {
@@ -257,87 +330,6 @@ export class MaintenanceComponent implements OnInit {
     },
   ];
 
-  actionsGarudaUpdate: MaintenanceAction[] = [
-    {
-      name: 'updateRemoteFix',
-      label: 'maintenance.updateRemoteFix',
-      description: 'maintenance.updateRemoteFixSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      priority: 5,
-      command: (): string => {
-        this.logger.info('Running remote fix');
-        return 'garuda-update remote fix';
-      },
-    },
-    {
-      name: 'updateRemoteKeyring',
-      label: 'maintenance.updateRemoteKeyring',
-      description: 'maintenance.updateRemoteKeyringSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      priority: 5,
-      command: (): string => {
-        this.logger.info('Running remote keyring');
-        return 'garuda-update remote keyring';
-      },
-    },
-    {
-      name: 'updateRemoteFullFix',
-      label: 'maintenance.updateRemoteFullFix',
-      description: 'maintenance.updateRemoteFullFixSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      priority: 5,
-      command: (): string => {
-        this.logger.info('Running remote full fix');
-        return 'garuda-update remote fullfix';
-      },
-    },
-    {
-      name: 'updateRemoteResetAudio',
-      label: 'maintenance.updateRemoteResetAudio',
-      description: 'maintenance.updateRemoteResetAudioSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      priority: 7,
-      command: (): string => {
-        this.logger.info('Running remote reset audio');
-        return 'garuda-update remote reset-audio';
-      },
-    },
-    {
-      name: 'updateRemoteResetSnapper',
-      label: 'maintenance.updateRemoteResetSnapper',
-      description: 'maintenance.updateRemoteResetSnapperSub',
-      icon: 'pi pi-pencil',
-      hasOutput: true,
-      sudo: true,
-      priority: 7,
-      command: (): string => {
-        this.logger.info('Running remote reset snapper');
-        return 'garuda-update remote reset-snapper';
-      },
-    },
-    {
-      name: 'reinstallPackages',
-      label: 'maintenance.reinstallPackages',
-      description: 'maintenance.reinstallPackagesSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
-      priority: 6,
-      command: (): string => {
-        this.logger.info('Reinstalling packages');
-        return 'garuda-update remote reinstall';
-      },
-    },
-  ];
-
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -352,16 +344,21 @@ export class MaintenanceComponent implements OnInit {
   async checkExistingConfigs() {
     this.loadingService.loadingOn();
     const promises: Promise<ResettableConfig>[] = [];
+    this.logger.debug('Checking existing configs');
 
     for (const config of this.resettableConfigs()) {
       const promise = new Promise<ResettableConfig>(async (resolve) => {
         for (const file of config.files) {
+          this.logger.trace(`Checking ${file}`);
+          await exists(file);
           try {
             if (await exists(file)) {
+              this.logger.trace(`${file} exists`);
               resolve({ ...config, exists: true });
               return;
             }
           } catch (error) {
+            this.logger.trace(`${file} does not exist`);
             resolve({ ...config, exists: false });
           }
         }
@@ -389,12 +386,15 @@ export class MaintenanceComponent implements OnInit {
         const cmd = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
         this.logger.debug(`Running command: ${cmd}`);
 
-        const output = await this.taskManager.executeAndWaitBash(cmd);
+        const output: ChildProcess<string> = await this.taskManager.executeAndWaitBash(cmd);
         if (output.code === 0) {
           this.logger.info(`Successfully reset ${file}`);
         } else {
           this.logger.error(`Failed to reset ${file}`);
-          this.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
+          this.messageToastService.error(
+            this.translocoService.translate('maintenance.failedReset'),
+            this.translocoService.translate('maintenance.failedResetFile', { file }),
+          );
         }
       }
     }
@@ -410,12 +410,18 @@ export class MaintenanceComponent implements OnInit {
     const entry = this.taskManager.findTaskById(action.name);
 
     // Not a thing
-    if (action.onlyDirect || action.command.constructor.name === 'AsyncFunction')
-      return;
+    if (action.onlyDirect || action.command.constructor.name === 'AsyncFunction') return;
 
     if (!entry) {
       this.logger.debug(`Adding ${action.name} to pending`);
-      const task = this.taskManager.createTask(action.priority, action.name, action.sudo, action.label, action.icon, (action as any).command());
+      const task = this.taskManager.createTask(
+        action.priority,
+        action.name,
+        action.sudo,
+        action.label,
+        action.icon,
+        (action as any).command(),
+      );
       this.taskManager.scheduleTask(task);
     } else {
       this.logger.trace(`Removing ${action.name} from pending`);
@@ -433,12 +439,23 @@ export class MaintenanceComponent implements OnInit {
       this.logger.debug('Boom its a direct action');
       void action.command();
     } else {
-      if (!this.taskManager.running()) {
-        this.messageToastService.error('Error running maintenance action', 'There is already a task running');
+      if (this.taskManager.running()) {
+        this.messageToastService.error(
+          this.translocoService.translate('maintenance.taskRunningHeader'),
+          this.translocoService.translate('maintenance.taskRunning'),
+        );
         return;
       }
-      const task = this.taskManager.createTask(action.priority, action.name, action.sudo, action.label, action.icon, (action as any).command());
+      const task = this.taskManager.createTask(
+        action.priority,
+        action.name,
+        action.sudo,
+        action.label,
+        action.icon,
+        (action as any).command(),
+      );
       void this.taskManager.executeTask(task);
+      this.taskManager.toggleTerminal(true);
     }
   }
 
