@@ -44,13 +44,6 @@
                 <span (click)="taskManagerService.removeTask(op)" class="cursor-pointer mr-2.5">
                   <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
-                <!--
-                @if (op.status === 'running') {
-                  <span (click)="operationManager.abortRunning()" class="cursor-pointer mr-2.5">
-                    <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.abort') }}
-                  </span>
-                }
-                  -->
                 @if (!taskManagerService.running()) {
                   <span (click)="taskManagerService.executeTask(op)" class="cursor-pointer mr-2.5">
                     <i class="pi pi-play-circle mr-1 text-green-300"></i>{{ t('operation.run') }}
@@ -78,7 +71,8 @@
       <div class="inline-flex items-center justify-center gap-2">
         <span class="cursor-pointer font-bold whitespace-nowrap mr-2.5"
           >{{
-            t('terminal.title') + (taskManagerService.currentTask() ? ' - ' + taskManagerService.currentTask()!.name : '')
+            t('terminal.title') +
+              (taskManagerService.currentTask() ? ' - ' + t(taskManagerService.currentTask()!.name) : '')
           }}
         </span>
         <span (click)="taskManagerService.executeTasks()" class="cursor-pointer mr-2.5">

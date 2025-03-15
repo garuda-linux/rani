@@ -8,20 +8,18 @@ import {
   inject,
   OnDestroy,
   OnInit,
-  Signal,
   signal,
+  Signal,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { CatppuccinXtermJs } from '../theme';
 import { NgTerminal, NgTerminalModule } from 'ng-terminal';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { TranslocoDirective } from '@jsverse/transloco';
 import { Dialog } from 'primeng/dialog';
 import { ProgressBar } from 'primeng/progressbar';
-import { MessageToastService } from '@garudalinux/core';
 import { Card } from 'primeng/card';
-import { Popover } from 'primeng/popover';
 import { ScrollPanel } from 'primeng/scrollpanel';
 import { Logger } from '../logging/logging';
 import { WebglAddon } from '@xterm/addon-webgl';
@@ -32,31 +30,22 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'rani-terminal',
-  imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, Popover, ScrollPanel],
+  imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, ScrollPanel],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
-  subscriptions: Subscription[] = [];
+  public visible = signal<boolean>(false);
+  private subscriptions: Subscription[] = [];
 
   @ViewChild('dialog', { static: false }) dialog!: Dialog;
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
-  private readonly configService = inject(ConfigService);
-  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
-    return {
-      disableStdin: false,
-      scrollback: 10000,
-      convertEol: true,
-      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light
-    };
-  });
-  readonly visible = signal<boolean>(false);
-
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly logger = Logger.getInstance();
   protected readonly taskManagerService = inject(TaskManagerService);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly configService = inject(ConfigService);
+  private readonly logger = Logger.getInstance();
 
   readonly progressTracker = computed(() => {
     const progress = this.taskManagerService.progress();
@@ -64,6 +53,14 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
       return null;
     }
     return (progress / this.taskManagerService.count()) * 100;
+  });
+  readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
+    return {
+      disableStdin: false,
+      scrollback: 10000,
+      convertEol: true,
+      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+    };
   });
 
   constructor() {
@@ -80,10 +77,8 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   ngOnInit(): void {
     this.subscriptions.push(
       this.taskManagerService.events.subscribe((output: string) => {
-        if (output === 'show')
-          this.visible.set(true);
-        else if (output === 'hide')
-          this.visible.set(false);
+        if (output === 'show') this.visible.set(true);
+        else if (output === 'hide') this.visible.set(false);
       }),
     );
   }
@@ -100,8 +95,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.subscriptions.push(
       this.taskManagerService.events.subscribe((output: string) => {
-        if (output === 'clear')
-          this.term.underlying?.clear();
+        if (output === 'clear') this.term.underlying?.clear();
       }),
     );
   }

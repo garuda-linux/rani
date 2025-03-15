@@ -1,16 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  effect,
-  inject,
-  input,
-  model,
-  OnInit,
-  signal,
-  untracked,
-} from '@angular/core';
-import { SystemdService, SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, input, signal } from '@angular/core';
+import { SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
@@ -19,7 +8,6 @@ import { Card } from 'primeng/card';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
-import { ConfigService } from '../config/config.service';
 import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
@@ -43,37 +31,6 @@ export class DynamicCheckboxesComponent {
     effect(() => {
       this.refreshUi();
     });
-  }
-
-  private checkState(entry: SystemToolsSubEntry): boolean {
-    switch (entry.check.type) {
-      case 'pkg': {
-        this.logger.trace(`Checking package ${entry.check.name} as pkg`);
-        const installed: boolean =
-          this.osInteractService.packages().get(entry.check.name) === true ||
-          this.osInteractService.packages().get(`${entry.check.name}-git`) === true;
-
-        return installed;
-      }
-      case 'service': {
-        this.logger.trace(`Checking service ${entry.check.name} as service`);
-        const enabled: boolean = this.osInteractService.services().get(entry.check.name) === true;
-
-        return enabled;
-      }
-      case 'serviceUser': {
-        this.logger.trace(`Checking service ${entry.check.name} as user service`);
-        const enabled: boolean = this.osInteractService.servicesUser().get(entry.check.name) === true;
-
-        return enabled;
-      }
-      case 'group': {
-        this.logger.trace(`Checking group ${entry.check.name} as group`);
-        const group: boolean = this.osInteractService.groups().get(entry.check.name) === true;
-
-        return group;
-      }
-    }
   }
 
   refreshUi(): void {
@@ -101,6 +58,30 @@ export class DynamicCheckboxesComponent {
     this.osInteractService.toggle(entry);
   }
 
+  private checkState(entry: SystemToolsSubEntry): boolean {
+    switch (entry.check.type) {
+      case 'pkg': {
+        this.logger.trace(`Checking package ${entry.check.name} as pkg`);
+        return (
+          this.osInteractService.packages().get(entry.check.name) === true ||
+          this.osInteractService.packages().get(`${entry.check.name}-git`) === true
+        );
+      }
+      case 'service': {
+        this.logger.trace(`Checking service ${entry.check.name} as service`);
+        return this.osInteractService.services().get(entry.check.name) === true;
+      }
+      case 'serviceUser': {
+        this.logger.trace(`Checking service ${entry.check.name} as user service`);
+        return this.osInteractService.servicesUser().get(entry.check.name) === true;
+      }
+      case 'group': {
+        this.logger.trace(`Checking group ${entry.check.name} as group`);
+        return this.osInteractService.groups().get(entry.check.name) === true;
+      }
+    }
+  }
+
   /**
    * Check if the entry should be disabled based on the disabler.
    */
@@ -122,8 +103,7 @@ export class DynamicCheckboxesComponent {
           disabled = !disabler.checked;
         }
 
-        if (disabled)
-          this.osInteractService.toggle(entry, true);
+        if (disabled) this.osInteractService.toggle(entry, true);
         entry.disabled = disabled;
       }
     }

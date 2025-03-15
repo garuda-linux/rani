@@ -6,37 +6,42 @@ import { Logger } from '../logging/logging';
 import { firstValueFrom } from 'rxjs';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageManagerService {
-    private readonly configService = inject(ConfigService);
-    private readonly translocoService = inject(TranslocoService);
-    private readonly logger = Logger.getInstance();
+  private readonly configService = inject(ConfigService);
+  private readonly logger = Logger.getInstance();
+  private readonly translocoService = inject(TranslocoService);
 
-    constructor() {
-        effect(() => {
-            const savedLang: string = this.configService.settings().language;
-            void this.updateLanguage(savedLang);
-        });
+  constructor() {
+    effect(() => {
+      const savedLang: string = this.configService.settings().language;
+      void this.updateLanguage(savedLang);
+    });
+  }
+
+  async init() {
+    const savedLang: string = this.configService.settings().language;
+    await this.updateLanguage(savedLang);
+
+    // Wait for language to load by doing a dummy translation
+    await firstValueFrom(this.translocoService.selectTranslate('menu.welcome'));
+  }
+
+  async updateLanguage(lang: string) {
+    const sysLang: string | null = await locale();
+    let activeLang: string = lang ?? sysLang;
+    if (activeLang.match(/en-/)) {
+      activeLang = 'en';
     }
+    this.logger.trace(`Active language: ${activeLang}`);
 
-    async init() {
-        const savedLang: string = this.configService.settings().language;
-        await this.updateLanguage(savedLang);
-        // Wait for language to load by doing a dummy translation
-        await firstValueFrom(this.translocoService.selectTranslate('dummy'));
+    if (
+      activeLang &&
+      activeLang !== this.translocoService.getActiveLang() &&
+      (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)
+    ) {
+      this.translocoService.setActiveLang(activeLang);
     }
-
-    async updateLanguage(lang: string) {
-        const sysLang: string | null = await locale();
-        let activeLang: string = lang ?? sysLang;
-        if (activeLang.match(/en-/)) {
-            activeLang = 'en';
-        }
-        this.logger.trace(`Active language: ${activeLang}`);
-
-        if (activeLang && activeLang !== this.translocoService.getActiveLang() && (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)) {
-            this.translocoService.setActiveLang(activeLang);
-        }
-    }
+  }
 }
