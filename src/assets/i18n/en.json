@@ -483,6 +483,6 @@
     "packages-aur": "Change AUR packages",
     "services": "Change services",
     "services-user": "Change user services",
-    "groups": "Change DNS server"
+    "groups": "Change user groups"
   }
 }
