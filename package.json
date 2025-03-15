@@ -1,6 +1,6 @@
 {
   "name": "garuda-rani",
-  "version": "0.2.0",
+  "version": "2.0.0",
   "scripts": {
     "build": "ng build",
     "build-debug": "tauri build --debug",
@@ -60,7 +60,6 @@
     "rxjs": "~7.8.2",
     "tailwindcss-primeui": "^0.5.1",
     "tauri-plugin-clipboard-api": "^2.1.11",
-    "tauri-plugin-fs-extra-api": "github:tauri-apps/tauri-plugin-fs-extra#v1",
     "tslib": "^2.8.1",
     "zone.js": "~0.15.0"
   },
