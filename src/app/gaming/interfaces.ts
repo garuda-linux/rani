@@ -13,4 +13,9 @@ export interface Package {
 
 export type FullPackageDefinition = StatefulPackage & Package;
 
-export type GamingSections = { name: string; hint?: string; sections: FullPackageDefinition[] }[];
+export interface GamingSection {
+  name: string;
+  hint?: string;
+  sections: FullPackageDefinition[];
+}
+export type GamingSections = GamingSection[];

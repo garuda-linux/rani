@@ -1,16 +1,16 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
 import { DataViewModule } from 'primeng/dataview';
-import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
+import { open } from '@tauri-apps/plugin-shell';
 import { Card } from 'primeng/card';
 import { flavors } from '@catppuccin/palette';
 import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
-import { GamingSections, StatefulPackage } from './interfaces';
+import { GamingSection, GamingSections, StatefulPackage } from './interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
@@ -25,20 +25,20 @@ export class GamingComponent {
   tabIndex = signal<number>(0);
   osInteractService = inject(OsInteractService);
 
+  dataInitial = signal<GamingSection>({
+    name: 'gaming.launchers',
+    sections: [
+      { name: 'Bottles', pkgname: ['bottles'], icon: 'bottles.svg' },
+      { name: 'GameHub', pkgname: ['gamehub'], icon: 'gamehub.svg' },
+      { name: 'Heroic Games Launcher', pkgname: ['heroic-games-launcher'], icon: 'heroic-icon.png' },
+      { name: 'Itch', pkgname: ['itch'], icon: 'itch.svg' },
+      { name: 'Lutris', pkgname: ['lutris'], icon: 'lutris.png' },
+      { name: 'Minigalaxy', pkgname: ['minigalaxy'], icon: 'minigalaxy.png' },
+      { name: 'Steam (native)', pkgname: ['steam-native-runtime'], icon: 'steam.png' },
+      { name: 'Steam (runtime)', pkgname: ['steam'], icon: 'steam.png' },
+    ],
+  });
   data = signal<GamingSections>([
-    {
-      name: 'gaming.launchers',
-      sections: [
-        { name: 'Bottles', pkgname: ['bottles'], icon: 'bottles.svg' },
-        { name: 'GameHub', pkgname: ['gamehub'], icon: 'gamehub.svg' },
-        { name: 'Heroic Games Launcher', pkgname: ['heroic-games-launcher'], icon: 'heroic-icon.png' },
-        { name: 'Itch', pkgname: ['itch'], icon: 'itch.svg' },
-        { name: 'Lutris', pkgname: ['lutris'], icon: 'lutris.png' },
-        { name: 'Minigalaxy', pkgname: ['minigalaxy'], icon: 'minigalaxy.png' },
-        { name: 'Steam (native)', pkgname: ['steam-native-runtime'], icon: 'steam.png' },
-        { name: 'Steam (runtime)', pkgname: ['steam'], icon: 'steam.png' },
-      ],
-    },
     {
       name: 'gaming.wine',
       sections: [
@@ -1282,7 +1282,7 @@ export class GamingComponent {
         {
           name: 'Frogatto',
           description: 'Platformer with adventure elements.',
-          url: 'https://frogatto.com',
+          url: 'https://fit is also slower in debug mrogatto.com',
           icon: 'generic-dark.svg',
           pkgname: ['frogatto'],
           aur: true,

@@ -322,15 +322,18 @@ export class OsInteractService {
    */
   private async getInstalledPackages(): Promise<Map<string, boolean>> {
     const cmd = 'pacman -Qq';
-    const result = await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return new Map<string, boolean>();
     }
 
-    return result.stdout.split('\n').reduce((map, pkg) => {
-      map.set(pkg, true);
-      return map;
-    }, new Map<string, boolean>());
+    return result.stdout
+      .trim()
+      .split('\n')
+      .reduce((map, pkg) => {
+        map.set(pkg, true);
+        return map;
+      }, new Map<string, boolean>());
   }
 
   /**
@@ -342,7 +345,7 @@ export class OsInteractService {
     const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
       'systemctl list-units --type service --full --output json --no-pager',
     );
-    const result = JSON.parse(commandoutput.stdout) as any[];
+    const result = JSON.parse(commandoutput.stdout.trim()) as any[];
 
     const services = new Map<string, boolean>();
     for (const service of result) {
@@ -361,7 +364,7 @@ export class OsInteractService {
     const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
       'systemctl --user list-units --type service --full --output json --no-pager',
     );
-    const result = JSON.parse(commandoutput.stdout) as any[];
+    const result = JSON.parse(commandoutput.stdout.trim()) as any[];
 
     const services = new Map<string, boolean>();
     for (const service of result) {
