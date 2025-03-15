@@ -192,10 +192,14 @@ export class OsInteractService {
 
     let script_groups = '';
     if (groupAdd.length > 0) {
-      script_groups += `gpasswd -a ${this.configService.state().user} ${groupAdd.join(' ')}\n`;
+      for (let group of groupAdd) {
+        script_groups += `gpasswd -a ${this.configService.state().user} ${group}\n`;
+      }
     }
     if (groupRemove.length > 0) {
-      script_groups += `gpasswd -d ${this.configService.state().user} ${groupRemove.join(' ')}\n`;
+      for (let group of groupRemove) {
+        script_groups += `gpasswd -d ${this.configService.state().user} ${group}\n`;
+      }
     }
 
     untracked(() => {

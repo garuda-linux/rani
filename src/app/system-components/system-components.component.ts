@@ -226,7 +226,7 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.printing.printingSupport.title',
           description: 'systemTools.printing.printingSupport.description',
           checked: false,
-          check: { type: 'pkg', name: 'printing-support' },
+          check: { type: 'pkg', name: 'printer-support' },
         },
         {
           name: 'scanning-support',
