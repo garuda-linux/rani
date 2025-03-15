@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { LangPipePipe } from '../lang-pipe/lang-pipe.pipe';
 import { ScrollPanel } from 'primeng/scrollpanel';
@@ -11,6 +11,7 @@ import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
   imports: [CommonModule, LangPipePipe, ScrollPanel, TranslocoDirective, Tooltip],
   templateUrl: './language-selection.component.html',
   styleUrl: './language-selection.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguageSelectionComponent implements OnInit, OnDestroy {
   allLanguages = signal<string[]>([]);

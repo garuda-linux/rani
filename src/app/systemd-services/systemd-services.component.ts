@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -10,10 +10,10 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Popover, PopoverModule } from 'primeng/popover';
 import { MessageToastService } from '@garudalinux/core';
 import { Nullable } from 'primeng/ts-helpers';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
 import { Tooltip } from 'primeng/tooltip';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'rani-systemd-services',
@@ -32,11 +32,10 @@ export class SystemdServicesComponent implements OnInit {
   intervalRef: Nullable<number> = null;
 
   protected readonly configService = inject(ConfigService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
-  private readonly operationManager = inject(OperationManagerService);
   private readonly translocoService = inject(TranslocoService);
+  private readonly taskManagerService = inject(TaskManagerService);
 
   async ngOnInit() {
     this.logger.debug('Initializing system tools');
@@ -49,7 +48,6 @@ export class SystemdServicesComponent implements OnInit {
       this.logger.debug('Started auto-refresh');
     }
 
-    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -69,8 +67,8 @@ export class SystemdServicesComponent implements OnInit {
     const servicePromises: Promise<Nullable<SystemdService[]>>[] = [];
     for (const cmd of toDo) {
       servicePromises.push(
-        this.operationManager.getCommandOutput<SystemdService[]>(cmd, (stdout: string) => {
-          const services = JSON.parse(stdout) as SystemdService[];
+        this.taskManagerService.executeAndWaitBash(cmd).then((out) => {
+          const services = JSON.parse(out.stdout) as SystemdService[];
           for (const service of services) {
             if (service.unit && service.unit.length > 50) {
               service.tooltip = service.unit;
@@ -152,9 +150,9 @@ export class SystemdServicesComponent implements OnInit {
 
     let output: string | null;
     if (!this.configService.settings().systemdUserContext) {
-      output = await this.operationManager.getSudoCommandOutput<string>(`${action} ${this.activeService()!.unit}`);
+      output = (await this.taskManagerService.executeAndWaitBash(`pkexec ${action} ${this.activeService()!.unit}`)).stdout;
     } else {
-      output = await this.operationManager.getCommandOutput<string>(`${action} ${this.activeService()!.unit}`);
+      output = (await this.taskManagerService.executeAndWaitBash(`${action} ${this.activeService()!.unit}`)).stdout;
     }
 
     if (!output) {
@@ -168,16 +166,10 @@ export class SystemdServicesComponent implements OnInit {
 
     this.logger.trace(`Command ${action} executed successfully`);
     if (event === 'logs') {
-      this.operationManager.operationOutput.set('');
-      this.operationManager.addTerminalOutput(output);
-
-      this.operationManager.currentAction.set(
-        `${this.activeService()!.unit} ${this.translocoService.translate('systemdServices.logs')}`,
-      );
-      this.operationManager.showTerminal.set(true);
+      this.taskManagerService.clearTerminal(output);
+      this.taskManagerService.toggleTerminal(true);
     } else {
       this.systemdServices.set(await this.getServices());
-      this.cdr.markForCheck();
     }
   }
 
@@ -190,7 +182,6 @@ export class SystemdServicesComponent implements OnInit {
   openPopover($event: MouseEvent, op: Popover, service: SystemdService): void {
     this.activeService.set(service);
     op.toggle($event);
-    this.cdr.markForCheck();
   }
 
   /**
@@ -208,8 +199,6 @@ export class SystemdServicesComponent implements OnInit {
       clearInterval(this.intervalRef);
       this.logger.debug('Stopped auto-refresh');
     }
-
-    this.cdr.markForCheck();
   }
 
   /**
@@ -220,7 +209,6 @@ export class SystemdServicesComponent implements OnInit {
     await this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext);
     this.systemdServices.set(await this.getServices());
 
-    this.cdr.markForCheck();
     this.loading.set(false);
   }
 
@@ -229,7 +217,6 @@ export class SystemdServicesComponent implements OnInit {
     this.includeDisabled.set(!this.includeDisabled());
     this.systemdServices.set(await this.getServices());
 
-    this.cdr.markForCheck();
     this.loading.set(false);
   }
 }

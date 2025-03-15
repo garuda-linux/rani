@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  effect,
-  inject,
-  model,
-  OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import { MaintenanceAction, ResettableConfig } from '../interfaces';
@@ -16,14 +7,15 @@ import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { path } from '@tauri-apps/api';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
-import type { Operation, OperationType } from '../operation-manager/interfaces';
-import { PrivilegeManagerService } from '../privilege-manager/privilege-manager.service';
-import { ConfirmationService } from 'primeng/api';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
+import { exists } from '@tauri-apps/plugin-fs';
+import { OsInteractService } from '../task-manager/os-interact.service';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { ConfirmationService } from 'primeng/api';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
+import { ChildProcess } from '@tauri-apps/plugin-shell';
 
 @Component({
   selector: 'app-maintenance',
@@ -36,7 +28,7 @@ export class MaintenanceComponent implements OnInit {
   selectedResetConfigs = model<any[]>([]);
   tabIndex = signal<number>(0);
 
-  resettableConfigs: ResettableConfig[] = [
+  resettableConfigs = signal<ResettableConfig[]>([
     {
       name: 'Bash',
       description: 'maintenance.resettableConfigs.bash',
@@ -146,111 +138,13 @@ export class MaintenanceComponent implements OnInit {
         '/etc/skel/.local/share/kxmlgui5/dolphin/dolphinui.rc',
       ],
     },
-  ];
+  ]);
 
-  protected readonly operationManager = inject(OperationManagerService);
-  protected readonly privilegeManager = inject(PrivilegeManagerService);
-  private readonly cdr = inject(ChangeDetectorRef);
+  protected readonly taskManager = inject(TaskManagerService);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
-
-  actions: MaintenanceAction[] = [
-    {
-      name: 'updateSystem',
-      label: 'maintenance.updateSystem',
-      description: 'maintenance.updateSystemSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
-      order: 5,
-      command: (): string => {
-        this.logger.info('Updating system');
-        return 'garuda-update --skip-mirrorlist --aur --noconfirm';
-      },
-    },
-    {
-      name: 'cleanCache',
-      label: 'maintenance.cleanCache',
-      description: 'maintenance.cleanCacheSub',
-      icon: 'pi pi-trash',
-      sudo: true,
-      hasOutput: true,
-      order: 99,
-      command: (): string => {
-        this.logger.info('Cleaning cache');
-        return 'paccache -ruk 0';
-      },
-    },
-    {
-      name: 'cleanOrphans',
-      label: 'maintenance.clearOrphans',
-      description: 'maintenance.clearOrphansSub',
-      icon: 'pi pi-trash',
-      sudo: true,
-      hasOutput: true,
-      order: 98,
-      command: (): string => {
-        this.logger.info('Cleaning orphans');
-        return 'pacman --noconfirm -Rns $(pacman -Qtdq)';
-      },
-    },
-    {
-      name: 'refreshMirrors',
-      label: 'maintenance.refreshMirrors',
-      description: 'maintenance.refreshMirrorsSub',
-      icon: 'pi pi-refresh',
-      sudo: false,
-      hasOutput: false,
-      order: 0,
-      onlyDirect: true,
-      command: async (): Promise<void> => {
-        this.logger.info('Refreshing mirrors');
-        void this.privilegeManager.ensurePackageAndRun('reflector-simple');
-      },
-    },
-    {
-      name: 'btrfsAssistant',
-      label: 'maintenance.btrfsAssistant',
-      description: 'maintenance.btrfsAssistantSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: false,
-      order: 0,
-      onlyDirect: true,
-      command: async (): Promise<void> => {
-        this.logger.info('Refreshing mirrors');
-        void this.privilegeManager.ensurePackageAndRun('btrfs-assistant', 'btrfs-assistant', true);
-      },
-    },
-    {
-      name: 'removeLock',
-      label: 'maintenance.removeLock',
-      description: 'maintenance.removeLockSub',
-      icon: 'pi pi-trash',
-      hasOutput: false,
-      sudo: true,
-      order: 1,
-      command: (): string => {
-        this.logger.info('Removing database lock');
-        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck';
-      },
-    },
-    {
-      name: 'Edit repositories',
-      label: 'maintenance.editRepos',
-      description: 'maintenance.editReposSub',
-      icon: 'pi pi-pencil',
-      hasOutput: false,
-      sudo: false,
-      order: 0,
-      onlyDirect: true,
-      command: async (): Promise<void> => {
-        this.logger.info('Editing repositories, checking for pace');
-        void this.privilegeManager.ensurePackageAndRun('pace');
-      },
-    },
-  ];
+  private readonly osInteractService = inject(OsInteractService);
 
   actionsGarudaUpdate: MaintenanceAction[] = [
     {
@@ -260,7 +154,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 5,
       command: (): string => {
         this.logger.info('Running remote fix');
         return 'garuda-update remote fix';
@@ -273,7 +167,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 5,
       command: (): string => {
         this.logger.info('Running remote keyring');
         return 'garuda-update remote keyring';
@@ -286,7 +180,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 5,
       command: (): string => {
         this.logger.info('Running remote full fix');
         return 'garuda-update remote fullfix';
@@ -299,7 +193,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 7,
       command: (): string => {
         this.logger.info('Running remote reset audio');
         return 'garuda-update remote reset-audio';
@@ -312,7 +206,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-pencil',
       hasOutput: true,
       sudo: true,
-      order: 0,
+      priority: 7,
       command: (): string => {
         this.logger.info('Running remote reset snapper');
         return 'garuda-update remote reset-snapper';
@@ -325,29 +219,118 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: true,
-      order: 5,
+      priority: 6,
       command: (): string => {
         this.logger.info('Reinstalling packages');
         return 'garuda-update remote reinstall';
       },
     },
   ];
+  actions: MaintenanceAction[] = [
+    {
+      name: 'updateSystem',
+      label: 'maintenance.updateSystem',
+      description: 'maintenance.updateSystemSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: true,
+      priority: 5,
+      command: (): string => {
+        this.logger.info('Updating system');
+        return 'garuda-update --skip-mirrorlist --aur --noconfirm';
+      },
+    },
+    {
+      name: 'cleanCache',
+      label: 'maintenance.cleanCache',
+      description: 'maintenance.cleanCacheSub',
+      icon: 'pi pi-trash',
+      sudo: true,
+      hasOutput: true,
+      priority: 99,
+      command: (): string => {
+        this.logger.info('Cleaning cache');
+        return 'paccache -ruk 0';
+      },
+    },
+    {
+      name: 'cleanOrphans',
+      label: 'maintenance.clearOrphans',
+      description: 'maintenance.clearOrphansSub',
+      icon: 'pi pi-trash',
+      sudo: true,
+      hasOutput: true,
+      priority: 10,
+      command: (): string => {
+        this.logger.info('Cleaning orphans');
+        return 'pacman --noconfirm -Rns $(pacman -Qtdq)';
+      },
+    },
+    {
+      name: 'refreshMirrors',
+      label: 'maintenance.refreshMirrors',
+      description: 'maintenance.refreshMirrorsSub',
+      icon: 'pi pi-refresh',
+      sudo: false,
+      hasOutput: false,
+      priority: 3,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        this.logger.info('Refreshing mirrors');
+        if (await this.osInteractService.ensurePackageArchlinux('reflector-simple')) {
+          void this.taskManager.executeAndWaitBash('reflector-simple');
+        }
+      },
+    },
+    {
+      name: 'btrfsAssistant',
+      label: 'maintenance.btrfsAssistant',
+      description: 'maintenance.btrfsAssistantSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: false,
+      priority: 0,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        this.logger.info('Refreshing mirrors');
+        if (await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')) {
+          void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
+        }
+      },
+    },
+    {
+      name: 'removeLock',
+      label: 'maintenance.removeLock',
+      description: 'maintenance.removeLockSub',
+      icon: 'pi pi-trash',
+      hasOutput: false,
+      sudo: true,
+      priority: 0,
+      command: (): string => {
+        this.logger.info('Removing database lock');
+        return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck && echo "Successfully removed lock" || echo "No lock found"';
+      },
+    },
+    {
+      name: 'Edit repositories',
+      label: 'maintenance.editRepos',
+      description: 'maintenance.editReposSub',
+      icon: 'pi pi-pencil',
+      hasOutput: false,
+      sudo: false,
+      priority: 0,
+      onlyDirect: true,
+      command: async (): Promise<void> => {
+        this.logger.info('Editing repositories, checking for pace');
+        if (await this.osInteractService.ensurePackageArchlinux('pace')) {
+          void this.taskManager.executeAndWaitBash('pace');
+        }
+      },
+    },
+  ];
 
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
-
-  constructor() {
-    effect(() => {
-      const pendingActions: Operation[] = this.operationManager.pending();
-      for (const action of this.actions) {
-        action.addedToPending = pendingActions.some((operation) => operation.name === action.name);
-      }
-      for (const action of this.actionsGarudaUpdate) {
-        action.addedToPending = pendingActions.some((operation) => operation.name === action.name);
-      }
-      this.cdr.markForCheck();
-    });
-  }
 
   async ngOnInit(): Promise<void> {
     this.logger.debug('Initializing maintenance');
@@ -359,23 +342,33 @@ export class MaintenanceComponent implements OnInit {
    */
   async checkExistingConfigs() {
     this.loadingService.loadingOn();
-    for (const config of this.resettableConfigs) {
-      config.files.some(async (file) => {
-        this.logger.trace(`Checking file: ${file}`);
-        void this.operationManager.getCommandOutput<string>(`test -e ${file}`, (stdout: string | null) => {
-          if (stdout !== null) {
-            this.logger.trace(`Found existing config: ${file}`);
-            config.exists = true;
-            return true;
+    const promises: Promise<ResettableConfig>[] = [];
+    this.logger.debug('Checking existing configs');
+
+    for (const config of this.resettableConfigs()) {
+      const promise = new Promise<ResettableConfig>(async (resolve) => {
+        for (const file of config.files) {
+          this.logger.trace(`Checking ${file}`);
+          await exists(file);
+          try {
+            if (await exists(file)) {
+              this.logger.trace(`${file} exists`);
+              resolve({ ...config, exists: true });
+              return;
+            }
+          } catch (error) {
+            this.logger.error(`Error checking ${file}: ${error}`);
+            resolve({ ...config, exists: false });
           }
-          this.logger.trace(`No existing config: ${file}`);
-          return false;
-        });
+        }
+        return resolve({ ...config, exists: false });
       });
+      promises.push(promise);
     }
+    this.resettableConfigs.set(await Promise.all(promises));
 
     this.loadingService.loadingOff();
-    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs)}`);
+    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs())}`);
   }
 
   /**
@@ -392,15 +385,15 @@ export class MaintenanceComponent implements OnInit {
         const cmd = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
         this.logger.debug(`Running command: ${cmd}`);
 
-        const result: string | null = await this.operationManager.getCommandOutput<string>(
-          cmd,
-          (stdout: string) => stdout,
-        );
-        if (result !== null) {
+        const output: ChildProcess<string> = await this.taskManager.executeAndWaitBash(cmd);
+        if (output.code === 0) {
           this.logger.info(`Successfully reset ${file}`);
         } else {
           this.logger.error(`Failed to reset ${file}`);
-          this.messageToastService.error('Error resetting config', `Failed to reset ${file}`);
+          this.messageToastService.error(
+            this.translocoService.translate('maintenance.failedReset'),
+            this.translocoService.translate('maintenance.failedResetFile', { file }),
+          );
         }
       }
     }
@@ -413,31 +406,26 @@ export class MaintenanceComponent implements OnInit {
    * @param action The action to add
    */
   addToPending(action: MaintenanceAction) {
-    if (!this.operationManager.pending().find((operation) => operation.name === action.name)) {
+    const entry = this.taskManager.findTaskById(action.name);
+
+    // Not a thing
+    if (action.onlyDirect || action.command.constructor.name === 'AsyncFunction') return;
+
+    if (!entry) {
       this.logger.debug(`Adding ${action.name} to pending`);
-      this.operationManager.pending.update((pending) => [
-        ...pending,
-        {
-          name: action.name as unknown as OperationType,
-          prettyName: action.label,
-          order: action.order,
-          command: action.command,
-          commandArgs: [],
-          sudo: action.sudo,
-          status: 'pending',
-          hasOutput: action.hasOutput,
-        },
-      ]);
-      action.addedToPending = true;
+      const task = this.taskManager.createTask(
+        action.priority,
+        action.name,
+        action.sudo,
+        action.label,
+        action.icon,
+        (action as any).command(),
+      );
+      this.taskManager.scheduleTask(task);
     } else {
       this.logger.trace(`Removing ${action.name} from pending`);
-      this.operationManager.pending.set(
-        this.operationManager.pending().filter((operation) => operation.name !== action.name),
-      );
-      action.addedToPending = false;
+      this.taskManager.removeTask(entry);
     }
-
-    this.cdr.markForCheck();
   }
 
   /**
@@ -450,17 +438,23 @@ export class MaintenanceComponent implements OnInit {
       this.logger.debug('Boom its a direct action');
       void action.command();
     } else {
-      this.logger.debug('Adding to pending and executing, clearing pending');
-      void this.operationManager.runNow({
-        name: action.name as unknown as OperationType,
-        prettyName: action.label,
-        order: action.order,
-        command: action.command,
-        commandArgs: [],
-        sudo: action.sudo,
-        status: 'pending',
-        hasOutput: action.hasOutput,
-      });
+      if (this.taskManager.running()) {
+        this.messageToastService.error(
+          this.translocoService.translate('maintenance.taskRunningHeader'),
+          this.translocoService.translate('maintenance.taskRunning'),
+        );
+        return;
+      }
+      const task = this.taskManager.createTask(
+        action.priority,
+        action.name,
+        action.sudo,
+        action.label,
+        action.icon,
+        (action as any).command(),
+      );
+      void this.taskManager.executeTask(task);
+      this.taskManager.toggleTerminal(true);
     }
   }
 
@@ -487,7 +481,5 @@ export class MaintenanceComponent implements OnInit {
         void this.resetConfigs();
       },
     });
-
-    this.cdr.markForCheck();
   }
 }

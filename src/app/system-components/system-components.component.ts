@@ -21,8 +21,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.audio.alsa.title',
           description: 'systemTools.audio.alsa.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'alsa-support' },
         },
         {
@@ -30,8 +28,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.audio.jack.title',
           description: 'systemTools.audio.jack.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'jack-support' },
         },
         {
@@ -39,8 +35,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.audio.pulseaudio.title',
           description: 'systemTools.audio.pulseaudio.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'pulseaudio-support' },
         },
         {
@@ -48,8 +42,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.audio.pipewire.title',
           description: 'systemTools.audio.pipewire.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'pipewire-support' },
         },
         {
@@ -57,8 +49,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.audio.userRealtime.title',
           description: 'systemTools.audio.userRealtime.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'realtime' },
         },
       ],
@@ -72,8 +62,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.virtualization.virtManager.title',
           description: 'systemTools.virtualization.virtManager.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'virt-manager-meta' },
         },
         {
@@ -82,8 +70,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.virtualization.libvirtdEnabled.description',
           checked: false,
           disabler: 'virt-manager',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'libvirtd.service' },
         },
         {
@@ -92,8 +78,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.virtualization.userVboxUsers.description',
           checked: false,
           disabler: 'virtualbox',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'vboxusers' },
         },
 
@@ -102,8 +86,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.virtualization.virtualbox.title',
           description: 'systemTools.virtualization.virtualbox.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'virtualbox-meta' },
         },
         {
@@ -112,8 +94,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.virtualization.userLibvirt.description',
           checked: false,
           disabler: 'virt-manager',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'libvirt' },
         },
         {
@@ -122,8 +102,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.virtualization.userKvm.description',
           checked: false,
           disabler: 'virt-manager',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'kvm' },
         },
         {
@@ -131,8 +109,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.virtualization.qemu.title',
           description: 'systemTools.virtualization.qemu.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'qemu' },
         },
         {
@@ -140,8 +116,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.virtualization.docker.title',
           description: 'systemTools.virtualization.docker.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'docker' },
         },
         {
@@ -150,8 +124,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.virtualization.userDocker.description',
           checked: false,
           disabler: 'docker',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'docker' },
         },
         {
@@ -160,8 +132,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.virtualization.dockerEnabled.description',
           checked: false,
           disabler: 'docker',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'docker.service' },
         },
         {
@@ -169,8 +139,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.virtualization.podman.title',
           description: 'systemTools.virtualization.podman.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'podman' },
         },
       ],
@@ -184,8 +152,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.network.networkManager.title',
           description: 'systemTools.network.networkManager.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'networkmanager' },
         },
         {
@@ -194,8 +160,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.network.networkManagerEnabled.description',
           checked: false,
           disabler: 'networkManager',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'NetworkManager.service' },
         },
         {
@@ -204,8 +168,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.network.modemManagerEnabled.description',
           checked: false,
           disabler: 'networkManager',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'ModemManager.service' },
         },
       ],
@@ -219,8 +181,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.bluetooth.bluetooth.title',
           description: 'systemTools.bluetooth.bluetooth.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'bluetooth-support' },
         },
         {
@@ -229,8 +189,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.bluetooth.bluetoothEnabled.description',
           checked: false,
           disabler: 'bluetooth',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'bluetooth.service' },
         },
         {
@@ -239,8 +197,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.bluetooth.userBluetooth.description',
           checked: false,
           disabler: 'bluetooth',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'lp' },
         },
         {
@@ -249,8 +205,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.bluetooth.autoConnect.description',
           checked: false,
           disabler: 'bluetooth',
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'bluetooth-autoconnect' },
         },
         {
@@ -259,8 +213,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.bluetooth.autoConnectEnabled.description',
           checked: false,
           disabler: 'autoConnect',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'bluetooth-autoconnect.service' },
         },
       ],
@@ -274,17 +226,13 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.printing.printingSupport.title',
           description: 'systemTools.printing.printingSupport.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
-          check: { type: 'pkg', name: 'printing-support' },
+          check: { type: 'pkg', name: 'printer-support' },
         },
         {
           name: 'scanning-support',
           fancyTitle: 'systemTools.printing.scanningSupport.title',
           description: 'systemTools.printing.scanningSupport.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'scanning-support' },
         },
         {
@@ -293,8 +241,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.printing.cupsEnabled.description',
           checked: false,
           disabler: 'printing-support',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'cups.service' },
         },
         {
@@ -303,8 +249,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.printing.sanedEnabled.description',
           checked: false,
           disabler: 'printing-support',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'saned.service' },
         },
         {
@@ -313,8 +257,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.printing.userCups.description',
           checked: false,
           disabler: 'printing-support',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'cups' },
         },
         {
@@ -323,8 +265,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.printing.userScanner.description',
           checked: false,
           disabler: 'scanning-support',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'scanning' },
         },
         {
@@ -333,8 +273,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.printing.userSys.description',
           checked: false,
           disabler: 'printing-support',
-          handler: () => {},
-          initialState: false,
           check: { type: 'group', name: 'sys' },
         },
       ],
@@ -348,8 +286,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.firewall.ufw.title',
           description: 'systemTools.firewall.ufw.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'ufw' },
         },
         {
@@ -358,8 +294,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.firewall.ufwEnabled.description',
           checked: false,
           disabler: 'ufw',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'ufw.service' },
         },
         {
@@ -367,8 +301,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.firewall.firewalld.title',
           description: 'systemTools.firewall.firewalld.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'firewalld' },
         },
         {
@@ -377,8 +309,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.firewall.firewalldEnabled.description',
           checked: false,
           disabler: 'firewalld',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'firewalld.service' },
         },
         {
@@ -386,8 +316,6 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.firewall.opensnitch.title',
           description: 'systemTools.firewall.opensnitch.description',
           checked: false,
-          handler: () => {},
-          initialState: false,
           check: { type: 'pkg', name: 'opensnitch' },
         },
         {
@@ -396,8 +324,6 @@ export class SystemComponentsComponent {
           description: 'systemTools.firewall.opensnitchEnabled.description',
           checked: false,
           disabler: 'opensnitch',
-          handler: () => {},
-          initialState: false,
           check: { type: 'service', name: 'opensnitch.service' },
         },
       ],

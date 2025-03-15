@@ -5,11 +5,9 @@ import { OverlayBadge } from 'primeng/overlaybadge';
 import { Tooltip } from 'primeng/tooltip';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
-import { OperationManagerService } from '../operation-manager/operation-manager.service';
-import type { MaintenanceAction } from '../interfaces';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
-import { OperationType } from '../operation-manager/interfaces';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'rani-system-status',
@@ -29,12 +27,10 @@ export class SystemStatusComponent {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
-  private readonly operationManager = inject(OperationManagerService);
+  private readonly taskManagerService = inject(TaskManagerService);
 
   buttonDisabled = computed(
-    () =>
-      this.operationManager.pending().find((operation) => operation.name === ('updateSystem' as OperationType)) !==
-      undefined,
+    () => this.taskManagerService.findTaskById('updateSystem') !== null
   );
 
   constructor() {
@@ -82,7 +78,7 @@ export class SystemStatusComponent {
       for (const update of updates) {
         this.logger.trace(`Update: ${update}`);
 
-        let [pkg, version, invalid, newVersion] = update.split(' ');
+        let [pkg, version, newVersion] = update.split(' ');
         this.updates.push({ pkg, version, newVersion: newVersion });
       }
     } else if (result.code === 2) {
@@ -98,21 +94,9 @@ export class SystemStatusComponent {
       return;
     }
 
-    const operation: MaintenanceAction = {
-      name: 'updateSystem',
-      label: 'maintenance.updateSystem',
-      description: 'maintenance.updateSystemSub',
-      icon: 'pi pi-refresh',
-      sudo: true,
-      hasOutput: true,
-      order: 5,
-      command: (): string => {
-        this.logger.info('Updating system');
-        return 'garuda-update --aur --noconfirm';
-      },
-    };
+    const task = this.taskManagerService.createTask(0, "updateSystem", true, 'maintenance.updateSystem', 'pi pi-refresh', 'garuda-update --noconfirm');
+    this.taskManagerService.scheduleTask(task);
 
-    this.operationManager.toggleMaintenanceActionPending(operation);
     this.dialogVisible.set(false);
   }
 
