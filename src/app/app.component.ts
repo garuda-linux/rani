@@ -118,191 +118,198 @@ export class AppComponent implements OnInit {
   private readonly logger = Logger.getInstance();
   private readonly translocoService = inject(TranslocoService);
 
-  menuItems = signal<MenuItem[]>(this.setupLabels(this.translocoService.getActiveLang(), [
-    {
-      icon: 'pi pi-home',
-      label: 'Welcome',
-      translocoKey: 'menu.welcome',
-      routerLink: '/',
-    },
-    {
-      icon: 'pi pi-desktop',
-      label: 'Maintenance',
-      translocoKey: 'menu.maintenance',
-      routerLink: '/maintenance',
-    },
-    {
-      icon: 'pi pi-microchip',
-      label: 'System tools',
-      translocoKey: 'menu.systemTools',
-      routerLink: '/system-tools',
-    },
-    {
-      icon: 'pi pi-play-circle',
-      label: 'Gaming apps',
-      translocoKey: 'menu.gaming',
-      routerLink: '/gaming',
-    },
-    {
-      icon: 'pi pi-hammer',
-      label: 'Boot options/repair',
-      translocoKey: 'menu.boot',
-      routerLink: '/boot-tools',
-      // TODO: implement
-      visible: false,
-    },
-    {
-      icon: 'pi pi-globe',
-      label: 'Network tools',
-      translocoKey: 'menu.network',
-      routerLink: '/net-tools',
-      // TODO: implement
-      visible: false,
-    },
-    {
-      icon: 'pi pi-info-circle',
-      label: 'Diagnostics',
-      translocoKey: 'menu.diagnostics',
-      routerLink: '/diagnostics',
-    },
-    {
-      icon: 'pi pi-spinner',
-      label: 'Terminal',
-      translocoKey: 'menu.terminal',
-      command: () => this.terminalComponent.visible.set(true),
-    },
-    {
-      icon: 'pi pi-cog',
-      label: 'Settings',
-      translocoKey: 'menu.settings.title',
-      items: [
-        {
-          icon: 'pi pi-circle-fill',
-          id: 'leftButtons',
-          label: 'Show window buttons left',
-          translocoKey: 'menu.settings.windowButtonsLeft',
-          command: () => this.configService.updateConfig('leftButtons', !this.configService.settings().leftButtons),
-        },
-        {
-          icon: 'pi pi-clipboard',
-          id: 'copyDiagnostics',
-          label: 'Copy diagnostics to clipboard',
-          translocoKey: 'menu.settings.copyDiagnostics',
-          command: () =>
-            this.configService.updateConfig('copyDiagnostics', !this.configService.settings().copyDiagnostics),
-        },
-        {
-          icon: 'pi pi-moon',
-          id: 'darkMode',
-          label: 'Dark mode',
-          translocoKey: 'menu.settings.enableDarkMode',
-          command: () => this.configService.updateConfig('darkMode', !this.configService.settings().darkMode),
-        },
-        {
-          icon: 'pi pi-user',
-          id: 'systemdUserContext',
-          label: 'Use systemd user context',
-          translocoKey: 'menu.settings.useSystemdUserContext',
-          command: () =>
-            this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext),
-        },
-        {
-          icon: 'pi pi-refresh',
-          id: 'autoRefresh',
-          label: 'Auto-refresh systemd services',
-          translocoKey: 'menu.settings.autoRefresh',
-          command: () =>
-            this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh),
-        },
-        {
-          icon: 'pi pi-refresh',
-          id: 'autoStart',
-          label: 'Auto-start Garuda Rani',
-          translocoKey: 'menu.settings.autoStart',
-          command: () => this.toggleAutoStart(),
-        },
-        {
-          icon: 'pi pi-info',
-          id: 'logLevel',
-          label: 'Set the log level used',
-          translocoKey: 'menu.settings.logLevel',
-          command: () => this.toggleLoglevel(),
-        },
-        {
-          icon: 'pi pi-language',
-          id: 'language',
-          label: 'Language',
-          translocoKey: 'menu.settings.language',
-          command: () => this.langSwitcher.show(),
-        },
-      ],
-    },
-    {
-      icon: 'pi pi-question-circle',
-      label: 'Help',
-      translocoKey: 'menu.help.title',
-      items: [
-        {
-          icon: 'pi pi-info-circle',
-          label: 'Get help on the forum',
-          translocoKey: 'menu.help.getHelpForum',
-          command: () => open('https://forum.garudalinux.org/'),
-        },
-        {
-          icon: 'pi pi-info-circle',
-          label: 'Search the wiki',
-          translocoKey: 'menu.help.getHelpWiki',
-          command: () => open('https://wiki.garudalinux.org/'),
-        },
-        {
-          icon: 'pi pi-info-circle',
-          label: 'Search the Arch wiki',
-          translocoKey: 'menu.help.getHelpArchWiki',
-          command: () => open('https://wiki.archlinux.org/'),
-        },
-        {
-          icon: 'pi pi-info-circle',
-          label: 'Garuda Linux infra status',
-          translocoKey: 'menu.help.garudaStatus',
-          command: () => open('https://status.garudalinux.org'),
-        },
-        {
-          icon: 'pi pi-info-circle',
-          label: 'About',
-          translocoKey: 'menu.help.callExorcist',
-          command: () =>
-            this.appService.sendNotification({
-              title: this.translocoService.translate('menu.help.callExorcistTitle'),
-              body: `${this.translocoService.translate('menu.help.callExorcistBody')} 🐛`,
-            }),
-        },
-        {
-          icon: 'pi pi-info-circle',
-          label: 'About',
-          translocoKey: 'menu.help.about',
-          command: () =>
-            this.appService.sendNotification({
-              title: this.translocoService.translate('menu.help.about'),
-              body: this.translocoService.translate('menu.help.aboutBody'),
-            }),
-        },
-      ],
-    },
-  ]));
+  menuItems = signal<MenuItem[]>(
+    this.setupLabels(this.translocoService.getActiveLang(), [
+      {
+        icon: 'pi pi-home',
+        label: 'Welcome',
+        translocoKey: 'menu.welcome',
+        routerLink: '/',
+      },
+      {
+        icon: 'pi pi-desktop',
+        label: 'Maintenance',
+        translocoKey: 'menu.maintenance',
+        routerLink: '/maintenance',
+      },
+      {
+        icon: 'pi pi-microchip',
+        label: 'System tools',
+        translocoKey: 'menu.systemTools',
+        routerLink: '/system-tools',
+      },
+      {
+        icon: 'pi pi-play-circle',
+        label: 'Gaming apps',
+        translocoKey: 'menu.gaming',
+        routerLink: '/gaming',
+      },
+      {
+        icon: 'pi pi-hammer',
+        label: 'Boot options/repair',
+        translocoKey: 'menu.boot',
+        routerLink: '/boot-tools',
+        // TODO: implement
+        visible: false,
+      },
+      {
+        icon: 'pi pi-globe',
+        label: 'Network tools',
+        translocoKey: 'menu.network',
+        routerLink: '/net-tools',
+        // TODO: implement
+        visible: false,
+      },
+      {
+        icon: 'pi pi-info-circle',
+        label: 'Diagnostics',
+        translocoKey: 'menu.diagnostics',
+        routerLink: '/diagnostics',
+      },
+      {
+        icon: 'pi pi-spinner',
+        label: 'Terminal',
+        translocoKey: 'menu.terminal',
+        command: () => this.terminalComponent.visible.set(true),
+      },
+      {
+        icon: 'pi pi-cog',
+        label: 'Settings',
+        translocoKey: 'menu.settings.title',
+        items: [
+          {
+            icon: 'pi pi-circle-fill',
+            id: 'leftButtons',
+            label: 'Show window buttons left',
+            translocoKey: 'menu.settings.windowButtonsLeft',
+            command: () => this.configService.updateConfig('leftButtons', !this.configService.settings().leftButtons),
+          },
+          {
+            icon: 'pi pi-clipboard',
+            id: 'copyDiagnostics',
+            label: 'Copy diagnostics to clipboard',
+            translocoKey: 'menu.settings.copyDiagnostics',
+            command: () =>
+              this.configService.updateConfig('copyDiagnostics', !this.configService.settings().copyDiagnostics),
+          },
+          {
+            icon: 'pi pi-moon',
+            id: 'darkMode',
+            label: 'Dark mode',
+            translocoKey: 'menu.settings.enableDarkMode',
+            command: () => this.configService.updateConfig('darkMode', !this.configService.settings().darkMode),
+          },
+          {
+            icon: 'pi pi-user',
+            id: 'systemdUserContext',
+            label: 'Use systemd user context',
+            translocoKey: 'menu.settings.systemdUserContext',
+            command: () =>
+              this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext),
+          },
+          {
+            icon: 'pi pi-refresh',
+            id: 'autoRefresh',
+            label: 'Auto-refresh systemd services',
+            translocoKey: 'menu.settings.enableAutoRefresh',
+            command: () => this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh),
+          },
+          {
+            icon: 'pi pi-refresh',
+            id: 'autoStart',
+            label: 'Auto-start Garuda Rani',
+            translocoKey: 'menu.settings.autoStart',
+            command: () => this.toggleAutoStart(),
+          },
+          {
+            icon: 'pi pi-info',
+            id: 'logLevel',
+            label: 'Set the log level used',
+            translocoKey: 'menu.settings.logLevel',
+            command: () => this.toggleLoglevel(),
+          },
+          {
+            icon: 'pi pi-language',
+            id: 'language',
+            label: 'Language',
+            translocoKey: 'menu.settings.language',
+            command: () => this.langSwitcher.show(),
+          },
+        ],
+      },
+      {
+        icon: 'pi pi-question-circle',
+        label: 'Help',
+        translocoKey: 'menu.help.title',
+        items: [
+          {
+            icon: 'pi pi-info-circle',
+            label: 'Get help on the forum',
+            translocoKey: 'menu.help.getHelpForum',
+            command: () => open('https://forum.garudalinux.org/'),
+          },
+          {
+            icon: 'pi pi-info-circle',
+            label: 'Search the wiki',
+            translocoKey: 'menu.help.getHelpWiki',
+            command: () => open('https://wiki.garudalinux.org/'),
+          },
+          {
+            icon: 'pi pi-info-circle',
+            label: 'Search the Arch wiki',
+            translocoKey: 'menu.help.getHelpArchWiki',
+            command: () => open('https://wiki.archlinux.org/'),
+          },
+          {
+            icon: 'pi pi-info-circle',
+            label: 'Garuda Linux infra status',
+            translocoKey: 'menu.help.garudaStatus',
+            command: () => open('https://status.garudalinux.org'),
+          },
+          {
+            icon: 'pi pi-info-circle',
+            label: 'About',
+            translocoKey: 'menu.help.callExorcist',
+            command: () =>
+              this.appService.sendNotification({
+                title: this.translocoService.translate('menu.help.callExorcistTitle'),
+                body: `${this.translocoService.translate('menu.help.callExorcistBody')} 🐛`,
+              }),
+          },
+          {
+            icon: 'pi pi-info-circle',
+            label: 'About',
+            translocoKey: 'menu.help.about',
+            command: () =>
+              this.appService.sendNotification({
+                title: this.translocoService.translate('menu.help.about'),
+                body: this.translocoService.translate('menu.help.aboutBody'),
+              }),
+          },
+        ],
+      },
+    ]),
+  );
 
   constructor() {
     effect(() => {
       this.menuItems.update((items: MenuItem[]) => {
         const index: number = items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
-        if (index === -1)
-          return items;
+        if (index === -1) return items;
 
-        if (this.taskManager.running())
+        if (this.taskManager.running()) {
           items[index].icon = 'pi pi-spin pi-spinner';
-        else if (this.taskManager.count() > 0)
+          items[index].label = this.translocoService.translate('menu.terminalRunning');
+          items[index].badge = undefined;
+        } else if (this.taskManager.count() > 0) {
           items[index].icon = 'pi pi-hourglass';
-        else
+          items[index].label = this.translocoService.translate('menu.terminalTasks');
+          items[index].badge = this.taskManager.count().toString();
+        } else {
           items[index].icon = 'pi pi-expand';
+          items[index].label = this.translocoService.translate('menu.terminal');
+          items[index].badge = undefined;
+        }
 
         this.cdr.markForCheck();
         return items;
@@ -349,7 +356,7 @@ export class AppComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   async handleRightClick(event: MouseEvent): Promise<void> {
     const noDragSelector =
-      'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card, p-select, p-table, p-dialog, rani-system-status';
+      'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card, p-select, p-table, p-dialog, rani-system-status, ng-terminal';
     const target = event.target as HTMLElement;
     if (target.closest(noDragSelector)) return;
 
@@ -364,18 +371,27 @@ export class AppComponent implements OnInit {
   /**
    * Set up the labels for the menu items with the given language.
    * @param lang The language to set the labels in
+   * @param entries The menu items to set the labels for
+   * @returns The menu items with the labels set
    */
   setupLabels(lang: string, entries: MenuItem[]): MenuItem[] {
-    const newItems: MenuItem[] = [ ];
+    const newItems: MenuItem[] = [];
 
     for (const item of entries) {
-      const newSubItems: MenuItem[] = [ ];
+      const newSubItems: MenuItem[] = [];
       if (item.items) {
         for (const subItem of item.items) {
-          newSubItems.push(Object.assign({ }, subItem, { label: this.translocoService.translate(subItem['translocoKey'], { }, lang) }));
+          newSubItems.push(
+            Object.assign({}, subItem, { label: this.translocoService.translate(subItem['translocoKey'], {}, lang) }),
+          );
         }
       }
-      newItems.push(Object.assign({ }, item, { label: this.translocoService.translate(item['translocoKey'], { }, lang), items: newSubItems }));
+      newItems.push(
+        Object.assign({}, item, {
+          label: this.translocoService.translate(item['translocoKey'], {}, lang),
+          items: newSubItems,
+        }),
+      );
     }
 
     return newItems;
