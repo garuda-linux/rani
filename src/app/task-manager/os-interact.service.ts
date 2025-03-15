@@ -2,6 +2,7 @@ import { computed, effect, inject, Injectable, Signal, signal, untracked } from 
 import { TaskManagerService } from "./task-manager.service";
 import { ConfigService } from "../config/config.service";
 import { SystemToolsSubEntry } from "../interfaces";
+import { defaultDnsProvider, DnsProvider, dnsProviders, ShellEntry, shells } from "../system-settings/types";
 
 @Injectable({
     providedIn: 'root'
@@ -16,22 +17,34 @@ export class OsInteractService {
     private readonly currentServicesUser = signal<Map<string, boolean>>(new Map());
     private readonly currentGroups = signal<Map<string, boolean>>(new Map());
 
+    private readonly currentDNS = signal<DnsProvider>(defaultDnsProvider);
+    private readonly currentShell = signal<ShellEntry | null>(null);
+    private readonly currentHblock = signal<boolean>(false);
+
     private readonly wantedPackages = signal<Map<string, boolean>>(new Map());
     private readonly wantedPackagesAur = signal<Map<string, boolean>>(new Map());
     private readonly wantedServices = signal<Map<string, boolean>>(new Map());
     private readonly wantedServicesUser = signal<Map<string, boolean>>(new Map());
     private readonly wantedGroups = signal<Map<string, boolean>>(new Map());
 
+    readonly wantedDns = signal<DnsProvider | null>(null);
+    readonly wantedShell = signal<ShellEntry | null>(null);
+    readonly wantedHblock = signal<boolean | null>(null);
+
     readonly packages = computed(() => { return new Map([...this.installedPackages(), ...this.wantedPackages(), ...this.wantedPackagesAur()]); });
     readonly services = computed(() => { return new Map([...this.currentServices(), ...this.wantedServices()]); });
     readonly servicesUser = computed(() => { return new Map([...this.currentServicesUser(), ...this.wantedServicesUser()]); });
     readonly groups = computed(() => { return new Map([...this.currentGroups(), ...this.wantedGroups()]); });
 
+    readonly dns = computed(() => { return this.wantedDns() ?? this.currentDNS(); });
+    readonly shell = computed(() => { return this.wantedShell() ?? this.currentShell(); });
+    readonly hblock = computed(() => { return this.wantedHblock() ?? this.currentHblock(); });
+
     constructor() {
         effect(() => {
             if (this.taskManagerService.running() === false) {
                 untracked(async () => {
-                  await this.update();
+                    await this.update();
                 });
             }
         });
@@ -119,6 +132,41 @@ export class OsInteractService {
             script_services += `systemctl disable --now ${disable.join(' ')}\n`;
         }
 
+        if (this.dns() !== this.currentDNS()) {
+            script_services += `
+            set -e
+            DNSFILE="/etc/NetworkManager/conf.d/10-garuda-assistant-dns.conf"
+
+            chattr -i /etc/resolv.conf
+
+            if [ "$1" == "0.0.0.0" ]; then
+                rm -f "$DNSFILE"
+            else
+                echo -e "[global-dns-domain-*]\\nservers=${this.dns().ips[0]}" > "$DNSFILE"
+            fi
+
+            nmcli general reload
+            echo "DNS settings changed."
+            `;
+        }
+
+        const shell = this.shell();
+        if (shell !== null && shell !== this.currentShell()) {
+            script_services += `
+            set -e
+            chsh -s $(which ${shell.name}) ${this.configService.state().user}
+            echo "Shell changed."
+            `;
+        }
+
+        if (this.hblock() !== this.currentHblock()) {
+            if (this.hblock()) {
+                script_services += `systemctl enable --now hblock.timer && hblock\n`;
+            } else {
+                script_services += `systemctl disable --now hblock.timer && hblock -S none -D none\n`;
+            }
+        }
+
         let script_services_user = '';
         if (enableUser.length > 0) {
             script_services_user += `systemctl --user enable --now ${enableUser.join(' ')}\n`;
@@ -155,12 +203,12 @@ export class OsInteractService {
             tasks.push(this.taskManagerService.createTask(8, 'os-interact-packages', true, 'os-interact.packages', 'pi pi-box', script_packages));
         if (script_packages_aur !== '')
             tasks.push(this.taskManagerService.createTask(9, 'os-interact-packages-aur', true, 'os-interact.packages-aur', 'pi pi-box', script_packages_aur));
-        if (script_services !== '')
-            tasks.push(this.taskManagerService.createTask(11, 'os-interact-services', true, 'os-interact.services', 'pi pi-receipt', script_services));
-        if (script_services_user !== '')
-            tasks.push(this.taskManagerService.createTask(11, 'os-interact-services-user', true, 'os-interact.services-user', 'pi pi-receipt', script_services_user));
         if (script_groups !== '')
             tasks.push(this.taskManagerService.createTask(11, 'os-interact-groups', true, 'os-interact.groups', 'pi pi-users', script_groups));
+        if (script_services !== '')
+            tasks.push(this.taskManagerService.createTask(12, 'os-interact-services', true, 'os-interact.services', 'pi pi-receipt', script_services));
+        if (script_services_user !== '')
+            tasks.push(this.taskManagerService.createTask(12, 'os-interact-services-user', false, 'os-interact.services-user', 'pi pi-receipt', script_services_user));
 
         tasks.forEach(task => {
             this.taskManagerService.scheduleTask(task);
@@ -169,25 +217,31 @@ export class OsInteractService {
 
     private wantedPrune(wanted: Map<string, boolean>, current: Map<string, boolean>): Map<string, boolean> {
         return new Map([...wanted].filter(([key, value]) => {
-          if (!current.has(key)) {
-            return value === true;
-          } else {
-            return current.get(key) !== value;
-          }
+            if (!current.has(key)) {
+                return value === true;
+            } else {
+                return current.get(key) !== value;
+            }
         }));
     }
 
     async update(): Promise<void> {
-        const [services, servicesUser, installedPackages, groups] = await Promise.all([
+        const [services, servicesUser, installedPackages, groups, dns, shell, hblock] = await Promise.all([
             this.getServices(),
             this.getUserServices(),
             this.getInstalledPackages(),
             this.getGroups(),
+            this.getDNS(),
+            this.getShell(),
+            this.getHblock(),
         ]);
         this.installedPackages.set(installedPackages);
         this.currentServices.set(services);
         this.currentServicesUser.set(servicesUser);
         this.currentGroups.set(groups);
+        this.currentDNS.set(dns);
+        this.currentShell.set(shell);
+        this.currentHblock.set(hblock);
     }
 
     private async getInstalledPackages(): Promise<Map<string, boolean>> {
@@ -225,23 +279,54 @@ export class OsInteractService {
     }
 
     private async getGroups(): Promise<Map<string, boolean>> {
-      const result = await this.taskManagerService.executeAndWaitBash(`groups ${this.configService.state().user} | cut -d ' ' -f 3-`);
-      if (result.code !== 0) {
-        return new Map<string, boolean>();
-      }
+        const result = await this.taskManagerService.executeAndWaitBash(`groups ${this.configService.state().user} | cut -d ' ' -f 3-`);
+        if (result.code !== 0) {
+            return new Map<string, boolean>();
+        }
 
-      return result.stdout.trim().split(' ').reduce((map, group) => { map.set(group, true); return map; }, new Map<string, boolean>());
+        return result.stdout.trim().split(' ').reduce((map, group) => { map.set(group, true); return map; }, new Map<string, boolean>());
+    }
+
+    private async getDNS(): Promise<DnsProvider> {
+        const result = await this.taskManagerService.executeAndWaitBash('cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2');
+        if (result.code !== 0) {
+            return defaultDnsProvider;
+        }
+        const ip = result.stdout.trim();
+
+        const provider = dnsProviders.find(provider => provider.ips.includes(ip));
+        if (provider) {
+            return provider;
+        }
+        return defaultDnsProvider;
+    }
+
+    private async getShell(): Promise<ShellEntry | null> {
+        const result = await this.taskManagerService.executeAndWaitBash(`basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`);
+        if (result.code !== 0) {
+            return null;
+        }
+        const shell = result.stdout.trim();
+        return shells.find(entry => entry.name === shell) ?? null;
+    }
+
+    private async getHblock(): Promise<boolean> {
+        const result = await this.taskManagerService.executeAndWaitBash('cat /etc/hosts | grep -A1 "Blocked domains" | awk \'/Blocked domains/ { print $NF }\'');
+        if (result.code !== 0) {
+            return false;
+        }
+        return parseInt(result.stdout.trim()) > 0;
     }
 
     togglePackage(pkg: string, aur: boolean = false, remove: boolean = false): void {
         let arrow = (wanted: Map<string, boolean>) => {
             if (remove) {
-              if (wanted.has(pkg)) {
-                let newMap = new Map(wanted);
-                newMap.delete(pkg);
-                return newMap;
-              }
-              return wanted;
+                if (wanted.has(pkg)) {
+                    let newMap = new Map(wanted);
+                    newMap.delete(pkg);
+                    return newMap;
+                }
+                return wanted;
             }
             let newMap = new Map(wanted);
             newMap.set(pkg, this.packages().has(pkg) ? !this.packages().get(pkg) : true);

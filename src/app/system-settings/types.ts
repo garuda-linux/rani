@@ -31,6 +31,12 @@ export interface DnsProviderEntry {
   ips: string[];
 }
 
+export const defaultDnsProvider: DnsProvider =   {
+  name: 'Default',
+  description: 'Default DNS provided by your ISP',
+  ips: ['0.0.0.0'],
+};
+
 export const dnsProviders: DnsProviderEntry[] = [
   {
     name: 'Google',
@@ -47,11 +53,7 @@ export const dnsProviders: DnsProviderEntry[] = [
     description: 'Quad9 Public DNS',
     ips: ['9.9.9.9'],
   },
-  {
-    name: 'Default',
-    description: 'Default DNS provided by your ISP',
-    ips: ['0.0.0.0'],
-  },
+  defaultDnsProvider,
 ];
 export type DnsProvider = (typeof dnsProviders)[number];
 export type DnsProviderName = DnsProvider['name'];

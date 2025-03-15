@@ -11,6 +11,7 @@
           optionLabel="name"
           placeholder="Select a login shell to use"
         />
+        <!--
         <div class="mt-5">
           <p-checkbox
             (click)="handleToggle('shellConfigs')"
@@ -22,6 +23,7 @@
           />
           <label for="default-shell-configs"> {{ t('systemSettings.defaultShellConfigs') }} </label>
         </div>
+        -->
       </div>
       <div class="mb-10 ml-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultDns') }}</h2>
@@ -37,6 +39,7 @@
           <p-checkbox
             (click)="handleToggle('hblock')"
             [(ngModel)]="selectedBoxes"
+            [disabled]="osInteractService.packages().get('hblock') !== true"
             id="enable-hblock"
             inputId="enable-hblock"
             name="enable-hblock"

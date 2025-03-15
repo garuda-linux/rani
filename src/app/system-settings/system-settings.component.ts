@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, model, OnInit, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import { Nullable } from 'primeng/ts-helpers';
@@ -11,6 +11,7 @@ import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
 import { StatefulPackage } from '../gaming/interfaces';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'rani-system-settings',
@@ -19,24 +20,13 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   styleUrl: './system-settings.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SystemSettingsComponent implements OnInit {
+export class SystemSettingsComponent {
   currentShell = signal<Nullable<Shell>>(null);
   currentDns = signal<Nullable<DnsProvider>>(null);
-  loading = signal<boolean>(true);
   selectedBoxes = model<string[]>([]);
 
   dnsProviders: DnsProvider[] = dnsProviders;
   shells: Shell[] = shells;
-
-  state: {
-    initialDns: Nullable<DnsProviderName>;
-    initialShell: Nullable<ShellName>;
-    initialHblock: Nullable<boolean>;
-  } = {
-    initialDns: null,
-    initialShell: null,
-    initialHblock: null,
-  };
 
   sections: SystemToolsEntry[] = [
     {
@@ -198,88 +188,14 @@ export class SystemSettingsComponent implements OnInit {
   ];
 
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly configService = inject(ConfigService);
-  private readonly logger = Logger.getInstance();
-  private readonly taskManagerService = inject(TaskManagerService);
+  protected readonly osInteractService = inject(OsInteractService);
 
-  async ngOnInit(): Promise<void> {
-    await this.init();
-  }
-
-  async init(): Promise<void> {
-    this.loading.set(true);
-    const initPromises: Promise<any>[] = [this.getCurrentShell(), this.getCurrentDns(), this.getCurrentHblockStatus()];
-
-    const results = await Promise.allSettled(initPromises);
-    for (const result of results) {
-      if (result.status === 'rejected') {
-        this.logger.error(JSON.stringify(result.reason));
-      }
-    }
-
-    this.logger.debug(
-      `System settings initialized: ${JSON.stringify(this.currentShell())}, selected: ${this.selectedBoxes().join(', ')}, dns: ${JSON.stringify(this.currentDns())}`,
-    );
-
-    this.cdr.markForCheck();
-    this.loading.set(false);
-  }
-
-  /**
-   * Get the current shell, writing it to the currentShell signal and setting the initial shell.
-   */
-  async getCurrentShell(): Promise<void> {
-    while (!this.configService.state().user) {
-      await new Promise((resolve) => setTimeout(resolve, 200));
-    }
-
-    const cmd = `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`;
-    const result: string | null = (await this.taskManagerService.executeAndWaitBash(cmd)).stdout.trim();
-
-    if (result) {
-      this.logger.trace(`Got initial shell ${result}`);
-      if (!this.state.initialShell) this.state.initialShell = result;
-      const currShell: ShellEntry | undefined = shells.find((entry) => result === entry.name);
-      this.currentShell.set(currShell ?? null);
-    } else {
-      throw new Error('Failed to get current shell');
-    }
-  }
-
-  /**
-   * Get the current DNS server, writing it to the currentDns signal and setting the initial DNS server.
-   */
-  async getCurrentDns(): Promise<void> {
-    const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
-    const result: string | null = (await this.taskManagerService.executeAndWaitBash(cmd)).stdout.trim();
-
-    if (result) {
-      const providerExists = dnsProviders.find((provider) => provider.ips.includes(result));
-      if (providerExists) {
-        this.currentDns.set(providerExists);
-      } else {
-        const newCustomDns = { name: 'Custom', ips: [result], description: 'Custom DNS' };
-        this.dnsProviders.push(newCustomDns);
-        this.currentDns.set(newCustomDns);
-      }
-      if (!this.state.initialDns) this.state.initialDns = this.currentDns()?.name;
-    } else {
-      throw new Error('Failed to get current DNS');
-    }
-  }
-
-  /**
-   * Get the current status of hblock, setting the initial status and adding it to the selected boxes if enabled.
-   */
-  async getCurrentHblockStatus(): Promise<void> {
-    const cmd = 'cat /etc/hosts | grep -A1 \"Blocked domains\" | awk \'/Blocked domains/ { print $NF }\'';
-    const output: string | null = (await this.taskManagerService.executeAndWaitBash(cmd)).stdout.trim();
-    const result = parseInt(output);
-
-    if (result !== null && result > 0) {
-      this.state.initialHblock = true;
-      this.selectedBoxes.update((boxes) => [...boxes, 'hblock']);
-    }
+  constructor() {
+    effect(() => {
+       this.selectedBoxes.set(this.osInteractService.hblock() ? ['hblock'] : []);
+       this.currentDns.set(this.osInteractService.dns());
+       this.currentShell.set(this.osInteractService.shell());
+    });
   }
 
   /**
@@ -288,18 +204,18 @@ export class SystemSettingsComponent implements OnInit {
    */
   async handleToggle(type: 'dns' | 'shell' | 'shellConfigs' | 'hblock'): Promise<void> {
     // Workaround for ngModelChange event seemingly firing before the model is updated
-    // await new Promise((resolve) => setTimeout(resolve, 200));
+    await new Promise((resolve) => setTimeout(resolve, 200));
 
-    /*switch (type) {
+    switch (type) {
       case 'dns': {
-        this.operationManager.toggleDnsServer(this.currentDns()!.name === this.state.initialDns, this.currentDns()!);
+        this.osInteractService.wantedDns.set(this.currentDns() ?? null);
         break;
       }
       case 'shell': {
-        this.operationManager.toggleShell(this.currentShell()!.name === this.state.initialShell, this.currentShell()!);
+        this.osInteractService.wantedShell.set(this.currentShell() ?? null);
         break;
       }
-      case 'shellConfigs': {
+      /*case 'shellConfigs': {
         if (this.currentShell()?.defaultSettings) {
           const packageDef: StatefulPackage = {
             pkgname: [this.currentShell()!.defaultSettings!],
@@ -309,11 +225,11 @@ export class SystemSettingsComponent implements OnInit {
           this.operationManager.handleTogglePackage(packageDef);
         }
         break;
-      }
+      }*/
       case 'hblock': {
-        this.operationManager.toggleHblock(this.state.initialHblock ?? false, this.selectedBoxes().includes('hblock'));
+        this.osInteractService.wantedHblock.set(this.selectedBoxes().includes('hblock'));
       }
-    }*/
+    }
 
     this.cdr.markForCheck();
   }

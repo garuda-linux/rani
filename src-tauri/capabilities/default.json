@@ -86,15 +86,6 @@
           "args": [
             "bash"
           ]
-        },
-        {
-          "name": "sidecar/change-dns.sh",
-          "args": [
-            {
-              "validator": ".*"
-            }
-          ],
-          "sidecar": true
         }
       ]
     },
