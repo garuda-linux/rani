@@ -27,8 +27,9 @@ check-packagelists:
     - echo -e "[garuda]\\nInclude = /etc/pacman.d/chaotic-mirrorlist\\n[chaotic-aur]\\nInclude = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
     - echo "" >>/etc/pacman.conf
     - pacman -Syu --noconfirm --needed nodejs-lts-jod paru
-    - corepack pnpm install
-    - corepack pnpm check-pkglists
+    - corepack enable pnpm
+    - pnpm install
+    - pnpm check-pkglists
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
@@ -52,8 +53,9 @@ build-linux:
         libsoup-3.0-0
     - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
     - source "$HOME/.cargo/env"
-    - corepack pnpm install
-    - corepack pnpm run tauri build
+    - corepack enable pnpm
+    - pnpm install
+    - pnpm run tauri build
   artifacts:
     when: on_success
     access: all

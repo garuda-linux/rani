@@ -31,10 +31,17 @@ for (const tab of gamingPackageLists) {
   }
 }
 
-console.log(`\n${missing.length} packages of ${total} are missing from the repositories`);
-console.log(missing.join('\n'));
+if (missing.length > 0) {
+  console.log(`\n${missing.length} packages of ${total} are missing from the repositories`);
+  console.log(missing.join('\n'));
+}
+if (missingAur.length > 0) {
+  console.log(`${missingAur.length} packages of ${totalAur} are missing from the AUR`);
+  console.log(missingAur.join('\n'));
+}
 
-console.log(`${missingAur.length} packages of ${totalAur} are missing from the AUR`);
-console.log(missingAur.join('\n'));
+if (missing.length > 0 || missingAur.length > 0) {
+  process.exit(1);
+}
 
-if (missing.length > 0 || missingAur.length > 0) process.exit(1);
+console.log('\nAll packages are available in the repositories and AUR!');
