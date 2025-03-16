@@ -12,11 +12,11 @@
   "app": {
     "windows": [
       {
-        "title": "Garuda's Rani",
+        "title": "Garuda Rani",
         "width": 1670,
         "height": 710,
-        "minWidth": 1400,
-        "minHeight": 710,
+        "minWidth": 900,
+        "minHeight": 600,
         "decorations": false,
         "titleBarStyle": "Transparent",
         "center": true,

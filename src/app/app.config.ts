@@ -1,7 +1,6 @@
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import {
-  ApplicationConfig,
-  inject,
+  type ApplicationConfig,
   isDevMode,
   LOCALE_ID,
   provideAppInitializer,
@@ -18,26 +17,12 @@ import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
 import { ConfigService } from './config/config.service';
-import { getCurrentWindow, Window } from '@tauri-apps/api/window';
-import { checkFirstBoot } from './first-boot';
 import { LanguageManagerService } from './language-manager/language-manager.service';
+import { initRani } from './app.init';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(async () => {
-      const configService = inject(ConfigService);
-      const languageManagerService = inject(LanguageManagerService);
-      await configService.init();
-
-      // Window is hidden by default, after checking whether we are not required to autostart the
-      // setup assistant, we can show it
-      if (await checkFirstBoot()) return;
-
-      await languageManagerService.init();
-
-      const window: Window = getCurrentWindow();
-      await window.show();
-    }),
+    provideAppInitializer(initRani),
     ConfigService,
     LanguageManagerService,
     ConfirmationService,

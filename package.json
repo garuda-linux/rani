@@ -1,6 +1,11 @@
 {
   "name": "garuda-rani",
   "version": "2.0.0",
+  "author": "dr460nf1r3",
+  "maintainers": [
+    "dr460nf1r3",
+    "TNE"
+  ],
   "scripts": {
     "build": "ng build",
     "build-debug": "tauri build --debug",

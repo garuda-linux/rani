@@ -12,13 +12,13 @@
     "core:window:allow-maximize",
     "core:window:allow-minimize",
     "core:window:allow-request-user-attention",
+    "core:window:allow-set-badge-count",
     "core:window:allow-set-progress-bar",
+    "core:window:allow-set-size",
+    "core:window:allow-show",
     "core:window:allow-start-dragging",
     "core:window:allow-toggle-maximize",
     "core:window:default",
-    "core:window:allow-show",
-    "fs:default",
-    "fs:allow-write-text-file",
     {
       "identifier": "fs:allow-exists",
       "allow": [
@@ -33,6 +33,8 @@
         }
       ]
     },
+    "fs:allow-write-text-file",
+    "fs:default",
     {
       "identifier": "fs:scope",
       "allow": [
@@ -54,13 +56,13 @@
     },
     "log:default",
     "notification:default",
-    "os:default",
     "os:allow-hostname",
     "os:allow-locale",
     "os:allow-os-type",
     "os:allow-version",
+    "os:default",
+    "positioner:default",
     "process:allow-restart",
-    "store:default",
     {
       "identifier": "shell:allow-execute",
       "allow": [
@@ -144,6 +146,8 @@
           "args": ["bash"]
         }
       ]
-    }
+    },
+    "store:default",
+    "window-state:default"
   ]
 }
