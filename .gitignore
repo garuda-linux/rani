@@ -43,6 +43,8 @@ Thumbs.db
 
 # Misc
 *.log
+*.js
+*.js.map
 .direnv
 .pre-commit-config.yaml
 /test
