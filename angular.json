@@ -21,6 +21,7 @@
             "browser": "src/main.ts",
             "tsConfig": "tsconfig.app.json",
             "styles": ["src/styles.scss"],
+            "polyfills": [],
             "assets": ["src/assets"],
             "allowedCommonJsDependencies": ["@pixelfactory/privatebin", "@xterm/addon-fit", "@xterm/xterm"]
           },
