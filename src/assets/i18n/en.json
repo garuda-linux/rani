@@ -101,7 +101,7 @@
     "emulators": "Emulators",
     "controllers": "Controller support",
     "aur": "Games (in AUR)",
-    "aurHint": "This list has been sourced from Arch wiki, and you will need build the packages yourself. We can't guarantee the packaging process will succeed.",
+    "aurHint": "This list has been sourced from Arch wiki, and you will need build the packages yourself. We can't guarantee the packaging process will succeed. Additionally, please apply caution when installing packages from the AUR, checking PKGBUILD and comments for any potential issues before installation.",
     "games": "Games (in repo)",
     "misc": "Miscellaneous",
     "bluez": "Generally required for recognizing PS controllers wireless",

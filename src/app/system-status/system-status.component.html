@@ -33,6 +33,7 @@
       @for (update of updates; track update.pkg) {
         <li>
           {{ update.pkg }}: {{ update.version }} -> <span class="text-primary-emphasis">{{ update.newVersion }}</span>
+          {{ update.aur ? '(AUR)' : '' }}
         </li>
       }
     </ul>

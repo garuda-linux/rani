@@ -20,7 +20,7 @@ export class SystemStatusComponent {
   dialogVisible = signal<boolean>(false);
   pacdiffDialogVisible = signal<boolean>(false);
   pacFiles: string[] = [];
-  updates: { pkg: string; version: string; newVersion: string }[] = [];
+  updates: { pkg: string; version: string; newVersion: string; aur: boolean }[] = [];
   warnUpdate = signal<boolean>(false);
 
   protected readonly open = open;
@@ -39,7 +39,12 @@ export class SystemStatusComponent {
     this.logger.debug('Initializing SystemStatusComponent');
     this.loadingService.loadingOn();
 
-    const initPromises: Promise<void>[] = [this.getPacFiles(), this.getUpdates(), this.checkLastUpdate()];
+    const initPromises: Promise<void>[] = [
+      this.getPacFiles(),
+      this.getUpdates(),
+      this.getAurUpdates(),
+      this.checkLastUpdate(),
+    ];
     await Promise.all(initPromises);
 
     this.cdr.markForCheck();
@@ -77,10 +82,29 @@ export class SystemStatusComponent {
         this.logger.trace(`Update: ${update}`);
 
         const [pkg, version, invalid, newVersion] = update.split(' ');
-        this.updates.push({ pkg, version, newVersion: newVersion });
+        this.updates.push({ pkg, version, newVersion: newVersion, aur: false });
       }
     } else if (result.code === 2) {
       this.logger.info('No updates available');
+    } else {
+      this.logger.error(`Failed to get updates: ${result.stderr}`);
+    }
+  }
+
+  async getAurUpdates(): Promise<void> {
+    const cmd = 'paru -Qua';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code === 0 && result.stdout.trim() !== '') {
+      const updates: string[] = result.stdout.trim().split('\n') ?? [];
+      for (const update of updates) {
+        this.logger.trace(`AUR update: ${update}`);
+
+        const [pkg, version, invalid, newVersion] = update.split(' ');
+        this.updates.push({ pkg, version, newVersion: newVersion, aur: true });
+      }
+    } else if (result.code === 0) {
+      this.logger.info('No AUR updates available');
     } else {
       this.logger.error(`Failed to get updates: ${result.stderr}`);
     }
