@@ -6,7 +6,10 @@
         <div garudaShellBarStart>
           <div class="flex">
             <img
+              #closeButton
               (click)="appWindow.close()"
+              (mouseenter)="closeButton.src = '/assets/window/close-hover.svg'"
+              (mouseleave)="closeButton.src = '/assets/window/close-main.svg'"
               alt="close"
               class="mx-1"
               height="16"
@@ -14,7 +17,10 @@
               width="16"
             />
             <img
+              #maximizeButton
               (click)="appWindow.toggleMaximize()"
+              (mouseenter)="maximizeButton.src = '/assets/window/maximize-hover.svg'"
+              (mouseleave)="maximizeButton.src = '/assets/window/maximize-main.svg'"
               alt="maximize"
               class="mx-1"
               height="16"
@@ -22,7 +28,10 @@
               width="16"
             />
             <img
+              #minimizeButton
               (click)="appWindow.minimize()"
+              (mouseenter)="minimizeButton.src = '/assets/window/minimize-hover.svg'"
+              (mouseleave)="minimizeButton.src = '/assets/window/minimize-main.svg'"
               alt="minimize"
               class="mx-1"
               height="16"
@@ -45,7 +54,10 @@
         <div garudaShellBarEnd>
           <div class="flex">
             <img
+              #minimizeButton
               (click)="appWindow.minimize()"
+              (mouseenter)="minimizeButton.src = '/assets/window/minimize-hover.svg'"
+              (mouseleave)="minimizeButton.src = '/assets/window/minimize-main.svg'"
               alt="minimize"
               class="mx-1"
               height="16"
@@ -53,22 +65,28 @@
               width="16"
             />
             <img
+              #maximizeButton
               (click)="appWindow.toggleMaximize()"
+              (mouseenter)="maximizeButton.src = '/assets/window/maximize-hover.svg'"
+              (mouseleave)="maximizeButton.src = '/assets/window/maximize-main.svg'"
               alt="maximize"
               class="mx-1"
               height="16"
               ngSrc="/assets/window/maximize-main.svg"
               width="16"
             />
-            <img
-              (click)="appWindow.close()"
-              alt="close"
-              class="mx-1"
-              height="16"
-              ngSrc="/assets/window/close-main.svg"
-              width="16"
-            />
           </div>
+          <img
+            #closeButton
+            (click)="appWindow.close()"
+            (mouseenter)="closeButton.src = '/assets/window/close-hover.svg'"
+            (mouseleave)="closeButton.src = '/assets/window/close-main.svg'"
+            alt="close"
+            class="mx-1"
+            height="16"
+            ngSrc="/assets/window/close-main.svg"
+            width="16"
+          />
         </div>
       } @else if (configService.settings().leftButtons) {
         <div garudaShellBarEnd>
