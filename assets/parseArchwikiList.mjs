@@ -52,7 +52,7 @@ for (const source of sources) {
   let inAur = [];
 
   // Get a list of all packages in repo and compare with AUR packages
-  let aurPkg = allEntries.filter((game) => game.type === 'AUR');
+  const aurPkg = allEntries.filter((game) => game.type === 'AUR');
   const inRepo = execSync('pacman -Ssq').toString().split('\n');
   for (const entry of aurPkg) {
     if (inRepo.includes(entry.pkgname[0])) {

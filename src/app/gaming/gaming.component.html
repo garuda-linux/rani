@@ -8,65 +8,13 @@
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
-        <p-tab [value]="0">{{ t(dataInitial.name) }}</p-tab>
-
         @for (section of data; track section.name) {
-          <p-tab [value]="$index + 1" #tab>{{ t(section.name) }}</p-tab>
+          <p-tab [value]="$index" #tab>{{ t(section.name) }}</p-tab>
         }
       </p-tablist>
       <p-tabpanels>
-        <p-tabpanel [value]="0">
-          <p-data-view [value]="dataInitial.sections" [title]="t(dataInitial.name)">
-            <ng-template #list let-items>
-              <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
-                <div *ngFor="let item of items" class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
-                  <p-card
-                    (click)="togglePackage(item)"
-                    [style]="{ cursor: 'pointer', background: item.selected ? backgroundColor() : '' }"
-                  >
-                    <ng-template #title>
-                      <div
-                        class="text-center text-sm text-bold min-h-10"
-                        [pTooltip]="t(item.description)"
-                        tooltipPosition="bottom"
-                      >
-                        {{ item.name }}
-                        @if (item.description) {
-                          <i class="pi pi-info-circle mr-2"> </i>
-                        }
-                        @if (item.url) {
-                          <a (click)="open(item.url)"><i class="pi pi-external-link"></i></a>
-                        }
-                      </div>
-                    </ng-template>
-                    <div class="mt-5 min-h-16">
-                      @if (item.icon === 'generic-dark.svg' && !configService.settings().darkMode) {
-                        <img
-                          [alt]="item.name"
-                          class="rounded-border mx-auto"
-                          height="50"
-                          ngSrc="/assets/gamer/generic-light.svg"
-                          width="50"
-                        />
-                      } @else {
-                        <img
-                          [alt]="item.name"
-                          class="rounded-border mx-auto"
-                          height="50"
-                          ngSrc="/assets/gamer/{{ item.icon }}"
-                          width="50"
-                        />
-                      }
-                    </div>
-                  </p-card>
-                </div>
-              </div>
-            </ng-template>
-          </p-data-view>
-        </p-tabpanel>
-
         @for (section of data; track section.name) {
-          <p-tabpanel [value]="$index + 1">
+          <p-tabpanel [value]="$index">
             @if (section.hint) {
               <div class="text-center text-primary-emphasis mt-5">{{ t(section.hint) }}</div>
             }

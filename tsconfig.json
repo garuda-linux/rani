@@ -30,7 +30,7 @@
     }
   ],
   "compileOnSave": false,
-  "exclude": ["node_modules", "tmp", "test"],
+  "exclude": ["dist", "node_modules", "test", "tmp"],
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
     "strictInjectionParameters": true,
