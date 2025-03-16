@@ -59,7 +59,6 @@ import { TaskManagerService } from './task-manager/task-manager.service';
     ShellBarStartDirective,
     ShellComponent,
     ProgressSpinner,
-    AsyncPipe,
     ShellBarEndDirective,
     TerminalComponent,
     OperationManagerComponent,

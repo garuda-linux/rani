@@ -1,22 +1,21 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { Injectable, signal, computed } from '@angular/core';
 import { Logger } from '../logging/logging';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoadingService {
-  private loadingSubject = new BehaviorSubject<boolean>(true);
-  public loading$: Observable<boolean> = this.loadingSubject.asObservable();
+  private readonly loadingRefCounter = signal<number>(0);
   private readonly logger = Logger.getInstance();
+  readonly loading = computed(() => this.loadingRefCounter() > 0);
 
   loadingOn(): void {
     this.logger.trace('Loading on');
-    this.loadingSubject.next(true);
+    this.loadingRefCounter.update((prev) => prev + 1);
   }
 
   loadingOff(): void {
     this.logger.trace('Loading off');
-    this.loadingSubject.next(false);
+    this.loadingRefCounter.update((prev) => prev - 1);
   }
 }

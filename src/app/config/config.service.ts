@@ -46,6 +46,8 @@ export class ConfigService {
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
 
+    this.loadingService.loadingOn();
+
     try {
       const initPromises: Promise<PendingConfigUpdate>[] = [
         this.initStore(),

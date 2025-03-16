@@ -16,7 +16,7 @@
       "language": "Konfigurieren Sie die aktive Sprache"
     },
     "help": {
-      "title": "Helfen",
+      "title": "Hilfe",
       "getHelpForum": "Holen Sie sich Hilfe im Forum",
       "getHelpWiki": "Suchen Sie nach Inhalten im Wiki",
       "getHelpArchWiki": "Suchen Sie nach Inhalten im Bogen -Wiki",
@@ -74,8 +74,8 @@
     "title": "Spiele",
     "titleTwo": "Apps",
     "subtitle": "Lassen Sie uns mit einigen Gaming -Apps beginnen!",
-    "launchers": "Spielwerfer",
-    "wine": "WEIN",
+    "launchers": "Spielstarter",
+    "wine": "Wine",
     "tools": "Spielwerkzeuge",
     "emulators": "Emulatoren",
     "controllers": "Controller -Unterstützung",

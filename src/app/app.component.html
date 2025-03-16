@@ -42,7 +42,7 @@
         </div>
       } @else if (!configService.settings().leftButtons) {
         <div garudaShellBarStart>
-          @if (loadingService.loading$ | async) {
+          @if (loadingService.loading()) {
             <p-progress-spinner
               [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
               ariaLabel="loading"
@@ -90,7 +90,7 @@
         </div>
       } @else if (configService.settings().leftButtons) {
         <div garudaShellBarEnd>
-          @if (loadingService.loading$ | async) {
+          @if (loadingService.loading()) {
             <p-progress-spinner
               [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
               strokeWidth="10"

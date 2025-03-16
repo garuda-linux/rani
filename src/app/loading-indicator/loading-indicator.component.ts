@@ -15,17 +15,12 @@ import { AsyncPipe, NgTemplateOutlet } from '@angular/common';
 })
 export class LoadingIndicatorComponent implements OnInit {
   detectRouteTransitions = input(false);
-  loading$: Observable<boolean>;
 
   @ContentChild('loading')
   customLoadingIndicator: TemplateRef<any> | null = null;
 
   private readonly router = inject(Router);
-  private readonly loadingService = inject(LoadingService);
-
-  constructor() {
-    this.loading$ = this.loadingService.loading$;
-  }
+  protected readonly loadingService = inject(LoadingService);
 
   ngOnInit() {
     if (this.detectRouteTransitions()) {
