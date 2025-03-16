@@ -1,8 +1,15 @@
 import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
-import { ApplicationConfig, inject, isDevMode, LOCALE_ID, provideAppInitializer, provideExperimentalZonelessChangeDetection } from '@angular/core';
+import {
+  ApplicationConfig,
+  inject,
+  isDevMode,
+  LOCALE_ID,
+  provideAppInitializer,
+  provideExperimentalZonelessChangeDetection,
+} from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
-import { MessageToastService, provideGarudaNG } from '@garudalinux/core';
+import { provideGarudaNG } from '@garudalinux/core';
 import { routes } from './app.routes';
 import { Catppuccin } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
@@ -24,8 +31,7 @@ export const appConfig: ApplicationConfig = {
 
       // Window is hidden by default, after checking whether we are not required to autostart the
       // setup assistant, we can show it
-      if (await checkFirstBoot())
-        return;
+      if (await checkFirstBoot()) return;
 
       await languageManagerService.init();
 
@@ -37,7 +43,7 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     provideAnimationsAsync(),
     provideGarudaNG(
-      { font: 'Inter' },
+      { font: 'system-ui' },
       {
         theme: {
           preset: Catppuccin,
