@@ -29,9 +29,7 @@ export class SystemStatusComponent {
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);
 
-  buttonDisabled = computed(
-    () => this.taskManagerService.findTaskById('updateSystem') !== null
-  );
+  buttonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   constructor() {
     void this.init();
@@ -78,7 +76,7 @@ export class SystemStatusComponent {
       for (const update of updates) {
         this.logger.trace(`Update: ${update}`);
 
-        let [pkg, version, newVersion] = update.split(' ');
+        const [pkg, version, invalid, newVersion] = update.split(' ');
         this.updates.push({ pkg, version, newVersion: newVersion });
       }
     } else if (result.code === 2) {
@@ -94,7 +92,14 @@ export class SystemStatusComponent {
       return;
     }
 
-    const task = this.taskManagerService.createTask(0, "updateSystem", true, 'maintenance.updateSystem', 'pi pi-refresh', 'garuda-update --noconfirm');
+    const task = this.taskManagerService.createTask(
+      0,
+      'updateSystem',
+      true,
+      'maintenance.updateSystem',
+      'pi pi-refresh',
+      'garuda-update --noconfirm',
+    );
     this.taskManagerService.scheduleTask(task);
 
     this.dialogVisible.set(false);
