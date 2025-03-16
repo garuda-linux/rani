@@ -1307,14 +1307,6 @@ export const gamingPackageLists: GamingSections = [
         aur: true,
       },
       {
-        name: 'Gopanda',
-        description: 'Client for the Pandanet-IGS go Server.',
-        url: 'https://pandanet-igs.com/communities/gopanda2',
-        icon: 'generic-dark.svg',
-        pkgname: ['Gopanda'],
-        aur: true,
-      },
-      {
         name: 'Grand Theft Auto III',
         description: 'An open-source project reverse-engineering Grand Theft Auto III.',
         url: 'https://github.com/halpz/re3',
@@ -2295,14 +2287,6 @@ export const gamingPackageLists: GamingSections = [
         aur: true,
       },
       {
-        name: 'Tuxemon',
-        description: 'A free, open source monster-fighting RPG.',
-        url: 'https://www.tuxemon.org/',
-        icon: 'generic-dark.svg',
-        pkgname: ['tuxemon-git'],
-        aur: true,
-      },
-      {
         name: 'Ultimate Stunts',
         description: "Remake of the famous DOS-game 'stunts'.",
         url: 'https://www.ultimatestunts.nl/',
@@ -2455,14 +2439,6 @@ export const gamingPackageLists: GamingSections = [
         url: 'https://worldofpadman.net/website',
         icon: 'generic-dark.svg',
         pkgname: ['worldofpadman'],
-        aur: true,
-      },
-      {
-        name: 'Wrymsun',
-        description: 'Fantasy game initially based on Stratagus engine.',
-        url: 'https://andrettin.github.io/',
-        icon: 'generic-dark.svg',
-        pkgname: ['Wyrmsun'],
         aur: true,
       },
       {

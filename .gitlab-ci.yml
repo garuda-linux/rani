@@ -26,7 +26,7 @@ check-packagelists:
     - pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-'{keyring,mirrorlist}'.pkg.tar.zst'
     - echo -e "[garuda]\\nInclude = /etc/pacman.d/chaotic-mirrorlist\\n[chaotic-aur]\\nInclude = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
     - echo "" >>/etc/pacman.conf
-    - pacman -Syu --noconfirm --needed nodejs-lts-jod
+    - pacman -Syu --noconfirm --needed nodejs-lts-jod paru
     - corepack pnpm install
     - corepack pnpm check-pkglists
   rules:
@@ -52,9 +52,8 @@ build-linux:
         libsoup-3.0-0
     - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
     - source "$HOME/.cargo/env"
-    - corepack enable pnpm
-    - pnpm install
-    - pnpm run tauri build
+    - corepack pnpm install
+    - corepack pnpm run tauri build
   artifacts:
     when: on_success
     access: all
