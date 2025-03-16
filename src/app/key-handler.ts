@@ -1,4 +1,4 @@
-import { AppComponent } from './app.component';
+import type { AppComponent } from './app.component';
 import { open } from '@tauri-apps/plugin-shell';
 
 export async function globalKeyHandler(this: AppComponent, event: KeyboardEvent): Promise<void> {

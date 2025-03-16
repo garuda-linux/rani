@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
-import { ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
-import { ExternalLink, HomepageLink } from '../interfaces';
+import { type ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
+import type { ExternalLink, HomepageLink } from '../interfaces';
 import { ConfigService } from '../config/config.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 import { faBluesky, faDiscord, faDiscourse, faMastodon, faTelegram } from '@fortawesome/free-brands-svg-icons';
@@ -135,11 +135,12 @@ export class HomeComponent {
       subTitle: 'welcome.bootToolsSub',
       // routerLink: '/boot-tools',
       icon: 'pi pi-hammer',
-      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-boot-options').then((installed) => {
-        if (installed) {
-          this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-boot-options');
-        }
-      }),
+      command: async () =>
+        this.osInteractService.ensurePackageArchlinux('garuda-boot-options').then((installed) => {
+          if (installed) {
+            this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-boot-options');
+          }
+        }),
     },
     {
       title: 'welcome.diagnostics',
@@ -152,11 +153,12 @@ export class HomeComponent {
       subTitle: 'welcome.networkSub',
       // routerLink: '/network',
       icon: 'pi pi-globe',
-      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-network-assistant').then((installed) => {
-        if (installed) {
-          this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-network-assistant');
-        }
-      }),
+      command: async () =>
+        this.osInteractService.ensurePackageArchlinux('garuda-network-assistant').then((installed) => {
+          if (installed) {
+            this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-network-assistant');
+          }
+        }),
     },
     {
       title: 'welcome.install',
@@ -174,7 +176,9 @@ export class HomeComponent {
       title: 'welcome.chroot',
       subTitle: 'welcome.chrootSub',
       command: async () => {
-        const result = await Command.create('launch-terminal', ["pkexec garuda-chroot -a; read -p 'Press enter to exit'"]).execute();
+        const result = await Command.create('launch-terminal', [
+          "pkexec garuda-chroot -a; read -p 'Press enter to exit'",
+        ]).execute();
         if (result.code !== 0) {
           this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr);
         }
@@ -185,11 +189,12 @@ export class HomeComponent {
     {
       title: 'welcome.setupAssistant',
       subTitle: 'welcome.setupAssistantSub',
-      command: async () => this.osInteractService.ensurePackageArchlinux('garuda-setup-assistant').then((installed) => {
-        if (installed) {
-          this.taskManagerService.executeAndWaitBash('setup-assistant');
-        }
-      }),
+      command: async () =>
+        this.osInteractService.ensurePackageArchlinux('garuda-setup-assistant').then((installed) => {
+          if (installed) {
+            this.taskManagerService.executeAndWaitBash('setup-assistant');
+          }
+        }),
       icon: 'pi pi-download',
       condition: () => this.configService.state().isLiveSystem === false,
     },

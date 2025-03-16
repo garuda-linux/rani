@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
-import { SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
+import type { SystemToolsEntry, SystemToolsSubEntry } from '../interfaces';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';

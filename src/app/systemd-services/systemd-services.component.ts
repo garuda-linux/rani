@@ -1,15 +1,15 @@
-import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
 import { InputText } from 'primeng/inputtext';
-import { Table, TableModule } from 'primeng/table';
-import { SystemdService, SystemdServiceAction } from '../interfaces';
+import { type Table, TableModule } from 'primeng/table';
+import type { SystemdService, SystemdServiceAction } from '../interfaces';
 import { NgClass } from '@angular/common';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { Popover, PopoverModule } from 'primeng/popover';
+import { type Popover, PopoverModule } from 'primeng/popover';
 import { MessageToastService } from '@garudalinux/core';
-import { Nullable } from 'primeng/ts-helpers';
+import type { Nullable } from 'primeng/ts-helpers';
 import { Tooltip } from 'primeng/tooltip';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
@@ -80,7 +80,7 @@ export class SystemdServicesComponent implements OnInit {
               } else {
                 service.unit = service.unit_file;
               }
-              delete service.unit_file;
+              service.unit_file = undefined;
             }
           }
           return services;
@@ -150,7 +150,8 @@ export class SystemdServicesComponent implements OnInit {
 
     let output: string | null;
     if (!this.configService.settings().systemdUserContext) {
-      output = (await this.taskManagerService.executeAndWaitBash(`pkexec ${action} ${this.activeService()!.unit}`)).stdout;
+      output = (await this.taskManagerService.executeAndWaitBash(`pkexec ${action} ${this.activeService()!.unit}`))
+        .stdout;
     } else {
       output = (await this.taskManagerService.executeAndWaitBash(`${action} ${this.activeService()!.unit}`)).stdout;
     }

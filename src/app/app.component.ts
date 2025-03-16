@@ -1,4 +1,4 @@
-import { AsyncPipe, NgOptimizedImage } from '@angular/common';
+import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
@@ -6,7 +6,7 @@ import {
   effect,
   HostListener,
   inject,
-  OnInit,
+  type OnInit,
   signal,
   untracked,
   ViewChild,
@@ -24,7 +24,7 @@ import { ToastModule } from 'primeng/toast';
 import { FormsModule } from '@angular/forms';
 import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ContextMenu } from 'primeng/contextmenu';
-import { ConfirmationService, MenuItem } from 'primeng/api';
+import { ConfirmationService, type MenuItem } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
 import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from '@garudalinux/core';
 import { ProgressSpinner } from 'primeng/progressspinner';
@@ -34,9 +34,9 @@ import { OperationManagerComponent } from './operation-manager/operation-manager
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfigService } from './config/config.service';
 import { Logger } from './logging/logging';
-import { AppSettings } from './config/interfaces';
+import type { AppSettings } from './config/interfaces';
 import { settingsMenuMappings } from './constants';
-import { MenuToggleMapping } from './interfaces';
+import type { MenuToggleMapping } from './interfaces';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 import { LogLevel } from './logging/interfaces';
 import { TaskManagerService } from './task-manager/task-manager.service';
@@ -293,12 +293,12 @@ export class AppComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const cur_items = untracked(this.menuItems);
+      const curItems: MenuItem[] = untracked(this.menuItems);
 
-      const index: number = cur_items.findIndex((item) => item['translocoKey'] === 'menu.terminal');
+      const index: number = curItems.findIndex((item) => item['translocoKey'] === 'menu.terminal');
       if (index === -1) return;
 
-      let items = [...cur_items];
+      const items: MenuItem[] = [...curItems];
 
       if (this.taskManager.running()) {
         items[index].icon = 'pi pi-spin pi-spinner';

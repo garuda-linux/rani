@@ -10,7 +10,7 @@ import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
-import { GamingSection, GamingSections, StatefulPackage } from './interfaces';
+import type { GamingSection, GamingSections, StatefulPackage } from './interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({

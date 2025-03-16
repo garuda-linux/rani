@@ -1,16 +1,9 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  input,
-  OnDestroy,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, type OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Button } from 'primeng/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DialogModule } from 'primeng/dialog';
-import { DialogService, DynamicDialogModule, DynamicDialogRef } from 'primeng/dynamicdialog';
+import { DialogService, DynamicDialogModule, type DynamicDialogRef } from 'primeng/dynamicdialog';
 import { LanguageSelectionComponent } from './language-selection.component';
 import { ConfigService } from '../config/config.service';
 

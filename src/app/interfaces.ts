@@ -1,4 +1,4 @@
-import { IconProp } from '@fortawesome/angular-fontawesome/types';
+import type { IconProp } from '@fortawesome/angular-fontawesome/types';
 
 export interface MenuToggleMappings {
   [key: string]: MenuToggleMapping;

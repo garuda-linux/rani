@@ -1,9 +1,9 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { AppSettings, AppState } from './interfaces';
-import { Store } from '@tauri-apps/plugin-store';
+import type { AppSettings, AppState } from './interfaces';
+import type { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
 import { Logger } from '../logging/logging';
-import { ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { hostname } from '@tauri-apps/plugin-os';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
@@ -116,7 +116,7 @@ export class ConfigService {
     if (this.store) {
       for (const key of Object.keys(this.settings())) {
         if (await this.store.has(key)) {
-          const value: any = await this.store.get(key)
+          const value: any = await this.store.get(key);
           this.logger.trace(`Setting ${key} to ${value}`);
           settings[key] = value;
           storedSettings++;
@@ -156,15 +156,14 @@ export class ConfigService {
     if (result.code !== 0) {
       this.logger.error('Could not get code name');
       return {};
-    } else {
-      const codeName: string =
-        result.stdout
-          .split(':')[1]
-          .trim()
-          .match(/[A-Z][a-z]+/g)
-          ?.join(' ') ?? 'Unknown';
-      return { state: { codeName: codeName } };
     }
+    const codeName: string =
+      result.stdout
+        .split(':')[1]
+        .trim()
+        .match(/[A-Z][a-z]+/g)
+        ?.join(' ') ?? 'Unknown';
+    return { state: { codeName: codeName } };
   }
 
   /**
@@ -178,11 +177,10 @@ export class ConfigService {
     if (result.code !== 0) {
       this.logger.error('Could not get filesystem type');
       return {};
-    } else {
-      const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
-      this.logger.debug(`Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? 'live' : 'installed'}`);
-      return { state: { isLiveSystem: isLiveSystem } };
     }
+    const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
+    this.logger.debug(`Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? 'live' : 'installed'}`);
+    return { state: { isLiveSystem: isLiveSystem } };
   }
 
   /**
@@ -190,7 +188,7 @@ export class ConfigService {
    * @private
    */
   private async checkAutoStart(): Promise<PendingConfigUpdate> {
-    const has_autostartfile = await exists('.config/autostart/org.garudalinux.rani.desktop', {
+    const has_autostartfile: boolean = await exists('.config/autostart/org.garudalinux.rani.desktop', {
       baseDir: BaseDirectory.Home,
     });
     return { settings: { autoStart: has_autostartfile } };

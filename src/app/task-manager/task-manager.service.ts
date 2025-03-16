@@ -1,5 +1,5 @@
 import { computed, EventEmitter, Injectable, signal } from '@angular/core';
-import { Child, ChildProcess, Command } from '@tauri-apps/plugin-shell';
+import { type Child, type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { Logger } from '../logging/logging';
 import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';

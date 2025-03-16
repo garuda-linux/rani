@@ -1,22 +1,22 @@
 import {
-  AfterViewInit,
+  type AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   inject,
-  Signal,
+  type Signal,
   ViewChild,
 } from '@angular/core';
 import { Button } from 'primeng/button';
-import { ChildProcess } from '@tauri-apps/plugin-shell';
+import type { ChildProcess } from '@tauri-apps/plugin-shell';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { CatppuccinXtermJs } from '../theme';
-import { ITerminalOptions } from '@xterm/xterm';
+import type { ITerminalOptions } from '@xterm/xterm';
 import { clear, writeText } from 'tauri-plugin-clipboard-api';
 import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
-import { NgTerminal, NgTerminalModule } from 'ng-terminal';
+import { type NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
@@ -179,9 +179,8 @@ export class DiagnosticsComponent implements AfterViewInit {
   private async executeCommand(command: string, needsSudo = false): Promise<ChildProcess<string>> {
     if (needsSudo) {
       return await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
-    } else {
-      return await this.taskManagerService.executeAndWaitBash(command);
     }
+    return await this.taskManagerService.executeAndWaitBash(command);
   }
 
   /**

@@ -1,7 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject, model, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, type OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
-import { MaintenanceAction, ResettableConfig } from '../interfaces';
+import type { MaintenanceAction, ResettableConfig } from '../interfaces';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
@@ -15,7 +15,7 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
-import { ChildProcess } from '@tauri-apps/plugin-shell';
+import type { ChildProcess } from '@tauri-apps/plugin-shell';
 
 @Component({
   selector: 'app-maintenance',

@@ -3,7 +3,7 @@ import { inject } from '@angular/core';
 import { ConfigService } from './config/config.service';
 import { LanguageManagerService } from './language-manager/language-manager.service';
 import { checkFirstBoot } from './first-boot';
-import { currentMonitor, getCurrentWindow, LogicalSize, type Monitor, Window } from '@tauri-apps/api/window';
+import { currentMonitor, getCurrentWindow, LogicalSize, type Monitor, type Window } from '@tauri-apps/api/window';
 
 export async function initRani() {
   const logger = Logger.getInstance();

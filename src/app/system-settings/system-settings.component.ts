@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
-import { Nullable } from 'primeng/ts-helpers';
+import type { Nullable } from 'primeng/ts-helpers';
 import { Select } from 'primeng/select';
-import { DnsProvider, dnsProviders, Shell, shells } from './types';
+import { type DnsProvider, dnsProviders, type Shell, shells } from './types';
 import { Checkbox } from 'primeng/checkbox';
-import { SystemToolsEntry } from '../interfaces';
+import type { SystemToolsEntry } from '../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 import { OsInteractService } from '../task-manager/os-interact.service';
 
@@ -187,9 +187,9 @@ export class SystemSettingsComponent {
 
   constructor() {
     effect(() => {
-       this.selectedBoxes.set(this.osInteractService.hblock() ? ['hblock'] : []);
-       this.currentDns.set(this.osInteractService.dns());
-       this.currentShell.set(this.osInteractService.shell());
+      this.selectedBoxes.set(this.osInteractService.hblock() ? ['hblock'] : []);
+      this.currentDns.set(this.osInteractService.dns());
+      this.currentShell.set(this.osInteractService.shell());
     });
   }
 

@@ -11,7 +11,7 @@ export class ThemeHandler {
 
   constructor() {
     effect(() => {
-      const darkmode = this.configService.settings().darkMode;
+      const darkmode: boolean = this.configService.settings().darkMode;
       void this.setDarkMode(darkmode);
     });
   }
@@ -24,9 +24,7 @@ export class ThemeHandler {
     this.document.documentElement.style.scrollbarColor = darkmode
       ? CatppuccinScrollbars.dark
       : CatppuccinScrollbars.light;
-    this.document.documentElement.style.backgroundColor = darkmode
-      ? '#1e1e2e'
-      : '#eff1f5';
+    this.document.documentElement.style.backgroundColor = darkmode ? '#1e1e2e' : '#eff1f5';
 
     this.logger.debug(`Dark mode ${darkmode ? 'enabled' : 'disabled'}`);
   }

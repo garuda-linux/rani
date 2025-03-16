@@ -1,7 +1,13 @@
-import { HttpContextToken, HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
+import {
+  HttpContextToken,
+  type HttpEvent,
+  type HttpHandler,
+  type HttpInterceptor,
+  type HttpRequest,
+} from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { LoadingService } from './loading-indicator.service';
-import { finalize, Observable } from 'rxjs';
+import { finalize, type Observable } from 'rxjs';
 
 export const SkipLoading = new HttpContextToken<boolean>(() => false);
 

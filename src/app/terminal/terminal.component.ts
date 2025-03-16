@@ -1,20 +1,20 @@
 import {
-  AfterViewInit,
+  type AfterViewInit,
   ChangeDetectionStrategy,
   Component,
   computed,
   effect,
   inject,
-  OnDestroy,
-  OnInit,
+  type OnDestroy,
+  type OnInit,
   signal,
-  Signal,
+  type Signal,
   ViewChild,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { CatppuccinXtermJs } from '../theme';
-import { NgTerminal, NgTerminalModule } from 'ng-terminal';
+import { type NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Dialog } from 'primeng/dialog';
 import { ProgressBar } from 'primeng/progressbar';

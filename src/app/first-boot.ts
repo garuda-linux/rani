@@ -1,9 +1,9 @@
-import { Command, ChildProcess } from '@tauri-apps/plugin-shell';
+import { type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { Logger } from './logging/logging';
-import { Store } from '@tauri-apps/plugin-store';
+import type { Store } from '@tauri-apps/plugin-store';
 import { relaunch } from '@tauri-apps/plugin-process';
 import { exists } from '@tauri-apps/plugin-fs';
-import { getCurrentWindow, Window } from '@tauri-apps/api/window';
+import { getCurrentWindow, type Window } from '@tauri-apps/api/window';
 import { getConfigStore } from './config/store';
 
 const logger = Logger.getInstance();
@@ -44,9 +44,9 @@ export async function checkFirstBoot(): Promise<boolean> {
     // And finally relaunch
     await relaunch();
     return true;
-  } else {
-    logger.info('Setup assistant does not exist');
   }
+
+  logger.info('Setup assistant does not exist');
   return false;
 }
 

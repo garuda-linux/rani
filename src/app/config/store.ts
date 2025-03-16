@@ -1,4 +1,4 @@
-import { load, Store } from '@tauri-apps/plugin-store';
+import { load, type Store } from '@tauri-apps/plugin-store';
 import { appConfigDir } from '@tauri-apps/api/path';
 import { Logger } from '../logging/logging';
 

@@ -1,4 +1,4 @@
-import { MenuToggleMappings } from './interfaces';
+import type { MenuToggleMappings } from './interfaces';
 
 export const settingsMenuMappings: MenuToggleMappings = {
   darkMode: {

@@ -1,9 +1,9 @@
 import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { TaskManagerService } from './task-manager.service';
 import { ConfigService } from '../config/config.service';
-import { SystemToolsSubEntry } from '../interfaces';
-import { defaultDnsProvider, DnsProvider, dnsProviders, ShellEntry, shells } from '../system-settings/types';
-import { ChildProcess } from '@tauri-apps/plugin-shell';
+import type { SystemToolsSubEntry } from '../interfaces';
+import { defaultDnsProvider, type DnsProvider, dnsProviders, type ShellEntry, shells } from '../system-settings/types';
+import type { ChildProcess } from '@tauri-apps/plugin-shell';
 
 @Injectable({
   providedIn: 'root',
@@ -148,8 +148,8 @@ export class OsInteractService {
     }
 
     if (this.dns() !== this.currentDNS()) {
-      const file = "/etc/NetworkManager/conf.d/10-garuda-assistant-dns.conf";
-      if (this.dns().ips[0] === "0.0.0.0") {
+      const file = '/etc/NetworkManager/conf.d/10-garuda-assistant-dns.conf';
+      if (this.dns().ips[0] === '0.0.0.0') {
         script_services += `
             set -e
             rm -f "${file}"

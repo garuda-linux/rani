@@ -1,4 +1,4 @@
-import { LogLevel } from '../logging/interfaces';
+import type { LogLevel } from '../logging/interfaces';
 
 export interface AppSettings {
   systemdUserContext: boolean;

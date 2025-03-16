@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { ThemeHandler } from './theme-handler/theme-handler';
 import {
   isPermissionGranted,
   type Options,
@@ -12,7 +11,6 @@ import { Logger } from './logging/logging';
   providedIn: 'root',
 })
 export class AppService {
-  readonly themeHandler = new ThemeHandler();
   private readonly logger = Logger.getInstance();
 
   /**
