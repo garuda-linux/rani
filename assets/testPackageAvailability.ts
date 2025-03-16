@@ -21,3 +21,5 @@ for (const tab of gamingPackageLists) {
 
 console.log(`\n${missing.length} packages of ${total} are missing from the repositories`);
 console.log(missing.join('\n'));
+
+if (missing.length > 0) process.exit(1);
