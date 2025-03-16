@@ -25,7 +25,7 @@ export class GamingComponent {
   tabIndex = signal<number>(0);
   osInteractService = inject(OsInteractService);
 
-  protected dataInitial: GamingSection = ({
+  protected dataInitial: GamingSection = {
     name: 'gaming.launchers',
     sections: [
       { name: 'Bottles', pkgname: ['bottles'], icon: 'bottles.svg' },
@@ -37,8 +37,8 @@ export class GamingComponent {
       { name: 'Steam (native)', pkgname: ['steam-native-runtime'], icon: 'steam.png' },
       { name: 'Steam (runtime)', pkgname: ['steam'], icon: 'steam.png' },
     ],
-  });
-  protected data: GamingSections = ([
+  };
+  protected data: GamingSections = [
     {
       name: 'gaming.wine',
       sections: [
@@ -2571,7 +2571,7 @@ export class GamingComponent {
         { name: 'Dolphin', pkgname: ['dolphin-emu'], icon: 'dolphin-emu.png' },
         { name: 'Dolphin-emu', pkgname: ['dolphin-emu'], icon: 'dolphin-emu.png' },
         { name: 'DuckStation', pkgname: ['duckstation'], icon: 'duckstation.png' },
-        { name: 'Emulationstation', pkgname: ['emulationstation'], icon: 'es-0.png' },
+        { name: 'Emulationstation', pkgname: ['emulationstation'], icon: 'es.ico' },
         { name: 'FCEUX', pkgname: ['fceux'], icon: 'fceux.png' },
         { name: 'FS-UAE', pkgname: ['fs-uae'], icon: 'fs-uae.png' },
         { name: 'Hatari', pkgname: ['hatari'], icon: 'hatari.png' },
@@ -2595,7 +2595,7 @@ export class GamingComponent {
         { name: 'Snes9x', pkgname: ['snes9x'], icon: 'snes9x.png' },
         { name: 'Stella', pkgname: ['stella'], icon: 'stella.gif' },
         { name: 'Torzu (Yuzu)', pkgname: ['torzu-qt6-git'], icon: 'torzu.png' },
-        { name: 'VBA-M', pkgname: ['vbam-wx'], icon: 'vba-m.png' },
+        { name: 'VBA-M', pkgname: ['vbam-wx'], icon: 'vbam.svg' },
         { name: 'VICE', pkgname: ['vice'], icon: 'vice.svg' },
         { name: 'WayDroid', pkgname: ['waydroid-script-git'], icon: 'waydroid.png' },
         { name: 'Xemu', pkgname: ['xemu'], icon: 'xemu.png' },
@@ -2607,7 +2607,7 @@ export class GamingComponent {
         { name: 'mupen64plus', pkgname: ['m64py'], icon: 'mupen64plus.png' },
       ],
     },
-  ]);
+  ];
 
   protected readonly open = open;
   protected readonly configService = inject(ConfigService);
