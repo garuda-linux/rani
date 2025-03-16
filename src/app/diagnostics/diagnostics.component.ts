@@ -89,6 +89,9 @@ export class DiagnosticsComponent implements AfterViewInit {
     }
 
     const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(`pkexec sh -c '${cmd}'`);
+
+    this.loadingService.loadingOff();
+
     await this.processResult(result);
   }
 
