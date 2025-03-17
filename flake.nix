@@ -78,7 +78,7 @@
             {package = "pre-commit";}
           ];
           devshell = {
-            name = "garuda-website";
+            name = "garuda-rani";
             startup.preCommitHooks.text = ''
               ${self.checks.${system}.pre-commit-check.shellHook}
 
