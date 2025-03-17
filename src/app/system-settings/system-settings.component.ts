@@ -210,17 +210,6 @@ export class SystemSettingsComponent {
         this.osInteractService.wantedShell.set(this.currentShell() ?? null);
         break;
       }
-      /*case 'shellConfigs': {
-        if (this.currentShell()?.defaultSettings) {
-          const packageDef: StatefulPackage = {
-            pkgname: [this.currentShell()!.defaultSettings!],
-            initialState: this.state.initialShell === this.currentShell()!.name,
-            selected: true,
-          };
-          this.operationManager.handleTogglePackage(packageDef);
-        }
-        break;
-      }*/
       case 'hblock': {
         this.osInteractService.wantedHblock.set(this.selectedBoxes().includes('hblock'));
       }

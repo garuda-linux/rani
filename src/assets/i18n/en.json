@@ -100,7 +100,7 @@
     "tools": "Gaming tools",
     "emulators": "Emulators",
     "controllers": "Controller support",
-    "games": "Games (in repo)",
+    "games": "Games",
     "misc": "Miscellaneous",
     "bluez": "Generally required for recognizing PS controllers wireless",
     "xboxdrv": "Xbox controller driver, only use if kernel driver doesn't work!"
@@ -217,12 +217,15 @@
       },
       "userRealtime": {
         "description": "User in realtime group"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP installed"
       }
     },
     "virtualization": {
       "title": "Virtualization",
       "qemu": {
-        "description": "QEMU support"
+        "description": "QEMU installed"
       },
       "kvm": {
         "description": "KVM support"
@@ -244,21 +247,36 @@
       },
       "userKvm": {
         "description": "User in kvm group"
-      },
+      }
+    },
+    "containers": {
+      "title": "Containers",
       "docker": {
-        "description": "Docker support"
-      },
-      "userDocker": {
-        "description": "User in docker group"
+        "description": "Docker installed"
       },
       "dockerEnabled": {
         "description": "Docker enabled"
       },
-      "podman": {
-        "description": "Podman support"
+      "dockerCompose": {
+        "description": "Docker Compose installed"
       },
-      "podmanEnabled": {
-        "description": "Podman enabled"
+      "userDocker": {
+        "description": "User in docker group"
+      },
+      "podman": {
+        "description": "Podman installed"
+      },
+      "podmanDocker": {
+        "description": "Emulate Docker via Podman"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop installed"
+      },
+      "distrobox": {
+        "description": "DistroBox installed"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy installed"
       }
     },
     "network": {
@@ -285,7 +303,7 @@
         "description": "User in bluetooth group"
       },
       "autoConnect": {
-        "description": "Auto connect"
+        "description": "Auto connect installed"
       },
       "autoConnectEnabled": {
         "description": "Auto connect enabled"
@@ -318,19 +336,19 @@
     "firewall": {
       "title": "Firewall",
       "firewalld": {
-        "description": "Firewalld support"
+        "description": "Firewalld installed"
       },
       "firewalldEnabled": {
         "description": "firewalld enabled"
       },
       "ufw": {
-        "description": "UFW support"
+        "description": "UFW installed"
       },
       "ufwEnabled": {
         "description": "UFW enabled"
       },
       "opensnitch": {
-        "description": "OpenSnitch support"
+        "description": "OpenSnitch installed"
       },
       "opensnitchEnabled": {
         "description": "OpenSnitch enabled"

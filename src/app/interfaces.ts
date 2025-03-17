@@ -63,7 +63,7 @@ export interface SystemToolsSubEntry {
   fancyTitle: string;
   description: string;
   checked: boolean;
-  disabler?: string;
+  disabler?: string | string[];
   disabled?: boolean;
   check: {
     type: 'pkg' | 'group' | 'service' | 'serviceUser';

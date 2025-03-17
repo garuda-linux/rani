@@ -86,9 +86,17 @@ export class DynamicCheckboxesComponent {
     for (const section of entries) {
       for (const entry of section.sections) {
         if (entry.disabler === undefined) continue;
+
         let disabler: SystemToolsSubEntry | undefined;
         for (const section of entries) {
-          disabler = section.sections.find((e) => e.name === entry.disabler);
+          if (typeof entry.disabler === 'string') {
+            disabler = section.sections.find((e: SystemToolsSubEntry) => e.name === entry.disabler);
+          } else {
+            for (const disablerName of entry.disabler) {
+              disabler = section.sections.find((e: SystemToolsSubEntry) => e.name === disablerName);
+              if (disabler) break;
+            }
+          }
           if (disabler) break;
         }
 
