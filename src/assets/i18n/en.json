@@ -122,6 +122,7 @@
     "cleanCache": "Clean cache",
     "cleanCacheSub": "Remove all cached packages",
     "updateSystem": "Update system",
+    "updateAUR": "Update AUR packages",
     "taskRunningHeader": "Error running maintenance action",
     "taskRunning": "There is already a task running, wait for it to be done first.",
     "updateSystemSub": "Update your system via garuda-update",

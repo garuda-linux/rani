@@ -1,16 +1,16 @@
 <ng-container *transloco="let t">
   <div class="flex gap-5">
-    @if (updates.length > 0) {
+    @if (updates().length > 0) {
       <div class="cursor-pointer" (click)="scheduleUpdates()">
-        <p-overlay-badge [value]="updates.length" [pTooltip]="t('systemStatus.updates')" tooltipPosition="bottom">
+        <p-overlay-badge [value]="updates().length" [pTooltip]="t('systemStatus.updates')" tooltipPosition="bottom">
           <i class="pi pi-bell" style="font-size: 1rem"></i>
         </p-overlay-badge>
       </div>
     }
-    @if (pacFiles.length > 0) {
+    @if (pacFiles().length > 0) {
       <div class="cursor-pointer" (click)="pacdiffDialogVisible.set(true)">
         <p-overlay-badge
-          [value]="pacFiles.length"
+          [value]="pacFiles().length"
           severity="warn"
           [pTooltip]="t('systemStatus.pacFiles')"
           tooltipPosition="bottom"
@@ -30,7 +30,7 @@
 
   <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">
     <ul>
-      @for (update of updates; track update.pkg) {
+      @for (update of updates(); track update.pkg) {
         <li>
           {{ update.pkg }}: {{ update.version }} -> <span class="text-primary-emphasis">{{ update.newVersion }}</span>
           {{ update.aur ? '(AUR)' : '' }}
@@ -51,7 +51,7 @@
 
   <p-dialog [(visible)]="pacdiffDialogVisible" [header]="t('systemStatus.pendingPacdiff')" [modal]="true">
     <ul>
-      @for (file of pacFiles; track file) {
+      @for (file of pacFiles(); track file) {
         <li>{{ file }}</li>
       }
     </ul>

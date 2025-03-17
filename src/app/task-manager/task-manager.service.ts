@@ -4,7 +4,7 @@ import { Logger } from '../logging/logging';
 import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';
 
-class Task {
+export class Task {
   constructor(priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
     this.priority = priority;
     this.script = script;
@@ -22,7 +22,7 @@ class Task {
   icon: string;
 }
 
-class TrackedShell {
+export class TrackedShell {
   constructor(shell: Command<string>, outputs: EventEmitter<string>) {
     this.shell = shell;
 
@@ -58,7 +58,7 @@ class TrackedShell {
   running: boolean = true;
 }
 
-class TrackedShells {
+export class TrackedShells {
   constructor(normal: TrackedShell | null, escalated: TrackedShell | null) {
     this.escalated = escalated;
     this.normal = normal;

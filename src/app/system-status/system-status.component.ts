@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { type ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
 import { Logger } from '../logging/logging';
 import { OverlayBadge } from 'primeng/overlaybadge';
@@ -7,7 +16,8 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
-import { TaskManagerService } from '../task-manager/task-manager.service';
+import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
+import { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
 
 @Component({
   selector: 'rani-system-status',
@@ -16,11 +26,12 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   styleUrl: './system-status.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SystemStatusComponent {
+export class SystemStatusComponent implements OnInit {
   dialogVisible = signal<boolean>(false);
+  firstRun = true;
   pacdiffDialogVisible = signal<boolean>(false);
-  pacFiles: string[] = [];
-  updates: { pkg: string; version: string; newVersion: string; aur: boolean }[] = [];
+  pacFiles = signal<string[]>([]);
+  updates = signal<SystemUpdate[]>([]);
   warnUpdate = signal<boolean>(false);
 
   protected readonly open = open;
@@ -32,24 +43,37 @@ export class SystemStatusComponent {
   buttonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   constructor() {
-    void this.init();
+    effect(() => {
+      const tasks: Task[] = this.taskManagerService.tasks();
+      if (!this.firstRun) {
+        void this.refreshStatuses();
+      }
+    });
   }
 
-  async init(): Promise<void> {
+  async ngOnInit(): Promise<void> {
     this.logger.debug('Initializing SystemStatusComponent');
     this.loadingService.loadingOn();
 
-    const initPromises: Promise<void>[] = [
-      this.getPacFiles(),
-      this.getUpdates(),
-      this.getAurUpdates(),
-      this.checkLastUpdate(),
-    ];
+    const initPromises: Promise<void>[] = this.refreshStatuses();
     await Promise.all(initPromises);
 
     this.cdr.markForCheck();
     this.loadingService.loadingOff();
     this.logger.debug('Done initializing SystemStatusComponent');
+  }
+
+  /**
+   * Refresh the system statuses.
+   * @returns An array of promises that will be resolved when the statuses are refreshed.
+   */
+  refreshStatuses(): Promise<void>[] {
+    return [
+      this.getPacFiles(),
+      this.checkSystemUpdate('checkupdates --nocolor', 'repo'),
+      this.checkSystemUpdate('paru -Qua', 'aur'),
+      this.checkLastUpdate(),
+    ];
   }
 
   /**
@@ -62,69 +86,72 @@ export class SystemStatusComponent {
     if (result.code === 0) {
       if (result.stdout.trim() === '') return;
 
-      this.pacFiles = result.stdout.trim().split('\n') ?? [];
-      this.logger.trace(`Pacfiles: ${this.pacFiles.join(', ')}`);
+      this.pacFiles.set(result.stdout.trim().split('\n') ?? []);
+      this.logger.trace(`Pacfiles: ${this.pacFiles().join(', ')}`);
     } else {
       this.logger.error(`Failed to get pacfiles: ${result.stderr}`);
     }
   }
 
   /**
-   * Get a list of available updates.
+   * Check for system updates, either from the repo or AUR.
+   * @param cmd The command to run to check for updates.
+   * @param type The type of updates to check for.
    */
-  async getUpdates(): Promise<void> {
-    const cmd = 'checkupdates --nocolor';
+  async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+    const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
 
     if (result.code === 0) {
       const updates: string[] = result.stdout.trim().split('\n') ?? [];
       for (const update of updates) {
-        this.logger.trace(`Update: ${update}`);
+        this.logger.trace(`${updateString}: ${update}`);
 
         const [pkg, version, invalid, newVersion] = update.split(' ');
-        this.updates.push({ pkg, version, newVersion: newVersion, aur: false });
+        this.updates.update((updates: SystemUpdate[]) => {
+          updates.push({ pkg, version, newVersion: newVersion, aur: type === 'aur' });
+          return updates;
+        });
       }
-    } else if (result.code === 2) {
-      this.logger.info('No updates available');
+    } else if ((type === 'repo' && result.code === 2) || (type === 'aur' && result.code === 1)) {
+      this.logger.info(`No ${updateString.toLowerCase()} available`);
     } else {
-      this.logger.error(`Failed to get updates: ${result.stderr}`);
+      this.logger.error(`Failed to get ${updateString.toLowerCase()}: ${result.stderr}`);
     }
   }
 
-  async getAurUpdates(): Promise<void> {
-    const cmd = 'paru -Qua';
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-
-    if (result.code === 0 && result.stdout.trim() !== '') {
-      const updates: string[] = result.stdout.trim().split('\n') ?? [];
-      for (const update of updates) {
-        this.logger.trace(`AUR update: ${update}`);
-
-        const [pkg, version, invalid, newVersion] = update.split(' ');
-        this.updates.push({ pkg, version, newVersion: newVersion, aur: true });
-      }
-    } else if (result.code === 0) {
-      this.logger.info('No AUR updates available');
-    } else {
-      this.logger.error(`Failed to get updates: ${result.stderr}`);
-    }
-  }
-
+  /**
+   * Schedule a system update, confirming with the user first. If confirmed, schedule the update.
+   * @param confirmed Whether the user has confirmed the update.
+   */
   scheduleUpdates(confirmed = false): void {
     if (!confirmed) {
       this.dialogVisible.set(true);
       return;
     }
 
-    const task = this.taskManagerService.createTask(
-      0,
-      'updateSystem',
-      true,
-      'maintenance.updateSystem',
-      'pi pi-refresh',
-      'garuda-update --noconfirm',
-    );
-    this.taskManagerService.scheduleTask(task);
+    if (this.updates().length > 0 && this.updates().some((update: SystemUpdate) => !update.aur)) {
+      const task: Task = this.taskManagerService.createTask(
+        0,
+        'updateSystem',
+        true,
+        'maintenance.updateSystem',
+        'pi pi-refresh',
+        'garuda-update --noconfirm',
+      );
+      this.taskManagerService.scheduleTask(task);
+    }
+    if (this.updates().length > 0 && this.updates().some((update: SystemUpdate) => update.aur)) {
+      const task: Task = this.taskManagerService.createTask(
+        1,
+        'updateAUR',
+        false,
+        'maintenance.updateAUR',
+        'pi pi-refresh',
+        'paru -Sua --noconfirm --sudo pkexec',
+      );
+      this.taskManagerService.scheduleTask(task);
+    }
 
     this.dialogVisible.set(false);
   }
