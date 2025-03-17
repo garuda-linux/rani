@@ -29,10 +29,10 @@ export async function initRani() {
 
   try {
     if (monitorSize.width - 30 < windowSize.width || monitorSize.height - 30 < windowSize.height) {
-      logger.trace('Monitor size is smaller than window size, resizing window');
-
-      const newSize = new LogicalSize(900, 600);
+      const newSize = new LogicalSize(monitorSize.width - 30, monitorSize.width - 30);
       await window.setSize(newSize);
+
+      logger.debug(`Resized window to ${newSize.width}x${newSize.height}`);
     }
   } catch (err: any) {
     logger.error(err);

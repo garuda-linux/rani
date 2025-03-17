@@ -26,7 +26,7 @@ import { getCurrentWindow } from '@tauri-apps/api/window';
 import { ContextMenu } from 'primeng/contextmenu';
 import { ConfirmationService, type MenuItem } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
-import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from '@garudalinux/core';
+import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from './shell';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { LoadingService } from './loading-indicator/loading-indicator.service';
 import { TerminalComponent } from './terminal/terminal.component';
