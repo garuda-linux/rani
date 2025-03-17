@@ -353,6 +353,12 @@
       "opensnitchEnabled": {
         "description": "OpenSnitch enabled"
       }
+    },
+    "misc": {
+      "title": "Miscellaneous",
+      "gns": {
+        "description": "Garuda Nix Subsystem installed"
+      }
     }
   },
   "systemSettings": {

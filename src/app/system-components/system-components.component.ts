@@ -381,5 +381,18 @@ export class SystemComponentsComponent {
         },
       ],
     },
+    {
+      name: 'systemTools.misc.title',
+      icon: 'pi pi-user',
+      sections: [
+        {
+          name: 'gns',
+          fancyTitle: 'systemTools.misc.gns.title',
+          description: 'systemTools.misc.gns.description',
+          checked: false,
+          check: { type: 'pkg', name: 'garuda-nix-subsystem' },
+        },
+      ],
+    },
   ];
 }

@@ -85,7 +85,23 @@ export class DynamicCheckboxesComponent {
   private checkDisabled(entries: SystemToolsEntry[]): void {
     for (const section of entries) {
       for (const entry of section.sections) {
-        if (entry.disabler === undefined) continue;
+        if (entry.disabler === undefined) {
+          continue;
+        } else if (
+          (entry.check.type === 'pkg' && this.osInteractService.packages().get(entry.check.name) === true) ||
+          this.osInteractService.packages().get(`${entry.check.name}-git`) === true
+        ) {
+          continue;
+        } else if (entry.check.type === 'service' && this.osInteractService.services().get(entry.check.name) === true) {
+          continue;
+        } else if (
+          entry.check.type === 'serviceUser' &&
+          this.osInteractService.servicesUser().get(entry.check.name) === true
+        ) {
+          continue;
+        } else if (entry.check.type === 'group' && this.osInteractService.groups().get(entry.check.name) === true) {
+          continue;
+        }
 
         let disabler: SystemToolsSubEntry | undefined;
         for (const section of entries) {
