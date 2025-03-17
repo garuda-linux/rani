@@ -4,8 +4,11 @@ pub fn run() {
     // https://github.com/tauri-apps/tauri/issues/9394, thanks Nvidia
     #[cfg(target_os = "linux")]
     {
+        let product_name_file = std::path::Path::new("/sys/devices/virtual/dmi/id/product_name");
+        let is_wayland = std::env::var("WAYLAND_DISPLAY").is_ok();
+
         if std::path::Path::new("/proc/driver/nvidia/version").exists()
-            && std::env::var("WAYLAND_DISPLAY").is_ok()
+            && is_wayland
         {
             // SAFETY: There's potential for race conditions in a multi-threaded context
             unsafe {
@@ -23,11 +26,10 @@ pub fn run() {
             }
         }
 
-        let product_name = std::path::Path::new("/sys/devices/virtual/dmi/id/product_name");
         // If using VMWare/VirtualBox on WAYLAND, disable the DMABuf renderer
-        if std::env::var("WAYLAND_DISPLAY").is_ok() && product_name.exists() {
-            let product_name = std::fs::read_to_string(product_name).unwrap();
-            if product_name.contains("VirtualBox") || product_name.contains("VMware") {
+        if is_wayland && product_name_file.exists() {
+            let product_name = std::fs::read_to_string(product_name_file).unwrap();
+            if product_name.to_lowercase().contains("virtualbox") || product_name.to_lowercase().contains("vmware") {
                 // SAFETY: There's potential for race conditions in a multi-threaded context
                 unsafe {
                     log::info!("VirtualBox/VMWare detected, disabling WebKit DMABuf renderer");
