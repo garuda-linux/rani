@@ -14,6 +14,7 @@ import { Tooltip } from 'primeng/tooltip';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import type { ChildProcess } from '@tauri-apps/plugin-shell';
 
 @Component({
   selector: 'rani-systemd-services',
@@ -56,11 +57,11 @@ export class SystemdServicesComponent implements OnInit {
    */
   async getServices(): Promise<SystemdService[]> {
     const toDo: string[] = [
-      `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} list-units --type service --full --all --output json --no-pager`,
+      `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-units --type service --full --all --output json --no-pager`,
     ];
     if (this.includeDisabled()) {
       toDo.push(
-        `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} list-unit-files --type=service --state=disabled --full --all --output json --no-pager`,
+        `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-unit-files --type=service --state=disabled --full --all --output json --no-pager`,
       );
     }
 
@@ -100,7 +101,7 @@ export class SystemdServicesComponent implements OnInit {
 
   /**
    * Clear the systemd service table search and options.
-   * @param table
+   * @param table The table component to clear
    */
   clear(table: Table): void {
     table.clear();
@@ -120,43 +121,43 @@ export class SystemdServicesComponent implements OnInit {
     let action: string;
     switch (event) {
       case 'start':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} start`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}start`;
         break;
       case 'stop':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} stop`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}stop`;
         break;
       case 'restart':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} restart`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}restart`;
         break;
       case 'reload':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} reload`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}reload`;
         break;
       case 'enable':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} enable --now`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}enable --now`;
         break;
       case 'disable':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} disable --now`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}disable --now`;
         break;
       case 'mask':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} mask`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''}mask`;
         break;
       case 'unmask':
-        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''} unmask`;
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}unmask`;
         break;
       case 'logs':
-        action = `journalctl ${this.configService.settings().systemdUserContext ? '--user' : ''} --no-pager -eu`;
+        action = `journalctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}--no-pager -eu`;
         break;
     }
 
-    let output: string | null;
+    const command: string = `${action} ${this.activeService()!.unit}`;
+    let output: ChildProcess<string>;
     if (!this.configService.settings().systemdUserContext) {
-      output = (await this.taskManagerService.executeAndWaitBash(`pkexec ${action} ${this.activeService()!.unit}`))
-        .stdout;
+      output = await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
     } else {
-      output = (await this.taskManagerService.executeAndWaitBash(`${action} ${this.activeService()!.unit}`)).stdout;
+      output = await this.taskManagerService.executeAndWaitBash(command);
     }
 
-    if (!output) {
+    if (output.code !== 0) {
       this.messageToastService.error(
         this.translocoService.translate('systemdServices.errorTitle'),
         this.translocoService.translate('systemdServices.error', { action: event }),
@@ -165,9 +166,9 @@ export class SystemdServicesComponent implements OnInit {
       return;
     }
 
-    this.logger.trace(`Command ${action} executed successfully`);
+    this.logger.trace(`Command '${command}' executed successfully`);
     if (event === 'logs') {
-      this.taskManagerService.clearTerminal(output);
+      this.taskManagerService.clearTerminal(output.stdout);
       this.taskManagerService.toggleTerminal(true);
     } else {
       this.systemdServices.set(await this.getServices());
