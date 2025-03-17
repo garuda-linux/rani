@@ -303,14 +303,17 @@ export class AppComponent implements OnInit {
       if (this.taskManager.running()) {
         items[index].icon = 'pi pi-spin pi-spinner';
         items[index].label = this.translocoService.translate('menu.terminalRunning');
+        items[index].styleClass = 'garuda-button-shine';
         items[index].badge = undefined;
       } else if (this.taskManager.count() > 0) {
         items[index].icon = 'pi pi-hourglass';
         items[index].label = this.translocoService.translate('menu.terminalTasks');
+        items[index].styleClass = 'garuda-button-shine';
       } else {
         items[index].icon = 'pi pi-expand';
         items[index].label = this.translocoService.translate('menu.terminal');
         items[index].badge = undefined;
+        items[index].styleClass = '';
       }
 
       this.menuItems.set(items);
