@@ -3,6 +3,7 @@ import { DOCUMENT } from '@angular/common';
 import { CatppuccinScrollbars } from '../theme';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
+import { AppSettings } from '../config/interfaces';
 
 export class ThemeHandler {
   private readonly configService = inject(ConfigService);
@@ -11,8 +12,9 @@ export class ThemeHandler {
 
   constructor() {
     effect(() => {
-      const darkmode: boolean = this.configService.settings().darkMode;
-      void this.setDarkMode(darkmode);
+      const settings: AppSettings = this.configService.settings();
+      this.logger.error(`Enabled ${settings.darkMode ? 'dark mode' : 'light mode'} via effect`);
+      void this.setDarkMode(settings.darkMode);
     });
   }
 

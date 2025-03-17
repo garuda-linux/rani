@@ -75,18 +75,18 @@
               ngSrc="/assets/window/maximize-main.svg"
               width="16"
             />
+            <img
+              #closeButton
+              (click)="appWindow.close()"
+              (mouseenter)="closeButton.src = '/assets/window/close-hover.svg'"
+              (mouseleave)="closeButton.src = '/assets/window/close-main.svg'"
+              alt="close"
+              class="mx-1"
+              height="16"
+              ngSrc="/assets/window/close-main.svg"
+              width="16"
+            />
           </div>
-          <img
-            #closeButton
-            (click)="appWindow.close()"
-            (mouseenter)="closeButton.src = '/assets/window/close-hover.svg'"
-            (mouseleave)="closeButton.src = '/assets/window/close-main.svg'"
-            alt="close"
-            class="mx-1"
-            height="16"
-            ngSrc="/assets/window/close-main.svg"
-            width="16"
-          />
         </div>
       } @else if (configService.settings().leftButtons) {
         <div garudaShellBarEnd>

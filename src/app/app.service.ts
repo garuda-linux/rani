@@ -6,12 +6,14 @@ import {
   sendNotification,
 } from '@tauri-apps/plugin-notification';
 import { Logger } from './logging/logging';
+import { ThemeHandler } from './theme-handler/theme-handler';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AppService {
   private readonly logger = Logger.getInstance();
+  private readonly themeHandler = new ThemeHandler();
 
   /**
    * Send a notification to the user.
