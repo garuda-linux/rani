@@ -102,11 +102,7 @@ for (const source of sources) {
 
   // Sort and write the data to files
   writeFileSync(
-    `./assets/parsed/${source.split('.')[0].split('/')[2]}-repo.json`,
+    `./assets/parsed/${source.split('.')[0].split('/')[2]}.json`,
     JSON.stringify(cleanedAppData.sort((a, b) => a.name.localeCompare(b.name))),
-  );
-  writeFileSync(
-    `./assets/parsed/${source.split('.')[0].split('/')[2]}-aur.json`,
-    JSON.stringify(cleanedInAur.sort((a, b) => a.name.localeCompare(b.name))),
   );
 }

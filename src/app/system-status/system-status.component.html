@@ -33,7 +33,14 @@
       @for (update of updates(); track update.pkg) {
         <li>
           {{ update.pkg }}: {{ update.version }} -> <span class="text-primary-emphasis">{{ update.newVersion }}</span>
-          {{ update.aur ? '(AUR)' : '' }}
+          @if (update.aur) {
+            <span
+              [pTooltip]="t('systemStatus.aurUpdates')"
+              tooltipPosition="bottom"
+              class="ml-1 text-primary-emphasis-alt"
+              >AUR<i class="ml-1 pi pi-info-circle"></i>
+            </span>
+          }
         </li>
       }
     </ul>

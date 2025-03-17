@@ -57,7 +57,7 @@ export class GamingComponent {
    */
   togglePackage(item: StatefulPackage): void {
     for (const pkgname of item.pkgname) {
-      this.osInteractService.togglePackage(pkgname, item.aur ?? false);
+      this.osInteractService.togglePackage(pkgname);
     }
   }
 }

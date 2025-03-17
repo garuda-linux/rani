@@ -43,10 +43,13 @@ export class SystemStatusComponent implements OnInit {
   buttonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   constructor() {
-    effect(() => {
+    effect(async () => {
       const tasks: Task[] = this.taskManagerService.tasks();
       if (!this.firstRun) {
-        void this.refreshStatuses();
+        this.logger.trace('Tasks changed, refreshing system statuses');
+        const allPromises: Promise<void>[] = this.refreshStatuses();
+        await Promise.all(allPromises);
+        this.cdr.markForCheck();
       }
     });
   }
@@ -60,6 +63,7 @@ export class SystemStatusComponent implements OnInit {
 
     this.cdr.markForCheck();
     this.loadingService.loadingOff();
+    this.firstRun = false;
     this.logger.debug('Done initializing SystemStatusComponent');
   }
 
@@ -138,17 +142,6 @@ export class SystemStatusComponent implements OnInit {
         'maintenance.updateSystem',
         'pi pi-refresh',
         'garuda-update --noconfirm',
-      );
-      this.taskManagerService.scheduleTask(task);
-    }
-    if (this.updates().length > 0 && this.updates().some((update: SystemUpdate) => update.aur)) {
-      const task: Task = this.taskManagerService.createTask(
-        1,
-        'updateAUR',
-        false,
-        'maintenance.updateAUR',
-        'pi pi-refresh',
-        'paru -Sua --noconfirm --sudo pkexec',
       );
       this.taskManagerService.scheduleTask(task);
     }

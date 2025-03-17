@@ -459,7 +459,7 @@ export class OsInteractService {
    * @param aur Whether the package is an AUR package.
    * @param remove Whether to remove the package.
    */
-  togglePackage(pkg: string, aur: boolean = false, remove: boolean = false): void {
+  togglePackage(pkg: string, remove: boolean = false): void {
     let arrow = (wanted: Map<string, boolean>) => {
       if (remove) {
         if (wanted.has(pkg)) {
@@ -473,8 +473,7 @@ export class OsInteractService {
       newMap.set(pkg, this.packages().has(pkg) ? !this.packages().get(pkg) : true);
       return this.wantedPrune(newMap, this.installedPackages());
     };
-    if (aur) this.wantedPackagesAur.update(arrow);
-    else this.wantedPackages.update(arrow);
+    this.wantedPackages.update(arrow);
   }
 
   /**
@@ -553,7 +552,7 @@ export class OsInteractService {
   toggle(entry: SystemToolsSubEntry, remove: boolean = false): void {
     switch (entry.check.type) {
       case 'pkg':
-        this.togglePackage(entry.check.name, false, remove);
+        this.togglePackage(entry.check.name, remove);
         break;
       case 'service':
         this.toggleService(entry.check.name, remove);

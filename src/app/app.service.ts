@@ -13,6 +13,8 @@ import { ThemeHandler } from './theme-handler/theme-handler';
 })
 export class AppService {
   private readonly logger = Logger.getInstance();
+
+  // Not used in this service, but we need to instantiate it nevertheless
   private readonly themeHandler = new ThemeHandler();
 
   /**
