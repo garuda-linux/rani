@@ -71,7 +71,10 @@ export class SystemStatusComponent implements OnInit {
    * Refresh the system statuses.
    * @returns An array of promises that will be resolved when the statuses are refreshed.
    */
-  refreshStatuses(): Promise<void>[] {
+  private refreshStatuses(): Promise<void>[] {
+    this.pacFiles.set([]);
+    this.updates.set([]);
+
     return [
       this.getPacFiles(),
       this.checkSystemUpdate('checkupdates --nocolor', 'repo'),
@@ -83,7 +86,7 @@ export class SystemStatusComponent implements OnInit {
   /**
    * Get a list of pacfiles to check and merge.
    */
-  async getPacFiles(): Promise<void> {
+  private async getPacFiles(): Promise<void> {
     const cmd = 'pacdiff -o';
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 
@@ -102,7 +105,7 @@ export class SystemStatusComponent implements OnInit {
    * @param cmd The command to run to check for updates.
    * @param type The type of updates to check for.
    */
-  async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
+  private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
     const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
 
@@ -152,7 +155,7 @@ export class SystemStatusComponent implements OnInit {
   /**
    * Check the last update time.
    */
-  async checkLastUpdate(): Promise<void> {
+  private async checkLastUpdate(): Promise<void> {
     const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
     const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
 

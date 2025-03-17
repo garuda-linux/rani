@@ -30,8 +30,11 @@ export class DynamicCheckboxesComponent {
     });
   }
 
+  /**
+   * Refresh the UI based on the current state of the system.
+   */
   refreshUi(): void {
-    const data = structuredClone(this.data());
+    const data: SystemToolsEntry[] = structuredClone(this.data());
     for (const service of data) {
       this.logger.trace(`Checking ${service.name}`);
 
@@ -43,7 +46,6 @@ export class DynamicCheckboxesComponent {
     }
 
     this.checkDisabled(data);
-
     this.transformed.set(data);
   }
 
@@ -55,6 +57,11 @@ export class DynamicCheckboxesComponent {
     this.osInteractService.toggle(entry);
   }
 
+  /**
+   * Check the state of the entry, as defined by the check object.
+   * @param entry The entry to check
+   * @returns Whether the entry is currently active in the system
+   */
   private checkState(entry: SystemToolsSubEntry): boolean {
     switch (entry.check.type) {
       case 'pkg': {
@@ -85,21 +92,7 @@ export class DynamicCheckboxesComponent {
   private checkDisabled(entries: SystemToolsEntry[]): void {
     for (const section of entries) {
       for (const entry of section.sections) {
-        if (entry.disabler === undefined) {
-          continue;
-        } else if (
-          (entry.check.type === 'pkg' && this.osInteractService.packages().get(entry.check.name) === true) ||
-          this.osInteractService.packages().get(`${entry.check.name}-git`) === true
-        ) {
-          continue;
-        } else if (entry.check.type === 'service' && this.osInteractService.services().get(entry.check.name) === true) {
-          continue;
-        } else if (
-          entry.check.type === 'serviceUser' &&
-          this.osInteractService.servicesUser().get(entry.check.name) === true
-        ) {
-          continue;
-        } else if (entry.check.type === 'group' && this.osInteractService.groups().get(entry.check.name) === true) {
+        if (entry.disabler === undefined || this.checkState(entry)) {
           continue;
         }
 
