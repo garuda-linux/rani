@@ -22,6 +22,19 @@ pub fn run() {
                 std::env::set_var("WEBKIT_DISABLE_COMPOSITING_MODE", "1");
             }
         }
+
+        let product_name = std::path::Path::new("/sys/devices/virtual/dmi/id/product_name");
+        // If using VMWare/VirtualBox on WAYLAND, disable the DMABuf renderer
+        if std::env::var("WAYLAND_DISPLAY").is_ok() && product_name.exists() {
+            let product_name = std::fs::read_to_string(product_name).unwrap();
+            if product_name.contains("VirtualBox") || product_name.contains("VMware") {
+                // SAFETY: There's potential for race conditions in a multi-threaded context
+                unsafe {
+                    log::info!("VirtualBox/VMWare detected, disabling WebKit DMABuf renderer");
+                    std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
+                }
+            }
+        }
     }
 
     tauri::Builder::default()
