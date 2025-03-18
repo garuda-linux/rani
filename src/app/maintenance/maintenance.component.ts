@@ -157,7 +157,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 5,
       command: (): string => {
         this.logger.info('Running remote fix');
-        return 'garuda-update remote fix';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update remote fix';
       },
     },
     {
@@ -170,7 +170,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 5,
       command: (): string => {
         this.logger.info('Running remote keyring');
-        return 'garuda-update remote keyring';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update remote keyring';
       },
     },
     {
@@ -183,7 +183,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 5,
       command: (): string => {
         this.logger.info('Running remote full fix');
-        return 'garuda-update remote fullfix';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update remote fullfix';
       },
     },
     {
@@ -196,7 +196,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 7,
       command: (): string => {
         this.logger.info('Running remote reset audio');
-        return 'garuda-update remote reset-audio';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update remote reset-audio';
       },
     },
     {
@@ -209,7 +209,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 7,
       command: (): string => {
         this.logger.info('Running remote reset snapper');
-        return 'garuda-update remote reset-snapper';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper';
       },
     },
     {
@@ -222,7 +222,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 6,
       command: (): string => {
         this.logger.info('Reinstalling packages');
-        return 'garuda-update remote reinstall';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update remote reinstall';
       },
     },
   ];
@@ -237,7 +237,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 5,
       command: (): string => {
         this.logger.info('Updating system');
-        return 'garuda-update --skip-mirrorlist --noconfirm';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm';
       },
     },
     {
