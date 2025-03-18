@@ -46,6 +46,7 @@ export class DynamicCheckboxesComponent {
     }
 
     this.checkDisabled(data);
+
     this.transformed.set(data);
   }
 
@@ -53,8 +54,11 @@ export class DynamicCheckboxesComponent {
    * Handle the click action on a checkbox.
    * @param entry The entry to toggle
    */
-  async clickAction(entry: any): Promise<void> {
-    this.osInteractService.toggle(entry);
+  async clickAction(entry: SystemToolsSubEntry): Promise<void> {
+    if (entry.disabled) {
+      return;
+    }
+    this.osInteractService.toggle(entry.check.name, entry.check.type);
   }
 
   /**
@@ -62,26 +66,18 @@ export class DynamicCheckboxesComponent {
    * @param entry The entry to check
    * @returns Whether the entry is currently active in the system
    */
-  private checkState(entry: SystemToolsSubEntry): boolean {
+  private checkState(entry: SystemToolsSubEntry, current: boolean = false): boolean {
     switch (entry.check.type) {
       case 'pkg': {
         this.logger.trace(`Checking package ${entry.check.name} as pkg`);
         return (
-          this.osInteractService.packages().get(entry.check.name) === true ||
-          this.osInteractService.packages().get(`${entry.check.name}-git`) === true
+          this.osInteractService.check(entry.check.name, entry.check.type, current) ||
+          this.osInteractService.check(`${entry.check.name}-git`, entry.check.type, current)
         );
       }
-      case 'service': {
-        this.logger.trace(`Checking service ${entry.check.name} as service`);
-        return this.osInteractService.services().get(entry.check.name) === true;
-      }
-      case 'serviceUser': {
-        this.logger.trace(`Checking service ${entry.check.name} as user service`);
-        return this.osInteractService.servicesUser().get(entry.check.name) === true;
-      }
-      case 'group': {
-        this.logger.trace(`Checking group ${entry.check.name} as group`);
-        return this.osInteractService.groups().get(entry.check.name) === true;
+      default: {
+        this.logger.trace(`Checking service ${entry.check.name} as ${entry.check.type}`);
+        return this.osInteractService.check(entry.check.name, entry.check.type, current);
       }
     }
   }
@@ -92,9 +88,7 @@ export class DynamicCheckboxesComponent {
   private checkDisabled(entries: SystemToolsEntry[]): void {
     for (const section of entries) {
       for (const entry of section.sections) {
-        if (entry.disabler === undefined || this.checkState(entry)) {
-          continue;
-        }
+        if (entry.disabler === undefined) continue;
 
         let disabler: SystemToolsSubEntry | undefined;
         for (const section of entries) {
@@ -117,8 +111,11 @@ export class DynamicCheckboxesComponent {
           disabled = !disabler.checked;
         }
 
-        if (disabled) this.osInteractService.toggle(entry, true);
-        entry.disabled = disabled;
+        if (disabled && !this.checkState(entry, true)) {
+          this.osInteractService.toggle(entry.check.name, entry.check.type, true);
+          entry.disabled = true;
+        } else
+          entry.disabled = false;
       }
     }
   }

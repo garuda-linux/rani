@@ -50,7 +50,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     if (progress === null) {
       return null;
     }
-    return (progress / this.taskManagerService.count()) * 100;
+    return ((progress / this.taskManagerService.count()) * 100).toPrecision(1);
   });
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
     return {

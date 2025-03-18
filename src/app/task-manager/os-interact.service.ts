@@ -549,21 +549,45 @@ export class OsInteractService {
    * @param remove Whether to remove the entry.
    * @private
    */
-  toggle(entry: SystemToolsSubEntry, remove: boolean = false): void {
-    switch (entry.check.type) {
+  toggle(name: string, type: string, remove: boolean = false): void {
+    switch (type) {
       case 'pkg':
-        this.togglePackage(entry.check.name, remove);
+        this.togglePackage(name, remove);
         break;
       case 'service':
-        this.toggleService(entry.check.name, remove);
+        this.toggleService(name, remove);
         break;
       case 'serviceUser':
-        this.toggleServiceUser(entry.check.name, remove);
+        this.toggleServiceUser(name, remove);
         break;
       case 'group':
-        this.toggleGroup(entry.check.name, remove);
+        this.toggleGroup(name, remove);
         break;
     }
+  }
+
+  /**
+   * Check if a package is considered to be "active" for the purpose of the application.
+   * This does not necessarily mean that the package is installed, but may mean that the package is meant for installation.
+   * When current is set to true, it will check if the package is currently actually installed. Usage of this should be avoided.
+   * Think twice, why would you want to check if a package is actually installed? If a package is active, it will be installed if it is not installed anyway.
+   * @param name The name of the package/service/group to check.
+   * @param type The type of the entry to check (pkg, service, serviceUser, group).
+   * @param current Whether to check if the package is currently installed. (Do not use this unless you have a very good reason to do so)
+   * @returns Whether the package is active/installed as a boolean.
+   */
+  check(name: string, type: string, current: boolean = false) {
+    switch (type) {
+      case 'pkg':
+        return current ? this.installedPackages().get(name) == true : this.packages().get(name) == true;
+      case 'service':
+        return current ? this.currentServices().get(name) == true : this.services().get(name) == true;
+      case 'serviceUser':
+        return current ? this.currentServicesUser().get(name) == true : this.servicesUser().get(name) == true;
+      case 'group':
+        return current ? this.currentGroups().get(name) == true : this.groups().get(name) == true;
+    }
+    return false;
   }
 
   /**
