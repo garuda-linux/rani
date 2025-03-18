@@ -38,6 +38,7 @@
           "/usr/share/applications/org.garudalinux.rani.desktop": "../assets/org.garudalinux.rani.desktop"
         }
       }
-    }
+    },
+    "resources": ["../assets/parsed/*.json", "../assets/i18n/*.json"]
   }
 }

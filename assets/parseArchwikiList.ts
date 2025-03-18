@@ -44,7 +44,7 @@ function parseAppEntry(entryString: string): AppData | null {
   appData.name = parts[1].replace('[[', '').replace(']]', '');
   appData.description = parts[2].replace('{{Grp|kde-games}}', 'Part of KDE Games');
   appData.url = parts[3].replace('http://', 'https://');
-  appData.icon = 'generic.png';
+  appData.icon = 'generic-dark.svg';
 
   const packageInfoStr: string = parts[4];
   appData.type = packageInfoStr.split('|')[0].replace('{{', '');

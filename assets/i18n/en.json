@@ -4,7 +4,7 @@
     "maintenance": "Maintenance",
     "systemTools": "System settings",
     "components": "Components",
-    "gaming": "Gaming apps",
+    "gaming": "Gaming",
     "boot": "Boot tools",
     "diagnostics": "Diagnostics",
     "network": "Network tools",
@@ -201,6 +201,7 @@
     "systemdServices": "Systemd services",
     "systemSettings": "System settings",
     "components": "System components",
+    "packages": "Further packages",
     "audio": {
       "title": "Audio",
       "alsa": {
@@ -507,5 +508,14 @@
     "services": "Change services",
     "services-user": "Change user services",
     "groups": "Change user groups"
+  },
+  "packages": {
+    "title": "Packages",
+    "internet": "Internet",
+    "documents": "Documents",
+    "multimedia": "Multimedia",
+    "science": "Science",
+    "security": "Security",
+    "other": "Other"
   }
 }

@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <div>
     <div class="flex mx-auto justify-center">
-      <div class="mb-10 mr-10">
+      <div class="mt-10 mr-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultShell') }}</h2>
         <p-select
           (ngModelChange)="handleToggle('shell')"
@@ -11,21 +11,8 @@
           optionLabel="name"
           placeholder="Select a login shell to use"
         />
-        <!--
-        <div class="mt-5">
-          <p-checkbox
-            (click)="handleToggle('shellConfigs')"
-            [(ngModel)]="selectedBoxes"
-            id="default-shell-configs"
-            inputId="default-shell-configs"
-            name="default-shell-configs"
-            value="defaultShellConfigs"
-          />
-          <label for="default-shell-configs"> {{ t('systemSettings.defaultShellConfigs') }} </label>
-        </div>
-        -->
       </div>
-      <div class="mb-10 ml-10">
+      <div class="mt-10 ml-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultDns') }}</h2>
         <p-select
           (ngModelChange)="handleToggle('dns')"
@@ -35,19 +22,19 @@
           optionLabel="name"
           placeholder="Select a DNS server to use"
         />
-        <div class="mt-5">
-          <p-checkbox
-            (click)="handleToggle('hblock')"
-            [(ngModel)]="selectedBoxes"
-            [disabled]="osInteractService.packages().get('hblock') !== true"
-            id="enable-hblock"
-            inputId="enable-hblock"
-            name="enable-hblock"
-            value="hblock"
-          />
-          <label class="mx-2.5" for="enable-hblock"> {{ t('systemSettings.enableHblock') }} </label>
-        </div>
       </div>
+    </div>
+    <div class="mt-10 flex justify-center">
+      <p-checkbox
+        (click)="handleToggle('hblock')"
+        [(ngModel)]="selectedBoxes"
+        [disabled]="osInteractService.packages().get('hblock') !== true"
+        id="enable-hblock"
+        inputId="enable-hblock"
+        name="enable-hblock"
+        value="hblock"
+      />
+      <label class="mx-2.5" for="enable-hblock"> {{ t('systemSettings.enableHblock') }} </label>
     </div>
     <div>
       <rani-dynamic-checkboxes [data]="sections"></rani-dynamic-checkboxes>

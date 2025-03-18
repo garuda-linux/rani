@@ -5,6 +5,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { SystemSettingsComponent } from '../system-settings/system-settings.component';
 import { SystemComponentsComponent } from '../system-components/system-components.component';
+import { PackagesComponent } from '../packages/packages.component';
 
 @Component({
   selector: 'rani-system-tools',
@@ -19,6 +20,7 @@ import { SystemComponentsComponent } from '../system-components/system-component
     TranslocoDirective,
     SystemSettingsComponent,
     SystemComponentsComponent,
+    PackagesComponent,
   ],
   templateUrl: './system-tools.component.html',
   styleUrl: './system-tools.component.css',

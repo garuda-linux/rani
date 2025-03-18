@@ -10,7 +10,8 @@
       <p-tablist>
         <p-tab [value]="0">{{ t('systemTools.components') }}</p-tab>
         <p-tab [value]="1">{{ t('systemTools.systemSettings') }}</p-tab>
-        <p-tab [value]="2">{{ t('systemTools.systemdServices') }}</p-tab>
+        <p-tab [value]="2">{{ t('systemTools.packages') }}</p-tab>
+        <p-tab [value]="3">{{ t('systemTools.systemdServices') }}</p-tab>
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
@@ -20,6 +21,9 @@
           <rani-system-settings></rani-system-settings>
         </p-tabpanel>
         <p-tabpanel [value]="2">
+          <rani-packages></rani-packages>
+        </p-tabpanel>
+        <p-tabpanel [value]="3">
           <rani-systemd-services></rani-systemd-services>
         </p-tabpanel>
       </p-tabpanels>

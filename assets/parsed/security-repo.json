@@ -3,441 +3,441 @@
     "name": "1Password",
     "description": "Proprietary graphical user interface for 1Password password manager.",
     "url": "https://support.1password.com/install-linux/#arch-linux",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["1password"]
   },
   {
     "name": "Arpwatch",
     "description": "Tool that monitors ethernet activity and keeps a database of Ethernet/IP address pairings.",
     "url": "https://ee.lbl.gov/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["arpwatch"]
   },
   {
     "name": "Authenticator",
     "description": "Open source, two-factor authentication application built for GNOME.",
     "url": "https://apps.gnome.org/Authenticator/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["authenticator"]
   },
   {
     "name": "bettercap",
     "description": "Swiss army knife for network attacks and monitoring.",
     "url": "https://www.bettercap.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["bettercap"]
   },
   {
     "name": "Bitwarden",
     "description": "Open source password manager with desktop, mobile, browser, and CLI versions. Cloud or self-hosted.",
     "url": "https://bitwarden.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["bitwarden-cli"]
   },
   {
     "name": "Bitwarden",
     "description": "Open source password manager with desktop, mobile, browser, and CLI versions. Cloud or self-hosted.",
     "url": "https://bitwarden.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["bitwarden"]
   },
   {
     "name": "Cinnamon Screensaver",
     "description": "Screen locker for the Cinnamon desktop.",
     "url": "https://github.com/linuxmint/cinnamon-screensaver",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["cinnamon-screensaver"]
   },
   {
     "name": "ClamAV",
     "description": "Open source antivirus engine for detecting trojans, viruses, malware & other malicious threats.",
     "url": "https://www.clamav.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["clamav"]
   },
   {
     "name": "ClamTk",
     "description": "Graphical front-end for ClamAV using Perl and Gtk libraries. It is designed to be an easy-to-use, lightweight, on-demand antivirus scanner for Linux systems.",
     "url": "https://gitlab.com/dave_m/clamtk/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["clamtk}}, Nautilus plugin: {{AUR"]
   },
   {
     "name": "darkstat",
     "description": "Captures network traffic, calculates statistics about usage, and serves reports over HTTP.",
     "url": "https://unix4lyfe.org/darkstat/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["darkstat"]
   },
   {
     "name": "Deepin Screensaver",
     "description": "A lightweight Qt5 based screensaver.",
     "url": "https://github.com/linuxdeepin/deepin-screensaver",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["deepin-screensaver"]
   },
   {
     "name": "dsniff",
     "description": "Collection of tools for network auditing and penetration testing.",
     "url": "https://www.monkey.org/~dugsong/dsniff/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["dsniff"]
   },
   {
     "name": "EtherApe",
     "description": "Graphical network monitor for Unix modeled after etherman. Featuring link layer, IP and TCP modes, it displays network activity graphically. Hosts and links change in size with traffic. Color coded protocols display.",
     "url": "https://etherape.sourceforge.io/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["etherape"]
   },
   {
     "name": "GNOME Network Tools",
     "description": "GNOME interface for various networking tools.",
     "url": "https://gitlab.gnome.org/GNOME/gnome-nettool",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnome-nettool"]
   },
   {
     "name": "GnuPG",
     "description": "The GNU project's complete and free implementation of the OpenPGP standard as defined by RFC4880. Free and Open Source replacement of PGP, mostly used for digital signing of packages.",
     "url": "https://gnupg.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnupg"]
   },
   {
     "name": "gopass",
     "description": "Advanced console based password manager, supporting GnuPG and other backends.",
     "url": "https://github.com/justwatchcom/gopass",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gopass"]
   },
   {
     "name": "GtkHash",
     "description": "A GTK utility for computing message digests or checksums",
     "url": "https://github.com/tristanheaven/gtkhash",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gtkhash"]
   },
   {
     "name": "gtklock",
     "description": "GTK-based lockscreen for Wayland.",
     "url": "https://github.com/jovanlanik/gtklock",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gtklock"]
   },
   {
     "name": "Hashcat",
     "description": "Multithreaded advanced password recovery utility.",
     "url": "https://hashcat.net/hashcat",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["hashcat"]
   },
   {
     "name": "hping",
     "description": "Command-line oriented TCP/IP packet assembler/analyzer.",
     "url": "https://hping.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["hping"]
   },
   {
     "name": "i3lock",
     "description": "A simple screen locker. Provides user feedback and uses PAM authentication. The background can be set to an image or solid color.",
     "url": "https://i3wm.org/i3lock/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["i3lock"]
   },
   {
     "name": "i3lock-color",
     "description": "Fork of ''i3lock'' with color and positioning configuration support and can use your desktop with the blur effect applied as a background.",
     "url": "https://github.com/Raymo111/i3lock-color",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["i3lock-color"]
   },
   {
     "name": "IPTraf",
     "description": "Console-based network monitoring utility.",
     "url": "https://sourceforge.net/projects/iptraf-ng/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["iptraf-ng"]
   },
   {
     "name": "jnettop",
     "description": "top-like console network traffic visualizer.",
     "url": "https://sourceforge.net/projects/jnettop/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["jnettop"]
   },
   {
     "name": "John the Ripper",
     "description": "Password cracker.",
     "url": "https://www.openwall.com/john",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["john"]
   },
   {
     "name": "KeePassXC",
     "description": "Community fork of KeePassX with more active development. Compatible with KeePass v.1.x (import only) and KeePass v.2.x.",
     "url": "https://keepassxc.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["keepassxc"]
   },
   {
     "name": "KeePassXC",
     "description": "Mainly used for password management and generation, but also supports attaching arbitrary files to entries in an encrypted database.",
     "url": "https://keepassxc.org",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["keepassxc"]
   },
   {
     "name": "Key Rack",
     "description": "Password manager for GNOME to view and edit keys, like passwords or tokens, stored by apps.",
     "url": "https://gitlab.gnome.org/World/key-rack",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["key-rack"]
   },
   {
     "name": "Keysign",
     "description": "GTK application to use GnuPG for signing other people's keys. Quickly, easily, and securely.",
     "url": "https://wiki.gnome.org/Apps/Keysign",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnome-keysign"]
   },
   {
     "name": "Kismet",
     "description": "802.11 layer2 wireless network detector, sniffer, and intrusion detection system.",
     "url": "https://www.kismetwireless.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kismet"]
   },
   {
     "name": "LastPass",
     "description": "Hosted password manager. ",
     "url": "https://www.lastpass.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["lastpass-cli"]
   },
   {
     "name": "Light-locker",
     "description": "A simple locker (forked from ''gnome-screensaver'') that aims to have simple, sane, secure defaults and be well integrated with the desktop while not carrying any desktop-specific dependencies. It relies on [[LightDM]] for locking and unlocking your session via ConsoleKit/UPower or ''logind/systemd''.",
     "url": "https://github.com/the-cavalry/light-locker",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["light-locker"]
   },
   {
     "name": "LinSSID",
     "description": "Graphical wireless scanner.",
     "url": "https://sourceforge.net/projects/linssid/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["linssid"]
   },
   {
     "name": "Logwatch",
     "description": "Customizable log analysis system.",
     "url": "https://sourceforge.net/projects/logwatch/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["logwatch"]
   },
   {
     "name": "Lynis",
     "description": "Security and system auditing tool to harden Unix/Linux systems.",
     "url": "https://cisofy.com/lynis/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["lynis"]
   },
   {
     "name": "MATE Screensaver",
     "description": "Screensaver and locker for MATE Desktop Environment.",
     "url": "https://github.com/mate-desktop/mate-screensaver",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["mate-screensaver"]
   },
   {
     "name": "Metasploit Framework",
     "description": "An advanced open-source platform for developing, testing, and using exploit code.",
     "url": "https://www.metasploit.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["metasploit"]
   },
   {
     "name": "netsniff-ng",
     "description": "High performance Linux network sniffer for packet inspection.",
     "url": "https://netsniff-ng.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["netsniff-ng"]
   },
   {
     "name": "ngrep",
     "description": "grep-like utility that allows you to search for network packets on an interface.",
     "url": "https://github.com/jpr5/ngrep",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["ngrep"]
   },
   {
     "name": "OTPClient",
     "description": "Highly secure and easy to use GTK software for two-factor authentication that supports both Time-based One-time Passwords (TOTP) and HMAC-Based One-Time Passwords (HOTP).",
     "url": "https://github.com/paolostivanin/OTPClient",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["otpclient"]
   },
   {
     "name": "OWASP ZAP",
     "description": "Web application security scanner.",
     "url": "https://www.zaproxy.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["zaproxy"]
   },
   {
     "name": "Parchive",
     "description": "Utility which creates and uses PAR2 files to detect damage in data files and repair them if necessary.",
     "url": "https://github.com/Parchive/par2cmdline",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["par2cmdline"]
   },
   {
     "name": "pass",
     "description": "Simple console-based password manager featuring flat text file organization and GnuPG encryption.",
     "url": "https://www.passwordstore.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["pass"]
   },
   {
     "name": "Passbook",
     "description": "Modern password manager for GNOME.",
     "url": "https://wiki.gnome.org/Apps/Passbook",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["passbook"]
   },
   {
     "name": "physlock",
     "description": "Screen and console locker.",
     "url": "https://github.com/muennich/physlock",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["physlock"]
   },
   {
     "name": "QtPass",
     "description": "GUI for pass, the standard unix password manager.",
     "url": "https://qtpass.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["qtpass"]
   },
   {
     "name": "Revelation",
     "description": "Password manager for the GNOME desktop.",
     "url": "https://revelation.olasagasti.info/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["revelation"]
   },
   {
     "name": "RHash",
     "description": "Utility for verifying hash sums (SFV, CRC, etc). Supports lots of algorithms.",
     "url": "https://github.com/rhash/RHash/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["rhash"]
   },
   {
     "name": "Secrets",
     "description": "Password manager for GNOME which makes use of the KeePass v.4 format.",
     "url": "https://apps.gnome.org/Secrets/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["secrets"]
   },
   {
     "name": "slock",
     "description": "Very simple and lightweight X screen locker. Offers only a black background when locked, there are no animations or text fields.",
     "url": "https://tools.suckless.org/slock/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["slock"]
   },
   {
     "name": "Smb4K",
     "description": "Advanced network neighborhood browser and Samba share mounting utility for KDE.",
     "url": "https://apps.kde.org/smb4k/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["smb4k"]
   },
   {
     "name": "ssh-audit",
     "description": "SSH configuration auditing.",
     "url": "https://github.com/jtesta/ssh-audit/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["ssh-audit"]
   },
   {
     "name": "Sshguard",
     "description": "Daemon that protects SSH and other services against brute-force attacks, similar to Fail2ban.",
     "url": "https://www.sshguard.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["sshguard"]
   },
   {
     "name": "swaylock",
     "description": "Screen locker for Wayland.",
     "url": "https://github.com/swaywm/swaylock",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["swaylock"]
   },
   {
     "name": "Tcpdump",
     "description": "Common console-based packet analyzer that allows the user to intercept and display TCP/IP and other packets being transmitted or received over a network.",
     "url": "https://www.tcpdump.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["tcpdump"]
   },
   {
     "name": "Vault",
     "description": "Proprietary tool for managing secrets.",
     "url": "https://vaultproject.io/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["vault"]
   },
   {
     "name": "vlock",
     "description": "TTY locker. A mirror of the [https://lists.archlinux.org/archives/list/aur-general@lists.archlinux.org/message/UUI4XXDA5RMOTYOQJUYCES33LE4VY2U5/ original vlock] is available at [https://github.com/WorMzy/vlock github].",
     "url": "https://kbd-project.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kbd"]
   },
   {
     "name": "vnStat",
     "description": "Console-based network traffic monitor that keeps a log of network traffic for the selected interfaces.",
     "url": "https://humdi.net/vnstat/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["vnstat"]
   },
   {
     "name": "xfce4-screensaver",
     "description": "A screen saver and locker that aims to have simple, sane, secure defaults and be well integrated with the xfce desktop.",
     "url": "https://git.xfce.org/apps/xfce4-screensaver/about/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xfce4-screensaver"]
   },
   {
     "name": "xlockmore",
     "description": "Simple X11 screen lock with PAM support.",
     "url": "https://sillycycle.com/xlockmore.html",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xlockmore"]
   },
   {
     "name": "XScreenSaver",
     "description": "Screen saver and locker for the X Window System.",
     "url": "https://www.jwz.org/xscreensaver/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xscreensaver"]
   },
   {
     "name": "XSecureLock",
     "description": "X11 screen lock utility designed with the primary goal of security.",
     "url": "https://github.com/google/xsecurelock",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xsecurelock"]
   },
   {
     "name": "xtrlock",
     "description": "Very lightweight X display  locker. Keeps windows visible and displays lock icon instead of mouse cursor. Typing password followed by enter unlocks the screen.",
     "url": "https://packages.debian.org/sid/xtrlock",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xtrlock"]
   }
 ]

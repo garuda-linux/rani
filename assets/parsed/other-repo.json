@@ -3,868 +3,868 @@
     "name": "ActivityWatch",
     "description": "A self/local-hosted, cross-platform, client-server, privacy-focused active window tracker.",
     "url": "https://github.com/ActivityWatch/activitywatch",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["activitywatch-bin"]
   },
   {
     "name": "Agenda",
     "description": "Simple, fast, no-nonsense to-do (task) list for elementary OS.",
     "url": "https://github.com/dahenson/agenda",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["agenda-git"]
   },
   {
     "name": "AIChat",
     "description": "All-in-one AI CLI tool featuring Chat-REPL, ChatGPT, Shell Assistant, RAG, AI tools & agents, with access to OpenAI, Claude, Gemini, Ollama, Groq, and more.",
     "url": "https://github.com/sigoden/aichat",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["aichat"]
   },
   {
     "name": "Alacarte",
     "description": "Add or remove applications from the main menu.",
     "url": "https://gitlab.gnome.org/GNOME/alacarte",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["alacarte"]
   },
   {
     "name": "AllTray",
     "description": "Dock other applications into the system tray (notification area).",
     "url": "https://github.com/mbt/alltray",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["alltray"]
   },
   {
     "name": "Anki",
     "description": "Intelligent spaced-repetition memory training program.",
     "url": "https://apps.ankiweb.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["anki"]
   },
   {
     "name": "bemenu",
     "description": "Lightweight dynamic menu inspired by dmenu. Works natively on Wayland.",
     "url": "https://github.com/Cloudef/bemenu",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["bemenu"]
   },
   {
     "name": "Bitcoin Core",
     "description": "Connect to the Bitcoin P2P Network.",
     "url": "https://bitcoincore.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["bitcoin-qt"]
   },
   {
     "name": "Break Timer",
     "description": "Keeps track of how much you are using the computer, and it reminds you to take regular breaks. Works only in GNOME.",
     "url": "https://wiki.gnome.org/Apps/BreakTimer",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnome-break-timer"]
   },
   {
     "name": "Cairo-Dock",
     "description": "Highly customizable dock and launcher application.",
     "url": "https://www.glx-dock.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["cairo-dock"]
   },
   {
     "name": "Calcurse",
     "description": "Text-based ncurses calendar and scheduling system (supports CalDAV)",
     "url": "https://calcurse.org",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["calcurse"]
   },
   {
     "name": "Calindori",
     "description": "Calendar application for Plasma Mobile.",
     "url": "https://apps.kde.org/calindori/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["calindori"]
   },
   {
     "name": "Calligra Plan",
     "description": "Project management application, which is intended for managing moderately large projects with multiple resources.",
     "url": "https://calligra.org/components/plan/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["calligra-plan"]
   },
   {
     "name": "Cartridges",
     "description": "Simple game launcher written in Python using GTK4 and Libadwaita.",
     "url": "https://apps.gnome.org/Cartridges/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["cartridges"]
   },
   {
     "name": "ChatGPT Desktop Application",
     "description": "ChatGPT Desktop Application",
     "url": "https://github.com/lencx/ChatGPT",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["chatgpt-desktop-bin"]
   },
   {
     "name": "Chess Clock",
     "description": "Simple application to provide time control for over-the-board chess games.",
     "url": "https://apps.gnome.org/Chessclock/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["chess-clock"]
   },
   {
     "name": "chinese-calendar",
     "description": "Chinese traditional calendar for Ubuntu Kylin.",
     "url": "https://launchpad.net/chinese-calendar/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["chinese-calendar"]
   },
   {
     "name": "Deepin Calendar",
     "description": "Calendar application for Deepin.",
     "url": "https://www.deepin.org/en/original/dde-calendar/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["deepin-calendar"]
   },
   {
     "name": "dmenu",
     "description": "Fast and lightweight dynamic menu for X which is also useful as an application launcher.",
     "url": "https://tools.suckless.org/dmenu/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["dmenu"]
   },
   {
     "name": "Easystroke",
     "description": "Use mouse gestures to initiate commands and hotkeys.",
     "url": "https://github.com/thjaeger/easystroke/wiki",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["easystroke"]
   },
   {
     "name": "Electrum",
     "description": "Lightweight Bitcoin client.",
     "url": "https://electrum.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["electrum"]
   },
   {
     "name": "Errands",
     "description": "Todo application for those who prefer simplicity.",
     "url": "https://apps.gnome.org/List/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["errands"]
   },
   {
     "name": "eSpeak NG",
     "description": "Fork of eSpeak (due to inactivity of original maintainer).",
     "url": "https://github.com/espeak-ng/espeak-ng",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["espeak-ng"]
   },
   {
     "name": "Etherwall",
     "description": "[[Ethereum]] wallet.",
     "url": "https://www.etherwall.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["etherwall"]
   },
   {
     "name": "eww",
     "description": "Elkowars Wacky Widgets is a standalone widget system made in Rust that allows you to implement your own, custom widgets in any window manager.",
     "url": "https://github.com/elkowar/eww",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["eww"]
   },
   {
     "name": "feh",
     "description": "A lightweight and powerful image viewer that can also be used to manage the desktop wallpaper.",
     "url": "https://feh.finalrewind.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["feh}}‎}}"]
   },
   {
     "name": "Festival",
     "description": "General framework for building speech synthesis systems as well as including examples of various modules. As a whole it offers full text to speech.",
     "url": "https://www.cstr.ed.ac.uk/projects/festival/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["festival"]
   },
   {
     "name": "Flite",
     "description": "Lightweight speech synthesis engine.",
     "url": "https://festvox.org/flite/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["flite"]
   },
   {
     "name": "Fondo",
     "description": "Find a variety of the most beautiful wallpapers from Unsplash.com.",
     "url": "https://github.com/calo001/fondo",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["fondo"]
   },
   {
     "name": "Fretboard",
     "description": "Look up guitar chords.",
     "url": "https://apps.gnome.org/Fretboard/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["fretboard"]
   },
   {
     "name": "fuzzel",
     "description": "Application launcher for wlroots based Wayland compositors, similar to rofi's `drun` mode.",
     "url": "https://codeberg.org/dnkl/fuzzel",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["fuzzel"]
   },
   {
     "name": "Gmrun",
     "description": "Lightweight GTK-based application launcher, with the ability to run programs inside a terminal and other handy features.",
     "url": "https://sourceforge.net/projects/gmrun/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gmrun"]
   },
   {
     "name": "GNOME Panel",
     "description": "Panel included in the [[GNOME Flashback]] desktop.",
     "url": "https://wiki.gnome.org/Projects/GnomePanel",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnome-panel"]
   },
   {
     "name": "Gnome-Pie",
     "description": "Circular application launcher (pie menu) for Linux. It is made of several pies, each consisting of multiple slices.",
     "url": "https://simmesimme.github.io/gnome-pie.html",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnome-pie"]
   },
   {
     "name": "GnuCash",
     "description": "Financial application that implements a double-entry book-keeping system with features for small business accounting.",
     "url": "https://www.gnucash.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnucash"]
   },
   {
     "name": "Gromit-MPX",
     "description": "Tool to make annotations on the screen.",
     "url": "https://github.com/bk138/gromit-mpx",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gromit-mpx"]
   },
   {
     "name": "GTG",
     "description": "Personal tasks and TODO list items organizer for GNOME inspired by the Getting Things Done (GTD) methodology.",
     "url": "https://github.com/getting-things-gnome/gtg",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gtg"]
   },
   {
     "name": "Hamster",
     "description": "Time tracking application that helps you to keep track on how much time you have spent during the day on activities you choose to track.",
     "url": "https://projecthamster.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["hamster-time-tracker"]
   },
   {
     "name": "Health",
     "description": "Health tracking app for the GNOME desktop.",
     "url": "https://apps.gnome.org/Health/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["health"]
   },
   {
     "name": "hledger",
     "description": "An accounting program for tracking money, time, or any other commodity, using double-entry accounting and a simple, editable file format. hledger is inspired by and largely compatible with ledger.",
     "url": "https://hledger.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["hledger"]
   },
   {
     "name": "HomeBank",
     "description": "Easy to use finance manager that can analyse your personal finance in detail using powerful filtering tools and graphs.",
     "url": "https://homebank.free.fr/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["homebank"]
   },
   {
     "name": "hsetroot",
     "description": "A tool to create compose wallpapers.",
     "url": "https://packages.debian.org/sid/hsetroot",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["hsetroot"]
   },
   {
     "name": "Hyprpaper",
     "description": "Hyprpaper is a blazing fast wayland wallpaper utility with IPC controls.",
     "url": "https://github.com/hyprwm/hyprpaper",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["hyprpaper-git"]
   },
   {
     "name": "j4-dmenu-desktop",
     "description": "Very fast dmenu application launcher.",
     "url": "https://github.com/enkore/j4-dmenu-desktop",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["j4-dmenu-desktop"]
   },
   {
     "name": "jgmenu",
     "description": "Simple, independent, contemporary-looking X11 menu, designed for scripting, ricing and tweaking.",
     "url": "https://github.com/johanmalm/jgmenu",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["jgmenu"]
   },
   {
     "name": "Julius",
     "description": "Large vocabulary continuous speech recognition engine.",
     "url": "https://github.com/julius-speech/julius",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["julius"]
   },
   {
     "name": "Junction",
     "description": "Application chooser to open files and links.",
     "url": "https://apps.gnome.org/Junction/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["junction"]
   },
   {
     "name": "KDocker",
     "description": "Dock any application in the system tray (notification area).",
     "url": "https://github.com/user-none/KDocker",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kdocker"]
   },
   {
     "name": "khal",
     "description": "Command-line (non-interactive) and ncurses (interactive) calendar system (supports CalDAV)",
     "url": "https://github.com/pimutils/khal",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["khal"]
   },
   {
     "name": "Khard",
     "description": "Command-line addressbook that is able to sync with CardDAV-servers.",
     "url": "https://github.com/scheibler/khard",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["khard"]
   },
   {
     "name": "Klavaro",
     "description": "Teaching touch typing that intends to be keyboard and language independent.",
     "url": "https://klavaro.sourceforge.io/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["klavaro"]
   },
   {
     "name": "KMyMoney",
     "description": "Personal finance manager that operates in a similar way to Microsoft Money. It supports different account types, categorisation of expenses and incomes, reconciliation of bank accounts and import/export to the “QIF” file format.",
     "url": "https://kmymoney.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kmymoney"]
   },
   {
     "name": "Kresus",
     "description": "Self-hosted personal finance management software. It automatically retrieves every day all your new bank transactions and lets you categorize them, study them through charts and establish a budget.",
     "url": "https://kresus.org/en/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kresus"]
   },
   {
     "name": "Kronometer",
     "description": "Stopwatch application for KDE.",
     "url": "https://apps.kde.org/kronometer/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kronometer"]
   },
   {
     "name": "KTimeTracker",
     "description": "Todo management and time tracking application.",
     "url": "https://apps.kde.org/ktimetracker/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["ktimetracker"]
   },
   {
     "name": "Kupfer",
     "description": "Convenient command and access tool for the GNOME desktop that can launch applications, open documents and access different types of objects and act on them.",
     "url": "https://kupferlauncher.github.io/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["kupfer"]
   },
   {
     "name": "Launchy",
     "description": "Very popular cross-platform application launcher with a plugin-based system used to provide extra functionality.",
     "url": "https://www.launchy.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["launchy"]
   },
   {
     "name": "Ledger",
     "description": "Ledger is a powerful, double-entry accounting system that is accessed from the UNIX command-line.",
     "url": "https://www.ledger-cli.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["ledger"]
   },
   {
     "name": "LXPanel",
     "description": "Lightweight X11 desktop panel and part of the LXDE desktop.",
     "url": "https://lxde.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["lxpanel"]
   },
   {
     "name": "MATE Panel",
     "description": "Panel included in the [[MATE]] desktop.",
     "url": "https://github.com/mate-desktop/mate-panel/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["mate-panel"]
   },
   {
     "name": "MenuLibre",
     "description": "Advanced menu editor that provides modern features in a clean, easy-to-use interface.",
     "url": "https://launchpad.net/menulibre",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["menulibre"]
   },
   {
     "name": "Monero",
     "description": "Monero wallet.",
     "url": "https://getmonero.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["monero-gui}}, {{Pkg"]
   },
   {
     "name": "Mousetweaks",
     "description": "Accessibility enhancements for pointing devices.",
     "url": "https://wiki.gnome.org/Projects/Mousetweaks",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["mousetweaks"]
   },
   {
     "name": "Mozo",
     "description": "Change which applications are shown on the main menu.",
     "url": "https://github.com/mate-desktop/mozo",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["mozo"]
   },
   {
     "name": "mpvpaper",
     "description": "A video wallpaper program for wlroots based wayland compositors.",
     "url": "https://github.com/GhostNaN/mpvpaper",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["mpvpaper"]
   },
   {
     "name": "Nextcloud Calendar",
     "description": "Calendar app for Nextcloud.",
     "url": "https://github.com/nextcloud/calendar",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nextcloud-app-calendar"]
   },
   {
     "name": "Nextcloud Contacts",
     "description": "Contacts app for Nextcloud.",
     "url": "https://github.com/nextcloud/contacts",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nextcloud-app-contacts"]
   },
   {
     "name": "Nextcloud Tasks",
     "description": "Tasks app for Nextcloud.",
     "url": "https://github.com/nextcloud/tasks",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nextcloud-app-tasks"]
   },
   {
     "name": "Nitrogen",
     "description": "A fast and lightweight desktop background browser and setter for X windows.",
     "url": "https://github.com/l3ib/nitrogen",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nitrogen"]
   },
   {
     "name": "nwg-bar",
     "description": "Configurable button bar for wlroots-based compositors.",
     "url": "https://github.com/nwg-piotr/nwg-bar",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nwg-bar"]
   },
   {
     "name": "nwg-dock",
     "description": "GTK-based dock designed for the Sway window manager.",
     "url": "https://github.com/nwg-piotr/nwg-dock",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nwg-dock"]
   },
   {
     "name": "nwg-drawer",
     "description": "GTK-based application drawer designed for the Sway compositor.",
     "url": "https://github.com/nwg-piotr/nwg-drawer",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nwg-drawer"]
   },
   {
     "name": "nwg-menu",
     "description": "GTK-based application menu designed for the Sway compositor.",
     "url": "https://github.com/nwg-piotr/nwg-menu",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nwg-menu"]
   },
   {
     "name": "nwg-panel",
     "description": "GTK3-based panel for sway and Hyprland Wayland compositors.",
     "url": "https://github.com/nwg-piotr/nwg-panel",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["nwg-panel"]
   },
   {
     "name": "ollama",
     "description": "Create, run and share large language models (LLMs)",
     "url": "https://github.com/ollama/ollama",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["ollama}}, {{Pkg"]
   },
   {
     "name": "OpenBoard",
     "description": "Interactive whiteboard software for schools and universities.",
     "url": "https://openboard.ch/index.en.html",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["openboard"]
   },
   {
     "name": "Osmo",
     "description": "GTK personal organizer, which includes calendar, tasks manager and address book modules.",
     "url": "https://osmo-pim.sourceforge.net",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["osmo"]
   },
   {
     "name": "phpLDAPadmin",
     "description": "LDAP client webapp. Its hierarchical tree-viewer and advanced search functionality make it intuitive to browse and administer your LDAP directory.",
     "url": "https://phpldapadmin.sourceforge.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["phpldapadmin"]
   },
   {
     "name": "Planner",
     "description": "Task manager with Todoist support.",
     "url": "https://useplanner.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["planify"]
   },
   {
     "name": "Planner",
     "description": "Project management application for GNOME.",
     "url": "https://wiki.gnome.org/Apps/Planner",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["planner"]
   },
   {
     "name": "Polybar",
     "description": "a fast and easy-to-use tool for creating status bars.",
     "url": "https://github.com/jaagr/polybar",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["polybar"]
   },
   {
     "name": "Pomodoro",
     "description": "Time management utility for GNOME based on the Pomodoro Technique.",
     "url": "https://gnomepomodoro.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["gnome-shell-pomodoro"]
   },
   {
     "name": "pywal",
     "description": "Changes the wallpaper and creates matching colorschemes for various applications (rofi, i3, terminals)",
     "url": "https://github.com/dylanaraps/pywal",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["python-pywal"]
   },
   {
     "name": "Radicale",
     "description": "Free and Open-Source CalDAV and CardDAV Server.",
     "url": "https://radicale.org",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["radicale"]
   },
   {
     "name": "Read It Later",
     "description": "Simple Wallabag client.",
     "url": "https://gitlab.gnome.org/World/read-it-later",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["read-it-later"]
   },
   {
     "name": "Remind",
     "description": "Highly sophisticated text-based calendaring and notification system.",
     "url": "https://dianne.skoll.ca/projects/remind/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["remind"]
   },
   {
     "name": "RHVoice",
     "description": "Cross-platform (including Android) text-to-speech from a blind Russian-speaking developer, based on [https://hts.sp.nitech.ac.jp HTS] (ru, ka, uk, ky, tt, en, pt, eo)",
     "url": "https://github.com/RHVoice/RHVoice",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["rhvoice"]
   },
   {
     "name": "rofi",
     "description": "Popup window switcher roughly based on superswitcher, requiring only xlib and pango.",
     "url": "https://github.com/davatorium/rofi/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["rofi"]
   },
   {
     "name": "RSI Break",
     "description": "Takes care of your health and regularly breaks your work to avoid repetitive strain injury (RSI).",
     "url": "https://apps.kde.org/rsibreak/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["rsibreak"]
   },
   {
     "name": "Safe Eyes",
     "description": "Tool to reduce and prevent repetitive strain injury (RSI).",
     "url": "https://slgobinath.github.io/SafeEyes/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["safeeyes"]
   },
   {
     "name": "Screenkey",
     "description": "Tool to display pressed keys.",
     "url": "https://www.thregr.org/~wavexx/software/screenkey/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["screenkey"]
   },
   {
     "name": "Skrooge",
     "description": "Personal finances manager for the KDE desktop.",
     "url": "https://skrooge.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["skrooge"]
   },
   {
     "name": "Solanum",
     "description": "Pomodoro timer for the GNOME desktop.",
     "url": "https://apps.gnome.org/Solanum/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["solanum"]
   },
   {
     "name": "Speech dispatcher",
     "description": "Common interface to speech synthesis. It has backends for eSpeak, Festival, and a few other speech synthesizers.",
     "url": "https://freebsoft.org/speechd",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["speech-dispatcher"]
   },
   {
     "name": "Stalonetray",
     "description": "Stand-alone freedesktop.org and KDE system tray (notification area) for [[Xorg]]. It has full XEMBED support and minimal dependencies: an X11 lib only. Stalonetray works with virtually any EWMH-compliant window manager.",
     "url": "https://stalonetray.sourceforge.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["stalonetray"]
   },
   {
     "name": "swaybg",
     "description": "Wallpaper tool for Wayland compositors.",
     "url": "https://github.com/swaywm/swaybg",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["swaybg"]
   },
   {
     "name": "swww",
     "description": "Efficient animated wallpaper daemon for wayland, controlled at runtime.",
     "url": "https://github.com/Horus645/swww",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["swww"]
   },
   {
     "name": "Synapse",
     "description": "Semantic launcher written in Vala that you can use to start applications as well as find and access relevant documents and files by making use of the Zeitgeist engine.",
     "url": "https://launchpad.net/synapse-project",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["synapse"]
   },
   {
     "name": "Taskwarrior",
     "description": "Command-line To-do list application with support for lua customization and more.",
     "url": "https://taskwarrior.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["task"]
   },
   {
     "name": "termdown",
     "description": "Countdown timer and stopwatch in your terminal.",
     "url": "https://github.com/trehn/termdown",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["termdown"]
   },
   {
     "name": "Thunderbird",
     "description": "A fully featured E-mail client formerly developed by Mozilla.",
     "url": "https://www.thunderbird.net",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["thunderbird"]
   },
   {
     "name": "Thunderbird with [https://gitlab.com/CardBook/CardBook CardBook] extension",
     "description": "address book based on the CardDAV and vCard standards.",
     "url": "https://gitlab.com/CardBook/CardBook",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["thunderbird"]
   },
   {
     "name": "Timetrack",
     "description": "Simple time-tracking app for GNOME.",
     "url": "https://gitlab.gnome.org/danigm/timetrack",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["timetrack"]
   },
   {
     "name": "Timewarrior",
     "description": "A command-line time-tracking application.",
     "url": "https://timewarrior.net/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["timew"]
   },
   {
     "name": "Tint2",
     "description": "Simple panel/taskbar developed specifically for Openbox.",
     "url": "https://gitlab.com/o9000/tint2",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["tint2"]
   },
   {
     "name": "TIPP10",
     "description": "Intelligent touch typing tutor.",
     "url": "https://www.tipp10.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["tipp10"]
   },
   {
     "name": "TkRemind",
     "description": "Sophisticated calendar and alarm program.",
     "url": "https://dianne.skoll.ca/projects/remind/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["remind"]
   },
   {
     "name": "todoman",
     "description": "Command-line To-do list manager (supports CalDAV)",
     "url": "https://github.com/pimutils/todoman",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["todoman"]
   },
   {
     "name": "Trayer",
     "description": "Lightweight GTK-based system tray (notification area).",
     "url": "https://github.com/sargon/trayer-srg/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["trayer"]
   },
   {
     "name": "Ulauncher",
     "description": "Modern and shiny launcher that provides fuzzy search, extensions, and themes",
     "url": "https://ulauncher.io/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["ulauncher"]
   },
   {
     "name": "Upscayl",
     "description": "Free and Open Source AI Image Upscaler",
     "url": "https://github.com/upscayl/upscayl",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["upscayl-bin"]
   },
   {
     "name": "Vala Panel",
     "description": "Gtk3 panel for compositing window managers",
     "url": "https://gitlab.com/vala-panel-project/vala-panel",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["vala-panel-git"]
   },
   {
     "name": "Variety",
     "description": "Changes the wallpaper on a regular interval using user-specified or automatically downloaded images.",
     "url": "https://peterlevi.com/variety/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["variety"]
   },
   {
     "name": "Wakatime",
     "description": "Open source plugins for metrics about your programming with intuitive web-interface.",
     "url": "https://wakatime.com/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["wakatime"]
   },
   {
     "name": "Waybar",
     "description": "A customizable taskbar for Wlroots-based Wayland compositors.",
     "url": "https://github.com/Alexays/Waybar/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["waybar"]
   },
   {
     "name": "When",
     "description": "Simple personal calendar program.",
     "url": "https://lightandmatter.com/when/when.html",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["when"]
   },
   {
     "name": "Wike",
     "description": "Wikipedia reader for the GNOME desktop.",
     "url": "https://apps.gnome.org/Wike/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["wike"]
   },
   {
     "name": "Wildcard",
     "description": "Provides a simple interface to test/practice regular expressions.",
     "url": "https://gitlab.gnome.org/World/Wildcard",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["wildcard"]
   },
   {
     "name": "wlogout",
     "description": "Logout menu for wayland",
     "url": "https://github.com/ArtsyMacaw/wlogout",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["wlogout"]
   },
   {
     "name": "wmenu",
     "description": "Dynamic menu for Sway and wlroots based Wayland compositors. Provides a Wayland-native dmenu replacement which maintains the look and feel of dmenu",
     "url": "https://git.sr.ht/~adnano/wmenu",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["wmenu"]
   },
   {
     "name": "Workrave",
     "description": "Program that assists in the recovery and prevention of RSI [https://bbs.archlinux.org/viewtopic.php?id{{=}}285701 on Xorg].",
     "url": "https://workrave.org/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["workrave"]
   },
   {
     "name": "Xfce Panel",
     "description": "Panel included in the [[Xfce]] desktop.",
     "url": "https://docs.xfce.org/xfce/xfce4-panel/start",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xfce4-panel"]
   },
   {
     "name": "xmobar",
     "description": "A lightweight, text-based, status bar written in Haskell.",
     "url": "https://archives.haskell.org/projects.haskell.org/xmobar/",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xmobar"]
   },
   {
     "name": "xwallpaper",
     "description": "Minimalistic wallpaper setting utility for X.",
     "url": "https://github.com/stoeckmann/xwallpaper",
-    "icon": "generic.png",
+    "icon": "generic-dark.svg",
     "pkgname": ["xwallpaper"]
   }
 ]
