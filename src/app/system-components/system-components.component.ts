@@ -108,7 +108,7 @@ export class SystemComponentsComponent {
           fancyTitle: 'systemTools.virtualization.virtualbox.title',
           description: 'systemTools.virtualization.virtualbox.description',
           checked: false,
-          check: { type: 'group', name: 'virtualbox-meta' },
+          check: { type: 'pkg', name: 'virtualbox-meta' },
         },
         {
           name: 'group-vboxusers',
