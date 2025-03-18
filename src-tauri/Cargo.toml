@@ -1,7 +1,7 @@
 [package]
 name = "garuda-rani"
-version = "2.0.0"
-description = "Garuda's Rani"
+version = "2.2.0"
+description = "Garuda Rani"
 authors = ["dr460nf1r3", "TNE"]
 repository = "https://gitlab.com/garuda-linux/applications/rani"
 edition = "2021"

@@ -40,7 +40,7 @@ pub fn run() {
     }
 
     tauri::Builder::default()
-        .setup(|app| {
+        .setup(|_app| {
             #[cfg(debug_assertions)]
             {
                 let window = app.get_webview_window("main").unwrap();
