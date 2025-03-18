@@ -13,7 +13,7 @@ const logger = Logger.getInstance();
  * Sets the firstBoot flag to false after the first boot is detected.
  */
 export async function checkFirstBoot(): Promise<boolean> {
-  const store: Store = await getConfigStore();
+  const store: Store = await getConfigStore('checkFirstBoot');
   const firstBoot: boolean | undefined = await store.get<boolean>('firstBoot');
 
   // Check if we've been through this before

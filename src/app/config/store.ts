@@ -4,9 +4,9 @@ import { Logger } from '../logging/logging';
 
 const logger = Logger.getInstance();
 
-export async function getConfigStore(): Promise<Store> {
-  const appConfigDirPath = await appConfigDir();
-  logger.debug(`Saving config to: ${appConfigDirPath}`);
+export async function getConfigStore(context: string): Promise<Store> {
+  const appConfigDirPath: string = await appConfigDir();
+  logger.debug(`Saving config to: ${appConfigDirPath}, context: ${context}`);
 
   return await load(`${appConfigDirPath}/config.json`, { autoSave: true });
 }

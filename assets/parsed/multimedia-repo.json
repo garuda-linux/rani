@@ -1,6 +1,6 @@
 [
   {
-    "name": "[https://www.navidrome.org/ Navidrome]",
+    "name": "Navidrome",
     "description": " Open source music server and streamer with a built in Web UI. Compatible with a wide range of third-party Android and iOS apps.",
     "url": "https://github.com/navidrome/navidrome/",
     "icon": "generic-dark.svg",

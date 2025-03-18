@@ -109,9 +109,9 @@ export class ConfigService {
    * @private
    */
   private async initStore(): Promise<PendingConfigUpdate> {
-    this.store = await getConfigStore();
+    this.store = await getConfigStore('initStore');
 
-    let storedSettings = 0;
+    let storedSettings: number = 0;
     const settings: { [key: string]: any } = {};
     if (this.store) {
       for (const key of Object.keys(this.settings())) {
