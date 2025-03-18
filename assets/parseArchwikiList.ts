@@ -48,7 +48,13 @@ function parseAppEntry(entryString: string): AppData | null {
 
   const packageInfoStr: string = parts[4];
   appData.type = packageInfoStr.split('|')[0].replace('{{', '');
-  appData.pkgname = [parts[5]?.replace('}}}}', '')];
+
+  const pkgnameNonSanitized: string = parts[5]?.replace('}}}}', '');
+  if (pkgnameNonSanitized.includes('}}')) {
+    appData.pkgname = [pkgnameNonSanitized.split('}}')[0]];
+  } else {
+    appData.pkgname = [pkgnameNonSanitized];
+  }
 
   return appData;
 }

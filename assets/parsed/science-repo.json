@@ -438,7 +438,7 @@
     "description": "Prolog is a logic programming language associated with artificial intelligence and computational linguistics.",
     "url": "https://www.swi-prolog.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["swi-prolog}} {{AUR"]
+    "pkgname": ["swi-prolog"]
   },
   {
     "name": "PrusaSlicer",
@@ -480,7 +480,7 @@
     "description": "An open source machine learning framework that accelerates the path from research prototyping to production deployment.",
     "url": "https://pytorch.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["python-pytorch}}, with CUDA {{Pkg"]
+    "pkgname": ["python-pytorch"]
   },
   {
     "name": "qalc",
@@ -627,7 +627,7 @@
     "description": "An end-to-end open source machine learning platform.",
     "url": "https://www.tensorflow.org/ ",
     "icon": "generic-dark.svg",
-    "pkgname": ["python-tensorflow}}, with non x86-64 CPU optimization {{Pkg"]
+    "pkgname": ["python-tensorflow"]
   },
   {
     "name": "Valuta",

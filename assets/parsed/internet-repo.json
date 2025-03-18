@@ -340,7 +340,7 @@
     "description": "Glossy Matrix client with an emphasis on performance and usability. Web application and desktop application based on the [https://electronjs.org/ Electron] platform.",
     "url": "https://element.io/",
     "icon": "generic-dark.svg",
-    "pkgname": ["element-web}}, {{Pkg"]
+    "pkgname": ["element-web"]
   },
   {
     "name": "ELinks",
@@ -585,7 +585,7 @@
     "description": "Distributed anonymous network.",
     "url": "https://geti2p.net/",
     "icon": "generic-dark.svg",
-    "pkgname": ["i2pd}}, {{AUR"]
+    "pkgname": ["i2pd"]
   },
   {
     "name": "imapsync",
@@ -1173,7 +1173,7 @@
     "description": "Qt-based XMPP client.",
     "url": "https://psi-im.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["psi}} or {{Pkg"]
+    "pkgname": ["psi"]
   },
   {
     "name": "Pure-FTPd",
@@ -1250,7 +1250,7 @@
     "description": "Very tiny RSS and ATOM news reader developed using Qt framework.",
     "url": "https://github.com/martinrotter/rssguard",
     "icon": "generic-dark.svg",
-    "pkgname": ["rssguard}} or {{Pkg"]
+    "pkgname": ["rssguard"]
   },
   {
     "name": "rss2email",

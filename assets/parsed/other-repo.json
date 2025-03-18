@@ -179,7 +179,7 @@
     "description": "A lightweight and powerful image viewer that can also be used to manage the desktop wallpaper.",
     "url": "https://feh.finalrewind.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["feh}}‎}}"]
+    "pkgname": ["feh"]
   },
   {
     "name": "Festival",
@@ -431,7 +431,7 @@
     "description": "Monero wallet.",
     "url": "https://getmonero.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["monero-gui}}, {{Pkg"]
+    "pkgname": ["monero-gui"]
   },
   {
     "name": "Mousetweaks",
@@ -522,7 +522,7 @@
     "description": "Create, run and share large language models (LLMs)",
     "url": "https://github.com/ollama/ollama",
     "icon": "generic-dark.svg",
-    "pkgname": ["ollama}}, {{Pkg"]
+    "pkgname": ["ollama"]
   },
   {
     "name": "OpenBoard",
@@ -768,13 +768,6 @@
     "url": "https://ulauncher.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["ulauncher"]
-  },
-  {
-    "name": "Upscayl",
-    "description": "Free and Open Source AI Image Upscaler",
-    "url": "https://github.com/upscayl/upscayl",
-    "icon": "generic-dark.svg",
-    "pkgname": ["upscayl-bin"]
   },
   {
     "name": "Vala Panel",

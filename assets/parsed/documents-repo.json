@@ -186,7 +186,7 @@
     "description": "A Markdown implementation written in C.",
     "url": "https://www.pell.portland.or.us/~orc/Code/discount/",
     "icon": "generic-dark.svg",
-    "pkgname": ["discount}}, Ruby wrapper library: {{Pkg"]
+    "pkgname": ["discount"]
   },
   {
     "name": "Docutils",
@@ -445,7 +445,7 @@
     "description": "The office productivity suite compatible to the open and standardized ODF document format. Fork of OpenOffice, supported by The Document Foundation.",
     "url": "https://www.libreoffice.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["libreoffice-still}} or {{Pkg"]
+    "pkgname": ["libreoffice-fresh"]
   },
   {
     "name": "LibreOffice TexMaths extension",
@@ -879,7 +879,7 @@
     "description": "Minimalist text editor with a graphical user interface, a very powerful command language and remote editing capabilities, developed by Rob Pike.",
     "url": "https://sam.cat-v.org",
     "icon": "generic-dark.svg",
-    "pkgname": ["plan9port}} or {{Pkg"]
+    "pkgname": ["plan9port"]
   },
   {
     "name": "sc",
@@ -1075,7 +1075,7 @@
     "description": "Is included as ''vi'' with most UNIX systems.",
     "url": "https://www.vim.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["vim}}; {{Pkg"]
+    "pkgname": ["vim"]
   },
   {
     "name": "Vimwiki",
@@ -1223,12 +1223,5 @@
     "url": "https://zint.org.uk/",
     "icon": "generic-dark.svg",
     "pkgname": ["zint-qt"]
-  },
-  {
-    "name": "μPad",
-    "description": "Note-taking app that helps you organise + take notes without restrictions. Based on the [https://electronjs.org/ Electron] platform.",
-    "url": "https://getmicropad.com",
-    "icon": "generic-dark.svg",
-    "pkgname": ["micropad"]
   }
 ]

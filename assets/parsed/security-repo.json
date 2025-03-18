@@ -28,7 +28,7 @@
     "pkgname": ["bettercap"]
   },
   {
-    "name": "Bitwarden",
+    "name": "Bitwarden CLI",
     "description": "Open source password manager with desktop, mobile, browser, and CLI versions. Cloud or self-hosted.",
     "url": "https://bitwarden.com/",
     "icon": "generic-dark.svg",
@@ -60,7 +60,7 @@
     "description": "Graphical front-end for ClamAV using Perl and Gtk libraries. It is designed to be an easy-to-use, lightweight, on-demand antivirus scanner for Linux systems.",
     "url": "https://gitlab.com/dave_m/clamtk/",
     "icon": "generic-dark.svg",
-    "pkgname": ["clamtk}}, Nautilus plugin: {{AUR"]
+    "pkgname": ["clamtk"]
   },
   {
     "name": "darkstat",
@@ -178,13 +178,6 @@
     "name": "KeePassXC",
     "description": "Community fork of KeePassX with more active development. Compatible with KeePass v.1.x (import only) and KeePass v.2.x.",
     "url": "https://keepassxc.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["keepassxc"]
-  },
-  {
-    "name": "KeePassXC",
-    "description": "Mainly used for password management and generation, but also supports attaching arbitrary files to entries in an encrypted database.",
-    "url": "https://keepassxc.org",
     "icon": "generic-dark.svg",
     "pkgname": ["keepassxc"]
   },

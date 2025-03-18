@@ -378,13 +378,6 @@
     "pkgname": ["deepin-movie"]
   },
   {
-    "name": "Deepin Music",
-    "description": "Awesome music player with brilliant and tweakful UI Deepin-UI based.",
-    "url": "https://www.deepin.org/en/original/deepin-music/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["deepin-music}}{{Broken package link"]
-  },
-  {
     "name": "Deepin Picker",
     "description": "Color picker tool for Deepin desktop.",
     "url": "https://www.deepin.org/en/original/deepin-picker/",
@@ -466,7 +459,7 @@
     "description": "Apply effects to audio applications and input sources over PipeWire (or PulseAudio with legacy package).",
     "url": "https://github.com/wwmm/easyeffects",
     "icon": "generic-dark.svg",
-    "pkgname": ["easyeffects}}, {{AUR"]
+    "pkgname": ["easyeffects"]
   },
   {
     "name": "EasyTag",
@@ -557,7 +550,7 @@
     "description": "A clone of the same tracker name using SDL2 in C.",
     "url": "https://16-bits.org/ft2.php",
     "icon": "generic-dark.svg",
-    "pkgname": ["ft2-clone}} }}"]
+    "pkgname": ["ft2-clone"]
   },
   {
     "name": "fbi",
@@ -1988,13 +1981,6 @@
     "pkgname": ["thunar-media-tags-plugin"]
   },
   {
-    "name": "TIDAL Hi-Fi (Max quality)",
-    "description": "The web version of [https://listen.tidal.com TIDAL Player] running in electron with Hi-Fi (High & Max) support thanks to widevine",
-    "url": "https://github.com/Mastermindzh/tidal-hifi",
-    "icon": "generic-dark.svg",
-    "pkgname": ["tidal-hifi-bin"]
-  },
-  {
     "name": "Tracktion Waveform",
     "description": "Proprietary digital audio workstation, specifically designed for the needs of modern music producers.",
     "url": "https://www.tracktion.com/",
@@ -2048,7 +2034,7 @@
     "description": "Old-school software instruments: synthv1, a polyphonic subtractive synthesizer; samplv1, a polyphonic sampler synthesizer; drumkv1, yet another drum-kit sampler; padthv1, a polyphonic additive synthesizer.",
     "url": "https://www.rncbc.org/",
     "icon": "generic-dark.svg",
-    "pkgname": ["synthv1}}, {{Pkg"]
+    "pkgname": ["synthv1"]
   },
   {
     "name": "VidCutter",
