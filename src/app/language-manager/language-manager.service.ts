@@ -14,20 +14,24 @@ export class LanguageManagerService {
   private readonly translocoService = inject(TranslocoService);
 
   constructor() {
-    effect(() => {
+    effect(async () => {
       const savedLang: string = this.configService.settings().language;
       void this.updateLanguage(savedLang);
     });
   }
 
+  /**
+   * Wait for language to load by doing a dummy translation. Don't updateLanguage here
+   * as the effect will already run once on startup.
+   */
   async init() {
-    const savedLang: string = this.configService.settings().language;
-    await this.updateLanguage(savedLang);
-
-    // Wait for language to load by doing a dummy translation
     await firstValueFrom(this.translocoService.selectTranslate('menu.welcome'));
   }
 
+  /**
+   * Update the active language.
+   * @param lang The language to set.
+   */
   async updateLanguage(lang: string) {
     const sysLang: string | null = await locale();
     let activeLang: string = lang ?? sysLang;
