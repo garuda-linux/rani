@@ -1,0 +1,43 @@
+<ng-container *transloco="let t">
+  <p-data-view [value]="kernels()">
+    <ng-template #list let-kernels>
+      <div class="grid grid-cols-12 gap-4 grid-nogutter">
+        <div class="col-span-12" *ngFor="let kernel of kernels">
+          <div class="flex flex-col sm:flex-row sm:items-center p-6 gap-4">
+            <div>
+              <p-check-box
+                (onChange)="togglePackage(kernel)"
+                [binary]="true"
+                [(ngModel)]="kernel.selected"
+              ></p-check-box>
+            </div>
+            <div class="flex flex-col md:flex-row justify-between md:items-center flex-1 gap-6">
+              <div class="flex flex-row md:flex-col justify-between items-start gap-2">
+                <div>
+                  <span class="font-medium text-primary text-lg">{{ kernel.pkgname[0] }}</span>
+                  <div class="text-sm font-medium text-secondary mt-2">{{ kernel.description }}</div>
+                </div>
+                <div class="bg-surface-100 dark:bg-surface-700 p-1" style="border-radius: 30px"></div>
+              </div>
+              <div>
+                <p-tag ngClass="mr-2" [value]="kernel.version" severity="info"></p-tag>
+                @if (kernel.selected && kernel.headersSelected) {
+                  <p-tag ngClass="mx-1" [value]="t('kernels.headers')" severity="success"></p-tag>
+                } @else if (kernel.selected && !kernel.headersSelected) {
+                  <p-tag
+                    (click)="installMissingHeaders(kernel)"
+                    ngClass="mx-1 cursor-pointer"
+                    [value]="t('kernels.headers')"
+                    severity="danger"
+                  >
+                    <i class="pi pi-info-circle"></i
+                  ></p-tag>
+                }
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-data-view>
+</ng-container>

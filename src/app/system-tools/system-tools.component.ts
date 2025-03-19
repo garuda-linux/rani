@@ -6,6 +6,7 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { SystemSettingsComponent } from '../system-settings/system-settings.component';
 import { SystemComponentsComponent } from '../system-components/system-components.component';
 import { PackagesComponent } from '../packages/packages.component';
+import { KernelsComponent } from '../kernels/kernels.component';
 
 @Component({
   selector: 'rani-system-tools',
@@ -21,6 +22,7 @@ import { PackagesComponent } from '../packages/packages.component';
     SystemSettingsComponent,
     SystemComponentsComponent,
     PackagesComponent,
+    KernelsComponent,
   ],
   templateUrl: './system-tools.component.html',
   styleUrl: './system-tools.component.css',

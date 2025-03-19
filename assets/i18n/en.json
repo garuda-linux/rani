@@ -201,6 +201,7 @@
     "systemdServices": "Systemd services",
     "systemSettings": "System settings",
     "components": "System components",
+    "kernels": "Kernels",
     "packages": "Further packages",
     "audio": {
       "title": "Audio",
@@ -525,5 +526,8 @@
     "name": "Name",
     "searchKey": "Enter a search keyword",
     "notFound": "No packages found"
+  },
+  "kernels": {
+    "headers": "Headers"
   }
 }
