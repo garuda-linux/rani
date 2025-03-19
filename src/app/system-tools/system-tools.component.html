@@ -15,16 +15,24 @@
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
-          <rani-system-components></rani-system-components>
+          @if (tabIndex() === 0) {
+            <rani-system-components></rani-system-components>
+          }
         </p-tabpanel>
         <p-tabpanel [value]="1">
-          <rani-system-settings></rani-system-settings>
+          @if (tabIndex() === 1) {
+            <rani-system-settings></rani-system-settings>
+          }
         </p-tabpanel>
         <p-tabpanel [value]="2">
-          <rani-packages></rani-packages>
+          @if (tabIndex() === 2) {
+            <rani-packages></rani-packages>
+          }
         </p-tabpanel>
         <p-tabpanel [value]="3">
-          <rani-systemd-services></rani-systemd-services>
+          @if (tabIndex() === 3) {
+            <rani-systemd-services></rani-systemd-services>
+          }
         </p-tabpanel>
       </p-tabpanels>
     </p-tabs>
