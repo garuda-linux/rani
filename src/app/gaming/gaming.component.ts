@@ -10,9 +10,10 @@ import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
-import type { GamingSections, StatefulPackage } from './interfaces';
+import type { PackageSections, StatefulPackage } from './interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { gamingPackageLists } from './package-lists';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'rani-gaming',
@@ -24,9 +25,10 @@ import { gamingPackageLists } from './package-lists';
 export class GamingComponent {
   backgroundColor = signal<string>('background-color');
   tabIndex = signal<number>(0);
+  loadingService = inject(LoadingService);
   osInteractService = inject(OsInteractService);
 
-  protected readonly data: GamingSections = gamingPackageLists;
+  protected readonly data: PackageSections = gamingPackageLists;
   protected readonly open = open;
   protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -41,13 +43,12 @@ export class GamingComponent {
   }
 
   updateUi(): void {
-    const installed_packages = this.osInteractService.packages();
+    const installed_packages: Map<string, boolean> = this.osInteractService.packages();
     for (const sections of this.data) {
       for (const pkg of sections.sections) {
         pkg.selected = installed_packages.get(pkg.pkgname[0]) === true;
       }
     }
-    (window as any).aaaaaaap = this.data;
     this.cdr.markForCheck();
   }
 

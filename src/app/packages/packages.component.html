@@ -1,107 +1,83 @@
 <ng-container *transloco="let t">
-  <div class="pb-10 px-10">
-    <p-tabs [(value)]="tabIndex">
-      <p-tablist>
-        @for (section of data; track section.name) {
-          <p-tab [value]="$index" #tab>{{ t(section.name) }}</p-tab>
-        }
-      </p-tablist>
-      <p-tabpanels>
-        @for (section of data; track section.name) {
-          <p-tabpanel [value]="$index">
-            @if (section.hint) {
-              <div class="text-center text-primary-emphasis mt-5">{{ t(section.hint) }}</div>
-            }
-            <p-data-view [value]="section.sections" [title]="t(section.name)">
-              <ng-template #list let-items>
-                <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
-                  <div *ngFor="let item of items" class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
-                    @defer (on viewport) {
-                      <p-card
-                        (click)="togglePackage(item)"
-                        [style]="{ cursor: 'pointer', background: item.selected ? backgroundColor() : '' }"
-                      >
-                        <ng-template #title>
-                          <div
-                            class="text-center text-sm text-bold min-h-10"
-                            [pTooltip]="t(item.description)"
-                            tooltipPosition="bottom"
-                          >
-                            {{ item.name }}
-                            @if (item.description) {
-                              <i class="pi pi-info-circle mr-2"> </i>
-                            }
-                            @if (item.url) {
-                              <a (click)="open(item.url)"><i class="pi pi-external-link"></i></a>
-                            }
-                          </div>
-                        </ng-template>
-                        <div class="mt-5 min-h-16">
-                          @if (item.icon === 'generic-dark.svg' && !configService.settings().darkMode) {
-                            <img
-                              [alt]="item.name"
-                              class="rounded-border mx-auto"
-                              height="50"
-                              ngSrc="/assets/gamer/generic-light.svg"
-                              width="50"
-                            />
-                          } @else if (item.icon) {
-                            <img
-                              [alt]="item.name"
-                              class="rounded-border mx-auto"
-                              height="50"
-                              ngSrc="/assets/gamer/{{ item.icon }}"
-                              width="50"
-                            />
-                          } @else {
-                            <img
-                              [alt]="item.name"
-                              class="rounded-border mx-auto"
-                              height="50"
-                              ngSrc="/assets/gamer/generic-dark.svg"
-                              width="50"
-                            />
-                          }
-                        </div>
-                      </p-card>
-                    } @placeholder {
-                      <p-card
-                        (click)="togglePackage(item)"
-                        [style]="{ cursor: 'pointer', background: item.selected ? backgroundColor() : '' }"
-                      >
-                        <ng-template #title>
-                          <div class="text-center text-sm text-bold min-h-10">
-                            {{ t('gaming.loading') }}
-                          </div>
-                        </ng-template>
-                        <div class="mt-5 min-h-16">
-                          @if (!configService.settings().darkMode) {
-                            <img
-                              alt="Placeholder"
-                              class="rounded-border mx-auto"
-                              height="50"
-                              ngSrc="/assets/gamer/generic-light.svg"
-                              width="50"
-                            />
-                          } @else {
-                            <img
-                              alt="Placeholder"
-                              class="rounded-border mx-auto"
-                              height="50"
-                              ngSrc="/assets/gamer/generic-dark.svg"
-                              width="50"
-                            />
-                          }
-                        </div>
-                      </p-card>
-                    }
-                  </div>
-                </div>
-              </ng-template>
-            </p-data-view>
-          </p-tabpanel>
-        }
-      </p-tabpanels>
-    </p-tabs>
-  </div>
+  <p-tabs [(value)]="tabIndex">
+    <p-tablist>
+      @for (section of data(); track section.name) {
+        <p-tab [value]="$index" #tab>{{ t(section.name) }}</p-tab>
+      }
+    </p-tablist>
+    <p-table
+      #packageTable
+      [globalFilterFields]="['name', 'description', 'url']"
+      [loading]="loading()"
+      [paginator]="true"
+      [rowsPerPageOptions]="[50, 100, 150]"
+      [rows]="50"
+      dataKey="name"
+      sortField="name"
+    >
+      <ng-template #caption>
+        <div class="flex">
+          <p-button
+            (click)="clear(packageTable)"
+            [label]="t('packages.clear')"
+            [outlined]="true"
+            icon="pi pi-filter-slash"
+          />
+          <p-iconfield class="ml-auto" iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              #filterInput
+              (input)="packageTable.filterGlobal(filterInput.value, 'contains')"
+              [placeholder]="t('packages.searchKey')"
+              pInputText
+              type="text"
+            />
+          </p-iconfield>
+        </div>
+      </ng-template>
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="name">
+            {{ t('packages.name') }}
+            <p-sortIcon field="name" />
+          </th>
+          <th>
+            {{ t('packages.description') }}
+          </th>
+          <th>
+            {{ t('packages.url') }}
+          </th>
+          <th class="whitespace-nowrap" pSortableColumn="selected" [style]="{ 'min-width': '3rem' }">
+            {{ t('packages.selected') }}
+            <p-sortIcon field="selected" />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-pkg>
+        <tr>
+          <td>
+            <p>{{ pkg.name }}</p>
+          </td>
+          <td>
+            {{ pkg.description }}
+          </td>
+          <td>
+            <a class="cursor-pointer" (click)="open(pkg.url)"> <i class="pi pi-external-link"></i></a>
+          </td>
+          <td>
+            <div>
+              <p-check-box (onChange)="togglePackage(pkg)" [binary]="true" [(ngModel)]="pkg.selected"></p-check-box>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="5">{{ t('packages.notFound') }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-tabs>
 </ng-container>

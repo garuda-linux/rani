@@ -43,7 +43,7 @@ pub fn run() {
         .setup(|_app| {
             #[cfg(debug_assertions)]
             {
-                let window = app.get_webview_window("main").unwrap();
+                let window = _app.get_webview_window("main").unwrap();
                 window.open_devtools();
                 window.close_devtools();
             }

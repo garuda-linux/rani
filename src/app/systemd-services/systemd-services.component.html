@@ -59,28 +59,28 @@
     </ng-template>
     <ng-template #header>
       <tr>
-        <th pSortableColumn="unit">
+        <th pSortableColumn="unit" class="whitespace-nowrap">
           {{ t('systemdServices.unit') }}
           <p-sortIcon field="unit" />
         </th>
-        <th pSortableColumn="description">
+        <th pSortableColumn="description" class="whitespace-nowrap">
           {{ t('systemdServices.description') }}
           <p-sortIcon field="description" />
         </th>
-        <th pSortableColumn="load">
+        <th pSortableColumn="load" class="whitespace-nowrap">
           {{ t('systemdServices.load') }}
           <p-sortIcon field="load" />
         </th>
-        <th pSortableColumn="sub">
+        <th pSortableColumn="sub" class="whitespace-nowrap">
           {{ t('systemdServices.state') }}
           <p-sortIcon field="sub" />
         </th>
-        <th pSortableColumn="active">
+        <th pSortableColumn="active" class="whitespace-nowrap">
           {{ t('systemdServices.active') }}
           <p-sortIcon field="active" />
         </th>
         <th>
-          <div class="flex items-center">
+          <div class="flex items-center whitespace-nowrap">
             {{ t('systemdServices.actions') }}
           </div>
         </th>

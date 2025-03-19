@@ -12,9 +12,9 @@ export interface Package {
 
 export type FullPackageDefinition = StatefulPackage & Package;
 
-export interface GamingSection {
+export interface PackageSection {
   name: string;
   hint?: string;
   sections: FullPackageDefinition[];
 }
-export type GamingSections = GamingSection[];
+export type PackageSections = PackageSection[];

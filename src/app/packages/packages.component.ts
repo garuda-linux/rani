@@ -1,43 +1,61 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  effect,
+  inject,
+  OnInit,
+  signal,
+  ViewChild,
+} from '@angular/core';
 import { OsInteractService } from '../task-manager/os-interact.service';
-import { GamingSections, StatefulPackage } from '../gaming/interfaces';
+import { PackageSection, PackageSections, StatefulPackage } from '../gaming/interfaces';
 import { ConfigService } from '../config/config.service';
-import { flavors } from '@catppuccin/palette';
-import { Card } from 'primeng/card';
-import { DataView } from 'primeng/dataview';
-import { NgForOf, NgOptimizedImage } from '@angular/common';
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { Tab, TabList, Tabs } from 'primeng/tabs';
 import { TranslocoDirective } from '@jsverse/transloco';
-import { Tooltip } from 'primeng/tooltip';
 import { Logger } from '../logging/logging';
 import { resolveResource } from '@tauri-apps/api/path';
 import { readTextFile } from '@tauri-apps/plugin-fs';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Button } from 'primeng/button';
+import { open } from '@tauri-apps/plugin-shell';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import { type Table, TableModule } from 'primeng/table';
+import { Checkbox } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'rani-packages',
   imports: [
-    Card,
-    DataView,
-    NgForOf,
-    NgOptimizedImage,
     Tab,
     TabList,
-    TabPanel,
-    TabPanels,
     Tabs,
     TranslocoDirective,
-    Tooltip,
+    Button,
+    IconField,
+    InputIcon,
+    InputText,
+    TableModule,
+    Checkbox,
+    FormsModule,
   ],
   templateUrl: './packages.component.html',
   styleUrl: './packages.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PackagesComponent {
-  backgroundColor = signal<string>('background-color');
+export class PackagesComponent implements OnInit {
+  loading = signal<boolean>(true);
   tabIndex = signal<number>(0);
+  packageSearch = signal<string>('');
+
+  @ViewChild('packageTable') table!: Table;
+
+  loadingService = inject(LoadingService);
   osInteractService = inject(OsInteractService);
 
-  protected data: GamingSections = [
+  protected data = signal<PackageSections>([
     {
       name: 'packages.documents',
       sections: [],
@@ -62,47 +80,67 @@ export class PackagesComponent {
       name: 'packages.security',
       sections: [],
     },
-  ];
-  protected readonly open = open;
+  ]);
+
   protected readonly configService = inject(ConfigService);
+  protected readonly open = open;
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
 
   constructor() {
     effect(() => {
-      const darkMode: boolean = this.configService.settings().darkMode;
-      this.backgroundColor.set(darkMode ? flavors.mocha.colors.surface0.hex : flavors.latte.colors.surface0.hex);
-      this.updateUi();
+      const packages: Map<string, boolean> = this.osInteractService.packages();
+      const tabIndex: number = this.tabIndex();
+      if (!this.loading()) {
+        this.updateUi();
+      }
     });
-
-    void this.init();
   }
 
-  async init() {
+  async ngOnInit() {
     this.logger.trace('Initializing packages component');
-    const resourcePath: string = await resolveResource('../assets/parsed/documents-repo.json');
-    const firstSection = this.data.find((section) => section.name === 'packages.documents');
-    firstSection?.sections.push(...JSON.parse(await readTextFile(resourcePath)));
-    this.cdr.markForCheck();
+    this.loadingService.loadingOn();
 
-    for (const section of this.data) {
-      if (section.name === 'packages.documents') continue;
+    let sections: PackageSections = this.data();
+    for (let i: number = 0; i < sections.length; i++) {
+      const section: PackageSection = sections[i];
       const resourcePath: string = await resolveResource(
         `../assets/parsed/${section.name.replace('packages.', '')}-repo.json`,
       );
-      section.sections.push(...JSON.parse(await readTextFile(resourcePath)));
+      section.sections = JSON.parse(await readTextFile(resourcePath));
+
+      this.logger.debug(`Loaded section ${section.name} with ${section.sections.length} packages`);
     }
-    this.cdr.markForCheck();
+    this.data.set(sections);
+
+    this.loading.set(false);
+    this.loadingService.loadingOff();
+
+    this.updateUi();
   }
 
+  /**
+   * Update the state of the UI based on the installed packages.
+   */
   updateUi(): void {
-    const installed_packages: Map<string, boolean> = this.osInteractService.packages();
-    for (const sections of this.data) {
-      for (const pkg of sections.sections) {
-        pkg.selected = installed_packages.get(pkg.pkgname[0]) === true;
+    this.logger.trace('Updating packages UI');
+    this.clear(this.table);
+
+    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
+    this.data.update((data: PackageSections) => {
+      for (const sections of data) {
+        for (const pkg of sections.sections) {
+          pkg.selected = installedPackages.get(pkg.pkgname[0]) === true;
+        }
       }
-    }
-    (window as any).aaaaaaap = this.data;
+      return data;
+    });
+
+    // We do it like this because via two-way binding, the table doesn't update the data
+    // Very likely it is not compatible with zoneless change detection
+    this.table.value = this.data()[this.tabIndex()].sections;
+    this.table.totalRecords = this.table.value.length;
+
     this.cdr.markForCheck();
   }
 
@@ -114,5 +152,14 @@ export class PackagesComponent {
     for (const pkgname of item.pkgname) {
       this.osInteractService.togglePackage(pkgname);
     }
+  }
+
+  /**
+   * Clear the systemd service table search and options.
+   * @param table The table component to clear
+   */
+  clear(table: Table): void {
+    table.clear();
+    this.packageSearch.set('');
   }
 }

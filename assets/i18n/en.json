@@ -516,6 +516,14 @@
     "multimedia": "Multimedia",
     "science": "Science",
     "security": "Security",
-    "other": "Other"
+    "other": "Other",
+    "clear": "Clear",
+    "search": "Search",
+    "url": "URL",
+    "selected": "Selected",
+    "description": "Description",
+    "name": "Name",
+    "searchKey": "Enter a search keyword",
+    "notFound": "No packages found"
   }
 }

@@ -28,7 +28,7 @@ export const appConfig: ApplicationConfig = {
     ConfirmationService,
     provideAnimationsAsync(),
     provideGarudaNG(
-      { font: 'system-ui' },
+      { font: 'InterVariable' },
       {
         theme: {
           preset: Catppuccin,

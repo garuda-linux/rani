@@ -1,4 +1,4 @@
-import type { GamingSections } from './interfaces';
+import type { PackageSections } from './interfaces';
 
 /**
  * These will be rendered in the gaming section of the app. Each section has a name and a list of packages,
@@ -6,7 +6,7 @@ import type { GamingSections } from './interfaces';
  * To test general availability of all pkgnames besides the AUR packages, you can use the following command:
  * "pnpm check-pkglists", this will report missing packages (needs to be run on Garuda/Arch Linux with Chaotic-AUR enabled).
  */
-export const gamingPackageLists: GamingSections = [
+export const gamingPackageLists: PackageSections = [
   {
     name: 'gaming.launchers',
     sections: [
