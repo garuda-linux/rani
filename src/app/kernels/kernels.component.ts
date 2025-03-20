@@ -1,9 +1,9 @@
-import { ChangeDetectorRef, Component, effect, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectorRef, Component, computed, effect, inject, OnInit, signal } from '@angular/core';
 import { DataView } from 'primeng/dataview';
 import { NgClass, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { Kernel, Kernels } from './types';
-import { TaskManagerService } from '../task-manager/task-manager.service';
+import type { DkmsModules, DkmsModuleStatus, Kernel, Kernels } from './types';
+import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
 import { ChildProcess } from '@tauri-apps/plugin-shell';
 import { Logger } from '../logging/logging';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
@@ -12,17 +12,25 @@ import { StatefulPackage } from '../gaming/interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
+import { ConfigService } from '../config/config.service';
+import { Tooltip } from 'primeng/tooltip';
+import { Skeleton } from 'primeng/skeleton';
 
 @Component({
   selector: 'rani-kernels',
-  imports: [DataView, FormsModule, NgForOf, Tag, Checkbox, NgClass, TranslocoDirective],
+  imports: [DataView, FormsModule, NgForOf, Tag, Checkbox, NgClass, TranslocoDirective, Tooltip, Skeleton],
   templateUrl: './kernels.component.html',
   styleUrl: './kernels.component.css',
 })
 export class KernelsComponent implements OnInit {
+  dkmsModules = signal<DkmsModules>([]);
+  dkmsModulesBroken = computed(() => this.dkmsModules().some((module) => module.status !== 'installed'));
+  headersMissing = computed(() => this.kernels().some((kernel) => kernel.selected && !kernel.headersSelected));
   kernels = signal<Kernels>([]);
+  loading = signal<boolean>(true);
 
-  private cdr = inject(ChangeDetectorRef);
+  protected readonly configService = inject(ConfigService);
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly osInteractService = inject(OsInteractService);
@@ -37,12 +45,45 @@ export class KernelsComponent implements OnInit {
 
   async ngOnInit() {
     this.loadingService.loadingOn();
-    const promises: Promise<void>[] = [this.getAvailableKernels()];
 
+    const promises: Promise<void>[] = [this.getAvailableKernels(), this.getDkmsStatus()];
     await Promise.all(promises);
 
+    this.updateUi();
     this.loadingService.loadingOff();
+    this.loading.set(false);
+
     this.cdr.markForCheck();
+  }
+
+  /**
+   * Get the status of DKMS modules, if DKMS is installed.
+   */
+  async getDkmsStatus() {
+    const cmd = 'which dkms &>/dev/null && dkms status';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
+
+    if (result.code === 0 && result.stdout.trim() !== '') {
+      const lines: string[] = result.stdout
+        .split('\n')
+        .map((line) => line.trim())
+        .filter((line) => line.match(/(: installed|: broken)/));
+
+      const modules: DkmsModules = [];
+      for (const line of lines) {
+        const [moduleString, status] = line.split(': ');
+        const [module, version] = moduleString.split(', ');
+
+        this.logger.trace(`${module} for kernel version ${version} is ${status}`);
+        modules.push({ name: module, version, status: status.split(' ')[0] as DkmsModuleStatus });
+      }
+
+      this.dkmsModules.set(modules);
+      this.logger.info(`Found ${this.dkmsModules().length} DKMS modules`);
+      this.logger.trace(JSON.stringify(this.dkmsModules()));
+    } else {
+      this.logger.error(`Failed to get DKMS status: ${result.stderr}`);
+    }
   }
 
   /**
@@ -56,10 +97,7 @@ export class KernelsComponent implements OnInit {
     if (result.code === 0) {
       const kernels: Kernel[] = [];
       const kernelMap: { [key: string]: string } = {};
-      const lines = result.stdout
-        .split('\n')
-        .map((line) => line.trim())
-        .filter((line) => line);
+      const lines: string[] = result.stdout.split('\n').map((line) => line.trim());
 
       for (let i = 0; i < lines.length; i += 2) {
         let [kernelName, version] = lines[i].split(' ');
@@ -87,8 +125,6 @@ export class KernelsComponent implements OnInit {
       this.kernels.set(kernels);
       this.logger.info(`Found ${kernels.length} available kernels`);
       this.logger.trace(JSON.stringify(kernels));
-
-      this.updateUi();
     } else {
       this.logger.error(`Failed to get available kernels: ${result.stderr}`);
     }
@@ -109,8 +145,8 @@ export class KernelsComponent implements OnInit {
    */
   updateUi(): void {
     this.logger.trace('Updating kernels UI');
-
     const installedPackages: Map<string, boolean> = this.osInteractService.packages();
+
     this.kernels.update((kernels: Kernels) => {
       for (const kernel of kernels) {
         kernel.selected = installedPackages.get(kernel.pkgname[0]) === true;
@@ -118,15 +154,7 @@ export class KernelsComponent implements OnInit {
       }
 
       // Show selected kernels first
-      kernels.sort((a, b) => {
-        if (a.selected && !b.selected) {
-          return -1;
-        } else if (!a.selected && b.selected) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+      kernels.sort((a, b) => +b.selected! - +a.selected!);
       return kernels;
     });
 
@@ -135,9 +163,43 @@ export class KernelsComponent implements OnInit {
 
   /**
    * Install missing headers for a kernel.
-   * @param kernel The kernel for which to install missing headers
+   * @param kernel The kernel for which to install missing headers, or `true` to install all missing headers.
    */
-  installMissingHeaders(kernel: Kernel): void {
-    this.osInteractService.togglePackage(kernel.pkgname[1]);
+  installMissingHeaders(kernel: Kernel | boolean): void {
+    if (typeof kernel === 'boolean') {
+      for (const kernel of this.kernels()) {
+        if (kernel.selected && !kernel.headersSelected) {
+          this.osInteractService.togglePackage(kernel.pkgname[1]);
+        }
+      }
+    } else {
+      this.osInteractService.togglePackage(kernel.pkgname[1]);
+    }
+  }
+
+  /**
+   * Reinstall DKMS modules that are labeled broken via the task manager service.
+   */
+  reinstallDkmsModules(): void {
+    let cmd: string = '';
+    for (const module of this.dkmsModules()) {
+      if (module.status === 'broken') {
+        cmd += `dkms install --no-depmod ${module.name} -k ${module.version}; `;
+      }
+    }
+
+    const task: Task = this.taskManagerService.createTask(
+      10,
+      'reinstallDkmsModules',
+      true,
+      'maintenance.reinstallDkmsModules',
+      'pi pi-cog',
+      cmd,
+    );
+    this.taskManagerService.scheduleTask(task);
+  }
+
+  counterArray(number: number) {
+    return new Array(number);
   }
 }

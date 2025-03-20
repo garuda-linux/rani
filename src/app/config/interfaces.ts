@@ -20,5 +20,6 @@ export interface AppState {
   hostname: string;
   codeName: string;
   user: string;
+  kernel: string;
   [key: string]: any;
 }

@@ -133,6 +133,7 @@
     "removeLockSub": "Remove the pacman lock file",
     "reinstallPackages": "Reinstall packages",
     "reinstallPackagesSub": "Reinstall all packages on your system",
+    "reinstallDkmsModules": "Reinstall DKMS modules",
     "btrfsAssistant": "Btrfs Assistant",
     "btrfsAssistantSub": "Manage your BTRFS snapshots and run maintenance tasks",
     "updateRemoteFullFix": "Garuda update full fix",
@@ -528,6 +529,11 @@
     "notFound": "No packages found"
   },
   "kernels": {
-    "headers": "Headers"
+    "dkmsModulesBroken": "Some DKMS modules are broken",
+    "dkmsModulesBrokenTip": "Click me to schedule the installation of the broken DKMS modules",
+    "headers": "Headers",
+    "headersMissing": "Missing kernel headers",
+    "headersMissingTip": "Click me to schedule the installation of the missing headers",
+    "active": "Active kernel:"
   }
 }

@@ -9,3 +9,13 @@ export interface Kernel extends StatefulPackage {
 }
 
 export type Kernels = Kernel[];
+
+export interface DkmsModule {
+  name: string;
+  version: string;
+  status: DkmsModuleStatus;
+}
+
+export type DkmsModuleStatus = 'installed' | 'broken';
+
+export type DkmsModules = DkmsModule[];

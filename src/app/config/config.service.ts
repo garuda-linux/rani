@@ -23,6 +23,7 @@ export class ConfigService {
     user: '',
     codeName: '',
     hostname: '',
+    kernel: '',
     isLiveSystem: undefined,
   });
 
@@ -56,6 +57,7 @@ export class ConfigService {
         this.initCodeName(),
         this.checkAutoStart(),
         this.initHostname(),
+        this.initKernel(),
       ];
       const config_updates = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
@@ -201,5 +203,22 @@ export class ConfigService {
   private async initHostname(): Promise<PendingConfigUpdate> {
     const host: string = (await hostname())!;
     return { state: { hostname: host } };
+  }
+
+  /**
+   * Get the currently running kernel.
+   * @private
+   */
+  private async initKernel(): Promise<PendingConfigUpdate> {
+    const cmd = 'uname -r';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      this.logger.error(`Failed to get running kernel: ${result.stderr.trim()}`);
+      return {};
+    }
+    const runningKernel: string = result.stdout.trim();
+    this.logger.debug(`Running kernel: ${runningKernel}`);
+    return { state: { kernel: runningKernel } };
   }
 }
