@@ -332,8 +332,8 @@
       "userScanner": {
         "description": "User in scanner group"
       },
-      "userSys": {
-        "description": "User in sys group"
+      "userLp": {
+        "description": "User in lp group"
       }
     },
     "firewall": {
