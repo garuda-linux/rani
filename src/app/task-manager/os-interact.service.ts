@@ -1,8 +1,14 @@
 import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
-import { TaskManagerService } from './task-manager.service';
+import { type Task, TaskManagerService } from './task-manager.service';
 import { ConfigService } from '../config/config.service';
-import type { SystemToolsSubEntry } from '../interfaces';
-import { defaultDnsProvider, type DnsProvider, dnsProviders, type ShellEntry, shells } from '../system-settings/types';
+import {
+  defaultDnsProvider,
+  type DnsProvider,
+  type DnsProviderEntry,
+  dnsProviders,
+  type ShellEntry,
+  shells,
+} from '../system-settings/types';
 import type { ChildProcess } from '@tauri-apps/plugin-shell';
 
 @Injectable({
@@ -290,7 +296,7 @@ export class OsInteractService {
     return new Map(
       [...wanted].filter(([key, value]) => {
         if (!current.has(key)) {
-          return value === true;
+          return value;
         } else {
           return current.get(key) !== value;
         }
@@ -347,9 +353,8 @@ export class OsInteractService {
    * @private
    */
   private async getServices(): Promise<Map<string, boolean>> {
-    const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
-      'systemctl list-units --type service --full --output json --no-pager',
-    );
+    const cmd = 'systemctl list-units --type service,socket --full --output json --no-pager';
+    const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     const result = JSON.parse(commandoutput.stdout.trim()) as any[];
 
     const services = new Map<string, boolean>();
@@ -366,9 +371,8 @@ export class OsInteractService {
    * @private
    */
   private async getUserServices(): Promise<Map<string, boolean>> {
-    const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
-      'systemctl --user list-units --type service --full --output json --no-pager',
-    );
+    const cmd = 'systemctl --user list-units --type service,socket --full --output json --no-pager';
+    const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     const result = JSON.parse(commandoutput.stdout.trim()) as any[];
 
     const services = new Map<string, boolean>();
@@ -385,9 +389,8 @@ export class OsInteractService {
    * @private
    */
   private async getGroups(): Promise<Map<string, boolean>> {
-    const result = await this.taskManagerService.executeAndWaitBash(
-      `groups ${this.configService.state().user} | cut -d ' ' -f 3-`,
-    );
+    const cmd = `groups ${this.configService.state().user} | cut -d ' ' -f 3-`;
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return new Map<string, boolean>();
     }
@@ -407,15 +410,12 @@ export class OsInteractService {
    * @private
    */
   private async getDNS(): Promise<DnsProvider> {
-    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
-      'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2',
-    );
-    if (result.code !== 0) {
-      return defaultDnsProvider;
-    }
-    const ip = result.stdout.trim();
+    const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
+    if (result.code !== 0) return defaultDnsProvider;
 
-    const provider = dnsProviders.find((provider) => provider.ips.includes(ip));
+    const ip: string = result.stdout.trim();
+    const provider: DnsProviderEntry | undefined = dnsProviders.find((provider) => provider.ips.includes(ip));
     if (provider) {
       return provider;
     }
@@ -428,13 +428,12 @@ export class OsInteractService {
    * @private
    */
   private async getShell(): Promise<ShellEntry | null> {
-    const result = await this.taskManagerService.executeAndWaitBash(
-      `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`,
-    );
+    const cmd = `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`;
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return null;
     }
-    const shell = result.stdout.trim();
+    const shell: string = result.stdout.trim();
     return shells.find((entry) => entry.name === shell) ?? null;
   }
 
@@ -444,9 +443,8 @@ export class OsInteractService {
    * @private
    */
   private async getHblock(): Promise<boolean> {
-    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
-      'cat /etc/hosts | grep -A1 "Blocked domains" | awk \'/Blocked domains/ { print $NF }\'',
-    );
+    const cmd = 'cat /etc/hosts | grep -A1 "Blocked domains" | awk \'/Blocked domains/ { print $NF }\'';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return false;
     }
@@ -463,13 +461,13 @@ export class OsInteractService {
     let arrow = (wanted: Map<string, boolean>) => {
       if (remove) {
         if (wanted.has(pkg)) {
-          let newMap = new Map(wanted);
+          let newMap: Map<string, boolean> = new Map(wanted);
           newMap.delete(pkg);
           return newMap;
         }
         return wanted;
       }
-      let newMap = new Map(wanted);
+      let newMap: Map<string, boolean> = new Map(wanted);
       newMap.set(pkg, this.packages().has(pkg) ? !this.packages().get(pkg) : true);
       return this.wantedPrune(newMap, this.installedPackages());
     };
@@ -485,12 +483,12 @@ export class OsInteractService {
     this.wantedServices.update((wanted) => {
       // If already in the map, remove it
       if (wanted.has(service)) {
-        let newMap = new Map(wanted);
+        let newMap: Map<string, boolean> = new Map(wanted);
         newMap.delete(service);
         return newMap;
       } else if (!remove) {
         // Otherwise, add it
-        let newMap = new Map(wanted);
+        let newMap: Map<string, boolean> = new Map(wanted);
         newMap.set(service, this.services().has(service) ? !this.services().get(service) : true);
         return newMap;
       }
@@ -507,12 +505,12 @@ export class OsInteractService {
     this.wantedServicesUser.update((wanted) => {
       // If already in the map, remove it
       if (wanted.has(service)) {
-        let newMap = new Map(wanted);
+        let newMap: Map<string, boolean> = new Map(wanted);
         newMap.delete(service);
         return newMap;
       } else if (!remove) {
         // Otherwise, add it
-        let newMap = new Map(wanted);
+        let newMap: Map<string, boolean> = new Map(wanted);
         newMap.set(service, this.servicesUser().has(service) ? !this.servicesUser().get(service) : true);
         return newMap;
       }
@@ -530,12 +528,12 @@ export class OsInteractService {
     this.wantedGroups.update((wanted) => {
       // If already in the map, remove it
       if (wanted.has(group)) {
-        let newMap = new Map(wanted);
+        let newMap: Map<string, boolean> = new Map(wanted);
         newMap.delete(group);
         return newMap;
       } else if (!remove) {
         // Otherwise, add it
-        let newMap = new Map(wanted);
+        let newMap: Map<string, boolean> = new Map(wanted);
         newMap.set(group, !this.groups().has(group));
         return newMap;
       }
@@ -545,7 +543,8 @@ export class OsInteractService {
 
   /**
    * Toggle a system tool entry.
-   * @param entry The entry to toggle.
+   * @param name The name of the entry to toggle.
+   * @param type The type of the entry (pkg, service, serviceUser, group).
    * @param remove Whether to remove the entry.
    * @private
    */
@@ -597,7 +596,7 @@ export class OsInteractService {
    * @private
    */
   private async isPackageInstalledArchlinux(pkg: string): Promise<boolean> {
-    const result = await this.taskManagerService.executeAndWaitBash(`pacman -Qq ${pkg}`);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(`pacman -Qq ${pkg}`);
     return result.code === 0;
   }
 
@@ -608,7 +607,7 @@ export class OsInteractService {
    */
   async ensurePackageArchlinux(pkg: string): Promise<boolean> {
     if (this.packages().get(pkg) !== true) {
-      const task = this.taskManagerService.createTask(
+      const task: Task = this.taskManagerService.createTask(
         0,
         'install-' + pkg,
         true,
