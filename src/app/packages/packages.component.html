@@ -1,14 +1,14 @@
 <ng-container *transloco="let t">
   <p-tabs [(value)]="tabIndex">
     <p-tablist>
-      @for (section of data(); track section.name) {
+      @for (section of packagesService.packages(); track section.name) {
         <p-tab [value]="$index" #tab>{{ t(section.name) }}</p-tab>
       }
     </p-tablist>
     <p-table
       #packageTable
       [globalFilterFields]="['name', 'description', 'url']"
-      [loading]="loading()"
+      [loading]="packagesService.loading()"
       [paginator]="true"
       [rowsPerPageOptions]="[50, 100, 150]"
       [rows]="50"

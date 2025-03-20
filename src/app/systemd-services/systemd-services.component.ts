@@ -57,11 +57,11 @@ export class SystemdServicesComponent implements OnInit {
    */
   async getServices(): Promise<SystemdService[]> {
     const toDo: string[] = [
-      `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-units --type service --full --all --output json --no-pager`,
+      `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-units --type service,socket --full --all --output json --no-pager`,
     ];
     if (this.includeDisabled()) {
       toDo.push(
-        `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-unit-files --type=service --state=disabled --full --all --output json --no-pager`,
+        `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-unit-files --type=service,socket --state=disabled --full --all --output json --no-pager`,
       );
     }
 

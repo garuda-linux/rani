@@ -8,7 +8,7 @@
         </span>
       </div>
     </p-tag>
-    @if (headersMissing()) {
+    @if (kernelsService.headersMissing()) {
       <p-tag
         (click)="installMissingHeaders(true)"
         ngClass="ml-5 cursor-pointer"
@@ -17,7 +17,7 @@
         severity="danger"
       ></p-tag>
     }
-    @if (dkmsModulesBroken()) {
+    @if (kernelsService.dkmsModulesBroken()) {
       <p-tag
         (click)="reinstallDkmsModules()"
         ngClass="ml-5 cursor-pointer"
@@ -27,8 +27,8 @@
       ></p-tag>
     }
   </div>
-  @if (loading()) {
-    <p-data-view [value]="kernels()">
+  @if (kernelsService.loading()) {
+    <p-data-view [value]="kernelsService.kernels()">
       <ng-template #list let-kernels>
         <div class="flex flex-col">
           <div *ngFor="let i of counterArray(10)">
@@ -45,7 +45,7 @@
       </ng-template>
     </p-data-view>
   } @else {
-    <p-data-view [value]="kernels()">
+    <p-data-view [value]="kernelsService.kernels()">
       <ng-template #list let-kernels>
         <div class="grid grid-cols-12 gap-4 grid-nogutter">
           <div class="col-span-12" *ngFor="let kernel of kernels">

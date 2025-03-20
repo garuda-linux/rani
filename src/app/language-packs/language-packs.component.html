@@ -2,11 +2,11 @@
   <p-table
     #packageTable
     [globalFilterFields]="['base', 'locale', 'pkgname']"
-    [loading]="loading()"
+    [loading]="languagePacksService.loading()"
     [paginator]="true"
     [rowsPerPageOptions]="[10, 20, 30]"
     [rows]="10"
-    [value]="languagePacks()"
+    [value]="languagePacksService.languagePacks()"
     dataKey="locale"
     sortField="locale"
     rowGroupMode="rowspan"

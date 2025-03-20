@@ -4,19 +4,14 @@ import {
   Component,
   effect,
   inject,
-  OnInit,
   signal,
   ViewChild,
 } from '@angular/core';
 import { OsInteractService } from '../task-manager/os-interact.service';
-import { PackageSection, PackageSections, StatefulPackage } from '../gaming/interfaces';
-import { ConfigService } from '../config/config.service';
+import { PackageSections, StatefulPackage } from '../gaming/interfaces';
 import { Tab, TabList, Tabs } from 'primeng/tabs';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { Logger } from '../logging/logging';
-import { resolveResource } from '@tauri-apps/api/path';
-import { readTextFile } from '@tauri-apps/plugin-fs';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Button } from 'primeng/button';
 import { open } from '@tauri-apps/plugin-shell';
 import { IconField } from 'primeng/iconfield';
@@ -26,6 +21,7 @@ import { type Table, TableModule } from 'primeng/table';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { NgClass } from '@angular/common';
+import { PackagesService } from './packages.service';
 
 @Component({
   selector: 'rani-packages',
@@ -47,89 +43,36 @@ import { NgClass } from '@angular/common';
   styleUrl: './packages.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PackagesComponent implements OnInit {
-  loading = signal<boolean>(true);
+export class PackagesComponent {
   tabIndex = signal<number>(0);
   packageSearch = signal<string>('');
 
   @ViewChild('packageTable') table!: Table;
 
-  loadingService = inject(LoadingService);
-  osInteractService = inject(OsInteractService);
-
-  protected data = signal<PackageSections>([
-    {
-      name: 'packages.documents',
-      sections: [],
-    },
-    {
-      name: 'packages.internet',
-      sections: [],
-    },
-    {
-      name: 'packages.multimedia',
-      sections: [],
-    },
-    {
-      name: 'packages.other',
-      sections: [],
-    },
-    {
-      name: 'packages.science',
-      sections: [],
-    },
-    {
-      name: 'packages.security',
-      sections: [],
-    },
-  ]);
-
-  protected readonly configService = inject(ConfigService);
   protected readonly open = open;
+  protected readonly packagesService = inject(PackagesService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
+  private readonly osInteractService = inject(OsInteractService);
 
   constructor() {
     effect(() => {
       const packages: Map<string, boolean> = this.osInteractService.packages();
       const tabIndex: number = this.tabIndex();
-      if (!this.loading()) {
+      if (!this.packagesService.loading()) {
         this.updateUi();
       }
     });
   }
 
-  async ngOnInit() {
-    this.logger.trace('Initializing packages component');
-    this.loadingService.loadingOn();
-
-    let sections: PackageSections = this.data();
-    for (let i: number = 0; i < sections.length; i++) {
-      const section: PackageSection = sections[i];
-      const resourcePath: string = await resolveResource(
-        `../assets/parsed/${section.name.replace('packages.', '')}-repo.json`,
-      );
-      section.sections = JSON.parse(await readTextFile(resourcePath));
-
-      this.logger.debug(`Loaded section ${section.name} with ${section.sections.length} packages`);
-    }
-    this.data.set(sections);
-
-    this.loading.set(false);
-    this.loadingService.loadingOff();
-
-    this.updateUi();
-  }
-
   /**
    * Update the state of the UI based on the installed packages.
    */
-  updateUi(): void {
+  async updateUi(): Promise<void> {
     this.logger.trace('Updating packages UI');
-    this.clear(this.table);
 
     const installedPackages: Map<string, boolean> = this.osInteractService.packages();
-    this.data.update((data: PackageSections) => {
+    this.packagesService.packages.update((data: PackageSections) => {
       for (const sections of data) {
         for (const pkg of sections.sections) {
           pkg.selected = installedPackages.get(pkg.pkgname[0]) === true;
@@ -138,9 +81,15 @@ export class PackagesComponent implements OnInit {
       return data;
     });
 
+    // Effect runs before ViewChild initializes the table (only available in AfterViewInit)
+    // We need to wait for the table to be available before putting the data in it
+    while (!this.table) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
     // We do it like this because via two-way binding, the table doesn't update the data
-    // Very likely it is not compatible with zoneless change detection
-    this.table.value = this.data()[this.tabIndex()].sections;
+    // Very likely it is not compatible with zoneless change detection yet
+    this.table.value = this.packagesService.packages()[this.tabIndex()].sections;
     this.table.totalRecords = this.table.value.length;
 
     this.cdr.markForCheck();
