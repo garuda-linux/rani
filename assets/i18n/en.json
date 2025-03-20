@@ -103,7 +103,10 @@
     "games": "Games",
     "misc": "Miscellaneous",
     "bluez": "Generally required for recognizing PS controllers wireless",
-    "xboxdrv": "Xbox controller driver, only use if kernel driver doesn't work!"
+    "xboxdrv": "Xbox controller driver, only use if kernel driver doesn't work!",
+    "wineWow64": "Version of WINE with 64-bit support without having to install the 32-bit libraries",
+    "wineStagingWow64": "Staging version of WINE with 32-bit support without having to install the 32-bit libraries",
+    "wineMeta": "Meta package for installing WINE and all required dependencies"
   },
   "maintenance": {
     "title": "System ",

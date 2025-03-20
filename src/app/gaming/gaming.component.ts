@@ -28,9 +28,9 @@ export class GamingComponent {
   loadingService = inject(LoadingService);
   osInteractService = inject(OsInteractService);
 
+  protected readonly configService = inject(ConfigService);
   protected readonly data: PackageSections = gamingPackageLists;
   protected readonly open = open;
-  protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
 
