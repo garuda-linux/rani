@@ -124,7 +124,7 @@ export class TaskManagerService {
   async executeAndWaitBash(script: string): Promise<ChildProcess<string>> {
     try {
       this.logger.info('Executing bash code: ' + script);
-      return await Command.create('exec-bash', ['-c', script]).execute();
+      return await Command.create('exec-bash', ['-c', `LANG=C ${script}`]).execute();
     } catch (error) {
       this.logger.error('Unexpected error while executing bash script: ' + error);
       return {

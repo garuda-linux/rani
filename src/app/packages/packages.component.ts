@@ -25,6 +25,7 @@ import { InputText } from 'primeng/inputtext';
 import { type Table, TableModule } from 'primeng/table';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'rani-packages',
@@ -40,6 +41,7 @@ import { FormsModule } from '@angular/forms';
     TableModule,
     Checkbox,
     FormsModule,
+    NgClass,
   ],
   templateUrl: './packages.component.html',
   styleUrl: './packages.component.css',

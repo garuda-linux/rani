@@ -68,7 +68,12 @@
           </td>
           <td>
             <div>
-              <p-check-box (onChange)="togglePackage(pkg)" [binary]="true" [(ngModel)]="pkg.selected"></p-check-box>
+              <p-check-box
+                ngClass="ml-5"
+                (onChange)="togglePackage(pkg)"
+                [binary]="true"
+                [(ngModel)]="pkg.selected"
+              ></p-check-box>
             </div>
           </td>
         </tr>

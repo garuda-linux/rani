@@ -8,7 +8,6 @@ import { Card } from 'primeng/card';
 import { flavors } from '@catppuccin/palette';
 import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
-import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
 import type { PackageSections, StatefulPackage } from './interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
@@ -32,7 +31,6 @@ export class GamingComponent {
   protected readonly data: PackageSections = gamingPackageLists;
   protected readonly open = open;
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly logger = Logger.getInstance();
 
   constructor() {
     effect(() => {
@@ -43,10 +41,10 @@ export class GamingComponent {
   }
 
   updateUi(): void {
-    const installed_packages: Map<string, boolean> = this.osInteractService.packages();
+    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
     for (const sections of this.data) {
       for (const pkg of sections.sections) {
-        pkg.selected = installed_packages.get(pkg.pkgname[0]) === true;
+        pkg.selected = installedPackages.get(pkg.pkgname[0]) === true;
       }
     }
     this.cdr.markForCheck();

@@ -205,6 +205,7 @@
     "systemdServices": "Systemd services",
     "systemSettings": "System settings",
     "components": "System components",
+    "languagePacks": "Language packs",
     "kernels": "Kernels",
     "packages": "Further packages",
     "audio": {
@@ -538,5 +539,12 @@
     "headersMissing": "Missing kernel headers",
     "headersMissingTip": "Click me to schedule the installation of the missing headers",
     "active": "Active kernel:"
+  },
+  "languagePacks": {
+    "locale": "Locale",
+    "selected": "Selected",
+    "base": "Base package",
+    "notFound": "No missing language packs found",
+    "pkgname": "Package name"
   }
 }
