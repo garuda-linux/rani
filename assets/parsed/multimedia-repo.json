@@ -71,7 +71,7 @@
   },
   {
     "name": "Android File Transfer",
-    "description": "Interactive [[Media Transfer Protocol]] client with Qt5 GUI.",
+    "description": "Interactive Media Transfer Protocol client with Qt5 GUI.",
     "url": "https://whoozle.github.io/android-file-transfer-linux/",
     "icon": "generic-dark.svg",
     "pkgname": ["android-file-transfer"]
@@ -120,7 +120,7 @@
   },
   {
     "name": "Baka MPlayer",
-    "description": "Free and open source, cross-platform, [[mpv]] based multimedia player (Qt 5).",
+    "description": "Free and open source, cross-platform, mpv based multimedia player (Qt 5).",
     "url": "https://github.com/u8sand/Baka-MPlayer",
     "icon": "generic-dark.svg",
     "pkgname": ["baka-mplayer"]
@@ -190,7 +190,7 @@
   },
   {
     "name": "Cardinal",
-    "description": "Virtual modular synthesizer plugin based on the [[VCV Rack]], includes lots of virtualized Eurorack modules.",
+    "description": "Virtual modular synthesizer plugin based on the VCV Rack, includes lots of virtualized Eurorack modules.",
     "url": "https://github.com/DISTRHO/Cardinal",
     "icon": "generic-dark.svg",
     "pkgname": ["cardinal"]
@@ -204,7 +204,7 @@
   },
   {
     "name": "Celluloid",
-    "description": "Simple GTK frontend for [[mpv]].",
+    "description": "Simple GTK frontend for mpv.",
     "url": "https://celluloid-player.github.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["celluloid"]
@@ -372,7 +372,7 @@
   },
   {
     "name": "Deepin Movie",
-    "description": "Movie player for Deepin desktop based on [[mpv]].",
+    "description": "Movie player for Deepin desktop based on mpv.",
     "url": "https://www.deepin.org/en/original/deepin-movie/",
     "icon": "generic-dark.svg",
     "pkgname": ["deepin-movie"]
@@ -743,7 +743,7 @@
   },
   {
     "name": "gMTP",
-    "description": "Simple MP3 and media player client for [[Media Transfer Protocol]].",
+    "description": "Simple MP3 and media player client for Media Transfer Protocol.",
     "url": "https://gmtp.sourceforge.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["gmtp"]
@@ -764,14 +764,14 @@
   },
   {
     "name": "Gnome MPlayer",
-    "description": "Simple GTK-based GUI for [[MPlayer]].",
+    "description": "Simple GTK-based GUI for MPlayer.",
     "url": "https://github.com/kdekorte/gnome-mplayer",
     "icon": "generic-dark.svg",
     "pkgname": ["gnome-mplayer"]
   },
   {
     "name": "GNOME Network Displays",
-    "description": "GTK application to cast your desktop to a remote display. Not specific to the [[GNOME]] environment, depends on [[PipeWire]].",
+    "description": "GTK application to cast your desktop to a remote display. Not specific to the GNOME environment, depends on PipeWire.",
     "url": "https://gitlab.gnome.org/GNOME/gnome-network-displays",
     "icon": "generic-dark.svg",
     "pkgname": ["gnome-network-displays"]
@@ -820,7 +820,7 @@
   },
   {
     "name": "GPicView",
-    "description": "Simple and fast image viewer for X, which is part of the [[LXDE]] desktop.",
+    "description": "Simple and fast image viewer for X, which is part of the LXDE desktop.",
     "url": "https://lxde.sourceforge.net/gpicview/",
     "icon": "generic-dark.svg",
     "pkgname": ["gpicview"]
@@ -897,7 +897,7 @@
   },
   {
     "name": "Haruna Video Player",
-    "description": "Qt/QML video player built on top of [[mpv]].",
+    "description": "Qt/QML video player built on top of mpv.",
     "url": "https://haruna.kde.org/",
     "icon": "generic-dark.svg",
     "pkgname": ["haruna"]
@@ -995,14 +995,14 @@
   },
   {
     "name": "JSampler",
-    "description": "Java GUI for [[LinuxSampler]] software audio sampler.",
+    "description": "Java GUI for LinuxSampler software audio sampler.",
     "url": "https://jsampler.sourceforge.net/",
     "icon": "generic-dark.svg",
     "pkgname": ["jsampler"]
   },
   {
     "name": "Kaffeine",
-    "description": "Very versatile KDE media player that, by default, utilizes [[VLC]] as its backend and has excellent support of digital TV ([[DVB-T]], DVB-C, [[DVB-S]]).",
+    "description": "Very versatile KDE media player that, by default, utilizes VLC as its backend and has excellent support of digital TV (DVB-T, DVB-C, DVB-S).",
     "url": "https://apps.kde.org/kaffeine/",
     "icon": "generic-dark.svg",
     "pkgname": ["kaffeine"]
@@ -1114,7 +1114,7 @@
   },
   {
     "name": "Media Player Classic Qute Theater",
-    "description": "Clone of Media Player Classic reimplimented in Qt and based on [[mpv]].",
+    "description": "Clone of Media Player Classic reimplimented in Qt and based on mpv.",
     "url": "https://mpc-qt.github.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["mpc-qt"]
@@ -1156,7 +1156,7 @@
   },
   {
     "name": "Minitube",
-    "description": "YouTube desktop application written in C++ using [[mpv]] and Qt.",
+    "description": "YouTube desktop application written in C++ using mpv and Qt.",
     "url": "https://flavio.tordini.org/minitube",
     "icon": "generic-dark.svg",
     "pkgname": ["minitube"]
@@ -1380,7 +1380,7 @@
   },
   {
     "name": "Pantheon Videos",
-    "description": "Video player and library designed for elementary OS using [[GStreamer]].",
+    "description": "Video player and library designed for elementary OS using GStreamer.",
     "url": "https://github.com/elementary/videos",
     "icon": "generic-dark.svg",
     "pkgname": ["pantheon-videos"]
@@ -1394,7 +1394,7 @@
   },
   {
     "name": "Parole",
-    "description": "Modern media player based on the [[GStreamer]] framework.",
+    "description": "Modern media player based on the GStreamer framework.",
     "url": "https://docs.xfce.org/apps/parole/start",
     "icon": "generic-dark.svg",
     "pkgname": ["parole"]
@@ -1618,7 +1618,7 @@
   },
   {
     "name": "Qsampler",
-    "description": "Qt GUI for [[LinuxSampler]] software audio sampler.",
+    "description": "Qt GUI for LinuxSampler software audio sampler.",
     "url": "https://qsampler.sourceforge.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["qsampler"]
@@ -1674,7 +1674,7 @@
   },
   {
     "name": "Rage",
-    "description": "Video and audio player written with Enlightenment Foundation Libraries with some extra bells and whistles. Uses [[GStreamer]]",
+    "description": "Video and audio player written with Enlightenment Foundation Libraries with some extra bells and whistles. Uses GStreamer",
     "url": "https://www.enlightenment.org/about-rage",
     "icon": "generic-dark.svg",
     "pkgname": ["rage"]
@@ -1793,7 +1793,7 @@
   },
   {
     "name": "SMPlayer",
-    "description": "Qt multimedia player with extra features (CSS themes, YouTube integration, etc.) based on [[mpv]]. It can use [[MPlayer]] as alternative backend.",
+    "description": "Qt multimedia player with extra features (CSS themes, YouTube integration, etc.) based on mpv. It can use MPlayer as alternative backend.",
     "url": "https://www.smplayer.info/",
     "icon": "generic-dark.svg",
     "pkgname": ["smplayer"]

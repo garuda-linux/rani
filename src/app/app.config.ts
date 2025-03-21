@@ -22,11 +22,12 @@ import { initRani } from './app.init';
 
 export const appConfig: ApplicationConfig = {
   providers: [
-    provideAppInitializer(initRani),
     ConfigService,
-    LanguageManagerService,
     ConfirmationService,
+    LanguageManagerService,
     provideAnimationsAsync(),
+    provideAppInitializer(initRani),
+    provideExperimentalZonelessChangeDetection(),
     provideGarudaNG(
       { font: 'InterVariable' },
       {
@@ -40,6 +41,7 @@ export const appConfig: ApplicationConfig = {
         inputStyle: 'outlined',
       },
     ),
+    provideHttpClient(),
     provideRouter(
       routes,
       withInMemoryScrolling({
@@ -47,8 +49,6 @@ export const appConfig: ApplicationConfig = {
         scrollPositionRestoration: 'enabled',
       }),
     ),
-    provideExperimentalZonelessChangeDetection(),
-    provideHttpClient(),
     provideTransloco({
       config: {
         availableLangs: [

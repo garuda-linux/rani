@@ -211,7 +211,7 @@
   },
   {
     "name": "Light-locker",
-    "description": "A simple locker (forked from ''gnome-screensaver'') that aims to have simple, sane, secure defaults and be well integrated with the desktop while not carrying any desktop-specific dependencies. It relies on [[LightDM]] for locking and unlocking your session via ConsoleKit/UPower or ''logind/systemd''.",
+    "description": "A simple locker (forked from ''gnome-screensaver'') that aims to have simple, sane, secure defaults and be well integrated with the desktop while not carrying any desktop-specific dependencies. It relies on LightDM for locking and unlocking your session via ConsoleKit/UPower or ''logind/systemd''.",
     "url": "https://github.com/the-cavalry/light-locker",
     "icon": "generic-dark.svg",
     "pkgname": ["light-locker"]

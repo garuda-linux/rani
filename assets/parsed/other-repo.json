@@ -162,7 +162,7 @@
   },
   {
     "name": "Etherwall",
-    "description": "[[Ethereum]] wallet.",
+    "description": "Ethereum wallet.",
     "url": "https://www.etherwall.com/",
     "icon": "generic-dark.svg",
     "pkgname": ["etherwall"]
@@ -225,7 +225,7 @@
   },
   {
     "name": "GNOME Panel",
-    "description": "Panel included in the [[GNOME Flashback]] desktop.",
+    "description": "Panel included in the GNOME Flashback desktop.",
     "url": "https://wiki.gnome.org/Projects/GnomePanel",
     "icon": "generic-dark.svg",
     "pkgname": ["gnome-panel"]
@@ -414,7 +414,7 @@
   },
   {
     "name": "MATE Panel",
-    "description": "Panel included in the [[MATE]] desktop.",
+    "description": "Panel included in the MATE desktop.",
     "url": "https://github.com/mate-desktop/mate-panel/",
     "icon": "generic-dark.svg",
     "pkgname": ["mate-panel"]
@@ -659,7 +659,7 @@
   },
   {
     "name": "Stalonetray",
-    "description": "Stand-alone freedesktop.org and KDE system tray (notification area) for [[Xorg]]. It has full XEMBED support and minimal dependencies: an X11 lib only. Stalonetray works with virtually any EWMH-compliant window manager.",
+    "description": "Stand-alone freedesktop.org and KDE system tray (notification area) for Xorg. It has full XEMBED support and minimal dependencies: an X11 lib only. Stalonetray works with virtually any EWMH-compliant window manager.",
     "url": "https://stalonetray.sourceforge.net/",
     "icon": "generic-dark.svg",
     "pkgname": ["stalonetray"]
@@ -841,7 +841,7 @@
   },
   {
     "name": "Xfce Panel",
-    "description": "Panel included in the [[Xfce]] desktop.",
+    "description": "Panel included in the Xfce desktop.",
     "url": "https://docs.xfce.org/xfce/xfce4-panel/start",
     "icon": "generic-dark.svg",
     "pkgname": ["xfce4-panel"]

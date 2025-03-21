@@ -39,6 +39,6 @@
         }
       }
     },
-    "resources": ["../assets/parsed/*.json", "../assets/i18n/*.json"]
+    "resources": ["../assets/parsed/*.json", "../assets/i18n/*.json", "../assets/images/*"]
   }
 }

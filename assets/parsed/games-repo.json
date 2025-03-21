@@ -72,7 +72,7 @@
   {
     "name": "BSD Games",
     "description": "Collection of classic text games distributed with *BSD",
-    "url": "[[LQWiki:BSD games]]",
+    "url": "LQWiki:BSD games",
     "icon": "generic-dark.svg",
     "pkgname": ["bsd-games"]
   },

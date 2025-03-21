@@ -267,9 +267,9 @@ export class TaskManagerService {
   private async internalExecuteTask(task: Task, shells: TrackedShells): Promise<void> {
     this.logger.info('Executing task: ' + task.script);
 
-    const shell = (task.escalate ? shells.escalated : shells.normal)!;
+    const shell: TrackedShell = (task.escalate ? shells.escalated : shells.normal)!;
 
-    const path = await resolve(await appLocalDataDir(), 'taskscript.tmp');
+    const path: string = await resolve(await appLocalDataDir(), 'taskscript.tmp');
 
     // Safety check, make sure path does not contain '
     if (path.includes("'")) {
@@ -278,9 +278,9 @@ export class TaskManagerService {
     }
 
     // Write script to a temporary file
-    const script = task.script.trim();
+    const script: string = task.script.trim();
     await writeTextFile(path, script);
-    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(script));
+    const digest: ArrayBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(script));
     // hex encoding
     const hash = Array.from(new Uint8Array(digest))
       .map((b) => b.toString(16).padStart(2, '0'))
@@ -299,7 +299,7 @@ export class TaskManagerService {
         exit 1
       fi
       # Execute the script
-      bash /dev/stdin <<< "$script"
+      bash -x /dev/stdin <<< "$script"
       rm '${path}'
     `);
 

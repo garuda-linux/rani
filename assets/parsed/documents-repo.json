@@ -218,7 +218,7 @@
   },
   {
     "name": "Enter TeX",
-    "description": "LaTeX editor for [[GNOME]], previously known as GNOME LaTeX.",
+    "description": "LaTeX editor for GNOME, previously known as GNOME LaTeX.",
     "url": "https://gitlab.gnome.org/swilmet/enter-tex",
     "icon": "generic-dark.svg",
     "pkgname": ["enter-tex"]
@@ -309,7 +309,7 @@
   },
   {
     "name": "groff",
-    "description": "[[GNU]] implementation of troff, a heirloom Unix document processing system and the default formatter for [[man page]]s.",
+    "description": "GNU implementation of troff, a heirloom Unix document processing system and the default formatter for man pages.",
     "url": "https://www.gnu.org/software/groff/groff.html",
     "icon": "generic-dark.svg",
     "pkgname": ["groff"]
@@ -379,7 +379,7 @@
   },
   {
     "name": "Kchmviewer",
-    "description": "Qt-based CHM viewer that uses chmlib and borrows some ideas from xchm. It does not depend on [[KDE]], but it can be compiled to integrate with it.",
+    "description": "Qt-based CHM viewer that uses chmlib and borrows some ideas from xchm. It does not depend on KDE, but it can be compiled to integrate with it.",
     "url": "https://www.ulduzsoft.com/linux/kchmviewer/",
     "icon": "generic-dark.svg",
     "pkgname": ["kchmviewer"]
@@ -974,7 +974,7 @@
   },
   {
     "name": "Texinfo",
-    "description": "Typesetting syntax for software manuals used by the [[GNU Project]].",
+    "description": "Typesetting syntax for software manuals used by the GNU Project.",
     "url": "https://www.gnu.org/software/texinfo/",
     "icon": "generic-dark.svg",
     "pkgname": ["texinfo"]
@@ -1079,7 +1079,7 @@
   },
   {
     "name": "Vimwiki",
-    "description": "Personal wiki for [[Vim]] – interlinked, plain text files written in a markup language.",
+    "description": "Personal wiki for Vim – interlinked, plain text files written in a markup language.",
     "url": "https://vimwiki.github.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["vim-vimwiki"]

@@ -351,7 +351,7 @@
   },
   {
     "name": "Mathics",
-    "description": "A free CAS for symbolic mathematical computations which uses [[Python]] as its main language. It aims at achieving a Mathematica-compatible syntax and functions. It relies mostly on Sympy for most mathematical tasks and, optionally, Sage for more advanced functionality.",
+    "description": "A free CAS for symbolic mathematical computations which uses Python as its main language. It aims at achieving a Mathematica-compatible syntax and functions. It relies mostly on Sympy for most mathematical tasks and, optionally, Sage for more advanced functionality.",
     "url": "https://mathics.github.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["mathics"]
@@ -393,7 +393,7 @@
   },
   {
     "name": "Octave",
-    "description": "[[MATLAB]]-like language and interface for numerical computations.",
+    "description": "MATLAB-like language and interface for numerical computations.",
     "url": "https://www.gnu.org/software/octave/ ",
     "icon": "generic-dark.svg",
     "pkgname": ["octave"]
@@ -428,7 +428,7 @@
   },
   {
     "name": "platformio",
-    "description": "Collaborative platform for embedded development, embedded development, with debugger, unit testing, code analysis. Default IDE is [[VSCode]], but can be used by Atom, Eclipse, Emacs Qt Creator, Vim and several other IDE. Core CLI utils.",
+    "description": "Collaborative platform for embedded development, embedded development, with debugger, unit testing, code analysis. Default IDE is VSCode, but can be used by Atom, Eclipse, Emacs Qt Creator, Vim and several other IDE. Core CLI utils.",
     "url": "https://platformio.org/",
     "icon": "generic-dark.svg",
     "pkgname": ["platformio-core"]

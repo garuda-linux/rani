@@ -44,7 +44,7 @@
         </td>
         <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
           <div class="flex items-center gap-2">
-            {{ pkg.locale }}
+            {{ pkg.locale | locale }}
           </div>
         </td>
         <td>

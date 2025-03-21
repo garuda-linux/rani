@@ -544,7 +544,7 @@
     "locale": "Locale",
     "selected": "Selected",
     "base": "Base package",
-    "notFound": "No missing language packs found",
+    "notFound": "No language packs found",
     "pkgname": "Package name"
   }
 }

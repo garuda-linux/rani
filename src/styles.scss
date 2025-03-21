@@ -19,12 +19,12 @@
 @include variable.all;
 
 html {
-  font-family: 'system-ui', 'Inter';
+  font-family: 'Inter', 'system-ui';
 }
 
 @supports (font-variation-settings: normal) {
   html {
-    font-family: 'system-ui', 'InterVariable';
+    font-family: 'InterVariable', 'system-ui';
   }
 }
 
@@ -90,7 +90,7 @@ ul {
 .garuda-button-shine {
   position: relative;
   background: transparent;
-  border: 0px solid transparent;
+  border: 0 solid transparent;
   border-radius: 4px;
 
   &::before {
@@ -100,11 +100,7 @@ ul {
     left: -2px;
     right: -2px;
     bottom: -2px;
-    background-image: linear-gradient(90deg,
-        #8839ef 20%,
-        #dd7878 40%,
-        #dd7878 60%,
-        #8839ef 80%);
+    background-image: linear-gradient(90deg, #8839ef 20%, #dd7878 40%, #dd7878 60%, #8839ef 80%);
     background-size: 200% auto;
     background-position: 200%;
     animation: garuda-button-shine 5s linear infinite;
@@ -127,11 +123,7 @@ ul {
     animation-iteration-count: infinite;
     animation-timing-function: linear;
 
-    background-image: linear-gradient(90deg,
-        #cba6f7 20%,
-        #f38ba8 40%,
-        #f38ba8 60%,
-        #cba6f7 80%);
+    background-image: linear-gradient(90deg, #cba6f7 20%, #f38ba8 40%, #f38ba8 60%, #cba6f7 80%);
     color: transparent;
     background-clip: text;
     background-size: 200%;

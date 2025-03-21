@@ -253,7 +253,7 @@
   },
   {
     "name": "Dante",
-    "description": "SOCKS server and SOCKS client, implementing [[RFC:1928]] and related standards.",
+    "description": "SOCKS server and SOCKS client, implementing RFC:1928 and related standards.",
     "url": "https://www.inet.no/dante/",
     "icon": "generic-dark.svg",
     "pkgname": ["dante"]
@@ -645,7 +645,7 @@
   },
   {
     "name": "isatapd",
-    "description": "Creates and maintains an ISATAP tunnel ([[RFC:5214]]).",
+    "description": "Creates and maintains an ISATAP tunnel (RFC:5214).",
     "url": "https://www.saschahlusiak.de/linux/isatap.htm",
     "icon": "generic-dark.svg",
     "pkgname": ["isatapd"]
@@ -932,7 +932,7 @@
   },
   {
     "name": "Newsboat",
-    "description": "Ncurses RSS aggregator with layout and keybinding similar to the [[Mutt]] email client.",
+    "description": "Ncurses RSS aggregator with layout and keybinding similar to the Mutt email client.",
     "url": "https://newsboat.org/",
     "icon": "generic-dark.svg",
     "pkgname": ["newsboat"]
@@ -1198,7 +1198,7 @@
   },
   {
     "name": "qutebrowser",
-    "description": "A keyboard-driven, [[vim]]-like browser based on PyQt5 and QtWebEngine.",
+    "description": "A keyboard-driven, vim-like browser based on PyQt5 and QtWebEngine.",
     "url": "https://qutebrowser.org/",
     "icon": "generic-dark.svg",
     "pkgname": ["qutebrowser"]
@@ -1751,7 +1751,7 @@
   },
   {
     "name": "Wireproxy",
-    "description": "[[WireGuard]] client that exposes itself as a SOCKS5 proxy.",
+    "description": "WireGuard client that exposes itself as a SOCKS5 proxy.",
     "url": "https://github.com/pufferffish/wireproxy",
     "icon": "generic-dark.svg",
     "pkgname": ["wireproxy"]
