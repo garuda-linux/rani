@@ -2,11 +2,77 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.3.0] - 2025-03-21
+
+### 🚀 Features
+
+- _(packages)_ Use searchable table instead for display
+- _(system-tools)_ Only load components when tab has been selected
+- _(kernels)_ Add kernels component
+- _(kernels)_ Add dkms module check and loading indicator
+- _(gaming)_ Add more WINE versions
+- _(language-packs)_ New component
+- _(settings)_ Move to dedicated page
+- _(maintenance)_ Allow merging pacdiff files interactively
+- _(system-status)_ Warn about pending reboot
+- _(system-settings)_ Add bpftune
+
+### 🐛 Bug Fixes
+
+- _(system-components)_ Scanning-support never being enabled
+- _(os-interact)_ Check for systemd sockets as well, fixing non-recognized sockets
+- _(pnpm-lock.yaml)_ Sync with package.json
+- _(config-service)_ Apply Loglevel on settings change
+- _(notifications)_ Unbreak not-sending notifications
+
+### 🚜 Refactor
+
+- Massively improve performance by caching and using services
+- Use pacman regex for prefiltering, print commands used
+
+### ⚙️ Miscellaneous Tasks
+
+- Drop ununsed code
+
+## [2.2.0] - 2025-03-18
+
+### 🚀 Features
+
+- _(system-settings)_ Add packages section
+- _(translation)_ Use inbuilt Tauri resources to load translations
+- Version 2.2.0
+
+### 🐛 Bug Fixes
+
+- _(system-components)_ Virtualbox checking for group rather than pkg
+- _(packages)_ Invalid pkgnames, fixed parser as well
+- _(language)_ Only update language once on startup
+- _(translations)_ Safeguard for failing to load translation files
+
+## [2.1.0] - 2025-03-18
+
+### 🚀 Features
+
+- _(garuda-update)_ Set GARUDA_UPDATE_RANI=1 to notify garuda-update of usage via rani
+
+### 🐛 Bug Fixes
+
+- _(vmware,virtualbox)_ Disable DMABUF renderer
+- _(lib.rs)_ Attempt fixing detection by making strings lowercase
+- _(dynamic-checkboxes)_ Allow disabled entries to be properly managed.
+
+### 📚 Documentation
+
+- _(changelog)_ Add changelog
+
+### ⚙️ Miscellaneous Tasks
+
+- _(flake.lock)_ Update
+
 ## [2.0.0] - 2025-03-17
 
 ### 🚀 Features
 
-- _(taskmanagerservice)_ Massive rewrite of the task system including speedups
 - _(window)_ Responsive window button states
 - _(loadingservice)_ Use refcount on loading indicator
 - _(font)_ Use system-ui
