@@ -58,6 +58,7 @@ export class ConfigService {
         this.logger.debug('Syncing auto start setting with system: disable');
         await enable();
       }
+      Logger.logLevel = settings.logLevel;
     });
   }
 
