@@ -17,16 +17,35 @@ import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
-import { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
+import type { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
+import { ConfigService } from '../config/config.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'rani-system-status',
-  imports: [OverlayBadge, Tooltip, TranslocoDirective, Dialog, Button],
+  imports: [OverlayBadge, Tooltip, TranslocoDirective, Dialog, Button, RouterLink],
   templateUrl: './system-status.component.html',
   styleUrl: './system-status.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemStatusComponent implements OnInit {
+  compareTool = computed(() => {
+    switch (this.configService.state().desktopEnvironment) {
+      case 'Cinnamon':
+      case 'GNOME-Flashback':
+      case 'GNOME':
+      case 'Hyprland':
+      case 'Pantheon':
+      case 'MATE':
+      case 'XFCE':
+        return 'meld';
+      case 'KDE':
+      case 'LXQt':
+        return 'kompare';
+      default:
+        return 'meld';
+    }
+  });
   dialogVisible = signal<boolean>(false);
   firstRun = true;
   pacdiffDialogVisible = signal<boolean>(false);
@@ -36,6 +55,7 @@ export class SystemStatusComponent implements OnInit {
 
   protected readonly open = open;
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);

@@ -123,6 +123,8 @@
     "reinstallDkmsModules": "Reinstall DKMS modules",
     "btrfsAssistant": "Btrfs Assistant",
     "btrfsAssistantSub": "Manage your BTRFS snapshots and run maintenance tasks",
+    "mergePacDiff": "Merge pacdiff files",
+    "mergePacDiffSub": "Merge .pacnew and .pacsave files interactively",
     "updateRemoteFullFix": "Garuda update full fix",
     "updateRemoteFullFixSub": "Reset Pacman and reinstall all packages in your OS",
     "updateRemoteKeyring": "Garuda update keyring",
@@ -485,7 +487,13 @@
     "scheduleUpdates": "Schedule updates",
     "pendingPacdiff": "Pending pacdiff files",
     "findMore": "Find out how to proceed",
-    "warnUpdate": "Your system not been updated in 2 weeks. Please update your system to ensure security and stability."
+    "warnUpdate": "Your system not been updated in 2 weeks. Please update your system to ensure security and stability.",
+    "affectedFiles": "Affected files:",
+    "learnPacdiff": "If you aren't familiar with pacdiff files, inform inform yourself about them quickly",
+    "openMaintenance": "Head over to the maintenance tab and click \"Merge pacdiff files\"",
+    "openMaintenanceButton": "Open maintenance",
+    "openMeld": "Meld will be opened to apply changes (click for tutorial)",
+    "openKompare": "Kompare will be opened to apply changes (click for tutorial)"
   },
   "operationManager": {
     "refusing": "Refusing execution",

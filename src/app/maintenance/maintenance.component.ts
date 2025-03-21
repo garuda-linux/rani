@@ -16,6 +16,7 @@ import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import type { ChildProcess } from '@tauri-apps/plugin-shell';
+import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -273,7 +274,7 @@ export class MaintenanceComponent implements OnInit {
       icon: 'pi pi-refresh',
       sudo: false,
       hasOutput: false,
-      priority: 3,
+      priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
@@ -327,8 +328,20 @@ export class MaintenanceComponent implements OnInit {
         }
       },
     },
+    {
+      name: 'mergePacDiff',
+      label: 'maintenance.mergePacDiff',
+      description: 'maintenance.mergePacDiffSub',
+      icon: 'pi pi-refresh',
+      sudo: true,
+      hasOutput: false,
+      priority: 0,
+      onlyDirect: true,
+      command: this.mergePacDiff.bind(this),
+    },
   ];
 
+  private readonly configService = inject(ConfigService);
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -481,5 +494,35 @@ export class MaintenanceComponent implements OnInit {
         void this.resetConfigs();
       },
     });
+  }
+
+  private async mergePacDiff(): Promise<void> {
+    let compareTool: string;
+    this.logger.debug(this.configService.state().desktopEnvironment);
+    switch (this.configService.state().desktopEnvironment) {
+      case 'Cinnamon':
+      case 'GNOME-Flashback':
+      case 'GNOME':
+      case 'Hyprland':
+      case 'Pantheon':
+      case 'MATE':
+      case 'XFCE':
+        compareTool = 'meld';
+        break;
+      case 'KDE':
+      case 'LXQt':
+        compareTool = 'kompare';
+        break;
+      default:
+        compareTool = 'meld';
+        break;
+    }
+    this.logger.info(`Running ${compareTool} to merge pacdiff files`);
+
+    const script: string = `for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..."; SUDO_EDITOR=/usr/bin/${compareTool} /usr/bin/sudo -e "$i" "$\{i/.pacnew/}"; done`;
+
+    if (await this.osInteractService.ensurePackageArchlinux(compareTool)) {
+      void this.taskManager.executeAndWaitBashTerminal(script);
+    }
   }
 }

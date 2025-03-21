@@ -1,5 +1,5 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
-import type { AppSettings, AppState } from './interfaces';
+import { AppSettings, AppState, DesktopEnvironment } from './interfaces';
 import type { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
 import { Logger } from '../logging/logging';
@@ -21,6 +21,7 @@ class PendingConfigUpdate {
 export class ConfigService {
   state = signal<AppState>({
     codeName: '',
+    desktopEnvironment: '' as DesktopEnvironment,
     hostname: '',
     isLiveSystem: undefined,
     isMaximized: false,
@@ -72,6 +73,7 @@ export class ConfigService {
         this.checkAutoStart(),
         this.initHostname(),
         this.initKernel(),
+        this.initDesktopEnvironment(),
       ];
       const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
@@ -234,5 +236,18 @@ export class ConfigService {
     const runningKernel: string = result.stdout.trim();
     this.logger.debug(`Running kernel: ${runningKernel}`);
     return { state: { kernel: runningKernel } };
+  }
+
+  private async initDesktopEnvironment(): Promise<PendingConfigUpdate> {
+    const cmd = 'echo $XDG_CURRENT_DESKTOP';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      this.logger.error(`Failed to get running kernel: ${result.stderr.trim()}`);
+      return {};
+    }
+    const desktopEnvironment: string = result.stdout.trim();
+    this.logger.debug(`Current desktop environment: ${desktopEnvironment}`);
+    return { state: { desktopEnvironment: desktopEnvironment as DesktopEnvironment } };
   }
 }

@@ -57,18 +57,51 @@
   </p-dialog>
 
   <p-dialog [(visible)]="pacdiffDialogVisible" [header]="t('systemStatus.pendingPacdiff')" [modal]="true">
+    <p class="text-left text-lg font-bold">{{ t('systemStatus.affectedFiles') }}</p>
     <ul>
       @for (file of pacFiles(); track file) {
         <li>{{ file }}</li>
       }
     </ul>
 
+    <div>
+      <p class="text-left text-lg font-bold">Here is how to proceed:</p>
+      <ul>
+        <li>
+          <a
+            class="cursor-pointer text-primary"
+            (click)="open('https://wiki.archlinux.org/title/Pacman/Pacnew_and_Pacsave')"
+          >
+            {{ t('systemStatus.learnPacdiff') }}</a
+          >
+        </li>
+        <li>{{ t('systemStatus.openMaintenance') }}</li>
+        @if (compareTool() === 'kompare') {
+          <li>
+            <a
+              class="cursor-pointer text-primary"
+              (click)="open('https://docs.kde.org/trunk5/en/kompare/kompare/merging-differences.html')"
+            >
+              {{ t('systemStatus.openKompare') }}</a
+            >
+          </li>
+        } @else if (compareTool() === 'meld') {
+          <li>
+            <a class="cursor-pointer text-primary" (click)="open('https://meldmerge.org/help/file-mode.html')">
+              {{ t('systemStatus.openMeld') }}</a
+            >
+          </li>
+        }
+      </ul>
+    </div>
+
     <div class="flex justify-end gap-2">
       <p-button (click)="pacdiffDialogVisible.set(false)" [label]="t('systemStatus.cancel')" severity="secondary" />
       <p-button
-        (click)="open('https://forum.garudalinux.org/t/dealing-with-pacnew-files/9393/2?u=dr460nf1r3')"
-        [label]="t('systemStatus.findMore')"
+        class="cursor-pointer"
+        routerLink="/maintenance"
         severity="success"
+        [label]="t('systemStatus.openMaintenanceButton')"
       />
     </div>
   </p-dialog>
