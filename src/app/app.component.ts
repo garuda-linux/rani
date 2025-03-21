@@ -13,7 +13,6 @@ import {
 } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
-import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { DialogModule } from 'primeng/dialog';
 import { open } from '@tauri-apps/plugin-shell';
@@ -43,7 +42,6 @@ import { ThemeService } from './theme-service/theme-service';
     NgOptimizedImage,
     DialogModule,
     ScrollTop,
-    LanguageSwitcherComponent,
     ShellComponent,
     DrawerModule,
     TableModule,
@@ -66,7 +64,6 @@ import { ThemeService } from './theme-service/theme-service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  @ViewChild('languageSwitcherComponent') langSwitcher!: LanguageSwitcherComponent;
   @ViewChild('terminalComponent') terminalComponent!: TerminalComponent;
   @ViewChild('operationManagerComponent') operationManagerComponent!: OperationManagerComponent;
 

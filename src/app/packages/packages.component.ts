@@ -60,7 +60,7 @@ export class PackagesComponent {
       const packages: Map<string, boolean> = this.osInteractService.packages();
       const tabIndex: number = this.tabIndex();
       if (!this.packagesService.loading()) {
-        this.updateUi();
+        void this.updateUi();
       }
     });
   }

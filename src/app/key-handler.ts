@@ -4,7 +4,7 @@ import { open } from '@tauri-apps/plugin-shell';
 export async function globalKeyHandler(this: AppComponent, event: KeyboardEvent): Promise<void> {
   switch (event.key) {
     case 'F1':
-      void open('https://forum.garudalinux.org', '_blank');
+      void open('https://forum.garudalinux.org');
       break;
     case 'F4':
       this.terminalComponent.visible.set(!this.terminalComponent.visible());
