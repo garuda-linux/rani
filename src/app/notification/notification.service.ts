@@ -24,6 +24,9 @@ export class NotificationService {
       this.logger.info('Requesting notification permission');
       const permission: NotificationPermission = await requestPermission();
       this.permissionGranted = permission === 'granted';
+    } else {
+      this.logger.info('Notification permission already granted');
+      this.permissionGranted = true;
     }
   }
 
