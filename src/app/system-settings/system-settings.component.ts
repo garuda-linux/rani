@@ -87,6 +87,21 @@ export class SystemSettingsComponent {
           check: { type: 'service', name: 'ananicy-cpp.service' },
         },
         {
+          name: 'bpftune',
+          fancyTitle: 'systemSettings.performance.bpftune.title',
+          description: 'systemSettings.performance.bpftune.description',
+          checked: false,
+          check: { type: 'pkg', name: 'bpftune-git' },
+        },
+        {
+          name: 'enable-bpftune',
+          fancyTitle: 'systemSettings.performance.bpftuneEnabled.title',
+          description: 'systemSettings.performance.bpftuneEnabled.description',
+          checked: false,
+          disabler: 'bpftune',
+          check: { type: 'service', name: 'bpftune.service' },
+        },
+        {
           name: 'enabled-preload',
           fancyTitle: 'systemSettings.performance.preloadEnabled.title',
           description: 'systemSettings.performance.preloadEnabled.description',

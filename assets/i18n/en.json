@@ -385,6 +385,12 @@
       "ananicyCppEnabled": {
         "description": "Ananicy C++ enabled"
       },
+      "bpftune": {
+        "description": "Bpftune installed"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune enabled"
+      },
       "preload": {
         "description": "Preload installed"
       },
