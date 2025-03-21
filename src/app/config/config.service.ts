@@ -26,6 +26,7 @@ export class ConfigService {
     isLiveSystem: undefined,
     isMaximized: false,
     kernel: '',
+    rebootPending: false,
     user: '',
   });
 
@@ -74,6 +75,7 @@ export class ConfigService {
         this.initHostname(),
         this.initKernel(),
         this.initDesktopEnvironment(),
+        this.initRebootPending(),
       ];
       const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
@@ -249,5 +251,16 @@ export class ConfigService {
     const desktopEnvironment: string = result.stdout.trim();
     this.logger.debug(`Current desktop environment: ${desktopEnvironment}`);
     return { state: { desktopEnvironment: desktopEnvironment as DesktopEnvironment } };
+  }
+
+  private async initRebootPending(): Promise<PendingConfigUpdate> {
+    const cmd = `last_update="$(date -r /var/lib/garuda/last_update +%s 2> /dev/null)"; if [ "$last_update" -gt "$(date -r /proc +%s)" ]; then exit 100; else exit 0; fi`;
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0 && result.code !== 100) {
+      this.logger.error(`Failed to get reboot pending status: ${result.stderr.trim()}`);
+      return {};
+    }
+    return { state: { rebootPending: result.code !== 0 } };
   }
 }

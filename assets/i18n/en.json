@@ -489,9 +489,11 @@
     "findMore": "Find out how to proceed",
     "warnUpdate": "Your system not been updated in 2 weeks. Please update your system to ensure security and stability.",
     "affectedFiles": "Affected files:",
-    "learnPacdiff": "If you aren't familiar with pacdiff files, inform inform yourself about them quickly",
+    "learnPacdiff": "If you aren't familiar with pacdiff files, inform yourself about them quickly",
     "openMaintenance": "Head over to the maintenance tab and click \"Merge pacdiff files\"",
     "openMaintenanceButton": "Open maintenance",
+    "rebootNow": "Reboot now",
+    "warnReboot": "It is strongly recommended to reboot your system after applying updates, especially when updating kernels or desktop environments.",
     "openMeld": "Meld will be opened to apply changes (click for tutorial)",
     "openKompare": "Kompare will be opened to apply changes (click for tutorial)"
   },

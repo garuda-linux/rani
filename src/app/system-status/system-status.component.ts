@@ -50,12 +50,14 @@ export class SystemStatusComponent implements OnInit {
   firstRun = true;
   pacdiffDialogVisible = signal<boolean>(false);
   pacFiles = signal<string[]>([]);
+  rebootDialogVisible = signal<boolean>(false);
   updates = signal<SystemUpdate[]>([]);
   warnUpdate = signal<boolean>(false);
 
+  protected readonly configService = inject(ConfigService);
   protected readonly open = open;
+
   private readonly cdr = inject(ChangeDetectorRef);
-  private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);
@@ -190,5 +192,14 @@ export class SystemStatusComponent implements OnInit {
     } else {
       this.logger.error(`Failed to get last update: ${result.stderr}`);
     }
+  }
+
+  rebootNow(confirmed = false) {
+    if (!confirmed) {
+      this.rebootDialogVisible.set(true);
+      return;
+    }
+
+    void this.taskManagerService.executeAndWaitBash('systemctl reboot');
   }
 }

@@ -26,6 +26,13 @@
         </p-overlay-badge>
       </div>
     }
+    @if (configService.state().rebootPending) {
+      <div class="cursor-pointer" (click)="rebootNow()">
+        <p-overlay-badge [pTooltip]="t('systemStatus.warnReboot')" value="!" severity="danger" tooltipPosition="bottom">
+          <i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
   </div>
 
   <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">
@@ -52,6 +59,18 @@
         [disabled]="buttonDisabled()"
         [label]="t('systemStatus.scheduleUpdates')"
         severity="success"
+      />
+    </div>
+  </p-dialog>
+
+  <p-dialog [(visible)]="rebootDialogVisible" [header]="t('systemStatus.rebootNow')" [modal]="true">
+    <div class="flex justify-end gap-2">
+      <p-button (click)="rebootDialogVisible.set(false)" [label]="t('systemStatus.cancel')" severity="secondary" />
+      <p-button
+        (click)="rebootNow(true)"
+        [disabled]="buttonDisabled()"
+        [label]="t('systemStatus.rebootNow')"
+        severity="warn"
       />
     </div>
   </p-dialog>
