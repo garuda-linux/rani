@@ -7,9 +7,7 @@ pub fn run() {
         let product_name_file = std::path::Path::new("/sys/devices/virtual/dmi/id/product_name");
         let is_wayland = std::env::var("WAYLAND_DISPLAY").is_ok();
 
-        if std::path::Path::new("/proc/driver/nvidia/version").exists()
-            && is_wayland
-        {
+        if std::path::Path::new("/proc/driver/nvidia/version").exists() && is_wayland {
             // SAFETY: There's potential for race conditions in a multi-threaded context
             unsafe {
                 log::info!("Nvidia GPU and Wayland detected, disabling WebKit DMABuf renderer");
@@ -29,7 +27,9 @@ pub fn run() {
         // If using VMWare/VirtualBox on WAYLAND, disable the DMABuf renderer
         if is_wayland && product_name_file.exists() {
             let product_name = std::fs::read_to_string(product_name_file).unwrap();
-            if product_name.to_lowercase().contains("virtualbox") || product_name.to_lowercase().contains("vmware") {
+            if product_name.to_lowercase().contains("virtualbox")
+                || product_name.to_lowercase().contains("vmware")
+            {
                 // SAFETY: There's potential for race conditions in a multi-threaded context
                 unsafe {
                     log::info!("VirtualBox/VMWare detected, disabling WebKit DMABuf renderer");
@@ -47,6 +47,8 @@ pub fn run() {
                 window.open_devtools();
                 window.close_devtools();
             }
+             #[cfg(desktop)]
+            _app.handle().plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec![])));
             Ok(())
         })
         .plugin(tauri_plugin_prevent_default::init())

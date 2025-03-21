@@ -15,9 +15,8 @@ import { RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { LanguageSwitcherComponent } from './language-switcher/language-switcher.component';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { AppService } from './app.service';
 import { DialogModule } from 'primeng/dialog';
-import { Command, open } from '@tauri-apps/plugin-shell';
+import { open } from '@tauri-apps/plugin-shell';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
@@ -34,12 +33,9 @@ import { OperationManagerComponent } from './operation-manager/operation-manager
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ConfigService } from './config/config.service';
 import { Logger } from './logging/logging';
-import type { AppSettings } from './config/interfaces';
-import { settingsMenuMappings } from './constants';
-import type { MenuToggleMapping } from './interfaces';
-import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
-import { LogLevel } from './logging/interfaces';
 import { TaskManagerService } from './task-manager/task-manager.service';
+import { NotificationService } from './notification/notification.service';
+import { ThemeService } from './theme-service/theme-service';
 
 @Component({
   imports: [
@@ -74,11 +70,11 @@ export class AppComponent implements OnInit {
   @ViewChild('terminalComponent') terminalComponent!: TerminalComponent;
   @ViewChild('operationManagerComponent') operationManagerComponent!: OperationManagerComponent;
 
-  readonly appService = inject(AppService);
   readonly appWindow = getCurrentWindow();
   readonly confirmationService = inject(ConfirmationService);
   readonly loadingService = inject(LoadingService);
   readonly taskManager = inject(TaskManagerService);
+  private readonly notificationService = inject(NotificationService);
 
   rightClickMenu = signal<MenuItem[]>([
     {
@@ -116,6 +112,7 @@ export class AppComponent implements OnInit {
   protected readonly configService = inject(ConfigService);
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
+  private readonly themeService = inject(ThemeService);
   private readonly translocoService = inject(TranslocoService);
 
   menuItems = signal<MenuItem[]>(
@@ -174,68 +171,9 @@ export class AppComponent implements OnInit {
       },
       {
         icon: 'pi pi-cog',
-        label: 'Settings',
-        translocoKey: 'menu.settings.title',
-        items: [
-          {
-            icon: 'pi pi-circle-fill',
-            id: 'leftButtons',
-            label: 'Show window buttons left',
-            translocoKey: 'menu.settings.windowButtonsLeft',
-            command: () => this.configService.updateConfig('leftButtons', !this.configService.settings().leftButtons),
-          },
-          {
-            icon: 'pi pi-clipboard',
-            id: 'copyDiagnostics',
-            label: 'Copy diagnostics to clipboard',
-            translocoKey: 'menu.settings.copyDiagnostics',
-            command: () =>
-              this.configService.updateConfig('copyDiagnostics', !this.configService.settings().copyDiagnostics),
-          },
-          {
-            icon: 'pi pi-moon',
-            id: 'darkMode',
-            label: 'Dark mode',
-            translocoKey: 'menu.settings.enableDarkMode',
-            command: () => this.configService.updateConfig('darkMode', !this.configService.settings().darkMode),
-          },
-          {
-            icon: 'pi pi-user',
-            id: 'systemdUserContext',
-            label: 'Use systemd user context',
-            translocoKey: 'menu.settings.systemdUserContext',
-            command: () =>
-              this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext),
-          },
-          {
-            icon: 'pi pi-refresh',
-            id: 'autoRefresh',
-            label: 'Auto-refresh systemd services',
-            translocoKey: 'menu.settings.enableAutoRefresh',
-            command: () => this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh),
-          },
-          {
-            icon: 'pi pi-refresh',
-            id: 'autoStart',
-            label: 'Auto-start Garuda Rani',
-            translocoKey: 'menu.settings.autoStart',
-            command: () => this.toggleAutoStart(),
-          },
-          {
-            icon: 'pi pi-info',
-            id: 'logLevel',
-            label: 'Set the log level used',
-            translocoKey: 'menu.settings.logLevel',
-            command: () => this.toggleLoglevel(),
-          },
-          {
-            icon: 'pi pi-language',
-            id: 'language',
-            label: 'Language',
-            translocoKey: 'menu.settings.language',
-            command: () => this.langSwitcher.show(),
-          },
-        ],
+        label: 'Settings page',
+        translocoKey: 'menu.settings',
+        routerLink: '/settings',
       },
       {
         icon: 'pi pi-question-circle',
@@ -271,7 +209,7 @@ export class AppComponent implements OnInit {
             label: 'About',
             translocoKey: 'menu.help.callExorcist',
             command: () =>
-              this.appService.sendNotification({
+              this.notificationService.sendNotification({
                 title: this.translocoService.translate('menu.help.callExorcistTitle'),
                 body: `${this.translocoService.translate('menu.help.callExorcistBody')} 🐛`,
               }),
@@ -281,7 +219,7 @@ export class AppComponent implements OnInit {
             label: 'About',
             translocoKey: 'menu.help.about',
             command: () =>
-              this.appService.sendNotification({
+              this.notificationService.sendNotification({
                 title: this.translocoService.translate('menu.help.about'),
                 body: this.translocoService.translate('menu.help.aboutBody'),
               }),
@@ -317,13 +255,6 @@ export class AppComponent implements OnInit {
       }
 
       this.menuItems.set(items);
-    });
-
-    effect(() => {
-      const settings: AppSettings = this.configService.settings();
-      this.logger.trace('Updating settings labels via effect');
-      this.setSettingsLabels(settings);
-      this.cdr.markForCheck();
     });
   }
 
@@ -449,79 +380,5 @@ export class AppComponent implements OnInit {
         },
       });
     });
-  }
-
-  /**
-   * Set the labels for the settings menu items to have the correct values.
-   * @param settings The settings to set the labels for
-   * @private
-   */
-  private setSettingsLabels(settings: AppSettings): void {
-    const settingsMenu: MenuItem | undefined = untracked(this.menuItems).find(
-      (item) => item['translocoKey'] === 'menu.settings.title',
-    );
-    if (settingsMenu) {
-      for (const [key, value] of Object.entries(settings)) {
-        const setting: MenuItem | undefined = settingsMenu.items!.find((item) => item['id'] === key);
-        this.logger.trace(`${setting ? 'Found' : 'Did not find'} setting for ${key}`);
-
-        if (setting && key === 'logLevel') {
-          setting.label = `${this.translocoService.translate('menu.settings.logLevel')}`;
-        } else if (setting && key === 'language') {
-          setting.label = `${this.translocoService.translate('menu.settings.language')} (${this.translocoService.getActiveLang()})`;
-          this.logger.trace(`Updated ${key} to ${setting.label}`);
-        } else if (setting) {
-          // @ts-ignore - no idea why the Angular compiler is acting up here
-          const mapping: MenuToggleMapping = settingsMenuMappings[key];
-          const toTranslate: string = value ? mapping.off : mapping.on;
-
-          setting.label = this.translocoService.translate(toTranslate);
-          setting.icon = value ? mapping.offIcon : mapping.onIcon;
-
-          this.logger.trace(`Updated ${key} to ${setting.label}`);
-        }
-      }
-    }
-
-    this.cdr.markForCheck();
-  }
-
-  /**
-   * Toggle the auto-start for Garuda's Rani, copying the desktop file to the autostart directory
-   * or removing it if it already exists.
-   * @private
-   */
-  private async toggleAutoStart() {
-    if (!(await exists('.config/autostart/org.garudalinux.rani.desktop', { baseDir: BaseDirectory.Home }))) {
-      await Command.create('exec-bash', [
-        '-c',
-        'cp /usr/share/applications/org.garudalinux.rani.desktop ~/.config/autostart/',
-      ]).execute();
-
-      await this.configService.updateConfig('autoStart', true);
-      this.logger.info('Enabled auto-start');
-    } else {
-      await Command.create('exec-bash', ['-c', 'rm ~/.config/autostart/org.garudalinux.rani.desktop']).execute();
-
-      await this.configService.updateConfig('autoStart', false);
-      this.logger.info('Disabled auto-start');
-    }
-  }
-
-  /**
-   * Toggle the log level used by the logger.
-   * @private
-   */
-  private toggleLoglevel() {
-    this.logger.trace('Toggling log level');
-
-    if (Logger.logLevel === LogLevel.ERROR) {
-      Logger.logLevel = LogLevel.TRACE;
-    } else {
-      Logger.logLevel += 1;
-    }
-
-    this.logger.info(`Set log level to ${LogLevel[Logger.logLevel]}`);
-    void this.configService.updateConfig('logLevel', Logger.logLevel);
   }
 }

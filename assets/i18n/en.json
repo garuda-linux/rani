@@ -8,23 +8,7 @@
     "boot": "Boot tools",
     "diagnostics": "Diagnostics",
     "network": "Network tools",
-    "settings": {
-      "title": "Settings",
-      "windowButtonsLeft": "Show window buttons left",
-      "windowButtonsRight": "Show window buttons right",
-      "copyDiagnostics": "Copy diagnostics to clipboard",
-      "dontCopyDiagnostics": "Don't copy diagnostics to clipboard",
-      "enableDarkMode": "Enable dark mode",
-      "enableLightMode": "Enable light mode",
-      "language": "Configure active language",
-      "dontAutoStart": "Don't auto start Garuda Rani",
-      "autoStart": "Auto start Garuda Rani",
-      "logLevel": "Toggle the log level",
-      "systemdUserContext": "Show user services",
-      "systemdSystemContext": "Show system services",
-      "enableAutoRefresh": "Enable auto refresh",
-      "disableAutoRefresh": "Disable auto refresh"
-    },
+    "settings": "App settings",
     "help": {
       "title": "Help",
       "getHelpForum": "Get help on the forum",
@@ -546,5 +530,18 @@
     "base": "Base package",
     "notFound": "No language packs found",
     "pkgname": "Package name"
+  },
+  "settings": {
+    "title": "App",
+    "titleTwo": "settings",
+    "leftButtons": "Show window buttons on the left",
+    "copyDiagnostics": "Copy diagnostics to clipboard",
+    "darkMode": "Enable dark mode",
+    "language": "Configure active language",
+    "autoStart": "Auto-start application",
+    "logLevel": "Select the log level",
+    "systemdUserContext": "Show user Systemd services",
+    "autoRefresh": "Enable systemd services auto refresh",
+    "showMainLinks": "Show links on home page"
   }
 }

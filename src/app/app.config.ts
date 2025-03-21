@@ -19,12 +19,14 @@ import { LoadingInterceptor } from './loading-indicator/loading-indicator.interc
 import { ConfigService } from './config/config.service';
 import { LanguageManagerService } from './language-manager/language-manager.service';
 import { initRani } from './app.init';
+import { ThemeService } from './theme-service/theme-service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     ConfigService,
     ConfirmationService,
     LanguageManagerService,
+    ThemeService,
     provideAnimationsAsync(),
     provideAppInitializer(initRani),
     provideExperimentalZonelessChangeDetection(),

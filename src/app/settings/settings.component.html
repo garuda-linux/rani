@@ -1,0 +1,51 @@
+<ng-container *transloco="let t">
+  <div class="surface-section px-4 md:px-6 lg:px-8 text-center">
+    <div class="font-bold text-3xl">
+      <span class="text-color">{{ t('settings.title') }} </span>
+      <span class="text-primary">{{ t('settings.titleTwo') }}</span>
+    </div>
+  </div>
+
+  <div class="items-center mt-10 grid grid-cols-12">
+    <div class="col-span-12 justify-center flex">
+      <label class="mt-2 mr-2" for="select-loglevel">{{ t('settings.logLevel') }}</label>
+      <p-select
+        [options]="logLevels"
+        (onChange)="selectLogLevel($event)"
+        [ngModel]="LogLevel[configService.settings().logLevel]"
+        id="select-loglevel"
+      />
+    </div>
+    <div class="col-span-12 mt-5 justify-center flex">
+      <label class="mt-2 mr-2" for="select-languages">{{ t('settings.language') }}</label>
+      <p-select
+        [options]="languages()"
+        (onChange)="selectLanguage($event)"
+        [ngModel]="configService.settings().language"
+        optionLabel="label"
+        optionValue="language"
+        id="select-languages"
+      />
+    </div>
+  </div>
+
+  <div class="items-center mt-10 grid grid-cols-12">
+    @for (entry of settings(); track entry.name) {
+      <div class="col-span-12 sm:col-span-6 md:col-span-6 xl:col-span-4 text-sur">
+        <div class="pl-20 mt-5">
+          <p-checkbox
+            (click)="toggleSetting(entry.name)"
+            [inputId]="entry.name"
+            [value]="entry.value"
+            binary
+            [(ngModel)]="entry.value"
+            name="group"
+          />
+          <label [for]="entry.name" class="mx-2.5">
+            {{ t('settings.' + entry.name) }}
+          </label>
+        </div>
+      </div>
+    }
+  </div>
+</ng-container>

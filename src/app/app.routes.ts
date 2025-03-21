@@ -6,6 +6,7 @@ import { SystemToolsComponent } from './system-tools/system-tools.component';
 import { GamingComponent } from './gaming/gaming.component';
 import { BootToolsComponent } from './boot-tools/boot-tools.component';
 import { DiagnosticsComponent } from './diagnostics/diagnostics.component';
+import { SettingsComponent } from './settings/settings.component';
 
 export const routes: Routes = [
   {
@@ -37,6 +38,11 @@ export const routes: Routes = [
     title: 'Diagnostics',
     path: 'diagnostics',
     component: DiagnosticsComponent,
+  },
+  {
+    title: 'Settings',
+    path: 'settings',
+    component: SettingsComponent,
   },
 ];
 

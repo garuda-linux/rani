@@ -1,4 +1,4 @@
-import { inject, Injectable, signal } from '@angular/core';
+import { effect, inject, Injectable, signal } from '@angular/core';
 import type { AppSettings, AppState } from './interfaces';
 import type { Store } from '@tauri-apps/plugin-store';
 import { getConfigStore } from './store';
@@ -8,6 +8,7 @@ import { hostname } from '@tauri-apps/plugin-os';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 import { LogLevel } from '../logging/interfaces';
+import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 
 class PendingConfigUpdate {
   state?: object;
@@ -19,34 +20,47 @@ class PendingConfigUpdate {
 })
 export class ConfigService {
   state = signal<AppState>({
-    isMaximized: false,
-    user: '',
     codeName: '',
     hostname: '',
-    kernel: '',
     isLiveSystem: undefined,
+    isMaximized: false,
+    kernel: '',
+    user: '',
   });
 
   settings = signal<AppSettings>({
-    leftButtons: true,
-    language: 'en',
-    darkMode: true,
     autoRefresh: false,
-    copyDiagnostics: true,
-    logLevel: LogLevel.INFO,
-    showMainLinks: false,
-    systemdUserContext: false,
     autoStart: true,
+    copyDiagnostics: true,
+    darkMode: true,
     firstBoot: undefined,
+    language: 'en',
+    leftButtons: true,
+    logLevel: LogLevel.INFO,
+    showMainLinks: true,
+    systemdUserContext: false,
   });
 
   public store!: Store;
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
 
+  constructor() {
+    effect(async () => {
+      const settings: AppSettings = this.settings();
+      const currentAutoStart: boolean = await isEnabled();
+      if (currentAutoStart && !settings.autoStart) {
+        this.logger.debug('Syncing auto start setting with system: enable');
+        await disable();
+      } else if (!currentAutoStart && settings.autoStart) {
+        this.logger.debug('Syncing auto start setting with system: disable');
+        await enable();
+      }
+    });
+  }
+
   async init(): Promise<void> {
     this.logger.trace('Initializing ConfigService');
-
     this.loadingService.loadingOn();
 
     try {
@@ -59,7 +73,7 @@ export class ConfigService {
         this.initHostname(),
         this.initKernel(),
       ];
-      const config_updates = await Promise.all(initPromises);
+      const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
       const state_updates = config_updates.map((update) => update.state).filter((update) => update);
 
