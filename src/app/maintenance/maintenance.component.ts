@@ -500,15 +500,6 @@ export class MaintenanceComponent implements OnInit {
     let compareTool: string;
     this.logger.debug(this.configService.state().desktopEnvironment);
     switch (this.configService.state().desktopEnvironment) {
-      case 'Cinnamon':
-      case 'GNOME-Flashback':
-      case 'GNOME':
-      case 'Hyprland':
-      case 'Pantheon':
-      case 'MATE':
-      case 'XFCE':
-        compareTool = 'meld';
-        break;
       case 'KDE':
       case 'LXQt':
         compareTool = 'kompare';

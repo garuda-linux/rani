@@ -21,6 +21,7 @@ export interface AppState {
   isLiveSystem: boolean | undefined;
   isMaximized: boolean;
   kernel: string;
+  locale: string;
   rebootPending: boolean;
   user: string;
   [key: string]: any;

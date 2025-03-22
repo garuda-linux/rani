@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, effect, inject, model } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, model } from '@angular/core';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { TableModule } from 'primeng/table';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -15,6 +15,7 @@ import { LocalePipe } from '../lang-pipe/locale.pipe';
   imports: [TableModule, TranslocoDirective, FormsModule, NgIf, Checkbox, NgClass, LocalePipe],
   templateUrl: './language-packs.component.html',
   styleUrl: './language-packs.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguagePacksComponent {
   selectedPacks = model<LanguagePacks>([]);

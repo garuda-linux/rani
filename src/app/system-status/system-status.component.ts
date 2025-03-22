@@ -31,14 +31,6 @@ import { RouterLink } from '@angular/router';
 export class SystemStatusComponent implements OnInit {
   compareTool = computed(() => {
     switch (this.configService.state().desktopEnvironment) {
-      case 'Cinnamon':
-      case 'GNOME-Flashback':
-      case 'GNOME':
-      case 'Hyprland':
-      case 'Pantheon':
-      case 'MATE':
-      case 'XFCE':
-        return 'meld';
       case 'KDE':
       case 'LXQt':
         return 'kompare';

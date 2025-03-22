@@ -287,7 +287,7 @@ export class AppComponent implements OnInit {
   @HostListener('mousedown', ['$event'])
   async handleRightClick(event: MouseEvent): Promise<void> {
     const noDragSelector =
-      'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card, p-select, p-table, p-dialog, rani-system-status, ng-terminal';
+      'a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card, p-select, p-table, p-dialog, rani-system-status, ng-terminal, rani-languages, rani-locales';
     const target = event.target as HTMLElement;
     if (target.closest(noDragSelector)) return;
 

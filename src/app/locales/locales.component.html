@@ -1,0 +1,31 @@
+<ng-container *transloco="let t">
+  <div class="text-center my-5">{{ t('locales.description') }}</div>
+  <p-pick-list
+    [source]="localesService.availableLocales()"
+    [target]="localesService.selectedLocales()"
+    [dragdrop]="true"
+    [responsive]="true"
+    [sourceStyle]="{ height: '50rem' }"
+    [targetStyle]="{ height: '50rem' }"
+    [targetHeader]="t('locales.selected')"
+    [sourceHeader]="t('locales.available')"
+    breakpoint="1400px"
+    (onMoveToSource)="toggleOne($event)"
+    (onMoveToTarget)="toggleOne($event)"
+    (onMoveAllToSource)="toggleAll()"
+    (onMoveAllToTarget)="toggleAll()"
+  >
+    <ng-template let-item #item>
+      {{ item | locale: true }}
+    </ng-template>
+  </p-pick-list>
+  <div class="text-center mt-10 mb-5">{{ t('locales.selectLocale') }}</div>
+  <div class="flex justify-center">
+    <p-select
+      [options]="localesService.selectedLocales()"
+      [(ngModel)]="selectedLocale"
+      (ngModelChange)="selectLocale($event)"
+      class="w-full md:w-1/3"
+    />
+  </div>
+</ng-container>

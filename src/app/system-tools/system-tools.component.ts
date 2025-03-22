@@ -8,6 +8,7 @@ import { SystemComponentsComponent } from '../system-components/system-component
 import { PackagesComponent } from '../packages/packages.component';
 import { KernelsComponent } from '../kernels/kernels.component';
 import { LanguagePacksComponent } from '../language-packs/language-packs.component';
+import { LocalesComponent } from '../locales/locales.component';
 
 @Component({
   selector: 'rani-system-tools',
@@ -25,6 +26,7 @@ import { LanguagePacksComponent } from '../language-packs/language-packs.compone
     PackagesComponent,
     KernelsComponent,
     LanguagePacksComponent,
+    LocalesComponent,
   ],
   templateUrl: './system-tools.component.html',
   styleUrl: './system-tools.component.css',

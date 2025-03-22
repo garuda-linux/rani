@@ -44,9 +44,6 @@
       "identifier": "fs:scope",
       "allow": [
         {
-          "path": "$HOME/.config/autostart/org.garudalinux.rani.desktop"
-        },
-        {
           "path": "$APPLOCALDATA/taskscript.tmp"
         }
       ]

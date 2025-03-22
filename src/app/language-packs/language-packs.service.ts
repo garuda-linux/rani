@@ -91,7 +91,6 @@ export class LanguagePacksService {
     }
 
     const packages: string[] = result.stdout.trim().split('\n');
-    this.logger.debug(`Available packages: ${packages.length}`);
     return { packages, locales };
   }
 

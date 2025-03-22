@@ -64,6 +64,7 @@ export class DynamicCheckboxesComponent {
   /**
    * Check the state of the entry, as defined by the check object.
    * @param entry The entry to check
+   * @param current Whether to check the current state or the installed state
    * @returns Whether the entry is currently active in the system
    */
   private checkState(entry: SystemToolsSubEntry, current: boolean = false): boolean {
@@ -114,8 +115,7 @@ export class DynamicCheckboxesComponent {
         if (disabled && !this.checkState(entry, true)) {
           this.osInteractService.toggle(entry.check.name, entry.check.type, true);
           entry.disabled = true;
-        } else
-          entry.disabled = false;
+        } else entry.disabled = false;
       }
     }
   }

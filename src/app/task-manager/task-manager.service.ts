@@ -308,7 +308,7 @@ export class TaskManagerService {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    this.logger.info('Task has finished.');
+    this.logger.info(`Task ${task.name} has finished`);
   }
 
   /**

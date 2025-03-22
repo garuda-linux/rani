@@ -10,16 +10,19 @@ import {
   shells,
 } from '../system-settings/types';
 import type { ChildProcess } from '@tauri-apps/plugin-shell';
+import { Logger } from '../logging/logging';
 
 @Injectable({
   providedIn: 'root',
 })
 export class OsInteractService {
-  private readonly taskManagerService = inject(TaskManagerService);
   private readonly configService = inject(ConfigService);
+  private readonly logger = Logger.getInstance();
+  private readonly taskManagerService = inject(TaskManagerService);
 
   // A list of all currently installed packages
   private readonly installedPackages = signal<Map<string, boolean>>(new Map());
+  private readonly currentLocales = signal<Map<string, boolean>>(new Map());
   private readonly currentServices = signal<Map<string, boolean>>(new Map());
   private readonly currentServicesUser = signal<Map<string, boolean>>(new Map());
   private readonly currentGroups = signal<Map<string, boolean>>(new Map());
@@ -29,6 +32,7 @@ export class OsInteractService {
   private readonly currentHblock = signal<boolean>(false);
 
   private readonly wantedPackages = signal<Map<string, boolean>>(new Map());
+  private readonly wantedLocales = signal<Map<string, boolean>>(new Map());
   private readonly wantedPackagesAur = signal<Map<string, boolean>>(new Map());
   private readonly wantedServices = signal<Map<string, boolean>>(new Map());
   private readonly wantedServicesUser = signal<Map<string, boolean>>(new Map());
@@ -40,6 +44,9 @@ export class OsInteractService {
 
   readonly packages = computed(() => {
     return new Map([...this.installedPackages(), ...this.wantedPackages(), ...this.wantedPackagesAur()]);
+  });
+  readonly locales = computed(() => {
+    return new Map([...this.currentLocales(), ...this.wantedLocales()]);
   });
   readonly services = computed(() => {
     return new Map([...this.currentServices(), ...this.wantedServices()]);
@@ -73,6 +80,7 @@ export class OsInteractService {
       this.wantedServices.set(this.wantedPrune(untracked(this.wantedServices), this.currentServices()));
       this.wantedServicesUser.set(this.wantedPrune(untracked(this.wantedServicesUser), this.currentServicesUser()));
       this.wantedGroups.set(this.wantedPrune(untracked(this.wantedGroups), this.currentGroups()));
+      this.wantedLocales.set(this.wantedPrune(untracked(this.wantedLocales), this.currentLocales()));
     });
     effect(() => this.generateTasks());
   }
@@ -91,6 +99,8 @@ export class OsInteractService {
     let disableUser: string[] = [];
     let groupAdd: string[] = [];
     let groupRemove: string[] = [];
+    let localeAdd: string[] = [];
+    let localeRemove: string[] = [];
 
     for (const [pkg, wanted] of this.wantedPackages()) {
       if (wanted) {
@@ -129,6 +139,15 @@ export class OsInteractService {
         groupAdd.push(group);
       } else {
         groupRemove.push(group);
+      }
+    }
+
+    for (const [locale, wanted] of this.wantedLocales()) {
+      this.logger.trace(`Locale ${locale} wanted: ${wanted}`);
+      if (wanted) {
+        localeAdd.push(locale);
+      } else {
+        localeRemove.push(locale);
       }
     }
 
@@ -209,6 +228,20 @@ export class OsInteractService {
       }
     }
 
+    let sedExpressions: string[] = [];
+    let script_locales = '';
+    if (localeAdd.length > 0) {
+      for (const locale of localeAdd) {
+        sedExpressions.push(`-e 's/\#${locale}/${locale}/'`);
+      }
+    }
+    if (localeRemove.length > 0) {
+      for (const locale of localeRemove) {
+        sedExpressions.push(`-e 's/${locale}/\#${locale}/'`);
+      }
+    }
+    if (sedExpressions.length > 0) script_locales = `sed -i ${sedExpressions.join(' ')} /etc/locale.gen\nlocale-gen\n`;
+
     untracked(() => {
       [
         this.taskManagerService.findTaskById('os-interact-packages'),
@@ -216,6 +249,7 @@ export class OsInteractService {
         this.taskManagerService.findTaskById('os-interact-services'),
         this.taskManagerService.findTaskById('os-interact-services-user'),
         this.taskManagerService.findTaskById('os-interact-groups'),
+        this.taskManagerService.findTaskById('os-interact-locales'),
       ].forEach((task) => {
         if (task !== null) {
           this.taskManagerService.removeTask(task!);
@@ -280,6 +314,17 @@ export class OsInteractService {
           script_services_user,
         ),
       );
+    if (script_locales !== '')
+      tasks.push(
+        this.taskManagerService.createTask(
+          13,
+          'os-interact-locales',
+          true,
+          'os-interact.locales',
+          'pi pi-languages',
+          script_locales,
+        ),
+      );
 
     tasks.forEach((task) => {
       this.taskManagerService.scheduleTask(task);
@@ -308,7 +353,7 @@ export class OsInteractService {
    * Update the current state of the system asynchronously.
    */
   async update(): Promise<void> {
-    const [services, servicesUser, installedPackages, groups, dns, shell, hblock] = await Promise.all([
+    const [services, servicesUser, installedPackages, groups, dns, shell, hblock, locales] = await Promise.all([
       this.getServices(),
       this.getUserServices(),
       this.getInstalledPackages(),
@@ -316,6 +361,7 @@ export class OsInteractService {
       this.getDNS(),
       this.getShell(),
       this.getHblock(),
+      this.getLocales(),
     ]);
     this.installedPackages.set(installedPackages);
     this.currentServices.set(services);
@@ -324,6 +370,7 @@ export class OsInteractService {
     this.currentDNS.set(dns);
     this.currentShell.set(shell);
     this.currentHblock.set(hblock);
+    this.currentLocales.set(locales);
   }
 
   /**
@@ -454,7 +501,6 @@ export class OsInteractService {
   /**
    * Toggle a package.
    * @param pkg The package to toggle.
-   * @param aur Whether the package is an AUR package.
    * @param remove Whether to remove the package.
    */
   togglePackage(pkg: string, remove: boolean = false): void {
@@ -546,7 +592,6 @@ export class OsInteractService {
    * @param name The name of the entry to toggle.
    * @param type The type of the entry (pkg, service, serviceUser, group).
    * @param remove Whether to remove the entry.
-   * @private
    */
   toggle(name: string, type: string, remove: boolean = false): void {
     switch (type) {
@@ -575,7 +620,7 @@ export class OsInteractService {
    * @param current Whether to check if the package is currently installed. (Do not use this unless you have a very good reason to do so)
    * @returns Whether the package is active/installed as a boolean.
    */
-  check(name: string, type: string, current: boolean = false) {
+  check(name: string, type: string, current: boolean = false): boolean {
     switch (type) {
       case 'pkg':
         return current ? this.installedPackages().get(name) == true : this.packages().get(name) == true;
@@ -619,5 +664,45 @@ export class OsInteractService {
       return await this.isPackageInstalledArchlinux(pkg);
     }
     return true;
+  }
+
+  /**
+   * Get the available language packs from the system and process them.
+   * @returns A promise that resolves when the language packs are processed
+   */
+  private async getLocales(): Promise<Map<string, boolean>> {
+    const cmd = 'localectl list-locales';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
+    if (result.code !== 0) {
+      return new Map<string, boolean>();
+    }
+
+    return result.stdout
+      .trim()
+      .split('\n')
+      .reduce((map, locale) => {
+        map.set(locale, true);
+        return map;
+      }, new Map<string, boolean>());
+  }
+
+  /**
+   * Toggle a locale.
+   * @param locale The locale to toggle.
+   * @param remove Whether to remove the locale.
+   */
+  toggleLocale(locale: string, remove: boolean = false): void {
+    this.wantedLocales.update((wanted) => {
+      if (wanted.has(locale)) {
+        let newMap: Map<string, boolean> = new Map(wanted);
+        newMap.delete(locale);
+        return newMap;
+      } else if (!remove) {
+        let newMap: Map<string, boolean> = new Map(wanted);
+        newMap.set(locale, this.locales().has(locale) ? !this.locales().get(locale) : true);
+        return newMap;
+      }
+      return wanted;
+    });
   }
 }

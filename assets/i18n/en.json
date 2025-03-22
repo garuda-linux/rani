@@ -191,7 +191,7 @@
     "systemdServices": "Systemd services",
     "systemSettings": "System settings",
     "components": "System components",
-    "languagePacks": "Language packs",
+    "locales": "Locales",
     "kernels": "Kernels",
     "packages": "Further packages",
     "audio": {
@@ -513,7 +513,8 @@
     "packages-aur": "Change AUR packages",
     "services": "Change services",
     "services-user": "Change user services",
-    "groups": "Change user groups"
+    "groups": "Change user groups",
+    "locales": "Change enabled locales"
   },
   "packages": {
     "title": "Packages",
@@ -545,7 +546,8 @@
     "selected": "Selected",
     "base": "Base package",
     "notFound": "No language packs found",
-    "pkgname": "Package name"
+    "pkgname": "Package name",
+    "description": "These are the language packs for your installed packages, usually providing translations for the GUI."
   },
   "settings": {
     "title": "App",
@@ -559,5 +561,13 @@
     "systemdUserContext": "Show user Systemd services",
     "autoRefresh": "Enable systemd services auto refresh",
     "showMainLinks": "Show links on home page"
+  },
+  "locales": {
+    "apply": "Schedule installed locale changes",
+    "description": "The locales on the right are installed on your system. You can select which ones you want to keep and which ones you want to remove.",
+    "available": "Available",
+    "selected": "Selected",
+    "task": "Change system locale",
+    "selectLocale": "Select your preferred system-wide language"
   }
 }

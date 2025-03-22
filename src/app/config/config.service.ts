@@ -26,6 +26,7 @@ export class ConfigService {
     isLiveSystem: undefined,
     isMaximized: false,
     kernel: '',
+    locale: '',
     rebootPending: false,
     user: '',
   });
@@ -77,6 +78,7 @@ export class ConfigService {
         this.initKernel(),
         this.initDesktopEnvironment(),
         this.initRebootPending(),
+        this.initLocale(),
       ];
       const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
@@ -262,6 +264,24 @@ export class ConfigService {
       this.logger.error(`Failed to get reboot pending status: ${result.stderr.trim()}`);
       return {};
     }
+    this.logger.debug(`Reboot pending status: ${result.code !== 0}`);
     return { state: { rebootPending: result.code !== 0 } };
+  }
+
+  /**
+   * Get the current locale of the system.
+   * @private
+   */
+  private async initLocale(): Promise<PendingConfigUpdate> {
+    const cmd = 'locale | grep LANG=';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      this.logger.error(`Failed to get current locale: ${result.stderr.trim()}`);
+      return {};
+    }
+    const locale: string = result.stdout.trim().split('=')[1];
+    this.logger.debug(`Current locale: ${locale}`);
+    return { state: { locale: locale } };
   }
 }

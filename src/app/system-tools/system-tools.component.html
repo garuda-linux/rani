@@ -12,7 +12,7 @@
         <p-tab [value]="1">{{ t('systemTools.systemSettings') }}</p-tab>
         <p-tab [value]="2">{{ t('systemTools.packages') }}</p-tab>
         <p-tab [value]="3">{{ t('systemTools.kernels') }}</p-tab>
-        <p-tab [value]="4">{{ t('systemTools.languagePacks') }}</p-tab>
+        <p-tab [value]="4">{{ t('systemTools.locales') }}</p-tab>
         <p-tab [value]="5">{{ t('systemTools.systemdServices') }}</p-tab>
       </p-tablist>
       <p-tabpanels>
@@ -38,7 +38,12 @@
         </p-tabpanel>
         <p-tabpanel [value]="4">
           @if (tabIndex() === 4) {
-            <rani-language-packs></rani-language-packs>
+            <div class="mb-10">
+              <rani-locales></rani-locales>
+            </div>
+            <div>
+              <rani-language-packs></rani-language-packs>
+            </div>
           }
         </p-tabpanel>
         <p-tabpanel [value]="5">
