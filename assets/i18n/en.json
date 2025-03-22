@@ -499,9 +499,12 @@
     "openMaintenance": "Head over to the maintenance tab and click \"Merge pacdiff files\"",
     "openMaintenanceButton": "Open maintenance",
     "rebootNow": "Reboot now",
+    "rebootNowBody": "Are you sure you want to reboot now? Make sure to save all your work before proceeding.",
     "warnReboot": "It is strongly recommended to reboot your system after applying updates, especially when updating kernels or desktop environments.",
     "openMeld": "Meld will be opened to apply changes (click for tutorial)",
-    "openKompare": "Kompare will be opened to apply changes (click for tutorial)"
+    "openKompare": "Kompare will be opened to apply changes (click for tutorial)",
+    "proceed": "Here is how to proceed:",
+    "runAurUpdates": "Run AUR updates externally"
   },
   "operationManager": {
     "refusing": "Refusing execution",

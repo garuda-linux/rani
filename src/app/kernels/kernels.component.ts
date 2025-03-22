@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, effect, inject } from '@angular/core';
+import { Component, effect, inject } from '@angular/core';
 import { DataView } from 'primeng/dataview';
 import { NgClass, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
@@ -24,7 +24,6 @@ import { KernelsService } from './kernels.service';
 export class KernelsComponent {
   protected readonly configService = inject(ConfigService);
   protected readonly kernelsService = inject(KernelsService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly osInteractService = inject(OsInteractService);
   private readonly taskManagerService = inject(TaskManagerService);
@@ -63,8 +62,6 @@ export class KernelsComponent {
       kernels.sort((a, b) => +b.selected! - +a.selected!);
       return kernels;
     });
-
-    this.cdr.markForCheck();
   }
 
   /**

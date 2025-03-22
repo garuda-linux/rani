@@ -1,7 +1,6 @@
 import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
-  ChangeDetectorRef,
   Component,
   effect,
   HostListener,
@@ -107,7 +106,6 @@ export class AppComponent implements OnInit {
   ]);
 
   protected readonly configService = inject(ConfigService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly themeService = inject(ThemeService);
   private readonly translocoService = inject(TranslocoService);

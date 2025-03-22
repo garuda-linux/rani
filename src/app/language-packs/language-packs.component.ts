@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, model } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model } from '@angular/core';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { TableModule } from 'primeng/table';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -21,7 +21,6 @@ export class LanguagePacksComponent {
   selectedPacks = model<LanguagePacks>([]);
 
   protected readonly languagePacksService = inject(LanguagePacksService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly osInteractService = inject(OsInteractService);
 
   constructor() {
@@ -54,7 +53,5 @@ export class LanguagePacksComponent {
       }
       return languagePacks;
     });
-
-    this.cdr.markForCheck();
   }
 }

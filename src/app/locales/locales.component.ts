@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
 import { PickList, PickListMoveToSourceEvent, PickListMoveToTargetEvent } from 'primeng/picklist';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { LocalesService } from './locales.service';
@@ -21,7 +21,6 @@ export class LocalesComponent implements OnInit {
 
   protected readonly localesService = inject(LocalesService);
   private readonly configService = inject(ConfigService);
-  private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);
 
@@ -31,7 +30,6 @@ export class LocalesComponent implements OnInit {
     while (this.localesService.loading()) {
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
-    this.cdr.detectChanges();
   }
 
   /**

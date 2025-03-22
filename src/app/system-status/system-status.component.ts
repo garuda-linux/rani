@@ -1,25 +1,16 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  computed,
-  effect,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
-import { type ChildProcess, Command, open } from '@tauri-apps/plugin-shell';
-import { Logger } from '../logging/logging';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { open } from '@tauri-apps/plugin-shell';
 import { OverlayBadge } from 'primeng/overlaybadge';
 import { Tooltip } from 'primeng/tooltip';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
 import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
-import type { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
+import type { SystemUpdate } from './types';
 import { ConfigService } from '../config/config.service';
 import { RouterLink } from '@angular/router';
+import { ConfirmationService } from 'primeng/api';
+import { SystemStatusService } from './system-status.service';
 
 @Component({
   selector: 'rani-system-status',
@@ -28,8 +19,8 @@ import { RouterLink } from '@angular/router';
   styleUrl: './system-status.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SystemStatusComponent implements OnInit {
-  compareTool = computed(() => {
+export class SystemStatusComponent {
+  compareTool = computed<'meld' | 'kompare'>(() => {
     switch (this.configService.state().desktopEnvironment) {
       case 'KDE':
       case 'LXQt':
@@ -39,107 +30,16 @@ export class SystemStatusComponent implements OnInit {
     }
   });
   dialogVisible = signal<boolean>(false);
-  firstRun = true;
   pacdiffDialogVisible = signal<boolean>(false);
-  pacFiles = signal<string[]>([]);
-  rebootDialogVisible = signal<boolean>(false);
-  updates = signal<SystemUpdate[]>([]);
-  warnUpdate = signal<boolean>(false);
+  updateButtonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   protected readonly configService = inject(ConfigService);
   protected readonly open = open;
 
-  private readonly cdr = inject(ChangeDetectorRef);
-  private readonly loadingService = inject(LoadingService);
-  private readonly logger = Logger.getInstance();
+  private readonly confirmationService = inject(ConfirmationService);
+  protected readonly systemStatusService = inject(SystemStatusService);
   private readonly taskManagerService = inject(TaskManagerService);
-
-  buttonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
-
-  constructor() {
-    effect(async () => {
-      const tasks: Task[] = this.taskManagerService.tasks();
-      if (!this.firstRun) {
-        this.logger.trace('Tasks changed, refreshing system statuses');
-        const allPromises: Promise<void>[] = this.refreshStatuses();
-        await Promise.all(allPromises);
-        this.cdr.markForCheck();
-      }
-    });
-  }
-
-  async ngOnInit(): Promise<void> {
-    this.logger.debug('Initializing SystemStatusComponent');
-    this.loadingService.loadingOn();
-
-    const initPromises: Promise<void>[] = this.refreshStatuses();
-    await Promise.all(initPromises);
-
-    this.cdr.markForCheck();
-    this.loadingService.loadingOff();
-    this.firstRun = false;
-    this.logger.debug('Done initializing SystemStatusComponent');
-  }
-
-  /**
-   * Refresh the system statuses.
-   * @returns An array of promises that will be resolved when the statuses are refreshed.
-   */
-  private refreshStatuses(): Promise<void>[] {
-    this.pacFiles.set([]);
-    this.updates.set([]);
-
-    return [
-      this.getPacFiles(),
-      this.checkSystemUpdate('checkupdates --nocolor', 'repo'),
-      this.checkSystemUpdate('paru -Qua', 'aur'),
-      this.checkLastUpdate(),
-    ];
-  }
-
-  /**
-   * Get a list of pacfiles to check and merge.
-   */
-  private async getPacFiles(): Promise<void> {
-    const cmd = 'pacdiff -o';
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-
-    if (result.code === 0) {
-      if (result.stdout.trim() === '') return;
-
-      this.pacFiles.set(result.stdout.trim().split('\n') ?? []);
-      this.logger.trace(`Pacfiles: ${this.pacFiles().join(', ')}`);
-    } else {
-      this.logger.error(`Failed to get pacfiles: ${result.stderr}`);
-    }
-  }
-
-  /**
-   * Check for system updates, either from the repo or AUR.
-   * @param cmd The command to run to check for updates.
-   * @param type The type of updates to check for.
-   */
-  private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-    const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
-
-    if (result.code === 0) {
-      const updates: string[] = result.stdout.trim().split('\n') ?? [];
-      for (const update of updates) {
-        this.logger.trace(`${updateString}: ${update}`);
-
-        const [pkg, version, invalid, newVersion] = update.split(' ');
-        this.updates.update((updates: SystemUpdate[]) => {
-          updates.push({ pkg, version, newVersion: newVersion, aur: type === 'aur' });
-          return updates;
-        });
-      }
-    } else if ((type === 'repo' && result.code === 2) || (type === 'aur' && result.code === 1)) {
-      this.logger.info(`No ${updateString.toLowerCase()} available`);
-    } else {
-      this.logger.error(`Failed to get ${updateString.toLowerCase()}: ${result.stderr}`);
-    }
-  }
+  private readonly translocoService = inject(TranslocoService);
 
   /**
    * Schedule a system update, confirming with the user first. If confirmed, schedule the update.
@@ -151,7 +51,10 @@ export class SystemStatusComponent implements OnInit {
       return;
     }
 
-    if (this.updates().length > 0 && this.updates().some((update: SystemUpdate) => !update.aur)) {
+    if (
+      this.systemStatusService.updates().length > 0 &&
+      this.systemStatusService.updates().some((update: SystemUpdate) => !update.aur)
+    ) {
       const task: Task = this.taskManagerService.createTask(
         0,
         'updateSystem',
@@ -167,31 +70,34 @@ export class SystemStatusComponent implements OnInit {
   }
 
   /**
-   * Check the last update time.
+   * Prompt for confirmation before rebooting the system.
+   * @param $event The event that triggered the confirmation.
    */
-  private async checkLastUpdate(): Promise<void> {
-    const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
-    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
-
-    if (result.code === 0) {
-      const date = new Date(result.stdout.trim().replace(']', ''));
-      this.logger.info(`Last update: ${date.toISOString()}`);
-
-      if (date < new Date(new Date().setDate(new Date().getDate() - 14))) {
-        this.logger.warn('Last update was more than two week ago');
-        this.warnUpdate.set(true);
-      }
-    } else {
-      this.logger.error(`Failed to get last update: ${result.stderr}`);
-    }
+  rebootNow($event: MouseEvent) {
+    this.confirmationService.confirm({
+      target: $event.target as EventTarget,
+      message: this.translocoService.translate('systemStatus.rebootNowBody'),
+      header: this.translocoService.translate('systemStatus.rebootNow'),
+      icon: 'pi pi-exclamation-triangle',
+      acceptButtonProps: {
+        severity: 'danger',
+        label: this.translocoService.translate('confirmation.accept'),
+      },
+      rejectButtonProps: {
+        severity: 'secondary',
+        label: this.translocoService.translate('confirmation.reject'),
+      },
+      accept: () => {
+        void this.taskManagerService.executeAndWaitBash('systemctl reboot');
+      },
+    });
   }
 
-  rebootNow(confirmed = false) {
-    if (!confirmed) {
-      this.rebootDialogVisible.set(true);
-      return;
-    }
-
-    void this.taskManagerService.executeAndWaitBash('systemctl reboot');
+  /**
+   * Run AUR updates in a new terminal. We do it like this to be able to take full
+   * advantage of reviewing the updates before installing them.
+   */
+  runAurUpdates() {
+    void this.taskManagerService.executeAndWaitBashTerminal('paru -Sua');
   }
 }
