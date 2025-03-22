@@ -158,7 +158,7 @@ export class SystemStatusComponent implements OnInit {
         true,
         'maintenance.updateSystem',
         'pi pi-refresh',
-        'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm',
+        'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm -- --noprogressbar',
       );
       this.taskManagerService.scheduleTask(task);
     }
