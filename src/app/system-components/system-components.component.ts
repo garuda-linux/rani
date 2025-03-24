@@ -377,7 +377,7 @@ export class SystemComponentsComponent {
           description: 'systemTools.firewall.opensnitchEnabled.description',
           checked: false,
           disabler: 'opensnitch',
-          check: { type: 'service', name: 'opensnitch.service' },
+          check: { type: 'service', name: 'opensnitchd.service' },
         },
       ],
     },
