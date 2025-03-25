@@ -135,7 +135,7 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.thermald.title',
           description: 'systemSettings.powersave.thermald.description',
           checked: false,
-          check: { type: 'service', name: 'thermald.service' },
+          check: { type: 'pkg', name: 'thermald' },
         },
         {
           name: 'enabled-thermald',
