@@ -164,7 +164,7 @@ export class SystemSettingsComponent {
           fancyTitle: 'systemSettings.powersave.intelUndervolt.title',
           description: 'systemSettings.powersave.intelUndervolt.description',
           checked: false,
-          check: { type: 'service', name: 'intel-undervolt' },
+          check: { type: 'pkg', name: 'intel-undervolt' },
         },
         {
           name: 'enabled-intel-untervolt',
