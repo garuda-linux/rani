@@ -94,7 +94,6 @@ export const gamingPackageLists: PackageSections = [
         icon: 'bluez.png',
         description: 'gaming.bluez',
       },
-      { name: 'Xbox generic controller', pkgname: ['xbox-generic-controller'], icon: 'xbox.svg' },
       { name: 'Xbox One dongle', pkgname: ['xone-dongle-firmware'], icon: 'xone.svg' },
       { name: 'Xbox One/X/S', pkgname: ['xone-dkms-git'], icon: 'xone.svg' },
       {
