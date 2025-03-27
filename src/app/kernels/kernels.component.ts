@@ -31,6 +31,7 @@ export class KernelsComponent {
   constructor() {
     effect(() => {
       const packages: Map<string, boolean> = this.osInteractService.packages();
+      const kernels: Kernels = this.kernelsService.kernels();
       this.updateUi();
     });
   }
