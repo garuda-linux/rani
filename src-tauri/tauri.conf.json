@@ -40,5 +40,138 @@
       }
     },
     "resources": ["../assets/parsed/*.json", "../assets/i18n/*.json", "../assets/images/*"]
+  },
+  "plugins": {
+    "cli": {
+      "description": "Garuda Rani - Reliable Assistant for Native Installations",
+      "longDescription": "The command-line interface for Garuda Rani, allowing you to perform various system management tasks directly from your terminal.",
+      "subcommands": {
+        "maintenance": {
+          "description": "System maintenance operations",
+          "longDescription": "Provides tools for keeping your Garuda Linux system in a healthy state, including updating, cleaning, and resetting configurations.",
+          "subcommands": {
+            "common": {
+              "description": "Common maintenance tasks",
+              "longDescription": "Executes frequently used maintenance tasks such as cleaning the package cache and removing orphaned packages."
+            },
+            "reset": {
+              "description": "Reset system configurations",
+              "longDescription": "Allows you to reset various system configurations to their default state, which can be helpful for troubleshooting."
+            },
+            "garuda-update": {
+              "description": "Garuda update related tools",
+              "longDescription": "Provides access to specific Garuda Linux update utilities and rescue tools."
+            }
+          }
+        },
+        "system-tools": {
+          "description": "Application and system settings",
+          "longDescription": "Opens or navigates to different sections of the Garuda Rani settings, allowing you to manage system components, core settings, packages, kernels, locales, and services.",
+          "subcommands": {
+            "components": {
+              "description": "Manage system components",
+              "longDescription": "Navigates to the section where you can view and manage various system components and their status."
+            },
+            "system": {
+              "description": "Configure core system settings",
+              "longDescription": "Navigates to the area where you can adjust fundamental system settings."
+            },
+            "packages": {
+              "description": "Manage installed packages",
+              "longDescription": "Navigates to the package management section within the settings."
+            },
+            "kernels": {
+              "description": "Manage installed kernels",
+              "longDescription": "Navigates to the kernel management settings."
+            },
+            "locales": {
+              "description": "Configure system locales",
+              "longDescription": "Navigates to the locale configuration settings."
+            },
+            "services": {
+              "description": "Manage system services",
+              "longDescription": "Navigates to the system services management interface."
+            }
+          }
+        },
+        "gaming": {
+          "description": "Gaming related tools and settings",
+          "longDescription": "Provides quick access to various gaming-related applications and settings within Garuda Rani.",
+          "subcommands": {
+            "launchers": {
+              "description": "Game launchers",
+              "longDescription": "Navigates to the tab displaying installed game launchers."
+            },
+            "wine": {
+              "description": "WINE settings",
+              "longDescription": "Navigates to the WINE configuration tab."
+            },
+            "tools": {
+              "description": "Gaming tools",
+              "longDescription": "Navigates to the tab listing various gaming tools."
+            },
+            "misc": {
+              "description": "Miscellaneous gaming utilities",
+              "longDescription": "Navigates to the tab containing miscellaneous gaming utilities."
+            },
+            "controllers": {
+              "description": "Controller support",
+              "longDescription": "Navigates to the controller support settings tab."
+            },
+            "games": {
+              "description": "Installed games",
+              "longDescription": "Navigates to the tab showing installed games (if applicable)."
+            },
+            "emulators": {
+              "description": "Emulators",
+              "longDescription": "Navigates to the emulators tab."
+            }
+          }
+        },
+        "settings": {
+          "description": "Change the application settings",
+          "longDescription": "Allows changing the applications own settings easily."
+        },
+        "diagnostics": {
+          "description": "System debugging information and tools",
+          "longDescription": "Allows you to quickly access and view various system logs and information for debugging purposes.",
+          "args": [
+            {
+              "name": "upload",
+              "short": "u",
+              "description": "Upload logs to PrivateBin",
+              "longDescription": "Automatically uploads the collected diagnostic information to a PrivateBin instance.",
+              "possibleValues": ["false", "true"]
+            }
+          ],
+          "subcommands": {
+            "inxi": {
+              "description": "Display common system information (inxi)",
+              "longDescription": "Navigates to the diagnostics tab and displays the output of the 'inxi' command, providing a quick overview of your system."
+            },
+            "systemctl": {
+              "description": "List system services (systemctl)",
+              "longDescription": "Navigates to the diagnostics tab and displays the output of 'systemctl list-units', showing the status of system services."
+            },
+            "journalctl": {
+              "description": "View system logs (journalctl)",
+              "longDescription": "Navigates to the diagnostics tab and displays the system journal logs using 'journalctl'."
+            },
+            "dmesg": {
+              "description": "View kernel logs (dmesg)",
+              "longDescription": "Navigates to the diagnostics tab and displays the kernel ring buffer using 'dmesg'."
+            },
+            "pacman": {
+              "description": "Show latest Pacman logs",
+              "longDescription": "Navigates to the diagnostics tab and displays the recent logs from the Pacman package manager."
+            },
+            "full": {
+              "description": "Gather full diagnostics information",
+              "longDescription": "Navigates to the diagnostics tab and initiates the display of comprehensive diagnostic information."
+            }
+          }
+        }
+      }
+    }
   }
 }

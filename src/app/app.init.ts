@@ -4,11 +4,14 @@ import { ConfigService } from './config/config.service';
 import { LanguageManagerService } from './language-manager/language-manager.service';
 import { checkFirstBoot } from './first-boot';
 import { currentMonitor, getCurrentWindow, LogicalSize, type Monitor, type Window } from '@tauri-apps/api/window';
+import { handleCliArgs } from './commands';
+import { Router } from '@angular/router';
 
 export async function initRani() {
   const logger = Logger.getInstance();
   const configService = inject(ConfigService);
   const languageManagerService = inject(LanguageManagerService);
+  const router = inject(Router);
   await configService.init();
 
   // Window is hidden by default, after checking whether we are not required to autostart the
@@ -38,5 +41,6 @@ export async function initRani() {
     logger.error(err);
   }
 
+  await handleCliArgs(router);
   await window.show();
 }

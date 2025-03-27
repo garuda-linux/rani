@@ -47,11 +47,15 @@ pub fn run() {
                 window.open_devtools();
                 window.close_devtools();
             }
-             #[cfg(desktop)]
-            let _ = _app.handle().plugin(tauri_plugin_autostart::init(tauri_plugin_autostart::MacosLauncher::LaunchAgent, Some(vec![])));
+            #[cfg(desktop)]
+            let _ = _app.handle().plugin(tauri_plugin_autostart::init(
+                tauri_plugin_autostart::MacosLauncher::LaunchAgent,
+                Some(vec![]),
+            ));
             Ok(())
         })
         .plugin(tauri_plugin_prevent_default::init())
+        .plugin(tauri_plugin_cli::init())
         .plugin(tauri_plugin_shell::init())
         .plugin(tauri_plugin_process::init())
         .plugin(tauri_plugin_os::init())
