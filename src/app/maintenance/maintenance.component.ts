@@ -16,6 +16,7 @@ import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import type { ChildProcess } from '@tauri-apps/plugin-shell';
+import { Router, type UrlTree } from '@angular/router';
 
 @Component({
   selector: 'app-maintenance',
@@ -341,11 +342,14 @@ export class MaintenanceComponent implements OnInit {
   ];
 
   private readonly messageToastService = inject(MessageToastService);
+  private readonly router = inject(Router);
   private readonly translocoService = inject(TranslocoService);
 
   async ngOnInit(): Promise<void> {
     this.logger.debug('Initializing maintenance');
     await this.checkExistingConfigs();
+
+    this.checkRoute();
   }
 
   /**
@@ -504,5 +508,44 @@ export class MaintenanceComponent implements OnInit {
     if (await this.osInteractService.ensurePackageArchlinux('meld')) {
       void this.taskManager.executeAndWaitBashTerminal(script);
     }
+  }
+
+  /**
+   * Check the current route and set the tab index accordingly.
+   */
+  checkRoute() {
+    const url: UrlTree = this.router.parseUrl(this.router.url);
+    if (url.queryParams['action'] === 'pacdiff') {
+      this.logger.debug('Requested pacdiff action');
+      void this.mergePacDiff();
+      return;
+    }
+
+    if (!url.fragment) {
+      void this.router.navigate([], { fragment: 'common' });
+      return;
+    }
+
+    switch (url.fragment) {
+      case 'common':
+        this.tabIndex.set(0);
+        break;
+      case 'reset':
+        this.tabIndex.set(1);
+        break;
+      case 'garuda-update':
+        this.tabIndex.set(2);
+        break;
+      default:
+        this.tabIndex.set(0);
+    }
+  }
+
+  /**
+   * Set the fragment in the URL.
+   * @param fragment The fragment to navigate to.
+   */
+  navigate(fragment: string) {
+    void this.router.navigate([], { fragment });
   }
 }

@@ -5,6 +5,7 @@ import {
   computed,
   effect,
   inject,
+  type OnInit,
   type Signal,
   ViewChild,
 } from '@angular/core';
@@ -23,6 +24,7 @@ import { Logger } from '../logging/logging';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import { Router, type UrlTree } from '@angular/router';
 
 @Component({
   selector: 'app-diagnostics',
@@ -31,7 +33,7 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   styleUrl: './diagnostics.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DiagnosticsComponent implements AfterViewInit {
+export class DiagnosticsComponent implements AfterViewInit, OnInit {
   private outputCache = '';
 
   @ViewChild('term', { static: false }) term!: NgTerminal;
@@ -43,6 +45,7 @@ export class DiagnosticsComponent implements AfterViewInit {
   private readonly translocoService = inject(TranslocoService);
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly garudaBin = new GarudaBin();
+  private readonly router = inject(Router);
 
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
     return {
@@ -63,6 +66,37 @@ export class DiagnosticsComponent implements AfterViewInit {
     });
 
     this.logger.debug('Diagnostics component initialized');
+  }
+
+  async ngOnInit(): Promise<void> {
+    const url: UrlTree = this.router.parseUrl(this.router.url);
+    if (!url.queryParams['action']) return;
+
+    if (url.queryParams['action']) {
+      switch (url.queryParams['action']) {
+        case 'inxi':
+        case 'systemd-analyze':
+        case 'journalctl':
+        case 'dmesg':
+        case 'pacman':
+        case 'full-logs':
+          await this.getOutput(url.queryParams['action']);
+          break;
+        default:
+          this.logger.error('Invalid action');
+      }
+      if (url.queryParams['upload'] === 'true') {
+        await this.uploadPrivateBin();
+      }
+    }
+  }
+
+  /**
+   * Set the fragment in the URL.
+   * @param fragment The fragment to navigate to.
+   */
+  navigate(fragment: string) {
+    void this.router.navigate([], { fragment });
   }
 
   ngAfterViewInit(): void {

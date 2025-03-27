@@ -1,4 +1,13 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  computed,
+  effect,
+  inject,
+  type OnInit,
+  signal,
+} from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
@@ -12,6 +21,7 @@ import type { StatefulPackage } from './interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { GamingService } from './gaming.service';
 import { CatppuccinBackgroundColors } from '../theme';
+import { Router, type UrlTree } from '@angular/router';
 
 @Component({
   selector: 'rani-gaming',
@@ -20,7 +30,7 @@ import { CatppuccinBackgroundColors } from '../theme';
   styleUrl: './gaming.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class GamingComponent {
+export class GamingComponent implements OnInit {
   tabIndex = signal<number>(0);
 
   protected readonly configService = inject(ConfigService);
@@ -43,6 +53,7 @@ export class GamingComponent {
   protected readonly open = open;
 
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly router = inject(Router);
 
   constructor() {
     effect(() => {
@@ -58,6 +69,48 @@ export class GamingComponent {
 
       this.cdr.markForCheck();
     });
+  }
+
+  ngOnInit(): void {
+    const url: UrlTree = this.router.parseUrl(this.router.url);
+    if (!url.fragment) {
+      void this.router.navigate([], { fragment: 'launchers' });
+      return;
+    }
+
+    switch (url.fragment) {
+      case 'launchers':
+        this.tabIndex.set(0);
+        break;
+      case 'wine':
+        this.tabIndex.set(1);
+        break;
+      case 'tools':
+        this.tabIndex.set(2);
+        break;
+      case 'misc':
+        this.tabIndex.set(3);
+        break;
+      case 'controllers':
+        this.tabIndex.set(4);
+        break;
+      case 'games':
+        this.tabIndex.set(5);
+        break;
+      case 'emulators':
+        this.tabIndex.set(6);
+        break;
+      default:
+        this.tabIndex.set(0);
+    }
+  }
+
+  /**
+   * Set the fragment in the URL.
+   * @param fragment The fragment to navigate to.
+   */
+  navigate(fragment: string) {
+    void this.router.navigate([], { fragment });
   }
 
   /**

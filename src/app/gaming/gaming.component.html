@@ -9,7 +9,7 @@
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
         @for (section of gamingService.packages(); track section.name) {
-          <p-tab [value]="$index" #tab>{{ t(section.name) }}</p-tab>
+          <p-tab [value]="$index" (click)="navigate(section.name.split('.')[1])" #tab>{{ t(section.name) }}</p-tab>
         }
       </p-tablist>
       <p-tabpanels>

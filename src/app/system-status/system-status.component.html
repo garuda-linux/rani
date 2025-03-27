@@ -110,6 +110,7 @@
       <p-button (click)="pacdiffDialogVisible.set(false)" [label]="t('systemStatus.cancel')" severity="secondary" />
       <p-button
         [label]="t('systemStatus.openMaintenanceButton')"
+        [queryParams]="{ action: 'pacdiff' }"
         class="cursor-pointer"
         routerLink="/maintenance"
         severity="success"

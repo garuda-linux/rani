@@ -8,12 +8,12 @@
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
-        <p-tab [value]="0">{{ t('systemTools.components') }}</p-tab>
-        <p-tab [value]="1">{{ t('systemTools.systemSettings') }}</p-tab>
-        <p-tab [value]="2">{{ t('systemTools.packages') }}</p-tab>
-        <p-tab [value]="3">{{ t('systemTools.kernels') }}</p-tab>
-        <p-tab [value]="4">{{ t('systemTools.locales') }}</p-tab>
-        <p-tab [value]="5">{{ t('systemTools.systemdServices') }}</p-tab>
+        <p-tab (click)="navigate('components')" [value]="0">{{ t('systemTools.components') }}</p-tab>
+        <p-tab (click)="navigate('settings')" [value]="1">{{ t('systemTools.systemSettings') }}</p-tab>
+        <p-tab (click)="navigate('packages')" [value]="2">{{ t('systemTools.packages') }}</p-tab>
+        <p-tab (click)="navigate('kernels')" [value]="3">{{ t('systemTools.kernels') }}</p-tab>
+        <p-tab (click)="navigate('locales')" [value]="4">{{ t('systemTools.locales') }}</p-tab>
+        <p-tab (click)="navigate('services')" [value]="5">{{ t('systemTools.systemdServices') }}</p-tab>
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
