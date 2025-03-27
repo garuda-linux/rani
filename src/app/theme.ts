@@ -50,7 +50,7 @@ const tokens = {
         highlight: {
           background: '{content.background}',
           focusBackground: '{content.background}',
-          color: latte.colors.red.hex + '88',
+          color: latte.colors.red.hex,
           focusColor: latte.colors.maroon.hex,
         },
         mask: {
@@ -174,7 +174,7 @@ const tokens = {
         highlight: {
           background: '{content.background}',
           focusBackground: '{content.background}',
-          color: mocha.colors.red.hex + '88',
+          color: mocha.colors.red.hex,
           focusColor: mocha.colors.maroon.hex,
         },
         mask: {
@@ -290,15 +290,31 @@ const tokens = {
     checkbox: {
       colorScheme: {
         light: {
+          border: {
+            color: latte.colors.mauve.hex,
+          },
           background: latte.colors.crust.hex,
           disabled: {
-            background: latte.colors.mantle.hex,
+            background: latte.colors.base.hex,
+          },
+          hover: {
+            border: {
+              color: latte.colors.maroon.hex,
+            },
           },
         },
         dark: {
+          border: {
+            color: mocha.colors.mauve.hex,
+          },
           background: mocha.colors.crust.hex,
           disabled: {
-            background: mocha.colors.mantle.hex,
+            background: mocha.colors.base.hex,
+          },
+          hover: {
+            border: {
+              color: mocha.colors.maroon.hex,
+            },
           },
         },
       },
@@ -627,7 +643,7 @@ const tokensAlt = {
         highlight: {
           background: '{content.background}',
           focusBackground: '{content.background}',
-          color: frappe.colors.red.hex + '87',
+          color: frappe.colors.red.hex,
           focusColor: frappe.colors.maroon.hex,
         },
         mask: {
@@ -751,7 +767,7 @@ const tokensAlt = {
         highlight: {
           background: '{content.background}',
           focusBackground: '{content.background}',
-          color: macchiato.colors.red.hex + '87',
+          color: macchiato.colors.red.hex,
           focusColor: macchiato.colors.maroon.hex,
         },
         mask: {
@@ -867,15 +883,31 @@ const tokensAlt = {
     checkbox: {
       colorScheme: {
         light: {
+          border: {
+            color: frappe.colors.mauve.hex,
+          },
           background: frappe.colors.crust.hex,
           disabled: {
-            background: frappe.colors.mantle.hex,
+            background: frappe.colors.base.hex,
+          },
+          hover: {
+            border: {
+              color: frappe.colors.maroon.hex,
+            },
           },
         },
         dark: {
+          border: {
+            color: macchiato.colors.mauve.hex,
+          },
           background: macchiato.colors.crust.hex,
           disabled: {
-            background: macchiato.colors.mantle.hex,
+            background: macchiato.colors.base.hex,
+          },
+          hover: {
+            border: {
+              color: macchiato.colors.maroon.hex,
+            },
           },
         },
       },
