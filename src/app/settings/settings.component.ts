@@ -6,12 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { Select, SelectChangeEvent } from 'primeng/select';
 import { LogLevel } from '../logging/interfaces';
 import { Logger } from '../logging/logging';
-import { LanguageManagerService } from '../language-manager/language-manager.service';
 import { LangPipePipe } from '../lang-pipe/lang-pipe.pipe';
+import { themes } from '../theme';
+import { Panel } from 'primeng/panel';
 
 @Component({
   selector: 'rani-settings',
-  imports: [Checkbox, TranslocoDirective, FormsModule, Select],
+  imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
   providers: [LangPipePipe],
@@ -27,10 +28,13 @@ export class SettingsComponent implements OnInit {
     'showMainLinks',
     'systemdUserContext',
   ];
-  logLevels: string[] = Object.values(LogLevel).filter((key) => typeof key !== 'number');
 
-  protected languages = signal<{ language: string; label: string }[]>([]);
-  protected settings = computed(() => {
+  protected readonly availableThemes: string[] = Object.keys(themes);
+  protected readonly languages = signal<{ language: string; label: string }[]>([]);
+  protected readonly logLevels: string[] = Object.values(LogLevel).filter((key) => typeof key !== 'number');
+  protected readonly logLevelType = LogLevel;
+
+  protected readonly settings = computed(() => {
     const settings: { name: string; value: boolean }[] = [];
     for (const [name, value] of Object.entries(this.configService.settings())) {
       if (this.checkBoxSettings.includes(name)) settings.push({ name, value });
@@ -38,11 +42,9 @@ export class SettingsComponent implements OnInit {
     return settings;
   });
 
-  protected readonly LogLevel = LogLevel;
-  protected readonly languageManagerService = inject(LanguageManagerService);
+  private readonly languagePipe = inject(LangPipePipe);
   private readonly logger = Logger.getInstance();
   private readonly translocoService = inject(TranslocoService);
-  private readonly languagePipe = inject(LangPipePipe);
 
   ngOnInit() {
     const languages = [];
@@ -65,5 +67,9 @@ export class SettingsComponent implements OnInit {
   async selectLanguage($event: SelectChangeEvent) {
     this.logger.trace($event.value);
     await this.configService.updateConfig('language', $event.value);
+  }
+
+  async updateConfig(config: string, value: string) {
+    await this.configService.updateConfig(config, value);
   }
 }

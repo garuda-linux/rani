@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
-  <div class="surface-section px-4 md:px-6 lg:px-8 text-center">
-    <div class="font-bold text-3xl">
+  <div class="surface-section px-4 text-center md:px-6 lg:px-8">
+    <div class="text-3xl font-bold">
       <span class="text-color">{{ t('gaming.title') }} </span>
       <span class="text-primary">{{ t('gaming.titleTwo') }}</span>
     </div>
@@ -16,11 +16,11 @@
         @for (section of gamingService.packages(); track section.name) {
           <p-tabpanel [value]="$index">
             @if (section.hint) {
-              <div class="text-center text-primary-emphasis mt-5">{{ t(section.hint) }}</div>
+              <div class="mt-5 text-center text-primary-emphasis">{{ t(section.hint) }}</div>
             }
             <p-data-view [value]="section.sections" [title]="t(section.name)">
               <ng-template #list let-items>
-                <div class="grid grid-cols-12 gap-4 grid-nogutter p-5">
+                <div class="grid-nogutter grid grid-cols-12 gap-4 p-5">
                   <div *ngFor="let item of items" class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
                     @defer (on viewport) {
                       @if (!item.disabled) {
@@ -30,7 +30,7 @@
                         >
                           <ng-template #title>
                             <div
-                              class="text-center text-sm text-bold min-h-10"
+                              class="text-bold min-h-10 text-center text-sm"
                               [pTooltip]="t(item.description)"
                               tooltipPosition="bottom"
                             >
@@ -47,7 +47,7 @@
                             @if (item.icon === 'generic-dark.svg' && !configService.settings().darkMode) {
                               <img
                                 [alt]="item.name"
-                                class="rounded-border mx-auto"
+                                class="mx-auto rounded-border"
                                 height="50"
                                 ngSrc="/assets/gamer/generic-light.svg"
                                 width="50"
@@ -55,7 +55,7 @@
                             } @else {
                               <img
                                 [alt]="item.name"
-                                class="rounded-border mx-auto"
+                                class="mx-auto rounded-border"
                                 height="50"
                                 ngSrc="/assets/gamer/{{ item.icon }}"
                                 width="50"
@@ -70,7 +70,7 @@
                         [style]="{ cursor: 'pointer', background: item.selected ? backgroundColor() : '' }"
                       >
                         <ng-template #title>
-                          <div class="text-center text-sm text-bold min-h-10">
+                          <div class="text-bold min-h-10 text-center text-sm">
                             {{ t('gaming.loading') }}
                           </div>
                         </ng-template>
@@ -78,7 +78,7 @@
                           @if (!configService.settings().darkMode) {
                             <img
                               alt="Placeholder"
-                              class="rounded-border mx-auto"
+                              class="mx-auto rounded-border"
                               height="50"
                               ngSrc="/assets/gamer/generic-light.svg"
                               width="50"
@@ -86,7 +86,7 @@
                           } @else {
                             <img
                               alt="Placeholder"
-                              class="rounded-border mx-auto"
+                              class="mx-auto rounded-border"
                               height="50"
                               ngSrc="/assets/gamer/generic-dark.svg"
                               width="50"

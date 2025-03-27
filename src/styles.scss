@@ -18,13 +18,13 @@
 @include default.all;
 @include variable.all;
 
-html {
-  font-family: 'Inter', 'system-ui';
+:root {
+  font-family: Inter, system-ui, sans-serif;
 }
 
 @supports (font-variation-settings: normal) {
-  html {
-    font-family: 'InterVariable', 'system-ui';
+  :root {
+    font-family: InterVariable, system-ui, sans-serif;
   }
 }
 
@@ -47,7 +47,7 @@ html {
 }
 
 p {
-  @apply text-color break-words;
+  @apply text-color;
 }
 
 code,
@@ -77,10 +77,18 @@ ul {
   @apply container mx-auto px-2 md:max-w-[80%] mb-16;
 }
 
-.p-panel {
+.p-inputtext,
+.p-button,
+.p-panel,
+.p-tabs,
+.p-datatable,
+.p-card {
   backdrop-filter: blur(4px);
-  -webkit-backdrop-filter: blur(4px);
-  background: none !important;
+  --webkit-backdrop-filter: blur(4px);
+}
+
+p-button {
+  @apply w-full md:w-auto;
 }
 
 .p-menubar-submenu-icon {

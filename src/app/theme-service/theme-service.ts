@@ -1,6 +1,6 @@
 import { effect, inject } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
-import { CatppuccinScrollbars } from '../theme';
+import { CatppuccinBackgroundColors, CatppuccinScrollBars } from '../theme';
 import { Logger } from '../logging/logging';
 import { ConfigService } from '../config/config.service';
 import { AppSettings } from '../config/interfaces';
@@ -19,15 +19,32 @@ export class ThemeService {
   }
 
   /**
-   * Toggle dark mode, updating the local storage and the document accordingly.
+   * Handles the dark mode setting.
+   * @param darkMode The value of the dark mode setting.
+   * @private
    */
-  public setDarkMode(darkmode: boolean): void {
-    this.document.documentElement.classList.toggle('p-dark', darkmode);
-    this.document.documentElement.style.scrollbarColor = darkmode
-      ? CatppuccinScrollbars.dark
-      : CatppuccinScrollbars.light;
-    this.document.documentElement.style.backgroundColor = darkmode ? '#1e1e2e' : '#eff1f5';
+  private setDarkMode(darkMode: boolean) {
+    const flavors = this.configService.settings().activeTheme.includes('Mocha') ? 'primary' : 'alt';
+    if (darkMode) {
+      this.document.documentElement.classList.add('p-dark');
+      if (flavors === 'primary') {
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.primary.dark;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.primary.dark;
+      } else {
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.alt.dark;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.alt.dark;
+      }
+    } else {
+      this.document.documentElement.classList.remove('p-dark');
+      if (flavors === 'primary') {
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.primary.light;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.primary.light;
+      } else {
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.alt.light;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.alt.light;
+      }
+    }
 
-    this.logger.debug(`Dark mode ${darkmode ? 'enabled' : 'disabled'}`);
+    this.logger.debug(`Dark mode ${darkMode ? 'enabled' : 'disabled'}`);
   }
 }

@@ -14,14 +14,18 @@ export class GamingService {
   private readonly logger = Logger.getInstance();
 
   constructor() {
-    for (const sections of this.packages()) {
-      for (const pkg of sections.sections) {
-        const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
-        if (disabled) {
-          pkg.disabled = true;
-          this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
+    this.packages.update((packages) => {
+      for (const sections of packages) {
+        for (const pkg of sections.sections) {
+          const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
+          if (disabled) {
+            pkg.disabled = true;
+            this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
+          }
         }
       }
-    }
+
+      return packages;
+    });
   }
 }

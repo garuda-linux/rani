@@ -6,46 +6,66 @@
     </div>
   </div>
 
-  <div class="items-center mt-10 grid grid-cols-12">
-    <div class="col-span-12 justify-center flex">
-      <label class="mt-2 mr-2" for="select-loglevel">{{ t('settings.logLevel') }}</label>
-      <p-select
-        [options]="logLevels"
-        (onChange)="selectLogLevel($event)"
-        [ngModel]="LogLevel[configService.settings().logLevel]"
-        id="select-loglevel"
-      />
-    </div>
-    <div class="col-span-12 mt-5 justify-center flex">
-      <label class="mt-2 mr-2" for="select-languages">{{ t('settings.language') }}</label>
-      <p-select
-        [options]="languages()"
-        (onChange)="selectLanguage($event)"
-        [ngModel]="configService.settings().language"
-        optionLabel="label"
-        optionValue="language"
-        id="select-languages"
-      />
-    </div>
-  </div>
+  <div class="p-10">
+    <p-panel [header]="t('settings.toggleOptions')" styleClass="mt-5 z-0">
+      <div class="grid grid-cols-12 pb-5">
+        @for (entry of settings(); track entry.name) {
+          <div class="col-span-12 sm:col-span-6 md:col-span-6 xl:col-span-4 text-sur">
+            <div class="pl-20 mt-5">
+              <p-checkbox
+                (click)="toggleSetting(entry.name)"
+                [inputId]="entry.name"
+                [value]="entry.value"
+                binary
+                [(ngModel)]="entry.value"
+                name="group"
+              />
+              <label [for]="entry.name" class="mx-2.5">
+                {{ t('settings.' + entry.name) }}
+              </label>
+            </div>
+          </div>
+        }
+      </div>
+    </p-panel>
 
-  <div class="items-center mt-10 grid grid-cols-12">
-    @for (entry of settings(); track entry.name) {
-      <div class="col-span-12 sm:col-span-6 md:col-span-6 xl:col-span-4 text-sur">
-        <div class="pl-20 mt-5">
-          <p-checkbox
-            (click)="toggleSetting(entry.name)"
-            [inputId]="entry.name"
-            [value]="entry.value"
-            binary
-            [(ngModel)]="entry.value"
-            name="group"
+    <p-panel [header]="t('settings.selectOptions')">
+      <div class="px-20 grid grid-cols-4 py-5 gap-10">
+        <div class="flex flex-col col-span-3 md:col-span-2 3xl:col-span-1 gap-2">
+          <label for="theme">{{ t('settings.themeLabel') }}</label>
+          <p-select
+            (ngModelChange)="updateConfig('activeTheme', $event)"
+            [(ngModel)]="configService.settings().activeTheme"
+            [options]="availableThemes"
+            fluid
+            id="theme"
           />
-          <label [for]="entry.name" class="mx-2.5">
-            {{ t('settings.' + entry.name) }}
-          </label>
+        </div>
+
+        <div class="flex flex-col col-span-3 md:col-span-2 3xl:col-span-1 gap-2">
+          <label for="select-languages">{{ t('settings.language') }}</label>
+          <p-select
+            (onChange)="selectLanguage($event)"
+            [ngModel]="configService.settings().language"
+            [options]="languages()"
+            fluid
+            id="select-languages"
+            optionLabel="label"
+            optionValue="language"
+          />
+        </div>
+
+        <div class="flex flex-col col-span-3 md:col-span-2 3xl:col-span-1 gap-2">
+          <label for="select-loglevel">{{ t('settings.logLevel') }}</label>
+          <p-select
+            (onChange)="selectLogLevel($event)"
+            [ngModel]="logLevelType[configService.settings().logLevel]"
+            [options]="logLevels"
+            fluid
+            id="select-loglevel"
+          />
         </div>
       </div>
-    }
+    </p-panel>
   </div>
 </ng-container>

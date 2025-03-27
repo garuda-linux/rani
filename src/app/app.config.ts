@@ -10,7 +10,7 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { provideRouter, withInMemoryScrolling } from '@angular/router';
 import { provideGarudaNG } from '@garudalinux/core';
 import { routes } from './app.routes';
-import { Catppuccin } from './theme';
+import { CatppuccinAura } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { provideTranslocoLocale } from '@jsverse/transloco-locale';
@@ -34,7 +34,7 @@ export const appConfig: ApplicationConfig = {
       { font: 'InterVariable' },
       {
         theme: {
-          preset: Catppuccin,
+          preset: CatppuccinAura,
           options: {
             darkModeSelector: '.p-dark',
           },

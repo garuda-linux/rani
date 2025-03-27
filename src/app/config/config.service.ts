@@ -9,6 +9,8 @@ import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { BaseDirectory, exists } from '@tauri-apps/plugin-fs';
 import { LogLevel } from '../logging/interfaces';
 import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
+import { usePreset } from '@primeng/themes';
+import { themes } from '../theme';
 
 class PendingConfigUpdate {
   state?: object;
@@ -33,6 +35,7 @@ export class ConfigService {
   });
 
   settings = signal<AppSettings>({
+    activeTheme: 'Catppuccin Mocha/Latte Aura',
     autoRefresh: false,
     autoStart: true,
     copyDiagnostics: true,
@@ -52,15 +55,19 @@ export class ConfigService {
   constructor() {
     effect(async () => {
       const settings: AppSettings = this.settings();
+
       const currentAutoStart: boolean = await isEnabled();
       if (currentAutoStart && !settings.autoStart) {
         this.logger.debug('Syncing auto start setting with system: enable');
-        await disable();
+        void disable();
       } else if (!currentAutoStart && settings.autoStart) {
         this.logger.debug('Syncing auto start setting with system: disable');
-        await enable();
+        void enable();
       }
+
       Logger.logLevel = settings.logLevel;
+
+      usePreset(themes[settings.activeTheme]);
     });
   }
 

@@ -1,6 +1,8 @@
 import type { LogLevel } from '../logging/interfaces';
+import { AppTheme } from '../theme';
 
 export interface AppSettings {
+  activeTheme: AppTheme;
   autoRefresh: boolean;
   autoStart: boolean;
   copyDiagnostics: boolean;

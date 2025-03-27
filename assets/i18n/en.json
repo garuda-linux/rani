@@ -563,7 +563,10 @@
     "logLevel": "Select the log level",
     "systemdUserContext": "Show user Systemd services",
     "autoRefresh": "Enable systemd services auto refresh",
-    "showMainLinks": "Show links on home page"
+    "showMainLinks": "Show links on home page",
+    "themeLabel": "Base design theme",
+    "toggleOptions": "Toggle options",
+    "selectOptions": "Selections"
   },
   "locales": {
     "apply": "Schedule installed locale changes",
