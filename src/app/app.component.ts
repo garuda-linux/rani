@@ -347,8 +347,9 @@ export class AppComponent implements OnInit {
   private attachTauriListeners() {
     void this.appWindow.listen('tauri://resize', async () => {
       this.logger.trace('Resize window event');
-      if ((await this.appWindow.isMaximized()) !== this.configService.state().isMaximized) {
-        this.configService.updateState('isMaximized', await this.appWindow.isMaximized());
+      const isMaximized: boolean = await this.appWindow.isMaximized();
+      if (isMaximized !== this.configService.state().isMaximized) {
+        this.configService.updateState('isMaximized', isMaximized);
       }
     });
 
