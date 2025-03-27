@@ -16,7 +16,6 @@ import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import type { ChildProcess } from '@tauri-apps/plugin-shell';
-import { ConfigService } from '../config/config.service';
 
 @Component({
   selector: 'app-maintenance',
@@ -341,7 +340,6 @@ export class MaintenanceComponent implements OnInit {
     },
   ];
 
-  private readonly configService = inject(ConfigService);
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -501,7 +499,7 @@ export class MaintenanceComponent implements OnInit {
    * @private
    */
   private async mergePacDiff(): Promise<void> {
-    const script: string = `echo "Creating pre-merge snapshot..."; snap=$(sudo snapper create -d "Before PacDiff merge" -p); echo "Created snapshot $snap"; for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..."; SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}"; done`;
+    const script: string = `echo "Creating pre-merge snapshot..." && snap=$(sudo snapper create -d "Before PacDiff merge" -p) && echo "Created snapshot $snap" && for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..." && SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}" && [[ "$(read -e -p 'Were the files successfully merged? (deleting .pacnew in this case) [y/N]> ')" == [Yy]* ]] && sudo rm "$i"}; done`;
 
     if (await this.osInteractService.ensurePackageArchlinux('meld')) {
       void this.taskManager.executeAndWaitBashTerminal(script);
