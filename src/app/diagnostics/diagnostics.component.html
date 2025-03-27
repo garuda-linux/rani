@@ -1,12 +1,12 @@
 <ng-container *transloco="let t">
-  <div class="surface-section px-4 md:px-6 lg:px-8 text-center">
-    <div class="font-bold text-3xl">
+  <div class="surface-section px-4 text-center md:px-6 lg:px-8">
+    <div class="text-3xl font-bold">
       <span class="text-color">{{ t('diagnostics.title') }} </span>
       <span class="text-primary">{{ t('diagnostics.titleTwo') }}</span>
     </div>
   </div>
   <div class="px-10 pt-10">
-    <div class="justify-evenly flex gap-4">
+    <div class="flex justify-evenly gap-4">
       <p-button (click)="getOutput('inxi')" [label]="t('diagnostics.inxi')" [outlined]="true"></p-button>
       <p-button
         (click)="getOutput('systemd-analyze')"

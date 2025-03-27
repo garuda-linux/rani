@@ -6,23 +6,23 @@
           @for (op of taskManagerService.sortedTasks(); track op.id) {
             <p-card styleClass="mt-2" [style]="{ width: '20rem' }">
               <ng-template #header>
-                <div class="text-center mt-4">
+                <div class="mt-4 text-center">
                   <span class="mr-2 font-bold">{{ t(op.name) }}</span>
                   <i
                     [ngClass]="{
-                      'text-yellow-500 pi-hourglass': taskManagerService.currentTask()?.id !== op.id,
-                      'text-orange-500 pi-spin pi-spinner': taskManagerService.currentTask()?.id === op.id,
+                      'pi-hourglass text-yellow-500': taskManagerService.currentTask()?.id !== op.id,
+                      'pi-spin pi-spinner text-orange-500': taskManagerService.currentTask()?.id === op.id,
                     }"
                     class="pi mr-2"
                   ></i>
                 </div>
               </ng-template>
               <div class="mt-2.5 text-center">
-                <span (click)="taskManagerService.removeTask(op)" class="cursor-pointer mr-2.5">
+                <span (click)="taskManagerService.removeTask(op)" class="mr-2.5 cursor-pointer">
                   <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
                 @if (!taskManagerService.running()) {
-                  <span (click)="taskManagerService.executeTask(op)" class="cursor-pointer mr-2.5">
+                  <span (click)="taskManagerService.executeTask(op)" class="mr-2.5 cursor-pointer">
                     <i class="pi pi-play-circle mr-1 text-green-300"></i>{{ t('operation.run') }}
                   </span>
                 }
@@ -46,14 +46,14 @@
   >
     <ng-template #header>
       <div class="inline-flex items-center justify-center gap-2">
-        <span class="cursor-pointer font-bold whitespace-nowrap mr-2.5"
+        <span class="mr-2.5 cursor-pointer whitespace-nowrap font-bold"
           >{{
             t('terminal.title') +
               (taskManagerService.currentTask() ? ' - ' + t(taskManagerService.currentTask()!.name) : '')
           }}
         </span>
         @if (taskManagerService.count() > 0 && !taskManagerService.running()) {
-          <span (click)="taskManagerService.executeTasks()" class="cursor-pointer mr-2.5">
+          <span (click)="taskManagerService.executeTasks()" class="mr-2.5 cursor-pointer">
             <i class="pi pi-play-circle mr-1 text-primary"></i>{{ t('terminal.runActions') }}
           </span>
           <span (click)="taskManagerService.clearTasks()" class="cursor-pointer">

@@ -31,7 +31,7 @@ export interface DnsProviderEntry {
   ips: string[];
 }
 
-export const defaultDnsProvider: DnsProvider =   {
+export const defaultDnsProvider: DnsProvider = {
   name: 'Default',
   description: 'Default DNS provided by your ISP',
   ips: ['0.0.0.0'],

@@ -103,8 +103,8 @@
         <td class="text-center">
           <i
             [ngClass]="{
-              'text-green-500 pi-check-circle': service.active === 'active',
-              'text-red-500 pi-times-circle': service.active !== 'active',
+              'pi-check-circle text-green-500': service.active === 'active',
+              'pi-times-circle text-red-500': service.active !== 'active',
             }"
             class="pi"
           ></i>

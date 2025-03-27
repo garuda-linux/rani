@@ -1,7 +1,7 @@
 <ng-container *transloco="let t">
   <div>
-    <div class="flex mx-auto justify-center">
-      <div class="mt-10 mr-10">
+    <div class="mx-auto flex justify-center">
+      <div class="mr-10 mt-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultShell') }}</h2>
         <p-select
           (ngModelChange)="handleToggle('shell')"
@@ -12,7 +12,7 @@
           placeholder="Select a login shell to use"
         />
       </div>
-      <div class="mt-10 ml-10">
+      <div class="ml-10 mt-10">
         <h2 class="mb-2.5">{{ t('systemSettings.defaultDns') }}</h2>
         <p-select
           (ngModelChange)="handleToggle('dns')"

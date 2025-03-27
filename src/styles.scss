@@ -35,7 +35,7 @@
 
 /*`Custom classes`*/
 body {
-  @apply selection:bg-primary m-2 selection:text-surface-0;
+  @apply p-2 selection:bg-primary selection:text-surface-0;
   font-optical-sizing: auto;
   user-select: none;
 }
@@ -70,11 +70,11 @@ ul {
 }
 
 .garuda-container-regular {
-  @apply container mx-auto px-2 text-center align-middle md:max-w-[80%] mb-16;
+  @apply container mx-auto mb-16 px-2 text-center align-middle md:max-w-[80%];
 }
 
 .garuda-container-no-center {
-  @apply container mx-auto px-2 md:max-w-[80%] mb-16;
+  @apply container mx-auto mb-16 px-2 md:max-w-[80%];
 }
 
 .p-inputtext,

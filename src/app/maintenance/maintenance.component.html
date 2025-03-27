@@ -1,6 +1,6 @@
 <ng-container *transloco="let t">
-  <div class="surface-section px-4 md:px-6 lg:px-8 text-center">
-    <div class="font-bold text-3xl">
+  <div class="surface-section px-4 text-center md:px-6 lg:px-8">
+    <div class="text-3xl font-bold">
       <span class="text-color">{{ t('maintenance.title') }} </span>
       <span class="text-primary">{{ t('maintenance.titleTwo') }}</span>
     </div>
@@ -14,11 +14,11 @@
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
-          <div class="grid grid-cols-12 p-10 gap-4">
+          <div class="grid grid-cols-12 gap-4 p-10">
             @for (action of actions; track action.name) {
               <div class="col-span-6 lg:col-span-3">
                 <p-card [header]="t(action.label)">
-                  <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
+                  <div class="h-16 text-surface-200">{{ t(action.description) }}</div>
                   <div class="mx-auto">
                     <p-button
                       [style]="{ width: '100%' }"
@@ -26,7 +26,11 @@
                       (click)="addToPending(action)"
                       [disabled]="action.onlyDirect"
                       [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
-                      [label]="taskManager.findTaskById(action.name) ? t('maintenance.removePending') : t('maintenance.addPending')"
+                      [label]="
+                        taskManager.findTaskById(action.name)
+                          ? t('maintenance.removePending')
+                          : t('maintenance.addPending')
+                      "
                       [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
                     ></p-button>
                     <p-button
@@ -43,10 +47,10 @@
           </div>
         </p-tabpanel>
         <p-tabpanel [value]="1">
-          <div class="grid grid-cols-12 mt-10">
+          <div class="mt-10 grid grid-cols-12">
             @for (config of resettableConfigs(); track config.name) {
               @if (config.exists) {
-                <div class="ml-32 col-span-6 lg:col-span-4">
+                <div class="col-span-6 ml-32 lg:col-span-4">
                   <p-checkbox
                     [inputId]="config.name"
                     name="group"
@@ -67,7 +71,7 @@
               }
             }
           </div>
-          <div class="text-center mt-10">
+          <div class="mt-10 text-center">
             <p-button
               (click)="confirmResetConfigs($event)"
               [label]="t('maintenance.resetConfigs')"
@@ -78,11 +82,11 @@
           </div>
         </p-tabpanel>
         <p-tabpanel [value]="2">
-          <div class="grid grid-cols-12 p-10 gap-4">
+          <div class="grid grid-cols-12 gap-4 p-10">
             @for (action of actionsGarudaUpdate; track action.name) {
               <div class="col-span-6 lg:col-span-3">
                 <p-card [header]="t(action.label)">
-                  <div class="text-surface-200 h-16">{{ t(action.description) }}</div>
+                  <div class="h-16 text-surface-200">{{ t(action.description) }}</div>
                   <div class="mx-auto">
                     <p-button
                       [style]="{ width: '100%' }"
@@ -90,7 +94,11 @@
                       (click)="addToPending(action)"
                       [disabled]="action.onlyDirect"
                       [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
-                      [label]="taskManager.findTaskById(action.name) ? t('maintenance.removePending') : t('maintenance.addPending')"
+                      [label]="
+                        taskManager.findTaskById(action.name)
+                          ? t('maintenance.removePending')
+                          : t('maintenance.addPending')
+                      "
                       [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
                     ></p-button>
                     <p-button
