@@ -44,6 +44,7 @@ export class PackagesService {
 
   protected readonly configService = inject(ConfigService);
   protected readonly open = open;
+
   private readonly logger = Logger.getInstance();
 
   constructor() {
@@ -61,6 +62,16 @@ export class PackagesService {
 
       section.sections = JSON.parse(await readTextFile(resourcePath));
       this.logger.debug(`Loaded section ${section.name} with ${section.sections.length} packages`);
+    }
+
+    for (const section of sections) {
+      for (const pkg of section.sections) {
+        const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
+        if (disabled) {
+          pkg.disabled = true;
+          this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
+        }
+      }
     }
 
     this.packages.set(sections);

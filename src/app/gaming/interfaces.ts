@@ -1,6 +1,7 @@
 export interface StatefulPackage {
   pkgname: string[];
   selected?: boolean;
+  disabled?: boolean;
 }
 
 export interface Package {

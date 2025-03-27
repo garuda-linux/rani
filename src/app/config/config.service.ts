@@ -20,6 +20,7 @@ class PendingConfigUpdate {
 })
 export class ConfigService {
   state = signal<AppState>({
+    availablePkgs: new Map<string, boolean>(),
     codeName: '',
     desktopEnvironment: '' as DesktopEnvironment,
     hostname: '',
@@ -69,16 +70,17 @@ export class ConfigService {
 
     try {
       const initPromises: Promise<PendingConfigUpdate>[] = [
-        this.initStore(),
-        this.initIsLive(),
-        this.initUser(),
-        this.initCodeName(),
         this.checkAutoStart(),
-        this.initHostname(),
-        this.initKernel(),
+        this.initCodeName(),
         this.initDesktopEnvironment(),
-        this.initRebootPending(),
+        this.initHostname(),
+        this.initInstalledPkgs(),
+        this.initIsLive(),
+        this.initKernel(),
         this.initLocale(),
+        this.initRebootPending(),
+        this.initStore(),
+        this.initUser(),
       ];
       const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
@@ -149,7 +151,7 @@ export class ConfigService {
       this.logger.info(`Loaded ${storedSettings} settings from store`);
     }
 
-    return { settings: settings };
+    return { settings };
   }
 
   /**
@@ -163,7 +165,7 @@ export class ConfigService {
     } else {
       const user: string = result.stdout.trim();
       this.logger.debug(`User ${user}, welcome!`);
-      return { state: { user: user } };
+      return { state: { user } };
     }
     return {};
   }
@@ -186,7 +188,7 @@ export class ConfigService {
         .trim()
         .match(/[A-Z][a-z]+/g)
         ?.join(' ') ?? 'Unknown';
-    return { state: { codeName: codeName } };
+    return { state: { codeName } };
   }
 
   /**
@@ -203,7 +205,7 @@ export class ConfigService {
     }
     const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
     this.logger.debug(`Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? 'live' : 'installed'}`);
-    return { state: { isLiveSystem: isLiveSystem } };
+    return { state: { isLiveSystem } };
   }
 
   /**
@@ -282,6 +284,31 @@ export class ConfigService {
     }
     const locale: string = result.stdout.trim().split('=')[1];
     this.logger.debug(`Current locale: ${locale}`);
-    return { state: { locale: locale } };
+    return { state: { locale } };
+  }
+
+  /**
+   * Get the list of available packages from the system.
+   * @private
+   */
+  private async initInstalledPkgs(): Promise<PendingConfigUpdate> {
+    const cmd = 'pacman -Ssq';
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    if (result.code !== 0) {
+      this.logger.error(`Failed to get installed packages: ${result.stderr}`);
+      return {};
+    }
+
+    const availableMap: Map<string, boolean> = new Map();
+    result.stdout
+      .trim()
+      .split('\n')
+      .forEach((pkg: string) => {
+        availableMap.set(pkg, true);
+      });
+
+    this.logger.debug(`Available packages: ${availableMap.size}`);
+    return { state: { availablePkgs: availableMap } };
   }
 }

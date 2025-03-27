@@ -15,6 +15,7 @@ export interface AppSettings {
 }
 
 export interface AppState {
+  availablePkgs: Map<string, boolean>;
   codeName: string;
   desktopEnvironment: DesktopEnvironment;
   hostname: string;

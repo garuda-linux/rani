@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, effect, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
@@ -9,10 +9,9 @@ import { flavors } from '@catppuccin/palette';
 import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
 import { ConfigService } from '../config/config.service';
-import type { PackageSections, StatefulPackage } from './interfaces';
+import type { StatefulPackage } from './interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
-import { gamingPackageLists } from './package-lists';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { GamingService } from './gaming.service';
 
 @Component({
   selector: 'rani-gaming',
@@ -24,13 +23,11 @@ import { LoadingService } from '../loading-indicator/loading-indicator.service';
 export class GamingComponent {
   backgroundColor = signal<string>('background-color');
   tabIndex = signal<number>(0);
-  loadingService = inject(LoadingService);
-  osInteractService = inject(OsInteractService);
 
   protected readonly configService = inject(ConfigService);
-  protected readonly data: PackageSections = gamingPackageLists;
+  protected readonly gamingService = inject(GamingService);
+  protected readonly osInteractService = inject(OsInteractService);
   protected readonly open = open;
-  private readonly cdr = inject(ChangeDetectorRef);
 
   constructor() {
     effect(() => {
@@ -40,14 +37,19 @@ export class GamingComponent {
     });
   }
 
+  /**
+   * Update the UI based on the installed and selected packages.
+   */
   updateUi(): void {
     const installedPackages: Map<string, boolean> = this.osInteractService.packages();
-    for (const sections of this.data) {
-      for (const pkg of sections.sections) {
-        pkg.selected = installedPackages.get(pkg.pkgname[0]) === true;
+    this.gamingService.packages.update((packages) => {
+      for (const sections of packages) {
+        for (const pkg of sections.sections) {
+          pkg.selected = installedPackages.get(pkg.pkgname[0]) === true;
+        }
       }
-    }
-    this.cdr.markForCheck();
+      return packages;
+    });
   }
 
   /**
