@@ -49,7 +49,7 @@
           <th>
             {{ t('packages.url') }}
           </th>
-          <th class="whitespace-nowrap" pSortableColumn="selected" [style]="{ 'min-width': '3rem' }">
+          <th [style]="{ 'min-width': '3rem' }" class="whitespace-nowrap" pSortableColumn="selected">
             {{ t('packages.selected') }}
             <p-sortIcon field="selected" />
           </th>
@@ -64,15 +64,15 @@
             {{ pkg.description }}
           </td>
           <td>
-            <a class="cursor-pointer" (click)="open(pkg.url)"> <i class="pi pi-external-link"></i></a>
+            <a (click)="open(pkg.url)" class="cursor-pointer"> <i class="pi pi-external-link"></i></a>
           </td>
           <td>
             <div>
               <p-check-box
-                ngClass="ml-5"
                 (onChange)="togglePackage(pkg)"
-                [binary]="true"
                 [(ngModel)]="pkg.selected"
+                [binary]="true"
+                ngClass="ml-5"
               ></p-check-box>
             </div>
           </td>

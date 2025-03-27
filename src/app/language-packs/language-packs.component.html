@@ -9,9 +9,9 @@
     [rows]="10"
     [value]="languagePacksService.languagePacks()"
     dataKey="locale"
-    sortField="locale"
-    rowGroupMode="rowspan"
     groupRowsBy="locale"
+    rowGroupMode="rowspan"
+    sortField="locale"
   >
     <ng-template #header>
       <tr>
@@ -37,10 +37,10 @@
       <tr>
         <td>
           <p-check-box
-            ngClass="ml-5"
             (onChange)="togglePackage(pkg)"
-            [binary]="true"
             [(ngModel)]="pkg.selected"
+            [binary]="true"
+            ngClass="ml-5"
           ></p-check-box>
         </td>
         <td *ngIf="rowgroup" [attr.rowspan]="rowspan">

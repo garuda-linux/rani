@@ -20,26 +20,18 @@ import { SystemStatusService } from './system-status.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemStatusComponent {
-  compareTool = computed<'meld' | 'kompare'>(() => {
-    switch (this.configService.state().desktopEnvironment) {
-      case 'KDE':
-      case 'LXQt':
-        return 'kompare';
-      default:
-        return 'meld';
-    }
-  });
   dialogVisible = signal<boolean>(false);
   pacdiffDialogVisible = signal<boolean>(false);
-  updateButtonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   protected readonly configService = inject(ConfigService);
   protected readonly open = open;
+  protected readonly systemStatusService = inject(SystemStatusService);
 
   private readonly confirmationService = inject(ConfirmationService);
-  protected readonly systemStatusService = inject(SystemStatusService);
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly translocoService = inject(TranslocoService);
+
+  updateButtonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   /**
    * Schedule a system update, confirming with the user first. If confirmed, schedule the update.

@@ -496,23 +496,14 @@ export class MaintenanceComponent implements OnInit {
     });
   }
 
+  /**
+   * Create a snapper snapshot and merge pacdiff files using meld.
+   * @private
+   */
   private async mergePacDiff(): Promise<void> {
-    let compareTool: string;
-    this.logger.debug(this.configService.state().desktopEnvironment);
-    switch (this.configService.state().desktopEnvironment) {
-      case 'KDE':
-      case 'LXQt':
-        compareTool = 'kompare';
-        break;
-      default:
-        compareTool = 'meld';
-        break;
-    }
-    this.logger.info(`Running ${compareTool} to merge pacdiff files`);
+    const script: string = `echo "Creating pre-merge snapshot..."; snap=$(sudo snapper create -d "Before PacDiff merge" -p); echo "Created snapshot $snap"; for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..."; SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}"; done`;
 
-    const script: string = `for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..."; SUDO_EDITOR=/usr/bin/${compareTool} /usr/bin/sudo -e "$i" "$\{i/.pacnew/}"; done`;
-
-    if (await this.osInteractService.ensurePackageArchlinux(compareTool)) {
+    if (await this.osInteractService.ensurePackageArchlinux('meld')) {
       void this.taskManager.executeAndWaitBashTerminal(script);
     }
   }

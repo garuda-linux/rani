@@ -11,18 +11,18 @@
     @if (kernelsService.headersMissing()) {
       <p-tag
         (click)="installMissingHeaders(true)"
-        ngClass="ml-5 cursor-pointer"
         [value]="t('kernels.headersMissing')"
         icon="pi pi-info-circle"
+        ngClass="ml-5 cursor-pointer"
         severity="danger"
       ></p-tag>
     }
     @if (kernelsService.dkmsModulesBroken()) {
       <p-tag
         (click)="reinstallDkmsModules()"
-        ngClass="ml-5 cursor-pointer"
         [value]="t('kernels.dkmsModulesBroken')"
         icon="pi pi-info-circle"
+        ngClass="ml-5 cursor-pointer"
         severity="danger"
       ></p-tag>
     }
@@ -71,11 +71,11 @@
                     <p-tag ngClass="mx-1" [value]="t('kernels.headers')" severity="success"></p-tag>
                   } @else if (kernel.selected && !kernel.headersSelected) {
                     <p-tag
-                      [pTooltip]="t('kernels.headersMissingTip')"
                       (click)="installMissingHeaders(kernel)"
+                      [pTooltip]="t('kernels.headersMissingTip')"
+                      [value]="t('kernels.headers')"
                       ngClass="mx-1 cursor-pointer"
                       icon="pi pi-info-circle"
-                      [value]="t('kernels.headers')"
                       severity="danger"
                     >
                     </p-tag>
