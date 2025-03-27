@@ -2,6 +2,7 @@ import { NgOptimizedImage } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   effect,
   HostListener,
   inject,
@@ -107,6 +108,9 @@ export class AppComponent implements OnInit {
 
   protected readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
+  protected readonly hideWindowButtons = computed(() => {
+    return this.configService.state().borderlessMaximizedWindow && this.configService.state().isMaximized;
+  });
   private readonly themeService = inject(ThemeService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -342,8 +346,10 @@ export class AppComponent implements OnInit {
    */
   private attachTauriListeners() {
     void this.appWindow.listen('tauri://resize', async () => {
-      this.logger.trace('Resizing window');
-      this.configService.updateState('isMaximized', await this.appWindow.isMaximized());
+      this.logger.trace('Resize window event');
+      if ((await this.appWindow.isMaximized()) !== this.configService.state().isMaximized) {
+        this.configService.updateState('isMaximized', await this.appWindow.isMaximized());
+      }
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {

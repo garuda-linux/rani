@@ -18,6 +18,7 @@ export interface AppSettings {
 
 export interface AppState {
   availablePkgs: Map<string, boolean>;
+  borderlessMaximizedWindow: boolean;
   codeName: string;
   desktopEnvironment: DesktopEnvironment;
   hostname: string;

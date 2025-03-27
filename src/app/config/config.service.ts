@@ -23,6 +23,7 @@ class PendingConfigUpdate {
 export class ConfigService {
   state = signal<AppState>({
     availablePkgs: new Map<string, boolean>(),
+    borderlessMaximizedWindow: false,
     codeName: '',
     desktopEnvironment: '' as DesktopEnvironment,
     hostname: '',
@@ -78,6 +79,7 @@ export class ConfigService {
     try {
       const initPromises: Promise<PendingConfigUpdate>[] = [
         this.checkAutoStart(),
+        this.initBorderlessWindow(),
         this.initCodeName(),
         this.initDesktopEnvironment(),
         this.initHostname(),
@@ -317,5 +319,21 @@ export class ConfigService {
 
     this.logger.debug(`Available packages: ${availableMap.size}`);
     return { state: { availablePkgs: availableMap } };
+  }
+
+  /**
+   * Check if the borderless maximized window setting is enabled.
+   * @private
+   */
+  private async initBorderlessWindow(): Promise<PendingConfigUpdate> {
+    const cmd = "cat ~/.config/kwinrc | grep -q 'BorderlessMaximizedWindows=true'";
+    const result: ChildProcess<string> = await Command.create('exec-bash', ['-c', cmd]).execute();
+
+    this.logger.debug(`Borderless maximized window setting: ${result.code === 0 ? 'enabled' : 'disabled'}`);
+    if (result.code === 0) {
+      return { state: { borderlessMaximizedWindow: true } };
+    } else {
+      return { state: { borderlessMaximizedWindow: false } };
+    }
   }
 }

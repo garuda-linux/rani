@@ -2,7 +2,7 @@
   <p-context-menu [global]="true" [model]="rightClickMenu()" />
   <div class="background min-h-svh">
     <garuda-shell [menuItems]="menuItems()" id="shellBar">
-      @if (!configService.state().isMaximized && configService.settings().leftButtons) {
+      @if (!hideWindowButtons() && configService.settings().leftButtons) {
         <div garudaShellBarStart>
           <div class="flex">
             <img
@@ -50,7 +50,7 @@
           }
         </div>
       }
-      @if (!configService.state().isMaximized && !configService.settings().leftButtons) {
+      @if (!hideWindowButtons() && !configService.settings().leftButtons) {
         <div garudaShellBarEnd>
           <div class="flex">
             <img
