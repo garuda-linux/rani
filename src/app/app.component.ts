@@ -354,33 +354,41 @@ export class AppComponent implements OnInit {
     });
 
     void this.appWindow.listen('tauri://close-requested', async () => {
-      this.logger.info(`Close requested, ${this.taskManager.currentTask() ? 'one' : 'no'} action is running`);
+      await this.requestShutdown();
+    });
+  }
 
-      if (!this.taskManager.running() && !this.taskManager.count()) {
+  /**
+   * Request a shutdown of the app. If there are any tasks running, ask the user for confirmation.
+   * @protected
+   */
+  protected async requestShutdown() {
+    this.logger.info(`Close requested, ${this.taskManager.currentTask() ? 'one' : 'no'} action is running`);
+
+    if (!this.taskManager.running() && !this.taskManager.count()) {
+      void this.shutdown();
+      return;
+    }
+
+    this.confirmationService.confirm({
+      message: this.taskManager.running()
+        ? this.translocoService.translate('confirmation.exitAppRunningAction')
+        : this.translocoService.translate('confirmation.exitApp'),
+      header: this.translocoService.translate('confirmation.exitAppHeader'),
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
+      acceptButtonProps: {
+        severity: this.taskManager.running() ? 'danger' : 'success',
+        label: this.translocoService.translate('confirmation.accept'),
+      },
+      rejectButtonProps: {
+        severity: 'secondary',
+        label: this.translocoService.translate('confirmation.reject'),
+      },
+      accept: () => {
         void this.shutdown();
-        return;
-      }
-
-      this.confirmationService.confirm({
-        message: this.taskManager.running()
-          ? this.translocoService.translate('confirmation.exitAppRunningAction')
-          : this.translocoService.translate('confirmation.exitApp'),
-        header: this.translocoService.translate('confirmation.exitAppHeader'),
-        icon: 'pi pi-exclamation-triangle',
-        acceptIcon: 'pi pi-check',
-        rejectIcon: 'pi pi-times',
-        acceptButtonProps: {
-          severity: this.taskManager.running() ? 'danger' : 'success',
-          label: this.translocoService.translate('confirmation.accept'),
-        },
-        rejectButtonProps: {
-          severity: 'secondary',
-          label: this.translocoService.translate('confirmation.reject'),
-        },
-        accept: () => {
-          void this.shutdown();
-        },
-      });
+      },
     });
   }
 }
