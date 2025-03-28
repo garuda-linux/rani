@@ -6,13 +6,15 @@ export interface Kernel extends StatefulPackage {
   description: string;
   selected?: boolean;
   headersSelected?: boolean;
+  dkmsModulesMissing: string[];
 }
 
 export type Kernels = Kernel[];
 
 export interface DkmsModule {
-  name: string;
-  version: string;
+  moduleName: string;
+  moduleVersion: string;
+  kernelVersion: string;
   status: DkmsModuleStatus;
 }
 

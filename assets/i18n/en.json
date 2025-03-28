@@ -541,6 +541,8 @@
   "kernels": {
     "dkmsModulesBroken": "Some DKMS modules are broken",
     "dkmsModulesBrokenTip": "Click me to schedule the installation of the broken DKMS modules",
+    "dkmsModulesMissing": "Some DKMS modules are missing",
+    "dkmsModulesMissingTip": "Missing DKMS modules",
     "headers": "Headers",
     "headersMissing": "Missing kernel headers",
     "headersMissingTip": "Click me to schedule the installation of the missing headers",

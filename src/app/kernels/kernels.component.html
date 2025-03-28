@@ -19,8 +19,17 @@
     }
     @if (kernelsService.dkmsModulesBroken()) {
       <p-tag
-        (click)="reinstallDkmsModules()"
+        (click)="reinstallDkmsModules(true, 'broken')"
         [value]="t('kernels.dkmsModulesBroken')"
+        icon="pi pi-info-circle"
+        ngClass="ml-5 cursor-pointer"
+        severity="danger"
+      ></p-tag>
+    }
+    @if (kernelsService.dkmsModulesMissing()) {
+      <p-tag
+        (click)="reinstallDkmsModules(true, 'missing')"
+        [value]="t('kernels.dkmsModulesMissing')"
         icon="pi pi-info-circle"
         ngClass="ml-5 cursor-pointer"
         severity="danger"
@@ -65,7 +74,7 @@
                     <div class="text-secondary mt-2 text-sm font-medium">{{ kernel.description }}</div>
                   </div>
                 </div>
-                <div>
+                <div class="flex flex-row items-center justify-between gap-2 md:flex-col">
                   <p-tag ngClass="mr-2" [value]="kernel.version"></p-tag>
                   @if (kernel.selected && kernel.headersSelected) {
                     <p-tag ngClass="mx-1" [value]="t('kernels.headers')" severity="success"></p-tag>
@@ -79,6 +88,19 @@
                       severity="danger"
                     >
                     </p-tag>
+                  }
+                  @if (kernel.dkmsModulesMissing.length > 0) {
+                    @for (module of kernel.dkmsModulesMissing; track module) {
+                      <p-tag
+                        (click)="reinstallDkmsModules(kernel, 'missing')"
+                        [pTooltip]="t('kernels.dkmsModulesMissingTip')"
+                        [value]="module"
+                        ngClass="mx-1 cursor-pointer"
+                        icon="pi pi-info-circle"
+                        severity="danger"
+                      >
+                      </p-tag>
+                    }
                   }
                 </div>
               </div>

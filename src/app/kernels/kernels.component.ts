@@ -1,10 +1,9 @@
-import { Component, effect, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { DataView } from 'primeng/dataview';
 import { NgClass, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import type { Kernel, Kernels } from './types';
+import type { DkmsModule, DkmsModules, Kernel } from './types';
 import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
-import { Logger } from '../logging/logging';
 import { Tag } from 'primeng/tag';
 import { StatefulPackage } from '../gaming/interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
@@ -24,17 +23,8 @@ import { KernelsService } from './kernels.service';
 export class KernelsComponent {
   protected readonly configService = inject(ConfigService);
   protected readonly kernelsService = inject(KernelsService);
-  private readonly logger = Logger.getInstance();
   private readonly osInteractService = inject(OsInteractService);
   private readonly taskManagerService = inject(TaskManagerService);
-
-  constructor() {
-    effect(() => {
-      const packages: Map<string, boolean> = this.osInteractService.packages();
-      const kernels: Kernels = this.kernelsService.kernels();
-      this.updateUi();
-    });
-  }
 
   /**
    * Toggles the selected state of a package.
@@ -44,25 +34,6 @@ export class KernelsComponent {
     for (const pkgname of item.pkgname) {
       this.osInteractService.togglePackage(pkgname);
     }
-  }
-
-  /**
-   * Update the state of the UI based on the installed packages, and sort them.
-   */
-  updateUi(): void {
-    this.logger.trace('Updating kernels UI');
-    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
-
-    this.kernelsService.kernels.update((kernels: Kernels) => {
-      for (const kernel of kernels) {
-        kernel.selected = installedPackages.get(kernel.pkgname[0]) === true;
-        kernel.headersSelected = installedPackages.get(kernel.pkgname[1]) === true;
-      }
-
-      // Show selected kernels first
-      kernels.sort((a, b) => +b.selected! - +a.selected!);
-      return kernels;
-    });
   }
 
   /**
@@ -82,13 +53,36 @@ export class KernelsComponent {
   }
 
   /**
-   * Reinstall DKMS modules that are labeled broken via the task manager service.
+   * Reinstall DKMS modules that are labeled broken or missing via the task manager service.
+   * @param kernel The kernel for which to reinstall DKMS modules, or `true` to reinstall all broken modules.
+   * @param type The type of DKMS modules to reinstall, either "broken" or "missing".
    */
-  reinstallDkmsModules(): void {
+  reinstallDkmsModules(kernel: Kernel | boolean, type: 'broken' | 'missing'): void {
     let cmd: string = '';
-    for (const module of this.kernelsService.dkmsModules()) {
-      if (module.status === 'broken') {
-        cmd += `dkms install --no-depmod ${module.name} -k ${module.version}; `;
+    const modules: DkmsModules = this.kernelsService.dkmsModules();
+
+    if (typeof kernel === 'boolean') {
+      if (type === 'broken') {
+        for (const module of modules) {
+          cmd = this.InstallBrokenModules(module, cmd);
+        }
+      } else {
+        for (const kernel of this.kernelsService.kernels()) {
+          if (kernel.dkmsModulesMissing.length > 0) {
+            cmd = this.InstallMissingModules(kernel, modules, cmd);
+          }
+        }
+      }
+    } else {
+      if (type === 'broken') {
+        const module: DkmsModule | undefined = modules.find(
+          (m) => m.kernelVersion === kernel.version && m.moduleName === kernel.pkgname[0],
+        );
+        if (!module) return;
+
+        cmd = this.InstallBrokenModules(module, cmd);
+      } else {
+        cmd = this.InstallMissingModules(kernel, modules, cmd);
       }
     }
 
@@ -101,6 +95,39 @@ export class KernelsComponent {
       cmd,
     );
     this.taskManagerService.scheduleTask(task);
+  }
+
+  /**
+   * Install broken DKMS modules for a given kernel.
+   * @param module The DKMS module to install.
+   * @param cmd The command string to which the installation command will be appended.
+   * @private
+   */
+  private InstallBrokenModules(module: DkmsModule, cmd: string) {
+    if (module.status === 'broken') {
+      cmd += `dkms install --no-depmod ${module.moduleName}/${module.moduleVersion} -k ${module.kernelVersion}; `;
+    }
+    return cmd;
+  }
+
+  /**
+   * Install missing DKMS modules for a given kernel.
+   * @param kernel The kernel for which to install missing DKMS modules.
+   * @param modules The list of DKMS modules.
+   * @param cmd The command string to which the installation command will be appended.
+   * @private
+   */
+  private InstallMissingModules(kernel: Kernel, modules: DkmsModule[], cmd: string) {
+    for (const module of kernel.dkmsModulesMissing) {
+      const moduleObject: DkmsModule | undefined = modules.find((m) => m.moduleName === module);
+      if (!moduleObject) continue;
+      if (kernel.pkgname[0] !== 'linux') {
+        cmd += `dkms install --no-depmod ${moduleObject?.moduleName}/${moduleObject?.moduleVersion} -k ${kernel.version}-${kernel.pkgname[0].split('linux-')[1]}; `;
+      } else {
+        cmd += `dkms install --no-depmod ${moduleObject?.moduleName}/${moduleObject?.moduleVersion} -k ${kernel.version}; `;
+      }
+    }
+    return cmd;
   }
 
   counterArray(number: number) {

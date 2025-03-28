@@ -1,35 +1,54 @@
-import { computed, inject, Injectable, signal } from '@angular/core';
+import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { ChildProcess } from '@tauri-apps/plugin-shell';
 import type { DkmsModules, DkmsModuleStatus, Kernel, Kernels } from './types';
 import { ConfigService } from '../config/config.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class KernelsService {
+  availableModules = signal<string[]>([]);
   dkmsModules = signal<DkmsModules>([]);
   dkmsModulesBroken = computed(() => this.dkmsModules().some((module) => module.status !== 'installed'));
-  headersMissing = computed(() => this.kernels().some((kernel) => kernel.selected && !kernel.headersSelected));
+  dkmsModulesMissing = signal<boolean>(false);
   kernels = signal<Kernels>([]);
+  headersMissing = computed(() => this.kernels().some((kernel) => kernel.selected && !kernel.headersSelected));
   loading = signal<boolean>(true);
 
   protected readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
+  private readonly osInteractService = inject(OsInteractService);
   private readonly taskManagerService = inject(TaskManagerService);
 
   constructor() {
+    effect(() => {
+      const packages: Map<string, boolean> = this.osInteractService.packages();
+      const kernels: Kernels = this.kernels();
+      if (!untracked(this.loading)) {
+        this.updateKernelStatus();
+      }
+    });
+
     void this.init();
   }
 
   async init() {
     this.loadingService.loadingOn();
 
-    const promises: Promise<void>[] = [this.getAvailableKernels(), this.getDkmsStatus()];
+    const promises: Promise<void>[] = [
+      this.getAvailableKernels(),
+      this.getDkmsStatus(),
+      this.getAvailableDkmsModules(),
+    ];
     await Promise.all(promises);
+
+    this.updateKernelStatus();
+    this.dkmsModulesMissing.set(this.kernels().some((kernel) => kernel.dkmsModulesMissing.length > 0));
 
     this.loadingService.loadingOff();
     this.loading.set(false);
@@ -51,17 +70,35 @@ export class KernelsService {
       const modules: DkmsModules = [];
       for (const line of lines) {
         const [moduleString, status] = line.split(': ');
-        const [module, version] = moduleString.split(', ');
+        const [module, kernelVersion] = moduleString.split(', ');
+        const [moduleName, moduleVersion] = module.split('/');
 
-        this.logger.trace(`${module} for kernel version ${version} is ${status}`);
-        modules.push({ name: module, version, status: status.split(' ')[0] as DkmsModuleStatus });
+        this.logger.trace(`${module} for kernel version ${kernelVersion} is ${status}`);
+        modules.push({ moduleName, moduleVersion, kernelVersion, status: status.split(' ')[0] as DkmsModuleStatus });
       }
 
       this.dkmsModules.set(modules);
-      this.logger.info(`Found ${this.dkmsModules().length} DKMS modules`);
+      this.logger.info(`Found ${this.dkmsModules().length} installed DKMS modules among kernels`);
       this.logger.trace(JSON.stringify(this.dkmsModules()));
     } else {
-      this.logger.error(`Failed to get DKMS status: ${result.stderr}`);
+      this.logger.error(`Failed to get kernel DKMS status: ${result.stderr}`);
+    }
+  }
+
+  /**
+   * Report which DKMS modules are available, if DKMS is installed.
+   */
+  async getAvailableDkmsModules() {
+    const cmd =
+      'test -d /var/lib/dkms && find /var/lib/dkms -maxdepth 1 -type d | grep /var/lib/dkms/ | cut -d "/" -f 5';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
+
+    if (result.code === 0 && result.stdout.trim() !== '') {
+      const modules: string[] = result.stdout.trim().split('\n');
+      this.availableModules.set(modules);
+      this.logger.info(`Found ${this.availableModules().length} available DKMS modules`);
+    } else {
+      this.logger.error(`Failed to get available DKMS modules: ${result.stderr}`);
     }
   }
 
@@ -84,7 +121,13 @@ export class KernelsService {
           kernelName = kernelName.replace('-headers', '');
           const [repo, name] = kernelName.split('/');
           if (kernelMap[kernelName] === version) {
-            kernels.push({ pkgname: [name, `${name}-headers`], version, repo, description: '' });
+            kernels.push({
+              pkgname: [name, `${name}-headers`],
+              version,
+              repo,
+              description: '',
+              dkmsModulesMissing: [],
+            });
           }
         } else {
           kernelMap[kernelName] = version;
@@ -107,5 +150,53 @@ export class KernelsService {
     } else {
       this.logger.error(`Failed to get available kernels: ${result.stderr}`);
     }
+  }
+
+  /**
+   * Update the state of the UI based on the installed packages, and sort them.
+   */
+  updateKernelStatus(): void {
+    this.logger.trace('Updating kernels UI');
+    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
+    const modules: DkmsModules = this.dkmsModules();
+    const availableModules: string[] = this.availableModules();
+    let missingModules = false;
+
+    this.kernels.update((kernels: Kernels) => {
+      for (const kernel of kernels) {
+        kernel.selected = installedPackages.get(kernel.pkgname[0]) === true;
+        kernel.headersSelected = installedPackages.get(kernel.pkgname[1]) === true;
+        kernel.dkmsModulesMissing = [];
+
+        if (kernel.selected && kernel.headersSelected) {
+          for (const module of availableModules) {
+            this.logger.trace(`Checking DKMS module ${module} for kernel ${kernel.pkgname[0]}`);
+            const linuxVer = kernel.version.match(/\d+\.\d+\.\d+/)![0];
+            let regex: RegExp;
+
+            if (kernel.pkgname[0] === 'linux') {
+              regex = new RegExp(`^${linuxVer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-arch`);
+            } else {
+              const linuxType = kernel.pkgname[0].split('linux-')[1];
+              regex = new RegExp(`^${linuxVer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*${linuxType}`);
+            }
+
+            if (!modules.find((k) => k.kernelVersion.match(regex) !== null && k.moduleName === module)) {
+              this.logger.warn(
+                `DKMS Module ${module} for kernel ${kernel.pkgname[0]} is available but not installed, hinting at a possible issue`,
+              );
+              kernel.dkmsModulesMissing.push(module);
+              missingModules = true;
+            }
+          }
+        }
+      }
+
+      // Show selected kernels first
+      kernels.sort((a, b) => +b.selected! - +a.selected!);
+      return kernels;
+    });
+
+    this.dkmsModulesMissing.set(missingModules);
   }
 }
