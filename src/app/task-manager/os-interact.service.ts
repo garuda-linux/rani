@@ -661,6 +661,8 @@ export class OsInteractService {
         `pacman -S --noconfirm ${pkg}`,
       );
       await this.taskManagerService.executeTask(task);
+
+      void this.configService.init(false);
       return await this.isPackageInstalledArchlinux(pkg);
     }
     return true;

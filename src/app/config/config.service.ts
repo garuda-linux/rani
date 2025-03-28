@@ -72,25 +72,35 @@ export class ConfigService {
     });
   }
 
-  async init(): Promise<void> {
-    this.logger.trace('Initializing ConfigService');
+  /**
+   * Initialize the ConfigService and all its settings and state.
+   * @param firstRun Indicates if this is the first run of the application. If false, only changing states are updated.
+   */
+  async init(firstRun = true): Promise<void> {
+    this.logger.trace(`${firstRun ? 'Initializing' : 'updating'} ConfigService`);
     this.loadingService.loadingOn();
 
     try {
       const initPromises: Promise<PendingConfigUpdate>[] = [
-        this.checkAutoStart(),
-        this.initBorderlessWindow(),
-        this.initCodeName(),
-        this.initDesktopEnvironment(),
-        this.initHostname(),
         this.initInstalledPkgs(),
-        this.initIsLive(),
-        this.initKernel(),
         this.initLocale(),
         this.initRebootPending(),
-        this.initStore(),
-        this.initUser(),
       ];
+
+      if (firstRun) {
+        initPromises.push(
+          this.checkAutoStart(),
+          this.initBorderlessWindow(),
+          this.initCodeName(),
+          this.initDesktopEnvironment(),
+          this.initHostname(),
+          this.initIsLive(),
+          this.initKernel(),
+          this.initStore(),
+          this.initUser(),
+        );
+      }
+
       const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
       const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
       const state_updates = config_updates.map((update) => update.state).filter((update) => update);
@@ -99,9 +109,9 @@ export class ConfigService {
       this.state.set(Object.assign({}, this.state(), ...state_updates));
 
       Logger.logLevel = this.settings().logLevel;
-      this.logger.debug('ConfigService initialized successfully');
+      this.logger.debug(`ConfigService ${firstRun ? 'initialized' : 'updated'} successfully`);
     } catch (err: any) {
-      this.logger.error(`Failed while initializing ConfigService: ${err}`);
+      this.logger.error(`Failed while ${firstRun ? 'initializing' : 'updating'} ConfigService: ${err}`);
     }
 
     this.loadingService.loadingOff();

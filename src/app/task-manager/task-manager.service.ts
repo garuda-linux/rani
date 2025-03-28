@@ -1,8 +1,9 @@
-import { computed, EventEmitter, Injectable, signal } from '@angular/core';
+import { computed, EventEmitter, inject, Injectable, signal } from '@angular/core';
 import { type Child, type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { Logger } from '../logging/logging';
 import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';
+import { ConfigService } from '../config/config.service';
 
 export class Task {
   constructor(priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
@@ -84,6 +85,7 @@ export class TrackedShells {
   providedIn: 'root',
 })
 export class TaskManagerService {
+  private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
 
   readonly tasks = signal<Task[]>([]);
@@ -122,18 +124,22 @@ export class TaskManagerService {
    * @param script The bash scriptlet to execute
    */
   async executeAndWaitBash(script: string): Promise<ChildProcess<string>> {
+    let result: ChildProcess<string>;
     try {
       this.logger.info('Executing bash code: ' + script);
-      return await Command.create('exec-bash', ['-c', `LANG=C ${script}`]).execute();
+      result = await Command.create('exec-bash', ['-c', `LANG=C ${script}`]).execute();
     } catch (error) {
       this.logger.error('Unexpected error while executing bash script: ' + error);
-      return {
+      result = {
         code: 1,
         stdout: '',
         stderr: '',
         signal: null,
       };
     }
+
+    void this.configService.init(false);
+    return result;
   }
 
   /**
@@ -147,6 +153,8 @@ export class TaskManagerService {
     } catch (error) {
       this.logger.error('Unexpected error while executing bash script in terminal: ' + error);
     }
+
+    this.configService.init(false);
   }
 
   /**
@@ -365,5 +373,7 @@ export class TaskManagerService {
 
     this.running.set(false);
     this.aborting.set(false);
+
+    void this.configService.init(false);
   }
 }
