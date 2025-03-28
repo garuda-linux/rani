@@ -94,6 +94,7 @@ export class TaskManagerService {
   readonly running = signal<boolean>(false);
   readonly aborting = signal<boolean>(false);
   readonly count = computed(() => this.tasks().length);
+  readonly cachedData = signal<string>('');
 
   // progress can be null when currentTask is null. If currentTask is not in sortedList, currentIndex is 1. In all other cases, currentIndex is the index of currentTask in sortedList.
   readonly progress = computed(() => {
@@ -116,6 +117,7 @@ export class TaskManagerService {
   constructor() {
     this.dataEvents.subscribe((data) => {
       this.data += data;
+      this.cachedData.update((currentData) => (currentData += data));
     });
   }
 

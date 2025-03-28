@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   effect,
+  HostListener,
   inject,
   type OnDestroy,
   type OnInit,
@@ -15,7 +16,7 @@ import { CommonModule } from '@angular/common';
 import type { ITerminalOptions } from '@xterm/xterm';
 import { CatppuccinXtermJs } from '../theme';
 import { type NgTerminal, NgTerminalModule } from 'ng-terminal';
-import { TranslocoDirective } from '@jsverse/transloco';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Dialog } from 'primeng/dialog';
 import { ProgressBar } from 'primeng/progressbar';
 import { Card } from 'primeng/card';
@@ -26,6 +27,10 @@ import { WebLinksAddon } from '@xterm/addon-web-links';
 import { ConfigService } from '../config/config.service';
 import { Subscription } from 'rxjs';
 import { TaskManagerService } from '../task-manager/task-manager.service';
+import { clear, writeText } from 'tauri-plugin-clipboard-api';
+import { MessageToastService } from '@garudalinux/core';
+import { GarudaBin } from '../privatebin/privatebin';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'rani-terminal',
@@ -43,7 +48,10 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   protected readonly taskManagerService = inject(TaskManagerService);
   private readonly configService = inject(ConfigService);
+  private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
+  private readonly messageToastService = inject(MessageToastService);
+  private readonly translocoService = inject(TranslocoService);
 
   readonly progressTracker = computed(() => {
     const progress = this.taskManagerService.progress();
@@ -103,6 +111,28 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  @HostListener('keydown', ['$event'])
+  respondToKeydown(event: KeyboardEvent) {
+    if (event.ctrlKey) {
+      switch (event.key) {
+        case 'q':
+          this.visible.set(false);
+          break;
+        case 'c':
+          void this.copyToClipboard();
+          break;
+        case 'x':
+          this.clearCache();
+          break;
+        case 'e':
+          void this.taskManagerService.executeTasks();
+          break;
+        case 's':
+          void this.uploadLog();
+      }
+    }
+  }
+
   /**
    * Load the xterm terminal into the terminal div, and set up the terminal.
    */
@@ -115,5 +145,49 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logger.trace('Terminal output cleared, now writing to terminal');
       this.term.write(this.taskManagerService.data);
     }
+  }
+
+  /**
+   * Copy the current terminal output to the clipboard.
+   */
+  async copyToClipboard() {
+    await clear();
+    await writeText(this.taskManagerService.cachedData());
+
+    this.messageToastService.success(
+      this.translocoService.translate('terminal.copyToClipboardTitle'),
+      this.translocoService.translate('terminal.copyToClipboard'),
+    );
+  }
+
+  /**
+   * Clear the cached terminal output.
+   */
+  clearCache() {
+    this.taskManagerService.cachedData.set('');
+    this.messageToastService.success(
+      this.translocoService.translate('terminal.clearCachedDataTitle'),
+      this.translocoService.translate('terminal.clearCachedData'),
+    );
+  }
+
+  /**
+   * Upload the current terminal output to PrivateBin and copy the URL to the clipboard.
+   */
+  async uploadLog() {
+    this.logger.trace('Uploading output to PrivateBin');
+    this.loadingService.loadingOn();
+
+    const garudaBin = new GarudaBin();
+    const url: string = await garudaBin.sendText(this.taskManagerService.cachedData());
+    this.logger.info(`Uploaded to ${url}`);
+
+    void writeText(url);
+    this.messageToastService.info(
+      this.translocoService.translate('diagnostics.success'),
+      this.translocoService.translate('diagnostics.uploadSuccess'),
+    );
+
+    this.loadingService.loadingOff();
   }
 }

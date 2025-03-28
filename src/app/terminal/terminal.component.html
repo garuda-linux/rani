@@ -56,13 +56,24 @@
           <span (click)="taskManagerService.executeTasks()" class="mr-2.5 cursor-pointer">
             <i class="pi pi-play-circle mr-1 text-primary"></i>{{ t('terminal.runActions') }}
           </span>
-          <span (click)="taskManagerService.clearTasks()" class="cursor-pointer">
+          <span (click)="taskManagerService.clearTasks()" class="mr-2.5 cursor-pointer">
             <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
           </span>
         }
         @if (taskManagerService.count() > 0 && taskManagerService.running()) {
-          <span (click)="taskManagerService.abort()" class="cursor-pointer">
+          <span (click)="taskManagerService.abort()" class="mr-2.5 cursor-pointer">
             <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.abortAll') }}
+          </span>
+        }
+        @if (taskManagerService.cachedData() !== '') {
+          <span (click)="copyToClipboard()" class="mr-2.5 cursor-pointer">
+            <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.copyOutput') }}
+          </span>
+          <span (click)="uploadLog()" class="mr-2.5 cursor-pointer">
+            <i class="pi pi-upload mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.uploadPrivateBin') }}
+          </span>
+          <span (click)="clearCache()" class="cursor-pointer">
+            <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.clearOutputCache') }}
           </span>
         }
       </div>
