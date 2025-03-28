@@ -155,7 +155,14 @@
     "abortAll": "Abort all actions",
     "noOutput": "No output",
     "outputExists": "It seems like there is an action running already. Please wait for it to finish before trying to view logs.",
-    "opRunning": "The operation is already running."
+    "opRunning": "The operation is already running.",
+    "clearCachedDataTitle": "Output cache cleared",
+    "clearCachedData": "The output cache has been cleared.",
+    "clearOutputCache": "Clear output cache",
+    "copyOutput": "Copy terminal output",
+    "copyToClipboardTitle": "Copied to clipboard",
+    "copyToClipboard": "The output has been successfully copied to your clipboard.",
+    "uploadPrivateBin": "Upload to PrivateBin"
   },
   "systemdServices": {
     "notFound": "No services found",

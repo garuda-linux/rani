@@ -122,8 +122,9 @@ export class TaskManagerService {
   /**
    * Execute a bash scriptlet using basic bash and wait for it to finish.
    * @param script The bash scriptlet to execute
+   * @param reinit Whether to reinitialize the config service or not.
    */
-  async executeAndWaitBash(script: string): Promise<ChildProcess<string>> {
+  async executeAndWaitBash(script: string, reinit = false): Promise<ChildProcess<string>> {
     let result: ChildProcess<string>;
     try {
       this.logger.info('Executing bash code: ' + script);
@@ -138,15 +139,16 @@ export class TaskManagerService {
       };
     }
 
-    void this.configService.init(false);
+    if (reinit) void this.configService.init(false);
     return result;
   }
 
   /**
    * Execute a bash script in a terminal using garuda-libs and wait for it to finish.
    * @param script The bash scriptlet to execute in the terminal.
+   * @param reinit Whether to reinitialize the config service or not.
    */
-  async executeAndWaitBashTerminal(script: string): Promise<void> {
+  async executeAndWaitBashTerminal(script: string, reinit = false): Promise<void> {
     try {
       this.logger.info('Executing bash code in terminal: ' + script);
       await Command.create('launch-terminal', [script]).spawn();
@@ -154,7 +156,7 @@ export class TaskManagerService {
       this.logger.error('Unexpected error while executing bash script in terminal: ' + error);
     }
 
-    this.configService.init(false);
+    if (reinit) void this.configService.init(false);
   }
 
   /**

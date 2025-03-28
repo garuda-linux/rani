@@ -192,7 +192,7 @@ export class HomeComponent {
       command: async () =>
         this.osInteractService.ensurePackageArchlinux('garuda-setup-assistant').then((installed) => {
           if (installed) {
-            this.taskManagerService.executeAndWaitBash('setup-assistant');
+            this.taskManagerService.executeAndWaitBash('setup-assistant', true);
           }
         }),
       icon: 'pi pi-download',

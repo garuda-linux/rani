@@ -90,6 +90,6 @@ export class SystemStatusComponent {
    * advantage of reviewing the updates before installing them.
    */
   runAurUpdates() {
-    void this.taskManagerService.executeAndWaitBashTerminal('paru -Sua');
+    void this.taskManagerService.executeAndWaitBashTerminal('paru -Sua', true);
   }
 }

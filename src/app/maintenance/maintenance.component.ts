@@ -503,7 +503,7 @@ export class MaintenanceComponent implements OnInit {
    * @private
    */
   private async mergePacDiff(): Promise<void> {
-    const script: string = `echo "Creating pre-merge snapshot..." && snap=$(sudo snapper create -d "Before PacDiff merge" -p) && echo "Created snapshot $snap" && for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..." && SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}" && read -e -p 'Were the files successfully merged? (deleting .pacnew in this case) [y/N] ' answer && [[ $answer == [Yy]* ]] && echo deleting "$i"... && sudo rm "$i"; done; sleep 3`;
+    const script: string = `echo "Creating pre-merge snapshot..." && snap=$(sudo snapper create -d "Before PacDiff merge" -p) && echo "Created snapshot $snap" && for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..." && SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}" && read -e -p 'Were the files successfully merged? (deleting .pacnew in this case) [y/N] ' answer && [[ $answer == [Yy]* ]] && echo deleting "$i"... && sudo rm "$i"; done; read -p "Press enter to finish"`;
 
     if (await this.osInteractService.ensurePackageArchlinux('meld')) {
       void this.taskManager.executeAndWaitBashTerminal(script);
