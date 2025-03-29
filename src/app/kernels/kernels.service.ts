@@ -48,7 +48,6 @@ export class KernelsService {
     await Promise.all(promises);
 
     this.updateKernelStatus();
-    this.dkmsModulesMissing.set(this.kernels().some((kernel) => kernel.dkmsModulesMissing.length > 0));
 
     this.loadingService.loadingOff();
     this.loading.set(false);
@@ -171,13 +170,13 @@ export class KernelsService {
         if (kernel.selected && kernel.headersSelected) {
           for (const module of availableModules) {
             this.logger.trace(`Checking DKMS module ${module} for kernel ${kernel.pkgname[0]}`);
-            const linuxVer = kernel.version.match(/\d+\.\d+\.\d+/)![0];
+            const linuxVer: string = kernel.version.match(/\d+\.\d+\.\d+/)![0];
             let regex: RegExp;
 
             if (kernel.pkgname[0] === 'linux') {
               regex = new RegExp(`^${linuxVer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}-arch`);
             } else {
-              const linuxType = kernel.pkgname[0].split('linux-')[1];
+              const linuxType: string = kernel.pkgname[0].split('linux-')[1];
               regex = new RegExp(`^${linuxVer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*${linuxType}`);
             }
 
