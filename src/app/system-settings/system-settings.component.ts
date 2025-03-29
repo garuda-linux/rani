@@ -202,7 +202,11 @@ export class SystemSettingsComponent {
 
   constructor() {
     effect(() => {
-      this.selectedBoxes.set(this.osInteractService.hblock() ? ['hblock'] : []);
+      const selectedBoxes = [];
+      if (this.osInteractService.hblock()) selectedBoxes.push('hblock');
+      if (this.osInteractService.iwd()) selectedBoxes.push('iwd');
+
+      this.selectedBoxes.set(selectedBoxes);
       this.currentDns.set(this.osInteractService.dns());
       this.currentShell.set(this.osInteractService.shell());
     });
@@ -212,7 +216,7 @@ export class SystemSettingsComponent {
    * Handle the selection of a new operation not included in the dynamic checkboxes.
    * @param type The type of operation to perform.
    */
-  async handleToggle(type: 'dns' | 'shell' | 'shellConfigs' | 'hblock'): Promise<void> {
+  async handleToggle(type: 'dns' | 'shell' | 'shellConfigs' | 'hblock' | 'iwd'): Promise<void> {
     // Workaround for ngModelChange event seemingly firing before the model is updated
     await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -226,7 +230,21 @@ export class SystemSettingsComponent {
         break;
       }
       case 'hblock': {
+        if (!this.selectedBoxes().includes('hblock') && this.osInteractService.packages().get('hblock')) {
+          this.osInteractService.togglePackage('hblock');
+        } else if (this.selectedBoxes().includes('hblock') && !this.osInteractService.packages().get('hblock')) {
+          this.osInteractService.togglePackage('hblock');
+        }
         this.osInteractService.wantedHblock.set(this.selectedBoxes().includes('hblock'));
+        break;
+      }
+      case 'iwd': {
+        if (!this.selectedBoxes().includes('iwd') && this.osInteractService.packages().get('iwd')) {
+          this.osInteractService.togglePackage('iwd');
+        } else if (this.selectedBoxes().includes('iwd') && !this.osInteractService.packages().get('iwd')) {
+          this.osInteractService.togglePackage('iwd');
+        }
+        this.osInteractService.wantedIwd.set(this.selectedBoxes().includes('iwd'));
       }
     }
   }

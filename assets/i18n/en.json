@@ -366,6 +366,7 @@
     "defaultDns": "Set default DNS",
     "defaultShell": "Set login shell",
     "enableHblock": "Enable Hblock",
+    "enableIwd": "Use IWD instead of wpa_supplicant",
     "common": {
       "title": "Common",
       "psd": {

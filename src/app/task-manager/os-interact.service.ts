@@ -30,6 +30,7 @@ export class OsInteractService {
   private readonly currentDNS = signal<DnsProvider>(defaultDnsProvider);
   private readonly currentShell = signal<ShellEntry | null>(null);
   private readonly currentHblock = signal<boolean>(false);
+  private readonly currentIwd = signal<boolean>(false);
 
   private readonly wantedPackages = signal<Map<string, boolean>>(new Map());
   private readonly wantedLocales = signal<Map<string, boolean>>(new Map());
@@ -41,6 +42,7 @@ export class OsInteractService {
   readonly wantedDns = signal<DnsProvider | null>(null);
   readonly wantedShell = signal<ShellEntry | null>(null);
   readonly wantedHblock = signal<boolean | null>(null);
+  readonly wantedIwd = signal<boolean | null>(null);
 
   readonly packages = computed(() => {
     return new Map([...this.installedPackages(), ...this.wantedPackages(), ...this.wantedPackagesAur()]);
@@ -66,6 +68,9 @@ export class OsInteractService {
   });
   readonly hblock = computed(() => {
     return this.wantedHblock() ?? this.currentHblock();
+  });
+  readonly iwd = computed(() => {
+    return this.wantedIwd() ?? this.currentIwd();
   });
 
   constructor() {
@@ -205,6 +210,32 @@ export class OsInteractService {
         script_services += `systemctl enable --now hblock.timer && hblock\n`;
       } else {
         script_services += `systemctl disable --now hblock.timer && hblock -S none -D none\n`;
+      }
+    }
+
+    if (this.iwd() !== this.currentIwd()) {
+      if (this.iwd()) {
+        script_services += `
+          set -e
+          systemctl stop NetworkManager
+          systemctl disable --now wpa_supplicant.service
+          systemctl mask wpa_supplicant
+          echo -e "[device]\\nwifi.backend=iwd" > /etc/NetworkManager/conf.d/20_wifi_backend_rani.conf
+          systemctl daemon-reload
+          systemctl start NetworkManager
+          echo "Changed NetworkManager backend to iwd."\n
+        `;
+      } else {
+        script_services += `
+          set -e
+          systemctl stop NetworkManager
+          rm /etc/NetworkManager/conf.d/20_wifi_backend_rani.conf
+          systemctl unmask wpa_supplicant
+          systemctl enable --now wpa_supplicant
+          systemctl daemon-reload
+          systemctl start NetworkManager
+          echo "Changed NetworkManager backend to wpa_supplicant."\n
+        `;
       }
     }
 
@@ -353,7 +384,7 @@ export class OsInteractService {
    * Update the current state of the system asynchronously.
    */
   async update(): Promise<void> {
-    const [services, servicesUser, installedPackages, groups, dns, shell, hblock, locales] = await Promise.all([
+    const [services, servicesUser, installedPackages, groups, dns, shell, hblock, locales, iwd] = await Promise.all([
       this.getServices(),
       this.getUserServices(),
       this.getInstalledPackages(),
@@ -362,6 +393,7 @@ export class OsInteractService {
       this.getShell(),
       this.getHblock(),
       this.getLocales(),
+      this.getIwd(),
     ]);
     this.installedPackages.set(installedPackages);
     this.currentServices.set(services);
@@ -371,6 +403,7 @@ export class OsInteractService {
     this.currentShell.set(shell);
     this.currentHblock.set(hblock);
     this.currentLocales.set(locales);
+    this.currentIwd.set(iwd);
   }
 
   /**
@@ -482,6 +515,17 @@ export class OsInteractService {
     }
     const shell: string = result.stdout.trim();
     return shells.find((entry) => entry.name === shell) ?? null;
+  }
+
+  /**
+   * Get the current status of the iwd backend for NetworkManager.
+   * @returns True or false depending on the status.
+   * @private
+   */
+  private async getIwd(): Promise<boolean> {
+    const cmd = `grep -q wifi.backend=iwd /etc/NetworkManager/conf.d/*.conf`;
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
+    return result.code === 0;
   }
 
   /**
