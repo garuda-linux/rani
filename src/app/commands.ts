@@ -1,6 +1,7 @@
 import { ArgMatch, type CliMatches, getMatches } from '@tauri-apps/plugin-cli';
 import { Logger } from './logging/logging';
 import { Router } from '@angular/router';
+import { LogLevel } from './logging/interfaces';
 
 /**
  * Handle the CLI arguments and navigate to the appropriate route.
@@ -9,6 +10,12 @@ import { Router } from '@angular/router';
 export async function handleCliArgs(router: Router) {
   const logger = Logger.getInstance();
   const matches: CliMatches = await getMatches();
+
+  const verbose: ArgMatch = matches.args['verbose'];
+  if (verbose.value) {
+    if (verbose.occurrences === 1) Logger.logLevel = LogLevel.DEBUG;
+    if (verbose.occurrences > 1) Logger.logLevel = LogLevel.TRACE;
+  }
 
   if (!matches.subcommand) return;
   switch (matches.subcommand.name) {

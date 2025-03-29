@@ -11,6 +11,8 @@ import { LogLevel } from '../logging/interfaces';
 import { disable, enable, isEnabled } from '@tauri-apps/plugin-autostart';
 import { usePreset } from '@primeng/themes';
 import { themes } from '../theme';
+import { CliMatches, getMatches } from '@tauri-apps/plugin-cli';
+import { Nullable } from 'primeng/ts-helpers';
 
 class PendingConfigUpdate {
   state?: object;
@@ -53,6 +55,8 @@ export class ConfigService {
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
 
+  private cliMatches: Nullable<CliMatches>;
+
   constructor() {
     effect(async () => {
       const settings: AppSettings = this.settings();
@@ -66,7 +70,9 @@ export class ConfigService {
         void enable();
       }
 
-      Logger.logLevel = settings.logLevel;
+      if (!this.cliMatches?.args['verbose']) {
+        Logger.logLevel = settings.logLevel;
+      }
 
       usePreset(themes[settings.activeTheme]);
     });
@@ -99,6 +105,8 @@ export class ConfigService {
           this.initStore(),
           this.initUser(),
         );
+
+        this.cliMatches = await getMatches();
       }
 
       const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
@@ -108,7 +116,9 @@ export class ConfigService {
       this.settings.set(Object.assign({}, this.settings(), ...settings_updates));
       this.state.set(Object.assign({}, this.state(), ...state_updates));
 
-      Logger.logLevel = this.settings().logLevel;
+      if (!this.cliMatches?.args['verbose']) {
+        Logger.logLevel = this.settings().logLevel;
+      }
       this.logger.debug(`ConfigService ${firstRun ? 'initialized' : 'updated'} successfully`);
     } catch (err: any) {
       this.logger.error(`Failed while ${firstRun ? 'initializing' : 'updating'} ConfigService: ${err}`);

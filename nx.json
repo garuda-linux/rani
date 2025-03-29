@@ -43,8 +43,7 @@
   "generators": {
     "@nx/angular:component": {
       "changeDetection": "OnPush",
-      "style": "scss",
-      "unitTestRunner": "vitest"
+      "style": "scss"
     }
   }
 }

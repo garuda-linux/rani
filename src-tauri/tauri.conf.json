@@ -45,6 +45,12 @@
     "cli": {
       "description": "Garuda Rani - Reliable Assistant for Native Installations",
       "longDescription": "The command-line interface for Garuda Rani, allowing you to perform various system management tasks directly from your terminal.",
+      "args": [
+        {
+          "name": "verbose",
+          "short": "v"
+        }
+      ],
       "subcommands": {
         "maintenance": {
           "description": "System maintenance operations",
@@ -140,8 +146,7 @@
               "name": "upload",
               "short": "u",
               "description": "Upload logs to PrivateBin",
-              "longDescription": "Automatically uploads the collected diagnostic information to a PrivateBin instance.",
-              "possibleValues": ["false", "true"]
+              "longDescription": "Automatically uploads the collected diagnostic information to a PrivateBin instance."
             }
           ],
           "subcommands": {
