@@ -1,4 +1,4 @@
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   type ApplicationConfig,
   isDevMode,
@@ -7,13 +7,12 @@ import {
   provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
-import { provideRouter, withInMemoryScrolling } from '@angular/router';
+import { provideRouter } from '@angular/router';
 import { provideGarudaNG } from '@garudalinux/core';
 import { routes } from './app.routes';
 import { CatppuccinAura } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
-import { provideTranslocoLocale } from '@jsverse/transloco-locale';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingInterceptor } from './loading-indicator/loading-indicator.interceptor';
 import { ConfigService } from './config/config.service';
@@ -43,14 +42,7 @@ export const appConfig: ApplicationConfig = {
         inputStyle: 'outlined',
       },
     ),
-    provideHttpClient(),
-    provideRouter(
-      routes,
-      withInMemoryScrolling({
-        anchorScrolling: 'enabled',
-        scrollPositionRestoration: 'enabled',
-      }),
-    ),
+    provideRouter(routes),
     provideTransloco({
       config: {
         availableLangs: [
@@ -80,9 +72,6 @@ export const appConfig: ApplicationConfig = {
         ],
         defaultLang: 'en',
         fallbackLang: 'en',
-        flatten: {
-          aot: !isDevMode(),
-        },
         missingHandler: {
           useFallbackTranslation: true,
         },
@@ -90,12 +79,6 @@ export const appConfig: ApplicationConfig = {
         reRenderOnLangChange: true,
       },
       loader: TranslocoHttpLoader,
-    }),
-    provideTranslocoLocale({
-      langToLocaleMapping: {
-        en: 'en-US',
-        de: 'de-DE',
-      },
     }),
     { provide: LOCALE_ID, useValue: 'en-GB' },
     { provide: HTTP_INTERCEPTORS, useValue: [LoadingInterceptor], multi: true },
