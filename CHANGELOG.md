@@ -2,6 +2,55 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.4.0] - 2025-03-29
+
+### 🚀 Features
+
+- _(locales)_ Add new component allowing language changes
+- _(packages)_ Safeguard against non-available pkgnames
+- _(theming)_ More design choices
+- _(maintenance)_ Prompt to delete merged .pacnew, make snapshot success mandatory
+- _(window)_ Don't hide buttons on systems without the Kwin setting active
+- Make things more navigatable, preparement for cmd args
+- _(cli)_ Allow CLI commands to open tabs, pages and execute diagnostic actions
+- _(configService)_ Refresh pkgs, locale and reboot pending after actions
+- _(terminal)_ Add copy, upload to privatebin buttons, keyboard shortcuts
+- _(app)_ Allow closing globally via ctrl + q
+- _(system-settings)_ Add option to choose iwd as NetworkManager backend
+- Migrate to nx
+- Verbose cmdarg, fix diagnostics args
+
+### 🐛 Bug Fixes
+
+- _(angular)_ Increase budgets
+- _(system-components)_ Correct systemd service name for opensnitch
+- _(system-settings)_ Correct 'service' to 'pkg' for "Intel-undervolt installed" checkbox
+- _(system-settings)_ Correct 'service' to 'pkg' for "Thermald installed" checkbox
+- _(package-lists)_ Remove xbox-generic-controller from gaming
+- _(theming)_ Make checkboxes easier to see, misc fixes
+- _(maintenance)_ Make it clear how to merge pacdiff, drop kompare, warn about destructiveness
+- _(kernels)_ Update kernel state after kernels initialized for the first time
+- _(maintenance)_ Pacdiff file not being deleted after y
+- _(kernels)_ Distinguish broken and non-installed modules
+- _(configService)_ Too many update executions
+- _(http)_ Downgrade tauri http plugin, adapter currently breaks actions
+- _(kernels)_ Remove unnecessary double call
+- _(translations)_ Missing translations with angular optimization
+- Focus active window when opening rani a second time
+
+### 🚜 Refactor
+
+- Move status data to cached service, allow running external AUR update
+
+### 🎨 Styling
+
+- _(prettier)_ Set tailwindcss plugin active and reformat
+
+### ⚙️ Miscellaneous Tasks
+
+- Post nx-migration cleanup invalid tests
+- Set nx defaults for generation of components
+
 ## [2.3.0] - 2025-03-21
 
 ### 🚀 Features
@@ -30,9 +79,14 @@ All notable changes to this project will be documented in this file.
 - Massively improve performance by caching and using services
 - Use pacman regex for prefiltering, print commands used
 
+### 📚 Documentation
+
+- _(changelog)_ Update
+
 ### ⚙️ Miscellaneous Tasks
 
 - Drop ununsed code
+- Fix commitizen installation
 
 ## [2.2.0] - 2025-03-18
 
