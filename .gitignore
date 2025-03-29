@@ -47,6 +47,7 @@ Thumbs.db
 *.js.map
 .direnv
 .pre-commit-config.yaml
+flake.lock
 /test
 
 # Nx

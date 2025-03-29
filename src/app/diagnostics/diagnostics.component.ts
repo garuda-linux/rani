@@ -30,7 +30,7 @@ import { Router, type UrlTree } from '@angular/router';
   selector: 'app-diagnostics',
   imports: [Button, TranslocoDirective, NgTerminalModule],
   templateUrl: './diagnostics.component.html',
-  styleUrl: './diagnostics.component.css',
+  styleUrl: './diagnostics.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DiagnosticsComponent implements AfterViewInit, OnInit {

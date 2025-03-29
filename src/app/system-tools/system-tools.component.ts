@@ -30,7 +30,7 @@ import { Router, type UrlTree } from '@angular/router';
     LocalesComponent,
   ],
   templateUrl: './system-tools.component.html',
-  styleUrl: './system-tools.component.css',
+  styleUrl: './system-tools.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemToolsComponent implements OnInit {

@@ -22,7 +22,7 @@ import { Router, type UrlTree } from '@angular/router';
   selector: 'app-maintenance',
   imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule, Tab, TabPanels, Tabs, TabList, TabPanel],
   templateUrl: './maintenance.component.html',
-  styleUrl: './maintenance.component.css',
+  styleUrl: './maintenance.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaintenanceComponent implements OnInit {

@@ -13,7 +13,7 @@ import { OsInteractService } from '../task-manager/os-interact.service';
   selector: 'rani-system-settings',
   imports: [TranslocoDirective, FormsModule, Select, Checkbox, DynamicCheckboxesComponent],
   templateUrl: './system-settings.component.html',
-  styleUrl: './system-settings.component.css',
+  styleUrl: './system-settings.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemSettingsComponent {

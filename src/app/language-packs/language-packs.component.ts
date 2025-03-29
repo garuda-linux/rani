@@ -14,7 +14,7 @@ import { LocalePipe } from '../lang-pipe/locale.pipe';
   selector: 'rani-language-packs',
   imports: [TableModule, TranslocoDirective, FormsModule, NgIf, Checkbox, NgClass, LocalePipe],
   templateUrl: './language-packs.component.html',
-  styleUrl: './language-packs.component.css',
+  styleUrl: './language-packs.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LanguagePacksComponent {

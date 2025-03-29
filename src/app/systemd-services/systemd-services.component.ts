@@ -20,7 +20,7 @@ import type { ChildProcess } from '@tauri-apps/plugin-shell';
   selector: 'rani-systemd-services',
   imports: [Button, IconField, InputIcon, PopoverModule, InputText, TableModule, NgClass, TranslocoDirective, Tooltip],
   templateUrl: './systemd-services.component.html',
-  styleUrl: './systemd-services.component.css',
+  styleUrl: './systemd-services.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemdServicesComponent implements OnInit {

@@ -14,7 +14,7 @@ import { Panel } from 'primeng/panel';
   selector: 'rani-settings',
   imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel],
   templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css',
+  styleUrl: './settings.component.scss',
   providers: [LangPipePipe],
 })
 export class SettingsComponent implements OnInit {

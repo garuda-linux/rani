@@ -9,7 +9,7 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
   selector: 'rani-operation-manager',
   imports: [],
   templateUrl: './operation-manager.component.html',
-  styleUrl: './operation-manager.component.css',
+  styleUrl: './operation-manager.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class OperationManagerComponent {

@@ -16,7 +16,7 @@ import { SystemStatusService } from './system-status.service';
   selector: 'rani-system-status',
   imports: [OverlayBadge, Tooltip, TranslocoDirective, Dialog, Button, RouterLink],
   templateUrl: './system-status.component.html',
-  styleUrl: './system-status.component.css',
+  styleUrl: './system-status.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemStatusComponent {

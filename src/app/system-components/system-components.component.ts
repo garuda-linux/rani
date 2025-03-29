@@ -7,7 +7,7 @@ import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkb
   selector: 'rani-system-components',
   imports: [FormsModule, DynamicCheckboxesComponent],
   templateUrl: './system-components.component.html',
-  styleUrl: './system-components.component.css',
+  styleUrl: './system-components.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemComponentsComponent {

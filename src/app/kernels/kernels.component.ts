@@ -18,7 +18,7 @@ import { KernelsService } from './kernels.service';
   selector: 'rani-kernels',
   imports: [DataView, FormsModule, NgForOf, Tag, Checkbox, NgClass, TranslocoDirective, Tooltip, Skeleton],
   templateUrl: './kernels.component.html',
-  styleUrl: './kernels.component.css',
+  styleUrl: './kernels.component.scss',
 })
 export class KernelsComponent {
   protected readonly configService = inject(ConfigService);

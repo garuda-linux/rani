@@ -13,7 +13,7 @@ import { OsInteractService } from '../task-manager/os-interact.service';
   selector: 'rani-dynamic-checkboxes',
   imports: [Checkbox, TranslocoDirective, FormsModule, NgClass, Card],
   templateUrl: './dynamic-checkboxes.component.html',
-  styleUrl: './dynamic-checkboxes.component.css',
+  styleUrl: './dynamic-checkboxes.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicCheckboxesComponent {

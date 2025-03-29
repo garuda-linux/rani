@@ -36,7 +36,7 @@ import { LoadingService } from '../loading-indicator/loading-indicator.service';
   selector: 'rani-terminal',
   imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, ScrollPanel],
   templateUrl: './terminal.component.html',
-  styleUrl: './terminal.component.css',
+  styleUrl: './terminal.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {

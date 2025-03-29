@@ -13,7 +13,7 @@ import { Task, TaskManagerService } from '../task-manager/task-manager.service';
   selector: 'rani-locales',
   imports: [PickList, TranslocoDirective, LocalePipe, Select, FormsModule],
   templateUrl: './locales.component.html',
-  styleUrl: './locales.component.css',
+  styleUrl: './locales.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LocalesComponent implements OnInit {

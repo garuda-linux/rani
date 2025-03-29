@@ -27,7 +27,7 @@ import { Router, type UrlTree } from '@angular/router';
   selector: 'rani-gaming',
   imports: [TranslocoDirective, TableModule, DataViewModule, NgForOf, Card, NgOptimizedImage, TabsModule, Tooltip],
   templateUrl: './gaming.component.html',
-  styleUrl: './gaming.component.css',
+  styleUrl: './gaming.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class GamingComponent implements OnInit {

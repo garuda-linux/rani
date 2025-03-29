@@ -40,7 +40,7 @@ import { PackagesService } from './packages.service';
     NgClass,
   ],
   templateUrl: './packages.component.html',
-  styleUrl: './packages.component.css',
+  styleUrl: './packages.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PackagesComponent {

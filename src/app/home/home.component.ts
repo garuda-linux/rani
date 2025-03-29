@@ -18,7 +18,7 @@ import { OsInteractService } from '../task-manager/os-interact.service';
   selector: 'app-home',
   imports: [TranslocoDirective, Card, RouterLink, FaIconComponent, NgOptimizedImage, SystemStatusComponent],
   templateUrl: './home.component.html',
-  styleUrl: './home.component.css',
+  styleUrl: './home.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeComponent {
