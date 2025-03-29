@@ -33,6 +33,7 @@ tauri-plugin-store = "2"
 tauri-plugin-autostart = "2"
 tauri-plugin-cli = "2"
 tauri-plugin-positioner = "2"
+tauri-plugin-single-instance = "2"
 tauri-plugin-window-state = "2"
 
 
