@@ -1,0 +1,67 @@
+{
+  "$schema": "node_modules/nx/schemas/project-schema.json",
+  "name": "garuda-rani",
+  "projectType": "application",
+  "sourceRoot": "src",
+  "prefix": "app",
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "options": {
+        "outputPath": "dist/garuda-rani",
+        "index": "src/index.html",
+        "browser": "src/main.ts",
+        "tsConfig": "tsconfig.app.json",
+        "styles": ["src/styles.scss"],
+        "polyfills": [],
+        "assets": ["src/assets"],
+        "allowedCommonJsDependencies": ["emoji-js", "@xterm/addon-fit", "@xterm/xterm"]
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "5mb",
+              "maximumError": "10mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "port": 1420
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "garuda-rani:build:production"
+        },
+        "development": {
+          "buildTarget": "garuda-rani:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "lint": {
+      "executor": "@angular-eslint/builder:lint",
+      "options": {
+        "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
+      },
+      "outputs": ["{options.outputFile}"]
+    }
+  }
+}
