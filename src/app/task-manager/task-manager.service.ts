@@ -156,7 +156,7 @@ export class TaskManagerService {
     try {
       this.logger.info('Executing bash code in terminal: ' + script);
       this.loadingService.loadingOn();
-      await Command.create('launch-terminal', [script]).spawn();
+      await Command.create('launch-terminal', [script]).execute();
     } catch (error) {
       this.logger.error('Unexpected error while executing bash script in terminal: ' + error);
     } finally {
