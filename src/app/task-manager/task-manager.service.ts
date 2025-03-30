@@ -4,6 +4,7 @@ import { Logger } from '../logging/logging';
 import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';
 import { ConfigService } from '../config/config.service';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 export class Task {
   constructor(priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
@@ -86,6 +87,7 @@ export class TrackedShells {
 })
 export class TaskManagerService {
   private readonly configService = inject(ConfigService);
+  private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
 
   readonly tasks = signal<Task[]>([]);
@@ -153,9 +155,12 @@ export class TaskManagerService {
   async executeAndWaitBashTerminal(script: string, reinit = false): Promise<void> {
     try {
       this.logger.info('Executing bash code in terminal: ' + script);
+      this.loadingService.loadingOn();
       await Command.create('launch-terminal', [script]).spawn();
     } catch (error) {
       this.logger.error('Unexpected error while executing bash script in terminal: ' + error);
+    } finally {
+      this.loadingService.loadingOff();
     }
 
     if (reinit) void this.configService.init(false);

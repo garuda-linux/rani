@@ -44,7 +44,7 @@
         <div garudaShellBarStart>
           @if (loadingService.loading()) {
             <p-progress-spinner
-              [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'vertical-align': 'middle' }"
               ariaLabel="loading"
             />
           }
@@ -92,7 +92,7 @@
         <div garudaShellBarEnd>
           @if (loadingService.loading()) {
             <p-progress-spinner
-              [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'margin-top': 'auto', 'margin-bottom': 'auto' }"
+              [style]="{ 'width': '1.5rem', 'height': '1.5rem', 'vertical-align': 'middle' }"
               strokeWidth="10"
               ariaLabel="loading"
             />

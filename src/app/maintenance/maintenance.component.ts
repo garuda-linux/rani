@@ -153,12 +153,13 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteFix',
       description: 'maintenance.updateRemoteFixSub',
       icon: 'pi pi-pencil',
-      hasOutput: true,
+      hasOutput: false,
       sudo: true,
-      priority: 5,
-      command: (): string => {
+      onlyDirect: true,
+      priority: 0,
+      command: async (): Promise<void> => {
         this.logger.info('Running remote fix');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update remote fix';
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fix');
       },
     },
     {
@@ -166,12 +167,13 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteKeyring',
       description: 'maintenance.updateRemoteKeyringSub',
       icon: 'pi pi-pencil',
-      hasOutput: true,
+      hasOutput: false,
       sudo: true,
-      priority: 5,
-      command: (): string => {
+      onlyDirect: true,
+      priority: 0,
+      command: async (): Promise<void> => {
         this.logger.info('Running remote keyring');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update remote keyring';
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote keyring');
       },
     },
     {
@@ -179,12 +181,13 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteFullFix',
       description: 'maintenance.updateRemoteFullFixSub',
       icon: 'pi pi-pencil',
-      hasOutput: true,
+      hasOutput: false,
       sudo: true,
-      priority: 5,
-      command: (): string => {
+      onlyDirect: true,
+      priority: 0,
+      command: async (): Promise<void> => {
         this.logger.info('Running remote full fix');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update remote fullfix';
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fullfix');
       },
     },
     {
@@ -192,12 +195,13 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteResetAudio',
       description: 'maintenance.updateRemoteResetAudioSub',
       icon: 'pi pi-pencil',
-      hasOutput: true,
+      hasOutput: false,
       sudo: true,
-      priority: 7,
-      command: (): string => {
-        this.logger.info('Running remote reset audio');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update remote reset-audio';
+      onlyDirect: true,
+      priority: 0,
+      command: async (): Promise<void> => {
+        this.logger.info('Running remote reset-audio');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote-audio');
       },
     },
     {
@@ -205,12 +209,13 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.updateRemoteResetSnapper',
       description: 'maintenance.updateRemoteResetSnapperSub',
       icon: 'pi pi-pencil',
-      hasOutput: true,
+      hasOutput: false,
       sudo: true,
-      priority: 7,
-      command: (): string => {
-        this.logger.info('Running remote reset snapper');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper';
+      onlyDirect: true,
+      priority: 0,
+      command: async (): Promise<void> => {
+        this.logger.info('Running remote reset-snapper');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper');
       },
     },
     {
@@ -218,12 +223,13 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.reinstallPackages',
       description: 'maintenance.reinstallPackagesSub',
       icon: 'pi pi-refresh',
+      hasOutput: false,
       sudo: true,
-      hasOutput: true,
-      priority: 6,
-      command: (): string => {
-        this.logger.info('Reinstalling packages');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update remote reinstall';
+      onlyDirect: true,
+      priority: 0,
+      command: async (): Promise<void> => {
+        this.logger.info('Running remote reinstall');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reinstall');
       },
     },
   ];
