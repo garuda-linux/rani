@@ -3,7 +3,7 @@ import { ConfigService } from '../config/config.service';
 import { TranslocoService } from '@jsverse/transloco';
 import { locale } from '@tauri-apps/plugin-os';
 import { Logger } from '../logging/logging';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -45,6 +45,7 @@ export class LanguageManagerService {
       activeLang !== this.translocoService.getActiveLang() &&
       (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)
     ) {
+      await lastValueFrom(this.translocoService.load(activeLang));
       this.translocoService.setActiveLang(activeLang);
     }
   }
