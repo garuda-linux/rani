@@ -1,0 +1,591 @@
+{
+  "menu": {
+    "welcome": "Xush kelibsiz",
+    "maintenance": "Texnik xizmat",
+    "systemTools": "Tizim sozlamalari",
+    "components": "Komponentlar",
+    "gaming": "Oʻyinlar",
+    "boot": "Yuklash vositalari",
+    "diagnostics": "Diagnostika",
+    "network": "Tarmoq vositalari",
+    "settings": "Ilova sozlamalari",
+    "help": {
+      "title": "Yordam",
+      "getHelpForum": "Forumdan yordam oling",
+      "getHelpWiki": "Wikidan kontent qidirish",
+      "getHelpArchWiki": "Arch Wikidan kontent qidirish",
+      "garudaStatus": "Ishlash vaqti holatini tekshiring",
+      "about": "Garuda Rani haqida",
+      "aboutBody": "Garuda Rani - bu Garuda Linux uchun tizimga texnik xizmat koʻrsatish va diagnostika vositasi. U foydalanuvchilarga tizimini saqlashga va muammolarni tashxislashga yordam berish uchun moʻljallangan. U Tauri va Angular yordamida yaratilgan.",
+      "callExorcist": "Ekzorsistni chaqiring",
+      "callExorcistTitle": "Ekzorsist chaqirildi!",
+      "callExorcistBody": "Bu tugmani bosish uchun juda umidsiz boʻlishing kerak! Men sen uchun maxsus vudu oʻrnatdim, agar ilova bilan hali ham muammolaring boʻlsa, iltimos, ularni Garuda Linux forumida yoki bizning muammo kuzatuvchimizda xabar qiling."
+    },
+    "terminal": "Terminalni koʻrsatish",
+    "terminalRunning": "Ishlayotgan vazifalar",
+    "terminalTasks": "Vazifalarni bajarish",
+    "pending": "Kutilmoqda"
+  },
+  "diagnostics": {
+    "title": "Nosozliklarni tuzatish ma'lumotlari ",
+    "titleTwo": "va diagnostika",
+    "subtitle": "Tizimingizdagi nosozliklarni tuzatish uchun kerakli maʼlumotlarni toping",
+    "inxi": "Umumiy ma'lumot (inxi)",
+    "systemctl": "Tizim xizmatlari (systemctl)",
+    "journalctl": "Tizim jurnallari (journalctl)",
+    "dmesg": "Yadro jurnallari (dmesg)",
+    "full": "Toʻliq diagnostika",
+    "upload": "PrivateBin'ga yuklash",
+    "failedCmdHeader": "Buyruqni bajarib boʻlmadi",
+    "failedCmd": "Yomon narsa yuz berdi va hech qanday diagnostika maʼlumotlari olinmadi",
+    "pacman": "Oxirgi Pacman jurnallari",
+    "copied": "Vaqtinchalik xotiraga muvaffaqiyatli nusxalandi",
+    "success": "Muvaffaqiyatli",
+    "uploadSuccess": "PrivateBin'ga muvaffaqiyatli yuklandi, URL vaqtinchalik xotiraga nusxalandi"
+  },
+  "lang": {
+    "title": "Til tanlash",
+    "tooltip": "Afzal koʻrgan tilingizni tanlang"
+  },
+  "welcome": {
+    "title": "Xush kelibsiz: ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "Oʻyin va multimedia uchun eng zoʻr Linux distributivi",
+    "maintenance": "Texnik xizmat",
+    "maintenanceSub": "Tizimingizni yaxshi holatda saqlang",
+    "systemTools": "Tizim sozlamalari",
+    "systemToolsSub": "Tizimingizni sozlang",
+    "gaming": "Oʻyin ilovalari",
+    "gamingSub": "Sevimli oʻyinlaringizni oʻynang",
+    "bootTools": "Yuklash vositalari",
+    "bootToolsSub": "Yuklash sozlamalaringizni boshqaring",
+    "network": "Tarmoq vositalari",
+    "networkSub": "Tarmoq sozlamalaringizni boshqaring",
+    "diagnostics": "Diagnostika",
+    "diagnosticsSub": "Tizimingiz sogʻligʻini tekshiring",
+    "install": "Garuda Linux oʻrnatish",
+    "installSub": "Garuda Linuxni tizimingizga oling",
+    "chroot": "Garudaga chroot qilish",
+    "chrootSub": "Garuda oʻrnatmanggizga chroot qiling",
+    "startpage": "Bosh sahifa",
+    "startpageSub": "Garuda Linux bosh sahifasini oching",
+    "setupAssistant": "Oʻrnatish yordamchisi",
+    "setupAssistantSub": "Garuda oʻrnatish yordamchisini ishga tushiring",
+    "hello": "Salom",
+    "error": "Xatolik yuz berdi."
+  },
+  "gaming": {
+    "title": "Oʻyin ",
+    "titleTwo": "ilovalari",
+    "subtitle": "Keling, sizni bir nechta oʻyin ilovalari bilan boshlaylik!",
+    "launchers": "Oʻyin ishga tushiruvchilari",
+    "loading": "Yuklanmoqda...",
+    "wine": "WINE",
+    "tools": "Oʻyin vositalari",
+    "emulators": "Emulyatorlar",
+    "controllers": "Kontroller qoʻllab-quvvatlashi",
+    "games": "Oʻyinlar",
+    "misc": "Har xil",
+    "bluez": "Odatda PS kontrollerlarini simsiz tanish uchun talab qilinadi",
+    "xboxdrv": "Xbox kontroller drayveri, faqat yadro drayveri ishlamasa foydalaning!",
+    "wineWow64": "32-bit kutubxonalarni oʻrnatmasdan 64-bit qoʻllab-quvvatlashiga ega WINE versiyasi",
+    "wineStagingWow64": "32-bit kutubxonalarni oʻrnatmasdan 32-bit qoʻllab-quvvatlashiga ega WINE staging versiyasi",
+    "wineMeta": "WINE va barcha kerakli bogʻliqliklarni oʻrnatish uchun meta-paket"
+  },
+  "maintenance": {
+    "title": "Tizimga ",
+    "titleTwo": "texnik xizmat koʻrsatish",
+    "subtitle": "Tizimingizni yaxshi holatda saqlang",
+    "update": "Tizimingizni yangilang",
+    "addPending": "Kutishga qoʻshish",
+    "removePending": "Kutishdan olib tashlash",
+    "runNow": "Hozir ishga tushirish",
+    "failedReset": "Konfiguratsiya faylini tiklashda xatolik",
+    "failedResetFile": "{{file}} faylini tiklashda xatolik yuz berdi",
+    "editRepos": "Omborlarni tahrirlash",
+    "onlyDirect": "Bu amalni navbatga qoʻyib boʻlmaydi va toʻgʻridan-toʻgʻri ishga tushirish kerak.",
+    "cleanCache": "Keshni tozalash",
+    "cleanCacheSub": "Barcha keshlangan paketlarni olib tashlang",
+    "updateSystem": "Tizimni yangilash",
+    "taskRunningHeader": "Texnik xizmat amalini bajarishda xatolik",
+    "taskRunning": "Allaachon ishlayotgan vazifa mavjud, avval uning tugashini kuting.",
+    "updateSystemSub": "Tizimingizni garuda-update orqali yangilang",
+    "editReposSub": "Omborlaringizni Pace bilan tahrirlang",
+    "addPendingSub": "Kutilayotgan operatsiyalarni qoʻshing",
+    "clearOrphans": "Yetim paketlarni tozalash",
+    "clearOrphansSub": "Yetim paketlarni olib tashlang",
+    "refreshMirrors": "Koʻzgularni yangilash",
+    "refreshMirrorsSub": "Koʻzgu roʻyxatini yangilang",
+    "removeLock": "Pacman qulfini olib tashlash",
+    "removeLockSub": "Pacman qulf faylini olib tashlang",
+    "reinstallPackages": "Paketlarni qayta oʻrnatish",
+    "reinstallPackagesSub": "Tizimingizdagi barcha paketlarni qayta oʻrnating",
+    "reinstallDkmsModules": "DKMS modullarini qayta oʻrnatish",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "BTRFS oniy suratlarini boshqaring va texnik xizmat vazifalarini bajaring",
+    "mergePacDiff": "pacdiff fayllarini birlashtirish",
+    "mergePacDiffSub": ".pacnew va .pacsave fayllarini interaktiv ravishda birlashtiring",
+    "updateRemoteFullFix": "Garuda update toʻliq tuzatish",
+    "updateRemoteFullFixSub": "Pacmanni tiklang va OTdagi barcha paketlarni qayta oʻrnating",
+    "updateRemoteKeyring": "Garuda update kalit zanjiri",
+    "updateRemoteKeyringSub": "pacman.conf faylini tiklamasdan kalit zanjirini yangilang",
+    "updateRemoteFix": "Garuda update tuzatish",
+    "updateRemoteFixSub": "pacman.conf faylini tiklang va kalit zanjirlarini yangilang",
+    "updateRemoteResetSnapper": "Snapperni tiklash",
+    "updateRemoteResetSnapperSub": "Barcha Snapper narsalarini olib tashlang va uning konfiguratsiyalarini qayta yarating",
+    "updateRemoteResetAudio": "Audioni tiklash",
+    "updateRemoteResetAudioSub": "PipeWire audio konfiguratsiyasini qayta oʻrnatish/tiklash",
+    "resetTooltip": "Quyidagi fayllar yoki papkalar standart holatiga tiklanadi:",
+    "resetConfigs": "Konfiguratsiyalarni standart holatiga tiklash",
+    "common": "Umumiy texnik xizmat",
+    "garudaUpdate": "Garuda update qutqaruv vositalari"
+  },
+  "sudo": {
+    "title": "Autentifikatsiya talab qilinadi",
+    "subtitle": "Davom etish uchun parolingizni kiriting",
+    "save": "Bu sessiyada keshlash",
+    "password": "Parol",
+    "cancel": "Bekor qilish",
+    "useOnce": "Faqat bir marta foydalanish"
+  },
+  "terminal": {
+    "title": "Terminal",
+    "runActions": "Amallarni bajarish",
+    "removeAll": "Barcha amallarni olib tashlash",
+    "abortAll": "Barcha amallarni bekor qilish",
+    "noOutput": "Chiqish yoʻq",
+    "outputExists": "Koʻrinishidan, allaqachon ishlayotgan amal mavjud. Jurnallarni koʻrishga urinishdan oldin uning tugashini kuting.",
+    "opRunning": "Operatsiya allaqachon ishlamoqda.",
+    "clearCachedDataTitle": "Chiqish keshi tozalandi",
+    "clearCachedData": "Chiqish keshi tozalandi.",
+    "clearOutputCache": "Chiqish keshini tozalash",
+    "copyOutput": "Terminal chiqishini nusxalash",
+    "copyToClipboardTitle": "Vaqtinchalik xotiraga nusxalandi",
+    "copyToClipboard": "Chiqish muvaffaqiyatli vaqtinchalik xotirangizga nusxalandi.",
+    "uploadPrivateBin": "PrivateBin'ga yuklash"
+  },
+  "systemdServices": {
+    "notFound": "Xizmatlar topilmadi",
+    "description": "Tavsif",
+    "unit": "Birlik nomi",
+    "load": "Yuklash",
+    "active": "Faol",
+    "state": "Holat",
+    "searchKey": "Qidiruv kalit soʻzini kiriting",
+    "clear": "Tozalash",
+    "actions": "Amallar",
+    "show": "Koʻrsatish",
+    "start": "Boshlash",
+    "stop": "Toʻxtatish",
+    "mask": "Niqoblash",
+    "unmask": "Niqobni olib tashlash",
+    "logs": "Jurnallar",
+    "restart": "Qayta ishga tushirish",
+    "reload": "Qayta yuklash",
+    "enable": "Faollashtirish",
+    "disable": "Oʻchirish",
+    "autoRefresh": "Avtomatik yangilash",
+    "error": "Xizmatlarni olishda xatolik yuz berdi, iltimos qayta urinib koʻring.",
+    "errorTitle": "Xizmatlarni olishda xatolik",
+    "systemContext": "Tizim xizmatlarini koʻrsatish",
+    "userContext": "Foydalanuvchi xizmatlarini koʻrsatish",
+    "includeDisabled": "Oʻchirilganlarni kiritish",
+    "excludeDisabled": "Oʻchirilganlarni chiqarib tashlash"
+  },
+  "systemTools": {
+    "title": "Tizim ",
+    "titleTwo": "sozlamalari",
+    "systemdServices": "Systemd xizmatlari",
+    "systemSettings": "Tizim sozlamalari",
+    "components": "Tizim komponentlari",
+    "locales": "Mahalliylashtirishlar",
+    "kernels": "Yadrolar",
+    "packages": "Qoʻshimcha paketlar",
+    "audio": {
+      "title": "Audio",
+      "alsa": {
+        "description": "ALSA qoʻllab-quvvatlashi"
+      },
+      "jack": {
+        "description": "JACK qoʻllab-quvvatlashi"
+      },
+      "pulseaudio": {
+        "description": "PulseAudio qoʻllab-quvvatlashi"
+      },
+      "pipewire": {
+        "description": "PipeWire qoʻllab-quvvatlashi"
+      },
+      "userRealtime": {
+        "description": "Foydalanuvchi realtime guruhida"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP oʻrnatilgan"
+      }
+    },
+    "virtualization": {
+      "title": "Virtualizatsiya",
+      "qemu": {
+        "description": "QEMU oʻrnatilgan"
+      },
+      "kvm": {
+        "description": "KVM qoʻllab-quvvatlashi"
+      },
+      "virtManager": {
+        "description": "Virt-manager qoʻllab-quvvatlashi"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd faollashtirilgan"
+      },
+      "userVboxUsers": {
+        "description": "Foydalanuvchi vboxusers guruhida"
+      },
+      "virtualbox": {
+        "description": "VirtualBox qoʻllab-quvvatlashi"
+      },
+      "userLibvirt": {
+        "description": "Foydalanuvchi libvirt guruhida"
+      },
+      "userKvm": {
+        "description": "Foydalanuvchi kvm guruhida"
+      }
+    },
+    "containers": {
+      "title": "Konteynerlar",
+      "docker": {
+        "description": "Docker oʻrnatilgan"
+      },
+      "dockerEnabled": {
+        "description": "Docker faollashtirilgan"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose oʻrnatilgan"
+      },
+      "userDocker": {
+        "description": "Foydalanuvchi docker guruhida"
+      },
+      "podman": {
+        "description": "Podman oʻrnatilgan"
+      },
+      "podmanDocker": {
+        "description": "Podman orqali Docker emulyatsiyasi"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop oʻrnatilgan"
+      },
+      "distrobox": {
+        "description": "DistroBox oʻrnatilgan"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy oʻrnatilgan"
+      }
+    },
+    "network": {
+      "title": "Tarmoq",
+      "networkManager": {
+        "description": "NetworkManager qoʻllab-quvvatlashi"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager faollashtirilgan"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager faollashtirilgan"
+      }
+    },
+    "bluetooth": {
+      "title": "Bluetooth",
+      "bluetooth": {
+        "description": "Bluetooth qoʻllab-quvvatlashi"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth faollashtirilgan"
+      },
+      "userBluetooth": {
+        "description": "Foydalanuvchi bluetooth guruhida"
+      },
+      "autoConnect": {
+        "description": "Avtomatik ulanish oʻrnatilgan"
+      },
+      "autoConnectEnabled": {
+        "description": "Avtomatik ulanish faollashtirilgan"
+      }
+    },
+    "printing": {
+      "title": "Chop etish",
+      "printingSupport": {
+        "description": "Chop etishni qoʻllab-quvvatlash"
+      },
+      "cupsEnabled": {
+        "description": "CUPS faollashtirilgan"
+      },
+      "scanningSupport": {
+        "description": "Skanerlashni qoʻllab-quvvatlash"
+      },
+      "sanedEnabled": {
+        "description": "saned faollashtirilgan"
+      },
+      "userCups": {
+        "description": "Foydalanuvchi cups guruhida"
+      },
+      "userScanner": {
+        "description": "Foydalanuvchi scanner guruhida"
+      },
+      "userLp": {
+        "description": "Foydalanuvchi lp guruhida"
+      }
+    },
+    "firewall": {
+      "title": "Xavfsizlik devori",
+      "firewalld": {
+        "description": "Firewalld oʻrnatilgan"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld faollashtirilgan"
+      },
+      "ufw": {
+        "description": "UFW oʻrnatilgan"
+      },
+      "ufwEnabled": {
+        "description": "UFW faollashtirilgan"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch oʻrnatilgan"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch faollashtirilgan"
+      }
+    },
+    "misc": {
+      "title": "Har xil",
+      "gns": {
+        "description": "Garuda Nix Subsystem oʻrnatilgan"
+      }
+    }
+  },
+  "systemSettings": {
+    "defaultShellConfigs": "Standart konfiguratsiyalarni oʻrnatish",
+    "defaultDns": "Standart DNSni oʻrnatish",
+    "defaultShell": "Kirish qobigʻini oʻrnatish",
+    "enableHblock": "Hblockni faollashtirish",
+    "enableIwd": "wpa_supplicant oʻrniga IWDdan foydalanish",
+    "common": {
+      "title": "Umumiy",
+      "psd": {
+        "description": "Profile-sync-daemon oʻrnatilgan"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon faollashtirilgan"
+      },
+      "oomd": {
+        "description": "Systemd-oomd faollashtirilgan"
+      },
+      "guestUser": {
+        "description": "Mehmon foydalanuvchini faollashtirish"
+      }
+    },
+    "performance": {
+      "title": "Ishlash samaradorligi",
+      "performanceTweaks": {
+        "description": "Ishlash samaradorligini oshirish sozlamalari"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ oʻrnatilgan"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ faollashtirilgan"
+      },
+      "bpftune": {
+        "description": "Bpftune oʻrnatilgan"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune faollashtirilgan"
+      },
+      "preload": {
+        "description": "Preload oʻrnatilgan"
+      },
+      "preloadEnabled": {
+        "description": "Preload faollashtirilgan"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance faollashtirilgan"
+      }
+    },
+    "powersave": {
+      "title": "Quvvat tejash",
+      "powersaveTweaks": {
+        "description": "Quvvat tejash sozlamalari"
+      },
+      "tlp": {
+        "description": "TLP oʻrnatilgan"
+      },
+      "tlpEnabled": {
+        "description": "TLP faollashtirilgan"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq oʻrnatilgan"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq faollashtirilgan"
+      },
+      "thermald": {
+        "description": "Thermald oʻrnatilgan"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald faollashtirilgan"
+      },
+      "powerProfilesDaemon": {
+        "description": "Quvvat profillari demoni oʻrnatilgan"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Quvvat profillari demoni faollashtirilgan"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt oʻrnatilgan"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt faollashtirilgan"
+      }
+    },
+    "rightclickEmulation": {
+      "title": "Oʻng tugma emulyatsiyasi",
+      "evdevLongPressRightClick": {
+        "description": "Evdev uzoq bosish oʻng tugma emulyatsiyasi"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE faollashtirilgan"
+      }
+    }
+  },
+  "shells": {
+    "fish": {
+      "hint": "fishni standart qobiq sifatida oʻrnatish boshqa dasturlar bilan muammolarga olib kelishi mumkin. Uni terminal konfiguratsiyalari orqali standart sifatida oʻrnatish tavsiya etiladi."
+    }
+  },
+  "confirmation": {
+    "accept": "Qabul qilish",
+    "reject": "Bekor qilish",
+    "exitApp": "Ilovadan chiqishni xohlaysizmi?",
+    "exitAppRunningAction": "Ilovadan chiqishni xohlaysizmi? Ishlayotgan amal mavjud!",
+    "resetConfigsHeader": "Konfiguratsiyalar tiklansinmi?",
+    "resetConfigsBody": "Quyidagi konfiguratsiyalarni tiklashni xohlaysizmi?",
+    "exitAppHeader": "Ilovadan chiqilsinmi?",
+    "applyOperations": "Operatsiyalar qoʻllanilsinmi?",
+    "applyOperationsBody": "Barcha kutilayotgan operatsiyalarni qoʻllashni xohlaysizmi?"
+  },
+  "error": {
+    "sudoPassword": "Bu toʻgʻri parolga oʻxshamaydi. Iltimos, qayta urinib koʻring."
+  },
+  "operation": {
+    "removeApps": "Ilovalarni olib tashlash",
+    "installApps": "Ilovalarni oʻrnatish",
+    "addGroup": "Foydalanuvchini guruhga qoʻshish",
+    "removeGroup": "Foydalanuvchini guruhdan olib tashlash",
+    "disableService": "Xizmatni oʻchirish",
+    "enableService": "Xizmatni faollashtirish",
+    "setDefaultShell": "Standart qobiqni oʻrnatish",
+    "enableHblock": "Hblockni faollashtirish",
+    "disableHblock": "Hblockni oʻchirish",
+    "setNewDnsServer": "Yangi DNS serverini oʻrnatish",
+    "resetDnsServer": "DNS serverini tiklash",
+    "args": "Argumentlar",
+    "logs": "Jurnallar",
+    "remove": "Olib tashlash",
+    "abort": "Bekor qilish",
+    "run": "Hozir ishga tushirish"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Kutilayotgan yangilanishlar",
+    "updates": "Bu tizimda kutilayotgan yangilanishlar mavjud (ma'lumot uchun bosing)",
+    "pacFiles": "Bu tizimda kutilayotgan .pacnew fayllari mavjud, ularni tekshirib, birlashtirishingiz kerak! (ma'lumot uchun bosing)",
+    "cancel": "Bekor qilish",
+    "aurUpdates": "AUR paketlarini yangilash bu ilovaning doirasiga kirmaydi. Iltimos, Paru kabi AUR yordamchisidan foydalaning va oʻrnatishdan oldin PKGBUILD fayllarini koʻrib chiqing.",
+    "scheduleUpdates": "Yangilanishlarni rejalashtirish",
+    "pendingPacdiff": "Kutilayotgan pacdiff fayllari",
+    "findMore": "Qanday davom etishni bilib oling",
+    "warnUpdate": "Tizimingiz 2 hafta davomida yangilanmagan. Xavfsizlik va barqarorlikni ta'minlash uchun tizimingizni yangilang.",
+    "affectedFiles": "Ta'sirlangan fayllar:",
+    "learnPacdiff": "Agar pacdiff fayllari bilan tanish boʻlmasangiz, ular haqida tezda ma'lumot oling.",
+    "openMaintenance": "Boshlash uchun quyidagi tugmani bosing.",
+    "openMaintenanceButton": "Birlashtirishni boshlash",
+    "rebootNow": "Hozir qayta yuklash",
+    "rebootNowBody": "Hozir qayta yuklashni xohlaysizmi? Davom etishdan oldin barcha ishlaringizni saqlaganingizga ishonch hosil qiling.",
+    "warnReboot": "Yangilanishlarni qoʻllagandan soʻng, ayniqsa yadrolarni yoki ish stoli muhitlarini yangilaganda tizimni qayta yuklash qat'iy tavsiya etiladi.",
+    "proceed": "Mana qanday davom etish kerak:",
+    "snapshotCreation": "Birlashtirishni boshlashdan oldin Btrfs oniy surati yaratiladi.",
+    "proceedMerge": "Oʻzgarishlarni qoʻllash uchun Meld ochiladi. Chap tomonda YANGI fayl, oʻng tomonda ESKI fayl. Birlashtirmoqchi boʻlgan foydali oʻzgarishlarni chapdan oʻng tomonga oʻtkazing. Tugatgach, saqlash tugmasini yoki CTRL + S tugmalarini bosing.",
+    "cautionMerge": "ESKI faylga notoʻgʻri oʻzgarishlar kiritish tizimingizni buzishi mumkinligidan xabardor boʻling.",
+    "askHelp": "Agar ishonchingiz komil boʻlmasa, oynani saqlamasdan yoping va Garuda Linux forumida yordam soʻrang.",
+    "runAurUpdates": "AUR yangilanishlarini tashqaridan ishga tushirish"
+  },
+  "operationManager": {
+    "refusing": "Bajarish rad etilmoqda",
+    "pendingOperationsRunning": "Ishlayotgan operatsiyalar mavjud, men faqat allaqachon bajarilganlarini olib tashlayman.",
+    "thisOperationRunning": "Esing joyidami? Bu operatsiya hozirda ishlamoqda!"
+  },
+  "os-interact": {
+    "packages": "Oʻrnatilgan paketlarni oʻzgartirish",
+    "packages-aur": "AUR paketlarini oʻzgartirish",
+    "services": "Xizmatlarni oʻzgartirish",
+    "services-user": "Foydalanuvchi xizmatlarini oʻzgartirish",
+    "groups": "Foydalanuvchi guruhlarini oʻzgartirish",
+    "locales": "Faollashtirilgan mahalliylashtirishlarni oʻzgartirish"
+  },
+  "packages": {
+    "title": "Paketlar",
+    "internet": "Internet",
+    "documents": "Hujjatlar",
+    "multimedia": "Multimedia",
+    "science": "Fan",
+    "security": "Xavfsizlik",
+    "other": "Boshqa",
+    "clear": "Tozalash",
+    "search": "Qidirish",
+    "url": "URL",
+    "selected": "Tanlangan",
+    "description": "Tavsif",
+    "name": "Nom",
+    "searchKey": "Qidiruv kalit soʻzini kiriting",
+    "notFound": "Paketlar topilmadi"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Ba'zi DKMS modullari buzilgan",
+    "dkmsModulesBrokenTip": "Buzilgan DKMS modullarini oʻrnatishni rejalashtirish uchun meni bosing",
+    "dkmsModulesMissing": "Ba'zi DKMS modullari yetishmayapti",
+    "dkmsModulesMissingTip": "Yetishmayotgan DKMS modullari",
+    "headers": "Sarlavhalar",
+    "headersMissing": "Yetishmayotgan yadro sarlavhalari",
+    "headersMissingTip": "Yetishmayotgan sarlavhalarni oʻrnatishni rejalashtirish uchun meni bosing",
+    "active": "Faol yadro:"
+  },
+  "languagePacks": {
+    "locale": "Mahalliylashtirish",
+    "selected": "Tanlangan",
+    "base": "Asosiy paket",
+    "notFound": "Til paketlari topilmadi",
+    "pkgname": "Paket nomi",
+    "description": "Bular sizning oʻrnatilgan paketlaringiz uchun til paketlari boʻlib, odatda GUI uchun tarjimalarni taqdim etadi."
+  },
+  "settings": {
+    "title": "Ilova",
+    "titleTwo": "sozlamalari",
+    "leftButtons": "Oyna tugmalarini chapda koʻrsatish",
+    "copyDiagnostics": "Diagnostikani vaqtinchalik xotiraga nusxalash",
+    "darkMode": "Qorongʻi rejimni faollashtirish",
+    "language": "Faol tilni sozlash",
+    "autoStart": "Ilovani avtomatik ishga tushirish",
+    "logLevel": "Jurnal darajasini tanlang",
+    "systemdUserContext": "Foydalanuvchi Systemd xizmatlarini koʻrsatish",
+    "autoRefresh": "Systemd xizmatlarini avtomatik yangilashni faollashtirish",
+    "showMainLinks": "Bosh sahifada havolalarni koʻrsatish",
+    "themeLabel": "Asosiy dizayn mavzusi",
+    "toggleOptions": "Variantlarni almashtirish",
+    "selectOptions": "Tanlovlar"
+  },
+  "locales": {
+    "apply": "Oʻrnatilgan mahalliylashtirish oʻzgarishlarini rejalashtirish",
+    "description": "Oʻngdagi mahalliylashtirishlar tizimingizda oʻrnatilgan. Qaysi birini saqlashni va qaysi birini olib tashlashni tanlashingiz mumkin.",
+    "available": "Mavjud",
+    "selected": "Tanlangan",
+    "task": "Tizim mahalliylashtirishini oʻzgartirish",
+    "selectLocale": "Afzal koʻrgan tizim boʻylab tilingizni tanlang"
+  }
+}

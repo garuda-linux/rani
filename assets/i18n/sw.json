@@ -3,306 +3,589 @@
     "welcome": "Karibu",
     "maintenance": "Matengenezo",
     "systemTools": "Mipangilio ya Mfumo",
-    "components": "Vifaa",
-    "gaming": "Programu za michezo ya kubahatisha",
-    "boot": "Vyombo vya Boot",
-    "diagnostics": "Utambuzi",
-    "network": "Zana za mtandao",
-    "settings": {
-      "title": "Mipangilio",
-      "windowButtonsLeft": "Onyesha vifungo vya dirisha kushoto",
-      "copyDiagnostics": "Nakili utambuzi kwa clipboard",
-      "darkMode": "Wezesha hali ya giza",
-      "language": "Sanidi lugha inayotumika"
-    },
+    "components": "Vipengele",
+    "gaming": "Michezo",
+    "boot": "Zana za Kuanzisha",
+    "diagnostics": "Uchunguzi",
+    "network": "Zana za Mtandao",
+    "settings": "Mipangilio ya Programu",
     "help": {
       "title": "Msaada",
-      "getHelpForum": "Pata msaada kwenye mkutano",
-      "getHelpWiki": "Tafuta yaliyomo kwenye wiki",
-      "getHelpArchWiki": "Tafuta yaliyomo kwenye Wiki ya Arch",
-      "garudaStatus": "Angalia hali ya wakati",
-      "about": "Kuhusu Rani ya Garuda",
-      "aboutBody": "Gani's Rani ni zana ya matengenezo ya mfumo na utambuzi wa Garuda Linux. Imeundwa kusaidia watumiaji kudumisha mfumo wao na kugundua maswala. Imejengwa kwa kutumia Tauri na Angular.",
-      "callExorcist": "Piga simu ya Exorcist",
-      "callExorcistBody": "Lazima uwe na hamu ya kubonyeza kitufe hiki! Nilikuwekea voodoo maalum kwako, ikiwa bado una maswala na programu, tafadhali waripoti kwenye Jukwaa la Garuda Linux au Tracker yetu ya Suala."
+      "getHelpForum": "Pata msaada kwenye jukwaa",
+      "getHelpWiki": "Tafuta maudhui katika wiki",
+      "getHelpArchWiki": "Tafuta maudhui katika Arch Wiki",
+      "garudaStatus": "Angalia hali ya muda wa kufanya kazi",
+      "about": "Kuhusu Garuda Rani",
+      "aboutBody": "Garuda Rani ni zana ya matengenezo ya mfumo na uchunguzi kwa Garuda Linux. Imeundwa kusaidia watumiaji kudumisha mfumo wao na kutambua matatizo. Imejengwa kwa kutumia Tauri na Angular.",
+      "callExorcist": "Mwite mtoa pepo",
+      "callExorcistTitle": "Umemwita mtoa pepo!",
+      "callExorcistBody": "Lazima uwe na shida sana kubofya kitufe hiki! Nimekuandalia uchawi maalum, ikiwa bado una matatizo na programu, tafadhali yaripoti kwenye jukwaa la Garuda Linux au kifuatiliaji chetu cha matatizo."
     },
-    "terminal": "Terminal",
+    "terminal": "Onyesha terminal",
+    "terminalRunning": "Majukumu yanayoendelea",
+    "terminalTasks": "Tekeleza majukumu",
     "pending": "Inasubiri"
   },
   "diagnostics": {
-    "title": "Maelezo ya Debug",
-    "titleTwo": "na utambuzi",
-    "subtitle": "Pata habari unayohitaji kurekebisha mfumo wako",
-    "inxi": "Maelezo ya kawaida (inxi)",
-    "systemctl": "Huduma za Mfumo (SystemCTL)",
-    "journalctl": "Magogo ya Mfumo (Jarida)",
-    "dmesg": "Magogo ya Kernel (DMESG)",
-    "full": "Utambuzi kamili",
+    "title": "Maelezo ya utatuzi ",
+    "titleTwo": "na uchunguzi",
+    "subtitle": "Pata taarifa unayohitaji kutatua mfumo wako",
+    "inxi": "Taarifa za kawaida (inxi)",
+    "systemctl": "Huduma za mfumo (systemctl)",
+    "journalctl": "Kumbukumbu za mfumo (journalctl)",
+    "dmesg": "Kumbukumbu za Kernel (dmesg)",
+    "full": "Uchunguzi kamili",
     "upload": "Pakia kwa PrivateBin",
-    "pacman": "Magogo ya hivi karibuni ya Pacman",
-    "copied": "Kunakiliwa kwa mafanikio kwenye clipboard",
+    "failedCmdHeader": "Imeshindwa kutekeleza amri",
+    "failedCmd": "Kitu kibaya kilitokea na hakuna uchunguzi ulioweza kupatikana",
+    "pacman": "Kumbukumbu za hivi karibuni za Pacman",
+    "copied": "Imenakiliwa kwenye ubao wa kunakili kwa mafanikio",
     "success": "Mafanikio",
-    "uploadSuccess": "Imepakiwa kwa mafanikio kwa PrivateBin"
+    "uploadSuccess": "Imepakiwa kwa mafanikio kwa PrivateBin, URL imenakiliwa kwenye ubao wa kunakili"
   },
-  "lang": { "title": "Uteuzi wa lugha", "tooltip": "Chagua lugha unayopendelea" },
+  "lang": {
+    "title": "Uteuzi wa lugha",
+    "tooltip": "Chagua lugha unayopendelea"
+  },
   "welcome": {
-    "title": "Karibu Garuda",
-    "titleTwo": "Linux",
-    "subtitle": "Distro ya mwisho ya Linux kwa michezo ya kubahatisha na media",
+    "title": "Karibu kwenye ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "Distro bora ya Linux kwa michezo na multimedia",
     "maintenance": "Matengenezo",
     "maintenanceSub": "Weka mfumo wako katika hali nzuri",
     "systemTools": "Mipangilio ya Mfumo",
     "systemToolsSub": "Sanidi mfumo wako",
-    "gaming": "Programu za michezo ya kubahatisha",
-    "gamingSub": "Cheza michezo unayopenda",
-    "bootTools": "Vyombo vya Boot",
-    "bootToolsSub": "Dhibiti mipangilio yako ya boot",
-    "network": "Zana za mtandao",
+    "gaming": "Programu za Michezo",
+    "gamingSub": "Cheza michezo yako uipendayo",
+    "bootTools": "Zana za Kuanzisha",
+    "bootToolsSub": "Dhibiti mipangilio yako ya kuanzisha",
+    "network": "Zana za Mtandao",
     "networkSub": "Dhibiti mipangilio yako ya mtandao",
-    "diagnostics": "Utambuzi",
+    "diagnostics": "Uchunguzi",
     "diagnosticsSub": "Angalia afya ya mfumo wako",
-    "install": "Weka Garuda Linux",
+    "install": "Sakinisha Garuda Linux",
     "installSub": "Pata Garuda Linux kwenye mfumo wako",
-    "chroot": "Chroot ndani ya Garuda",
-    "chrootSub": "Chroot kwenye usanidi wako wa Garuda",
-    "startpage": "StartPage",
-    "startpageSub": "Fungua mwanzo wa Garuda Linux",
+    "chroot": "Chroot katika Garuda",
+    "chrootSub": "Chroot katika usakinishaji wako wa Garuda",
+    "startpage": "Ukurasa wa Kuanzia",
+    "startpageSub": "Fungua ukurasa wa kuanzia wa Garuda Linux",
     "setupAssistant": "Msaidizi wa Usanidi",
-    "setupAssistantSub": "Run Msaidizi wa Usanidi wa Garuda"
+    "setupAssistantSub": "Endesha msaidizi wa usanidi wa Garuda",
+    "hello": "Habari",
+    "error": "Kosa limetokea."
   },
   "gaming": {
-    "title": "Michezo ya kubahatisha",
-    "titleTwo": "programu",
-    "subtitle": "Wacha tuanze na programu zingine za michezo ya kubahatisha!",
-    "launchers": "Vizindua vya mchezo",
-    "wine": "Mvinyo",
-    "tools": "Zana za michezo ya kubahatisha",
+    "title": "Programu za ",
+    "titleTwo": "Michezo",
+    "subtitle": "Tuanze na programu zingine za michezo!",
+    "launchers": "Vizindua Michezo",
+    "loading": "Inapakia...",
+    "wine": "WINE",
+    "tools": "Zana za Michezo",
     "emulators": "Emulators",
-    "controllers": "Msaada wa mtawala",
+    "controllers": "Usaidizi wa Kidhibiti",
     "games": "Michezo",
-    "misc": "Miscellaneous"
+    "misc": "Mengineyo",
+    "bluez": "Kwa ujumla inahitajika ili kutambua vidhibiti vya PS visivyo na waya",
+    "xboxdrv": "Dereva ya kidhibiti cha Xbox, tumia tu ikiwa dereva ya kernel haifanyi kazi!",
+    "wineWow64": "Toleo la WINE lenye usaidizi wa 64-bit bila kuhitaji kusakinisha maktaba za 32-bit",
+    "wineStagingWow64": "Toleo la staging la WINE lenye usaidizi wa 32-bit bila kuhitaji kusakinisha maktaba za 32-bit",
+    "wineMeta": "Kifurushi cha Meta cha kusakinisha WINE na vitegemezi vyote vinavyohitajika"
   },
   "maintenance": {
-    "title": "Mfumo",
-    "titleTwo": "Matengenezo",
+    "title": "Matengenezo ya ",
+    "titleTwo": "Mfumo",
     "subtitle": "Weka mfumo wako katika hali nzuri",
     "update": "Sasisha mfumo wako",
-    "addPending": "Ongeza inasubiri",
-    "removePending": "Ondoa inasubiri",
-    "runNow": "Kukimbia sasa",
+    "addPending": "Ongeza inayongojea",
+    "removePending": "Ondoa inayongojea",
+    "runNow": "Endesha sasa",
+    "failedReset": "Kosa la kurejesha faili ya usanidi",
+    "failedResetFile": "Kosa limetokea wakati wa kurejesha {{file}}",
     "editRepos": "Hariri hazina",
-    "onlyDirect": "Kitendo hiki hakiwezi kutengwa na kinahitaji kuendeshwa moja kwa moja.",
-    "cleanCache": "Cache safi",
-    "cleanCacheSub": "Ondoa vifurushi vyote vilivyohifadhiwa",
+    "onlyDirect": "Hatua hii haiwezi kuwekwa kwenye foleni na inahitaji kuendeshwa moja kwa moja.",
+    "cleanCache": "Safisha kashe",
+    "cleanCacheSub": "Ondoa vifurushi vyote vilivyohifadhiwa kwenye kashe",
     "updateSystem": "Sasisha mfumo",
-    "updateSystemSub": "Sasisha mfumo wako kupitia Garuda-Sasisha",
-    "editReposSub": "Hariri hazina zako kwa kasi",
-    "addPendingSub": "Ongeza shughuli zinazosubiri",
-    "clearOrphans": "Wazi wa watoto yatima",
-    "clearOrphansSub": "Ondoa vifurushi vya watoto yatima",
-    "refreshMirrors": "Vioo viburudishe",
-    "refreshMirrorsSub": "Furahisha orodha yako ya kioo",
-    "removeLock": "Ondoa kufuli kwa Pacman",
-    "removeLockSub": "Ondoa faili ya kufuli ya Pacman",
-    "reinstallPackages": "Weka vifurushi",
-    "reinstallPackagesSub": "Weka tena vifurushi vyote kwenye mfumo wako",
-    "btrfsAssistant": "Msaidizi wa BTRFS",
-    "btrfsAssistantSub": "Simamia snapshots yako ya BTRFS na uendeshe kazi za matengenezo",
-    "updateRemoteFullFix": "Garuda Sasisha Kurekebisha Kamili",
-    "updateRemoteFullFixSub": "Rudisha Pacman na usanidi vifurushi vyote kwenye OS yako",
-    "updateRemoteKeyring": "Garuda Sasisha Keyring",
-    "updateRemoteKeyringSub": "Furahisha ufunguo bila kuweka upya pacman.conf",
-    "updateRemoteFix": "Sasisho la sasisho la Garuda",
-    "updateRemoteFixSub": "Rudisha pacman.conf na uburudishe vifunguo",
-    "updateRemoteResetSnapper": "Rudisha snapper",
-    "updateRemoteResetSnapperSub": "Ondoa kila kitu snapper na urekebishe usanidi wake",
-    "updateRemoteResetAudio": "Rudisha sauti",
-    "updateRemoteResetAudioSub": "Rejesha/Rudisha Usanidi wa Sauti ya Pipewire",
-    "resetTooltip": "Faili zifuatazo au folda zitawekwa upya kwa hali yao ya msingi:",
-    "resetConfigs": "Rudisha usanidi kwa hali ya msingi",
+    "taskRunningHeader": "Kosa la kuendesha hatua ya matengenezo",
+    "taskRunning": "Tayari kuna jukumu linaloendelea, subiri likamilike kwanza.",
+    "updateSystemSub": "Sasisha mfumo wako kupitia garuda-update",
+    "editReposSub": "Hariri hazina zako kwa kutumia Pace",
+    "addPendingSub": "Ongeza shughuli zinazongojea",
+    "clearOrphans": "Safisha yatima",
+    "clearOrphansSub": "Ondoa vifurushi yatima",
+    "refreshMirrors": "Sasisha vioo",
+    "refreshMirrorsSub": "Sasisha orodha yako ya vioo",
+    "removeLock": "Ondoa kufuli ya Pacman",
+    "removeLockSub": "Ondoa faili ya kufuli ya pacman",
+    "reinstallPackages": "Sakinisha upya vifurushi",
+    "reinstallPackagesSub": "Sakinisha upya vifurushi vyote kwenye mfumo wako",
+    "reinstallDkmsModules": "Sakinisha upya moduli za DKMS",
+    "btrfsAssistant": "Msaidizi wa Btrfs",
+    "btrfsAssistantSub": "Dhibiti nakala zako za BTRFS na endesha majukumu ya matengenezo",
+    "mergePacDiff": "Unganisha faili za pacdiff",
+    "mergePacDiffSub": "Unganisha faili za .pacnew na .pacsave kiutendaji",
+    "updateRemoteFullFix": "Usasishaji kamili wa kurekebisha Garuda",
+    "updateRemoteFullFixSub": "Weka upya Pacman na usakinishe upya vifurushi vyote kwenye Mfumo wako wa Uendeshaji",
+    "updateRemoteKeyring": "Usasishaji wa mnyororo wa vitufe vya Garuda",
+    "updateRemoteKeyringSub": "Sasisha mnyororo wa vitufe bila kuweka upya pacman.conf",
+    "updateRemoteFix": "Usasishaji wa kurekebisha Garuda",
+    "updateRemoteFixSub": "Weka upya pacman.conf na usasishe minyororo ya vitufe",
+    "updateRemoteResetSnapper": "Weka upya Snapper",
+    "updateRemoteResetSnapperSub": "Ondoa kila kitu cha Snapper na uunde upya usanidi wake",
+    "updateRemoteResetAudio": "Weka upya sauti",
+    "updateRemoteResetAudioSub": "Sakinisha upya/weka upya usanidi wa sauti wa PipeWire",
+    "resetTooltip": "Faili au folda zifuatazo zitawekwa upya kwa hali yao chaguo-msingi:",
+    "resetConfigs": "Weka upya usanidi kwa hali chaguo-msingi",
     "common": "Matengenezo ya kawaida",
-    "garudaUpdate": "Vyombo vya uokoaji vya Garuda"
+    "garudaUpdate": "Zana za uokoaji za usasishaji wa Garuda"
   },
   "sudo": {
     "title": "Uthibitishaji unahitajika",
-    "subtitle": "Tafadhali ingiza nywila yako ili uendelee",
-    "save": "Cache katika kikao hiki",
+    "subtitle": "Tafadhali ingiza nenosiri lako ili kuendelea",
+    "save": "Hifadhi kwenye kashe katika kipindi hiki",
     "password": "Nenosiri",
     "cancel": "Ghairi",
     "useOnce": "Tumia mara moja tu"
   },
   "terminal": {
     "title": "Terminal",
-    "runActions": "Run vitendo",
-    "removeAll": "Ondoa vitendo vyote",
-    "noOutput": "Hakuna pato",
-    "outputExists": "Inaonekana kama kuna hatua tayari. Tafadhali subiri imalize kabla ya kujaribu kutazama magogo.",
-    "opRunning": "Operesheni tayari inaendelea."
+    "runActions": "Endesha hatua",
+    "removeAll": "Ondoa hatua zote",
+    "abortAll": "Acha hatua zote",
+    "noOutput": "Hakuna matokeo",
+    "outputExists": "Inaonekana tayari kuna hatua inayoendelea. Tafadhali subiri ikamilike kabla ya kujaribu kuona kumbukumbu.",
+    "opRunning": "Operesheni tayari inaendelea.",
+    "clearCachedDataTitle": "Kashe ya matokeo imefutwa",
+    "clearCachedData": "Kashe ya matokeo imefutwa.",
+    "clearOutputCache": "Futa kashe ya matokeo",
+    "copyOutput": "Nakili matokeo ya terminal",
+    "copyToClipboardTitle": "Imenakiliwa kwenye ubao wa kunakili",
+    "copyToClipboard": "Matokeo yamenakiliwa kwenye ubao wako wa kunakili kwa mafanikio.",
+    "uploadPrivateBin": "Pakia kwa PrivateBin"
   },
   "systemdServices": {
     "notFound": "Hakuna huduma zilizopatikana",
     "description": "Maelezo",
     "unit": "Jina la kitengo",
-    "load": "Mzigo",
-    "active": "Kazi",
-    "state": "Jimbo",
-    "searchKey": "Ingiza neno kuu la utaftaji",
-    "clear": "Wazi",
-    "actions": "Vitendo",
+    "load": "Pakia",
+    "active": "Inatumika",
+    "state": "Hali",
+    "searchKey": "Ingiza neno la utafutaji",
+    "clear": "Futa",
+    "actions": "Hatua",
     "show": "Onyesha",
     "start": "Anza",
     "stop": "Acha",
-    "mask": "Mask",
-    "unmask": "Unmask",
-    "logs": "Magogo",
+    "mask": "Funika",
+    "unmask": "Funua",
+    "logs": "Kumbukumbu",
     "restart": "Anzisha upya",
-    "reload": "Pakia tena",
-    "enable": "Wezesha",
-    "disable": "Lemaza",
-    "autoRefresh": "Kiburudisho kiotomatiki",
-    "error": "Hitilafu ilitokea wakati wa kuchota huduma, tafadhali jaribu tena.",
-    "errorTitle": "Kuchukua huduma za kuchota",
+    "reload": "Pakia upya",
+    "enable": "Washa",
+    "disable": "Zima",
+    "autoRefresh": "Sasisha kiotomatiki",
+    "error": "Kosa limetokea wakati wa kupata huduma, tafadhali jaribu tena.",
+    "errorTitle": "Kosa la kupata huduma",
     "systemContext": "Onyesha huduma za mfumo",
-    "userContext": "Onyesha huduma za watumiaji",
-    "includeDisabled": "Jumuisha walemavu",
-    "excludeDisabled": "Ondoa walemavu"
+    "userContext": "Onyesha huduma za mtumiaji",
+    "includeDisabled": "Jumuisha zilizozimwa",
+    "excludeDisabled": "Toa zilizozimwa"
   },
   "systemTools": {
-    "title": "Mfumo",
-    "titleTwo": "Mipangilio",
-    "systemdServices": "Huduma za mfumo",
+    "title": "Mipangilio ya ",
+    "titleTwo": "Mfumo",
+    "systemdServices": "Huduma za Systemd",
     "systemSettings": "Mipangilio ya Mfumo",
-    "components": "Vipengele vya mfumo",
+    "components": "Vipengele vya Mfumo",
+    "locales": "Lugha za ndani",
+    "kernels": "Kernel",
+    "packages": "Vifurushi zaidi",
     "audio": {
       "title": "Sauti",
-      "alsa": { "description": "Msaada wa Alsa" },
-      "jack": { "description": "Msaada wa Jack" },
-      "pulseaudio": { "description": "Msaada wa Pulseaudio" },
-      "pipewire": { "description": "Msaada wa Pipewire" },
-      "userRealtime": { "description": "Mtumiaji katika kikundi cha wakati halisi" }
+      "alsa": {
+        "description": "Usaidizi wa ALSA"
+      },
+      "jack": {
+        "description": "Usaidizi wa JACK"
+      },
+      "pulseaudio": {
+        "description": "Usaidizi wa PulseAudio"
+      },
+      "pipewire": {
+        "description": "Usaidizi wa PipeWire"
+      },
+      "userRealtime": {
+        "description": "Mtumiaji katika kikundi cha realtime"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP imesakinishwa"
+      }
     },
     "virtualization": {
-      "title": "Virtualization",
-      "qemu": { "description": "Msaada wa Qemu" },
-      "kvm": { "description": "Msaada wa KVM" },
-      "virtManager": { "description": "Msaada wa Meneja wa Vir-Meneja" },
-      "libvirtdEnabled": { "description": "Libvirtd imewezeshwa" },
-      "userVboxUsers": { "description": "Mtumiaji katika kikundi cha VBoxUsers" },
-      "virtualbox": { "description": "Msaada wa VirtualBox" },
-      "userLibvirt": { "description": "Mtumiaji katika Kikundi cha Libvirt" },
-      "userKvm": { "description": "Mtumiaji katika Kikundi cha KVM" },
-      "virtualboxKvm": { "description": "VirtualBox na msaada wa KVM" },
-      "docker": { "description": "Msaada wa Docker" },
-      "userDocker": { "description": "Mtumiaji katika Kikundi cha Docker" },
-      "dockerEnabled": { "description": "Docker imewezeshwa" },
-      "podman": { "description": "Msaada wa Podman" },
-      "podmanEnabled": { "description": "Podman amewezeshwa" }
+      "title": "Uboreshaji",
+      "qemu": {
+        "description": "QEMU imesakinishwa"
+      },
+      "kvm": {
+        "description": "Usaidizi wa KVM"
+      },
+      "virtManager": {
+        "description": "Usaidizi wa Virt-manager"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd imewashwa"
+      },
+      "userVboxUsers": {
+        "description": "Mtumiaji katika kikundi cha vboxusers"
+      },
+      "virtualbox": {
+        "description": "Usaidizi wa VirtualBox"
+      },
+      "userLibvirt": {
+        "description": "Mtumiaji katika kikundi cha libvirt"
+      },
+      "userKvm": {
+        "description": "Mtumiaji katika kikundi cha kvm"
+      }
+    },
+    "containers": {
+      "title": "Kontena",
+      "docker": {
+        "description": "Docker imesakinishwa"
+      },
+      "dockerEnabled": {
+        "description": "Docker imewashwa"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose imesakinishwa"
+      },
+      "userDocker": {
+        "description": "Mtumiaji katika kikundi cha docker"
+      },
+      "podman": {
+        "description": "Podman imesakinishwa"
+      },
+      "podmanDocker": {
+        "description": "Emulate Docker kupitia Podman"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop imesakinishwa"
+      },
+      "distrobox": {
+        "description": "DistroBox imesakinishwa"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy imesakinishwa"
+      }
     },
     "network": {
       "title": "Mtandao",
-      "networkManager": { "description": "Msaada wa NetworkManager" },
-      "networkManagerEnabled": { "description": "NetworkManager imewezeshwa" },
-      "modemManagerEnabled": { "description": "ModemManager imewezeshwa" }
+      "networkManager": {
+        "description": "Usaidizi wa NetworkManager"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager imewashwa"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager imewashwa"
+      }
     },
     "bluetooth": {
       "title": "Bluetooth",
-      "bluetooth": { "description": "Msaada wa Bluetooth" },
-      "bluetoothEnabled": { "description": "Bluetooth imewezeshwa" },
-      "userBluetooth": { "description": "Mtumiaji katika Kikundi cha Bluetooth" },
-      "autoConnect": { "description": "Unganisha kiotomatiki" },
-      "autoConnectEnabled": { "description": "Unganisha kiotomatiki umewezeshwa" }
+      "bluetooth": {
+        "description": "Usaidizi wa Bluetooth"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth imewashwa"
+      },
+      "userBluetooth": {
+        "description": "Mtumiaji katika kikundi cha bluetooth"
+      },
+      "autoConnect": {
+        "description": "Muunganisho wa kiotomatiki umesakinishwa"
+      },
+      "autoConnectEnabled": {
+        "description": "Muunganisho wa kiotomatiki umewashwa"
+      }
     },
     "printing": {
       "title": "Uchapishaji",
-      "printingSupport": { "description": "Msaada wa kuchapa" },
-      "cupsEnabled": { "description": "Vikombe vimewezeshwa" },
-      "scanningSupport": { "description": "Msaada wa skanning" },
-      "sanedEnabled": { "description": "SANE imewezeshwa" },
-      "userCups": { "description": "Mtumiaji katika Kikundi cha Vikombe" },
-      "userScanner": { "description": "Mtumiaji katika Kikundi cha Scanner" },
-      "userSys": { "description": "Mtumiaji katika Kikundi cha SYS" }
+      "printingSupport": {
+        "description": "Usaidizi wa uchapishaji"
+      },
+      "cupsEnabled": {
+        "description": "CUPS imewashwa"
+      },
+      "scanningSupport": {
+        "description": "Usaidizi wa skanning"
+      },
+      "sanedEnabled": {
+        "description": "saned imewashwa"
+      },
+      "userCups": {
+        "description": "Mtumiaji katika kikundi cha cups"
+      },
+      "userScanner": {
+        "description": "Mtumiaji katika kikundi cha scanner"
+      },
+      "userLp": {
+        "description": "Mtumiaji katika kikundi cha lp"
+      }
     },
     "firewall": {
-      "title": "Firewall",
-      "firewalld": { "description": "Msaada wa moto" },
-      "firewalldEnabled": { "description": "Firewalld imewezeshwa" },
-      "ufw": { "description": "Msaada wa UFW" },
-      "ufwEnabled": { "description": "UFW imewezeshwa" },
-      "opensnitch": { "description": "Msaada wa OpenSnitch" },
-      "opensnitchEnabled": { "description": "OpenSnitch imewezeshwa" }
+      "title": "Kinga moto",
+      "firewalld": {
+        "description": "Firewalld imesakinishwa"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld imewashwa"
+      },
+      "ufw": {
+        "description": "UFW imesakinishwa"
+      },
+      "ufwEnabled": {
+        "description": "UFW imewashwa"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch imesakinishwa"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch imewashwa"
+      }
+    },
+    "misc": {
+      "title": "Mengineyo",
+      "gns": {
+        "description": "Garuda Nix Subsystem imesakinishwa"
+      }
     }
   },
   "systemSettings": {
-    "defaultShellConfigs": "Weka usanidi chaguo -msingi",
-    "defaultDns": "Weka DNS chaguo -msingi",
-    "defaultShell": "Weka ganda la kuingia",
-    "enableHblock": "Wezesha Hblock",
+    "defaultShellConfigs": "Sakinisha usanidi chaguo-msingi",
+    "defaultDns": "Weka DNS chaguo-msingi",
+    "defaultShell": "Weka shell ya kuingia",
+    "enableHblock": "Washa Hblock",
+    "enableIwd": "Tumia IWD badala ya wpa_supplicant",
     "common": {
       "title": "Kawaida",
-      "psd": { "description": "Profaili-Sync-Daemon imewekwa" },
-      "psdEnabled": { "description": "Profaili-sync-daemon imewezeshwa" },
-      "oomd": { "description": "Systemd-oomd imewezeshwa" },
-      "guestUser": { "description": "Wezesha Mtumiaji wa Mgeni" }
+      "psd": {
+        "description": "Profile-sync-daemon imesakinishwa"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon imewashwa"
+      },
+      "oomd": {
+        "description": "Systemd-oomd imewashwa"
+      },
+      "guestUser": {
+        "description": "Washa mtumiaji mgeni"
+      }
     },
     "performance": {
       "title": "Utendaji",
-      "performanceTweaks": { "description": "Utendaji wa utendaji" },
-      "ananicyCpp": { "description": "Ananicy C ++ imewekwa" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ imewezeshwa" },
-      "preload": { "description": "Upakiaji umewekwa" },
-      "preloadEnabled": { "description": "Upakiaji umewezeshwa" },
-      "irqbalanceEnabled": { "description": "Irqbalance imewezeshwa" }
+      "performanceTweaks": {
+        "description": "Marekebisho ya utendaji"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ imesakinishwa"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ imewashwa"
+      },
+      "bpftune": {
+        "description": "Bpftune imesakinishwa"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune imewashwa"
+      },
+      "preload": {
+        "description": "Preload imesakinishwa"
+      },
+      "preloadEnabled": {
+        "description": "Preload imewashwa"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance imewashwa"
+      }
     },
     "powersave": {
-      "title": "Kuokoa nguvu",
-      "powersaveTweaks": { "description": "Powersave tweaks" },
-      "tlp": { "description": "TLP imewekwa" },
-      "tlpEnabled": { "description": "TLP imewezeshwa" },
-      "autoCpufreq": { "description": "Auto-cpufreq imewekwa" },
-      "autoCpufreqEnabled": { "description": "Auto-cpufreq imewezeshwa" },
-      "thermald": { "description": "Thermald imewekwa" },
-      "thermaldEnabled": { "description": "Thermald imewezeshwa" },
-      "powerProfilesDaemon": { "description": "Profaili za nguvu Daemon imewekwa" },
-      "powerProfilesDaemonEnabled": { "description": "Profaili za nguvu Daemon imewezeshwa" },
-      "intelUndervolt": { "description": "Intel-undervolt imewekwa" },
-      "intelUndervoltEnabled": { "description": "Intel-undervolt imewezeshwa" }
+      "title": "Kuokoa nishati",
+      "powersaveTweaks": {
+        "description": "Marekebisho ya kuokoa nishati"
+      },
+      "tlp": {
+        "description": "TLP imesakinishwa"
+      },
+      "tlpEnabled": {
+        "description": "TLP imewashwa"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq imesakinishwa"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq imewashwa"
+      },
+      "thermald": {
+        "description": "Thermald imesakinishwa"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald imewashwa"
+      },
+      "powerProfilesDaemon": {
+        "description": "Daemon ya profaili za nguvu imesakinishwa"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Daemon ya profaili za nguvu imewashwa"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt imesakinishwa"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt imewashwa"
+      }
     },
     "rightclickEmulation": {
-      "title": "Bonyeza kulia",
-      "evdevLongPressRightClick": { "description": "EvDev Long Bonyeza Bonyeza Kuiga" },
-      "evdevRce": { "description": "EVDEV RCE imewezeshwa" }
+      "title": "Uigaji wa kubofya kulia",
+      "evdevLongPressRightClick": {
+        "description": "Uigaji wa kubofya kulia kwa kubonyeza kwa muda mrefu Evdev"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE imewashwa"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "Kuweka samaki kama ganda chaguo -msingi inaweza kusababisha maswala na programu zingine. Inashauriwa kuiweka kama chaguo -msingi kupitia usanidi wa terminal badala yake."
+      "hint": "Kuweka fish kama shell chaguo-msingi kunaweza kusababisha matatizo na programu zingine. Inashauriwa kuiweka kama chaguo-msingi kupitia usanidi wa terminal badala yake."
     }
   },
   "confirmation": {
-    "accept": "Kukubali",
+    "accept": "Kubali",
     "reject": "Ghairi",
-    "exitApp": "Je! Una uhakika unataka kutoka kwa programu?",
-    "resetConfigsHeader": "Rudisha usanidi?",
-    "resetConfigsBody": "Je! Una uhakika unataka kuweka upya usanidi ufuatao?",
-    "exitAppHeader": "Toka programu?",
-    "applyOperations": "Tumia shughuli?",
-    "applyOperationsBody": "Je! Una uhakika kuwa unataka kutumia shughuli zote zinazosubiri?"
+    "exitApp": "Una uhakika unataka kufunga programu?",
+    "exitAppRunningAction": "Una uhakika unataka kufunga programu? Kuna hatua inayoendelea!",
+    "resetConfigsHeader": "Weka upya usanidi?",
+    "resetConfigsBody": "Una uhakika unataka kuweka upya usanidi ufuatao?",
+    "exitAppHeader": "Funga programu?",
+    "applyOperations": "Tekeleza shughuli?",
+    "applyOperationsBody": "Una uhakika unataka kutekeleza shughuli zote zinazongojea?"
   },
-  "error": { "sudoPassword": "Hii haionekani kuwa nywila sahihi. Tafadhali jaribu tena." },
+  "error": {
+    "sudoPassword": "Hii haionekani kuwa nenosiri sahihi. Tafadhali jaribu tena."
+  },
   "operation": {
     "removeApps": "Ondoa programu",
-    "installApps": "Weka programu",
-    "addGroups": "Ongeza mtumiaji kwa kikundi",
-    "removeGroup": "Ondoa mtumiaji kutoka kwa kikundi",
-    "disableService": "Lemaza huduma",
-    "enableService": "Wezesha huduma",
-    "setDefaultShell": "Weka ganda chaguo -msingi",
-    "enableHblock": "Wezesha Hblock",
-    "disableHblock": "Lemaza Hblock",
+    "installApps": "Sakinisha programu",
+    "addGroup": "Ongeza mtumiaji kwenye kikundi",
+    "removeGroup": "Ondoa mtumiaji kutoka kikundini",
+    "disableService": "Zima huduma",
+    "enableService": "Washa huduma",
+    "setDefaultShell": "Weka shell chaguo-msingi",
+    "enableHblock": "Washa Hblock",
+    "disableHblock": "Zima Hblock",
     "setNewDnsServer": "Weka seva mpya ya DNS",
-    "resetDnsServer": "Rudisha seva ya DNS",
+    "resetDnsServer": "Weka upya seva ya DNS",
     "args": "Hoja",
-    "logs": "Magogo",
-    "remove": "Ondoa"
+    "logs": "Kumbukumbu",
+    "remove": "Ondoa",
+    "abort": "Acha",
+    "run": "Endesha sasa"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Sasisho zinazosubiri",
+    "updates": "Mfumo huu una sasisho zinazosubiri (bofya kwa maelezo)",
+    "pacFiles": "Mfumo huu una faili za .pacnew zinazosubiri, unapaswa kuzikagua na kuzilinganisha! (bofya kwa maelezo)",
+    "cancel": "Ghairi",
+    "aurUpdates": "Kusasisha vifurushi vya AUR kiko nje ya upeo wa programu hii. Tafadhali tumia msaidizi wa AUR kama Paru, na kagua faili za PKGBUILD kabla ya kusakinisha.",
+    "scheduleUpdates": "Panga sasisho",
+    "pendingPacdiff": "Faili za pacdiff zinazosubiri",
+    "findMore": "Jua jinsi ya kuendelea",
+    "warnUpdate": "Mfumo wako haujasasishwa kwa wiki 2. Tafadhali sasisha mfumo wako ili kuhakikisha usalama na uthabiti.",
+    "affectedFiles": "Faili zilizoathirika:",
+    "learnPacdiff": "Ikiwa hufahamu faili za pacdiff, jifunze kuzihusu haraka.",
+    "openMaintenance": "Bofya kitufe hapa chini ili kuanza.",
+    "openMaintenanceButton": "Anza kulinganisha",
+    "rebootNow": "Anzisha upya sasa",
+    "rebootNowBody": "Una uhakika unataka kuanzisha upya sasa? Hakikisha umehifadhi kazi yako yote kabla ya kuendelea.",
+    "warnReboot": "Inapendekezwa sana kuanzisha upya mfumo wako baada ya kutekeleza sasisho, hasa wakati wa kusasisha kernel au mazingira ya eneo-kazi.",
+    "proceed": "Hivi ndivyo jinsi ya kuendelea:",
+    "snapshotCreation": "Nakala ya Btrfs itaundwa kabla ya kuanza kulinganisha.",
+    "proceedMerge": "Meld itafunguliwa ili kutekeleza mabadiliko. Upande wa kushoto ni faili MPYA, upande wa kulia ni ya ZAMANI. Hamisha mabadiliko yoyote muhimu unayotaka kulinganisha kutoka upande wa kushoto kwenda upande wa kulia. Bofya kitufe cha kuhifadhi au CTRL + S ukimaliza.",
+    "cautionMerge": "Fahamu kuwa kuweka mabadiliko mabaya kwenye faili ya ZAMANI kunaweza kuvunja mfumo wako.",
+    "askHelp": "Ikiwa huna uhakika, funga dirisha bila kuhifadhi na uombe msaada kwenye jukwaa la Garuda Linux.",
+    "runAurUpdates": "Endesha sasisho za AUR nje"
+  },
+  "operationManager": {
+    "refusing": "Kukataa utekelezaji",
+    "pendingOperationsRunning": "Kuna shughuli zinazoendelea, nitaondoa tu zile ambazo tayari zimekamilika.",
+    "thisOperationRunning": "Una akili timamu? Operesheni hii inaendelea kwa sasa!"
+  },
+  "os-interact": {
+    "packages": "Badilisha vifurushi vilivyosakinishwa",
+    "packages-aur": "Badilisha vifurushi vya AUR",
+    "services": "Badilisha huduma",
+    "services-user": "Badilisha huduma za mtumiaji",
+    "groups": "Badilisha vikundi vya watumiaji",
+    "locales": "Badilisha lugha za ndani zilizowashwa"
+  },
+  "packages": {
+    "title": "Vifurushi",
+    "internet": "Intaneti",
+    "documents": "Nyaraka",
+    "multimedia": "Multimedia",
+    "science": "Sayansi",
+    "security": "Usalama",
+    "other": "Nyingine",
+    "clear": "Futa",
+    "search": "Tafuta",
+    "url": "URL",
+    "selected": "Imechaguliwa",
+    "description": "Maelezo",
+    "name": "Jina",
+    "searchKey": "Ingiza neno la utafutaji",
+    "notFound": "Hakuna vifurushi vilivyopatikana"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Baadhi ya moduli za DKMS zimeharibika",
+    "dkmsModulesBrokenTip": "Nibofye ili kupanga usakinishaji wa moduli za DKMS zilizoharibika",
+    "dkmsModulesMissing": "Baadhi ya moduli za DKMS zinakosekana",
+    "dkmsModulesMissingTip": "Moduli za DKMS zinazokosekana",
+    "headers": "Vichwa",
+    "headersMissing": "Vichwa vya kernel vinakosekana",
+    "headersMissingTip": "Nibofye ili kupanga usakinishaji wa vichwa vinavyokosekana",
+    "active": "Kernel inayotumika:"
+  },
+  "languagePacks": {
+    "locale": "Lugha ya ndani",
+    "selected": "Imechaguliwa",
+    "base": "Kifurushi cha msingi",
+    "notFound": "Hakuna vifurushi vya lugha vilivyopatikana",
+    "pkgname": "Jina la kifurushi",
+    "description": "Hivi ni vifurushi vya lugha kwa vifurushi vyako vilivyosakinishwa, kwa kawaida hutoa tafsiri za GUI."
+  },
+  "settings": {
+    "title": "Mipangilio ya ",
+    "titleTwo": "Programu",
+    "leftButtons": "Onyesha vitufe vya dirisha kushoto",
+    "copyDiagnostics": "Nakili uchunguzi kwenye ubao wa kunakili",
+    "darkMode": "Washa hali ya giza",
+    "language": "Sanidi lugha inayotumika",
+    "autoStart": "Anzisha programu kiotomatiki",
+    "logLevel": "Chagua kiwango cha kumbukumbu",
+    "systemdUserContext": "Onyesha huduma za Systemd za mtumiaji",
+    "autoRefresh": "Washa usasishaji wa kiotomatiki wa huduma za systemd",
+    "showMainLinks": "Onyesha viungo kwenye ukurasa wa nyumbani",
+    "themeLabel": "Mandhari ya msingi ya muundo",
+    "toggleOptions": "Chaguzi za kugeuza",
+    "selectOptions": "Uteuzi"
+  },
+  "locales": {
+    "apply": "Panga mabadiliko ya lugha za ndani zilizosakinishwa",
+    "description": "Lugha za ndani upande wa kulia zimesakinishwa kwenye mfumo wako. Unaweza kuchagua zipi unataka kuweka na zipi unataka kuondoa.",
+    "available": "Inapatikana",
+    "selected": "Imechaguliwa",
+    "task": "Badilisha lugha ya ndani ya mfumo",
+    "selectLocale": "Chagua lugha unayopendelea kwa mfumo mzima"
   }
 }

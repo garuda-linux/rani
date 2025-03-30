@@ -1,56 +1,58 @@
 {
   "menu": {
-    "welcome": "Välkomna",
+    "welcome": "Välkommen",
     "maintenance": "Underhåll",
     "systemTools": "Systeminställningar",
     "components": "Komponenter",
-    "gaming": "Spelappar",
+    "gaming": "Spel",
     "boot": "Startverktyg",
     "diagnostics": "Diagnostik",
     "network": "Nätverksverktyg",
-    "settings": {
-      "title": "Inställningar",
-      "windowButtonsLeft": "Visa fönsterknappar kvar",
-      "copyDiagnostics": "Kopiera diagnostik till Urklipp",
-      "darkMode": "Aktivera mörkt läge",
-      "language": "Konfigurera aktivt språk"
-    },
+    "settings": "Appinställningar",
     "help": {
       "title": "Hjälp",
       "getHelpForum": "Få hjälp på forumet",
-      "getHelpWiki": "Sök efter innehåll i wiki",
-      "getHelpArchWiki": "Sök efter innehåll i bågen Wiki",
+      "getHelpWiki": "Sök efter innehåll i wikin",
+      "getHelpArchWiki": "Sök efter innehåll i Arch Wiki",
       "garudaStatus": "Kontrollera upptidsstatus",
-      "about": "Om Garudas Rani",
-      "aboutBody": "Garudas Rani är ett systemunderhålls- och diagnostikverktyg för Garuda Linux. Det är utformat för att hjälpa användare att upprätthålla sitt system och diagnostisera problem. Det är byggt med Tauri och Angular.",
-      "callExorcist": "Ring exorcisten",
-      "callExorcistBody": "Du måste vara ganska desperat att klicka på den här knappen! Jag ställer in lite speciell voodoo för dig, om du fortfarande har problem med appen, vänligen rapportera dem om Garuda Linux -forumet eller vårt problemspårare."
+      "about": "Om Garuda Rani",
+      "aboutBody": "Garuda Rani är ett systemunderhålls- och diagnostikverktyg för Garuda Linux. Det är utformat för att hjälpa användare att underhålla sitt system och diagnostisera problem. Det är byggt med Tauri och Angular.",
+      "callExorcist": "Kalla på exorcisten",
+      "callExorcistTitle": "Exorcisten har kallats!",
+      "callExorcistBody": "Du måste vara ganska desperat för att klicka på den här knappen! Jag har ställt in lite speciell voodoo för dig, om du fortfarande har problem med appen, vänligen rapportera dem på Garuda Linux-forumet eller vår ärendehanterare."
     },
-    "terminal": "Terminal",
-    "pending": "I avvaktan på"
+    "terminal": "Visa terminal",
+    "terminalRunning": "Körande uppgifter",
+    "terminalTasks": "Utför uppgifter",
+    "pending": "Väntande"
   },
   "diagnostics": {
-    "title": "Felsökningsinfo",
+    "title": "Felsökningsinfo ",
     "titleTwo": "och diagnostik",
-    "subtitle": "Hitta den information du behöver för att felsöka ditt system",
-    "inxi": "Vanlig information (INXI)",
-    "systemctl": "Systemtjänster (SystemCTL)",
-    "journalctl": "Systemloggar (Journalctl)",
-    "dmesg": "Kernelloggar (DMESG)",
-    "full": "Full diagnostik",
-    "upload": "Ladda upp till Privatebin",
-    "pacman": "Senaste Pacman -loggar",
-    "copied": "Framgångsrikt kopieras till urklipp",
-    "success": "Framgång",
-    "uploadSuccess": "Laddas framgångsrikt till Privatebin"
+    "subtitle": "Hitta informationen du behöver för att felsöka ditt system",
+    "inxi": "Vanlig info (inxi)",
+    "systemctl": "Systemtjänster (systemctl)",
+    "journalctl": "Systemloggar (journalctl)",
+    "dmesg": "Kärnloggar (dmesg)",
+    "full": "Fullständig diagnostik",
+    "upload": "Ladda upp till PrivateBin",
+    "failedCmdHeader": "Misslyckades med att köra kommando",
+    "failedCmd": "Något gick fel och ingen diagnostik kunde hämtas",
+    "pacman": "Senaste Pacman-loggar",
+    "copied": "Kopierades till urklipp",
+    "success": "Lyckades",
+    "uploadSuccess": "Laddades upp till PrivateBin, URL kopierad till urklipp"
   },
-  "lang": { "title": "Språkval", "tooltip": "Välj ditt föredragna språk" },
+  "lang": {
+    "title": "Språkval",
+    "tooltip": "Välj önskat språk"
+  },
   "welcome": {
-    "title": "Välkommen till Garuda",
-    "titleTwo": "Linux",
-    "subtitle": "Den ultimata Linux -distroen för spel och multimedia",
+    "title": "Välkommen till ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "Den ultimata Linux-distributionen för spel och multimedia",
     "maintenance": "Underhåll",
-    "maintenanceSub": "Håll ditt system i ett bra tillstånd",
+    "maintenanceSub": "Håll ditt system i gott skick",
     "systemTools": "Systeminställningar",
     "systemToolsSub": "Konfigurera ditt system",
     "gaming": "Spelappar",
@@ -60,249 +62,530 @@
     "network": "Nätverksverktyg",
     "networkSub": "Hantera dina nätverksinställningar",
     "diagnostics": "Diagnostik",
-    "diagnosticsSub": "Kontrollera din systemhälsa",
+    "diagnosticsSub": "Kontrollera systemets hälsa",
     "install": "Installera Garuda Linux",
-    "installSub": "Få Garuda Linux på ditt system",
-    "chroot": "Chroot i Garuda",
-    "chrootSub": "Chroot i din Garuda -installation",
-    "startpage": "Omtvistning",
-    "startpageSub": "Öppna Garuda Linux -startsidan",
-    "setupAssistant": "Inställningsassistent",
-    "setupAssistantSub": "Kör Garuda Setup Assistant"
+    "installSub": "Skaffa Garuda Linux på ditt system",
+    "chroot": "Chroot till Garuda",
+    "chrootSub": "Chroot till din Garuda-installation",
+    "startpage": "Startsida",
+    "startpageSub": "Öppna Garuda Linux startsida",
+    "setupAssistant": "Installationsassistent",
+    "setupAssistantSub": "Kör Garuda installationsassistent",
+    "hello": "Hej",
+    "error": "Ett fel inträffade."
   },
   "gaming": {
     "title": "Spel",
-    "titleTwo": "appar",
+    "titleTwo": "-appar",
     "subtitle": "Låt oss komma igång med några spelappar!",
-    "launchers": "Spelskyttare",
-    "wine": "VIN",
+    "launchers": "Spelstartare",
+    "loading": "Laddar...",
+    "wine": "WINE",
     "tools": "Spelverktyg",
     "emulators": "Emulatorer",
-    "controllers": "Supportstöd",
+    "controllers": "Kontrollstöd",
     "games": "Spel",
-    "misc": "Diverse"
+    "misc": "Diverse",
+    "bluez": "Generellt krävs för att känna igen trådlösa PS-kontroller",
+    "xboxdrv": "Xbox kontrolldrivrutin, använd endast om kärndrivrutinen inte fungerar!",
+    "wineWow64": "Version av WINE med 64-bitars stöd utan att behöva installera 32-bitars bibliotek",
+    "wineStagingWow64": "Staging-version av WINE med 32-bitars stöd utan att behöva installera 32-bitars bibliotek",
+    "wineMeta": "Metapaket för att installera WINE och alla nödvändiga beroenden"
   },
   "maintenance": {
     "title": "System",
-    "titleTwo": "underhåll",
-    "subtitle": "Håll ditt system i ett bra tillstånd",
+    "titleTwo": "-underhåll",
+    "subtitle": "Håll ditt system i gott skick",
     "update": "Uppdatera ditt system",
-    "addPending": "Lägga till pågående",
+    "addPending": "Lägg till väntande",
     "removePending": "Ta bort väntande",
-    "runNow": "Springa nu",
-    "editRepos": "Redigera förvar",
-    "onlyDirect": "Denna åtgärd kan inte stå i kö och måste köras direkt.",
-    "cleanCache": "Rent cache",
-    "cleanCacheSub": "Ta bort alla cache -paket",
-    "updateSystem": "Uppdateringssystem",
-    "updateSystemSub": "Uppdatera ditt system via Garuda-uppdatering",
-    "editReposSub": "Redigera dina förvar med takt",
+    "runNow": "Kör nu",
+    "failedReset": "Fel vid återställning av konfigurationsfil",
+    "failedResetFile": "Fel inträffade vid återställning av {{file}}",
+    "editRepos": "Redigera förråd",
+    "onlyDirect": "Denna åtgärd kan inte köas och måste köras direkt.",
+    "cleanCache": "Rensa cache",
+    "cleanCacheSub": "Ta bort alla cachade paket",
+    "updateSystem": "Uppdatera system",
+    "taskRunningHeader": "Fel vid körning av underhållsåtgärd",
+    "taskRunning": "Det finns redan en uppgift som körs, vänta tills den är klar först.",
+    "updateSystemSub": "Uppdatera ditt system via garuda-update",
+    "editReposSub": "Redigera dina förråd med Pace",
     "addPendingSub": "Lägg till väntande operationer",
-    "clearOrphans": "Tydliga föräldralösa barn",
-    "clearOrphansSub": "Ta bort föräldralösa paket",
+    "clearOrphans": "Rensa överblivna paket",
+    "clearOrphansSub": "Ta bort överblivna paket",
     "refreshMirrors": "Uppdatera speglar",
     "refreshMirrorsSub": "Uppdatera din spegellista",
-    "removeLock": "Ta bort Pacman -låset",
-    "removeLockSub": "Ta bort Pacman -låsfilen",
-    "reinstallPackages": "Installera om paket",
-    "reinstallPackagesSub": "Installera om alla paket på ditt system",
-    "btrfsAssistant": "BTRFS -assistent",
-    "btrfsAssistantSub": "Hantera dina BTRFS -ögonblicksbilder och kör underhållsuppgifter",
-    "updateRemoteFullFix": "Garuda Update Full Fix",
-    "updateRemoteFullFixSub": "Återställ Pacman och installera om alla paket i ditt operativsystem",
-    "updateRemoteKeyring": "Garuda Update Keyring",
-    "updateRemoteKeyringSub": "Uppdatera nyckelring utan att återställa Pacman.conf",
-    "updateRemoteFix": "Garuda Update Fix",
-    "updateRemoteFixSub": "Återställ Pacman.Conf och uppdatera nyckelringar",
+    "removeLock": "Ta bort Pacman-lås",
+    "removeLockSub": "Ta bort pacman-låsfilen",
+    "reinstallPackages": "Ominstallera paket",
+    "reinstallPackagesSub": "Ominstallera alla paket på ditt system",
+    "reinstallDkmsModules": "Ominstallera DKMS-moduler",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "Hantera dina BTRFS-snapshots och kör underhållsuppgifter",
+    "mergePacDiff": "Sammanfoga pacdiff-filer",
+    "mergePacDiffSub": "Sammanfoga .pacnew och .pacsave-filer interaktivt",
+    "updateRemoteFullFix": "Garuda update fullständig fix",
+    "updateRemoteFullFixSub": "Återställ Pacman och ominstallera alla paket i ditt OS",
+    "updateRemoteKeyring": "Garuda update nyckelring",
+    "updateRemoteKeyringSub": "Uppdatera nyckelring utan att återställa pacman.conf",
+    "updateRemoteFix": "Garuda update fix",
+    "updateRemoteFixSub": "Återställ pacman.conf och uppdatera nyckelringar",
     "updateRemoteResetSnapper": "Återställ snapper",
-    "updateRemoteResetSnapperSub": "Ta bort allt snapper och återskapa sina konfigurationer",
+    "updateRemoteResetSnapperSub": "Ta bort allt från Snapper och återskapa dess konfigurationer",
     "updateRemoteResetAudio": "Återställ ljud",
-    "updateRemoteResetAudioSub": "Installera/återställa Pipewire -ljudkonfigurationen",
-    "resetTooltip": "Följande filer eller mappar återställs till deras standardtillstånd:",
-    "resetConfigs": "Återställ konfigurationer till standardtillstånd",
-    "common": "Gemensamt underhåll",
-    "garudaUpdate": "Garuda uppdatering av räddningsverktyg"
+    "updateRemoteResetAudioSub": "Ominstallera/återställ PipeWire-ljudkonfigurationen",
+    "resetTooltip": "Följande filer eller mappar kommer att återställas till sitt standardläge:",
+    "resetConfigs": "Återställ konfigurationer till standardläge",
+    "common": "Vanligt underhåll",
+    "garudaUpdate": "Garuda update räddningsverktyg"
   },
   "sudo": {
     "title": "Autentisering krävs",
     "subtitle": "Ange ditt lösenord för att fortsätta",
-    "save": "Cache i den här sessionen",
+    "save": "Cacha i denna session",
     "password": "Lösenord",
-    "cancel": "Avboka",
-    "useOnce": "Använd en gång en gång"
+    "cancel": "Avbryt",
+    "useOnce": "Använd endast en gång"
   },
   "terminal": {
     "title": "Terminal",
-    "runActions": "Genomföra åtgärder",
+    "runActions": "Kör åtgärder",
     "removeAll": "Ta bort alla åtgärder",
-    "noOutput": "Ingen utgång",
-    "outputExists": "Det verkar som om det redan finns en åtgärd. Vänta på att den slutar innan du försöker visa loggar.",
-    "opRunning": "Operationen körs redan."
+    "abortAll": "Avbryt alla åtgärder",
+    "noOutput": "Ingen utdata",
+    "outputExists": "Det verkar som att en åtgärd redan körs. Vänta tills den är klar innan du försöker visa loggar.",
+    "opRunning": "Operationen körs redan.",
+    "clearCachedDataTitle": "Utdatacache rensad",
+    "clearCachedData": "Utdatacachen har rensats.",
+    "clearOutputCache": "Rensa utdatacache",
+    "copyOutput": "Kopiera terminalutdata",
+    "copyToClipboardTitle": "Kopierat till urklipp",
+    "copyToClipboard": "Utdatan har kopierats till ditt urklipp.",
+    "uploadPrivateBin": "Ladda upp till PrivateBin"
   },
   "systemdServices": {
     "notFound": "Inga tjänster hittades",
     "description": "Beskrivning",
     "unit": "Enhetsnamn",
-    "load": "Ladda",
+    "load": "Laddad",
     "active": "Aktiv",
-    "state": "Ange",
+    "state": "Tillstånd",
     "searchKey": "Ange ett sökord",
     "clear": "Rensa",
-    "actions": "Handlingar",
+    "actions": "Åtgärder",
     "show": "Visa",
-    "start": "Start",
-    "stop": "Stopp",
-    "mask": "Mask",
-    "unmask": "Demaskera",
-    "logs": "Stockar",
+    "start": "Starta",
+    "stop": "Stoppa",
+    "mask": "Maskera",
+    "unmask": "Avmaskera",
+    "logs": "Loggar",
     "restart": "Starta om",
     "reload": "Ladda om",
-    "enable": "Möjliggöra",
+    "enable": "Aktivera",
     "disable": "Inaktivera",
-    "autoRefresh": "Auto Refresh",
-    "error": "Ett fel inträffade när du hämtade tjänster, försök igen.",
-    "errorTitle": "Felhämtningstjänster",
+    "autoRefresh": "Automatisk uppdatering",
+    "error": "Ett fel inträffade vid hämtning av tjänster, försök igen.",
+    "errorTitle": "Fel vid hämtning av tjänster",
     "systemContext": "Visa systemtjänster",
     "userContext": "Visa användartjänster",
-    "includeDisabled": "Inkludera funktionshindrade",
-    "excludeDisabled": "Utesluter funktionshindrade"
+    "includeDisabled": "Inkludera inaktiverade",
+    "excludeDisabled": "Exkludera inaktiverade"
   },
   "systemTools": {
     "title": "System",
-    "titleTwo": "inställningar",
-    "systemdServices": "Systemd Services",
+    "titleTwo": "-inställningar",
+    "systemdServices": "Systemd-tjänster",
     "systemSettings": "Systeminställningar",
     "components": "Systemkomponenter",
+    "locales": "Språkversioner",
+    "kernels": "Kärnor",
+    "packages": "Ytterligare paket",
     "audio": {
-      "title": "Audio",
-      "alsa": { "description": "ALSA -stöd" },
-      "jack": { "description": "Jackstöd" },
-      "pulseaudio": { "description": "Pulseaudio -stöd" },
-      "pipewire": { "description": "Pipewire -stöd" },
-      "userRealtime": { "description": "Användare i realtidsgrupp" }
+      "title": "Ljud",
+      "alsa": {
+        "description": "ALSA-stöd"
+      },
+      "jack": {
+        "description": "JACK-stöd"
+      },
+      "pulseaudio": {
+        "description": "PulseAudio-stöd"
+      },
+      "pipewire": {
+        "description": "PipeWire-stöd"
+      },
+      "userRealtime": {
+        "description": "Användare i realtime-gruppen"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP installerat"
+      }
     },
     "virtualization": {
       "title": "Virtualisering",
-      "qemu": { "description": "QEMU -stöd" },
-      "kvm": { "description": "KVM -stöd" },
-      "virtManager": { "description": "Virthanterare Support" },
-      "libvirtdEnabled": { "description": "Libvirtd aktiverad" },
-      "userVboxUsers": { "description": "Användare i VBoxUsers Group" },
-      "virtualbox": { "description": "VirtualBox Support" },
-      "userLibvirt": { "description": "Användare i Libvirt -gruppen" },
-      "userKvm": { "description": "Användare i KVM -gruppen" },
-      "virtualboxKvm": { "description": "VirtualBox med KVM -stöd" },
-      "docker": { "description": "Docker Support" },
-      "userDocker": { "description": "Användare i Docker -gruppen" },
-      "dockerEnabled": { "description": "Docker aktiverad" },
-      "podman": { "description": "Podmanstöd" },
-      "podmanEnabled": { "description": "Podman aktiverad" }
+      "qemu": {
+        "description": "QEMU installerat"
+      },
+      "kvm": {
+        "description": "KVM-stöd"
+      },
+      "virtManager": {
+        "description": "Virt-manager-stöd"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd aktiverat"
+      },
+      "userVboxUsers": {
+        "description": "Användare i vboxusers-gruppen"
+      },
+      "virtualbox": {
+        "description": "VirtualBox-stöd"
+      },
+      "userLibvirt": {
+        "description": "Användare i libvirt-gruppen"
+      },
+      "userKvm": {
+        "description": "Användare i kvm-gruppen"
+      }
+    },
+    "containers": {
+      "title": "Containers",
+      "docker": {
+        "description": "Docker installerat"
+      },
+      "dockerEnabled": {
+        "description": "Docker aktiverat"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose installerat"
+      },
+      "userDocker": {
+        "description": "Användare i docker-gruppen"
+      },
+      "podman": {
+        "description": "Podman installerat"
+      },
+      "podmanDocker": {
+        "description": "Emulera Docker via Podman"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop installerat"
+      },
+      "distrobox": {
+        "description": "DistroBox installerat"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy installerat"
+      }
     },
     "network": {
       "title": "Nätverk",
-      "networkManager": { "description": "NetworkManager Support" },
-      "networkManagerEnabled": { "description": "NetworkManager aktiverad" },
-      "modemManagerEnabled": { "description": "ModemManager aktiverad" }
+      "networkManager": {
+        "description": "NetworkManager-stöd"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager aktiverat"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager aktiverat"
+      }
     },
     "bluetooth": {
       "title": "Bluetooth",
-      "bluetooth": { "description": "Bluetooth -stöd" },
-      "bluetoothEnabled": { "description": "Bluetooth aktiverad" },
-      "userBluetooth": { "description": "Användare i Bluetooth -gruppen" },
-      "autoConnect": { "description": "Auto Connect" },
-      "autoConnectEnabled": { "description": "Auto Connect aktiverad" }
+      "bluetooth": {
+        "description": "Bluetooth-stöd"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth aktiverat"
+      },
+      "userBluetooth": {
+        "description": "Användare i bluetooth-gruppen"
+      },
+      "autoConnect": {
+        "description": "Automatisk anslutning installerad"
+      },
+      "autoConnectEnabled": {
+        "description": "Automatisk anslutning aktiverad"
+      }
     },
     "printing": {
       "title": "Utskrift",
-      "printingSupport": { "description": "Utskriftsstöd" },
-      "cupsEnabled": { "description": "Koppar aktiverade" },
-      "scanningSupport": { "description": "Skanningsstöd" },
-      "sanedEnabled": { "description": "SANED ENABED" },
-      "userCups": { "description": "Användare i Cups Group" },
-      "userScanner": { "description": "Användare i skannergrupp" },
-      "userSys": { "description": "Användare i sys -gruppen" }
+      "printingSupport": {
+        "description": "Utskriftsstöd"
+      },
+      "cupsEnabled": {
+        "description": "CUPS aktiverat"
+      },
+      "scanningSupport": {
+        "description": "Skanningsstöd"
+      },
+      "sanedEnabled": {
+        "description": "saned aktiverat"
+      },
+      "userCups": {
+        "description": "Användare i cups-gruppen"
+      },
+      "userScanner": {
+        "description": "Användare i scanner-gruppen"
+      },
+      "userLp": {
+        "description": "Användare i lp-gruppen"
+      }
     },
     "firewall": {
       "title": "Brandvägg",
-      "firewalld": { "description": "Firewalld Support" },
-      "firewalldEnabled": { "description": "Firewalld aktiverad" },
-      "ufw": { "description": "UFW -stöd" },
-      "ufwEnabled": { "description": "Ufw aktiverad" },
-      "opensnitch": { "description": "OpenSnitch Support" },
-      "opensnitchEnabled": { "description": "OpenSnitch aktiverad" }
+      "firewalld": {
+        "description": "Firewalld installerat"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld aktiverat"
+      },
+      "ufw": {
+        "description": "UFW installerat"
+      },
+      "ufwEnabled": {
+        "description": "UFW aktiverat"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch installerat"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch aktiverat"
+      }
+    },
+    "misc": {
+      "title": "Diverse",
+      "gns": {
+        "description": "Garuda Nix Subsystem installerat"
+      }
     }
   },
   "systemSettings": {
     "defaultShellConfigs": "Installera standardkonfigurationer",
-    "defaultDns": "Ställ in standard DNS",
+    "defaultDns": "Ställ in standard-DNS",
     "defaultShell": "Ställ in inloggningsskal",
-    "enableHblock": "Aktivera HBLOCK",
+    "enableHblock": "Aktivera Hblock",
+    "enableIwd": "Använd IWD istället för wpa_supplicant",
     "common": {
-      "title": "Gemensam",
-      "psd": { "description": "Profil-sync-daemon installerad" },
-      "psdEnabled": { "description": "Profil-sync-daemon aktiverad" },
-      "oomd": { "description": "Systemd-Oomd aktiverad" },
-      "guestUser": { "description": "Aktivera gästanvändare" }
+      "title": "Allmänt",
+      "psd": {
+        "description": "Profile-sync-daemon installerat"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon aktiverat"
+      },
+      "oomd": {
+        "description": "Systemd-oomd aktiverat"
+      },
+      "guestUser": {
+        "description": "Aktivera gästanvändare"
+      }
     },
     "performance": {
       "title": "Prestanda",
-      "performanceTweaks": { "description": "Performance Tweaks" },
-      "ananicyCpp": { "description": "Ananicy C ++ installerad" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ aktiverad" },
-      "preload": { "description": "Förbelastning installerad" },
-      "preloadEnabled": { "description": "Förbelastning aktiverad" },
-      "irqbalanceEnabled": { "description": "Irqbalance aktiverad" }
+      "performanceTweaks": {
+        "description": "Prestandajusteringar"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ installerat"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ aktiverat"
+      },
+      "bpftune": {
+        "description": "Bpftune installerat"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune aktiverat"
+      },
+      "preload": {
+        "description": "Preload installerat"
+      },
+      "preloadEnabled": {
+        "description": "Preload aktiverat"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance aktiverat"
+      }
     },
     "powersave": {
-      "title": "Kraftbesparing",
-      "powersaveTweaks": { "description": "Powersave tweaks" },
-      "tlp": { "description": "TLP installerad" },
-      "tlpEnabled": { "description": "TLP aktiverad" },
-      "autoCpufreq": { "description": "Auto-cpufreq installerad" },
-      "autoCpufreqEnabled": { "description": "Auto-cpufreq aktiverad" },
-      "thermald": { "description": "Thermald installerad" },
-      "thermaldEnabled": { "description": "Thermald aktiverad" },
-      "powerProfilesDaemon": { "description": "Power Profiles Daemon installerad" },
-      "powerProfilesDaemonEnabled": { "description": "Power Profiles Daemon aktiverad" },
-      "intelUndervolt": { "description": "Intel-undervolt installerad" },
-      "intelUndervoltEnabled": { "description": "Intel-undervolt aktiverad" }
+      "title": "Energisparläge",
+      "powersaveTweaks": {
+        "description": "Energisparjusteringar"
+      },
+      "tlp": {
+        "description": "TLP installerat"
+      },
+      "tlpEnabled": {
+        "description": "TLP aktiverat"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq installerat"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq aktiverat"
+      },
+      "thermald": {
+        "description": "Thermald installerat"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald aktiverat"
+      },
+      "powerProfilesDaemon": {
+        "description": "Power profiles daemon installerat"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Power profiles daemon aktiverat"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt installerat"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt aktiverat"
+      }
     },
     "rightclickEmulation": {
-      "title": "Högerklicka på emulering",
-      "evdevLongPressRightClick": { "description": "Evdev Long Press högerklicka på emulering" },
-      "evdevRce": { "description": "Evdev rce aktiverad" }
+      "title": "Högerklicksemulering",
+      "evdevLongPressRightClick": {
+        "description": "Evdev långtryck högerklicksemulering"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE aktiverat"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "Att ställa in fisk som standardskal kan orsaka problem med andra program. Det rekommenderas att ställa in det som standard via terminalkonfigurationer istället."
+      "hint": "Att ställa in fish som standardskal kan orsaka problem med andra program. Det rekommenderas att ställa in det som standard via terminalkonfigurationer istället."
     }
   },
   "confirmation": {
     "accept": "Acceptera",
-    "reject": "Avboka",
-    "exitApp": "Är du säker på att du vill lämna appen?",
+    "reject": "Avbryt",
+    "exitApp": "Är du säker på att du vill avsluta appen?",
+    "exitAppRunningAction": "Är du säker på att du vill avsluta appen? En åtgärd körs!",
     "resetConfigsHeader": "Återställ konfigurationer?",
     "resetConfigsBody": "Är du säker på att du vill återställa följande konfigurationer?",
-    "exitAppHeader": "Utgångsapp?",
+    "exitAppHeader": "Avsluta appen?",
     "applyOperations": "Tillämpa operationer?",
     "applyOperationsBody": "Är du säker på att du vill tillämpa alla väntande operationer?"
   },
-  "error": { "sudoPassword": "Detta verkar inte vara rätt lösenord. Försök igen." },
+  "error": {
+    "sudoPassword": "Detta verkar inte vara rätt lösenord. Försök igen."
+  },
   "operation": {
     "removeApps": "Ta bort appar",
     "installApps": "Installera appar",
-    "addGroups": "Lägg till användare i gruppen",
-    "removeGroup": "Ta bort användaren från gruppen",
-    "disableService": "Inaktivera service",
-    "enableService": "Aktivera service",
+    "addGroup": "Lägg till användare i grupp",
+    "removeGroup": "Ta bort användare från grupp",
+    "disableService": "Inaktivera tjänst",
+    "enableService": "Aktivera tjänst",
     "setDefaultShell": "Ställ in standardskal",
-    "enableHblock": "Aktivera HBLOCK",
-    "disableHblock": "Inaktivera HBLOCK",
-    "setNewDnsServer": "Ställ in en ny DNS -server",
-    "resetDnsServer": "Återställ DNS -server",
+    "enableHblock": "Aktivera Hblock",
+    "disableHblock": "Inaktivera Hblock",
+    "setNewDnsServer": "Ställ in ny DNS-server",
+    "resetDnsServer": "Återställ DNS-server",
     "args": "Argument",
-    "logs": "Stockar",
-    "remove": "Ta bort"
+    "logs": "Loggar",
+    "remove": "Ta bort",
+    "abort": "Avbryt",
+    "run": "Kör nu"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Väntande uppdateringar",
+    "updates": "Detta system har väntande uppdateringar (klicka för info)",
+    "pacFiles": "Detta system har väntande .pacnew-filer, du bör kontrollera och sammanfoga dem! (klicka för info)",
+    "cancel": "Avbryt",
+    "aurUpdates": "Uppdatering av AUR-paket ligger utanför denna applikations räckvidd. Använd en AUR-hjälpare som Paru och granska PKGBUILD-filer före installation.",
+    "scheduleUpdates": "Schemalägg uppdateringar",
+    "pendingPacdiff": "Väntande pacdiff-filer",
+    "findMore": "Ta reda på hur du ska gå vidare",
+    "warnUpdate": "Ditt system har inte uppdaterats på 2 veckor. Uppdatera ditt system för att säkerställa säkerhet och stabilitet.",
+    "affectedFiles": "Påverkade filer:",
+    "learnPacdiff": "Om du inte är bekant med pacdiff-filer, informera dig snabbt om dem.",
+    "openMaintenance": "Klicka på knappen nedan för att komma igång.",
+    "openMaintenanceButton": "Börja sammanfoga",
+    "rebootNow": "Starta om nu",
+    "rebootNowBody": "Är du säker på att du vill starta om nu? Se till att spara allt ditt arbete innan du fortsätter.",
+    "warnReboot": "Det rekommenderas starkt att starta om systemet efter att ha tillämpat uppdateringar, särskilt vid uppdatering av kärnor eller skrivbordsmiljöer.",
+    "proceed": "Så här går du vidare:",
+    "snapshotCreation": "En Btrfs-snapshot kommer att skapas innan sammanfogningen startar.",
+    "proceedMerge": "Meld öppnas för att tillämpa ändringar. På vänster sida finns den NYA filen, på höger sida den GAMLA. Flytta alla användbara ändringar du vill sammanfoga från vänster till höger sida. Klicka på spara-knappen eller CTRL + S när du är klar.",
+    "cautionMerge": "Var medveten om att felaktiga ändringar i den GAMLA filen kan skada ditt system.",
+    "askHelp": "Om du är osäker, stäng fönstret utan att spara och be om hjälp på Garuda Linux-forumet.",
+    "runAurUpdates": "Kör AUR-uppdateringar externt"
+  },
+  "operationManager": {
+    "refusing": "Vägrar körning",
+    "pendingOperationsRunning": "Det finns operationer som körs, jag kommer bara att ta bort de som redan är klara.",
+    "thisOperationRunning": "Är du galen? Denna operation körs just nu!"
+  },
+  "os-interact": {
+    "packages": "Ändra installerade paket",
+    "packages-aur": "Ändra AUR-paket",
+    "services": "Ändra tjänster",
+    "services-user": "Ändra användartjänster",
+    "groups": "Ändra användargrupper",
+    "locales": "Ändra aktiverade språkversioner"
+  },
+  "packages": {
+    "title": "Paket",
+    "internet": "Internet",
+    "documents": "Dokument",
+    "multimedia": "Multimedia",
+    "science": "Vetenskap",
+    "security": "Säkerhet",
+    "other": "Övrigt",
+    "clear": "Rensa",
+    "search": "Sök",
+    "url": "URL",
+    "selected": "Vald",
+    "description": "Beskrivning",
+    "name": "Namn",
+    "searchKey": "Ange ett sökord",
+    "notFound": "Inga paket hittades"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Några DKMS-moduler är trasiga",
+    "dkmsModulesBrokenTip": "Klicka här för att schemalägga installationen av de trasiga DKMS-modulerna",
+    "dkmsModulesMissing": "Några DKMS-moduler saknas",
+    "dkmsModulesMissingTip": "Saknade DKMS-moduler",
+    "headers": "Headers",
+    "headersMissing": "Saknade kärn-headers",
+    "headersMissingTip": "Klicka här för att schemalägga installationen av de saknade headers",
+    "active": "Aktiv kärna:"
+  },
+  "languagePacks": {
+    "locale": "Språkversion",
+    "selected": "Vald",
+    "base": "Grundpaket",
+    "notFound": "Inga språkpaket hittades",
+    "pkgname": "Paketnamn",
+    "description": "Dessa är språkpaketen för dina installerade paket, de tillhandahåller vanligtvis översättningar för GUI."
+  },
+  "settings": {
+    "title": "App",
+    "titleTwo": "-inställningar",
+    "leftButtons": "Visa fönsterknappar till vänster",
+    "copyDiagnostics": "Kopiera diagnostik till urklipp",
+    "darkMode": "Aktivera mörkt läge",
+    "language": "Konfigurera aktivt språk",
+    "autoStart": "Autostarta applikation",
+    "logLevel": "Välj loggnivå",
+    "systemdUserContext": "Visa användarens Systemd-tjänster",
+    "autoRefresh": "Aktivera automatisk uppdatering av systemd-tjänster",
+    "showMainLinks": "Visa länkar på hemsidan",
+    "themeLabel": "Grundläggande designtema",
+    "toggleOptions": "Växlingsalternativ",
+    "selectOptions": "Val"
+  },
+  "locales": {
+    "apply": "Schemalägg ändringar av installerade språkversioner",
+    "description": "Språkversionerna till höger är installerade på ditt system. Du kan välja vilka du vill behålla och vilka du vill ta bort.",
+    "available": "Tillgänglig",
+    "selected": "Vald",
+    "task": "Ändra systemspråkversion",
+    "selectLocale": "Välj önskat systemspråk"
   }
 }

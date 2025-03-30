@@ -3,302 +3,589 @@
     "welcome": "欢迎",
     "maintenance": "维护",
     "systemTools": "系统设置",
-    "components": "成分",
-    "gaming": "游戏应用程序",
-    "boot": "引导工具",
+    "components": "组件",
+    "gaming": "游戏",
+    "boot": "启动工具",
     "diagnostics": "诊断",
     "network": "网络工具",
-    "settings": {
-      "title": "设置",
-      "windowButtonsLeft": "剩下的显示窗口按钮",
-      "copyDiagnostics": "复制诊断为剪贴板",
-      "darkMode": "启用黑暗模式",
-      "language": "配置活动语言"
-    },
+    "settings": "应用设置",
     "help": {
       "title": "帮助",
-      "getHelpForum": "在论坛上获得帮助",
-      "getHelpWiki": "在Wiki中搜索内容",
-      "getHelpArchWiki": "搜索Arch Wiki中的内容",
-      "garudaStatus": "检查正常运行时状态",
-      "about": "关于Garuda的Rani",
-      "aboutBody": "Garuda的Rani是Garuda Linux的系统维护和诊断工具。它旨在帮助用户维护其系统和诊断问题。它是使用陶里和角度建造的。",
-      "callExorcist": "打电话给驱魔人",
-      "callExorcistBody": "您必须非常拼命单击此按钮！我为您设置了一些特殊的Voodoo，如果您仍然对该应用程序遇到问题，请在Garuda Linux论坛或我们的问题跟踪器上报告。"
+      "getHelpForum": "在论坛获取帮助",
+      "getHelpWiki": "在 Wiki 中搜索内容",
+      "getHelpArchWiki": "在 Arch Wiki 中搜索内容",
+      "garudaStatus": "检查正常运行时间状态",
+      "about": "关于 Garuda Rani",
+      "aboutBody": "Garuda Rani 是 Garuda Linux 的一个系统维护和诊断工具。它旨在帮助用户维护他们的系统并诊断问题。它是使用 Tauri 和 Angular 构建的。",
+      "callExorcist": "召唤驱魔师",
+      "callExorcistTitle": "已召唤驱魔师！",
+      "callExorcistBody": "你一定是相当绝望才会点击这个按钮！我为你设置了一些特殊的巫术，如果你仍然遇到应用程序的问题，请在 Garuda Linux 论坛或我们的问题跟踪器上报告。"
     },
-    "terminal": "终端",
-    "pending": "待办的"
+    "terminal": "显示终端",
+    "terminalRunning": "正在运行的任务",
+    "terminalTasks": "执行任务",
+    "pending": "待定"
   },
   "diagnostics": {
-    "title": "调试信息",
+    "title": "调试信息 ",
     "titleTwo": "和诊断",
-    "subtitle": "查找您需要调试系统所需的信息",
-    "inxi": "常见信息（INXI）",
-    "systemctl": "系统服务（SystemCTL）",
-    "journalctl": "系统日志（JournalCTL）",
-    "dmesg": "内核日志（DMESG）",
-    "full": "完整的诊断",
-    "upload": "上传到PrivateBin",
-    "pacman": "最新的PACMAN日志",
-    "copied": "成功复制到剪贴板",
+    "subtitle": "查找调试系统所需的信息",
+    "inxi": "常用信息 (inxi)",
+    "systemctl": "系统服务 (systemctl)",
+    "journalctl": "系统日志 (journalctl)",
+    "dmesg": "内核日志 (dmesg)",
+    "full": "完整诊断",
+    "upload": "上传到 PrivateBin",
+    "failedCmdHeader": "运行命令失败",
+    "failedCmd": "发生了一些不好的事情，无法检索到诊断信息",
+    "pacman": "最新的 Pacman 日志",
+    "copied": "已成功复制到剪贴板",
     "success": "成功",
-    "uploadSuccess": "成功上传到PrivateBin"
+    "uploadSuccess": "已成功上传到 PrivateBin，URL 已复制到剪贴板"
   },
-  "lang": { "title": "语言选择", "tooltip": "选择您的首选语言" },
+  "lang": {
+    "title": "语言选择",
+    "tooltip": "选择你偏好的语言"
+  },
   "welcome": {
-    "title": "欢迎来到garuda",
-    "titleTwo": "Linux",
-    "subtitle": "游戏和多媒体的终极Linux发行版",
+    "title": "欢迎来到 ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "终极的游戏和多媒体 Linux 发行版",
     "maintenance": "维护",
-    "maintenanceSub": "保持系统状态良好",
+    "maintenanceSub": "保持你的系统处于良好状态",
     "systemTools": "系统设置",
-    "systemToolsSub": "配置您的系统",
-    "gaming": "游戏应用程序",
+    "systemToolsSub": "配置你的系统",
+    "gaming": "游戏应用",
     "gamingSub": "玩你喜欢的游戏",
-    "bootTools": "引导工具",
-    "bootToolsSub": "管理启动设置",
+    "bootTools": "启动工具",
+    "bootToolsSub": "管理你的启动设置",
     "network": "网络工具",
-    "networkSub": "管理您的网络设置",
+    "networkSub": "管理你的网络设置",
     "diagnostics": "诊断",
-    "diagnosticsSub": "检查您的系统健康",
-    "install": "安装Garuda Linux",
-    "installSub": "在系统上获取Garuda Linux",
-    "chroot": "Chroot进入Garuda",
-    "chrootSub": "chroot进入您的Garuda安装",
-    "startpage": "startpage",
-    "startpageSub": "打开garuda linux startpage",
-    "setupAssistant": "设置助理",
-    "setupAssistantSub": "运行Garuda设置助理"
+    "diagnosticsSub": "检查你的系统健康状况",
+    "install": "安装 Garuda Linux",
+    "installSub": "在你的系统上获取 Garuda Linux",
+    "chroot": "Chroot 到 Garuda",
+    "chrootSub": "Chroot 到你的 Garuda 安装",
+    "startpage": "起始页",
+    "startpageSub": "打开 Garuda Linux 起始页",
+    "setupAssistant": "设置助手",
+    "setupAssistantSub": "运行 Garuda 设置助手",
+    "hello": "你好",
+    "error": "发生了一个错误。"
   },
   "gaming": {
-    "title": "赌博",
+    "title": "游戏 ",
     "titleTwo": "应用",
-    "subtitle": "让我们开始使用一些游戏应用程序！",
-    "launchers": "游戏发射器",
-    "wine": "葡萄酒",
+    "subtitle": "让我们为你准备一些游戏应用吧！",
+    "launchers": "游戏启动器",
+    "loading": "加载中...",
+    "wine": "WINE",
     "tools": "游戏工具",
     "emulators": "模拟器",
-    "controllers": "控制器支持",
+    "controllers": "手柄支持",
     "games": "游戏",
-    "misc": "各种各样的"
+    "misc": "杂项",
+    "bluez": "通常需要用它来识别 PS 无线手柄",
+    "xboxdrv": "Xbox 手柄驱动，仅在内核驱动不工作时使用！",
+    "wineWow64": "无需安装 32 位库即可支持 64 位的 WINE 版本",
+    "wineStagingWow64": "无需安装 32 位库即可支持 32 位的 WINE staging 版本",
+    "wineMeta": "用于安装 WINE 和所有必需依赖项的元软件包"
   },
   "maintenance": {
-    "title": "系统",
+    "title": "系统 ",
     "titleTwo": "维护",
-    "subtitle": "保持系统状态良好",
-    "update": "更新您的系统",
-    "addPending": "添加待处理",
-    "removePending": "删除待处理",
-    "runNow": "现在运行",
-    "editRepos": "编辑存储库",
-    "onlyDirect": "该操作无法排队，需要直接运行。",
-    "cleanCache": "清洁缓存",
-    "cleanCacheSub": "删除所有缓存的软件包",
+    "subtitle": "保持你的系统处于良好状态",
+    "update": "更新你的系统",
+    "addPending": "添加待定项",
+    "removePending": "移除待定项",
+    "runNow": "立即运行",
+    "failedReset": "重置配置文件时出错",
+    "failedResetFile": "重置 {{file}} 时发生错误",
+    "editRepos": "编辑仓库",
+    "onlyDirect": "此操作无法排队，需要直接运行。",
+    "cleanCache": "清理缓存",
+    "cleanCacheSub": "移除所有缓存的软件包",
     "updateSystem": "更新系统",
-    "updateSystemSub": "通过garuda-update更新系统",
-    "editReposSub": "用步调编辑存储库",
-    "addPendingSub": "添加未决操作",
-    "clearOrphans": "清晰的孤儿",
-    "clearOrphansSub": "删除孤儿包",
-    "refreshMirrors": "刷新镜子",
-    "refreshMirrorsSub": "刷新您的镜像列表",
-    "removeLock": "删除Pacman锁",
-    "removeLockSub": "删除pacman锁定文件",
+    "taskRunningHeader": "运行维护操作时出错",
+    "taskRunning": "已经有一个任务在运行，请先等待它完成。",
+    "updateSystemSub": "通过 garuda-update 更新你的系统",
+    "editReposSub": "使用 Pace 编辑你的仓库",
+    "addPendingSub": "添加待定操作",
+    "clearOrphans": "清理孤立包",
+    "clearOrphansSub": "移除孤立的软件包",
+    "refreshMirrors": "刷新镜像",
+    "refreshMirrorsSub": "刷新你的镜像列表",
+    "removeLock": "移除 Pacman 锁",
+    "removeLockSub": "移除 pacman 锁文件",
     "reinstallPackages": "重新安装软件包",
-    "reinstallPackagesSub": "重新安装系统上的所有软件包",
-    "btrfsAssistant": "BTRFS助理",
-    "btrfsAssistantSub": "管理您的BTRFS快照并运行维护任务",
-    "updateRemoteFullFix": "Garuda更新完整修复",
-    "updateRemoteFullFixSub": "重置Pacman并重新安装您的操作系统中的所有软件包",
-    "updateRemoteKeyring": "Garuda更新键环",
-    "updateRemoteKeyringSub": "刷新钥匙环而无需重置pacman.conf",
-    "updateRemoteFix": "Garuda更新修复",
-    "updateRemoteFixSub": "reset pacman.conf和刷新键盘",
-    "updateRemoteResetSnapper": "重置鲷鱼",
-    "updateRemoteResetSnapperSub": "删除所有鲷鱼并重新创建其配置",
+    "reinstallPackagesSub": "重新安装你系统上的所有软件包",
+    "reinstallDkmsModules": "重新安装 DKMS 模块",
+    "btrfsAssistant": "Btrfs 助手",
+    "btrfsAssistantSub": "管理你的 BTRFS 快照并运行维护任务",
+    "mergePacDiff": "合并 pacdiff 文件",
+    "mergePacDiffSub": "交互式地合并 .pacnew 和 .pacsave 文件",
+    "updateRemoteFullFix": "Garuda 更新完全修复",
+    "updateRemoteFullFixSub": "重置 Pacman 并重新安装你操作系统中的所有软件包",
+    "updateRemoteKeyring": "Garuda 更新 keyring",
+    "updateRemoteKeyringSub": "在不重置 pacman.conf 的情况下刷新 keyring",
+    "updateRemoteFix": "Garuda 更新修复",
+    "updateRemoteFixSub": "重置 pacman.conf 并刷新 keyrings",
+    "updateRemoteResetSnapper": "重置 snapper",
+    "updateRemoteResetSnapperSub": "移除所有 Snapper 相关内容并重新创建其配置",
     "updateRemoteResetAudio": "重置音频",
-    "updateRemoteResetAudioSub": "重新安装/重置PipeWire音频配置",
-    "resetTooltip": "以下文件或文件夹将重置为默认状态：",
-    "resetConfigs": "重置配置为默认状态",
-    "common": "通用维护",
-    "garudaUpdate": "Garuda更新救援工具"
+    "updateRemoteResetAudioSub": "重新安装/重置 PipeWire 音频配置",
+    "resetTooltip": "以下文件或文件夹将被重置为其默认状态：",
+    "resetConfigs": "将配置重置为默认状态",
+    "common": "常用维护",
+    "garudaUpdate": "Garuda 更新救援工具"
   },
   "sudo": {
     "title": "需要身份验证",
-    "subtitle": "请输入您的密码继续",
-    "save": "在本次会议中的缓存",
+    "subtitle": "请输入你的密码以继续",
+    "save": "在此会话中缓存",
     "password": "密码",
     "cancel": "取消",
     "useOnce": "仅使用一次"
   },
   "terminal": {
     "title": "终端",
-    "runActions": "运行动作",
-    "removeAll": "删除所有操作",
-    "noOutput": "没有输出",
-    "outputExists": "似乎已经有一个动作正在运行。请在尝试查看日志之前等待它完成。",
-    "opRunning": "该操作已经在运行。"
+    "runActions": "运行操作",
+    "removeAll": "移除所有操作",
+    "abortAll": "中止所有操作",
+    "noOutput": "无输出",
+    "outputExists": "似乎已经有一个操作在运行。请等待它完成后再尝试查看日志。",
+    "opRunning": "该操作已在运行。",
+    "clearCachedDataTitle": "输出缓存已清除",
+    "clearCachedData": "输出缓存已被清除。",
+    "clearOutputCache": "清除输出缓存",
+    "copyOutput": "复制终端输出",
+    "copyToClipboardTitle": "已复制到剪贴板",
+    "copyToClipboard": "输出已成功复制到你的剪贴板。",
+    "uploadPrivateBin": "上传到 PrivateBin"
   },
   "systemdServices": {
-    "notFound": "找不到服务",
+    "notFound": "未找到服务",
     "description": "描述",
-    "unit": "单位名称",
+    "unit": "单元名称",
     "load": "加载",
-    "active": "积极的",
+    "active": "活动",
     "state": "状态",
     "searchKey": "输入搜索关键字",
     "clear": "清除",
-    "actions": "动作",
-    "show": "展示",
-    "start": "开始",
+    "actions": "操作",
+    "show": "显示",
+    "start": "启动",
     "stop": "停止",
-    "mask": "面具",
-    "unmask": "揭露",
+    "mask": "屏蔽",
+    "unmask": "取消屏蔽",
     "logs": "日志",
-    "restart": "重新启动",
+    "restart": "重启",
     "reload": "重新加载",
-    "enable": "使能够",
+    "enable": "启用",
     "disable": "禁用",
     "autoRefresh": "自动刷新",
-    "error": "获取服务时发生错误，请重试。",
-    "errorTitle": "错误获取服务",
+    "error": "获取服务时出错，请重试。",
+    "errorTitle": "获取服务出错",
     "systemContext": "显示系统服务",
     "userContext": "显示用户服务",
-    "includeDisabled": "包括禁用",
-    "excludeDisabled": "排除禁用"
+    "includeDisabled": "包括禁用的",
+    "excludeDisabled": "排除禁用的"
   },
   "systemTools": {
-    "title": "系统",
+    "title": "系统 ",
     "titleTwo": "设置",
-    "systemdServices": "SystemD服务",
+    "systemdServices": "Systemd 服务",
     "systemSettings": "系统设置",
     "components": "系统组件",
+    "locales": "区域设置",
+    "kernels": "内核",
+    "packages": "更多软件包",
     "audio": {
-      "title": "声音的",
-      "alsa": { "description": "ALSA支持" },
-      "jack": { "description": "杰克支持" },
-      "pulseaudio": { "description": "脉冲支持" },
-      "pipewire": { "description": "PipeWire支持" },
-      "userRealtime": { "description": "实时组的用户组" }
+      "title": "音频",
+      "alsa": {
+        "description": "ALSA 支持"
+      },
+      "jack": {
+        "description": "JACK 支持"
+      },
+      "pulseaudio": {
+        "description": "PulseAudio 支持"
+      },
+      "pipewire": {
+        "description": "PipeWire 支持"
+      },
+      "userRealtime": {
+        "description": "用户在 realtime 组中"
+      },
+      "jamesdsp": {
+        "description": "已安装 JamesDSP"
+      }
     },
     "virtualization": {
       "title": "虚拟化",
-      "qemu": { "description": "QEMU支持" },
-      "kvm": { "description": "KVM支持" },
-      "virtManager": { "description": "Virt-Manager支持" },
-      "libvirtdEnabled": { "description": "启用了libvirtd" },
-      "userVboxUsers": { "description": "vboxusers组中的用户" },
-      "virtualbox": { "description": "VirtualBox支持" },
-      "userLibvirt": { "description": "libvirt组的用户" },
-      "userKvm": { "description": "KVM组的用户" },
-      "virtualboxKvm": { "description": "带有KVM支持的VirtualBox" },
-      "docker": { "description": "Docker支持" },
-      "userDocker": { "description": "Docker Group中的用户" },
-      "dockerEnabled": { "description": "启用了Docker" },
-      "podman": { "description": "Podman支持" },
-      "podmanEnabled": { "description": "Podman启用了" }
+      "qemu": {
+        "description": "已安装 QEMU"
+      },
+      "kvm": {
+        "description": "KVM 支持"
+      },
+      "virtManager": {
+        "description": "Virt-manager 支持"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd 已启用"
+      },
+      "userVboxUsers": {
+        "description": "用户在 vboxusers 组中"
+      },
+      "virtualbox": {
+        "description": "VirtualBox 支持"
+      },
+      "userLibvirt": {
+        "description": "用户在 libvirt 组中"
+      },
+      "userKvm": {
+        "description": "用户在 kvm 组中"
+      }
+    },
+    "containers": {
+      "title": "容器",
+      "docker": {
+        "description": "已安装 Docker"
+      },
+      "dockerEnabled": {
+        "description": "Docker 已启用"
+      },
+      "dockerCompose": {
+        "description": "已安装 Docker Compose"
+      },
+      "userDocker": {
+        "description": "用户在 docker 组中"
+      },
+      "podman": {
+        "description": "已安装 Podman"
+      },
+      "podmanDocker": {
+        "description": "通过 Podman 模拟 Docker"
+      },
+      "podmanDesktop": {
+        "description": "已安装 Podman Desktop"
+      },
+      "distrobox": {
+        "description": "已安装 DistroBox"
+      },
+      "boxbuddy": {
+        "description": "已安装 BoxBuddy"
+      }
     },
     "network": {
       "title": "网络",
-      "networkManager": { "description": "NetworkManager支持" },
-      "networkManagerEnabled": { "description": "启用NetworkManager" },
-      "modemManagerEnabled": { "description": "调制员启用" }
+      "networkManager": {
+        "description": "NetworkManager 支持"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager 已启用"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager 已启用"
+      }
     },
     "bluetooth": {
       "title": "蓝牙",
-      "bluetooth": { "description": "蓝牙支持" },
-      "bluetoothEnabled": { "description": "启用蓝牙" },
-      "userBluetooth": { "description": "蓝牙组的用户" },
-      "autoConnect": { "description": "自动连接" },
-      "autoConnectEnabled": { "description": "启用自动连接" }
+      "bluetooth": {
+        "description": "蓝牙支持"
+      },
+      "bluetoothEnabled": {
+        "description": "蓝牙已启用"
+      },
+      "userBluetooth": {
+        "description": "用户在 bluetooth 组中"
+      },
+      "autoConnect": {
+        "description": "已安装 Auto connect"
+      },
+      "autoConnectEnabled": {
+        "description": "Auto connect 已启用"
+      }
     },
     "printing": {
-      "title": "印刷",
-      "printingSupport": { "description": "打印支持" },
-      "cupsEnabled": { "description": "启用杯子" },
-      "scanningSupport": { "description": "扫描支持" },
-      "sanedEnabled": { "description": "启用了SANED" },
-      "userCups": { "description": "杯子组的用户" },
-      "userScanner": { "description": "扫描仪组的用户" },
-      "userSys": { "description": "SYS组的用户" }
+      "title": "打印",
+      "printingSupport": {
+        "description": "打印支持"
+      },
+      "cupsEnabled": {
+        "description": "CUPS 已启用"
+      },
+      "scanningSupport": {
+        "description": "扫描支持"
+      },
+      "sanedEnabled": {
+        "description": "saned 已启用"
+      },
+      "userCups": {
+        "description": "用户在 cups 组中"
+      },
+      "userScanner": {
+        "description": "用户在 scanner 组中"
+      },
+      "userLp": {
+        "description": "用户在 lp 组中"
+      }
     },
     "firewall": {
       "title": "防火墙",
-      "firewalld": { "description": "防火墙支持" },
-      "firewalldEnabled": { "description": "启用了防火墙" },
-      "ufw": { "description": "UFW支持" },
-      "ufwEnabled": { "description": "UFW启用" },
-      "opensnitch": { "description": "OpenSnitch支持" },
-      "opensnitchEnabled": { "description": "OpenSnitch启用" }
+      "firewalld": {
+        "description": "已安装 Firewalld"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld 已启用"
+      },
+      "ufw": {
+        "description": "已安装 UFW"
+      },
+      "ufwEnabled": {
+        "description": "UFW 已启用"
+      },
+      "opensnitch": {
+        "description": "已安装 OpenSnitch"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch 已启用"
+      }
+    },
+    "misc": {
+      "title": "杂项",
+      "gns": {
+        "description": "已安装 Garuda Nix Subsystem"
+      }
     }
   },
   "systemSettings": {
     "defaultShellConfigs": "安装默认配置",
-    "defaultDns": "设置默认DNS",
-    "defaultShell": "设置登录外壳",
-    "enableHblock": "启用hblock",
+    "defaultDns": "设置默认 DNS",
+    "defaultShell": "设置登录 shell",
+    "enableHblock": "启用 Hblock",
+    "enableIwd": "使用 IWD 替代 wpa_supplicant",
     "common": {
-      "title": "常见的",
-      "psd": { "description": "配置文件安装了配置文件" },
-      "psdEnabled": { "description": "配置文件启用了个人同步" },
-      "oomd": { "description": "启用了SystemD-OMD" },
-      "guestUser": { "description": "启用来宾用户" }
+      "title": "常用",
+      "psd": {
+        "description": "已安装 Profile-sync-daemon"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon 已启用"
+      },
+      "oomd": {
+        "description": "Systemd-oomd 已启用"
+      },
+      "guestUser": {
+        "description": "启用访客用户"
+      }
     },
     "performance": {
-      "title": "表现",
-      "performanceTweaks": { "description": "性能调整" },
-      "ananicyCpp": { "description": "安装了Ananicy C ++" },
-      "ananicyCppEnabled": { "description": "启用了Ananicy C ++" },
-      "preload": { "description": "安装了预加载" },
-      "preloadEnabled": { "description": "启用预紧力" },
-      "irqbalanceEnabled": { "description": "启用了irqbalance" }
+      "title": "性能",
+      "performanceTweaks": {
+        "description": "性能调整"
+      },
+      "ananicyCpp": {
+        "description": "已安装 Ananicy C++"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ 已启用"
+      },
+      "bpftune": {
+        "description": "已安装 Bpftune"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune 已启用"
+      },
+      "preload": {
+        "description": "已安装 Preload"
+      },
+      "preloadEnabled": {
+        "description": "Preload 已启用"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance 已启用"
+      }
     },
     "powersave": {
-      "title": "节省动力",
-      "powersaveTweaks": { "description": "PowerSave调整" },
-      "tlp": { "description": "安装了TLP" },
-      "tlpEnabled": { "description": "启用了TLP" },
-      "autoCpufreq": { "description": "已安装自动CPUFREQ" },
-      "autoCpufreqEnabled": { "description": "启用了自动CPUFREQ" },
-      "thermald": { "description": "Thermald安装了" },
-      "thermaldEnabled": { "description": "启用了热层" },
-      "powerProfilesDaemon": { "description": "电源配置文件安装了" },
-      "powerProfilesDaemonEnabled": { "description": "启用电源配置文件" },
-      "intelUndervolt": { "description": "安装了Intel-undervolt" },
-      "intelUndervoltEnabled": { "description": "启用了Intel-undervolt" }
+      "title": "节能",
+      "powersaveTweaks": {
+        "description": "节能调整"
+      },
+      "tlp": {
+        "description": "已安装 TLP"
+      },
+      "tlpEnabled": {
+        "description": "TLP 已启用"
+      },
+      "autoCpufreq": {
+        "description": "已安装 Auto-cpufreq"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq 已启用"
+      },
+      "thermald": {
+        "description": "已安装 Thermald"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald 已启用"
+      },
+      "powerProfilesDaemon": {
+        "description": "已安装 Power profiles daemon"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Power profiles daemon 已启用"
+      },
+      "intelUndervolt": {
+        "description": "已安装 Intel-undervolt"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt 已启用"
+      }
     },
     "rightclickEmulation": {
-      "title": "右键单击仿真",
-      "evdevLongPressRightClick": { "description": "evdev长按右键单击仿真" },
-      "evdevRce": { "description": "EVDEV RCE启用" }
+      "title": "右键模拟",
+      "evdevLongPressRightClick": {
+        "description": "Evdev 长按右键模拟"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE 已启用"
+      }
     }
   },
-  "shells": { "fish": { "hint": "将鱼设置为默认外壳可能会引起其他程序问题。建议通过终端配置将其设置为默认值。" } },
+  "shells": {
+    "fish": {
+      "hint": "将 fish 设置为默认 shell 可能会导致其他程序出现问题。建议通过终端配置将其设置为默认 shell。"
+    }
+  },
   "confirmation": {
     "accept": "接受",
     "reject": "取消",
-    "exitApp": "您确定要退出该应用吗？",
+    "exitApp": "你确定要退出应用程序吗？",
+    "exitAppRunningAction": "你确定要退出应用程序吗？有一个操作正在运行！",
     "resetConfigsHeader": "重置配置？",
-    "resetConfigsBody": "您确定要重置以下配置吗？",
-    "exitAppHeader": "退出应用？",
-    "applyOperations": "申请操作？",
-    "applyOperationsBody": "您确定要应用所有待处理的操作吗？"
+    "resetConfigsBody": "你确定要重置以下配置吗？",
+    "exitAppHeader": "退出应用程序？",
+    "applyOperations": "应用操作？",
+    "applyOperationsBody": "你确定要应用所有待定操作吗？"
   },
-  "error": { "sudoPassword": "这似乎不是正确的密码。请重试。" },
+  "error": {
+    "sudoPassword": "这似乎不是正确的密码。请重试。"
+  },
   "operation": {
-    "removeApps": "删除应用程序",
-    "installApps": "安装应用程序",
-    "addGroups": "将用户添加到组",
-    "removeGroup": "从组中删除用户",
+    "removeApps": "移除应用",
+    "installApps": "安装应用",
+    "addGroup": "将用户添加到组",
+    "removeGroup": "从组中移除用户",
     "disableService": "禁用服务",
     "enableService": "启用服务",
-    "setDefaultShell": "设置默认外壳",
-    "enableHblock": "启用hblock",
-    "disableHblock": "禁用hblock",
-    "setNewDnsServer": "设置新的DNS服务器",
-    "resetDnsServer": "重置DNS服务器",
-    "args": "争论",
+    "setDefaultShell": "设置默认 shell",
+    "enableHblock": "启用 Hblock",
+    "disableHblock": "禁用 Hblock",
+    "setNewDnsServer": "设置新的 DNS 服务器",
+    "resetDnsServer": "重置 DNS 服务器",
+    "args": "参数",
     "logs": "日志",
-    "remove": "消除"
+    "remove": "移除",
+    "abort": "中止",
+    "run": "立即运行"
+  },
+  "systemStatus": {
+    "pendingUpdates": "待处理更新",
+    "updates": "此系统有待处理的更新（点击查看信息）",
+    "pacFiles": "此系统有待处理的 .pacnew 文件，你应该检查并合并它们！（点击查看信息）",
+    "cancel": "取消",
+    "aurUpdates": "更新 AUR 软件包超出了此应用程序的范围。请使用像 Paru 这样的 AUR 助手，并在安装前查看 PKGBUILD 文件。",
+    "scheduleUpdates": "计划更新",
+    "pendingPacdiff": "待处理的 pacdiff 文件",
+    "findMore": "了解如何继续",
+    "warnUpdate": "你的系统已有 2 周未更新。请更新你的系统以确保安全性和稳定性。",
+    "affectedFiles": "受影响的文件：",
+    "learnPacdiff": "如果你不熟悉 pacdiff 文件，请快速了解它们。",
+    "openMaintenance": "点击下面的按钮开始。",
+    "openMaintenanceButton": "开始合并",
+    "rebootNow": "立即重启",
+    "rebootNowBody": "你确定要立即重启吗？在继续之前，请确保保存所有工作。",
+    "warnReboot": "强烈建议在应用更新后重启系统，尤其是在更新内核或桌面环境时。",
+    "proceed": "以下是操作步骤：",
+    "snapshotCreation": "在开始合并之前，将创建一个 Btrfs 快照。",
+    "proceedMerge": "将打开 Meld 以应用更改。左侧是新文件，右侧是旧文件。将你要合并的任何有用更改从左侧移动到右侧。完成后，单击保存按钮或按 CTRL + S。",
+    "cautionMerge": "请注意，将错误的更改放入旧文件可能会破坏你的系统。",
+    "askHelp": "如果你不确定，请关闭窗口而不保存，并在 Garuda Linux 论坛上寻求帮助。",
+    "runAurUpdates": "在外部运行 AUR 更新"
+  },
+  "operationManager": {
+    "refusing": "拒绝执行",
+    "pendingOperationsRunning": "有操作正在运行，我只会移除已经完成的操作。",
+    "thisOperationRunning": "你疯了吗？这个操作当前正在运行！"
+  },
+  "os-interact": {
+    "packages": "更改已安装的软件包",
+    "packages-aur": "更改 AUR 软件包",
+    "services": "更改服务",
+    "services-user": "更改用户服务",
+    "groups": "更改用户组",
+    "locales": "更改启用的区域设置"
+  },
+  "packages": {
+    "title": "软件包",
+    "internet": "互联网",
+    "documents": "文档",
+    "multimedia": "多媒体",
+    "science": "科学",
+    "security": "安全",
+    "other": "其他",
+    "clear": "清除",
+    "search": "搜索",
+    "url": "URL",
+    "selected": "已选择",
+    "description": "描述",
+    "name": "名称",
+    "searchKey": "输入搜索关键字",
+    "notFound": "未找到软件包"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "一些 DKMS 模块已损坏",
+    "dkmsModulesBrokenTip": "点击我以计划安装损坏的 DKMS 模块",
+    "dkmsModulesMissing": "一些 DKMS 模块缺失",
+    "dkmsModulesMissingTip": "缺失的 DKMS 模块",
+    "headers": "头文件",
+    "headersMissing": "缺失的内核头文件",
+    "headersMissingTip": "点击我以计划安装缺失的头文件",
+    "active": "活动内核："
+  },
+  "languagePacks": {
+    "locale": "区域设置",
+    "selected": "已选择",
+    "base": "基础包",
+    "notFound": "未找到语言包",
+    "pkgname": "软件包名称",
+    "description": "这些是你已安装软件包的语言包，通常提供图形用户界面的翻译。"
+  },
+  "settings": {
+    "title": "应用",
+    "titleTwo": "设置",
+    "leftButtons": "在左侧显示窗口按钮",
+    "copyDiagnostics": "将诊断信息复制到剪贴板",
+    "darkMode": "启用暗色模式",
+    "language": "配置活动语言",
+    "autoStart": "自动启动应用程序",
+    "logLevel": "选择日志级别",
+    "systemdUserContext": "显示用户 Systemd 服务",
+    "autoRefresh": "启用 systemd 服务自动刷新",
+    "showMainLinks": "在主页上显示链接",
+    "themeLabel": "基础设计主题",
+    "toggleOptions": "切换选项",
+    "selectOptions": "选择项"
+  },
+  "locales": {
+    "apply": "计划已安装的区域设置更改",
+    "description": "右侧的区域设置已安装在你的系统上。你可以选择要保留哪些以及要移除哪些。",
+    "available": "可用",
+    "selected": "已选择",
+    "task": "更改系统区域设置",
+    "selectLocale": "选择你偏好的系统范围语言"
   }
 }

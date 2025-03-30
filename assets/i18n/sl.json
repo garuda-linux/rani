@@ -4,305 +4,588 @@
     "maintenance": "Vzdrževanje",
     "systemTools": "Sistemske nastavitve",
     "components": "Komponente",
-    "gaming": "Igralne aplikacije",
-    "boot": "Zagonska orodja",
+    "gaming": "Igre",
+    "boot": "Orodja za zagon",
     "diagnostics": "Diagnostika",
     "network": "Omrežna orodja",
-    "settings": {
-      "title": "Nastavitve",
-      "windowButtonsLeft": "Pokaži gumbe oken levo",
-      "copyDiagnostics": "Kopirajte diagnostiko v odložišče",
-      "darkMode": "Omogoči temni način",
-      "language": "Konfigurirajte aktivni jezik"
-    },
+    "settings": "Nastavitve aplikacije",
     "help": {
       "title": "Pomoč",
-      "getHelpForum": "Poiščite pomoč na forumu",
-      "getHelpWiki": "Poiščite vsebino v wikiju",
-      "getHelpArchWiki": "Poiščite vsebino v loku Wiki",
-      "garudaStatus": "Preverite stanje UPTIME",
-      "about": "O Garudinem Raniju",
-      "aboutBody": "Garuda Rani je orodje za vzdrževanje in diagnostiko sistema za Garuda Linux. Zasnovan je tako, da uporabnikom pomaga pri vzdrževanju sistema in diagnosticiranja težav. Zgrajena je z uporabo Tauri in Angular.",
-      "callExorcist": "Pokličite The Exorcist",
-      "callExorcistBody": "Morate biti zelo obupani, da kliknete ta gumb! Za vas sem nastavil nekaj posebnega vuduja, če imate še vedno težave z aplikacijo, jih prijavite na forumu Garuda Linux ali našem sledilcu."
+      "getHelpForum": "Poišči pomoč na forumu",
+      "getHelpWiki": "Išči vsebino v wikiju",
+      "getHelpArchWiki": "Išči vsebino v Arch Wiki",
+      "garudaStatus": "Preveri stanje delovanja",
+      "about": "O Garuda Rani",
+      "aboutBody": "Garuda Rani je orodje za vzdrževanje sistema in diagnostiko za Garuda Linux. Zasnovano je za pomoč uporabnikom pri vzdrževanju sistema in diagnosticiranju težav. Zgrajeno je z uporabo Tauri in Angular.",
+      "callExorcist": "Pokliči izganjalca",
+      "callExorcistTitle": "Poklical si izganjalca!",
+      "callExorcistBody": "Moraš biti precej obupan, da si kliknil ta gumb! Pripravil sem ti nekaj posebne vudu magije, če imaš še vedno težave z aplikacijo, jih prosim prijavi na forumu Garuda Linux ali v našem sledilniku težav."
     },
-    "terminal": "Terminal",
-    "pending": "V teku"
+    "terminal": "Pokaži terminal",
+    "terminalRunning": "Opravila v teku",
+    "terminalTasks": "Izvedi opravila",
+    "pending": "V čakanju"
   },
   "diagnostics": {
-    "title": "Informacije o odpravljanju napak",
-    "titleTwo": "in diagnostiko",
-    "subtitle": "Poiščite informacije, ki jih potrebujete za odpravljanje napak v sistemu",
-    "inxi": "Pogoste informacije (INXI)",
-    "systemctl": "Sistemske storitve (SystemCTL)",
-    "journalctl": "Sistemski dnevniki (JournalCTL)",
-    "dmesg": "Dnevniki jedra (DMESG)",
+    "title": "Informacije za razhroščevanje ",
+    "titleTwo": "in diagnostika",
+    "subtitle": "Poišči informacije, ki jih potrebuješ za razhroščevanje sistema",
+    "inxi": "Splošne informacije (inxi)",
+    "systemctl": "Sistemske storitve (systemctl)",
+    "journalctl": "Sistemski dnevniki (journalctl)",
+    "dmesg": "Dnevniki jedra (dmesg)",
     "full": "Popolna diagnostika",
-    "upload": "Naložite na Privatebin",
+    "upload": "Naloži na PrivateBin",
+    "failedCmdHeader": "Ukaza ni bilo mogoče zagnati",
+    "failedCmd": "Nekaj je šlo narobe in diagnostike ni bilo mogoče pridobiti",
     "pacman": "Najnovejši dnevniki Pacman",
-    "copied": "Uspešno kopirano na odložišče",
+    "copied": "Uspešno kopirano v odložišče",
     "success": "Uspeh",
-    "uploadSuccess": "Uspešno naložen na Privatebin"
+    "uploadSuccess": "Uspešno naloženo na PrivateBin, URL kopiran v odložišče"
   },
-  "lang": { "title": "Izbira jezika", "tooltip": "Izberite želeni jezik" },
+  "lang": {
+    "title": "Izbira jezika",
+    "tooltip": "Izberi želeni jezik"
+  },
   "welcome": {
-    "title": "Dobrodošli v Garudi",
-    "titleTwo": "Linux",
-    "subtitle": "Ultimate Linux Distro za igre in multimedijo",
+    "title": "Dobrodošli v ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "Vrhunska distribucija Linuxa za igre in večpredstavnost",
     "maintenance": "Vzdrževanje",
-    "maintenanceSub": "Naj bo vaš sistem v dobrem stanju",
+    "maintenanceSub": "Ohrani svoj sistem v dobrem stanju",
     "systemTools": "Sistemske nastavitve",
-    "systemToolsSub": "Konfigurirajte svoj sistem",
-    "gaming": "Igralne aplikacije",
-    "gamingSub": "Igrajte svoje najljubše igre",
-    "bootTools": "Zagonska orodja",
-    "bootToolsSub": "Upravljajte svoje nastavitve zagona",
+    "systemToolsSub": "Konfiguriraj svoj sistem",
+    "gaming": "Aplikacije za igre",
+    "gamingSub": "Igraj svoje najljubše igre",
+    "bootTools": "Orodja za zagon",
+    "bootToolsSub": "Upravljaj nastavitve zagona",
     "network": "Omrežna orodja",
-    "networkSub": "Upravljajte svoje omrežne nastavitve",
+    "networkSub": "Upravljaj omrežne nastavitve",
     "diagnostics": "Diagnostika",
-    "diagnosticsSub": "Preverite zdravje sistema",
-    "install": "Namestite Garuda Linux",
-    "installSub": "Pridobite Garuda Linux v svojem sistemu",
+    "diagnosticsSub": "Preveri stanje sistema",
+    "install": "Namesti Garuda Linux",
+    "installSub": "Namesti Garuda Linux na svoj sistem",
     "chroot": "Chroot v Garudo",
-    "chrootSub": "Chroot v svojo namestitev Garuda",
+    "chrootSub": "Chroot v tvojo namestitev Garude",
     "startpage": "Začetna stran",
-    "startpageSub": "Odprite začetno stran Garuda Linux",
+    "startpageSub": "Odpri začetno stran Garuda Linux",
     "setupAssistant": "Asistent za nastavitev",
-    "setupAssistantSub": "Zaženite asistent Garuda Setup"
+    "setupAssistantSub": "Zaženi asistenta za nastavitev Garuda",
+    "hello": "Pozdravljen",
+    "error": "Prišlo je do napake."
   },
   "gaming": {
-    "title": "Igranje",
+    "title": "Igralne ",
     "titleTwo": "aplikacije",
     "subtitle": "Začnimo z nekaj igralnimi aplikacijami!",
-    "launchers": "Igranje iger",
-    "wine": "Vino",
-    "tools": "Orodja za igranje",
+    "launchers": "Zagonilci iger",
+    "loading": "Nalaganje...",
+    "wine": "WINE",
+    "tools": "Igralna orodja",
     "emulators": "Emulatorji",
-    "controllers": "Podpora za krmilnik",
+    "controllers": "Podpora za kontrolerje",
     "games": "Igre",
-    "misc": "Razno"
+    "misc": "Razno",
+    "bluez": "Običajno potrebno za prepoznavanje brezžičnih PS kontrolerjev",
+    "xboxdrv": "Gonilnik za Xbox kontroler, uporabi samo, če gonilnik jedra ne deluje!",
+    "wineWow64": "Različica WINE s podporo za 64-bit brez namestitve 32-bitnih knjižnic",
+    "wineStagingWow64": "Staging različica WINE s podporo za 32-bit brez namestitve 32-bitnih knjižnic",
+    "wineMeta": "Meta paket za namestitev WINE in vseh potrebnih odvisnosti"
   },
   "maintenance": {
-    "title": "Sistem",
-    "titleTwo": "vzdrževanje",
-    "subtitle": "Naj bo vaš sistem v dobrem stanju",
-    "update": "Posodobite svoj sistem",
-    "addPending": "Dodaj v čakanju",
-    "removePending": "Odstranite v čakanju",
-    "runNow": "Teči zdaj",
-    "editRepos": "Uredi skladišča",
-    "onlyDirect": "Tega dejanja ni mogoče v čakanju in ga je treba zagnati neposredno.",
-    "cleanCache": "Čist predpomnilnik",
-    "cleanCacheSub": "Odstranite vse predpomnjene pakete",
+    "title": "Vzdrževanje ",
+    "titleTwo": "sistema",
+    "subtitle": "Ohrani svoj sistem v dobrem stanju",
+    "update": "Posodobi svoj sistem",
+    "addPending": "Dodaj med čakajoče",
+    "removePending": "Odstrani iz čakajočih",
+    "runNow": "Zaženi zdaj",
+    "failedReset": "Napaka pri ponastavljanju konfiguracijske datoteke",
+    "failedResetFile": "Napaka med ponastavljanjem {{file}}",
+    "editRepos": "Uredi repozitorije",
+    "onlyDirect": "Tega dejanja ni mogoče dati v čakalno vrsto in ga je treba zagnati neposredno.",
+    "cleanCache": "Počisti predpomnilnik",
+    "cleanCacheSub": "Odstrani vse predpomnjene pakete",
     "updateSystem": "Posodobi sistem",
-    "updateSystemSub": "Posodobite svoj sistem prek Garuda-Update",
-    "editReposSub": "Uredite svoje skladišča s tempom",
-    "addPendingSub": "Dodajte čakajoče operacije",
-    "clearOrphans": "Prozorne sirote",
-    "clearOrphansSub": "Odstranite osirotene pakete",
-    "refreshMirrors": "Osveži ogledala",
-    "refreshMirrorsSub": "Osvežite svoj zrcallist",
-    "removeLock": "Odstranite Pacman Lock",
-    "removeLockSub": "Odstranite zaklenjeno datoteko Pacman",
-    "reinstallPackages": "Znova namestite pakete",
-    "reinstallPackagesSub": "Znova namestite vse pakete v vašem sistemu",
-    "btrfsAssistant": "Asistent BTRFS",
-    "btrfsAssistantSub": "Upravljajte posnetke BTRFS in zaženite naloge za vzdrževanje",
-    "updateRemoteFullFix": "Garuda posodobitev celotnega popravka",
-    "updateRemoteFullFixSub": "Ponastavite Pacmana in znova namestite vse pakete v svojem OS",
-    "updateRemoteKeyring": "Garuda Update Keyring",
-    "updateRemoteKeyringSub": "Osveži Keyring, ne da bi ponastavil pacman.conf",
-    "updateRemoteFix": "Popravek za posodobitev Garuda",
-    "updateRemoteFixSub": "Ponastavite pacman.conf in osveži Keyrings",
-    "updateRemoteResetSnapper": "Ponastavi snapper",
-    "updateRemoteResetSnapperSub": "Odstranite vse snapper in ustvarite njegove konfiguracije",
-    "updateRemoteResetAudio": "Ponastavite zvok",
-    "updateRemoteResetAudioSub": "Ponovno namestite/ponastavite zvočno konfiguracijo Pipewire",
-    "resetTooltip": "Naslednje datoteke ali mape se ponastavijo na privzeto stanje:",
-    "resetConfigs": "Ponastavite konfiguracije na privzeto stanje",
-    "common": "Skupno vzdrževanje",
-    "garudaUpdate": "Orodja za reševanje Garuda posodobitev"
+    "taskRunningHeader": "Napaka pri izvajanju vzdrževalnega dejanja",
+    "taskRunning": "Opravilo že teče, počakaj, da se najprej konča.",
+    "updateSystemSub": "Posodobi svoj sistem preko garuda-update",
+    "editReposSub": "Uredi svoje repozitorije s Pace",
+    "addPendingSub": "Dodaj čakajoča opravila",
+    "clearOrphans": "Počisti osirotele pakete",
+    "clearOrphansSub": "Odstrani osirotele pakete",
+    "refreshMirrors": "Osveži zrcala",
+    "refreshMirrorsSub": "Osveži svoj seznam zrcal",
+    "removeLock": "Odstrani zaklep Pacmana",
+    "removeLockSub": "Odstrani datoteko zaklepa pacman",
+    "reinstallPackages": "Ponovno namesti pakete",
+    "reinstallPackagesSub": "Ponovno namesti vse pakete v sistemu",
+    "reinstallDkmsModules": "Ponovno namesti module DKMS",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "Upravljaj svoje BTRFS posnetke in izvajaj vzdrževalna opravila",
+    "mergePacDiff": "Združi datoteke pacdiff",
+    "mergePacDiffSub": "Interaktivno združi datoteke .pacnew in .pacsave",
+    "updateRemoteFullFix": "Garuda update - popolno popravilo",
+    "updateRemoteFullFixSub": "Ponastavi Pacman in ponovno namesti vse pakete v OS",
+    "updateRemoteKeyring": "Garuda update - keyring",
+    "updateRemoteKeyringSub": "Osveži keyring brez ponastavitve pacman.conf",
+    "updateRemoteFix": "Garuda update - popravilo",
+    "updateRemoteFixSub": "Ponastavi pacman.conf in osveži keyringe",
+    "updateRemoteResetSnapper": "Ponastavi Snapper",
+    "updateRemoteResetSnapperSub": "Odstrani vse povezano s Snapperjem in ponovno ustvari njegove konfiguracije",
+    "updateRemoteResetAudio": "Ponastavi zvok",
+    "updateRemoteResetAudioSub": "Ponovno namesti/ponastavi avdio konfiguracijo PipeWire",
+    "resetTooltip": "Naslednje datoteke ali mape bodo ponastavljene na privzeto stanje:",
+    "resetConfigs": "Ponastavi konfiguracije na privzeto stanje",
+    "common": "Običajno vzdrževanje",
+    "garudaUpdate": "Garuda update - orodja za reševanje"
   },
   "sudo": {
-    "title": "Potrebna je preverjanje pristnosti",
-    "subtitle": "Prosimo, vnesite geslo za nadaljevanje",
-    "save": "Predpomnilnik v tej seji",
+    "title": "Potrebna je avtentikacija",
+    "subtitle": "Prosimo, vnesi svoje geslo za nadaljevanje",
+    "save": "Shrani v predpomnilnik v tej seji",
     "password": "Geslo",
-    "cancel": "Odpovedati",
-    "useOnce": "Uporabite samo enkrat"
+    "cancel": "Prekliči",
+    "useOnce": "Uporabi samo enkrat"
   },
   "terminal": {
     "title": "Terminal",
-    "runActions": "Teči dejanja",
-    "removeAll": "Odstranite vsa dejanja",
-    "noOutput": "Brez izhoda",
-    "outputExists": "Zdi se, kot da že poteka dejanje. Počakajte, da se konča, preden poskusite ogledati dnevnike.",
-    "opRunning": "Operacija se že izvaja."
+    "runActions": "Zaženi dejanja",
+    "removeAll": "Odstrani vsa dejanja",
+    "abortAll": "Prekini vsa dejanja",
+    "noOutput": "Ni izpisa",
+    "outputExists": "Zdi se, da dejanje že teče. Počakaj, da se konča, preden poskusiš pogledati dnevnike.",
+    "opRunning": "Operacija že teče.",
+    "clearCachedDataTitle": "Predpomnilnik izpisa počiščen",
+    "clearCachedData": "Predpomnilnik izpisa je bil počiščen.",
+    "clearOutputCache": "Počisti predpomnilnik izpisa",
+    "copyOutput": "Kopiraj izpis terminala",
+    "copyToClipboardTitle": "Kopirano v odložišče",
+    "copyToClipboard": "Izpis je bil uspešno kopiran v odložišče.",
+    "uploadPrivateBin": "Naloži na PrivateBin"
   },
   "systemdServices": {
     "notFound": "Ni najdenih storitev",
     "description": "Opis",
     "unit": "Ime enote",
-    "load": "Obremenitev",
+    "load": "Naloži",
     "active": "Aktivno",
     "state": "Stanje",
-    "searchKey": "Vnesite ključno besedo iskanja",
-    "clear": "Jasno",
+    "searchKey": "Vnesi iskalni niz",
+    "clear": "Počisti",
     "actions": "Dejanja",
-    "show": "Razstava",
-    "start": "Začetek",
-    "stop": "Nehaj",
-    "mask": "Maska",
-    "unmask": "UNMASK",
+    "show": "Pokaži",
+    "start": "Zaženi",
+    "stop": "Ustavi",
+    "mask": "Maskiraj",
+    "unmask": "Odmaskiraj",
     "logs": "Dnevniki",
-    "restart": "Znova zažene",
+    "restart": "Ponovno zaženi",
     "reload": "Ponovno naloži",
     "enable": "Omogoči",
     "disable": "Onemogoči",
-    "autoRefresh": "Samodejno osveži",
-    "error": "Med pridobivanjem storitev je prišlo do napake, poskusite znova.",
-    "errorTitle": "Storitve za prinašanje napak",
-    "systemContext": "Pokazati sistemske storitve",
-    "userContext": "Pokažite uporabniške storitve",
-    "includeDisabled": "Vključite invalide",
-    "excludeDisabled": "Izključiti invalide"
+    "autoRefresh": "Samodejno osveževanje",
+    "error": "Pri pridobivanju storitev je prišlo do napake, poskusi znova.",
+    "errorTitle": "Napaka pri pridobivanju storitev",
+    "systemContext": "Pokaži sistemske storitve",
+    "userContext": "Pokaži uporabniške storitve",
+    "includeDisabled": "Vključi onemogočene",
+    "excludeDisabled": "Izključi onemogočene"
   },
   "systemTools": {
-    "title": "Sistem",
+    "title": "Sistemske ",
     "titleTwo": "nastavitve",
-    "systemdServices": "SystemD Services",
+    "systemdServices": "Storitve Systemd",
     "systemSettings": "Sistemske nastavitve",
     "components": "Sistemske komponente",
+    "locales": "Jezikovne nastavitve",
+    "kernels": "Jedra",
+    "packages": "Dodatni paketi",
     "audio": {
       "title": "Zvok",
-      "alsa": { "description": "Podpora ALSA" },
-      "jack": { "description": "Podpora za jack" },
-      "pulseaudio": { "description": "Podpora Pulseaudio" },
-      "pipewire": { "description": "Podpora Pipewire" },
-      "userRealtime": { "description": "Uporabnik v skupini v realnem času" }
+      "alsa": {
+        "description": "Podpora za ALSA"
+      },
+      "jack": {
+        "description": "Podpora za JACK"
+      },
+      "pulseaudio": {
+        "description": "Podpora za PulseAudio"
+      },
+      "pipewire": {
+        "description": "Podpora za PipeWire"
+      },
+      "userRealtime": {
+        "description": "Uporabnik v skupini realtime"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP nameščen"
+      }
     },
     "virtualization": {
       "title": "Virtualizacija",
-      "qemu": { "description": "Podpora QEMU" },
-      "kvm": { "description": "KVM podpora" },
-      "virtManager": { "description": "Podpora za virt-Manager" },
-      "libvirtdEnabled": { "description": "Omogočeno libvirtd" },
-      "userVboxUsers": { "description": "Uporabnik v skupini vboxusers" },
-      "virtualbox": { "description": "Podpora VirtualBox" },
-      "userLibvirt": { "description": "Uporabnik v skupini libvirt" },
-      "userKvm": { "description": "Uporabnik v skupini KVM" },
-      "virtualboxKvm": { "description": "VirtualBox s podporo KVM" },
-      "docker": { "description": "Dockerjeva podpora" },
-      "userDocker": { "description": "Uporabnik v Docker Group" },
-      "dockerEnabled": { "description": "Docker omogočeno" },
-      "podman": { "description": "Podmana podpora" },
-      "podmanEnabled": { "description": "Podman omogočeno" }
+      "qemu": {
+        "description": "QEMU nameščen"
+      },
+      "kvm": {
+        "description": "Podpora za KVM"
+      },
+      "virtManager": {
+        "description": "Podpora za Virt-manager"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd omogočen"
+      },
+      "userVboxUsers": {
+        "description": "Uporabnik v skupini vboxusers"
+      },
+      "virtualbox": {
+        "description": "Podpora za VirtualBox"
+      },
+      "userLibvirt": {
+        "description": "Uporabnik v skupini libvirt"
+      },
+      "userKvm": {
+        "description": "Uporabnik v skupini kvm"
+      }
+    },
+    "containers": {
+      "title": "Vsebniki",
+      "docker": {
+        "description": "Docker nameščen"
+      },
+      "dockerEnabled": {
+        "description": "Docker omogočen"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose nameščen"
+      },
+      "userDocker": {
+        "description": "Uporabnik v skupini docker"
+      },
+      "podman": {
+        "description": "Podman nameščen"
+      },
+      "podmanDocker": {
+        "description": "Emuliraj Docker preko Podmana"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop nameščen"
+      },
+      "distrobox": {
+        "description": "DistroBox nameščen"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy nameščen"
+      }
     },
     "network": {
       "title": "Omrežje",
-      "networkManager": { "description": "Podpora NetworkManager" },
-      "networkManagerEnabled": { "description": "Omogočen NetworkManager" },
-      "modemManagerEnabled": { "description": "ModemManager omogočeno" }
+      "networkManager": {
+        "description": "Podpora za NetworkManager"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager omogočen"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager omogočen"
+      }
     },
     "bluetooth": {
       "title": "Bluetooth",
-      "bluetooth": { "description": "Podpora Bluetooth" },
-      "bluetoothEnabled": { "description": "Bluetooth omogočeno" },
-      "userBluetooth": { "description": "Uporabnik v skupini Bluetooth" },
-      "autoConnect": { "description": "Samodejno povezovanje" },
-      "autoConnectEnabled": { "description": "Omogočeno samodejno povezavo" }
+      "bluetooth": {
+        "description": "Podpora za Bluetooth"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth omogočen"
+      },
+      "userBluetooth": {
+        "description": "Uporabnik v skupini bluetooth"
+      },
+      "autoConnect": {
+        "description": "Samodejna povezava nameščena"
+      },
+      "autoConnectEnabled": {
+        "description": "Samodejna povezava omogočena"
+      }
     },
     "printing": {
       "title": "Tiskanje",
-      "printingSupport": { "description": "Podpora za tiskanje" },
-      "cupsEnabled": { "description": "Omogočene skodelice" },
-      "scanningSupport": { "description": "Podpora za skeniranje" },
-      "sanedEnabled": { "description": "omogočeno saned" },
-      "userCups": { "description": "Uporabnik v skupini Cups" },
-      "userScanner": { "description": "Uporabnik v skupini skenerjev" },
-      "userSys": { "description": "Uporabnik v skupini SYS" }
+      "printingSupport": {
+        "description": "Podpora za tiskanje"
+      },
+      "cupsEnabled": {
+        "description": "CUPS omogočen"
+      },
+      "scanningSupport": {
+        "description": "Podpora za skeniranje"
+      },
+      "sanedEnabled": {
+        "description": "saned omogočen"
+      },
+      "userCups": {
+        "description": "Uporabnik v skupini cups"
+      },
+      "userScanner": {
+        "description": "Uporabnik v skupini scanner"
+      },
+      "userLp": {
+        "description": "Uporabnik v skupini lp"
+      }
     },
     "firewall": {
       "title": "Požarni zid",
-      "firewalld": { "description": "Podpora za požar" },
-      "firewalldEnabled": { "description": "požarni zid omogočeno" },
-      "ufw": { "description": "Podpora UFW" },
-      "ufwEnabled": { "description": "UFW omogočeno" },
-      "opensnitch": { "description": "OpenSNitch Podpora" },
-      "opensnitchEnabled": { "description": "OpenSnitch omogočeno" }
+      "firewalld": {
+        "description": "Firewalld nameščen"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld omogočen"
+      },
+      "ufw": {
+        "description": "UFW nameščen"
+      },
+      "ufwEnabled": {
+        "description": "UFW omogočen"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch nameščen"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch omogočen"
+      }
+    },
+    "misc": {
+      "title": "Razno",
+      "gns": {
+        "description": "Garuda Nix Subsystem nameščen"
+      }
     }
   },
   "systemSettings": {
-    "defaultShellConfigs": "Namestite privzete konfiguracije",
-    "defaultDns": "Nastavite privzeti DNS",
-    "defaultShell": "Nastavite za prijavo",
-    "enableHblock": "Omogoči hblock",
+    "defaultShellConfigs": "Namesti privzete konfiguracije",
+    "defaultDns": "Nastavi privzeti DNS",
+    "defaultShell": "Nastavi prijavno lupino",
+    "enableHblock": "Omogoči Hblock",
+    "enableIwd": "Uporabi IWD namesto wpa_supplicant",
     "common": {
-      "title": "Pogosto",
-      "psd": { "description": "Nameščen profil-sync-Daemon" },
-      "psdEnabled": { "description": "Omogočeno profil-sinh-Daemon" },
-      "oomd": { "description": "Omogočeno systemd-oomd" },
-      "guestUser": { "description": "Omogoči uporabniku gostov" }
+      "title": "Splošno",
+      "psd": {
+        "description": "Profile-sync-daemon nameščen"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon omogočen"
+      },
+      "oomd": {
+        "description": "Systemd-oomd omogočen"
+      },
+      "guestUser": {
+        "description": "Omogoči gostujočega uporabnika"
+      }
     },
     "performance": {
-      "title": "Uspešnost",
-      "performanceTweaks": { "description": "Performance Tweaks" },
-      "ananicyCpp": { "description": "Nameščen Ananicy C ++" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ omogočeno" },
-      "preload": { "description": "Prednapostavljeno nameščeno" },
-      "preloadEnabled": { "description": "Omogočeno prednapetost" },
-      "irqbalanceEnabled": { "description": "Omogočeno Irqbalance" }
+      "title": "Zmogljivost",
+      "performanceTweaks": {
+        "description": "Prilagoditve zmogljivosti"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ nameščen"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ omogočen"
+      },
+      "bpftune": {
+        "description": "Bpftune nameščen"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune omogočen"
+      },
+      "preload": {
+        "description": "Preload nameščen"
+      },
+      "preloadEnabled": {
+        "description": "Preload omogočen"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance omogočen"
+      }
     },
     "powersave": {
       "title": "Varčevanje z energijo",
-      "powersaveTweaks": { "description": "PowerSave Tweaks" },
-      "tlp": { "description": "TLP nameščen" },
-      "tlpEnabled": { "description": "TLP omogočeno" },
-      "autoCpufreq": { "description": "Nameščeno samodejno-cpufreq" },
-      "autoCpufreqEnabled": { "description": "Omogočeno samodejno-cpufreq" },
-      "thermald": { "description": "Thermald nameščen" },
-      "thermaldEnabled": { "description": "Omogočeno TherMald" },
-      "powerProfilesDaemon": { "description": "Nameščeni profili napajanja" },
-      "powerProfilesDaemonEnabled": { "description": "Omogočeni profili moči" },
-      "intelUndervolt": { "description": "Intel-undervolt nameščen" },
-      "intelUndervoltEnabled": { "description": "Omogočeno Intel-Undervolt" }
+      "powersaveTweaks": {
+        "description": "Prilagoditve varčevanja z energijo"
+      },
+      "tlp": {
+        "description": "TLP nameščen"
+      },
+      "tlpEnabled": {
+        "description": "TLP omogočen"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq nameščen"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq omogočen"
+      },
+      "thermald": {
+        "description": "Thermald nameščen"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald omogočen"
+      },
+      "powerProfilesDaemon": {
+        "description": "Power profiles daemon nameščen"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Power profiles daemon omogočen"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt nameščen"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt omogočen"
+      }
     },
     "rightclickEmulation": {
-      "title": "Z desnim klikom emulacije",
-      "evdevLongPressRightClick": { "description": "EVDEV LENT Pritisnite desno miškovno emulacija" },
-      "evdevRce": { "description": "EVDEV RCE Omogočen" }
+      "title": "Emulacija desnega klika",
+      "evdevLongPressRightClick": {
+        "description": "Emulacija desnega klika z dolgim pritiskom Evdev"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE omogočen"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "Nastavitev rib kot privzete lupine lahko povzroči težave z drugimi programi. Namesto tega svetujemo, da ga nastavite kot privzeto prek konfiguracij terminalov."
+      "hint": "Nastavitev fish kot privzete lupine lahko povzroči težave z drugimi programi. Priporočljivo je, da jo nastavite kot privzeto preko konfiguracije terminala."
     }
   },
   "confirmation": {
-    "accept": "Sprejemati",
-    "reject": "Odpovedati",
-    "exitApp": "Ste prepričani, da želite zapustiti aplikacijo?",
-    "resetConfigsHeader": "Ponastavite konfiguracije?",
-    "resetConfigsBody": "Ali ste prepričani, da želite ponastaviti naslednje konfiguracije?",
-    "exitAppHeader": "Izhod iz aplikacije?",
-    "applyOperations": "Uporaba operacij?",
-    "applyOperationsBody": "Ste prepričani, da želite uporabiti vse v čakanju?"
+    "accept": "Sprejmi",
+    "reject": "Prekliči",
+    "exitApp": "Ali si prepričan, da želiš zapreti aplikacijo?",
+    "exitAppRunningAction": "Ali si prepričan, da želiš zapreti aplikacijo? Dejanje je v teku!",
+    "resetConfigsHeader": "Ponastavi konfiguracije?",
+    "resetConfigsBody": "Ali si prepričan, da želiš ponastaviti naslednje konfiguracije?",
+    "exitAppHeader": "Zapri aplikacijo?",
+    "applyOperations": "Uveljavi operacije?",
+    "applyOperationsBody": "Ali si prepričan, da želiš uveljaviti vsa čakajoča opravila?"
   },
-  "error": { "sudoPassword": "Zdi se, da to ni pravilno geslo. Poskusite znova." },
+  "error": {
+    "sudoPassword": "Zdi se, da to ni pravilno geslo. Poskusi znova."
+  },
   "operation": {
-    "removeApps": "Odstranite aplikacije",
-    "installApps": "Namestite aplikacije",
-    "addGroups": "Dodajte uporabnika v skupino",
-    "removeGroup": "Odstranite uporabnika iz skupine",
+    "removeApps": "Odstrani aplikacije",
+    "installApps": "Namesti aplikacije",
+    "addGroup": "Dodaj uporabnika v skupino",
+    "removeGroup": "Odstrani uporabnika iz skupine",
     "disableService": "Onemogoči storitev",
     "enableService": "Omogoči storitev",
-    "setDefaultShell": "Nastavite privzeto lupino",
-    "enableHblock": "Omogoči hblock",
-    "disableHblock": "Onemogoči hblock",
-    "setNewDnsServer": "Nastavite nov DNS strežnik",
-    "resetDnsServer": "Ponastavite strežnik DNS",
+    "setDefaultShell": "Nastavi privzeto lupino",
+    "enableHblock": "Omogoči Hblock",
+    "disableHblock": "Onemogoči Hblock",
+    "setNewDnsServer": "Nastavi nov DNS strežnik",
+    "resetDnsServer": "Ponastavi DNS strežnik",
     "args": "Argumenti",
     "logs": "Dnevniki",
-    "remove": "Odstraniti"
+    "remove": "Odstrani",
+    "abort": "Prekini",
+    "run": "Zaženi zdaj"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Čakajoče posodobitve",
+    "updates": "Ta sistem ima čakajoče posodobitve (klikni za informacije)",
+    "pacFiles": "Ta sistem ima čakajoče datoteke .pacnew, preveri in jih združi! (klikni za informacije)",
+    "cancel": "Prekliči",
+    "aurUpdates": "Posodabljanje paketov AUR ni v domeni te aplikacije. Uporabi pomočnika AUR, kot je Paru, in preglej datoteke PKGBUILD pred namestitvijo.",
+    "scheduleUpdates": "Načrtuj posodobitve",
+    "pendingPacdiff": "Čakajoče datoteke pacdiff",
+    "findMore": "Izvedi, kako nadaljevati",
+    "warnUpdate": "Tvoj sistem ni bil posodobljen 2 tedna. Posodobi sistem za zagotovitev varnosti in stabilnosti.",
+    "affectedFiles": "Prizadete datoteke:",
+    "learnPacdiff": "Če ne poznaš datotek pacdiff, se hitro pouči o njih.",
+    "openMaintenance": "Klikni spodnji gumb za začetek.",
+    "openMaintenanceButton": "Začni združevanje",
+    "rebootNow": "Ponovno zaženi zdaj",
+    "rebootNowBody": "Ali si prepričan, da želiš ponovno zagnati zdaj? Prepričaj se, da si shranil vse svoje delo pred nadaljevanjem.",
+    "warnReboot": "Močno priporočljivo je ponovno zagnati sistem po namestitvi posodobitev, še posebej pri posodabljanju jeder ali namiznih okolij.",
+    "proceed": "Nadaljuj takole:",
+    "snapshotCreation": "Pred začetkom združevanja bo ustvarjen Btrfs posnetek.",
+    "proceedMerge": "Meld se bo odprl za uveljavitev sprememb. Na levi strani je NOVA datoteka, na desni STARA. Premakni vse uporabne spremembe, ki jih želiš združiti, z leve na desno stran. Ko končaš, klikni gumb za shranjevanje ali CTRL + S.",
+    "cautionMerge": "Zavedaj se, da lahko vnos napačnih sprememb v STARO datoteko pokvari sistem.",
+    "askHelp": "Če nisi prepričan, zapri okno brez shranjevanja in prosi za pomoč na forumu Garuda Linux.",
+    "runAurUpdates": "Zaženi posodobitve AUR zunanje"
+  },
+  "operationManager": {
+    "refusing": "Zavrnitev izvajanja",
+    "pendingOperationsRunning": "Operacije so v teku, odstranil bom samo tiste, ki so že končane.",
+    "thisOperationRunning": "Si pri zdravi pameti? Ta operacija trenutno teče!"
+  },
+  "os-interact": {
+    "packages": "Spremeni nameščene pakete",
+    "packages-aur": "Spremeni pakete AUR",
+    "services": "Spremeni storitve",
+    "services-user": "Spremeni uporabniške storitve",
+    "groups": "Spremeni uporabniške skupine",
+    "locales": "Spremeni omogočene jezikovne nastavitve"
+  },
+  "packages": {
+    "title": "Paketi",
+    "internet": "Internet",
+    "documents": "Dokumenti",
+    "multimedia": "Večpredstavnost",
+    "science": "Znanost",
+    "security": "Varnost",
+    "other": "Drugo",
+    "clear": "Počisti",
+    "search": "Išči",
+    "url": "URL",
+    "selected": "Izbrano",
+    "description": "Opis",
+    "name": "Ime",
+    "searchKey": "Vnesi iskalni niz",
+    "notFound": "Ni najdenih paketov"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Nekateri moduli DKMS so pokvarjeni",
+    "dkmsModulesBrokenTip": "Klikni me za načrtovanje namestitve pokvarjenih modulov DKMS",
+    "dkmsModulesMissing": "Nekateri moduli DKMS manjkajo",
+    "dkmsModulesMissingTip": "Manjkajoči moduli DKMS",
+    "headers": "Glave",
+    "headersMissing": "Manjkajoče glave jedra",
+    "headersMissingTip": "Klikni me za načrtovanje namestitve manjkajočih glav",
+    "active": "Aktivno jedro:"
+  },
+  "languagePacks": {
+    "locale": "Jezikovna nastavitev",
+    "selected": "Izbrano",
+    "base": "Osnovni paket",
+    "notFound": "Ni najdenih jezikovnih paketov",
+    "pkgname": "Ime paketa",
+    "description": "To so jezikovni paketi za tvoje nameščene pakete, običajno zagotavljajo prevode za GUI."
+  },
+  "settings": {
+    "title": "Nastavitve ",
+    "titleTwo": "aplikacije",
+    "leftButtons": "Pokaži gumbe okna na levi",
+    "copyDiagnostics": "Kopiraj diagnostiko v odložišče",
+    "darkMode": "Omogoči temni način",
+    "language": "Konfiguriraj aktivni jezik",
+    "autoStart": "Samodejni zagon aplikacije",
+    "logLevel": "Izberi raven beleženja",
+    "systemdUserContext": "Pokaži uporabniške storitve Systemd",
+    "autoRefresh": "Omogoči samodejno osveževanje storitev systemd",
+    "showMainLinks": "Pokaži povezave na domači strani",
+    "themeLabel": "Osnovna tema oblikovanja",
+    "toggleOptions": "Preklopne možnosti",
+    "selectOptions": "Izbire"
+  },
+  "locales": {
+    "apply": "Načrtuj spremembe nameščenih jezikovnih nastavitev",
+    "description": "Jezikovne nastavitve na desni so nameščene v tvojem sistemu. Izbereš lahko, katere želiš obdržati in katere odstraniti.",
+    "available": "Na voljo",
+    "selected": "Izbrano",
+    "task": "Spremeni sistemsko jezikovno nastavitev",
+    "selectLocale": "Izberi želeni sistemski jezik"
   }
 }

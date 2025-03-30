@@ -50,6 +50,9 @@ Thumbs.db
 flake.lock
 /test
 
+# Secrets
+.env
+
 # Nx
 .nx/cache
 .nx/workspace-data

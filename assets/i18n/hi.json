@@ -1,308 +1,591 @@
 {
   "menu": {
-    "welcome": "स्वागत",
+    "welcome": "स्वागत है",
     "maintenance": "रखरखाव",
-    "systemTools": "तंत्र सेटिंग्स",
-    "components": "अवयव",
-    "gaming": "गेमिंग ऐप्स",
-    "boot": "बूट -उपकरण",
+    "systemTools": "सिस्टम सेटिंग्स",
+    "components": "घटक",
+    "gaming": "गेमिंग",
+    "boot": "बूट उपकरण",
     "diagnostics": "निदान",
     "network": "नेटवर्क उपकरण",
-    "settings": {
-      "title": "सेटिंग",
-      "windowButtonsLeft": "विंडो बटन दिखाओ",
-      "copyDiagnostics": "क्लिपबोर्ड पर निदान की प्रतिलिपि बनाएँ",
-      "darkMode": "डार्क मोड सक्षम करें",
-      "language": "सक्रिय भाषा कॉन्फ़िगर करें"
-    },
+    "settings": "ऐप सेटिंग्स",
     "help": {
       "title": "मदद",
-      "getHelpForum": "मंच पर सहायता प्राप्त करें",
-      "getHelpWiki": "विकी में सामग्री के लिए खोजें",
-      "getHelpArchWiki": "आर्क विकी में सामग्री के लिए खोजें",
-      "garudaStatus": "अपटाइम स्थिति की जाँच करें",
-      "about": "गरुड़ के रानी के बारे में",
-      "aboutBody": "गरुड़ का रानी गरुड़ लिनक्स के लिए एक सिस्टम रखरखाव और निदान उपकरण है। यह उपयोगकर्ताओं को अपने सिस्टम को बनाए रखने और मुद्दों का निदान करने में मदद करने के लिए डिज़ाइन किया गया है। यह टॉरी और कोणीय का उपयोग करके बनाया गया है।",
-      "callExorcist": "एक्सोरसिस्ट को बुलाओ",
-      "callExorcistBody": "इस बटन पर क्लिक करने के लिए आपको बहुत बेताब होना चाहिए! मैंने आपके लिए कुछ विशेष वूडू सेट किए हैं, यदि आप अभी भी ऐप के साथ समस्याएं कर रहे हैं, तो कृपया उन्हें गरुड़ लिनक्स फोरम या हमारे समस्या ट्रैकर पर रिपोर्ट करें।"
+      "getHelpForum": "फोरम पर मदद लें",
+      "getHelpWiki": "विकी में सामग्री खोजें",
+      "getHelpArchWiki": "Arch Wiki में सामग्री खोजें",
+      "garudaStatus": "अपटाइम स्थिति जांचें",
+      "about": "Garuda Rani के बारे में",
+      "aboutBody": "Garuda Rani, Garuda Linux के लिए एक सिस्टम रखरखाव और निदान उपकरण है। इसे उपयोगकर्ताओं को अपने सिस्टम को बनाए रखने और समस्याओं का निदान करने में मदद करने के लिए डिज़ाइन किया गया है। यह Tauri और Angular का उपयोग करके बनाया गया है।",
+      "callExorcist": "ओझा को बुलाओ",
+      "callExorcistTitle": "ओझा को बुलाया!",
+      "callExorcistBody": "इस बटन को क्लिक करने के लिए तुम बहुत हताश होगे! मैंने तुम्हारे लिए कुछ विशेष जादू-टोना किया है, अगर तुम्हें अभी भी ऐप से समस्या हो रही है, तो कृपया उन्हें Garuda Linux फोरम या हमारे इश्यू ट्रैकर पर रिपोर्ट करें।"
     },
-    "terminal": "टर्मिनल",
+    "terminal": "टर्मिनल दिखाएं",
+    "terminalRunning": "चल रहे कार्य",
+    "terminalTasks": "कार्य निष्पादित करें",
     "pending": "लंबित"
   },
   "diagnostics": {
-    "title": "डिबग जानकारी",
+    "title": "डीबग जानकारी ",
     "titleTwo": "और निदान",
-    "subtitle": "अपने सिस्टम को डिबग करने के लिए आवश्यक जानकारी का पता लगाएं",
+    "subtitle": "अपने सिस्टम को डीबग करने के लिए आवश्यक जानकारी प्राप्त करें",
     "inxi": "सामान्य जानकारी (inxi)",
-    "systemctl": "तंत्र सेवाएँ",
-    "journalctl": "सिस्टम लॉग (जर्नलसीटीएल)",
-    "dmesg": "कर्नेल लॉग (DMESG)",
+    "systemctl": "सिस्टम सेवाएं (systemctl)",
+    "journalctl": "सिस्टम लॉग (journalctl)",
+    "dmesg": "कर्नेल लॉग (dmesg)",
     "full": "पूर्ण निदान",
-    "upload": "प्राइवेटबिन पर अपलोड करें",
-    "pacman": "नवीनतम पैकमैन लॉग",
-    "copied": "सफलतापूर्वक क्लिपबोर्ड में कॉपी किया गया",
+    "upload": "PrivateBin पर अपलोड करें",
+    "failedCmdHeader": "कमांड चलाने में विफल",
+    "failedCmd": "कुछ बुरा हुआ और कोई निदान प्राप्त नहीं किया जा सका",
+    "pacman": "नवीनतम Pacman लॉग",
+    "copied": "क्लिपबोर्ड पर सफलतापूर्वक कॉपी किया गया",
     "success": "सफलता",
-    "uploadSuccess": "सफलतापूर्वक प्राइवेटबिन पर अपलोड किया गया"
+    "uploadSuccess": "PrivateBin पर सफलतापूर्वक अपलोड किया गया, URL क्लिपबोर्ड पर कॉपी किया गया"
   },
-  "lang": { "title": "भाषा चयन", "tooltip": "अपनी पसंदीदा भाषा का चयन करें" },
+  "lang": {
+    "title": "भाषा चयन",
+    "tooltip": "अपनी पसंदीदा भाषा चुनें"
+  },
   "welcome": {
-    "title": "गरुड़ में आपका स्वागत है",
-    "titleTwo": "लिनक्स",
-    "subtitle": "गेमिंग और मल्टीमीडिया के लिए परम लिनक्स डिस्ट्रो",
+    "title": "आपका स्वागत है ",
+    "titleTwo": "Garuda Linux में",
+    "subtitle": "गेमिंग और मल्टीमीडिया के लिए अंतिम Linux डिस्ट्रो",
     "maintenance": "रखरखाव",
-    "maintenanceSub": "अपने सिस्टम को एक अच्छी स्थिति में रखें",
-    "systemTools": "तंत्र सेटिंग्स",
-    "systemToolsSub": "अपने सिस्टम को कॉन्फ़िगर करें",
+    "maintenanceSub": "अपने सिस्टम को अच्छी स्थिति में रखें",
+    "systemTools": "सिस्टम सेटिंग्स",
+    "systemToolsSub": "अपना सिस्टम कॉन्फ़िगर करें",
     "gaming": "गेमिंग ऐप्स",
-    "gamingSub": "अपने पसंदीदा खेल खेलें",
-    "bootTools": "बूट -उपकरण",
+    "gamingSub": "अपने पसंदीदा गेम खेलें",
+    "bootTools": "बूट उपकरण",
     "bootToolsSub": "अपनी बूट सेटिंग्स प्रबंधित करें",
     "network": "नेटवर्क उपकरण",
     "networkSub": "अपनी नेटवर्क सेटिंग्स प्रबंधित करें",
     "diagnostics": "निदान",
-    "diagnosticsSub": "अपने सिस्टम हेल्थ की जाँच करें",
-    "install": "गरुड़ लिनक्स स्थापित करें",
-    "installSub": "अपने सिस्टम पर गरुड़ लिनक्स प्राप्त करें",
-    "chroot": "गरुड़ में चिरोट",
-    "chrootSub": "अपने गरुड़ की स्थापना में chroot",
-    "startpage": "पृष्ठ आरंभ करें",
-    "startpageSub": "गरुड़ लिनक्स स्टार्टपेज खोलें",
+    "diagnosticsSub": "अपने सिस्टम का स्वास्थ्य जांचें",
+    "install": "Garuda Linux इंस्टॉल करें",
+    "installSub": "अपने सिस्टम पर Garuda Linux प्राप्त करें",
+    "chroot": "Garuda में Chroot करें",
+    "chrootSub": "अपनी Garuda इंस्टॉलेशन में Chroot करें",
+    "startpage": "स्टार्टपेज",
+    "startpageSub": "Garuda Linux स्टार्टपेज खोलें",
     "setupAssistant": "सेटअप सहायक",
-    "setupAssistantSub": "गरुड़ सेटअप सहायक चलाएं"
+    "setupAssistantSub": "Garuda सेटअप सहायक चलाएँ",
+    "hello": "नमस्ते",
+    "error": "एक त्रुटि हुई।"
   },
   "gaming": {
-    "title": "जुआ",
+    "title": "गेमिंग ",
     "titleTwo": "ऐप्स",
-    "subtitle": "चलो आप कुछ गेमिंग ऐप्स के साथ शुरू करते हैं!",
-    "launchers": "खेल लॉन्चर",
-    "wine": "शराब",
-    "tools": "जुआ खेलने का औजार",
-    "emulators": "एम्युलेटर्स",
-    "controllers": "नियंत्रक समर्थन",
-    "games": "खेल",
-    "misc": "मिश्रित"
+    "subtitle": "चलो कुछ गेमिंग ऐप्स के साथ शुरू करें!",
+    "launchers": "गेम लॉन्चर",
+    "loading": "लोड हो रहा है...",
+    "wine": "WINE",
+    "tools": "गेमिंग उपकरण",
+    "emulators": "एम्यूलेटर",
+    "controllers": "कंट्रोलर समर्थन",
+    "games": "गेम्स",
+    "misc": "विविध",
+    "bluez": "आमतौर पर PS कंट्रोलर को वायरलेस रूप से पहचानने के लिए आवश्यक",
+    "xboxdrv": "Xbox कंट्रोलर ड्राइवर, केवल तभी उपयोग करें जब कर्नेल ड्राइवर काम न करे!",
+    "wineWow64": "WINE का संस्करण जिसमें 64-बिट समर्थन है, बिना 32-बिट लाइब्रेरी इंस्टॉल किए",
+    "wineStagingWow64": "WINE का स्टेजिंग संस्करण जिसमें 32-बिट समर्थन है, बिना 32-बिट लाइब्रेरी इंस्टॉल किए",
+    "wineMeta": "WINE और सभी आवश्यक निर्भरताएँ इंस्टॉल करने के लिए मेटा पैकेज"
   },
   "maintenance": {
-    "title": "प्रणाली",
+    "title": "सिस्टम ",
     "titleTwo": "रखरखाव",
-    "subtitle": "अपने सिस्टम को एक अच्छी स्थिति में रखें",
-    "update": "अपने सिस्टम को अपडेट करें",
+    "subtitle": "अपने सिस्टम को अच्छी स्थिति में रखें",
+    "update": "अपना सिस्टम अपडेट करें",
     "addPending": "लंबित जोड़ें",
-    "removePending": "लंबित को हटा दें",
-    "runNow": "अब दौड़े",
-    "editRepos": "पुनर्खरीद संपादित करें",
-    "onlyDirect": "इस कार्रवाई को कतारबद्ध नहीं किया जा सकता है और इसे सीधे चलाने की आवश्यकता है।",
-    "cleanCache": "स्वच्छ कैश",
-    "cleanCacheSub": "सभी कैश्ड पैकेज निकालें",
-    "updateSystem": "अद्यतन तंत्र",
-    "updateSystemSub": "गरुड़-अपडेट के माध्यम से अपने सिस्टम को अपडेट करें",
-    "editReposSub": "अपने रिपॉजिटरी को गति के साथ संपादित करें",
-    "addPendingSub": "लंबित संचालन जोड़ें",
-    "clearOrphans": "स्पष्ट अनाथ",
-    "clearOrphansSub": "अनाथ पैकेज निकालें",
-    "refreshMirrors": "ताज़ा दर्पण",
-    "refreshMirrorsSub": "अपने मिररलिस्ट को ताज़ा करें",
-    "removeLock": "पैकमैन लॉक निकालें",
-    "removeLockSub": "Pacman Lock फ़ाइल निकालें",
-    "reinstallPackages": "पैकेज को पुनर्स्थापित करें",
-    "reinstallPackagesSub": "अपने सिस्टम पर सभी पैकेजों को पुनर्स्थापित करें",
-    "btrfsAssistant": "BTRFS सहायक",
-    "btrfsAssistantSub": "अपने BTRFS स्नैपशॉट प्रबंधित करें और रखरखाव कार्य चलाएं",
-    "updateRemoteFullFix": "गरुड़ अद्यतन पूर्ण तय",
-    "updateRemoteFullFixSub": "Pacman को रीसेट करें और अपने OS में सभी पैकेजों को फिर से इंस्टॉल करें",
-    "updateRemoteKeyring": "गरुड़ अपडेट कीरिंग",
-    "updateRemoteKeyringSub": "Pacman.conf को रीसेट किए बिना कीरिंग को रिफ्रेश करें",
-    "updateRemoteFix": "गरुड़ अपडेट फिक्स",
-    "updateRemoteFixSub": "Pacman.conf और रिफ्रेश कीरिंग्स को रीसेट करें",
-    "updateRemoteResetSnapper": "स्नैपर रीसेट करें",
-    "updateRemoteResetSnapperSub": "सब कुछ स्नैपर निकालें और इसके कॉन्फ़िगरेशन को फिर से बनाएं",
-    "updateRemoteResetAudio": "रीसेट ऑडियो",
-    "updateRemoteResetAudioSub": "Pipewire ऑडियो कॉन्फ़िगरेशन को पुनर्स्थापित/रीसेट करें",
-    "resetTooltip": "निम्नलिखित फाइलें या फ़ोल्डर उनकी डिफ़ॉल्ट स्थिति में रीसेट हो जाएंगे:",
-    "resetConfigs": "डिफ़ॉल्ट स्थिति में कॉन्फ़िगरेशन रीसेट करें",
+    "removePending": "लंबित हटाएँ",
+    "runNow": "अभी चलाएँ",
+    "failedReset": "कॉन्फ़िग फ़ाइल रीसेट करने में त्रुटि",
+    "failedResetFile": "{{file}} को रीसेट करने के दौरान त्रुटि हुई",
+    "editRepos": "रिपॉजिटरी संपादित करें",
+    "onlyDirect": "यह क्रिया कतारबद्ध नहीं की जा सकती है और इसे सीधे चलाने की आवश्यकता है।",
+    "cleanCache": "कैश साफ़ करें",
+    "cleanCacheSub": "सभी कैश्ड पैकेज हटाएँ",
+    "updateSystem": "सिस्टम अपडेट करें",
+    "taskRunningHeader": "रखरखाव क्रिया चलाने में त्रुटि",
+    "taskRunning": "पहले से ही एक कार्य चल रहा है, कृपया पहले उसे पूरा होने दें।",
+    "updateSystemSub": "garuda-update के माध्यम से अपना सिस्टम अपडेट करें",
+    "editReposSub": "Pace के साथ अपनी रिपॉजिटरी संपादित करें",
+    "addPendingSub": "लंबित ऑपरेशन जोड़ें",
+    "clearOrphans": "अनाथ पैकेज साफ़ करें",
+    "clearOrphansSub": "अनाथ पैकेज हटाएँ",
+    "refreshMirrors": "मिरर रिफ्रेश करें",
+    "refreshMirrorsSub": "अपनी मिररलिस्ट रिफ्रेश करें",
+    "removeLock": "Pacman लॉक हटाएँ",
+    "removeLockSub": "pacman लॉक फ़ाइल हटाएँ",
+    "reinstallPackages": "पैकेज पुनः इंस्टॉल करें",
+    "reinstallPackagesSub": "अपने सिस्टम पर सभी पैकेज पुनः इंस्टॉल करें",
+    "reinstallDkmsModules": "DKMS मॉड्यूल पुनः इंस्टॉल करें",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "अपने BTRFS स्नैपशॉट प्रबंधित करें और रखरखाव कार्य चलाएँ",
+    "mergePacDiff": "pacdiff फ़ाइलें मर्ज करें",
+    "mergePacDiffSub": ".pacnew और .pacsave फ़ाइलों को इंटरैक्टिव रूप से मर्ज करें",
+    "updateRemoteFullFix": "Garuda update पूर्ण सुधार",
+    "updateRemoteFullFixSub": "Pacman रीसेट करें और अपने OS में सभी पैकेज पुनः इंस्टॉल करें",
+    "updateRemoteKeyring": "Garuda update कीरिंग",
+    "updateRemoteKeyringSub": "pacman.conf रीसेट किए बिना कीरिंग रिफ्रेश करें",
+    "updateRemoteFix": "Garuda update सुधार",
+    "updateRemoteFixSub": "pacman.conf रीसेट करें और कीरिंग रिफ्रेश करें",
+    "updateRemoteResetSnapper": "Snapper रीसेट करें",
+    "updateRemoteResetSnapperSub": "Snapper से सब कुछ हटाएँ और इसकी कॉन्फ़िगरेशन फिर से बनाएँ",
+    "updateRemoteResetAudio": "ऑडियो रीसेट करें",
+    "updateRemoteResetAudioSub": "PipeWire ऑडियो कॉन्फ़िगरेशन पुनः इंस्टॉल/रीसेट करें",
+    "resetTooltip": "निम्नलिखित फ़ाइलें या फ़ोल्डर उनकी डिफ़ॉल्ट स्थिति में रीसेट हो जाएँगे:",
+    "resetConfigs": "कॉन्फ़िग्स को डिफ़ॉल्ट स्थिति में रीसेट करें",
     "common": "सामान्य रखरखाव",
-    "garudaUpdate": "गरुड़ अद्यतन बचाव उपकरण"
+    "garudaUpdate": "Garuda update बचाव उपकरण"
   },
   "sudo": {
-    "title": "प्रमाणित करना",
-    "subtitle": "जारी रखने के लिए कृपया अपना कूटशब्द दर्ज करें",
-    "save": "इस सत्र में कैश",
+    "title": "प्रमाणीकरण आवश्यक",
+    "subtitle": "जारी रखने के लिए कृपया अपना पासवर्ड दर्ज करें",
+    "save": "इस सत्र में कैश करें",
     "password": "पासवर्ड",
-    "cancel": "रद्द करना",
+    "cancel": "रद्द करें",
     "useOnce": "केवल एक बार उपयोग करें"
   },
   "terminal": {
     "title": "टर्मिनल",
-    "runActions": "कार्रवाई चलाना",
-    "removeAll": "सभी क्रियाओं को हटा दें",
-    "noOutput": "उत्पादन नही",
-    "outputExists": "ऐसा लगता है कि पहले से ही एक कार्रवाई चल रही है। कृपया लॉग देखने की कोशिश करने से पहले इसके खत्म होने की प्रतीक्षा करें।",
-    "opRunning": "ऑपरेशन पहले से ही चल रहा है।"
+    "runActions": "क्रियाएँ चलाएँ",
+    "removeAll": "सभी क्रियाएँ हटाएँ",
+    "abortAll": "सभी क्रियाएँ निरस्त करें",
+    "noOutput": "कोई आउटपुट नहीं",
+    "outputExists": "ऐसा लगता है कि पहले से ही एक क्रिया चल रही है। लॉग देखने का प्रयास करने से पहले कृपया इसके समाप्त होने की प्रतीक्षा करें।",
+    "opRunning": "ऑपरेशन पहले से ही चल रहा है।",
+    "clearCachedDataTitle": "आउटपुट कैश साफ़ किया गया",
+    "clearCachedData": "आउटपुट कैश साफ़ कर दिया गया है।",
+    "clearOutputCache": "आउटपुट कैश साफ़ करें",
+    "copyOutput": "टर्मिनल आउटपुट कॉपी करें",
+    "copyToClipboardTitle": "क्लिपबोर्ड पर कॉपी किया गया",
+    "copyToClipboard": "आउटपुट सफलतापूर्वक आपके क्लिपबोर्ड पर कॉपी कर लिया गया है।",
+    "uploadPrivateBin": "PrivateBin पर अपलोड करें"
   },
   "systemdServices": {
     "notFound": "कोई सेवा नहीं मिली",
     "description": "विवरण",
-    "unit": "एकक नाम",
-    "load": "भार",
+    "unit": "यूनिट का नाम",
+    "load": "लोड",
     "active": "सक्रिय",
-    "state": "राज्य",
+    "state": "स्थिति",
     "searchKey": "एक खोज कीवर्ड दर्ज करें",
-    "clear": "स्पष्ट",
-    "actions": "कार्रवाई",
-    "show": "दिखाओ",
-    "start": "शुरू",
-    "stop": "रुकना",
-    "mask": "नकाब",
-    "unmask": "पोल खोलना",
-    "logs": "लॉग्स",
-    "restart": "पुनः आरंभ करें",
-    "reload": "फिर से लोड करना",
-    "enable": "सक्षम",
-    "disable": "अक्षम करना",
-    "autoRefresh": "ऑटो रिफ्रेश",
-    "error": "सेवाओं को लाने के दौरान एक त्रुटि हुई, कृपया पुनः प्रयास करें।",
-    "errorTitle": "त्रुटि प्राप्त सेवाएं",
-    "systemContext": "सिस्टम सेवाएं दिखाएं",
-    "userContext": "उपयोगकर्ता सेवाएं दिखाएं",
-    "includeDisabled": "विकलांग शामिल हैं",
-    "excludeDisabled": "अक्षम को बाहर करें"
+    "clear": "साफ़ करें",
+    "actions": "क्रियाएँ",
+    "show": "दिखाएँ",
+    "start": "शुरू करें",
+    "stop": "रोकें",
+    "mask": "मास्क करें",
+    "unmask": "अनमास्क करें",
+    "logs": "लॉग",
+    "restart": "पुनरारंभ करें",
+    "reload": "पुनः लोड करें",
+    "enable": "सक्षम करें",
+    "disable": "अक्षम करें",
+    "autoRefresh": "स्वतः रिफ्रेश",
+    "error": "सेवाएँ प्राप्त करते समय एक त्रुटि हुई, कृपया पुनः प्रयास करें।",
+    "errorTitle": "सेवाएँ प्राप्त करने में त्रुटि",
+    "systemContext": "सिस्टम सेवाएँ दिखाएँ",
+    "userContext": "उपयोगकर्ता सेवाएँ दिखाएँ",
+    "includeDisabled": "अक्षम शामिल करें",
+    "excludeDisabled": "अक्षम बाहर निकालें"
   },
   "systemTools": {
-    "title": "प्रणाली",
-    "titleTwo": "सेटिंग",
-    "systemdServices": "SystemD सेवाएँ",
-    "systemSettings": "तंत्र सेटिंग्स",
-    "components": "तंत्र घटक",
+    "title": "सिस्टम ",
+    "titleTwo": "सेटिंग्स",
+    "systemdServices": "Systemd सेवाएँ",
+    "systemSettings": "सिस्टम सेटिंग्स",
+    "components": "सिस्टम घटक",
+    "locales": "लोकेल",
+    "kernels": "कर्नेल",
+    "packages": "अतिरिक्त पैकेज",
     "audio": {
       "title": "ऑडियो",
-      "alsa": { "description": "ALSA समर्थन" },
-      "jack": { "description": "जैक समर्थन" },
-      "pulseaudio": { "description": "पल्सियाडियो समर्थन" },
-      "pipewire": { "description": "पाइपवायर समर्थन" },
-      "userRealtime": { "description": "रियलटाइम ग्रुप में उपयोगकर्ता" }
+      "alsa": {
+        "description": "ALSA समर्थन"
+      },
+      "jack": {
+        "description": "JACK समर्थन"
+      },
+      "pulseaudio": {
+        "description": "PulseAudio समर्थन"
+      },
+      "pipewire": {
+        "description": "PipeWire समर्थन"
+      },
+      "userRealtime": {
+        "description": "realtime समूह में उपयोगकर्ता"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP इंस्टॉल किया गया"
+      }
     },
     "virtualization": {
       "title": "वर्चुअलाइजेशन",
-      "qemu": { "description": "QEMU समर्थन" },
-      "kvm": { "description": "KVM समर्थन" },
-      "virtManager": { "description": "पुण्य-प्रबंधक समर्थन" },
-      "libvirtdEnabled": { "description": "Libvirtd सक्षम" },
-      "userVboxUsers": { "description": "Vboxusers समूह में उपयोगकर्ता" },
-      "virtualbox": { "description": "वर्चुअलबॉक्स समर्थन" },
-      "userLibvirt": { "description": "Libvirt समूह में उपयोगकर्ता" },
-      "userKvm": { "description": "केवीएम समूह में उपयोगकर्ता" },
-      "virtualboxKvm": { "description": "KVM समर्थन के साथ वर्चुअलबॉक्स" },
-      "docker": { "description": "डॉकर समर्थन" },
-      "userDocker": { "description": "डॉकर समूह में उपयोगकर्ता" },
-      "dockerEnabled": { "description": "डॉकर सक्षम" },
-      "podman": { "description": "पॉडमैन सपोर्ट" },
-      "podmanEnabled": { "description": "पॉडमैन सक्षम" }
+      "qemu": {
+        "description": "QEMU इंस्टॉल किया गया"
+      },
+      "kvm": {
+        "description": "KVM समर्थन"
+      },
+      "virtManager": {
+        "description": "Virt-manager समर्थन"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd सक्षम"
+      },
+      "userVboxUsers": {
+        "description": "vboxusers समूह में उपयोगकर्ता"
+      },
+      "virtualbox": {
+        "description": "VirtualBox समर्थन"
+      },
+      "userLibvirt": {
+        "description": "libvirt समूह में उपयोगकर्ता"
+      },
+      "userKvm": {
+        "description": "kvm समूह में उपयोगकर्ता"
+      }
+    },
+    "containers": {
+      "title": "कंटेनर",
+      "docker": {
+        "description": "Docker इंस्टॉल किया गया"
+      },
+      "dockerEnabled": {
+        "description": "Docker सक्षम"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose इंस्टॉल किया गया"
+      },
+      "userDocker": {
+        "description": "docker समूह में उपयोगकर्ता"
+      },
+      "podman": {
+        "description": "Podman इंस्टॉल किया गया"
+      },
+      "podmanDocker": {
+        "description": "Podman के माध्यम से Docker का अनुकरण करें"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop इंस्टॉल किया गया"
+      },
+      "distrobox": {
+        "description": "DistroBox इंस्टॉल किया गया"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy इंस्टॉल किया गया"
+      }
     },
     "network": {
       "title": "नेटवर्क",
-      "networkManager": { "description": "नेटवर्कमैगर समर्थन" },
-      "networkManagerEnabled": { "description": "NetworkManager सक्षम" },
-      "modemManagerEnabled": { "description": "Modemmanager सक्षम" }
+      "networkManager": {
+        "description": "NetworkManager समर्थन"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager सक्षम"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager सक्षम"
+      }
     },
     "bluetooth": {
       "title": "ब्लूटूथ",
-      "bluetooth": { "description": "ब्लूटूथ सपोर्ट" },
-      "bluetoothEnabled": { "description": "ब्लूटूथ सक्षम" },
-      "userBluetooth": { "description": "ब्लूटूथ समूह में उपयोगकर्ता" },
-      "autoConnect": { "description": "ऑटो कनेक्ट" },
-      "autoConnectEnabled": { "description": "ऑटो कनेक्ट सक्षम" }
+      "bluetooth": {
+        "description": "ब्लूटूथ समर्थन"
+      },
+      "bluetoothEnabled": {
+        "description": "ब्लूटूथ सक्षम"
+      },
+      "userBluetooth": {
+        "description": "bluetooth समूह में उपयोगकर्ता"
+      },
+      "autoConnect": {
+        "description": "Auto connect इंस्टॉल किया गया"
+      },
+      "autoConnectEnabled": {
+        "description": "Auto connect सक्षम"
+      }
     },
     "printing": {
-      "title": "छपाई",
-      "printingSupport": { "description": "मुद्रण -समर्थन" },
-      "cupsEnabled": { "description": "कप सक्षम" },
-      "scanningSupport": { "description": "स्कैनिंग समर्थन" },
-      "sanedEnabled": { "description": "संकीर्ण सक्षम" },
-      "userCups": { "description": "कप समूह में उपयोगकर्ता" },
-      "userScanner": { "description": "स्कैनर समूह में उपयोगकर्ता" },
-      "userSys": { "description": "SYS समूह में उपयोगकर्ता" }
+      "title": "प्रिंटिंग",
+      "printingSupport": {
+        "description": "प्रिंटिंग समर्थन"
+      },
+      "cupsEnabled": {
+        "description": "CUPS सक्षम"
+      },
+      "scanningSupport": {
+        "description": "स्कैनिंग समर्थन"
+      },
+      "sanedEnabled": {
+        "description": "saned सक्षम"
+      },
+      "userCups": {
+        "description": "cups समूह में उपयोगकर्ता"
+      },
+      "userScanner": {
+        "description": "scanner समूह में उपयोगकर्ता"
+      },
+      "userLp": {
+        "description": "lp समूह में उपयोगकर्ता"
+      }
     },
     "firewall": {
       "title": "फ़ायरवॉल",
-      "firewalld": { "description": "फ़ायरवॉल्ड समर्थन" },
-      "firewalldEnabled": { "description": "फ़ायरवॉल्ड सक्षम" },
-      "ufw": { "description": "UFW समर्थन" },
-      "ufwEnabled": { "description": "UFW सक्षम" },
-      "opensnitch": { "description": "OpenSnitch समर्थन" },
-      "opensnitchEnabled": { "description": "OpenSnitch सक्षम" }
+      "firewalld": {
+        "description": "Firewalld इंस्टॉल किया गया"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld सक्षम"
+      },
+      "ufw": {
+        "description": "UFW इंस्टॉल किया गया"
+      },
+      "ufwEnabled": {
+        "description": "UFW सक्षम"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch इंस्टॉल किया गया"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch सक्षम"
+      }
+    },
+    "misc": {
+      "title": "विविध",
+      "gns": {
+        "description": "Garuda Nix Subsystem इंस्टॉल किया गया"
+      }
     }
   },
   "systemSettings": {
-    "defaultShellConfigs": "डिफ़ॉल्ट कॉन्फ़िगरेशन स्थापित करें",
+    "defaultShellConfigs": "डिफ़ॉल्ट कॉन्फ़िगरेशन इंस्टॉल करें",
     "defaultDns": "डिफ़ॉल्ट DNS सेट करें",
-    "defaultShell": "सेट लॉगिन शेल",
-    "enableHblock": "HBlock सक्षम करें",
+    "defaultShell": "लॉगिन शेल सेट करें",
+    "enableHblock": "Hblock सक्षम करें",
+    "enableIwd": "wpa_supplicant के बजाय IWD का उपयोग करें",
     "common": {
       "title": "सामान्य",
-      "psd": { "description": "प्रोफ़ाइल-सिंक-डेमन स्थापित" },
-      "psdEnabled": { "description": "प्रोफ़ाइल-सिंक-डेमन सक्षम" },
-      "oomd": { "description": "SystemD -OOMD सक्षम" },
-      "guestUser": { "description": "अतिथि उपयोगकर्ता सक्षम करें" }
+      "psd": {
+        "description": "Profile-sync-daemon इंस्टॉल किया गया"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon सक्षम"
+      },
+      "oomd": {
+        "description": "Systemd-oomd सक्षम"
+      },
+      "guestUser": {
+        "description": "अतिथि उपयोगकर्ता सक्षम करें"
+      }
     },
     "performance": {
       "title": "प्रदर्शन",
-      "performanceTweaks": { "description": "प्रदर्शन ट्वीक्स" },
-      "ananicyCpp": { "description": "Ananicy C ++ स्थापित" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ सक्षम" },
-      "preload": { "description": "प्रीलोड स्थापित किया गया" },
-      "preloadEnabled": { "description": "पूर्व लोड सक्षम" },
-      "irqbalanceEnabled": { "description": "Irqbalance सक्षम" }
+      "performanceTweaks": {
+        "description": "प्रदर्शन सुधार"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ इंस्टॉल किया गया"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ सक्षम"
+      },
+      "bpftune": {
+        "description": "Bpftune इंस्टॉल किया गया"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune सक्षम"
+      },
+      "preload": {
+        "description": "Preload इंस्टॉल किया गया"
+      },
+      "preloadEnabled": {
+        "description": "Preload सक्षम"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance सक्षम"
+      }
     },
     "powersave": {
-      "title": "बिजली की बचत",
-      "powersaveTweaks": { "description": "PowerSave tweaks" },
-      "tlp": { "description": "TLP स्थापित" },
-      "tlpEnabled": { "description": "टीएलपी सक्षम" },
-      "autoCpufreq": { "description": "ऑटो-cpufreq स्थापित किया गया" },
-      "autoCpufreqEnabled": { "description": "ऑटो-cpufreq सक्षम" },
-      "thermald": { "description": "थर्माल्ड स्थापित" },
-      "thermaldEnabled": { "description": "थर्माल्ड सक्षम" },
-      "powerProfilesDaemon": { "description": "पावर प्रोफाइल डेमन स्थापित किया गया" },
-      "powerProfilesDaemonEnabled": { "description": "पावर प्रोफाइल डेमन सक्षम" },
-      "intelUndervolt": { "description": "इंटेल-अंडरवोल्ट स्थापित किया गया" },
-      "intelUndervoltEnabled": { "description": "इंटेल-अंडरवोल्ट सक्षम" }
+      "title": "पावरसेविंग",
+      "powersaveTweaks": {
+        "description": "पावरसेविंग सुधार"
+      },
+      "tlp": {
+        "description": "TLP इंस्टॉल किया गया"
+      },
+      "tlpEnabled": {
+        "description": "TLP सक्षम"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq इंस्टॉल किया गया"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq सक्षम"
+      },
+      "thermald": {
+        "description": "Thermald इंस्टॉल किया गया"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald सक्षम"
+      },
+      "powerProfilesDaemon": {
+        "description": "Power profiles daemon इंस्टॉल किया गया"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Power profiles daemon सक्षम"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt इंस्टॉल किया गया"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt सक्षम"
+      }
     },
     "rightclickEmulation": {
       "title": "राइट क्लिक इम्यूलेशन",
-      "evdevLongPressRightClick": { "description": "Evdev लॉन्ग प्रेस राइट क्लिक इम्यूलेशन" },
-      "evdevRce": { "description": "Evdev rce सक्षम" }
+      "evdevLongPressRightClick": {
+        "description": "Evdev लॉन्ग प्रेस राइट क्लिक इम्यूलेशन"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE सक्षम"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "डिफ़ॉल्ट शेल के रूप में मछली को सेट करना अन्य कार्यक्रमों के साथ मुद्दों का कारण हो सकता है। इसके बजाय टर्मिनल कॉन्फ़िगरेशन के माध्यम से इसे डिफ़ॉल्ट के रूप में सेट करने की सलाह दी जाती है।"
+      "hint": "fish को डिफ़ॉल्ट शेल के रूप में सेट करने से अन्य प्रोग्रामों के साथ समस्याएँ हो सकती हैं। इसे टर्मिनल कॉन्फ़िगरेशन के माध्यम से डिफ़ॉल्ट के रूप में सेट करने की सलाह दी जाती है।"
     }
   },
   "confirmation": {
-    "accept": "स्वीकार करना",
-    "reject": "रद्द करना",
-    "exitApp": "क्या आप सुनिश्चित हैं कि आप ऐप से बाहर निकलना चाहते हैं?",
-    "resetConfigsHeader": "RESET CONFIGS?",
-    "resetConfigsBody": "क्या आप सुनिश्चित हैं कि आप निम्नलिखित कॉन्फ़िगरेशन को रीसेट करना चाहते हैं?",
-    "exitAppHeader": "बाहर निकलें ऐप?",
-    "applyOperations": "संचालन लागू करें?",
-    "applyOperationsBody": "क्या आप सुनिश्चित हैं कि आप सभी लंबित संचालन को लागू करना चाहते हैं?"
+    "accept": "स्वीकार करें",
+    "reject": "रद्द करें",
+    "exitApp": "क्या आप वाकई ऐप से बाहर निकलना चाहते हैं?",
+    "exitAppRunningAction": "क्या आप वाकई ऐप से बाहर निकलना चाहते हैं? एक क्रिया चल रही है!",
+    "resetConfigsHeader": "कॉन्फ़िग्स रीसेट करें?",
+    "resetConfigsBody": "क्या आप वाकई निम्नलिखित कॉन्फ़िगरेशन रीसेट करना चाहते हैं?",
+    "exitAppHeader": "ऐप से बाहर निकलें?",
+    "applyOperations": "ऑपरेशन लागू करें?",
+    "applyOperationsBody": "क्या आप वाकई सभी लंबित ऑपरेशन लागू करना चाहते हैं?"
   },
-  "error": { "sudoPassword": "यह सही पासवर्ड नहीं लगता है। कृपया पुन: प्रयास करें।" },
+  "error": {
+    "sudoPassword": "यह सही पासवर्ड नहीं लगता है। कृपया पुनः प्रयास करें।"
+  },
   "operation": {
-    "removeApps": "ऐप्स निकालें",
+    "removeApps": "ऐप्स हटाएँ",
     "installApps": "ऐप्स इंस्टॉल करें",
-    "addGroups": "समूह में उपयोगकर्ता जोड़ें",
-    "removeGroup": "समूह से उपयोगकर्ता निकालें",
-    "disableService": "अक्षम सेवा",
+    "addGroup": "उपयोगकर्ता को समूह में जोड़ें",
+    "removeGroup": "उपयोगकर्ता को समूह से हटाएँ",
+    "disableService": "सेवा अक्षम करें",
     "enableService": "सेवा सक्षम करें",
     "setDefaultShell": "डिफ़ॉल्ट शेल सेट करें",
-    "enableHblock": "HBlock सक्षम करें",
-    "disableHblock": "HBlock को अक्षम करें",
+    "enableHblock": "Hblock सक्षम करें",
+    "disableHblock": "Hblock अक्षम करें",
     "setNewDnsServer": "नया DNS सर्वर सेट करें",
     "resetDnsServer": "DNS सर्वर रीसेट करें",
-    "args": "बहस",
-    "logs": "लॉग्स",
-    "remove": "निकालना"
+    "args": "तर्क",
+    "logs": "लॉग",
+    "remove": "हटाएँ",
+    "abort": "निरस्त करें",
+    "run": "अभी चलाएँ"
+  },
+  "systemStatus": {
+    "pendingUpdates": "लंबित अपडेट",
+    "updates": "इस सिस्टम में लंबित अपडेट हैं (जानकारी के लिए क्लिक करें)",
+    "pacFiles": "इस सिस्टम में लंबित .pacnew फ़ाइलें हैं, आपको उन्हें जांचना और मर्ज करना चाहिए! (जानकारी के लिए क्लिक करें)",
+    "cancel": "रद्द करें",
+    "aurUpdates": "AUR पैकेज अपडेट करना इस एप्लिकेशन के दायरे से बाहर है। कृपया Paru जैसे AUR हेल्पर का उपयोग करें, और इंस्टॉलेशन से पहले PKGBUILD फ़ाइलों की समीक्षा करें।",
+    "scheduleUpdates": "अपडेट शेड्यूल करें",
+    "pendingPacdiff": "लंबित pacdiff फ़ाइलें",
+    "findMore": "पता करें कि कैसे आगे बढ़ना है",
+    "warnUpdate": "आपका सिस्टम 2 सप्ताह से अपडेट नहीं हुआ है। सुरक्षा और स्थिरता सुनिश्चित करने के लिए कृपया अपना सिस्टम अपडेट करें।",
+    "affectedFiles": "प्रभावित फ़ाइलें:",
+    "learnPacdiff": "यदि आप pacdiff फ़ाइलों से परिचित नहीं हैं, तो उनके बारे में शीघ्रता से जानकारी प्राप्त करें।",
+    "openMaintenance": "शुरू करने के लिए नीचे दिए गए बटन पर क्लिक करें।",
+    "openMaintenanceButton": "मर्ज करना शुरू करें",
+    "rebootNow": "अभी रीबूट करें",
+    "rebootNowBody": "क्या आप वाकई अभी रीबूट करना चाहते हैं? आगे बढ़ने से पहले अपना सारा काम सहेजना सुनिश्चित करें।",
+    "warnReboot": "अपडेट लागू करने के बाद, विशेष रूप से कर्नेल या डेस्कटॉप वातावरण अपडेट करते समय, अपने सिस्टम को रीबूट करने की दृढ़ता से अनुशंसा की जाती है।",
+    "proceed": "यहां बताया गया है कि कैसे आगे बढ़ें:",
+    "snapshotCreation": "मर्ज शुरू करने से पहले एक Btrfs स्नैपशॉट बनाया जाएगा।",
+    "proceedMerge": "परिवर्तनों को लागू करने के लिए Meld खोला जाएगा। बाईं ओर नई फ़ाइल है, दाईं ओर पुरानी। किसी भी उपयोगी परिवर्तन को जिसे आप मर्ज करना चाहते हैं, बाईं ओर से दाईं ओर ले जाएँ। जब हो जाए तो सेव बटन या CTRL + S पर क्लिक करें।",
+    "cautionMerge": "ध्यान रखें कि पुरानी फ़ाइल में गलत परिवर्तन डालने से आपका सिस्टम खराब हो सकता है।",
+    "askHelp": "यदि आप अनिश्चित हैं तो विंडो को बिना सेव किए बंद कर दें और Garuda Linux फोरम पर मदद मांगें।",
+    "runAurUpdates": "AUR अपडेट बाहरी रूप से चलाएँ"
+  },
+  "operationManager": {
+    "refusing": "निष्पादन से इनकार",
+    "pendingOperationsRunning": "ऑपरेशन चल रहे हैं, मैं केवल उन्हें हटाने जा रहा हूँ जो पहले ही हो चुके हैं।",
+    "thisOperationRunning": "क्या तुम पागल हो गए हो? यह ऑपरेशन वर्तमान में चल रहा है!"
+  },
+  "os-interact": {
+    "packages": "इंस्टॉल किए गए पैकेज बदलें",
+    "packages-aur": "AUR पैकेज बदलें",
+    "services": "सेवाएँ बदलें",
+    "services-user": "उपयोगकर्ता सेवाएँ बदलें",
+    "groups": "उपयोगकर्ता समूह बदलें",
+    "locales": "सक्षम लोकेल बदलें"
+  },
+  "packages": {
+    "title": "पैकेज",
+    "internet": "इंटरनेट",
+    "documents": "दस्तावेज़",
+    "multimedia": "मल्टीमीडिया",
+    "science": "विज्ञान",
+    "security": "सुरक्षा",
+    "other": "अन्य",
+    "clear": "साफ़ करें",
+    "search": "खोजें",
+    "url": "URL",
+    "selected": "चयनित",
+    "description": "विवरण",
+    "name": "नाम",
+    "searchKey": "एक खोज कीवर्ड दर्ज करें",
+    "notFound": "कोई पैकेज नहीं मिला"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "कुछ DKMS मॉड्यूल टूटे हुए हैं",
+    "dkmsModulesBrokenTip": "टूटे हुए DKMS मॉड्यूल की स्थापना शेड्यूल करने के लिए मुझे क्लिक करें",
+    "dkmsModulesMissing": "कुछ DKMS मॉड्यूल गायब हैं",
+    "dkmsModulesMissingTip": "गायब DKMS मॉड्यूल",
+    "headers": "हेडर",
+    "headersMissing": "कर्नेल हेडर गायब हैं",
+    "headersMissingTip": "गायब हेडर की स्थापना शेड्यूल करने के लिए मुझे क्लिक करें",
+    "active": "सक्रिय कर्नेल:"
+  },
+  "languagePacks": {
+    "locale": "लोकेल",
+    "selected": "चयनित",
+    "base": "आधार पैकेज",
+    "notFound": "कोई भाषा पैक नहीं मिला",
+    "pkgname": "पैकेज का नाम",
+    "description": "ये आपके इंस्टॉल किए गए पैकेजों के लिए भाषा पैक हैं, जो आमतौर पर GUI के लिए अनुवाद प्रदान करते हैं।"
+  },
+  "settings": {
+    "title": "ऐप ",
+    "titleTwo": "सेटिंग्स",
+    "leftButtons": "विंडो बटन बाईं ओर दिखाएँ",
+    "copyDiagnostics": "निदान क्लिपबोर्ड पर कॉपी करें",
+    "darkMode": "डार्क मोड सक्षम करें",
+    "language": "सक्रिय भाषा कॉन्फ़िगर करें",
+    "autoStart": "एप्लिकेशन स्वतः प्रारंभ करें",
+    "logLevel": "लॉग स्तर चुनें",
+    "systemdUserContext": "उपयोगकर्ता Systemd सेवाएँ दिखाएँ",
+    "autoRefresh": "systemd सेवाओं का स्वतः रिफ्रेश सक्षम करें",
+    "showMainLinks": "होम पेज पर लिंक दिखाएँ",
+    "themeLabel": "आधार डिज़ाइन थीम",
+    "toggleOptions": "टॉगल विकल्प",
+    "selectOptions": "चयन"
+  },
+  "locales": {
+    "apply": "इंस्टॉल किए गए लोकेल परिवर्तन शेड्यूल करें",
+    "description": "दाईं ओर के लोकेल आपके सिस्टम पर इंस्टॉल किए गए हैं। आप चुन सकते हैं कि आप कौन से रखना चाहते हैं और कौन से हटाना चाहते हैं।",
+    "available": "उपलब्ध",
+    "selected": "चयनित",
+    "task": "सिस्टम लोकेल बदलें",
+    "selectLocale": "अपनी पसंदीदा सिस्टम-व्यापी भाषा चुनें"
   }
 }

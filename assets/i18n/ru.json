@@ -4,305 +4,588 @@
     "maintenance": "Обслуживание",
     "systemTools": "Настройки системы",
     "components": "Компоненты",
-    "gaming": "Игровые приложения",
-    "boot": "Загрузочные инструменты",
+    "gaming": "Игры",
+    "boot": "Инструменты загрузки",
     "diagnostics": "Диагностика",
     "network": "Сетевые инструменты",
-    "settings": {
-      "title": "Настройки",
-      "windowButtonsLeft": "Показать оставшиеся кнопки окон",
-      "copyDiagnostics": "Скопировать диагностику в буфер обмена",
-      "darkMode": "Включить темный режим",
-      "language": "Настройка активного языка"
-    },
+    "settings": "Настройки приложения",
     "help": {
       "title": "Помощь",
-      "getHelpForum": "Получите помощь на форуме",
-      "getHelpWiki": "Поиск контента в вики",
-      "getHelpArchWiki": "Поиск контента в Arch Wiki",
-      "garudaStatus": "Проверьте статус работы",
-      "about": "О Рани Гаруды",
-      "aboutBody": "Garuda's Rani - это инструмент для обслуживания и диагностики системы для Garuda Linux. Он предназначен для того, чтобы помочь пользователям сохранять свою систему и диагностировать проблемы. Он построен с использованием таури и угловой.",
-      "callExorcist": "Назовите Exorcist",
-      "callExorcistBody": "Вы должны быть довольно отчаянно, чтобы нажать эту кнопку! Я настроил для вас какой -нибудь специальные вуду, если у вас все еще есть проблемы с приложением, сообщите о них на форуме Garuda Linux или на нашем трекере выпуска."
+      "getHelpForum": "Получить помощь на форуме",
+      "getHelpWiki": "Искать информацию на wiki",
+      "getHelpArchWiki": "Искать информацию на Arch Wiki",
+      "garudaStatus": "Проверить статус аптайма",
+      "about": "О Garuda Rani",
+      "aboutBody": "Garuda Rani - это инструмент для обслуживания и диагностики системы Garuda Linux. Он разработан для помощи пользователям в поддержании системы и диагностике проблем. Создан с использованием Tauri и Angular.",
+      "callExorcist": "Вызвать экзорциста",
+      "callExorcistTitle": "Экзорцист вызван!",
+      "callExorcistBody": "Ты, должно быть, в полном отчаянии, раз нажал эту кнопку! Я настроил для тебя особое вуду. Если у тебя все еще проблемы с приложением, пожалуйста, сообщи о них на форуме Garuda Linux или в нашем баг-трекере."
     },
-    "terminal": "Терминал",
-    "pending": "В ожидании"
+    "terminal": "Показать терминал",
+    "terminalRunning": "Выполняемые задачи",
+    "terminalTasks": "Выполнить задачи",
+    "pending": "Ожидание"
   },
   "diagnostics": {
-    "title": "Информация отладки",
+    "title": "Отладочная информация ",
     "titleTwo": "и диагностика",
-    "subtitle": "Найдите информацию, необходимую для отладки вашей системы",
-    "inxi": "Общая информация (Inxi)",
-    "systemctl": "Системные услуги (SystemCtl)",
-    "journalctl": "Системные журналы (JournalCtl)",
-    "dmesg": "Журналы ядра (DMESG)",
+    "subtitle": "Найди информацию, необходимую для отладки твоей системы",
+    "inxi": "Общая информация (inxi)",
+    "systemctl": "Системные службы (systemctl)",
+    "journalctl": "Системные журналы (journalctl)",
+    "dmesg": "Журналы ядра (dmesg)",
     "full": "Полная диагностика",
-    "upload": "Загрузите в Privatebin",
+    "upload": "Загрузить на PrivateBin",
+    "failedCmdHeader": "Не удалось выполнить команду",
+    "failedCmd": "Что-то пошло не так, и диагностику получить не удалось",
     "pacman": "Последние журналы Pacman",
-    "copied": "Успешно скопированный в буфер обмена",
-    "success": "Успех",
-    "uploadSuccess": "Успешно загружено в частную работу"
+    "copied": "Успешно скопировано в буфер обмена",
+    "success": "Успешно",
+    "uploadSuccess": "Успешно загружено на PrivateBin, URL скопирован в буфер обмена"
   },
-  "lang": { "title": "Выбор языка", "tooltip": "Выберите предпочитаемый язык" },
+  "lang": {
+    "title": "Выбор языка",
+    "tooltip": "Выбери предпочитаемый язык"
+  },
   "welcome": {
-    "title": "Добро пожаловать в Гаруду",
-    "titleTwo": "Linux",
-    "subtitle": "Ultimate Linux Distro для игр и мультимедиа",
+    "title": "Добро пожаловать в ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "Лучший дистрибутив Linux для игр и мультимедиа",
     "maintenance": "Обслуживание",
-    "maintenanceSub": "Держите свою систему в хорошем состоянии",
+    "maintenanceSub": "Поддерживай свою систему в хорошем состоянии",
     "systemTools": "Настройки системы",
-    "systemToolsSub": "Настройте вашу систему",
+    "systemToolsSub": "Настрой свою систему",
     "gaming": "Игровые приложения",
-    "gamingSub": "Играйте в свои любимые игры",
-    "bootTools": "Загрузочные инструменты",
-    "bootToolsSub": "Управляйте настройками загрузки",
+    "gamingSub": "Играй в свои любимые игры",
+    "bootTools": "Инструменты загрузки",
+    "bootToolsSub": "Управляй настройками загрузки",
     "network": "Сетевые инструменты",
-    "networkSub": "Управление настройками сети",
+    "networkSub": "Управляй сетевыми настройками",
     "diagnostics": "Диагностика",
-    "diagnosticsSub": "Проверьте здоровье вашей системы",
-    "install": "Установите Garuda Linux",
-    "installSub": "Получите Garuda Linux в своей системе",
-    "chroot": "Chroot в Гаруду",
-    "chrootSub": "Chroot в вашу установку Garuda",
-    "startpage": "СТАРТАЦИЯ",
-    "startpageSub": "Откройте Startpage Garuda Linux",
-    "setupAssistant": "Помощник установки",
-    "setupAssistantSub": "Запустите помощник по настройке Garuda"
+    "diagnosticsSub": "Проверь состояние своей системы",
+    "install": "Установить Garuda Linux",
+    "installSub": "Установи Garuda Linux на свою систему",
+    "chroot": "Chroot в Garuda",
+    "chrootSub": "Выполни chroot в установленную Garuda",
+    "startpage": "Стартовая страница",
+    "startpageSub": "Открыть стартовую страницу Garuda Linux",
+    "setupAssistant": "Помощник настройки",
+    "setupAssistantSub": "Запустить помощник настройки Garuda",
+    "hello": "Привет",
+    "error": "Произошла ошибка."
   },
   "gaming": {
-    "title": "Игры",
+    "title": "Игровые ",
     "titleTwo": "приложения",
-    "subtitle": "Давайте начнем с некоторых игровых приложений!",
-    "launchers": "Игровые пусковые установки",
-    "wine": "ВИНО",
+    "subtitle": "Начнем с установки нескольких игровых приложений!",
+    "launchers": "Игровые лаунчеры",
+    "loading": "Загрузка...",
+    "wine": "WINE",
     "tools": "Игровые инструменты",
     "emulators": "Эмуляторы",
-    "controllers": "Поддержка контроллера",
+    "controllers": "Поддержка контроллеров",
     "games": "Игры",
-    "misc": "Разнообразный"
+    "misc": "Разное",
+    "bluez": "Обычно требуется для распознавания беспроводных контроллеров PS",
+    "xboxdrv": "Драйвер контроллера Xbox, используй только если драйвер ядра не работает!",
+    "wineWow64": "Версия WINE с поддержкой 64-бит без необходимости установки 32-битных библиотек",
+    "wineStagingWow64": "Staging-версия WINE с поддержкой 32-бит без необходимости установки 32-битных библиотек",
+    "wineMeta": "Мета-пакет для установки WINE и всех необходимых зависимостей"
   },
   "maintenance": {
-    "title": "Система",
-    "titleTwo": "обслуживание",
-    "subtitle": "Держите свою систему в хорошем состоянии",
-    "update": "Обновите свою систему",
+    "title": "Обслуживание ",
+    "titleTwo": "системы",
+    "subtitle": "Поддерживай свою систему в хорошем состоянии",
+    "update": "Обновить систему",
     "addPending": "Добавить в ожидание",
-    "removePending": "Удалить в ожидании",
-    "runNow": "Беги сейчас",
+    "removePending": "Убрать из ожидания",
+    "runNow": "Запустить сейчас",
+    "failedReset": "Ошибка сброса файла конфигурации",
+    "failedResetFile": "Произошла ошибка при сбросе {{file}}",
     "editRepos": "Редактировать репозитории",
-    "onlyDirect": "Это действие не может быть установлено в очереди и должно быть запускаться напрямую.",
-    "cleanCache": "Чистый кеш",
+    "onlyDirect": "Это действие нельзя поставить в очередь, его нужно запустить немедленно.",
+    "cleanCache": "Очистить кэш",
     "cleanCacheSub": "Удалить все кэшированные пакеты",
-    "updateSystem": "Обновление системы",
-    "updateSystemSub": "Обновите свою систему через Garuda-Update",
-    "editReposSub": "Отредактируйте свои репозитории с темпом",
+    "updateSystem": "Обновить систему",
+    "taskRunningHeader": "Ошибка выполнения действия по обслуживанию",
+    "taskRunning": "Уже выполняется задача, дождись ее завершения.",
+    "updateSystemSub": "Обнови систему через garuda-update",
+    "editReposSub": "Редактируй репозитории с помощью Pace",
     "addPendingSub": "Добавить ожидающие операции",
-    "clearOrphans": "Чистые сирот",
-    "clearOrphansSub": "Удалите пакеты -сирот",
+    "clearOrphans": "Очистить 'сиротские' пакеты",
+    "clearOrphansSub": "Удалить 'сиротские' пакеты",
     "refreshMirrors": "Обновить зеркала",
-    "refreshMirrorsSub": "Обновите свой зеркальный список",
-    "removeLock": "Снимите блокировку Pacman",
-    "removeLockSub": "Удалить файл блокировки Pacman",
-    "reinstallPackages": "Переустановите пакеты",
-    "reinstallPackagesSub": "Установите все пакеты в вашей системе",
-    "btrfsAssistant": "BTRFS Помощник",
-    "btrfsAssistantSub": "Управляйте своими снимками BTRFS и выполните задачи обслуживания",
-    "updateRemoteFullFix": "Гаруда обновление полное исправление",
-    "updateRemoteFullFixSub": "Сбросить Pacman и переустановить все пакеты в вашей ОС",
-    "updateRemoteKeyring": "Garuda Update Keyring",
-    "updateRemoteKeyringSub": "Обновить Keyring без сброса Pacman.conf",
-    "updateRemoteFix": "Гаруда обновление исправление",
-    "updateRemoteFixSub": "Сбросить Pacman.conf и обновить Keyrings",
-    "updateRemoteResetSnapper": "Сбросить окунь",
-    "updateRemoteResetSnapperSub": "Удалите все окуни и воссоздайте его конфигурации",
+    "refreshMirrorsSub": "Обнови список зеркал",
+    "removeLock": "Удалить блокировку Pacman",
+    "removeLockSub": "Удалить файл блокировки pacman",
+    "reinstallPackages": "Переустановить пакеты",
+    "reinstallPackagesSub": "Переустановить все пакеты в системе",
+    "reinstallDkmsModules": "Переустановить модули DKMS",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "Управляй снимками BTRFS и выполняй задачи обслуживания",
+    "mergePacDiff": "Объединить файлы pacdiff",
+    "mergePacDiffSub": "Объединить файлы .pacnew и .pacsave интерактивно",
+    "updateRemoteFullFix": "Полное исправление Garuda update",
+    "updateRemoteFullFixSub": "Сбросить Pacman и переустановить все пакеты в ОС",
+    "updateRemoteKeyring": "Обновление keyring Garuda update",
+    "updateRemoteKeyringSub": "Обновить keyring без сброса pacman.conf",
+    "updateRemoteFix": "Исправление Garuda update",
+    "updateRemoteFixSub": "Сбросить pacman.conf и обновить keyrings",
+    "updateRemoteResetSnapper": "Сбросить snapper",
+    "updateRemoteResetSnapperSub": "Удалить все из Snapper и воссоздать его конфигурации",
     "updateRemoteResetAudio": "Сбросить аудио",
-    "updateRemoteResetAudioSub": "Переустановить/сбросить конфигурацию звука трубопровода",
-    "resetTooltip": "Следующие файлы или папки будут сброшены в их состояние по умолчанию:",
-    "resetConfigs": "Сбросить конфигурации в состояние по умолчанию",
+    "updateRemoteResetAudioSub": "Переустановить/сбросить конфигурацию аудио PipeWire",
+    "resetTooltip": "Следующие файлы или папки будут сброшены до состояния по умолчанию:",
+    "resetConfigs": "Сбросить конфигурации до состояния по умолчанию",
     "common": "Общее обслуживание",
-    "garudaUpdate": "Гаруда обновлять инструменты спасения"
+    "garudaUpdate": "Инструменты восстановления Garuda update"
   },
   "sudo": {
     "title": "Требуется аутентификация",
-    "subtitle": "Пожалуйста, введите свой пароль, чтобы продолжить",
-    "save": "Кэш в этом сеансе",
+    "subtitle": "Пожалуйста, введи свой пароль для продолжения",
+    "save": "Кэшировать в этой сессии",
     "password": "Пароль",
     "cancel": "Отмена",
-    "useOnce": "Используйте только один раз"
+    "useOnce": "Использовать только один раз"
   },
   "terminal": {
     "title": "Терминал",
-    "runActions": "Запустить действия",
+    "runActions": "Выполнить действия",
     "removeAll": "Удалить все действия",
+    "abortAll": "Прервать все действия",
     "noOutput": "Нет вывода",
-    "outputExists": "Кажется, что уже есть действие. Пожалуйста, подождите, пока он закончится, прежде чем попытаться просмотреть журналы.",
-    "opRunning": "Операция уже работает."
+    "outputExists": "Похоже, действие уже выполняется. Пожалуйста, дождись его завершения перед просмотром логов.",
+    "opRunning": "Операция уже выполняется.",
+    "clearCachedDataTitle": "Кэш вывода очищен",
+    "clearCachedData": "Кэш вывода был очищен.",
+    "clearOutputCache": "Очистить кэш вывода",
+    "copyOutput": "Скопировать вывод терминала",
+    "copyToClipboardTitle": "Скопировано в буфер обмена",
+    "copyToClipboard": "Вывод успешно скопирован в буфер обмена.",
+    "uploadPrivateBin": "Загрузить на PrivateBin"
   },
   "systemdServices": {
-    "notFound": "Услуги не найдено",
+    "notFound": "Службы не найдены",
     "description": "Описание",
-    "unit": "Название блока",
-    "load": "Нагрузка",
-    "active": "Активный",
+    "unit": "Имя юнита",
+    "load": "Загрузка",
+    "active": "Активен",
     "state": "Состояние",
-    "searchKey": "Введите ключевое слово поиска",
-    "clear": "Прозрачный",
+    "searchKey": "Введи ключевое слово для поиска",
+    "clear": "Очистить",
     "actions": "Действия",
-    "show": "Показывать",
-    "start": "Начинать",
-    "stop": "Останавливаться",
-    "mask": "Маска",
-    "unmask": "Разоблачать",
-    "logs": "Журналы",
-    "restart": "Перезапуск",
+    "show": "Показать",
+    "start": "Запустить",
+    "stop": "Остановить",
+    "mask": "Маскировать",
+    "unmask": "Снять маску",
+    "logs": "Логи",
+    "restart": "Перезапустить",
     "reload": "Перезагрузить",
-    "enable": "Давать возможность",
-    "disable": "Запрещать",
-    "autoRefresh": "Автоматическое обновление",
-    "error": "Произошла ошибка во время получения услуг, попробуйте еще раз.",
-    "errorTitle": "Ошибка извлечения сервисов",
-    "systemContext": "Показать системные услуги",
-    "userContext": "Показать пользовательские службы",
-    "includeDisabled": "Включите инвалиды",
+    "enable": "Включить",
+    "disable": "Отключить",
+    "autoRefresh": "Автообновление",
+    "error": "Произошла ошибка при получении служб, пожалуйста, попробуй еще раз.",
+    "errorTitle": "Ошибка получения служб",
+    "systemContext": "Показать системные службы",
+    "userContext": "Показать службы пользователя",
+    "includeDisabled": "Включить отключенные",
     "excludeDisabled": "Исключить отключенные"
   },
   "systemTools": {
-    "title": "Система",
-    "titleTwo": "настройки",
-    "systemdServices": "Systemd Services",
+    "title": "Настройки ",
+    "titleTwo": "системы",
+    "systemdServices": "Службы Systemd",
     "systemSettings": "Настройки системы",
-    "components": "Системные компоненты",
+    "components": "Компоненты системы",
+    "locales": "Локали",
+    "kernels": "Ядра",
+    "packages": "Дополнительные пакеты",
     "audio": {
       "title": "Аудио",
-      "alsa": { "description": "ALSA поддержка" },
-      "jack": { "description": "Jack Support" },
-      "pulseaudio": { "description": "Поддержка Pulseaudio" },
-      "pipewire": { "description": "Поддержка трубопроводов" },
-      "userRealtime": { "description": "Пользователь в группе в реальном времени" }
+      "alsa": {
+        "description": "Поддержка ALSA"
+      },
+      "jack": {
+        "description": "Поддержка JACK"
+      },
+      "pulseaudio": {
+        "description": "Поддержка PulseAudio"
+      },
+      "pipewire": {
+        "description": "Поддержка PipeWire"
+      },
+      "userRealtime": {
+        "description": "Пользователь в группе realtime"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP установлен"
+      }
     },
     "virtualization": {
       "title": "Виртуализация",
-      "qemu": { "description": "Поддержка QEMU" },
-      "kvm": { "description": "Поддержка KVM" },
-      "virtManager": { "description": "Поддержка Virt-Manager" },
-      "libvirtdEnabled": { "description": "Libvirtd включен" },
-      "userVboxUsers": { "description": "Пользователь в vboxusers Group" },
-      "virtualbox": { "description": "Поддержка VirtualBox" },
-      "userLibvirt": { "description": "Пользователь в группе Libvirt" },
-      "userKvm": { "description": "Пользователь в группе KVM" },
-      "virtualboxKvm": { "description": "VirtualBox с поддержкой KVM" },
-      "docker": { "description": "Поддержка Docker" },
-      "userDocker": { "description": "Пользователь в группе Docker" },
-      "dockerEnabled": { "description": "Docker включен" },
-      "podman": { "description": "Поддержка Подмана" },
-      "podmanEnabled": { "description": "Подман включен" }
+      "qemu": {
+        "description": "QEMU установлен"
+      },
+      "kvm": {
+        "description": "Поддержка KVM"
+      },
+      "virtManager": {
+        "description": "Поддержка Virt-manager"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd включен"
+      },
+      "userVboxUsers": {
+        "description": "Пользователь в группе vboxusers"
+      },
+      "virtualbox": {
+        "description": "Поддержка VirtualBox"
+      },
+      "userLibvirt": {
+        "description": "Пользователь в группе libvirt"
+      },
+      "userKvm": {
+        "description": "Пользователь в группе kvm"
+      }
+    },
+    "containers": {
+      "title": "Контейнеры",
+      "docker": {
+        "description": "Docker установлен"
+      },
+      "dockerEnabled": {
+        "description": "Docker включен"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose установлен"
+      },
+      "userDocker": {
+        "description": "Пользователь в группе docker"
+      },
+      "podman": {
+        "description": "Podman установлен"
+      },
+      "podmanDocker": {
+        "description": "Эмуляция Docker через Podman"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop установлен"
+      },
+      "distrobox": {
+        "description": "DistroBox установлен"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy установлен"
+      }
     },
     "network": {
       "title": "Сеть",
-      "networkManager": { "description": "Поддержка NetworkManager" },
-      "networkManagerEnabled": { "description": "NetworkManager включен" },
-      "modemManagerEnabled": { "description": "Modemmanager включен" }
+      "networkManager": {
+        "description": "Поддержка NetworkManager"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager включен"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager включен"
+      }
     },
     "bluetooth": {
       "title": "Bluetooth",
-      "bluetooth": { "description": "Поддержка Bluetooth" },
-      "bluetoothEnabled": { "description": "Bluetooth включен" },
-      "userBluetooth": { "description": "Пользователь в группе Bluetooth" },
-      "autoConnect": { "description": "Auto Connect" },
-      "autoConnectEnabled": { "description": "Auto Connect включен" }
+      "bluetooth": {
+        "description": "Поддержка Bluetooth"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth включен"
+      },
+      "userBluetooth": {
+        "description": "Пользователь в группе bluetooth"
+      },
+      "autoConnect": {
+        "description": "Автоподключение установлено"
+      },
+      "autoConnectEnabled": {
+        "description": "Автоподключение включено"
+      }
     },
     "printing": {
       "title": "Печать",
-      "printingSupport": { "description": "Поддержка печати" },
-      "cupsEnabled": { "description": "Чашки включены" },
-      "scanningSupport": { "description": "Сканирующая поддержка" },
-      "sanedEnabled": { "description": "Санедж включен" },
-      "userCups": { "description": "Пользователь в группе Cups" },
-      "userScanner": { "description": "Пользователь в группе сканера" },
-      "userSys": { "description": "Пользователь в группе SYS" }
+      "printingSupport": {
+        "description": "Поддержка печати"
+      },
+      "cupsEnabled": {
+        "description": "CUPS включен"
+      },
+      "scanningSupport": {
+        "description": "Поддержка сканирования"
+      },
+      "sanedEnabled": {
+        "description": "saned включен"
+      },
+      "userCups": {
+        "description": "Пользователь в группе cups"
+      },
+      "userScanner": {
+        "description": "Пользователь в группе scanner"
+      },
+      "userLp": {
+        "description": "Пользователь в группе lp"
+      }
     },
     "firewall": {
-      "title": "Брандмауэр",
-      "firewalld": { "description": "Поддержка брандмалда" },
-      "firewalldEnabled": { "description": "FiremeMalld включен" },
-      "ufw": { "description": "Поддержка UFW" },
-      "ufwEnabled": { "description": "UFW включен" },
-      "opensnitch": { "description": "OpenSnitch поддержка" },
-      "opensnitchEnabled": { "description": "OpenSnitch включен" }
+      "title": "Файрвол",
+      "firewalld": {
+        "description": "Firewalld установлен"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld включен"
+      },
+      "ufw": {
+        "description": "UFW установлен"
+      },
+      "ufwEnabled": {
+        "description": "UFW включен"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch установлен"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch включен"
+      }
+    },
+    "misc": {
+      "title": "Разное",
+      "gns": {
+        "description": "Garuda Nix Subsystem установлен"
+      }
     }
   },
   "systemSettings": {
     "defaultShellConfigs": "Установить конфигурации по умолчанию",
     "defaultDns": "Установить DNS по умолчанию",
-    "defaultShell": "Установите раковину входа в систему",
+    "defaultShell": "Установить оболочку входа",
     "enableHblock": "Включить Hblock",
+    "enableIwd": "Использовать IWD вместо wpa_supplicant",
     "common": {
-      "title": "Общий",
-      "psd": { "description": "Профиль-Sync-Daemon установлен" },
-      "psdEnabled": { "description": "Профиль-Sync-Daemon включен" },
-      "oomd": { "description": "Systemd-Uoomd включен" },
-      "guestUser": { "description": "Включить гостевого пользователя" }
+      "title": "Общие",
+      "psd": {
+        "description": "Profile-sync-daemon установлен"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon включен"
+      },
+      "oomd": {
+        "description": "Systemd-oomd включен"
+      },
+      "guestUser": {
+        "description": "Включить гостевого пользователя"
+      }
     },
     "performance": {
       "title": "Производительность",
-      "performanceTweaks": { "description": "Производительные изменения" },
-      "ananicyCpp": { "description": "Ananicicy C ++ установлен" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ включен" },
-      "preload": { "description": "Предварительная нагрузка установлена" },
-      "preloadEnabled": { "description": "Предварительная нагрузка включена" },
-      "irqbalanceEnabled": { "description": "Irqbalance включен" }
+      "performanceTweaks": {
+        "description": "Настройки производительности"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ установлен"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ включен"
+      },
+      "bpftune": {
+        "description": "Bpftune установлен"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune включен"
+      },
+      "preload": {
+        "description": "Preload установлен"
+      },
+      "preloadEnabled": {
+        "description": "Preload включен"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance включен"
+      }
     },
     "powersave": {
       "title": "Энергосбережение",
-      "powersaveTweaks": { "description": "Powersave Tweaks" },
-      "tlp": { "description": "TLP установлен" },
-      "tlpEnabled": { "description": "TLP включен" },
-      "autoCpufreq": { "description": "Auto-Cpufreq установлен" },
-      "autoCpufreqEnabled": { "description": "Auto-CpufReq включен" },
-      "thermald": { "description": "Термальд установил" },
-      "thermaldEnabled": { "description": "Thermald включен" },
-      "powerProfilesDaemon": { "description": "Профили мощности Daemon установлен" },
-      "powerProfilesDaemonEnabled": { "description": "Профили мощности Демон включен" },
-      "intelUndervolt": { "description": "Intel-Undervolt установлен" },
-      "intelUndervoltEnabled": { "description": "Intel-undervolt включен" }
+      "powersaveTweaks": {
+        "description": "Настройки энергосбережения"
+      },
+      "tlp": {
+        "description": "TLP установлен"
+      },
+      "tlpEnabled": {
+        "description": "TLP включен"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq установлен"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq включен"
+      },
+      "thermald": {
+        "description": "Thermald установлен"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald включен"
+      },
+      "powerProfilesDaemon": {
+        "description": "Демон профилей питания установлен"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Демон профилей питания включен"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt установлен"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt включен"
+      }
     },
     "rightclickEmulation": {
-      "title": "Щелкните правой кнопкой мыши",
-      "evdevLongPressRightClick": { "description": "Evdev Long Нажмите правой кнопкой мыши" },
-      "evdevRce": { "description": "EVDEV RCE включен" }
+      "title": "Эмуляция правого клика",
+      "evdevLongPressRightClick": {
+        "description": "Эмуляция правого клика долгим нажатием Evdev"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE включен"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "Установка рыбы в качестве оболочки по умолчанию может вызвать проблемы с другими программами. Вместо этого рекомендуется установить его по умолчанию через конфигурации терминалов."
+      "hint": "Установка fish в качестве оболочки по умолчанию может вызвать проблемы с другими программами. Рекомендуется установить ее по умолчанию через конфигурацию терминала."
     }
   },
   "confirmation": {
-    "accept": "Принимать",
+    "accept": "Принять",
     "reject": "Отмена",
-    "exitApp": "Вы уверены, что хотите выйти из приложения?",
+    "exitApp": "Ты уверен, что хочешь выйти из приложения?",
+    "exitAppRunningAction": "Ты уверен, что хочешь выйти из приложения? Выполняется действие!",
     "resetConfigsHeader": "Сбросить конфигурации?",
-    "resetConfigsBody": "Вы уверены, что хотите сбросить следующие конфигурации?",
-    "exitAppHeader": "Приложение для выхода?",
+    "resetConfigsBody": "Ты уверен, что хочешь сбросить следующие конфигурации?",
+    "exitAppHeader": "Выйти из приложения?",
     "applyOperations": "Применить операции?",
-    "applyOperationsBody": "Вы уверены, что хотите применить все ожидающие операции?"
+    "applyOperationsBody": "Ты уверен, что хочешь применить все ожидающие операции?"
   },
-  "error": { "sudoPassword": "Это не является правильным паролем. Пожалуйста, попробуйте еще раз." },
+  "error": {
+    "sudoPassword": "Похоже, это неправильный пароль. Пожалуйста, попробуй еще раз."
+  },
   "operation": {
     "removeApps": "Удалить приложения",
     "installApps": "Установить приложения",
-    "addGroups": "Добавить пользователя в группу",
+    "addGroup": "Добавить пользователя в группу",
     "removeGroup": "Удалить пользователя из группы",
-    "disableService": "Отключить обслуживание",
-    "enableService": "Включить обслуживание",
-    "setDefaultShell": "Установите оболочку по умолчанию",
+    "disableService": "Отключить службу",
+    "enableService": "Включить службу",
+    "setDefaultShell": "Установить оболочку по умолчанию",
     "enableHblock": "Включить Hblock",
     "disableHblock": "Отключить Hblock",
-    "setNewDnsServer": "Установите новый DNS -сервер",
-    "resetDnsServer": "Сбросить DNS -сервер",
+    "setNewDnsServer": "Установить новый DNS-сервер",
+    "resetDnsServer": "Сбросить DNS-сервер",
     "args": "Аргументы",
-    "logs": "Журналы",
-    "remove": "Удалять"
+    "logs": "Логи",
+    "remove": "Удалить",
+    "abort": "Прервать",
+    "run": "Запустить сейчас"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Ожидающие обновления",
+    "updates": "В системе есть ожидающие обновления (нажми для информации)",
+    "pacFiles": "В системе есть ожидающие файлы .pacnew, их следует проверить и объединить! (нажми для информации)",
+    "cancel": "Отмена",
+    "aurUpdates": "Обновление пакетов AUR выходит за рамки этого приложения. Пожалуйста, используй AUR-хелпер, например Paru, и проверь файлы PKGBUILD перед установкой.",
+    "scheduleUpdates": "Запланировать обновления",
+    "pendingPacdiff": "Ожидающие файлы pacdiff",
+    "findMore": "Узнай, как действовать дальше",
+    "warnUpdate": "Твоя система не обновлялась 2 недели. Пожалуйста, обнови систему для обеспечения безопасности и стабильности.",
+    "affectedFiles": "Затронутые файлы:",
+    "learnPacdiff": "Если ты не знаком с файлами pacdiff, быстро ознакомься с ними.",
+    "openMaintenance": "Нажми кнопку ниже, чтобы начать.",
+    "openMaintenanceButton": "Начать объединение",
+    "rebootNow": "Перезагрузить сейчас",
+    "rebootNowBody": "Ты уверен, что хочешь перезагрузиться сейчас? Убедись, что сохранил всю свою работу перед продолжением.",
+    "warnReboot": "Настоятельно рекомендуется перезагрузить систему после применения обновлений, особенно при обновлении ядер или сред рабочего стола.",
+    "proceed": "Вот как следует действовать:",
+    "snapshotCreation": "Снимок Btrfs будет создан перед началом объединения.",
+    "proceedMerge": "Meld будет открыт для применения изменений. Слева - НОВЫЙ файл, справа - СТАРЫЙ. Перенеси все полезные изменения, которые ты хочешь объединить, слева направо. Нажми кнопку сохранения или CTRL + S, когда закончишь.",
+    "cautionMerge": "Имей в виду, что внесение неверных изменений в СТАРЫЙ файл может сломать твою систему.",
+    "askHelp": "Если ты не уверен, закрой окно без сохранения и обратись за помощью на форум Garuda Linux.",
+    "runAurUpdates": "Запустить обновления AUR внешне"
+  },
+  "operationManager": {
+    "refusing": "Отказ в выполнении",
+    "pendingOperationsRunning": "Выполняются операции, я удалю только те, что уже завершены.",
+    "thisOperationRunning": "Ты в своем уме? Эта операция сейчас выполняется!"
+  },
+  "os-interact": {
+    "packages": "Изменить установленные пакеты",
+    "packages-aur": "Изменить пакеты AUR",
+    "services": "Изменить службы",
+    "services-user": "Изменить службы пользователя",
+    "groups": "Изменить группы пользователей",
+    "locales": "Изменить включенные локали"
+  },
+  "packages": {
+    "title": "Пакеты",
+    "internet": "Интернет",
+    "documents": "Документы",
+    "multimedia": "Мультимедиа",
+    "science": "Наука",
+    "security": "Безопасность",
+    "other": "Другое",
+    "clear": "Очистить",
+    "search": "Поиск",
+    "url": "URL",
+    "selected": "Выбрано",
+    "description": "Описание",
+    "name": "Имя",
+    "searchKey": "Введи ключевое слово для поиска",
+    "notFound": "Пакеты не найдены"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Некоторые модули DKMS повреждены",
+    "dkmsModulesBrokenTip": "Нажми, чтобы запланировать установку поврежденных модулей DKMS",
+    "dkmsModulesMissing": "Отсутствуют некоторые модули DKMS",
+    "dkmsModulesMissingTip": "Отсутствующие модули DKMS",
+    "headers": "Заголовки",
+    "headersMissing": "Отсутствуют заголовки ядра",
+    "headersMissingTip": "Нажми, чтобы запланировать установку отсутствующих заголовков",
+    "active": "Активное ядро:"
+  },
+  "languagePacks": {
+    "locale": "Локаль",
+    "selected": "Выбрано",
+    "base": "Базовый пакет",
+    "notFound": "Языковые пакеты не найдены",
+    "pkgname": "Имя пакета",
+    "description": "Это языковые пакеты для установленных программ, обычно предоставляющие переводы для графического интерфейса."
+  },
+  "settings": {
+    "title": "Настройки ",
+    "titleTwo": "приложения",
+    "leftButtons": "Показывать кнопки окна слева",
+    "copyDiagnostics": "Копировать диагностику в буфер обмена",
+    "darkMode": "Включить темный режим",
+    "language": "Настроить активный язык",
+    "autoStart": "Автозапуск приложения",
+    "logLevel": "Выбери уровень логирования",
+    "systemdUserContext": "Показывать службы Systemd пользователя",
+    "autoRefresh": "Включить автообновление служб systemd",
+    "showMainLinks": "Показывать ссылки на главной странице",
+    "themeLabel": "Базовая тема оформления",
+    "toggleOptions": "Переключаемые опции",
+    "selectOptions": "Выбор"
+  },
+  "locales": {
+    "apply": "Запланировать изменения установленных локалей",
+    "description": "Локали справа установлены в твоей системе. Ты можешь выбрать, какие оставить, а какие удалить.",
+    "available": "Доступно",
+    "selected": "Выбрано",
+    "task": "Изменить системную локаль",
+    "selectLocale": "Выбери предпочитаемый общесистемный язык"
   }
 }

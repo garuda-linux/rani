@@ -4,140 +4,165 @@
     "maintenance": "Manutenção",
     "systemTools": "Configurações do sistema",
     "components": "Componentes",
-    "gaming": "Aplicativos para jogos",
-    "boot": "Ferramentas de inicialização",
-    "diagnostics": "Diagnóstico",
+    "gaming": "Jogos",
+    "boot": "Ferramentas de boot",
+    "diagnostics": "Diagnósticos",
     "network": "Ferramentas de rede",
-    "settings": {
-      "title": "Configurações",
-      "windowButtonsLeft": "Mostrar botões de janela deixados",
-      "copyDiagnostics": "Copiar diagnósticos para a área de transferência",
-      "darkMode": "Ativar modo escuro",
-      "language": "Configure a linguagem ativa"
-    },
+    "settings": "Configurações do app",
     "help": {
       "title": "Ajuda",
-      "getHelpForum": "Obtenha ajuda no fórum",
-      "getHelpWiki": "Procure conteúdo no wiki",
-      "getHelpArchWiki": "Procure conteúdo no arco wiki",
-      "garudaStatus": "Verifique o status do tempo de atividade",
-      "about": "Sobre Rani de Garuda",
-      "aboutBody": "O Rani de Garuda é uma ferramenta de manutenção e diagnóstico do sistema para o Garuda Linux. Ele foi projetado para ajudar os usuários a manter seu sistema e diagnosticar problemas. É construído usando tauri e angular.",
-      "callExorcist": "Ligue para o exorcista",
-      "callExorcistBody": "Você deve estar muito desesperado para clicar neste botão! Eu configurei um vodu especial para você, se você ainda está tendo problemas com o aplicativo, informe -os no fórum Garuda Linux ou em nosso rastreador de problemas."
+      "getHelpForum": "Obter ajuda no fórum",
+      "getHelpWiki": "Procurar conteúdo na wiki",
+      "getHelpArchWiki": "Procurar conteúdo na Arch Wiki",
+      "garudaStatus": "Verificar estado do uptime",
+      "about": "Sobre o Garuda Rani",
+      "aboutBody": "O Garuda Rani é uma ferramenta de manutenção e diagnóstico do sistema para o Garuda Linux. Foi concebida para ajudar os utilizadores a manter o seu sistema e a diagnosticar problemas. É construída usando Tauri e Angular.",
+      "callExorcist": "Chamar o exorcista",
+      "callExorcistTitle": "Chamou o exorcista!",
+      "callExorcistBody": "Deves estar bastante desesperado para clicar neste botão! Preparei um voodoo especial para ti, se ainda tiveres problemas com a aplicação, por favor reporta-os no fórum do Garuda Linux ou no nosso tracker de problemas."
     },
-    "terminal": "terminal",
+    "terminal": "Mostrar terminal",
+    "terminalRunning": "Tarefas em execução",
+    "terminalTasks": "Executar tarefas",
     "pending": "Pendente"
   },
   "diagnostics": {
-    "title": "Informações de depuração",
-    "titleTwo": "e diagnóstico",
-    "subtitle": "Encontre as informações necessárias para depurar seu sistema",
-    "inxi": "Informações comuns (inxi)",
-    "systemctl": "Serviços de sistema (SystemCTL)",
-    "journalctl": "Logs do sistema (JournalCTL)",
-    "dmesg": "Logs do kernel (DMESG)",
-    "full": "Diagnóstico completo",
-    "upload": "Envie para o PrivateBin",
-    "pacman": "Os últimos logs do Pacman",
+    "title": "Informação de debug ",
+    "titleTwo": "e diagnósticos",
+    "subtitle": "Encontra a informação que precisas para depurar o teu sistema",
+    "inxi": "Informação comum (inxi)",
+    "systemctl": "Serviços do sistema (systemctl)",
+    "journalctl": "Logs do sistema (journalctl)",
+    "dmesg": "Logs do kernel (dmesg)",
+    "full": "Diagnósticos completos",
+    "upload": "Enviar para o PrivateBin",
+    "failedCmdHeader": "Falha ao executar o comando",
+    "failedCmd": "Algo correu mal e não foi possível obter diagnósticos",
+    "pacman": "Logs mais recentes do Pacman",
     "copied": "Copiado com sucesso para a área de transferência",
     "success": "Sucesso",
-    "uploadSuccess": "Carregado com êxito para privatebin"
+    "uploadSuccess": "Enviado com sucesso para o PrivateBin, URL copiado para a área de transferência"
   },
-  "lang": { "title": "Seleção de idiomas", "tooltip": "Selecione sua linguagem preferida" },
+  "lang": {
+    "title": "Seleção de idioma",
+    "tooltip": "Seleciona o teu idioma preferido"
+  },
   "welcome": {
-    "title": "Bem -vindo a Garuda",
-    "titleTwo": "Linux",
-    "subtitle": "A distro Linux final para jogos e multimídia",
+    "title": "Bem-vindo ao ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "A distro Linux definitiva para jogos e multimédia",
     "maintenance": "Manutenção",
-    "maintenanceSub": "Mantenha seu sistema em um bom estado",
+    "maintenanceSub": "Mantém o teu sistema em bom estado",
     "systemTools": "Configurações do sistema",
-    "systemToolsSub": "Configure seu sistema",
-    "gaming": "Aplicativos para jogos",
-    "gamingSub": "Jogue seus jogos favoritos",
-    "bootTools": "Ferramentas de inicialização",
-    "bootToolsSub": "Gerencie suas configurações de inicialização",
+    "systemToolsSub": "Configura o teu sistema",
+    "gaming": "Aplicações de jogos",
+    "gamingSub": "Joga os teus jogos favoritos",
+    "bootTools": "Ferramentas de boot",
+    "bootToolsSub": "Gere as tuas configurações de boot",
     "network": "Ferramentas de rede",
-    "networkSub": "Gerencie suas configurações de rede",
-    "diagnostics": "Diagnóstico",
-    "diagnosticsSub": "Verifique a saúde do seu sistema",
-    "install": "Instale o Garuda Linux",
-    "installSub": "Obtenha Garuda Linux em seu sistema",
-    "chroot": "Chroot em Garuda",
-    "chrootSub": "Chroot em sua instalação de Garuda",
-    "startpage": "Startpage",
-    "startpageSub": "Abra o Garuda Linux StartPage",
+    "networkSub": "Gere as tuas configurações de rede",
+    "diagnostics": "Diagnósticos",
+    "diagnosticsSub": "Verifica a saúde do teu sistema",
+    "install": "Instalar Garuda Linux",
+    "installSub": "Obtém o Garuda Linux no teu sistema",
+    "chroot": "Chroot para o Garuda",
+    "chrootSub": "Chroot para a tua instalação do Garuda",
+    "startpage": "Página inicial",
+    "startpageSub": "Abrir a página inicial do Garuda Linux",
     "setupAssistant": "Assistente de configuração",
-    "setupAssistantSub": "Execute o assistente de configuração de Garuda"
+    "setupAssistantSub": "Executar o assistente de configuração do Garuda",
+    "hello": "Olá",
+    "error": "Ocorreu um erro."
   },
   "gaming": {
-    "title": "Jogos",
-    "titleTwo": "aplicativos",
-    "subtitle": "Vamos começar com alguns aplicativos de jogo!",
+    "title": "Aplicações ",
+    "titleTwo": "de jogos",
+    "subtitle": "Vamos começar com algumas aplicações de jogos!",
     "launchers": "Lançadores de jogos",
-    "wine": "VINHO",
-    "tools": "Ferramentas de jogo",
+    "loading": "A carregar...",
+    "wine": "WINE",
+    "tools": "Ferramentas de jogos",
     "emulators": "Emuladores",
-    "controllers": "Suporte ao controlador",
+    "controllers": "Suporte a comandos",
     "games": "Jogos",
-    "misc": "Variado"
+    "misc": "Diversos",
+    "bluez": "Geralmente necessário para reconhecer comandos PS sem fios",
+    "xboxdrv": "Driver do comando Xbox, usar apenas se o driver do kernel não funcionar!",
+    "wineWow64": "Versão do WINE com suporte a 64 bits sem ter que instalar as bibliotecas de 32 bits",
+    "wineStagingWow64": "Versão Staging do WINE com suporte a 32 bits sem ter que instalar as bibliotecas de 32 bits",
+    "wineMeta": "Metapacote para instalar o WINE e todas as dependências necessárias"
   },
   "maintenance": {
-    "title": "Sistema",
-    "titleTwo": "manutenção",
-    "subtitle": "Mantenha seu sistema em um bom estado",
-    "update": "Atualize seu sistema",
-    "addPending": "Adicione pendente",
-    "removePending": "Remova pendente",
-    "runNow": "Correr agora",
+    "title": "Manutenção ",
+    "titleTwo": "do sistema",
+    "subtitle": "Mantém o teu sistema em bom estado",
+    "update": "Atualiza o teu sistema",
+    "addPending": "Adicionar pendente",
+    "removePending": "Remover pendente",
+    "runNow": "Executar agora",
+    "failedReset": "Erro ao redefinir o ficheiro de configuração",
+    "failedResetFile": "Ocorreu um erro durante a redefinição de {{file}}",
     "editRepos": "Editar repositórios",
-    "onlyDirect": "Essa ação não pode ser filada e precisa ser executada diretamente.",
-    "cleanCache": "Limpe o cache",
-    "cleanCacheSub": "Remova todos os pacotes em cache",
-    "updateSystem": "Sistema de atualização",
-    "updateSystemSub": "Atualize seu sistema via garuda-update",
-    "editReposSub": "Edite seus repositórios com ritmo",
-    "addPendingSub": "Adicione operações pendentes",
-    "clearOrphans": "Órfãos claros",
-    "clearOrphansSub": "Remova pacotes órfãos",
-    "refreshMirrors": "Atualizar espelhos",
-    "refreshMirrorsSub": "Atualize sua lista de espelhos",
-    "removeLock": "Remova o Pacman Lock",
-    "removeLockSub": "Remova o arquivo de bloqueio do Pacman",
-    "reinstallPackages": "Reinstale os pacotes",
-    "reinstallPackagesSub": "Reinstale todos os pacotes em seu sistema",
-    "btrfsAssistant": "BTRFS Assistant",
-    "btrfsAssistantSub": "Gerencie seus instantâneos BTRFS e execute tarefas de manutenção",
-    "updateRemoteFullFix": "Atualização Garuda Fix completa",
-    "updateRemoteFullFixSub": "Redefinir Pacman e reinstalar todos os pacotes em seu sistema operacional",
-    "updateRemoteKeyring": "GARUDA ATUALIZAÇÃO KEYRING",
-    "updateRemoteKeyringSub": "Atualize o chaveiro sem redefinir o Pacman.conf",
-    "updateRemoteFix": "GARUDA ATUALIZAÇÃO FIX",
-    "updateRemoteFixSub": "Redefinir pacman.conf e refrescar os chaveiros",
-    "updateRemoteResetSnapper": "Reinicie o snapper",
-    "updateRemoteResetSnapperSub": "Remova tudo o Snapper e recrie suas configurações",
+    "onlyDirect": "Esta ação não pode ser colocada em fila e precisa ser executada diretamente.",
+    "cleanCache": "Limpar cache",
+    "cleanCacheSub": "Remover todos os pacotes em cache",
+    "updateSystem": "Atualizar sistema",
+    "taskRunningHeader": "Erro ao executar a ação de manutenção",
+    "taskRunning": "Já existe uma tarefa em execução, espera que termine primeiro.",
+    "updateSystemSub": "Atualiza o teu sistema via garuda-update",
+    "editReposSub": "Edita os teus repositórios com o Pace",
+    "addPendingSub": "Adicionar operações pendentes",
+    "clearOrphans": "Limpar órfãos",
+    "clearOrphansSub": "Remover pacotes órfãos",
+    "refreshMirrors": "Atualizar mirrors",
+    "refreshMirrorsSub": "Atualiza a tua lista de mirrors",
+    "removeLock": "Remover bloqueio do Pacman",
+    "removeLockSub": "Remover o ficheiro de bloqueio do Pacman",
+    "reinstallPackages": "Reinstalar pacotes",
+    "reinstallPackagesSub": "Reinstala todos os pacotes no teu sistema",
+    "reinstallDkmsModules": "Reinstalar módulos DKMS",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "Gere os teus snapshots BTRFS e executa tarefas de manutenção",
+    "mergePacDiff": "Unir ficheiros pacdiff",
+    "mergePacDiffSub": "Une ficheiros .pacnew e .pacsave interativamente",
+    "updateRemoteFullFix": "Correção completa do Garuda update",
+    "updateRemoteFullFixSub": "Redefine o Pacman e reinstala todos os pacotes no teu SO",
+    "updateRemoteKeyring": "Keyring do Garuda update",
+    "updateRemoteKeyringSub": "Atualiza o keyring sem redefinir o pacman.conf",
+    "updateRemoteFix": "Correção do Garuda update",
+    "updateRemoteFixSub": "Redefine o pacman.conf e atualiza os keyrings",
+    "updateRemoteResetSnapper": "Redefinir snapper",
+    "updateRemoteResetSnapperSub": "Remove tudo do Snapper e recria as suas configurações",
     "updateRemoteResetAudio": "Redefinir áudio",
-    "updateRemoteResetAudioSub": "Reinstalar/redefinir a configuração de áudio da tubulação",
-    "resetTooltip": "Os seguintes arquivos ou pastas serão redefinidos para o estado padrão:",
+    "updateRemoteResetAudioSub": "Reinstala/redefine a configuração de áudio do PipeWire",
+    "resetTooltip": "Os seguintes ficheiros ou pastas serão redefinidos para o seu estado padrão:",
     "resetConfigs": "Redefinir configurações para o estado padrão",
     "common": "Manutenção comum",
-    "garudaUpdate": "Ferramentas de resgate de atualização de Garuda"
+    "garudaUpdate": "Ferramentas de resgate do Garuda update"
   },
   "sudo": {
     "title": "Autenticação necessária",
-    "subtitle": "Por favor, insira sua senha para continuar",
-    "save": "Cache nesta sessão",
-    "password": "Senha",
+    "subtitle": "Por favor, insere a tua palavra-passe para continuar",
+    "save": "Guardar em cache nesta sessão",
+    "password": "Palavra-passe",
     "cancel": "Cancelar",
-    "useOnce": "Use apenas uma vez"
+    "useOnce": "Usar apenas uma vez"
   },
   "terminal": {
-    "title": "terminal",
+    "title": "Terminal",
     "runActions": "Executar ações",
-    "removeAll": "Remova todas as ações",
+    "removeAll": "Remover todas as ações",
+    "abortAll": "Abortar todas as ações",
     "noOutput": "Sem saída",
-    "outputExists": "Parece que já existe uma ação em execução. Aguarde que termine antes de tentar visualizar logs.",
-    "opRunning": "A operação já está em execução."
+    "outputExists": "Parece que já existe uma ação em execução. Por favor, espera que termine antes de tentar ver os logs.",
+    "opRunning": "A operação já está em execução.",
+    "clearCachedDataTitle": "Cache de saída limpa",
+    "clearCachedData": "A cache de saída foi limpa.",
+    "clearOutputCache": "Limpar cache de saída",
+    "copyOutput": "Copiar saída do terminal",
+    "copyToClipboardTitle": "Copiado para a área de transferência",
+    "copyToClipboard": "A saída foi copiada com sucesso para a tua área de transferência.",
+    "uploadPrivateBin": "Enviar para o PrivateBin"
   },
   "systemdServices": {
     "notFound": "Nenhum serviço encontrado",
@@ -146,163 +171,421 @@
     "load": "Carregar",
     "active": "Ativo",
     "state": "Estado",
-    "searchKey": "Digite uma palavra -chave de pesquisa",
-    "clear": "Claro",
+    "searchKey": "Insere uma palavra-chave de pesquisa",
+    "clear": "Limpar",
     "actions": "Ações",
     "show": "Mostrar",
-    "start": "Começar",
+    "start": "Iniciar",
     "stop": "Parar",
-    "mask": "Máscara",
+    "mask": "Mascarar",
     "unmask": "Desmascarar",
     "logs": "Logs",
     "restart": "Reiniciar",
     "reload": "Recarregar",
-    "enable": "Habilitar",
+    "enable": "Ativar",
     "disable": "Desativar",
     "autoRefresh": "Atualização automática",
-    "error": "Ocorreu um erro ao buscar serviços, tente novamente.",
-    "errorTitle": "Erros de busca de erros",
+    "error": "Ocorreu um erro ao buscar os serviços, por favor tenta novamente.",
+    "errorTitle": "Erro ao buscar serviços",
     "systemContext": "Mostrar serviços do sistema",
-    "userContext": "Mostrar serviços de usuário",
-    "includeDisabled": "Incluir desativado",
-    "excludeDisabled": "Exclua desativado"
+    "userContext": "Mostrar serviços do utilizador",
+    "includeDisabled": "Incluir desativados",
+    "excludeDisabled": "Excluir desativados"
   },
   "systemTools": {
-    "title": "Sistema",
-    "titleTwo": "configurações",
+    "title": "Configurações ",
+    "titleTwo": "do sistema",
     "systemdServices": "Serviços Systemd",
     "systemSettings": "Configurações do sistema",
     "components": "Componentes do sistema",
+    "locales": "Locais",
+    "kernels": "Kernels",
+    "packages": "Pacotes adicionais",
     "audio": {
       "title": "Áudio",
-      "alsa": { "description": "Suporte da ALSA" },
-      "jack": { "description": "Suporte de jack" },
-      "pulseaudio": { "description": "Suporte Pulseaudio" },
-      "pipewire": { "description": "Suporte de Pipewire" },
-      "userRealtime": { "description": "Usuário em grupo em tempo real" }
+      "alsa": {
+        "description": "Suporte ALSA"
+      },
+      "jack": {
+        "description": "Suporte JACK"
+      },
+      "pulseaudio": {
+        "description": "Suporte PulseAudio"
+      },
+      "pipewire": {
+        "description": "Suporte PipeWire"
+      },
+      "userRealtime": {
+        "description": "Utilizador no grupo realtime"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP instalado"
+      }
     },
     "virtualization": {
       "title": "Virtualização",
-      "qemu": { "description": "Suporte qemu" },
-      "kvm": { "description": "Suporte KVM" },
-      "virtManager": { "description": "Suporte de Virt-Manager" },
-      "libvirtdEnabled": { "description": "Libvirtd ativado" },
-      "userVboxUsers": { "description": "Grupo de usuário em vboxusers" },
-      "virtualbox": { "description": "Suporte ao VirtualBox" },
-      "userLibvirt": { "description": "Usuário no Libvirt Group" },
-      "userKvm": { "description": "Usuário no grupo KVM" },
-      "virtualboxKvm": { "description": "VirtualBox com suporte KVM" },
-      "docker": { "description": "Suporte do Docker" },
-      "userDocker": { "description": "Usuário no Docker Group" },
-      "dockerEnabled": { "description": "Docker ativado" },
-      "podman": { "description": "Suporte de Podman" },
-      "podmanEnabled": { "description": "Podman ativado" }
+      "qemu": {
+        "description": "QEMU instalado"
+      },
+      "kvm": {
+        "description": "Suporte KVM"
+      },
+      "virtManager": {
+        "description": "Suporte Virt-manager"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd ativado"
+      },
+      "userVboxUsers": {
+        "description": "Utilizador no grupo vboxusers"
+      },
+      "virtualbox": {
+        "description": "Suporte VirtualBox"
+      },
+      "userLibvirt": {
+        "description": "Utilizador no grupo libvirt"
+      },
+      "userKvm": {
+        "description": "Utilizador no grupo kvm"
+      }
+    },
+    "containers": {
+      "title": "Contentores",
+      "docker": {
+        "description": "Docker instalado"
+      },
+      "dockerEnabled": {
+        "description": "Docker ativado"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose instalado"
+      },
+      "userDocker": {
+        "description": "Utilizador no grupo docker"
+      },
+      "podman": {
+        "description": "Podman instalado"
+      },
+      "podmanDocker": {
+        "description": "Emular Docker via Podman"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop instalado"
+      },
+      "distrobox": {
+        "description": "DistroBox instalado"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy instalado"
+      }
     },
     "network": {
       "title": "Rede",
-      "networkManager": { "description": "Suporte de NetworkManager" },
-      "networkManagerEnabled": { "description": "NetworkManager ativado" },
-      "modemManagerEnabled": { "description": "ModemManager ativado" }
+      "networkManager": {
+        "description": "Suporte NetworkManager"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager ativado"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager ativado"
+      }
     },
     "bluetooth": {
       "title": "Bluetooth",
-      "bluetooth": { "description": "Suporte Bluetooth" },
-      "bluetoothEnabled": { "description": "Bluetooth ativado" },
-      "userBluetooth": { "description": "Usuário no grupo Bluetooth" },
-      "autoConnect": { "description": "Connect automático" },
-      "autoConnectEnabled": { "description": "Connect automático ativado" }
+      "bluetooth": {
+        "description": "Suporte Bluetooth"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth ativado"
+      },
+      "userBluetooth": {
+        "description": "Utilizador no grupo bluetooth"
+      },
+      "autoConnect": {
+        "description": "Ligação automática instalada"
+      },
+      "autoConnectEnabled": {
+        "description": "Ligação automática ativada"
+      }
     },
     "printing": {
       "title": "Impressão",
-      "printingSupport": { "description": "Suporte de impressão" },
-      "cupsEnabled": { "description": "Copas ativadas" },
-      "scanningSupport": { "description": "Suporte de digitalização" },
-      "sanedEnabled": { "description": "SANED ativado" },
-      "userCups": { "description": "Usuário no grupo de copos" },
-      "userScanner": { "description": "Usuário em grupo de scanners" },
-      "userSys": { "description": "Usuário no grupo SYS" }
+      "printingSupport": {
+        "description": "Suporte à impressão"
+      },
+      "cupsEnabled": {
+        "description": "CUPS ativado"
+      },
+      "scanningSupport": {
+        "description": "Suporte a digitalização"
+      },
+      "sanedEnabled": {
+        "description": "saned ativado"
+      },
+      "userCups": {
+        "description": "Utilizador no grupo cups"
+      },
+      "userScanner": {
+        "description": "Utilizador no grupo scanner"
+      },
+      "userLp": {
+        "description": "Utilizador no grupo lp"
+      }
     },
     "firewall": {
       "title": "Firewall",
-      "firewalld": { "description": "Suporte de firewalld" },
-      "firewalldEnabled": { "description": "Firewalld ativado" },
-      "ufw": { "description": "Suporte da UFW" },
-      "ufwEnabled": { "description": "UFW ativado" },
-      "opensnitch": { "description": "Suporte OpenSnitch" },
-      "opensnitchEnabled": { "description": "OpenSnitch ativado" }
+      "firewalld": {
+        "description": "Firewalld instalado"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld ativado"
+      },
+      "ufw": {
+        "description": "UFW instalado"
+      },
+      "ufwEnabled": {
+        "description": "UFW ativado"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch instalado"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch ativado"
+      }
+    },
+    "misc": {
+      "title": "Diversos",
+      "gns": {
+        "description": "Garuda Nix Subsystem instalado"
+      }
     }
   },
   "systemSettings": {
-    "defaultShellConfigs": "Instale configurações padrão",
-    "defaultDns": "Defina DNS padrão",
-    "defaultShell": "Defina o shell de login",
+    "defaultShellConfigs": "Instalar configurações padrão",
+    "defaultDns": "Definir DNS padrão",
+    "defaultShell": "Definir shell de login",
     "enableHblock": "Ativar Hblock",
+    "enableIwd": "Usar IWD em vez de wpa_supplicant",
     "common": {
       "title": "Comum",
-      "psd": { "description": "Profile-sync-Daemon instalado" },
-      "psdEnabled": { "description": "Perfil-Sync-Daemon ativado" },
-      "oomd": { "description": "SystemD-OOMD ativado" },
-      "guestUser": { "description": "Ativar usuário convidado" }
+      "psd": {
+        "description": "Profile-sync-daemon instalado"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon ativado"
+      },
+      "oomd": {
+        "description": "Systemd-oomd ativado"
+      },
+      "guestUser": {
+        "description": "Ativar utilizador convidado"
+      }
     },
     "performance": {
       "title": "Desempenho",
-      "performanceTweaks": { "description": "Tweaks de desempenho" },
-      "ananicyCpp": { "description": "Ananicy C ++ instalado" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ ativado" },
-      "preload": { "description": "Pré -carga instalada" },
-      "preloadEnabled": { "description": "Pré -carga ativada" },
-      "irqbalanceEnabled": { "description": "IrqBalance ativado" }
+      "performanceTweaks": {
+        "description": "Ajustes de desempenho"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ instalado"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ ativado"
+      },
+      "bpftune": {
+        "description": "Bpftune instalado"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune ativado"
+      },
+      "preload": {
+        "description": "Preload instalado"
+      },
+      "preloadEnabled": {
+        "description": "Preload ativado"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance ativado"
+      }
     },
     "powersave": {
-      "title": "Economia de energia",
-      "powersaveTweaks": { "description": "Powesave Tweaks" },
-      "tlp": { "description": "TLP instalado" },
-      "tlpEnabled": { "description": "TLP ativado" },
-      "autoCpufreq": { "description": "Auto-CPUFREQ instalado" },
-      "autoCpufreqEnabled": { "description": "Auto-CPUFREQ ativado" },
-      "thermald": { "description": "Thermald instalado" },
-      "thermaldEnabled": { "description": "Thermald habilitado" },
-      "powerProfilesDaemon": { "description": "PERFILES DAEMOMEN Instalado" },
-      "powerProfilesDaemonEnabled": { "description": "D daemon dos perfis de energia habilitado" },
-      "intelUndervolt": { "description": "Intel-subvolt instalado" },
-      "intelUndervoltEnabled": { "description": "Intel-undervolt habilitado" }
+      "title": "Poupança de energia",
+      "powersaveTweaks": {
+        "description": "Ajustes de poupança de energia"
+      },
+      "tlp": {
+        "description": "TLP instalado"
+      },
+      "tlpEnabled": {
+        "description": "TLP ativado"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq instalado"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq ativado"
+      },
+      "thermald": {
+        "description": "Thermald instalado"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald ativado"
+      },
+      "powerProfilesDaemon": {
+        "description": "Daemon de perfis de energia instalado"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Daemon de perfis de energia ativado"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt instalado"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt ativado"
+      }
     },
     "rightclickEmulation": {
-      "title": "Clique com o botão direito do mouse em emulação",
-      "evdevLongPressRightClick": { "description": "EVDEV Pressione há muito clique em emulação" },
-      "evdevRce": { "description": "EVDEV RCE ativado" }
+      "title": "Emulação do clique direito",
+      "evdevLongPressRightClick": {
+        "description": "Emulação do clique direito por pressão longa Evdev"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE ativado"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "Definir peixes como shell padrão pode causar problemas com outros programas. É recomendável defini -lo como padrão por meio de configurações de terminal."
+      "hint": "Definir fish como shell padrão pode causar problemas com outros programas. É aconselhável defini-lo como padrão através das configurações do terminal."
     }
   },
   "confirmation": {
     "accept": "Aceitar",
     "reject": "Cancelar",
-    "exitApp": "Tem certeza de que deseja sair do aplicativo?",
+    "exitApp": "Tens a certeza que queres sair da aplicação?",
+    "exitAppRunningAction": "Tens a certeza que queres sair da aplicação? Existe uma ação em execução!",
     "resetConfigsHeader": "Redefinir configurações?",
-    "resetConfigsBody": "Tem certeza de que deseja redefinir as seguintes configurações?",
-    "exitAppHeader": "App de saída?",
+    "resetConfigsBody": "Tens a certeza que queres redefinir as seguintes configurações?",
+    "exitAppHeader": "Sair da aplicação?",
     "applyOperations": "Aplicar operações?",
-    "applyOperationsBody": "Tem certeza de que deseja aplicar todas as operações pendentes?"
+    "applyOperationsBody": "Tens a certeza que queres aplicar todas as operações pendentes?"
   },
-  "error": { "sudoPassword": "Esta não parece ser a senha correta. Por favor, tente novamente." },
+  "error": {
+    "sudoPassword": "Esta não parece ser a palavra-passe correta. Por favor, tenta novamente."
+  },
   "operation": {
-    "removeApps": "Remover aplicativos",
-    "installApps": "Instale aplicativos",
-    "addGroups": "Adicionar usuário ao grupo",
-    "removeGroup": "Remova o usuário do grupo",
-    "disableService": "Desativar o serviço",
+    "removeApps": "Remover aplicações",
+    "installApps": "Instalar aplicações",
+    "addGroup": "Adicionar utilizador ao grupo",
+    "removeGroup": "Remover utilizador do grupo",
+    "disableService": "Desativar serviço",
     "enableService": "Ativar serviço",
-    "setDefaultShell": "Defina o shell padrão",
+    "setDefaultShell": "Definir shell padrão",
     "enableHblock": "Ativar Hblock",
-    "disableHblock": "Desative o hblock",
-    "setNewDnsServer": "Defina o novo servidor DNS",
+    "disableHblock": "Desativar Hblock",
+    "setNewDnsServer": "Definir novo servidor DNS",
     "resetDnsServer": "Redefinir servidor DNS",
     "args": "Argumentos",
     "logs": "Logs",
-    "remove": "Remover"
+    "remove": "Remover",
+    "abort": "Abortar",
+    "run": "Executar agora"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Atualizações pendentes",
+    "updates": "Este sistema tem atualizações pendentes (clica para info)",
+    "pacFiles": "Este sistema tem ficheiros .pacnew pendentes, deves verificá-los e uni-los! (clica para info)",
+    "cancel": "Cancelar",
+    "aurUpdates": "A atualização de pacotes AUR está fora do âmbito desta aplicação. Por favor, usa um helper AUR como o Paru e revê os ficheiros PKGBUILD antes da instalação.",
+    "scheduleUpdates": "Agendar atualizações",
+    "pendingPacdiff": "Ficheiros pacdiff pendentes",
+    "findMore": "Descobre como proceder",
+    "warnUpdate": "O teu sistema não foi atualizado há 2 semanas. Por favor, atualiza o teu sistema para garantir segurança e estabilidade.",
+    "affectedFiles": "Ficheiros afetados:",
+    "learnPacdiff": "Se não estás familiarizado com ficheiros pacdiff, informa-te sobre eles rapidamente.",
+    "openMaintenance": "Clica no botão abaixo para começar.",
+    "openMaintenanceButton": "Iniciar união",
+    "rebootNow": "Reiniciar agora",
+    "rebootNowBody": "Tens a certeza que queres reiniciar agora? Certifica-te que guardaste todo o teu trabalho antes de prosseguir.",
+    "warnReboot": "É fortemente recomendado reiniciar o teu sistema após aplicar atualizações, especialmente ao atualizar kernels ou ambientes de trabalho.",
+    "proceed": "Eis como proceder:",
+    "snapshotCreation": "Será criado um snapshot Btrfs antes de iniciar a união.",
+    "proceedMerge": "O Meld será aberto para aplicar as alterações. Do lado esquerdo está o ficheiro NOVO, do lado direito o ANTIGO. Move quaisquer alterações úteis que queiras unir do lado esquerdo para o lado direito. Clica no botão guardar ou CTRL + S quando terminares.",
+    "cautionMerge": "Tem em atenção que colocar alterações erradas no ficheiro ANTIGO pode danificar o teu sistema.",
+    "askHelp": "Se não tiveres a certeza, fecha a janela sem guardar e pede ajuda no fórum do Garuda Linux.",
+    "runAurUpdates": "Executar atualizações AUR externamente"
+  },
+  "operationManager": {
+    "refusing": "Recusando execução",
+    "pendingOperationsRunning": "Existem operações em execução, vou remover apenas as que já foram concluídas.",
+    "thisOperationRunning": "Estás louco? Esta operação está atualmente em execução!"
+  },
+  "os-interact": {
+    "packages": "Alterar pacotes instalados",
+    "packages-aur": "Alterar pacotes AUR",
+    "services": "Alterar serviços",
+    "services-user": "Alterar serviços do utilizador",
+    "groups": "Alterar grupos de utilizadores",
+    "locales": "Alterar locais ativados"
+  },
+  "packages": {
+    "title": "Pacotes",
+    "internet": "Internet",
+    "documents": "Documentos",
+    "multimedia": "Multimédia",
+    "science": "Ciência",
+    "security": "Segurança",
+    "other": "Outro",
+    "clear": "Limpar",
+    "search": "Procurar",
+    "url": "URL",
+    "selected": "Selecionado",
+    "description": "Descrição",
+    "name": "Nome",
+    "searchKey": "Insere uma palavra-chave de pesquisa",
+    "notFound": "Nenhum pacote encontrado"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Alguns módulos DKMS estão quebrados",
+    "dkmsModulesBrokenTip": "Clica-me para agendar a instalação dos módulos DKMS quebrados",
+    "dkmsModulesMissing": "Alguns módulos DKMS estão em falta",
+    "dkmsModulesMissingTip": "Módulos DKMS em falta",
+    "headers": "Headers",
+    "headersMissing": "Headers do kernel em falta",
+    "headersMissingTip": "Clica-me para agendar a instalação dos headers em falta",
+    "active": "Kernel ativo:"
+  },
+  "languagePacks": {
+    "locale": "Local",
+    "selected": "Selecionado",
+    "base": "Pacote base",
+    "notFound": "Nenhum pacote de idioma encontrado",
+    "pkgname": "Nome do pacote",
+    "description": "Estes são os pacotes de idioma para os teus pacotes instalados, geralmente fornecendo traduções para a GUI."
+  },
+  "settings": {
+    "title": "Configurações ",
+    "titleTwo": "da aplicação",
+    "leftButtons": "Mostrar botões da janela à esquerda",
+    "copyDiagnostics": "Copiar diagnósticos para a área de transferência",
+    "darkMode": "Ativar modo escuro",
+    "language": "Configurar idioma ativo",
+    "autoStart": "Aplicação de início automático",
+    "logLevel": "Seleciona o nível de log",
+    "systemdUserContext": "Mostrar serviços Systemd do utilizador",
+    "autoRefresh": "Ativar atualização automática dos serviços systemd",
+    "showMainLinks": "Mostrar links na página inicial",
+    "themeLabel": "Tema de design base",
+    "toggleOptions": "Opções de alternância",
+    "selectOptions": "Seleções"
+  },
+  "locales": {
+    "apply": "Agendar alterações de locais instalados",
+    "description": "Os locais à direita estão instalados no teu sistema. Podes selecionar quais queres manter e quais queres remover.",
+    "available": "Disponível",
+    "selected": "Selecionado",
+    "task": "Alterar local do sistema",
+    "selectLocale": "Seleciona o teu idioma preferido para todo o sistema"
   }
 }

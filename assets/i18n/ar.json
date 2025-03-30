@@ -1,308 +1,591 @@
 {
   "menu": {
     "welcome": "مرحباً",
-    "maintenance": "صيانة",
+    "maintenance": "الصيانة",
     "systemTools": "إعدادات النظام",
-    "components": "عناصر",
-    "gaming": "تطبيقات الألعاب",
-    "boot": "أدوات التمهيد",
-    "diagnostics": "التشخيص",
+    "components": "المكونات",
+    "gaming": "الألعاب",
+    "boot": "أدوات الإقلاع",
+    "diagnostics": "التشخيصات",
     "network": "أدوات الشبكة",
-    "settings": {
-      "title": "إعدادات",
-      "windowButtonsLeft": "إظهار أزرار النوافذ اليسار",
-      "copyDiagnostics": "نسخ التشخيص إلى الحافظة",
-      "darkMode": "تمكين الوضع المظلم",
-      "language": "تكوين لغة نشطة"
-    },
+    "settings": "إعدادات التطبيق",
     "help": {
-      "title": "يساعد",
-      "getHelpForum": "احصل على مساعدة في المنتدى",
-      "getHelpWiki": "ابحث عن المحتوى في الويكي",
-      "getHelpArchWiki": "ابحث عن المحتوى في القوس ويكي",
-      "garudaStatus": "تحقق من حالة التشغيل",
-      "about": "حول راني غارودا",
-      "aboutBody": "Garuda's Rani هي أداة لصيانة النظام والتشخيص في Garuda Linux. إنه مصمم لمساعدة المستخدمين على الحفاظ على نظامهم وتشخيص المشكلات. تم تصميمه باستخدام Tauri و Angular.",
-      "callExorcist": "اتصل بالتعويذة",
-      "callExorcistBody": "يجب أن تكون يائسًا جدًا للنقر فوق هذا الزر! قمت بإعداد بعض الفودو الخاص لك ، إذا كنت لا تزال تواجه مشكلات مع التطبيق ، فيرجى الإبلاغ عنها في منتدى Garuda Linux أو متتبع المشكلات."
+      "title": "المساعدة",
+      "getHelpForum": "احصل على المساعدة في المنتدى",
+      "getHelpWiki": "ابحث عن محتوى في الويكي",
+      "getHelpArchWiki": "ابحث عن محتوى في Arch Wiki",
+      "garudaStatus": "تحقق من حالة وقت التشغيل",
+      "about": "حول Garuda Rani",
+      "aboutBody": "Garuda Rani هي أداة لصيانة وتشخيص النظام لتوزيعة Garuda Linux. مصممة لمساعدة المستخدمين على صيانة نظامهم وتشخيص المشكلات. تم بناؤها باستخدام Tauri و Angular.",
+      "callExorcist": "استدعِ طارد الأرواح",
+      "callExorcistTitle": "تم استدعاء طارد الأرواح!",
+      "callExorcistBody": "لا بد أنك يائس جدًا للنقر على هذا الزر! لقد أعددت لك بعض التعويذات الخاصة، إذا كنت لا تزال تواجه مشكلات مع التطبيق، يرجى الإبلاغ عنها في منتدى Garuda Linux أو متتبع المشكلات الخاص بنا."
     },
-    "terminal": "صالة",
-    "pending": "قيد الانتظار"
+    "terminal": "إظهار الطرفية",
+    "terminalRunning": "المهام قيد التشغيل",
+    "terminalTasks": "تنفيذ المهام",
+    "pending": "معلقة"
   },
   "diagnostics": {
-    "title": "معلومات التصحيح",
-    "titleTwo": "والتشخيص",
-    "subtitle": "ابحث عن المعلومات التي تحتاجها لتصحيح نظامك",
-    "inxi": "معلومات شائعة (inxi)",
-    "systemctl": "خدمات النظام (SystemCTL)",
-    "journalctl": "سجلات النظام (JournalCTL)",
-    "dmesg": "سجلات النواة (DMESG)",
-    "full": "التشخيص الكامل",
-    "upload": "تحميل إلى PrivateBin",
-    "pacman": "أحدث سجلات باكمان",
-    "copied": "نسخ بنجاح إلى الحافظة",
+    "title": "معلومات التصحيح ",
+    "titleTwo": "والتشخيصات",
+    "subtitle": "اعثر على المعلومات التي تحتاجها لتصحيح نظامك",
+    "inxi": "معلومات عامة (inxi)",
+    "systemctl": "خدمات النظام (systemctl)",
+    "journalctl": "سجلات النظام (journalctl)",
+    "dmesg": "سجلات النواة (dmesg)",
+    "full": "تشخيصات كاملة",
+    "upload": "رفع إلى PrivateBin",
+    "failedCmdHeader": "فشل في تشغيل الأمر",
+    "failedCmd": "حدث خطأ ما ولم يتم استرداد أي تشخيصات",
+    "pacman": "أحدث سجلات Pacman",
+    "copied": "تم النسخ إلى الحافظة بنجاح",
     "success": "نجاح",
-    "uploadSuccess": "تم تحميله بنجاح إلى PrivateBin"
+    "uploadSuccess": "تم الرفع إلى PrivateBin بنجاح، تم نسخ الرابط إلى الحافظة"
   },
-  "lang": { "title": "اختيار اللغة", "tooltip": "حدد لغتك المفضلة" },
+  "lang": {
+    "title": "اختيار اللغة",
+    "tooltip": "اختر لغتك المفضلة"
+  },
   "welcome": {
-    "title": "مرحبًا بك في Garuda",
-    "titleTwo": "Linux",
-    "subtitle": "توزيعة Linux النهائية للألعاب والوسائط المتعددة",
-    "maintenance": "صيانة",
+    "title": "مرحبًا بك في ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "توزيعة لينكس المثالية للألعاب والوسائط المتعددة",
+    "maintenance": "الصيانة",
     "maintenanceSub": "حافظ على نظامك في حالة جيدة",
     "systemTools": "إعدادات النظام",
-    "systemToolsSub": "تكوين نظامك",
+    "systemToolsSub": "قم بتهيئة نظامك",
     "gaming": "تطبيقات الألعاب",
     "gamingSub": "العب ألعابك المفضلة",
-    "bootTools": "أدوات التمهيد",
-    "bootToolsSub": "إدارة إعدادات التمهيد الخاصة بك",
+    "bootTools": "أدوات الإقلاع",
+    "bootToolsSub": "إدارة إعدادات الإقلاع الخاصة بك",
     "network": "أدوات الشبكة",
     "networkSub": "إدارة إعدادات الشبكة الخاصة بك",
-    "diagnostics": "التشخيص",
+    "diagnostics": "التشخيصات",
     "diagnosticsSub": "تحقق من صحة نظامك",
     "install": "تثبيت Garuda Linux",
     "installSub": "احصل على Garuda Linux على نظامك",
-    "chroot": "chroot في Garuda",
-    "chrootSub": "chroot في تثبيت Garuda الخاص بك",
-    "startpage": "startPage",
-    "startpageSub": "افتح صفحة start Garuda Linux",
+    "chroot": "الدخول إلى Garuda باستخدام Chroot",
+    "chrootSub": "ادخل إلى تثبيت Garuda الخاص بك باستخدام Chroot",
+    "startpage": "صفحة البداية",
+    "startpageSub": "افتح صفحة البداية لـ Garuda Linux",
     "setupAssistant": "مساعد الإعداد",
-    "setupAssistantSub": "قم بتشغيل مساعد إعداد Garuda"
+    "setupAssistantSub": "شغل مساعد إعداد Garuda",
+    "hello": "مرحباً",
+    "error": "حدث خطأ."
   },
   "gaming": {
-    "title": "الألعاب",
-    "titleTwo": "التطبيقات",
-    "subtitle": "دعنا نبدأ مع بعض تطبيقات الألعاب!",
-    "launchers": "قاذفات اللعبة",
-    "wine": "خمر",
+    "title": "تطبيقات ",
+    "titleTwo": "الألعاب",
+    "subtitle": "لنبدأ ببعض تطبيقات الألعاب!",
+    "launchers": "مشغلات الألعاب",
+    "loading": "جارٍ التحميل...",
+    "wine": "WINE",
     "tools": "أدوات الألعاب",
-    "emulators": "المحاكمات",
-    "controllers": "دعم وحدة التحكم",
-    "games": "ألعاب",
-    "misc": "متنوع"
+    "emulators": "المحاكيات",
+    "controllers": "دعم وحدات التحكم",
+    "games": "الألعاب",
+    "misc": "متنوعات",
+    "bluez": "مطلوب بشكل عام للتعرف على وحدات تحكم PS لاسلكيًا",
+    "xboxdrv": "برنامج تشغيل وحدة تحكم Xbox، استخدمه فقط إذا لم يعمل برنامج تشغيل النواة!",
+    "wineWow64": "إصدار WINE بدعم 64 بت دون الحاجة إلى تثبيت مكتبات 32 بت",
+    "wineStagingWow64": "إصدار Staging من WINE بدعم 32 بت دون الحاجة إلى تثبيت مكتبات 32 بت",
+    "wineMeta": "حزمة Meta لتثبيت WINE وجميع التبعيات المطلوبة"
   },
   "maintenance": {
-    "title": "نظام",
-    "titleTwo": "صيانة",
+    "title": "صيانة ",
+    "titleTwo": "النظام",
     "subtitle": "حافظ على نظامك في حالة جيدة",
-    "update": "قم بتحديث نظامك",
-    "addPending": "أضف معلق",
-    "removePending": "إزالة معلق",
-    "runNow": "ركض الآن",
-    "editRepos": "تحرير المستودعات",
-    "onlyDirect": "لا يمكن تصوير هذا الإجراء ويجب تشغيله مباشرة.",
-    "cleanCache": "ذاكرة التخزين المؤقت النظيفة",
-    "cleanCacheSub": "قم بإزالة جميع الحزم المخبأة",
-    "updateSystem": "تحديث نظام",
-    "updateSystemSub": "قم بتحديث نظامك عبر Garuda-update",
-    "editReposSub": "قم بتحرير مستودعاتك بوتيرة",
-    "addPendingSub": "إضافة عمليات معلقة",
-    "clearOrphans": "الأيتام واضحة",
-    "clearOrphansSub": "إزالة الحزم اليتيم",
-    "refreshMirrors": "مرايا تحديث",
-    "refreshMirrorsSub": "قم بتحديث قائمة المرآة الخاصة بك",
-    "removeLock": "إزالة قفل باكمان",
-    "removeLockSub": "قم بإزالة ملف قفل Pacman",
+    "update": "حدث نظامك",
+    "addPending": "إضافة معلقة",
+    "removePending": "إزالة معلقة",
+    "runNow": "شغل الآن",
+    "failedReset": "خطأ في إعادة تعيين ملف الإعدادات",
+    "failedResetFile": "حدث خطأ أثناء إعادة تعيين {{file}}",
+    "editRepos": "تعديل المستودعات",
+    "onlyDirect": "لا يمكن وضع هذا الإجراء في قائمة الانتظار ويجب تشغيله مباشرة.",
+    "cleanCache": "تنظيف ذاكرة التخزين المؤقت",
+    "cleanCacheSub": "إزالة جميع الحزم المخزنة مؤقتًا",
+    "updateSystem": "تحديث النظام",
+    "taskRunningHeader": "خطأ في تشغيل إجراء الصيانة",
+    "taskRunning": "هناك مهمة قيد التشغيل بالفعل، انتظر حتى تنتهي أولاً.",
+    "updateSystemSub": "حدث نظامك عبر garuda-update",
+    "editReposSub": "عدّل مستودعاتك باستخدام Pace",
+    "addPendingSub": "إضافة العمليات المعلقة",
+    "clearOrphans": "تنظيف الحزم اليتيمة",
+    "clearOrphansSub": "إزالة الحزم اليتيمة",
+    "refreshMirrors": "تحديث المرايا",
+    "refreshMirrorsSub": "حدث قائمة المرايا الخاصة بك",
+    "removeLock": "إزالة قفل Pacman",
+    "removeLockSub": "إزالة ملف قفل pacman",
     "reinstallPackages": "إعادة تثبيت الحزم",
     "reinstallPackagesSub": "أعد تثبيت جميع الحزم على نظامك",
-    "btrfsAssistant": "مساعد BTRFS",
+    "reinstallDkmsModules": "إعادة تثبيت وحدات DKMS",
+    "btrfsAssistant": "مساعد Btrfs",
     "btrfsAssistantSub": "إدارة لقطات BTRFS وتشغيل مهام الصيانة",
-    "updateRemoteFullFix": "تحديث Garuda Full Fix",
-    "updateRemoteFullFixSub": "أعد تعيين Pacman وإعادة تثبيت جميع الحزم في نظام التشغيل الخاص بك",
-    "updateRemoteKeyring": "تحديث Garuda Keyring",
-    "updateRemoteKeyringSub": "تحديث المفاتيح دون إعادة تعيين pacman.conf",
-    "updateRemoteFix": "تحديث Garuda إصلاح",
-    "updateRemoteFixSub": "إعادة تعيين pacman.conf وتحديث المفاتيح",
-    "updateRemoteResetSnapper": "إعادة ضبط النهاش",
-    "updateRemoteResetSnapperSub": "قم بإزالة كل شيء Snapper وأعد تكويناته",
-    "updateRemoteResetAudio": "إعادة ضبط الصوت",
-    "updateRemoteResetAudioSub": "أعد تثبيت/إعادة تعيين تكوين صوت Pipewire",
+    "mergePacDiff": "دمج ملفات pacdiff",
+    "mergePacDiffSub": "دمج ملفات .pacnew و .pacsave بشكل تفاعلي",
+    "updateRemoteFullFix": "إصلاح كامل لتحديث Garuda",
+    "updateRemoteFullFixSub": "إعادة تعيين Pacman وإعادة تثبيت جميع الحزم في نظام التشغيل الخاص بك",
+    "updateRemoteKeyring": "تحديث keyring لـ Garuda",
+    "updateRemoteKeyringSub": "تحديث keyring دون إعادة تعيين pacman.conf",
+    "updateRemoteFix": "إصلاح تحديث Garuda",
+    "updateRemoteFixSub": "إعادة تعيين pacman.conf وتحديث keyrings",
+    "updateRemoteResetSnapper": "إعادة تعيين snapper",
+    "updateRemoteResetSnapperSub": "إزالة كل شيء متعلق بـ Snapper وإعادة إنشاء إعداداته",
+    "updateRemoteResetAudio": "إعادة تعيين الصوت",
+    "updateRemoteResetAudioSub": "إعادة تثبيت/إعادة تعيين تكوين الصوت PipeWire",
     "resetTooltip": "سيتم إعادة تعيين الملفات أو المجلدات التالية إلى حالتها الافتراضية:",
-    "resetConfigs": "إعادة تعيين التكوينات إلى الحالة الافتراضية",
-    "common": "الصيانة المشتركة",
-    "garudaUpdate": "أدوات الإنقاذ تحديث Garuda"
+    "resetConfigs": "إعادة تعيين الإعدادات إلى الحالة الافتراضية",
+    "common": "صيانة عامة",
+    "garudaUpdate": "أدوات إنقاذ تحديث Garuda"
   },
   "sudo": {
-    "title": "المصادقة المطلوبة",
-    "subtitle": "الرجاء إدخال كلمة المرور الخاصة بك للمتابعة",
-    "save": "ذاكرة التخزين المؤقت في هذه الجلسة",
+    "title": "المصادقة مطلوبة",
+    "subtitle": "الرجاء إدخال كلمة المرور للمتابعة",
+    "save": "تخزين مؤقت في هذه الجلسة",
     "password": "كلمة المرور",
-    "cancel": "يلغي",
-    "useOnce": "استخدم مرة واحدة فقط"
+    "cancel": "إلغاء",
+    "useOnce": "استخدام مرة واحدة فقط"
   },
   "terminal": {
-    "title": "صالة",
+    "title": "الطرفية",
     "runActions": "تشغيل الإجراءات",
     "removeAll": "إزالة جميع الإجراءات",
-    "noOutput": "لا إخراج",
-    "outputExists": "يبدو أن هناك إجراء يعمل بالفعل. يرجى الانتظار حتى ينتهي قبل محاولة عرض السجلات.",
-    "opRunning": "العملية تعمل بالفعل."
+    "abortAll": "إلغاء جميع الإجراءات",
+    "noOutput": "لا يوجد مخرجات",
+    "outputExists": "يبدو أن هناك إجراء قيد التشغيل بالفعل. يرجى الانتظار حتى ينتهي قبل محاولة عرض السجلات.",
+    "opRunning": "العملية قيد التشغيل بالفعل.",
+    "clearCachedDataTitle": "تم مسح ذاكرة التخزين المؤقت للمخرجات",
+    "clearCachedData": "تم مسح ذاكرة التخزين المؤقت للمخرجات بنجاح.",
+    "clearOutputCache": "مسح ذاكرة التخزين المؤقت للمخرجات",
+    "copyOutput": "نسخ مخرجات الطرفية",
+    "copyToClipboardTitle": "تم النسخ إلى الحافظة",
+    "copyToClipboard": "تم نسخ المخرجات بنجاح إلى الحافظة الخاصة بك.",
+    "uploadPrivateBin": "رفع إلى PrivateBin"
   },
   "systemdServices": {
     "notFound": "لم يتم العثور على خدمات",
-    "description": "وصف",
+    "description": "الوصف",
     "unit": "اسم الوحدة",
-    "load": "حمولة",
-    "active": "نشيط",
-    "state": "ولاية",
-    "searchKey": "أدخل الكلمة الرئيسية للبحث",
-    "clear": "واضح",
+    "load": "تحميل",
+    "active": "نشطة",
+    "state": "الحالة",
+    "searchKey": "أدخل كلمة بحث",
+    "clear": "مسح",
     "actions": "الإجراءات",
-    "show": "يعرض",
-    "start": "يبدأ",
-    "stop": "قف",
-    "mask": "قناع",
-    "unmask": "كشف",
-    "logs": "سجلات",
+    "show": "إظهار",
+    "start": "بدء",
+    "stop": "إيقاف",
+    "mask": "إخفاء",
+    "unmask": "إظهار",
+    "logs": "السجلات",
     "restart": "إعادة تشغيل",
     "reload": "إعادة تحميل",
-    "enable": "يُمكَِن",
-    "disable": "إبطال",
-    "autoRefresh": "تحديث السيارات",
-    "error": "حدث خطأ أثناء جلب الخدمات ، يرجى المحاولة مرة أخرى.",
-    "errorTitle": "خطأ جلب الخدمات",
-    "systemContext": "عرض خدمات النظام",
+    "enable": "تمكين",
+    "disable": "تعطيل",
+    "autoRefresh": "تحديث تلقائي",
+    "error": "حدث خطأ أثناء جلب الخدمات، يرجى المحاولة مرة أخرى.",
+    "errorTitle": "خطأ في جلب الخدمات",
+    "systemContext": "إظهار خدمات النظام",
     "userContext": "إظهار خدمات المستخدم",
-    "includeDisabled": "تشمل المعوقين",
-    "excludeDisabled": "استبعاد المعوقين"
+    "includeDisabled": "تضمين المعطلة",
+    "excludeDisabled": "استبعاد المعطلة"
   },
   "systemTools": {
-    "title": "نظام",
-    "titleTwo": "إعدادات",
-    "systemdServices": "خدمات النظام",
+    "title": "إعدادات ",
+    "titleTwo": "النظام",
+    "systemdServices": "خدمات Systemd",
     "systemSettings": "إعدادات النظام",
     "components": "مكونات النظام",
+    "locales": "اللغات المحلية (Locales)",
+    "kernels": "الأنوية (Kernels)",
+    "packages": "حزم إضافية",
     "audio": {
-      "title": "صوتي",
-      "alsa": { "description": "دعم ALSA" },
-      "jack": { "description": "دعم جاك" },
-      "pulseaudio": { "description": "دعم pulseaudio" },
-      "pipewire": { "description": "دعم pipewire" },
-      "userRealtime": { "description": "المستخدم في مجموعة الوقت الحقيقي" }
+      "title": "الصوت",
+      "alsa": {
+        "description": "دعم ALSA"
+      },
+      "jack": {
+        "description": "دعم JACK"
+      },
+      "pulseaudio": {
+        "description": "دعم PulseAudio"
+      },
+      "pipewire": {
+        "description": "دعم PipeWire"
+      },
+      "userRealtime": {
+        "description": "المستخدم في مجموعة realtime"
+      },
+      "jamesdsp": {
+        "description": "تم تثبيت JamesDSP"
+      }
     },
     "virtualization": {
-      "title": "المحاكاة الافتراضية",
-      "qemu": { "description": "دعم QEMU" },
-      "kvm": { "description": "دعم KVM" },
-      "virtManager": { "description": "دعم المدير الفضيلة" },
-      "libvirtdEnabled": { "description": "تمكين libvirtd" },
-      "userVboxUsers": { "description": "المستخدم في مجموعة Vboxusers" },
-      "virtualbox": { "description": "دعم VirtualBox" },
-      "userLibvirt": { "description": "المستخدم في مجموعة libvirt" },
-      "userKvm": { "description": "المستخدم في مجموعة KVM" },
-      "virtualboxKvm": { "description": "VirtualBox مع دعم KVM" },
-      "docker": { "description": "دعم Docker" },
-      "userDocker": { "description": "المستخدم في Docker Group" },
-      "dockerEnabled": { "description": "تمكين Docker" },
-      "podman": { "description": "دعم بودمان" },
-      "podmanEnabled": { "description": "تمكين Podman" }
+      "title": "المحاكاة الافتراضية (Virtualization)",
+      "qemu": {
+        "description": "تم تثبيت QEMU"
+      },
+      "kvm": {
+        "description": "دعم KVM"
+      },
+      "virtManager": {
+        "description": "دعم Virt-manager"
+      },
+      "libvirtdEnabled": {
+        "description": "تم تمكين Libvirtd"
+      },
+      "userVboxUsers": {
+        "description": "المستخدم في مجموعة vboxusers"
+      },
+      "virtualbox": {
+        "description": "دعم VirtualBox"
+      },
+      "userLibvirt": {
+        "description": "المستخدم في مجموعة libvirt"
+      },
+      "userKvm": {
+        "description": "المستخدم في مجموعة kvm"
+      }
+    },
+    "containers": {
+      "title": "الحاويات (Containers)",
+      "docker": {
+        "description": "تم تثبيت Docker"
+      },
+      "dockerEnabled": {
+        "description": "تم تمكين Docker"
+      },
+      "dockerCompose": {
+        "description": "تم تثبيت Docker Compose"
+      },
+      "userDocker": {
+        "description": "المستخدم في مجموعة docker"
+      },
+      "podman": {
+        "description": "تم تثبيت Podman"
+      },
+      "podmanDocker": {
+        "description": "محاكاة Docker عبر Podman"
+      },
+      "podmanDesktop": {
+        "description": "تم تثبيت Podman Desktop"
+      },
+      "distrobox": {
+        "description": "تم تثبيت DistroBox"
+      },
+      "boxbuddy": {
+        "description": "تم تثبيت BoxBuddy"
+      }
     },
     "network": {
-      "title": "شبكة",
-      "networkManager": { "description": "دعم NetworkManager" },
-      "networkManagerEnabled": { "description": "تمكين NetworkManager" },
-      "modemManagerEnabled": { "description": "تمكين MODEMMANAGER" }
+      "title": "الشبكة",
+      "networkManager": {
+        "description": "دعم NetworkManager"
+      },
+      "networkManagerEnabled": {
+        "description": "تم تمكين NetworkManager"
+      },
+      "modemManagerEnabled": {
+        "description": "تم تمكين ModemManager"
+      }
     },
     "bluetooth": {
       "title": "بلوتوث",
-      "bluetooth": { "description": "دعم البلوتوث" },
-      "bluetoothEnabled": { "description": "تمكين البلوتوث" },
-      "userBluetooth": { "description": "المستخدم في مجموعة البلوتوث" },
-      "autoConnect": { "description": "Auto Connect" },
-      "autoConnectEnabled": { "description": "تمكين الاتصال التلقائي" }
+      "bluetooth": {
+        "description": "دعم بلوتوث"
+      },
+      "bluetoothEnabled": {
+        "description": "تم تمكين بلوتوث"
+      },
+      "userBluetooth": {
+        "description": "المستخدم في مجموعة bluetooth"
+      },
+      "autoConnect": {
+        "description": "تم تثبيت الاتصال التلقائي"
+      },
+      "autoConnectEnabled": {
+        "description": "تم تمكين الاتصال التلقائي"
+      }
     },
     "printing": {
       "title": "الطباعة",
-      "printingSupport": { "description": "دعم الطباعة" },
-      "cupsEnabled": { "description": "تمكين الكؤوس" },
-      "scanningSupport": { "description": "الدعم المسح الضوئي" },
-      "sanedEnabled": { "description": "تمكين التمكين" },
-      "userCups": { "description": "المستخدم في مجموعة الكؤوس" },
-      "userScanner": { "description": "المستخدم في مجموعة الماسح الضوئي" },
-      "userSys": { "description": "المستخدم في مجموعة SYS" }
+      "printingSupport": {
+        "description": "دعم الطباعة"
+      },
+      "cupsEnabled": {
+        "description": "تم تمكين CUPS"
+      },
+      "scanningSupport": {
+        "description": "دعم المسح الضوئي"
+      },
+      "sanedEnabled": {
+        "description": "تم تمكين saned"
+      },
+      "userCups": {
+        "description": "المستخدم في مجموعة cups"
+      },
+      "userScanner": {
+        "description": "المستخدم في مجموعة scanner"
+      },
+      "userLp": {
+        "description": "المستخدم في مجموعة lp"
+      }
     },
     "firewall": {
       "title": "جدار الحماية",
-      "firewalld": { "description": "دعم جدار الحماية" },
-      "firewalldEnabled": { "description": "تمكين جدار الحماية" },
-      "ufw": { "description": "دعم UFW" },
-      "ufwEnabled": { "description": "تمكين UFW" },
-      "opensnitch": { "description": "دعم OpenSnitch" },
-      "opensnitchEnabled": { "description": "تمكين OpenSnitch" }
+      "firewalld": {
+        "description": "تم تثبيت Firewalld"
+      },
+      "firewalldEnabled": {
+        "description": "تم تمكين firewalld"
+      },
+      "ufw": {
+        "description": "تم تثبيت UFW"
+      },
+      "ufwEnabled": {
+        "description": "تم تمكين UFW"
+      },
+      "opensnitch": {
+        "description": "تم تثبيت OpenSnitch"
+      },
+      "opensnitchEnabled": {
+        "description": "تم تمكين OpenSnitch"
+      }
+    },
+    "misc": {
+      "title": "متنوعات",
+      "gns": {
+        "description": "تم تثبيت Garuda Nix Subsystem"
+      }
     }
   },
   "systemSettings": {
-    "defaultShellConfigs": "تثبيت التكوينات الافتراضية",
+    "defaultShellConfigs": "تثبيت الإعدادات الافتراضية",
     "defaultDns": "تعيين DNS الافتراضي",
-    "defaultShell": "تعيين قذيفة تسجيل الدخول",
+    "defaultShell": "تعيين صدفة تسجيل الدخول",
     "enableHblock": "تمكين Hblock",
+    "enableIwd": "استخدام IWD بدلاً من wpa_supplicant",
     "common": {
-      "title": "شائع",
-      "psd": { "description": "ملف تعريف sync-daemon مثبت" },
-      "psdEnabled": { "description": "ملف تعريف المزامنة-ديمون ممكّنة" },
-      "oomd": { "description": "تمكين Systemd-SOMD" },
-      "guestUser": { "description": "تمكين المستخدم الضيف" }
+      "title": "عام",
+      "psd": {
+        "description": "تم تثبيت Profile-sync-daemon"
+      },
+      "psdEnabled": {
+        "description": "تم تمكين Profile-sync-daemon"
+      },
+      "oomd": {
+        "description": "تم تمكين Systemd-oomd"
+      },
+      "guestUser": {
+        "description": "تمكين حساب الضيف"
+      }
     },
     "performance": {
-      "title": "أداء",
-      "performanceTweaks": { "description": "تعديلات الأداء" },
-      "ananicyCpp": { "description": "Ananicy C ++ مثبت" },
-      "ananicyCppEnabled": { "description": "تم تمكين ANANISY C ++" },
-      "preload": { "description": "تم تثبيت التحميل المسبق" },
-      "preloadEnabled": { "description": "تم تمكين التحميل المسبق" },
-      "irqbalanceEnabled": { "description": "تم تمكين Irqbalance" }
+      "title": "الأداء",
+      "performanceTweaks": {
+        "description": "تعديلات الأداء"
+      },
+      "ananicyCpp": {
+        "description": "تم تثبيت Ananicy C++"
+      },
+      "ananicyCppEnabled": {
+        "description": "تم تمكين Ananicy C++"
+      },
+      "bpftune": {
+        "description": "تم تثبيت Bpftune"
+      },
+      "bpftuneEnabled": {
+        "description": "تم تمكين Bpftune"
+      },
+      "preload": {
+        "description": "تم تثبيت Preload"
+      },
+      "preloadEnabled": {
+        "description": "تم تمكين Preload"
+      },
+      "irqbalanceEnabled": {
+        "description": "تم تمكين IRQbalance"
+      }
     },
     "powersave": {
-      "title": "توفير السلطة",
-      "powersaveTweaks": { "description": "تعديلات PowerSave" },
-      "tlp": { "description": "TLP مثبت" },
-      "tlpEnabled": { "description": "تمكين TLP" },
-      "autoCpufreq": { "description": "Auto-Cpufreq مثبت" },
-      "autoCpufreqEnabled": { "description": "تمكين Auto-Cpufreq" },
-      "thermald": { "description": "تثبيت الحرارية" },
-      "thermaldEnabled": { "description": "تمكين Thermald" },
-      "powerProfilesDaemon": { "description": "مثبتة ملفات تعريف الطاقة الخفي" },
-      "powerProfilesDaemonEnabled": { "description": "تمكين ملفات تعريف الطاقة الخفي" },
-      "intelUndervolt": { "description": "Intel-undervolt مثبتة" },
-      "intelUndervoltEnabled": { "description": "تم تمكين Intel-undervolt" }
+      "title": "توفير الطاقة",
+      "powersaveTweaks": {
+        "description": "تعديلات توفير الطاقة"
+      },
+      "tlp": {
+        "description": "تم تثبيت TLP"
+      },
+      "tlpEnabled": {
+        "description": "تم تمكين TLP"
+      },
+      "autoCpufreq": {
+        "description": "تم تثبيت Auto-cpufreq"
+      },
+      "autoCpufreqEnabled": {
+        "description": "تم تمكين Auto-cpufreq"
+      },
+      "thermald": {
+        "description": "تم تثبيت Thermald"
+      },
+      "thermaldEnabled": {
+        "description": "تم تمكين Thermald"
+      },
+      "powerProfilesDaemon": {
+        "description": "تم تثبيت Power profiles daemon"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "تم تمكين Power profiles daemon"
+      },
+      "intelUndervolt": {
+        "description": "تم تثبيت Intel-undervolt"
+      },
+      "intelUndervoltEnabled": {
+        "description": "تم تمكين Intel-undervolt"
+      }
     },
     "rightclickEmulation": {
-      "title": "انقر بزر الماوس الأيمن",
-      "evdevLongPressRightClick": { "description": "evdev long اضغط على مضاهاة انقر بزر الماوس الأيمن" },
-      "evdevRce": { "description": "تمكين Evdev RCE" }
+      "title": "محاكاة النقر بالزر الأيمن",
+      "evdevLongPressRightClick": {
+        "description": "محاكاة النقر بالزر الأيمن بالضغط المطول في Evdev"
+      },
+      "evdevRce": {
+        "description": "تم تمكين Evdev RCE"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "قد يسبب وضع الأسماك كقذيفة افتراضية مشكلات مع البرامج الأخرى. يُنصح بتعيينه على أنه افتراضي عبر التكوينات الطرفية بدلاً من ذلك."
+      "hint": "تعيين fish كصدفة افتراضية قد يسبب مشاكل مع برامج أخرى. يُنصح بتعيينها كافتراضية عبر إعدادات الطرفية بدلاً من ذلك."
     }
   },
   "confirmation": {
-    "accept": "يقبل",
-    "reject": "يلغي",
+    "accept": "قبول",
+    "reject": "إلغاء",
     "exitApp": "هل أنت متأكد أنك تريد الخروج من التطبيق؟",
-    "resetConfigsHeader": "إعادة تعيين التكوينات؟",
-    "resetConfigsBody": "هل أنت متأكد من أنك تريد إعادة ضبط التكوينات التالية؟",
-    "exitAppHeader": "تطبيق الخروج؟",
+    "exitAppRunningAction": "هل أنت متأكد أنك تريد الخروج من التطبيق؟ هناك إجراء قيد التشغيل!",
+    "resetConfigsHeader": "إعادة تعيين الإعدادات؟",
+    "resetConfigsBody": "هل أنت متأكد أنك تريد إعادة تعيين الإعدادات التالية؟",
+    "exitAppHeader": "الخروج من التطبيق؟",
     "applyOperations": "تطبيق العمليات؟",
-    "applyOperationsBody": "هل أنت متأكد من أنك تريد تطبيق جميع عمليات المعلقة؟"
+    "applyOperationsBody": "هل أنت متأكد أنك تريد تطبيق جميع العمليات المعلقة؟"
   },
-  "error": { "sudoPassword": "هذا لا يبدو أن كلمة المرور الصحيحة. من فضلك حاول مرة أخرى." },
+  "error": {
+    "sudoPassword": "لا يبدو أن هذه هي كلمة المرور الصحيحة. يرجى المحاولة مرة أخرى."
+  },
   "operation": {
     "removeApps": "إزالة التطبيقات",
     "installApps": "تثبيت التطبيقات",
-    "addGroups": "أضف المستخدم إلى المجموعة",
-    "removeGroup": "إزالة المستخدم من المجموعة",
+    "addGroup": "إضافة مستخدم إلى المجموعة",
+    "removeGroup": "إزالة مستخدم من المجموعة",
     "disableService": "تعطيل الخدمة",
     "enableService": "تمكين الخدمة",
-    "setDefaultShell": "تعيين شل الافتراضي",
+    "setDefaultShell": "تعيين الصدفة الافتراضية",
     "enableHblock": "تمكين Hblock",
     "disableHblock": "تعطيل Hblock",
     "setNewDnsServer": "تعيين خادم DNS جديد",
     "resetDnsServer": "إعادة تعيين خادم DNS",
-    "args": "الحجج",
-    "logs": "سجلات",
-    "remove": "يزيل"
+    "args": "الوسائط (Arguments)",
+    "logs": "السجلات",
+    "remove": "إزالة",
+    "abort": "إلغاء",
+    "run": "شغل الآن"
+  },
+  "systemStatus": {
+    "pendingUpdates": "تحديثات معلقة",
+    "updates": "يحتوي هذا النظام على تحديثات معلقة (انقر للحصول على معلومات)",
+    "pacFiles": "يحتوي هذا النظام على ملفات .pacnew معلقة، يجب عليك التحقق منها ودمجها! (انقر للحصول على معلومات)",
+    "cancel": "إلغاء",
+    "aurUpdates": "تحديث حزم AUR خارج نطاق هذا التطبيق. يرجى استخدام مساعد AUR مثل Paru، ومراجعة ملفات PKGBUILD قبل التثبيت.",
+    "scheduleUpdates": "جدولة التحديثات",
+    "pendingPacdiff": "ملفات pacdiff معلقة",
+    "findMore": "اكتشف كيفية المتابعة",
+    "warnUpdate": "لم يتم تحديث نظامك منذ أسبوعين. يرجى تحديث نظامك لضمان الأمان والاستقرار.",
+    "affectedFiles": "الملفات المتأثرة:",
+    "learnPacdiff": "إذا لم تكن معتادًا على ملفات pacdiff، فتعرف عليها بسرعة.",
+    "openMaintenance": "انقر على الزر أدناه للبدء.",
+    "openMaintenanceButton": "بدء الدمج",
+    "rebootNow": "أعد التشغيل الآن",
+    "rebootNowBody": "هل أنت متأكد أنك تريد إعادة التشغيل الآن؟ تأكد من حفظ كل عملك قبل المتابعة.",
+    "warnReboot": "يوصى بشدة بإعادة تشغيل نظامك بعد تطبيق التحديثات، خاصة عند تحديث الأنوية أو بيئات سطح المكتب.",
+    "proceed": "إليك كيفية المتابعة:",
+    "snapshotCreation": "سيتم إنشاء لقطة Btrfs قبل بدء الدمج.",
+    "proceedMerge": "سيتم فتح Meld لتطبيق التغييرات. على الجانب الأيسر يوجد الملف الجديد، وعلى الجانب الأيمن الملف القديم. انقل أي تغييرات مفيدة تريد دمجها من الجانب الأيسر إلى الجانب الأيمن. انقر فوق زر الحفظ أو CTRL + S عند الانتهاء.",
+    "cautionMerge": "كن على علم بأن وضع تغييرات خاطئة في الملف القديم يمكن أن يعطل نظامك.",
+    "askHelp": "إذا لم تكن متأكدًا، أغلق النافذة دون حفظ واطلب المساعدة في منتدى Garuda Linux.",
+    "runAurUpdates": "تشغيل تحديثات AUR خارجيًا"
+  },
+  "operationManager": {
+    "refusing": "رفض التنفيذ",
+    "pendingOperationsRunning": "هناك عمليات قيد التشغيل، سأقوم فقط بإزالة تلك التي تم إنجازها بالفعل.",
+    "thisOperationRunning": "هل فقدت عقلك؟ هذه العملية قيد التشغيل حاليًا!"
+  },
+  "os-interact": {
+    "packages": "تغيير الحزم المثبتة",
+    "packages-aur": "تغيير حزم AUR",
+    "services": "تغيير الخدمات",
+    "services-user": "تغيير خدمات المستخدم",
+    "groups": "تغيير مجموعات المستخدمين",
+    "locales": "تغيير اللغات المحلية (Locales) الممكنة"
+  },
+  "packages": {
+    "title": "الحزم",
+    "internet": "الإنترنت",
+    "documents": "المستندات",
+    "multimedia": "الوسائط المتعددة",
+    "science": "العلوم",
+    "security": "الأمن",
+    "other": "أخرى",
+    "clear": "مسح",
+    "search": "بحث",
+    "url": "الرابط (URL)",
+    "selected": "محدد",
+    "description": "الوصف",
+    "name": "الاسم",
+    "searchKey": "أدخل كلمة بحث",
+    "notFound": "لم يتم العثور على حزم"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "بعض وحدات DKMS معطلة",
+    "dkmsModulesBrokenTip": "انقر هنا لجدولة تثبيت وحدات DKMS المعطلة",
+    "dkmsModulesMissing": "بعض وحدات DKMS مفقودة",
+    "dkmsModulesMissingTip": "وحدات DKMS مفقودة",
+    "headers": "Headers",
+    "headersMissing": "Headers النواة مفقودة",
+    "headersMissingTip": "انقر هنا لجدولة تثبيت Headers المفقودة",
+    "active": "النواة النشطة:"
+  },
+  "languagePacks": {
+    "locale": "اللغة المحلية (Locale)",
+    "selected": "محدد",
+    "base": "الحزمة الأساسية",
+    "notFound": "لم يتم العثور على حزم لغة",
+    "pkgname": "اسم الحزمة",
+    "description": "هذه هي حزم اللغة للحزم المثبتة لديك، وعادةً ما توفر ترجمات لواجهة المستخدم الرسومية (GUI)."
+  },
+  "settings": {
+    "title": "إعدادات ",
+    "titleTwo": "التطبيق",
+    "leftButtons": "إظهار أزرار النافذة على اليسار",
+    "copyDiagnostics": "نسخ التشخيصات إلى الحافظة",
+    "darkMode": "تمكين الوضع الداكن",
+    "language": "تكوين اللغة النشطة",
+    "autoStart": "بدء تشغيل التطبيق تلقائيًا",
+    "logLevel": "حدد مستوى السجل",
+    "systemdUserContext": "إظهار خدمات Systemd للمستخدم",
+    "autoRefresh": "تمكين التحديث التلقائي لخدمات systemd",
+    "showMainLinks": "إظهار الروابط في الصفحة الرئيسية",
+    "themeLabel": "موضوع التصميم الأساسي",
+    "toggleOptions": "تبديل الخيارات",
+    "selectOptions": "الاختيارات"
+  },
+  "locales": {
+    "apply": "جدولة تغييرات اللغة المحلية المثبتة",
+    "description": "اللغات المحلية (Locales) على اليمين مثبتة على نظامك. يمكنك تحديد أي منها تريد الاحتفاظ به وأي منها تريد إزالته.",
+    "available": "متاح",
+    "selected": "محدد",
+    "task": "تغيير لغة النظام المحلية",
+    "selectLocale": "حدد لغتك المفضلة على مستوى النظام"
   }
 }

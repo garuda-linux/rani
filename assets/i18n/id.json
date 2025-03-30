@@ -1,308 +1,591 @@
 {
   "menu": {
-    "welcome": "Selamat datang",
+    "welcome": "Selamat Datang",
     "maintenance": "Pemeliharaan",
     "systemTools": "Pengaturan Sistem",
     "components": "Komponen",
-    "gaming": "Aplikasi game",
-    "boot": "Alat boot",
+    "gaming": "Gaming",
+    "boot": "Alat Boot",
     "diagnostics": "Diagnostik",
-    "network": "Alat jaringan",
-    "settings": {
-      "title": "Pengaturan",
-      "windowButtonsLeft": "Tampilkan tombol jendela kiri",
-      "copyDiagnostics": "Salin diagnostik ke clipboard",
-      "darkMode": "Aktifkan mode gelap",
-      "language": "Konfigurasikan bahasa aktif"
-    },
+    "network": "Alat Jaringan",
+    "settings": "Pengaturan Aplikasi",
     "help": {
-      "title": "Membantu",
+      "title": "Bantuan",
       "getHelpForum": "Dapatkan bantuan di forum",
       "getHelpWiki": "Cari konten di wiki",
-      "getHelpArchWiki": "Cari Konten di Arch Wiki",
-      "garudaStatus": "Periksa status waktu up up",
-      "about": "Tentang Rani Garuda",
-      "aboutBody": "Garuda's Rani adalah alat pemeliharaan dan diagnostik sistem untuk Garuda Linux. Ini dirancang untuk membantu pengguna mempertahankan sistem mereka dan mendiagnosis masalah. Dibangun menggunakan Tauri dan Angular.",
-      "callExorcist": "Hubungi The Exorcist",
-      "callExorcistBody": "Anda harus cukup putus asa untuk mengklik tombol ini! Saya mengatur beberapa voodoo khusus untuk Anda, jika Anda masih memiliki masalah dengan aplikasi, silakan laporkan di forum Garuda Linux atau pelacak edisi kami."
+      "getHelpArchWiki": "Cari konten di Arch Wiki",
+      "garudaStatus": "Periksa status uptime",
+      "about": "Tentang Garuda Rani",
+      "aboutBody": "Garuda Rani adalah alat pemeliharaan sistem dan diagnostik untuk Garuda Linux. Ini dirancang untuk membantu pengguna memelihara sistem mereka dan mendiagnosis masalah. Dibangun menggunakan Tauri dan Angular.",
+      "callExorcist": "Panggil pengusir setan",
+      "callExorcistTitle": "Memanggil pengusir setan!",
+      "callExorcistBody": "Kamu pasti sangat putus asa untuk mengklik tombol ini! Saya telah menyiapkan beberapa voodoo khusus untukmu, jika kamu masih mengalami masalah dengan aplikasi ini, laporkan di forum Garuda Linux atau pelacak masalah kami."
     },
-    "terminal": "Terminal",
+    "terminal": "Tampilkan terminal",
+    "terminalRunning": "Tugas berjalan",
+    "terminalTasks": "Jalankan tugas",
     "pending": "Tertunda"
   },
   "diagnostics": {
-    "title": "Info debug",
+    "title": "Info debug ",
     "titleTwo": "dan diagnostik",
-    "subtitle": "Temukan informasi yang Anda butuhkan untuk men -debug sistem Anda",
-    "inxi": "Info Umum (INXI)",
-    "systemctl": "Layanan Sistem (SystemCTL)",
-    "journalctl": "Log Sistem (Journalctl)",
-    "dmesg": "Log Kernel (DMESG)",
+    "subtitle": "Temukan informasi yang kamu butuhkan untuk men-debug sistemmu",
+    "inxi": "Info umum (inxi)",
+    "systemctl": "Layanan sistem (systemctl)",
+    "journalctl": "Log sistem (journalctl)",
+    "dmesg": "Log kernel (dmesg)",
     "full": "Diagnostik penuh",
     "upload": "Unggah ke PrivateBin",
-    "pacman": "Log Pacman Terbaru",
+    "failedCmdHeader": "Gagal menjalankan perintah",
+    "failedCmd": "Terjadi kesalahan dan tidak ada diagnostik yang bisa diambil",
+    "pacman": "Log Pacman terbaru",
     "copied": "Berhasil disalin ke clipboard",
-    "success": "Kesuksesan",
-    "uploadSuccess": "Berhasil diunggah ke PrivateBin"
+    "success": "Sukses",
+    "uploadSuccess": "Berhasil diunggah ke PrivateBin, URL disalin ke clipboard"
   },
-  "lang": { "title": "Pemilihan bahasa", "tooltip": "Pilih bahasa pilihan Anda" },
+  "lang": {
+    "title": "Pilihan Bahasa",
+    "tooltip": "Pilih bahasa pilihanmu"
+  },
   "welcome": {
-    "title": "Selamat datang di Garuda",
-    "titleTwo": "Linux",
-    "subtitle": "Distro Linux Ultimate untuk bermain game dan multimedia",
+    "title": "Selamat Datang di ",
+    "titleTwo": "Garuda Linux",
+    "subtitle": "Distro Linux terbaik untuk gaming dan multimedia",
     "maintenance": "Pemeliharaan",
-    "maintenanceSub": "Jaga sistem Anda dalam kondisi yang baik",
+    "maintenanceSub": "Jaga sistemmu tetap dalam kondisi baik",
     "systemTools": "Pengaturan Sistem",
-    "systemToolsSub": "Konfigurasikan sistem Anda",
-    "gaming": "Aplikasi game",
-    "gamingSub": "Mainkan Game Favorit Anda",
-    "bootTools": "Alat boot",
-    "bootToolsSub": "Kelola Pengaturan Boot Anda",
-    "network": "Alat jaringan",
-    "networkSub": "Kelola Pengaturan Jaringan Anda",
+    "systemToolsSub": "Konfigurasi sistemmu",
+    "gaming": "Aplikasi Gaming",
+    "gamingSub": "Mainkan game favoritmu",
+    "bootTools": "Alat Boot",
+    "bootToolsSub": "Kelola pengaturan bootmu",
+    "network": "Alat Jaringan",
+    "networkSub": "Kelola pengaturan jaringanmu",
     "diagnostics": "Diagnostik",
-    "diagnosticsSub": "Periksa kesehatan sistem Anda",
-    "install": "Pasang Garuda Linux",
-    "installSub": "Dapatkan Garuda Linux di sistem Anda",
+    "diagnosticsSub": "Periksa kesehatan sistemmu",
+    "install": "Instal Garuda Linux",
+    "installSub": "Dapatkan Garuda Linux di sistemmu",
     "chroot": "Chroot ke Garuda",
-    "chrootSub": "Chroot ke instalasi Garuda Anda",
-    "startpage": "Startpage",
-    "startpageSub": "Buka startpage Linux Garuda",
+    "chrootSub": "Chroot ke instalasi Garuda kamu",
+    "startpage": "Halaman Awal",
+    "startpageSub": "Buka halaman awal Garuda Linux",
     "setupAssistant": "Asisten Pengaturan",
-    "setupAssistantSub": "Jalankan asisten pengaturan Garuda"
+    "setupAssistantSub": "Jalankan asisten pengaturan Garuda",
+    "hello": "Halo",
+    "error": "Terjadi kesalahan."
   },
   "gaming": {
-    "title": "Bermain game",
-    "titleTwo": "aplikasi",
-    "subtitle": "Mari kita mulai dengan beberapa aplikasi game!",
+    "title": "Aplikasi ",
+    "titleTwo": "Gaming",
+    "subtitle": "Mari kita mulai dengan beberapa aplikasi gaming!",
     "launchers": "Peluncur Game",
-    "wine": "ANGGUR",
-    "tools": "Alat game",
+    "loading": "Memuat...",
+    "wine": "WINE",
+    "tools": "Alat Gaming",
     "emulators": "Emulator",
-    "controllers": "Dukungan pengontrol",
-    "games": "Pertandingan",
-    "misc": "Aneka ragam"
+    "controllers": "Dukungan Kontroler",
+    "games": "Game",
+    "misc": "Lain-lain",
+    "bluez": "Umumnya diperlukan untuk mengenali kontroler PS nirkabel",
+    "xboxdrv": "Driver kontroler Xbox, hanya gunakan jika driver kernel tidak berfungsi!",
+    "wineWow64": "Versi WINE dengan dukungan 64-bit tanpa harus menginstal pustaka 32-bit",
+    "wineStagingWow64": "Versi staging WINE dengan dukungan 32-bit tanpa harus menginstal pustaka 32-bit",
+    "wineMeta": "Meta package untuk menginstal WINE dan semua dependensi yang diperlukan"
   },
   "maintenance": {
-    "title": "Sistem",
-    "titleTwo": "pemeliharaan",
-    "subtitle": "Jaga sistem Anda dalam kondisi yang baik",
-    "update": "Perbarui sistem Anda",
+    "title": "Pemeliharaan ",
+    "titleTwo": "Sistem",
+    "subtitle": "Jaga sistemmu tetap dalam kondisi baik",
+    "update": "Perbarui sistemmu",
     "addPending": "Tambahkan tertunda",
     "removePending": "Hapus tertunda",
     "runNow": "Jalankan sekarang",
+    "failedReset": "Kesalahan mengatur ulang file konfigurasi",
+    "failedResetFile": "Terjadi kesalahan saat mengatur ulang {{file}}",
     "editRepos": "Edit repositori",
-    "onlyDirect": "Tindakan ini tidak dapat diantri dan perlu dijalankan secara langsung.",
-    "cleanCache": "Bersih Cache",
-    "cleanCacheSub": "Hapus semua paket yang di -cache",
-    "updateSystem": "Perbarui Sistem",
-    "updateSystemSub": "Perbarui sistem Anda melalui Garuda-update",
-    "editReposSub": "Edit repositori Anda dengan kecepatan",
-    "addPendingSub": "Tambahkan operasi yang tertunda",
-    "clearOrphans": "Yatim piatu yang jelas",
-    "clearOrphansSub": "Hapus paket yatim piatu",
-    "refreshMirrors": "Segarkan cermin",
-    "refreshMirrorsSub": "Segarkan mirrorlist Anda",
-    "removeLock": "Lepaskan kunci Pacman",
-    "removeLockSub": "Hapus File Kunci Pacman",
-    "reinstallPackages": "Pasang kembali paket",
-    "reinstallPackagesSub": "Pasang kembali semua paket di sistem Anda",
-    "btrfsAssistant": "Asisten BTRFS",
-    "btrfsAssistantSub": "Kelola snapshot BTRFS Anda dan jalankan tugas pemeliharaan",
-    "updateRemoteFullFix": "Perbarui Garuda Perbaikan Lengkap",
-    "updateRemoteFullFixSub": "Setel ulang Pacman dan instal ulang semua paket di OS Anda",
-    "updateRemoteKeyring": "Garuda memperbarui keyring",
+    "onlyDirect": "Tindakan ini tidak dapat diantrekan dan harus dijalankan secara langsung.",
+    "cleanCache": "Bersihkan cache",
+    "cleanCacheSub": "Hapus semua paket yang di-cache",
+    "updateSystem": "Perbarui sistem",
+    "taskRunningHeader": "Kesalahan menjalankan tindakan pemeliharaan",
+    "taskRunning": "Sudah ada tugas yang berjalan, tunggu hingga selesai terlebih dahulu.",
+    "updateSystemSub": "Perbarui sistemmu melalui garuda-update",
+    "editReposSub": "Edit repositorimu dengan Pace",
+    "addPendingSub": "Tambahkan operasi tertunda",
+    "clearOrphans": "Bersihkan orphan",
+    "clearOrphansSub": "Hapus paket orphan",
+    "refreshMirrors": "Segarkan mirror",
+    "refreshMirrorsSub": "Segarkan daftar mirrormu",
+    "removeLock": "Hapus kunci Pacman",
+    "removeLockSub": "Hapus file kunci pacman",
+    "reinstallPackages": "Instal ulang paket",
+    "reinstallPackagesSub": "Instal ulang semua paket di sistemmu",
+    "reinstallDkmsModules": "Instal ulang modul DKMS",
+    "btrfsAssistant": "Btrfs Assistant",
+    "btrfsAssistantSub": "Kelola snapshot BTRFS kamu dan jalankan tugas pemeliharaan",
+    "mergePacDiff": "Gabungkan file pacdiff",
+    "mergePacDiffSub": "Gabungkan file .pacnew dan .pacsave secara interaktif",
+    "updateRemoteFullFix": "Perbaikan penuh pembaruan Garuda",
+    "updateRemoteFullFixSub": "Setel ulang Pacman dan instal ulang semua paket di OS kamu",
+    "updateRemoteKeyring": "Keyring pembaruan Garuda",
     "updateRemoteKeyringSub": "Segarkan keyring tanpa mengatur ulang pacman.conf",
-    "updateRemoteFix": "Perbaikan Perbarui Garuda",
-    "updateRemoteFixSub": "Setel ulang PacMan.conf dan Refresh Keyrings",
-    "updateRemoteResetSnapper": "Setel ulang kakap",
-    "updateRemoteResetSnapperSub": "Hapus semuanya kakap dan buat ulang konfigurasi",
-    "updateRemoteResetAudio": "Audio Reset",
-    "updateRemoteResetAudioSub": "Pasang kembali/setel ulang konfigurasi audio Pipewire",
-    "resetTooltip": "File atau folder berikut akan diatur ulang ke status default mereka:",
+    "updateRemoteFix": "Perbaikan pembaruan Garuda",
+    "updateRemoteFixSub": "Setel ulang pacman.conf dan segarkan keyring",
+    "updateRemoteResetSnapper": "Setel ulang snapper",
+    "updateRemoteResetSnapperSub": "Hapus semua Snapper dan buat ulang konfigurasinya",
+    "updateRemoteResetAudio": "Setel ulang audio",
+    "updateRemoteResetAudioSub": "Instal ulang/setel ulang konfigurasi audio PipeWire",
+    "resetTooltip": "File atau folder berikut akan diatur ulang ke status defaultnya:",
     "resetConfigs": "Setel ulang konfigurasi ke status default",
     "common": "Pemeliharaan umum",
-    "garudaUpdate": "Garuda Update Rescue Tools"
+    "garudaUpdate": "Alat penyelamatan pembaruan Garuda"
   },
   "sudo": {
-    "title": "Diperlukan otentikasi",
-    "subtitle": "Harap masukkan kata sandi Anda untuk melanjutkan",
-    "save": "Cache dalam sesi ini",
-    "password": "Kata sandi",
-    "cancel": "Membatalkan",
+    "title": "Otentikasi diperlukan",
+    "subtitle": "Silakan masukkan kata sandimu untuk melanjutkan",
+    "save": "Cache di sesi ini",
+    "password": "Kata Sandi",
+    "cancel": "Batal",
     "useOnce": "Gunakan sekali saja"
   },
   "terminal": {
     "title": "Terminal",
     "runActions": "Jalankan tindakan",
     "removeAll": "Hapus semua tindakan",
+    "abortAll": "Batalkan semua tindakan",
     "noOutput": "Tidak ada output",
-    "outputExists": "Sepertinya sudah ada tindakan yang berjalan. Harap tunggu sampai selesai sebelum mencoba melihat log.",
-    "opRunning": "Operasi sudah berjalan."
+    "outputExists": "Sepertinya sudah ada tindakan yang berjalan. Tunggu hingga selesai sebelum mencoba melihat log.",
+    "opRunning": "Operasi sudah berjalan.",
+    "clearCachedDataTitle": "Cache output dibersihkan",
+    "clearCachedData": "Cache output telah dibersihkan.",
+    "clearOutputCache": "Bersihkan cache output",
+    "copyOutput": "Salin output terminal",
+    "copyToClipboardTitle": "Disalin ke clipboard",
+    "copyToClipboard": "Output telah berhasil disalin ke clipboardmu.",
+    "uploadPrivateBin": "Unggah ke PrivateBin"
   },
   "systemdServices": {
     "notFound": "Tidak ada layanan yang ditemukan",
-    "description": "Keterangan",
-    "unit": "Nama unit",
-    "load": "Memuat",
+    "description": "Deskripsi",
+    "unit": "Nama Unit",
+    "load": "Muat",
     "active": "Aktif",
-    "state": "Negara",
+    "state": "Status",
     "searchKey": "Masukkan kata kunci pencarian",
-    "clear": "Jernih",
+    "clear": "Bersihkan",
     "actions": "Tindakan",
-    "show": "Menunjukkan",
-    "start": "Awal",
-    "stop": "Berhenti",
-    "mask": "Masker",
-    "unmask": "Membuka kedok",
+    "show": "Tampilkan",
+    "start": "Mulai",
+    "stop": "Hentikan",
+    "mask": "Mask",
+    "unmask": "Unmask",
     "logs": "Log",
-    "restart": "Restart",
-    "reload": "Muat ulang",
-    "enable": "Memungkinkan",
-    "disable": "Cacat",
-    "autoRefresh": "Refresh Otomatis",
-    "error": "Terjadi kesalahan saat mengambil layanan, silakan coba lagi.",
+    "restart": "Mulai Ulang",
+    "reload": "Muat Ulang",
+    "enable": "Aktifkan",
+    "disable": "Nonaktifkan",
+    "autoRefresh": "Segarkan otomatis",
+    "error": "Terjadi kesalahan saat mengambil layanan, coba lagi.",
     "errorTitle": "Kesalahan mengambil layanan",
     "systemContext": "Tampilkan layanan sistem",
     "userContext": "Tampilkan layanan pengguna",
-    "includeDisabled": "Sertakan dinonaktifkan",
-    "excludeDisabled": "Kecualikan dinonaktifkan"
+    "includeDisabled": "Sertakan yang dinonaktifkan",
+    "excludeDisabled": "Kecualikan yang dinonaktifkan"
   },
   "systemTools": {
-    "title": "Sistem",
-    "titleTwo": "Pengaturan",
-    "systemdServices": "Layanan SystemD",
+    "title": "Pengaturan ",
+    "titleTwo": "Sistem",
+    "systemdServices": "Layanan Systemd",
     "systemSettings": "Pengaturan Sistem",
-    "components": "Komponen sistem",
+    "components": "Komponen Sistem",
+    "locales": "Lokal",
+    "kernels": "Kernel",
+    "packages": "Paket Lebih Lanjut",
     "audio": {
       "title": "Audio",
-      "alsa": { "description": "Dukungan ALSA" },
-      "jack": { "description": "Dukungan Jack" },
-      "pulseaudio": { "description": "Dukungan Pulseaudio" },
-      "pipewire": { "description": "Dukungan Pipewire" },
-      "userRealtime": { "description": "Pengguna di Grup Realtime" }
+      "alsa": {
+        "description": "Dukungan ALSA"
+      },
+      "jack": {
+        "description": "Dukungan JACK"
+      },
+      "pulseaudio": {
+        "description": "Dukungan PulseAudio"
+      },
+      "pipewire": {
+        "description": "Dukungan PipeWire"
+      },
+      "userRealtime": {
+        "description": "Pengguna dalam grup realtime"
+      },
+      "jamesdsp": {
+        "description": "JamesDSP terinstal"
+      }
     },
     "virtualization": {
       "title": "Virtualisasi",
-      "qemu": { "description": "Dukungan QEMU" },
-      "kvm": { "description": "Dukungan KVM" },
-      "virtManager": { "description": "Dukungan Virt-Manager" },
-      "libvirtdEnabled": { "description": "Libvirtd diaktifkan" },
-      "userVboxUsers": { "description": "Pengguna di grup VBoxUsers" },
-      "virtualbox": { "description": "Dukungan VirtualBox" },
-      "userLibvirt": { "description": "Pengguna di grup libvirt" },
-      "userKvm": { "description": "Pengguna di grup KVM" },
-      "virtualboxKvm": { "description": "VirtualBox dengan dukungan KVM" },
-      "docker": { "description": "Dukungan Docker" },
-      "userDocker": { "description": "Pengguna di Group Docker" },
-      "dockerEnabled": { "description": "Docker diaktifkan" },
-      "podman": { "description": "Dukungan Podman" },
-      "podmanEnabled": { "description": "Podman diaktifkan" }
+      "qemu": {
+        "description": "QEMU terinstal"
+      },
+      "kvm": {
+        "description": "Dukungan KVM"
+      },
+      "virtManager": {
+        "description": "Dukungan Virt-manager"
+      },
+      "libvirtdEnabled": {
+        "description": "Libvirtd diaktifkan"
+      },
+      "userVboxUsers": {
+        "description": "Pengguna dalam grup vboxusers"
+      },
+      "virtualbox": {
+        "description": "Dukungan VirtualBox"
+      },
+      "userLibvirt": {
+        "description": "Pengguna dalam grup libvirt"
+      },
+      "userKvm": {
+        "description": "Pengguna dalam grup kvm"
+      }
+    },
+    "containers": {
+      "title": "Kontainer",
+      "docker": {
+        "description": "Docker terinstal"
+      },
+      "dockerEnabled": {
+        "description": "Docker diaktifkan"
+      },
+      "dockerCompose": {
+        "description": "Docker Compose terinstal"
+      },
+      "userDocker": {
+        "description": "Pengguna dalam grup docker"
+      },
+      "podman": {
+        "description": "Podman terinstal"
+      },
+      "podmanDocker": {
+        "description": "Emulasi Docker via Podman"
+      },
+      "podmanDesktop": {
+        "description": "Podman Desktop terinstal"
+      },
+      "distrobox": {
+        "description": "DistroBox terinstal"
+      },
+      "boxbuddy": {
+        "description": "BoxBuddy terinstal"
+      }
     },
     "network": {
       "title": "Jaringan",
-      "networkManager": { "description": "Dukungan NetworkManager" },
-      "networkManagerEnabled": { "description": "NetworkManager diaktifkan" },
-      "modemManagerEnabled": { "description": "ModemManager diaktifkan" }
+      "networkManager": {
+        "description": "Dukungan NetworkManager"
+      },
+      "networkManagerEnabled": {
+        "description": "NetworkManager diaktifkan"
+      },
+      "modemManagerEnabled": {
+        "description": "ModemManager diaktifkan"
+      }
     },
     "bluetooth": {
       "title": "Bluetooth",
-      "bluetooth": { "description": "Dukungan Bluetooth" },
-      "bluetoothEnabled": { "description": "Diaktifkan Bluetooth" },
-      "userBluetooth": { "description": "Pengguna di Bluetooth Group" },
-      "autoConnect": { "description": "Koneksi otomatis" },
-      "autoConnectEnabled": { "description": "Auto Connect Diaktifkan" }
+      "bluetooth": {
+        "description": "Dukungan Bluetooth"
+      },
+      "bluetoothEnabled": {
+        "description": "Bluetooth diaktifkan"
+      },
+      "userBluetooth": {
+        "description": "Pengguna dalam grup bluetooth"
+      },
+      "autoConnect": {
+        "description": "Koneksi otomatis terinstal"
+      },
+      "autoConnectEnabled": {
+        "description": "Koneksi otomatis diaktifkan"
+      }
     },
     "printing": {
       "title": "Pencetakan",
-      "printingSupport": { "description": "Dukungan Pencetakan" },
-      "cupsEnabled": { "description": "Piala diaktifkan" },
-      "scanningSupport": { "description": "Dukungan pemindaian" },
-      "sanedEnabled": { "description": "Diaktifkan Saned" },
-      "userCups": { "description": "Pengguna dalam grup CUPS" },
-      "userScanner": { "description": "Pengguna di Grup Pemindai" },
-      "userSys": { "description": "Pengguna di SYS Group" }
+      "printingSupport": {
+        "description": "Dukungan pencetakan"
+      },
+      "cupsEnabled": {
+        "description": "CUPS diaktifkan"
+      },
+      "scanningSupport": {
+        "description": "Dukungan pemindaian"
+      },
+      "sanedEnabled": {
+        "description": "saned diaktifkan"
+      },
+      "userCups": {
+        "description": "Pengguna dalam grup cups"
+      },
+      "userScanner": {
+        "description": "Pengguna dalam grup scanner"
+      },
+      "userLp": {
+        "description": "Pengguna dalam grup lp"
+      }
     },
     "firewall": {
       "title": "Firewall",
-      "firewalld": { "description": "Dukungan Firewalld" },
-      "firewalldEnabled": { "description": "Firewalld diaktifkan" },
-      "ufw": { "description": "Dukungan UFW" },
-      "ufwEnabled": { "description": "Diaktifkan UFW" },
-      "opensnitch": { "description": "Dukungan OpenSnitch" },
-      "opensnitchEnabled": { "description": "OpenSnitch diaktifkan" }
+      "firewalld": {
+        "description": "Firewalld terinstal"
+      },
+      "firewalldEnabled": {
+        "description": "firewalld diaktifkan"
+      },
+      "ufw": {
+        "description": "UFW terinstal"
+      },
+      "ufwEnabled": {
+        "description": "UFW diaktifkan"
+      },
+      "opensnitch": {
+        "description": "OpenSnitch terinstal"
+      },
+      "opensnitchEnabled": {
+        "description": "OpenSnitch diaktifkan"
+      }
+    },
+    "misc": {
+      "title": "Lain-lain",
+      "gns": {
+        "description": "Garuda Nix Subsystem terinstal"
+      }
     }
   },
   "systemSettings": {
     "defaultShellConfigs": "Instal konfigurasi default",
     "defaultDns": "Atur DNS default",
     "defaultShell": "Atur shell login",
-    "enableHblock": "Aktifkan hblock",
+    "enableHblock": "Aktifkan Hblock",
+    "enableIwd": "Gunakan IWD alih-alih wpa_supplicant",
     "common": {
       "title": "Umum",
-      "psd": { "description": "Profil-Sync-Daemon Diinstal" },
-      "psdEnabled": { "description": "Diaktifkan Profil-Sync-Daemon" },
-      "oomd": { "description": "Diaktifkan Systemd-AoMD" },
-      "guestUser": { "description": "Aktifkan pengguna tamu" }
+      "psd": {
+        "description": "Profile-sync-daemon terinstal"
+      },
+      "psdEnabled": {
+        "description": "Profile-sync-daemon diaktifkan"
+      },
+      "oomd": {
+        "description": "Systemd-oomd diaktifkan"
+      },
+      "guestUser": {
+        "description": "Aktifkan pengguna tamu"
+      }
     },
     "performance": {
-      "title": "Pertunjukan",
-      "performanceTweaks": { "description": "Performa tweak" },
-      "ananicyCpp": { "description": "Ananicy C ++ terpasang" },
-      "ananicyCppEnabled": { "description": "Ananicy C ++ diaktifkan" },
-      "preload": { "description": "Preload terpasang" },
-      "preloadEnabled": { "description": "Diaktifkan preload" },
-      "irqbalanceEnabled": { "description": "Diaktifkan irqalance" }
+      "title": "Performa",
+      "performanceTweaks": {
+        "description": "Tweak performa"
+      },
+      "ananicyCpp": {
+        "description": "Ananicy C++ terinstal"
+      },
+      "ananicyCppEnabled": {
+        "description": "Ananicy C++ diaktifkan"
+      },
+      "bpftune": {
+        "description": "Bpftune terinstal"
+      },
+      "bpftuneEnabled": {
+        "description": "Bpftune diaktifkan"
+      },
+      "preload": {
+        "description": "Preload terinstal"
+      },
+      "preloadEnabled": {
+        "description": "Preload diaktifkan"
+      },
+      "irqbalanceEnabled": {
+        "description": "IRQbalance diaktifkan"
+      }
     },
     "powersave": {
-      "title": "Penghematan daya",
-      "powersaveTweaks": { "description": "PowerSave tweak" },
-      "tlp": { "description": "TLP terpasang" },
-      "tlpEnabled": { "description": "Diaktifkan TLP" },
-      "autoCpufreq": { "description": "AUTO-CPUFREQ terpasang" },
-      "autoCpufreqEnabled": { "description": "Auto-Cpufreq diaktifkan" },
-      "thermald": { "description": "Terpasang Thermald" },
-      "thermaldEnabled": { "description": "Diaktifkan Thermald" },
-      "powerProfilesDaemon": { "description": "Daemon profil daya terpasang" },
-      "powerProfilesDaemonEnabled": { "description": "Daemon Profil Daya diaktifkan" },
-      "intelUndervolt": { "description": "Intel-undervolt terpasang" },
-      "intelUndervoltEnabled": { "description": "Intel-Undervolt diaktifkan" }
+      "title": "Penghematan Daya",
+      "powersaveTweaks": {
+        "description": "Tweak penghematan daya"
+      },
+      "tlp": {
+        "description": "TLP terinstal"
+      },
+      "tlpEnabled": {
+        "description": "TLP diaktifkan"
+      },
+      "autoCpufreq": {
+        "description": "Auto-cpufreq terinstal"
+      },
+      "autoCpufreqEnabled": {
+        "description": "Auto-cpufreq diaktifkan"
+      },
+      "thermald": {
+        "description": "Thermald terinstal"
+      },
+      "thermaldEnabled": {
+        "description": "Thermald diaktifkan"
+      },
+      "powerProfilesDaemon": {
+        "description": "Daemon profil daya terinstal"
+      },
+      "powerProfilesDaemonEnabled": {
+        "description": "Daemon profil daya diaktifkan"
+      },
+      "intelUndervolt": {
+        "description": "Intel-undervolt terinstal"
+      },
+      "intelUndervoltEnabled": {
+        "description": "Intel-undervolt diaktifkan"
+      }
     },
     "rightclickEmulation": {
       "title": "Emulasi klik kanan",
-      "evdevLongPressRightClick": { "description": "Evdev Tekan Panjang Emulasi Klik Kanan" },
-      "evdevRce": { "description": "Evdev rCE diaktifkan" }
+      "evdevLongPressRightClick": {
+        "description": "Emulasi klik kanan tekan lama Evdev"
+      },
+      "evdevRce": {
+        "description": "Evdev RCE diaktifkan"
+      }
     }
   },
   "shells": {
     "fish": {
-      "hint": "Menetapkan ikan sebagai shell default dapat menyebabkan masalah dengan program lain. Disarankan untuk mengaturnya sebagai default melalui konfigurasi terminal sebagai gantinya."
+      "hint": "Mengatur fish sebagai shell default mungkin menyebabkan masalah dengan program lain. Disarankan untuk mengaturnya sebagai default melalui konfigurasi terminal."
     }
   },
   "confirmation": {
-    "accept": "Menerima",
-    "reject": "Membatalkan",
-    "exitApp": "Apakah Anda yakin ingin keluar dari aplikasi?",
-    "resetConfigsHeader": "Reset konfigurasi?",
-    "resetConfigsBody": "Anda yakin ingin mengatur ulang konfigurasi berikut?",
-    "exitAppHeader": "Aplikasi Keluar?",
-    "applyOperations": "Menerapkan operasi?",
-    "applyOperationsBody": "Apakah Anda yakin ingin menerapkan semua operasi yang tertunda?"
+    "accept": "Terima",
+    "reject": "Batal",
+    "exitApp": "Apakah kamu yakin ingin keluar dari aplikasi?",
+    "exitAppRunningAction": "Apakah kamu yakin ingin keluar dari aplikasi? Ada tindakan yang sedang berjalan!",
+    "resetConfigsHeader": "Atur ulang konfigurasi?",
+    "resetConfigsBody": "Apakah kamu yakin ingin mengatur ulang konfigurasi berikut?",
+    "exitAppHeader": "Keluar dari aplikasi?",
+    "applyOperations": "Terapkan operasi?",
+    "applyOperationsBody": "Apakah kamu yakin ingin menerapkan semua operasi yang tertunda?"
   },
-  "error": { "sudoPassword": "Ini sepertinya bukan kata sandi yang benar. Tolong coba lagi." },
+  "error": {
+    "sudoPassword": "Sepertinya ini bukan kata sandi yang benar. Coba lagi."
+  },
   "operation": {
     "removeApps": "Hapus aplikasi",
     "installApps": "Instal aplikasi",
-    "addGroups": "Tambahkan pengguna ke grup",
+    "addGroup": "Tambahkan pengguna ke grup",
     "removeGroup": "Hapus pengguna dari grup",
     "disableService": "Nonaktifkan layanan",
     "enableService": "Aktifkan layanan",
     "setDefaultShell": "Atur shell default",
-    "enableHblock": "Aktifkan hblock",
-    "disableHblock": "Nonaktifkan hblock",
+    "enableHblock": "Aktifkan Hblock",
+    "disableHblock": "Nonaktifkan Hblock",
     "setNewDnsServer": "Atur server DNS baru",
     "resetDnsServer": "Setel ulang server DNS",
     "args": "Argumen",
     "logs": "Log",
-    "remove": "Menghapus"
+    "remove": "Hapus",
+    "abort": "Batalkan",
+    "run": "Jalankan sekarang"
+  },
+  "systemStatus": {
+    "pendingUpdates": "Pembaruan tertunda",
+    "updates": "Sistem ini memiliki pembaruan tertunda (klik untuk info)",
+    "pacFiles": "Sistem ini memiliki file .pacnew tertunda, kamu harus memeriksa dan menggabungkannya! (klik untuk info)",
+    "cancel": "Batal",
+    "aurUpdates": "Memperbarui paket AUR di luar cakupan aplikasi ini. Gunakan pembantu AUR seperti Paru, dan tinjau file PKGBUILD sebelum instalasi.",
+    "scheduleUpdates": "Jadwalkan pembaruan",
+    "pendingPacdiff": "File pacdiff tertunda",
+    "findMore": "Cari tahu cara melanjutkan",
+    "warnUpdate": "Sistemmu belum diperbarui dalam 2 minggu. Perbarui sistemmu untuk memastikan keamanan dan stabilitas.",
+    "affectedFiles": "File yang terpengaruh:",
+    "learnPacdiff": "Jika kamu tidak terbiasa dengan file pacdiff, cari tahu tentangnya dengan cepat.",
+    "openMaintenance": "Klik tombol di bawah untuk memulai.",
+    "openMaintenanceButton": "Mulai menggabungkan",
+    "rebootNow": "Mulai ulang sekarang",
+    "rebootNowBody": "Apakah kamu yakin ingin memulai ulang sekarang? Pastikan untuk menyimpan semua pekerjaanmu sebelum melanjutkan.",
+    "warnReboot": "Sangat disarankan untuk memulai ulang sistem setelah menerapkan pembaruan, terutama saat memperbarui kernel atau lingkungan desktop.",
+    "proceed": "Berikut cara melanjutkannya:",
+    "snapshotCreation": "Snapshot Btrfs akan dibuat sebelum memulai penggabungan.",
+    "proceedMerge": "Meld akan dibuka untuk menerapkan perubahan. Di sisi kiri adalah file BARU, di sisi kanan adalah file LAMA. Pindahkan perubahan berguna yang ingin kamu gabungkan dari sisi kiri ke sisi kanan. Klik tombol simpan atau CTRL + S setelah selesai.",
+    "cautionMerge": "Berhati-hatilah bahwa memasukkan perubahan yang salah ke dalam file LAMA dapat merusak sistemmu.",
+    "askHelp": "Jika kamu tidak yakin, tutup jendela tanpa menyimpan dan minta bantuan di forum Garuda Linux.",
+    "runAurUpdates": "Jalankan pembaruan AUR secara eksternal"
+  },
+  "operationManager": {
+    "refusing": "Menolak eksekusi",
+    "pendingOperationsRunning": "Ada operasi yang berjalan, saya hanya akan menghapus yang sudah selesai.",
+    "thisOperationRunning": "Apa kamu sudah gila? Operasi ini sedang berjalan!"
+  },
+  "os-interact": {
+    "packages": "Ubah paket terinstal",
+    "packages-aur": "Ubah paket AUR",
+    "services": "Ubah layanan",
+    "services-user": "Ubah layanan pengguna",
+    "groups": "Ubah grup pengguna",
+    "locales": "Ubah lokal yang diaktifkan"
+  },
+  "packages": {
+    "title": "Paket",
+    "internet": "Internet",
+    "documents": "Dokumen",
+    "multimedia": "Multimedia",
+    "science": "Sains",
+    "security": "Keamanan",
+    "other": "Lainnya",
+    "clear": "Bersihkan",
+    "search": "Cari",
+    "url": "URL",
+    "selected": "Dipilih",
+    "description": "Deskripsi",
+    "name": "Nama",
+    "searchKey": "Masukkan kata kunci pencarian",
+    "notFound": "Tidak ada paket yang ditemukan"
+  },
+  "kernels": {
+    "dkmsModulesBroken": "Beberapa modul DKMS rusak",
+    "dkmsModulesBrokenTip": "Klik saya untuk menjadwalkan instalasi modul DKMS yang rusak",
+    "dkmsModulesMissing": "Beberapa modul DKMS hilang",
+    "dkmsModulesMissingTip": "Modul DKMS yang hilang",
+    "headers": "Header",
+    "headersMissing": "Header kernel hilang",
+    "headersMissingTip": "Klik saya untuk menjadwalkan instalasi header yang hilang",
+    "active": "Kernel aktif:"
+  },
+  "languagePacks": {
+    "locale": "Lokal",
+    "selected": "Dipilih",
+    "base": "Paket dasar",
+    "notFound": "Tidak ada paket bahasa yang ditemukan",
+    "pkgname": "Nama paket",
+    "description": "Ini adalah paket bahasa untuk paket yang terinstal, biasanya menyediakan terjemahan untuk GUI."
+  },
+  "settings": {
+    "title": "Pengaturan ",
+    "titleTwo": "Aplikasi",
+    "leftButtons": "Tampilkan tombol jendela di kiri",
+    "copyDiagnostics": "Salin diagnostik ke clipboard",
+    "darkMode": "Aktifkan mode gelap",
+    "language": "Konfigurasi bahasa aktif",
+    "autoStart": "Mulai otomatis aplikasi",
+    "logLevel": "Pilih tingkat log",
+    "systemdUserContext": "Tampilkan layanan Systemd pengguna",
+    "autoRefresh": "Aktifkan penyegaran otomatis layanan systemd",
+    "showMainLinks": "Tampilkan tautan di halaman beranda",
+    "themeLabel": "Tema desain dasar",
+    "toggleOptions": "Opsi sakelar",
+    "selectOptions": "Pilihan"
+  },
+  "locales": {
+    "apply": "Jadwalkan perubahan lokal terinstal",
+    "description": "Lokal di sebelah kanan terinstal di sistemmu. Kamu dapat memilih mana yang ingin kamu simpan dan mana yang ingin kamu hapus.",
+    "available": "Tersedia",
+    "selected": "Dipilih",
+    "task": "Ubah lokal sistem",
+    "selectLocale": "Pilih bahasa pilihanmu di seluruh sistem"
   }
 }
