@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [2.5.0] - 2025-03-30
+
+### 🚀 Features
+
+- _(translations)_ Massively improve by leveraging Gemini 2.5 Pro to translate the full JSON
+
+### 🐛 Bug Fixes
+
+- _(language)_ First time changing language not setting it
+- _(garuda-update)_ Only allow running remote commands directly
+- _(task-manager)_ ExecuteAndWaitTerminal not waiting
+
+### 📚 Documentation
+
+- _(changelog)_ Update
+
 ## [2.4.0] - 2025-03-29
 
 ### 🚀 Features
