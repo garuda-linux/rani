@@ -217,13 +217,6 @@
     "pkgname": ["ed"]
   },
   {
-    "name": "Enter TeX",
-    "description": "LaTeX editor for GNOME, previously known as GNOME LaTeX.",
-    "url": "https://gitlab.gnome.org/swilmet/enter-tex",
-    "icon": "generic-dark.svg",
-    "pkgname": ["enter-tex"]
-  },
-  {
     "name": "FBReader",
     "description": "E-book viewer with many supported formats such as EPUB, FictionBook, HTML, plucker, PalmDoc, zTxt, TCR, CHM, RTF, OEB, Mobipocket (non-DRM) and TXT.",
     "url": "https://fbreader.org/",
@@ -880,13 +873,6 @@
     "url": "https://sam.cat-v.org",
     "icon": "generic-dark.svg",
     "pkgname": ["plan9port"]
-  },
-  {
-    "name": "sc",
-    "description": "Curses-based lightweight spreadsheet.",
-    "url": "https://ibiblio.org/pub/linux/apps/financial/spreadsheet/!INDEX.html",
-    "icon": "generic-dark.svg",
-    "pkgname": ["sc"]
   },
   {
     "name": "ScanTailor Advanced",

@@ -630,13 +630,6 @@
     "pkgname": ["iptux"]
   },
   {
-    "name": "IRCD-Hybrid",
-    "description": "A lightweight, high-performance internet relay chat daemon.",
-    "url": "https://www.ircd-hybrid.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["ircd-hybrid"]
-  },
-  {
     "name": "Irssi",
     "description": "Highly-configurable ncurses-based IRC client.",
     "url": "https://irssi.org/",
@@ -831,13 +824,6 @@
     "url": "https://mcabber.com/",
     "icon": "generic-dark.svg",
     "pkgname": ["mcabber"]
-  },
-  {
-    "name": "Megatools",
-    "description": "Unofficial CLI for Mega.",
-    "url": "https://megatools.megous.com/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["megatools"]
   },
   {
     "name": "Microsoft Edge",
@@ -1370,13 +1356,6 @@
     "url": "https://www.stunnel.org/",
     "icon": "generic-dark.svg",
     "pkgname": ["stunnel"]
-  },
-  {
-    "name": "swaks",
-    "description": "Swiss Army Knife SMTP; Command line SMTP testing, including TLS and AUTH, can be used to send emails.",
-    "url": "https://jetmore.org/john/code/swaks/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["swaks"]
   },
   {
     "name": "Synology Drive",

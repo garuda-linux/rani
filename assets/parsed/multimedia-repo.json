@@ -588,13 +588,6 @@
     "pkgname": ["ffmpeg"]
   },
   {
-    "name": "Figma",
-    "description": "Unofficial desktop application for Figma collaborative design tool. Based on the [https://electronjs.org/ Electron] platform.",
-    "url": "https://github.com/Figma-Linux/figma-linux",
-    "icon": "generic-dark.svg",
-    "pkgname": ["figma-linux"]
-  },
-  {
     "name": "Flacon",
     "description": "Extracts individual tracks from one big audio file containing the entire album of music and saves them as separate audio files.",
     "url": "https://flacon.github.io/",
@@ -1993,13 +1986,6 @@
     "url": "https://www.linuxrising.org/ ",
     "icon": "generic-dark.svg",
     "pkgname": ["transmageddon"]
-  },
-  {
-    "name": "Tuner",
-    "description": "Minimalist radio station player.",
-    "url": "https://github.com/louis77/tuner",
-    "icon": "generic-dark.svg",
-    "pkgname": ["tuner"]
   },
   {
     "name": "tvtime",

@@ -98,13 +98,6 @@
     "pkgname": ["cartridges"]
   },
   {
-    "name": "ChatGPT Desktop Application",
-    "description": "ChatGPT Desktop Application",
-    "url": "https://github.com/lencx/ChatGPT",
-    "icon": "generic-dark.svg",
-    "pkgname": ["chatgpt-desktop-bin"]
-  },
-  {
     "name": "Chess Clock",
     "description": "Simple application to provide time control for over-the-board chess games.",
     "url": "https://apps.gnome.org/Chessclock/",
@@ -215,13 +208,6 @@
     "url": "https://codeberg.org/dnkl/fuzzel",
     "icon": "generic-dark.svg",
     "pkgname": ["fuzzel"]
-  },
-  {
-    "name": "Gmrun",
-    "description": "Lightweight GTK-based application launcher, with the ability to run programs inside a terminal and other handy features.",
-    "url": "https://sourceforge.net/projects/gmrun/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["gmrun"]
   },
   {
     "name": "GNOME Panel",

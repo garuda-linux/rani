@@ -668,7 +668,6 @@ export const gamingPackageLists: PackageSections = [
       { name: 'Snes9x', pkgname: ['snes9x'], icon: 'snes9x.png' },
       { name: 'Stella', pkgname: ['stella'], icon: 'stella.gif' },
       { name: 'Torzu (Yuzu)', pkgname: ['torzu-qt6-git'], icon: 'torzu.png' },
-      { name: 'VBA-M', pkgname: ['vbam-wx'], icon: 'vbam.svg' },
       { name: 'VICE', pkgname: ['vice'], icon: 'vice.svg' },
       { name: 'WayDroid', pkgname: ['waydroid-script-git'], icon: 'waydroid.png' },
       { name: 'Xemu', pkgname: ['xemu-git'], icon: 'xemu.png' },
