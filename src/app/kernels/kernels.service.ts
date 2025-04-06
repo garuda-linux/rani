@@ -48,6 +48,7 @@ export class KernelsService {
     await Promise.all(promises);
 
     this.updateKernelStatus();
+    this.logger.trace('Kernel status update complete');
 
     this.loadingService.loadingOff();
     this.loading.set(false);
@@ -197,11 +198,13 @@ export class KernelsService {
         }
       }
 
+      this.logger.trace('Done determining status, proceeding to sort kernels');
       // Show selected kernels first
       kernels.sort((a, b) => +b.selected! - +a.selected!);
       return kernels;
     });
 
+    this.logger.trace('Kernels after sorting: ' + JSON.stringify(this.kernels()));
     this.dkmsModulesMissing.set(missingModules);
   }
 }
