@@ -1,10 +1,11 @@
 import { computed, EventEmitter, inject, Injectable, signal } from '@angular/core';
-import { type Child, type ChildProcess, Command } from '@tauri-apps/plugin-shell';
-import { Logger } from '../logging/logging';
-import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
 import { appLocalDataDir, resolve } from '@tauri-apps/api/path';
+import { exists, writeTextFile } from '@tauri-apps/plugin-fs';
+import { type Child, type ChildProcess, Command } from '@tauri-apps/plugin-shell';
 import { ConfigService } from '../config/config.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Logger } from '../logging/logging';
+import { TranslocoService } from '@jsverse/transloco';
 
 export class Task {
   constructor(priority: number, script: string, escalate: boolean, id: string, name: string, icon: string) {
@@ -57,7 +58,7 @@ export class TrackedShell {
 
   shell: Command<string>;
   private _process: Child | null = null;
-  running: boolean = true;
+  running = true;
 }
 
 export class TrackedShells {
@@ -89,6 +90,7 @@ export class TaskManagerService {
   private readonly configService = inject(ConfigService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
+  private readonly translocoService = inject(TranslocoService);
 
   readonly tasks = signal<Task[]>([]);
   readonly sortedTasks = computed(() => [...this.tasks()].sort((a, b) => a.priority - b.priority));
@@ -114,7 +116,7 @@ export class TaskManagerService {
 
   readonly events = new EventEmitter<string>();
   readonly dataEvents = new EventEmitter<string>();
-  data: string = '';
+  data = '';
 
   constructor() {
     this.dataEvents.subscribe((data) => {
@@ -247,7 +249,7 @@ export class TaskManagerService {
    * Clear terminal and optionally set content to a string.
    * @param content The content to set the terminal to.
    */
-  clearTerminal(content: string = ''): void {
+  clearTerminal(content = ''): void {
     this.data = content;
     this.events.emit('clear');
     if (content !== '') {
@@ -384,5 +386,33 @@ export class TaskManagerService {
     this.aborting.set(false);
 
     void this.configService.init(false);
+  }
+
+  /**
+   * Only print the generated bash scripts to terminal without running them.
+   * Can be used to debug tasks and verify the generated scripts, as well as
+   * ensure that the scripts are correctly formatted and free of errors.
+   */
+  async printScripts(): Promise<void> {
+    this.clearTerminal();
+
+    let first = true;
+    for (const task of this.sortedTasks()) {
+      if (!first) {
+        this.dataEvents.emit(`${'_'.repeat(75)}\n`);
+      }
+      first = false;
+
+      const emitting: string = `
+        Name: ${this.translocoService.translate(task.name)}
+        Escalate: ${task.escalate}
+        Priority: ${task.priority}
+
+        Script:
+        ${task.script}
+      `.replaceAll(/[^\S\n]{2,}/g, '');
+
+      this.dataEvents.emit(emitting);
+    }
   }
 }

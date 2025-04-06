@@ -59,6 +59,9 @@
           <span (click)="taskManagerService.clearTasks()" class="mr-2.5 cursor-pointer">
             <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
           </span>
+          <span (click)="taskManagerService.printScripts()" class="mr-2.5 cursor-pointer">
+            <i class="pi pi-shopping-cart mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.printScripts') }}
+          </span>
         }
         @if (taskManagerService.count() > 0 && taskManagerService.running()) {
           <span (click)="taskManagerService.abort()" class="mr-2.5 cursor-pointer">

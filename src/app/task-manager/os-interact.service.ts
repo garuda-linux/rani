@@ -702,7 +702,7 @@ export class OsInteractService {
         true,
         `Install ${pkg}`,
         'pi pi-box',
-        `pacman -S --noconfirm ${pkg}`,
+        `pacman -S --noconfirm --needed ${pkg}`,
       );
       await this.taskManagerService.executeTask(task);
       return await this.isPackageInstalledArchlinux(pkg);

@@ -162,7 +162,8 @@
     "copyOutput": "Copy terminal output",
     "copyToClipboardTitle": "Copied to clipboard",
     "copyToClipboard": "The output has been successfully copied to your clipboard.",
-    "uploadPrivateBin": "Upload to PrivateBin"
+    "uploadPrivateBin": "Upload to PrivateBin",
+    "printScripts": "Print scripts"
   },
   "systemdServices": {
     "notFound": "No services found",
