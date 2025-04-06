@@ -151,11 +151,11 @@ importers:
         version: 2.8.1
     devDependencies:
       '@analogjs/vite-plugin-angular':
-        specifier: 1.14.1
-        version: 1.14.1(daf186120afd36579bf6817b9bb3f29f)
+        specifier: 1.15.0
+        version: 1.15.0(daf186120afd36579bf6817b9bb3f29f)
       '@analogjs/vitest-angular':
-        specifier: 1.14.1
-        version: 1.14.1(@analogjs/vite-plugin-angular@1.14.1(daf186120afd36579bf6817b9bb3f29f))(@angular-devkit/architect@0.1902.6(chokidar@4.0.3))(vitest@3.1.1)
+        specifier: 1.15.0
+        version: 1.15.0(@analogjs/vite-plugin-angular@1.15.0(daf186120afd36579bf6817b9bb3f29f))(@angular-devkit/architect@0.1902.6(chokidar@4.0.3))(vitest@3.1.1)
       '@angular-devkit/build-angular':
         specifier: ^19.2.6
         version: 19.2.6(@angular/compiler-cli@19.2.5(@angular/compiler@19.2.5)(typescript@5.8.3))(@angular/compiler@19.2.5)(@rspack/core@1.3.2(@swc/helpers@0.5.15))(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(chokidar@4.0.3)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.14.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(typescript@5.8.3)))(jiti@2.4.2)(karma@6.4.4)(lightningcss@1.27.0)(sass-embedded@1.86.3)(stylus@0.64.0)(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(typescript@5.8.3)))(typescript@5.8.3)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.27.0)(sass-embedded@1.86.3)(sass@1.86.3)(stylus@0.64.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)
@@ -310,8 +310,8 @@ packages:
     resolution: {integrity: sha512-30iZtAPgz+LTIYoeivqYo853f02jBYSd5uGnGpkFV0M3xOt9aN73erkgYAmZU43x4VfqcnLxW9Kpg3R5LC4YYw==}
     engines: {node: '>=6.0.0'}
 
-  '@analogjs/vite-plugin-angular@1.14.1':
-    resolution: {integrity: sha512-nCoRQpLu5t8DtBoN+lNbWAJ3p6X4TnKJZQqOh0ZmcADeHf07vEOq6HiGcEi461SedKawQVAu9SZmRTsNeDfz6A==}
+  '@analogjs/vite-plugin-angular@1.15.0':
+    resolution: {integrity: sha512-PP9Z68axIrvnlm4TtwO3ylbGxegBkeI0IOE5kdcYiECvJoJI53j8ui8J+lWWpnXuTikKeHqjJmMNGQxkP+/ljw==}
     peerDependencies:
       '@angular-devkit/build-angular': ^15.0.0 || ^16.0.0 || ^17.0.0 || ^18.0.0 || ^19.0.0
       '@angular/build': ^18.0.0 || ^19.0.0
@@ -321,8 +321,8 @@ packages:
       '@angular/build':
         optional: true
 
-  '@analogjs/vitest-angular@1.14.1':
-    resolution: {integrity: sha512-NriyAS81Ikqf936OoXNfrpdVqFY4Q5LsUFlHusaFwhtzU2Sl/AXBO35eoqbJlYCgGDDn92RGEHQm0nYLGGXGmg==}
+  '@analogjs/vitest-angular@1.15.0':
+    resolution: {integrity: sha512-u7uPet5Mr/5cq4fdirtRUuaauCXHzp68WQIwt1NKbnXMxDtYwtVSLKcb1yesQihWhTf2N3FViRV0wAqVUOabuQ==}
     peerDependencies:
       '@analogjs/vite-plugin-angular': '*'
       '@angular-devkit/architect': '>=0.1500.0 < 0.2000.0'
@@ -9741,7 +9741,7 @@ snapshots:
       '@jridgewell/gen-mapping': 0.3.8
       '@jridgewell/trace-mapping': 0.3.25
 
-  '@analogjs/vite-plugin-angular@1.14.1(daf186120afd36579bf6817b9bb3f29f)':
+  '@analogjs/vite-plugin-angular@1.15.0(daf186120afd36579bf6817b9bb3f29f)':
     dependencies:
       ts-morph: 21.0.1
       vfile: 6.0.3
@@ -9749,9 +9749,9 @@ snapshots:
       '@angular-devkit/build-angular': 19.2.6(@angular/compiler-cli@19.2.5(@angular/compiler@19.2.5)(typescript@5.8.3))(@angular/compiler@19.2.5)(@rspack/core@1.3.2(@swc/helpers@0.5.15))(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(chokidar@4.0.3)(jest-environment-jsdom@29.7.0)(jest@29.7.0(@types/node@22.14.0)(babel-plugin-macros@3.1.0)(ts-node@10.9.2(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(typescript@5.8.3)))(jiti@2.4.2)(karma@6.4.4)(lightningcss@1.27.0)(sass-embedded@1.86.3)(stylus@0.64.0)(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(typescript@5.8.3)))(typescript@5.8.3)(vite@6.2.5(@types/node@22.14.0)(jiti@2.4.2)(less@4.1.3)(lightningcss@1.27.0)(sass-embedded@1.86.3)(sass@1.86.3)(stylus@0.64.0)(terser@5.39.0)(yaml@2.7.1))(yaml@2.7.1)
       '@angular/build': 19.2.6(@angular/compiler-cli@19.2.5(@angular/compiler@19.2.5)(typescript@5.8.3))(@angular/compiler@19.2.5)(@types/node@22.14.0)(chokidar@4.0.3)(jiti@2.4.2)(karma@6.4.4)(less@4.1.3)(lightningcss@1.27.0)(postcss@8.5.3)(sass-embedded@1.86.3)(stylus@0.64.0)(tailwindcss@3.4.17(ts-node@10.9.2(@swc/core@1.5.29(@swc/helpers@0.5.15))(@types/node@22.14.0)(typescript@5.8.3)))(terser@5.39.0)(typescript@5.8.3)(yaml@2.7.1)
 
-  '@analogjs/vitest-angular@1.14.1(@analogjs/vite-plugin-angular@1.14.1(daf186120afd36579bf6817b9bb3f29f))(@angular-devkit/architect@0.1902.6(chokidar@4.0.3))(vitest@3.1.1)':
+  '@analogjs/vitest-angular@1.15.0(@analogjs/vite-plugin-angular@1.15.0(daf186120afd36579bf6817b9bb3f29f))(@angular-devkit/architect@0.1902.6(chokidar@4.0.3))(vitest@3.1.1)':
     dependencies:
-      '@analogjs/vite-plugin-angular': 1.14.1(daf186120afd36579bf6817b9bb3f29f)
+      '@analogjs/vite-plugin-angular': 1.15.0(daf186120afd36579bf6817b9bb3f29f)
       '@angular-devkit/architect': 0.1902.6(chokidar@4.0.3)
       vitest: 3.1.1(@types/node@22.14.0)(@vitest/ui@3.1.1)(jiti@2.4.2)(jsdom@22.1.0)(less@4.1.3)(lightningcss@1.27.0)(sass-embedded@1.86.3)(sass@1.86.3)(stylus@0.64.0)(terser@5.39.0)(yaml@2.7.1)
 

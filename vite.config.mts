@@ -7,14 +7,14 @@ import { nxCopyAssetsPlugin } from '@nx/vite/plugins/nx-copy-assets.plugin';
 export default defineConfig(() => ({
   root: __dirname,
   cacheDir: './node_modules/.vite/garuda-rani',
-  plugins: [angular(), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
+  plugins: [...angular({ tsconfig: 'tsconfig.spec.json', jit: true }), nxViteTsPaths(), nxCopyAssetsPlugin(['*.md'])],
   test: {
     watch: false,
     globals: true,
     environment: 'jsdom',
     include: ['{src,tests}/**/*.{test,spec}.{js,mjs,cjs,ts,mts,cts}'],
-    setupFiles: ['src/test-setup.ts'],
     reporters: ['default'],
+    setupFiles: ['src/test-setup.ts'],
     coverage: {
       reportsDirectory: './coverage/garuda-rani',
       provider: 'v8' as const,
