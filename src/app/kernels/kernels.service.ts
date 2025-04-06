@@ -1,5 +1,5 @@
 import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
-import { ChildProcess } from '@tauri-apps/plugin-shell';
+import type { ChildProcess } from '@tauri-apps/plugin-shell';
 import type { DkmsModules, DkmsModuleStatus, Kernel, Kernels } from './types';
 import { ConfigService } from '../config/config.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
@@ -27,8 +27,8 @@ export class KernelsService {
 
   constructor() {
     effect(() => {
-      const packages: Map<string, boolean> = this.osInteractService.packages();
-      const kernels: Kernels = this.kernels();
+      const _packages: Map<string, boolean> = this.osInteractService.packages();
+      const _kernels: Kernels = this.kernels();
       if (!untracked(this.loading)) {
         this.updateKernelStatus();
       }
@@ -73,7 +73,12 @@ export class KernelsService {
         const [moduleName, moduleVersion] = module.split('/');
 
         this.logger.trace(`${module} for kernel version ${kernelVersion} is ${status}`);
-        modules.push({ moduleName, moduleVersion, kernelVersion, status: status.split(' ')[0] as DkmsModuleStatus });
+        modules.push({
+          moduleName,
+          moduleVersion,
+          kernelVersion,
+          status: status.split(' ')[0] as DkmsModuleStatus,
+        });
       }
 
       this.dkmsModules.set(modules);
@@ -126,6 +131,7 @@ export class KernelsService {
               repo,
               description: '',
               dkmsModulesMissing: [],
+              initialState: this.osInteractService.check(name, 'pkg', true),
             });
           }
         } else {

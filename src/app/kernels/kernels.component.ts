@@ -5,7 +5,6 @@ import { FormsModule } from '@angular/forms';
 import type { DkmsModule, DkmsModules, Kernel } from './types';
 import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
 import { Tag } from 'primeng/tag';
-import { StatefulPackage } from '../gaming/interfaces';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -28,11 +27,16 @@ export class KernelsComponent {
 
   /**
    * Toggles the selected state of a package.
+   * If an installed kernel without headers is toggled, don't install headers and vice versa.
    * @param item The package to toggle.
    */
-  togglePackage(item: StatefulPackage): void {
-    for (const pkgname of item.pkgname) {
-      this.osInteractService.togglePackage(pkgname);
+  togglePackage(item: Kernel): void {
+    if (item.initialState && !item.selected && !item.headersSelected) {
+      this.osInteractService.togglePackage(item.pkgname[0]);
+    } else {
+      for (const pkgname of item.pkgname) {
+        this.osInteractService.togglePackage(pkgname);
+      }
     }
   }
 
@@ -58,7 +62,7 @@ export class KernelsComponent {
    * @param type The type of DKMS modules to reinstall, either "broken" or "missing".
    */
   reinstallDkmsModules(kernel: Kernel | boolean, type: 'broken' | 'missing'): void {
-    let cmd: string = '';
+    let cmd = '';
     const modules: DkmsModules = this.kernelsService.dkmsModules();
 
     if (typeof kernel === 'boolean') {
@@ -130,7 +134,7 @@ export class KernelsComponent {
     return cmd;
   }
 
-  counterArray(number: number) {
-    return new Array(number);
+  counterArray(number: number): unknown[] {
+    return Array.from({ length: number });
   }
 }

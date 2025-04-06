@@ -71,14 +71,16 @@
                 <div class="flex flex-row items-start justify-between gap-2 md:flex-col">
                   <div>
                     <span class="text-lg font-medium text-primary">{{ kernel.pkgname[0] }}</span>
-                    <div class="text-secondary mt-2 text-sm font-medium">{{ kernel.description }}</div>
+                    <div class="text-secondary mt-2 text-sm font-medium">
+                      {{ kernel.description }}
+                    </div>
                   </div>
                 </div>
                 <div class="flex flex-row items-center justify-between gap-2 md:flex-col">
                   <p-tag ngClass="mr-2" [value]="kernel.version"></p-tag>
                   @if (kernel.selected && kernel.headersSelected) {
                     <p-tag ngClass="mx-1" [value]="t('kernels.headers')" severity="success"></p-tag>
-                  } @else if (kernel.selected && !kernel.headersSelected) {
+                  } @else if (kernel.initialState && kernel.selected && !kernel.headersSelected) {
                     <p-tag
                       (click)="installMissingHeaders(kernel)"
                       [pTooltip]="t('kernels.headersMissingTip')"
@@ -89,7 +91,7 @@
                     >
                     </p-tag>
                   }
-                  @if (kernel.dkmsModulesMissing.length > 0) {
+                  @if (kernel.initialState && kernel.dkmsModulesMissing.length > 0) {
                     @for (module of kernel.dkmsModulesMissing; track module) {
                       <p-tag
                         (click)="reinstallDkmsModules(kernel, 'missing')"

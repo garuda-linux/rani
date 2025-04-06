@@ -1,4 +1,4 @@
-import { StatefulPackage } from '../gaming/interfaces';
+import type { StatefulPackage } from '../gaming/interfaces';
 
 export interface Kernel extends StatefulPackage {
   version: string;
@@ -7,6 +7,7 @@ export interface Kernel extends StatefulPackage {
   selected?: boolean;
   headersSelected?: boolean;
   dkmsModulesMissing: string[];
+  initialState: boolean;
 }
 
 export type Kernels = Kernel[];

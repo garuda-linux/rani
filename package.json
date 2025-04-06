@@ -60,7 +60,6 @@
     "bs58": "^6.0.0",
     "byte-base64": "^1.1.0",
     "emoji-js": "^3.8.1",
-    "http-status-codes": "^2.3.0",
     "inter-ui": "^4.1.0",
     "isomorphic-webcrypto": "^2.3.8",
     "ng-terminal": "^6.4.0",
