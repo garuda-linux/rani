@@ -32,7 +32,10 @@ export async function initRani() {
 
   try {
     if (monitorSize.width - 30 < windowSize.width || monitorSize.height - 30 < windowSize.height) {
-      const newSize = new LogicalSize(monitorSize.width - 30, monitorSize.width - 30);
+      const newSize = new LogicalSize(
+        Math.min(windowSize.width, monitorSize.width - 30),
+        Math.min(windowSize.height, monitorSize.height - 30),
+      );
       await window.setSize(newSize);
 
       logger.debug(`Resized window to ${newSize.width}x${newSize.height}`);
