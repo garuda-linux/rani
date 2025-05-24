@@ -39,30 +39,44 @@ pub fn run() {
         }
     }
 
-    let mut builder = tauri::Builder::default();
-    #[cfg(desktop)]
-    {
-        builder = builder.plugin(tauri_plugin_single_instance::init(|app, _args, _cwd| {
-            let _ = app
-                .get_webview_window("main")
-                .expect("no main window")
-                .set_focus();
-        }));
-    }
-
+    let builder = tauri::Builder::default();
     builder
-        .setup(|_app| {
+        .setup(|app| {
+            // Create the log plugin as usual, but call split() instead of build()
+            // this effectively prevents a panic due to multiple logger implementations
+            let (tauri_plugin_log, max_level, logger) = tauri_plugin_log::Builder::new()
+                .max_file_size(10_000_000)
+                .timezone_strategy(tauri_plugin_log::TimezoneStrategy::UseLocal)
+                .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepOne)
+                .split(app.handle())?;
+
+            // On release builds, only attach the logger from tauri-plugin-log
+            #[cfg(not(debug_assertions))]
+            {
+                tauri_plugin_log::attach_logger(max_level, logger);
+            }
+
             #[cfg(debug_assertions)]
             {
-                let window = _app.get_webview_window("main").unwrap();
+                // Open the DevTools window in debug builds
+                let window = app.get_webview_window("main").unwrap();
                 window.open_devtools();
                 window.close_devtools();
+
+                // On debug builds, set up the DevTools plugin and pipe the logger from tauri-plugin-log
+                let mut devtools_builder = tauri_plugin_devtools::Builder::default();
+                devtools_builder.attach_logger(logger);
+                app.handle().plugin(devtools_builder.init())?;
             }
+
             #[cfg(desktop)]
-            let _ = _app.handle().plugin(tauri_plugin_autostart::init(
+            let _ = app.handle().plugin(tauri_plugin_autostart::init(
                 tauri_plugin_autostart::MacosLauncher::LaunchAgent,
                 Some(vec![]),
             ));
+
+            app.handle().plugin(tauri_plugin_log)?;
+
             Ok(())
         })
         .plugin(tauri_plugin_prevent_default::init())
@@ -74,13 +88,6 @@ pub fn run() {
         .plugin(tauri_plugin_store::Builder::new().build())
         .plugin(tauri_plugin_positioner::init())
         .plugin(tauri_plugin_notification::init())
-        .plugin(
-            tauri_plugin_log::Builder::new()
-                .max_file_size(10_000_000)
-                .timezone_strategy(tauri_plugin_log::TimezoneStrategy::UseLocal)
-                .rotation_strategy(tauri_plugin_log::RotationStrategy::KeepOne)
-                .build(),
-        )
         .plugin(tauri_plugin_http::init())
         .plugin(tauri_plugin_clipboard::init())
         .plugin(tauri_plugin_fs::init())

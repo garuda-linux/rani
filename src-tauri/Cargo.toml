@@ -19,12 +19,14 @@ serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 tauri = { version = "2", features = ['tray-icon', 'image-png'] }
 tauri-plugin-clipboard = "2"
+tauri-plugin-devtools = "2"
 tauri-plugin-fs = "2"
+# Fixed due to https://github.com/persiliao/axios-tauri-api-adapter/issues/35
 tauri-plugin-http = { version = "=2.2", features = ["rustls-tls", "unsafe-headers"] }
 tauri-plugin-log = "2"
 tauri-plugin-notification = "2"
 tauri-plugin-os = "2"
-tauri-plugin-prevent-default = "1.2"
+tauri-plugin-prevent-default = "2.1"
 tauri-plugin-process = "2"
 tauri-plugin-shell = "2"
 tauri-plugin-store = "2"
@@ -33,7 +35,6 @@ tauri-plugin-store = "2"
 tauri-plugin-autostart = "2"
 tauri-plugin-cli = "2"
 tauri-plugin-positioner = "2"
-tauri-plugin-single-instance = "2"
 tauri-plugin-window-state = "2"
 
 
