@@ -154,13 +154,6 @@
     "pkgname": ["espeak-ng"]
   },
   {
-    "name": "Etherwall",
-    "description": "Ethereum wallet.",
-    "url": "https://www.etherwall.com/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["etherwall"]
-  },
-  {
     "name": "eww",
     "description": "Elkowars Wacky Widgets is a standalone widget system made in Rust that allows you to implement your own, custom widgets in any window manager.",
     "url": "https://github.com/elkowar/eww",

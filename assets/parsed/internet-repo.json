@@ -693,13 +693,6 @@
     "pkgname": ["kvirc"]
   },
   {
-    "name": "Ladybird",
-    "description": "Web browser built from scratch using the SerenityOS LibWeb engine.",
-    "url": "https://ladybird.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["ladybird"]
-  },
-  {
     "name": "Lagrange",
     "description": "Desktop GUI client for browsing Gemini space, offering modern conveniences familiar from web browsers.",
     "url": "https://gmi.skyjake.fi/lagrange",
