@@ -75,10 +75,10 @@ export class KernelsService {
 
         this.logger.trace(`${module} for kernel version ${kernelVersion} is ${status}`);
         modules.push({
-          moduleName,
-          moduleVersion,
-          kernelVersion,
-          status: status.split(' ')[0] as DkmsModuleStatus,
+          moduleName: moduleName || '',
+          moduleVersion: moduleVersion || '',
+          kernelVersion: kernelVersion || '',
+          status: (status.split(' ')[0] as DkmsModuleStatus) || 'unknown',
         });
       }
 
@@ -187,7 +187,9 @@ export class KernelsService {
               regex = new RegExp(`^${linuxVer.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}.*${linuxType}`);
             }
 
-            if (!modules.find((k) => k.kernelVersion.match(regex) !== null && k.moduleName === module)) {
+            if (
+              !modules.find((k) => k.kernelVersion && k.kernelVersion.match(regex) !== null && k.moduleName === module)
+            ) {
               this.logger.warn(
                 `DKMS Module ${module} for kernel ${kernel.pkgname[0]} is available but not installed, hinting at a possible issue`,
               );

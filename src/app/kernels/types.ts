@@ -19,6 +19,6 @@ export interface DkmsModule {
   status: DkmsModuleStatus;
 }
 
-export type DkmsModuleStatus = 'installed' | 'broken';
+export type DkmsModuleStatus = 'installed' | 'broken' | 'unknown';
 
 export type DkmsModules = DkmsModule[];
