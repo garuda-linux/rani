@@ -7,12 +7,9 @@ pub fn run() {
         let product_name_file = std::path::Path::new("/sys/devices/virtual/dmi/id/product_name");
         let is_wayland = std::env::var("WAYLAND_DISPLAY").is_ok();
 
-        if std::path::Path::new("/proc/driver/nvidia/version").exists() && is_wayland {
-            // SAFETY: There's potential for race conditions in a multi-threaded context
-            unsafe {
-                log::info!("Nvidia GPU and Wayland detected, disabling WebKit DMABuf renderer");
-                std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
-            }
+        unsafe {
+            log::info!("Disabling WebKit DMABuf renderer, WebkitGTK seems to be a massive pile of buggy code garbage??");
+            std::env::set_var("WEBKIT_DISABLE_DMABUF_RENDERER", "1");
         }
 
         // https://www.reddit.com/r/tauri/comments/16tzsi8/tauri_desktop_app_not_rendering_but_web_does
