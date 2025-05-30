@@ -33,11 +33,12 @@
   "main": "packages/entry-point.mjs",
   "scripts": {
     "build": "corepack pnpm -r run build",
+    "check-bundle": "corepack pnpx asar list dist/linux-unpacked/resources/app.asar",
     "check-pkglists": "ts-node --project tsconfig.cli.json assets/testPackageAvailability.ts",
     "compile": "corepack pnpm run build && corepack pnpm run electron-builder",
     "electron-builder": "electron-builder build --config electron-builder.mjs",
     "start": "node packages/dev-mode.mjs",
-    "test": "corepack pnpx playwright test ./tests/e2e.spec.ts",
+    "test": "corepack pnpm exec playwright test ./tests/e2e.spec.ts",
     "translate": "ts-node --project tsconfig.cli.json assets/translator.ts",
     "typecheck": "corepack pnpm run -r typecheck -ws --if-present"
   },
@@ -61,7 +62,6 @@
     "eslint-plugin-oxlint": "^0.16.12",
     "glob": "11.0.2",
     "node-module-collector": "^1.1.4",
-    "electron-prebuilt-compile": "8.2.0",
     "oxlint": "^0.16.12",
     "playwright": "^1.52.0",
     "prettier": "^3.5.3",
@@ -74,8 +74,5 @@
   "engines": {
     "node": ">=22.0.0"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "packageManager": "pnpm@10.11.0+sha512.6540583f41cc5f628eb3d9773ecee802f4f9ef9923cc45b69890fb47991d4b092964694ec3a4f738a420c918a333062c8b925d312f42e4f0c263eb603551f977"
 }

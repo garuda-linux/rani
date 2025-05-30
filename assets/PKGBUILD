@@ -1,7 +1,7 @@
 # Maintainer: dr460nf1r3 <root at dr460nf1r3 dot org>
 
 pkgname=garuda-rani-git
-pkgver=2.5.1.r2.g4bda8e3
+pkgver=2.5.1.r3.g44e538d
 pkgrel=1
 _electronversion=36
 _branch=refactor/electron-rewrite
@@ -46,18 +46,22 @@ prepare() {
 
   export ELECTRON_SKIP_BINARY_DOWNLOAD=1
   export SYSTEM_ELECTRON_VERSION="$(electron${_electronversion} -v | sed 's/v//g')"
+  export ELECTRON_OVERRIDE_DIST_PATH="/usr/lib/electron${_electronversion}"
+
   HOME="${srcdir}/.electron-gyp"
   mkdir -p "${srcdir}/.electron-gyp"
   sed -i "s/\"electron\": \"[^\"]*\"/\"electron\": \"${SYSTEM_ELECTRON_VERSION}\"/g" package.json
   NODE_ENV=development corepack pnpm -r install
 }
+
 build() {
   cd rani || exit
   local electronDist="/usr/lib/electron${_electronversion}"
   NODE_ENV=production corepack pnpm run build
-  find dist -type f -exec sed -i "s/process.resourcesPath/\'\/usr\/lib\/${pkgname}\'/g" {} +
-  NODE_ENV=production NODE_ENV=production corepack pnpx electron-builder --linux dir -c.electronDist="${electronDist}"
+  #find dist -type f -exec sed -i "s/process.resourcesPath/\'\/usr\/lib\/${pkgname}\'/g" {} +
+  NODE_ENV=production NODE_ENV=production corepack pnpm exec electron-builder --linux dir $dist -c.electronDist="${electronDist}" -c.electronVersion="${$_electronversion}"
 }
+
 package() {
   install -Dm755 "${srcdir}/rani/assets/garuda-rani.sh" "${pkgdir}/usr/bin/${pkgname}"
   install -Dm644 "${srcdir}/rani/dist/linux-"*/resources/app.asar -t "${pkgdir}/usr/lib/${pkgname}"

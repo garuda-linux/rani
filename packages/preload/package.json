@@ -1,6 +1,10 @@
 {
   "name": "@app/preload",
   "type": "module",
+  "files": [
+    "dist/**",
+    "package.json"
+  ],
   "scripts": {
     "build": "vite build",
     "typecheck": "tsc --noEmit"

@@ -1,5 +1,6 @@
 import { initApp } from "@app/main";
 import { fileURLToPath } from "node:url";
+import { join, dirname } from "node:path";
 
 if (
   process.env.NODE_ENV === "development" ||
@@ -30,7 +31,13 @@ initApp({
     process.env.MODE === "development" && !!process.env.VITE_DEV_SERVER_URL
       ? new URL(process.env.VITE_DEV_SERVER_URL)
       : {
-          path: fileURLToPath(import.meta.resolve("@app/renderer")),
+          path: join(
+            dirname(
+              fileURLToPath(import.meta.resolve("@app/renderer/package.json")),
+            ),
+            "dist",
+            "index.html",
+          ),
         },
 
   preload: {

@@ -1,6 +1,10 @@
 {
   "name": "@app/main",
   "type": "module",
+  "files": [
+    "dist/**",
+    "package.json"
+  ],
   "exports": {
     ".": {
       "types": "./src/index.ts",

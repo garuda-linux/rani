@@ -11,7 +11,6 @@ onlyBuiltDependencies:
   - core-js
   - cpu-features
   - electron
-  - electron-winstaller
   - esbuild
   - lmdb
   - msgpackr-extract
