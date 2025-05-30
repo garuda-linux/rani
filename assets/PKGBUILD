@@ -1,16 +1,16 @@
 # Maintainer: dr460nf1r3 <root at dr460nf1r3 dot org>
 
 pkgname=garuda-rani-git
-pkgver=2.5.0.r13.g3266a59
+pkgver=2.5.1.r1.g6fc3031
 pkgrel=1
-_electronversion=33
-_nodeversion=20
+_electronversion=36
+_branch=refactor/electron-rewrite
 pkgdesc="Garuda's Reliable Assistant for Native Installations"
 arch=('any')
 url="https://gitlab.com/garuda-linux/applications/rani"
 license=('GPL3')
 depends=('bash' 'curl' "electron${_electronversion}" 'pacman-contrib' 'garuda-libs' 'garuda-update')
-makedepends=('git' 'base-devel' 'p7zip' 'asar' 'pnpm>10')
+makedepends=('git' 'base-devel' 'gendesk')
 optdepends=('paru: show pending AUR updates'
   'meld: compare pacdiff files via a GUI on GTK systems'
   'kompare: compare pacdiff files via a GUI on Qt systems'
@@ -20,9 +20,8 @@ optdepends=('paru: show pending AUR updates'
 provides=('garuda-rani')
 conflicts=('garuda-rani')
 options=('!strip' '!emptydirs' '!lto' '!debug')
-source=("git+$url.git")
+source=("git+$url.git#branch=${_branch}")
 sha256sums=('SKIP')
-install=garuda-rani.install
 
 pkgver() {
   cd rani || exit
@@ -33,7 +32,7 @@ prepare() {
   cd rani || exit
 
   # Verbose by default as preview version
-  sed -i 's/logLevel = LogLevel.INFO/logLevel = LogLevel.TRACE/g' "$srcdir/rani/src/app/logging/logging.ts"
+  # sed -i 's/logLevel = LogLevel.INFO/logLevel = LogLevel.TRACE/g' "$srcdir/rani/packages/renderer/src/components/logging/logging.ts"
 
   sed -i -e "
         s/@electronversion@/${_electronversion}/g
@@ -41,7 +40,7 @@ prepare() {
         s/@runname@/app.asar/g
         s/@cfgdirname@/${_pkgname}/g
         s/@options@/env ELECTRON_OZONE_PLATFORM_HINT=auto/g
-    " "${srcdir}/assets/${pkgname}.sh"
+    " "${srcdir}/rani/assets/garuda-rani.sh"
 
   gendesk -q -f -n --pkgname="${pkgname}" --pkgdesc="${pkgdesc}" --categories="Utility" --name="${_pkgname}" --exec="${pkgname} %U"
 
@@ -50,17 +49,17 @@ prepare() {
   HOME="${srcdir}/.electron-gyp"
   mkdir -p "${srcdir}/.electron-gyp"
   sed -i "s/\"electron\": \"[^\"]*\"/\"electron\": \"${SYSTEM_ELECTRON_VERSION}\"/g" package.json
-  NODE_ENV=development pnpm install
+  NODE_ENV=development corepack pnpm -r install
 }
 build() {
   cd rani || exit
   local electronDist="/usr/lib/electron${_electronversion}"
-  NODE_ENV=production pnpm run build
+  NODE_ENV=production corepack pnpm run build
   find dist -type f -exec sed -i "s/process.resourcesPath/\'\/usr\/lib\/${pkgname}\'/g" {} +
-  NODE_ENV=production NODE_ENV=production yarn electron-builder --linux dir -c.electronDist="${electronDist}"
+  NODE_ENV=production NODE_ENV=production corepack pnpx electron-builder --linux dir -c.electronDist="${electronDist}"
 }
 package() {
-  install -Dm755 "${srcdir}/assets/${pkgname}.sh" "${pkgdir}/usr/bin/${pkgname}"
+  install -Dm755 "${srcdir}/rani/assets/garuda-rani.sh" "${pkgdir}/usr/bin/${pkgname}"
   install -Dm644 "${srcdir}/rani/dist/linux-"*/resources/app.asar -t "${pkgdir}/usr/lib/${pkgname}"
   cp -Pr --no-preserve=ownership "${srcdir}/rani/dist/linux-"*/resources/{node_modules,static} "${pkgdir}/usr/lib/${pkgname}"
   install -Dm644 "${srcdir}/rani/static/tray-icon.png" "${pkgdir}/usr/share/pixmaps/${pkgname}.png"
