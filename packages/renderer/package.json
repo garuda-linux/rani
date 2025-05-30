@@ -4,12 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "build": "ng build",
-    "dev": "ng serve",
+    "build": "vite build",
+    "dev": "vite serve",
     "ng": "ng",
-    "start": "pnpm run dev",
-    "test": "ng test",
-    "watch": "ng build --watch --configuration development"
+    "start": "corepack pnpm run dev",
+    "test": "ng test"
   },
   "dependencies": {
     "@angular/animations": "^19.2.14",
@@ -65,5 +64,12 @@
   },
   "engines": {
     "node": ">=22.0.0"
+  },
+  "overrides": {
+    "@garudalinux-core": {
+      "angular/core": "19.2.14",
+      "@angular/platform-browser": "19.2.14",
+      "@angular/common": "19.2.14"
+    }
   }
 }

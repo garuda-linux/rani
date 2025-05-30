@@ -8,6 +8,7 @@ catalog:
 onlyBuiltDependencies:
   - "@parcel/watcher"
   - "@tailwindcss/oxide"
+  - core-js
   - cpu-features
   - electron
   - electron-winstaller

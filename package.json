@@ -32,14 +32,14 @@
   "type": "module",
   "main": "packages/entry-point.mjs",
   "scripts": {
-    "build": "pnpm -r run build",
+    "build": "corepack pnpm -r run build",
     "check-pkglists": "ts-node --project tsconfig.cli.json assets/testPackageAvailability.ts",
-    "compile": "pnpm run build && pnpm run electron-builder",
+    "compile": "corepack pnpm run build && corepack pnpm run electron-builder",
     "electron-builder": "electron-builder build --config electron-builder.mjs",
     "start": "node packages/dev-mode.mjs",
-    "test": "pnpx playwright test ./tests/e2e.spec.ts",
+    "test": "corepack pnpx playwright test ./tests/e2e.spec.ts",
     "translate": "ts-node --project tsconfig.cli.json assets/translator.ts",
-    "typecheck": "pnpm run -r typecheck -ws --if-present"
+    "typecheck": "corepack pnpm run -r typecheck -ws --if-present"
   },
   "dependencies": {
     "@app/main": "workspace:*"

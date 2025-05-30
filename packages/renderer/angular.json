@@ -7,7 +7,7 @@
       "projectType": "application",
       "root": ".",
       "sourceRoot": "src",
-      "prefix": "app",
+      "prefix": "rani",
       "architect": {
         "build": {
           "builder": "@analogjs/platform:vite",
@@ -24,8 +24,7 @@
             },
             "production": {
               "sourcemap": false,
-              "mode": "production",
-              "outputHashing": "none"
+              "mode": "production"
             }
           }
         },
@@ -33,20 +32,23 @@
           "builder": "@analogjs/platform:vite-dev-server",
           "defaultConfiguration": "development",
           "options": {
-            "buildTarget": "my-app:build",
+            "buildTarget": "rani:build",
             "port": 5173
           },
           "configurations": {
             "development": {
-              "buildTarget": "my-app:build:development",
+              "buildTarget": "rani:build:development",
               "hmr": true
             },
             "production": {
-              "buildTarget": "my-app:build:production"
+              "buildTarget": "rani:build:production"
             }
           }
         }
       }
     }
+  },
+  "cli": {
+    "analytics": false
   }
 }

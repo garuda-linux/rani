@@ -1,7 +1,7 @@
 # Maintainer: dr460nf1r3 <root at dr460nf1r3 dot org>
 
 pkgname=garuda-rani-git
-pkgver=2.5.1.r1.g6fc3031
+pkgver=2.5.1.r2.g4bda8e3
 pkgrel=1
 _electronversion=36
 _branch=refactor/electron-rewrite
