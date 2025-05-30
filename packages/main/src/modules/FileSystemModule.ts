@@ -3,6 +3,7 @@ import type { ModuleContext } from '../ModuleContext.js';
 import { ipcMain } from 'electron';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
 class FileSystemModule implements AppModule {
   private app: Electron.App | null = null;
@@ -17,11 +18,18 @@ class FileSystemModule implements AppModule {
     const validateFilePath = (filePath: string): boolean => {
       // Prevent path traversal attacks
       const normalizedPath = path.normalize(filePath);
+
+      // Get app resource paths
+      const appPath = this.app!.getAppPath();
+      const resourcesPath = process.resourcesPath || path.join(appPath, '..');
+
       const allowedDirs = [
         this.app!.getPath('userData'),
         this.app!.getPath('appData'),
         this.app!.getPath('temp'),
         this.app!.getPath('home'),
+        appPath, // Allow reading from app bundle
+        resourcesPath, // Allow reading from resources directory
         '/etc',
         '/usr',
         '/var',

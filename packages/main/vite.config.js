@@ -1,6 +1,8 @@
 import { getNodeMajorVersion } from "@app/electron-versions";
 import { spawn } from "node:child_process";
 import electronPath from "electron";
+import { copyFileSync, mkdirSync, readdirSync } from "node:fs";
+import { join } from "node:path";
 
 export default /**
  * @type {import('vite').UserConfig}
@@ -25,8 +27,50 @@ export default /**
     emptyOutDir: true,
     reportCompressedSize: false,
   },
-  plugins: [handleHotReload()],
+  plugins: [copyAssets(), handleHotReload()],
 });
+
+/**
+ * Copy assets from packages/main/assets to dist/assets
+ * @return {import('vite').Plugin}
+ */
+function copyAssets() {
+  return {
+    name: "copy-assets",
+    writeBundle() {
+      try {
+        // Copy assets directory to main package dist
+        const srcAssetsDir = join(process.cwd(), "assets");
+        const destAssetsDir = join(process.cwd(), "dist/assets");
+
+        function copyDir(src, dest) {
+          try {
+            mkdirSync(dest, { recursive: true });
+            const files = readdirSync(src, { withFileTypes: true });
+
+            for (const file of files) {
+              const srcPath = join(src, file.name);
+              const destPath = join(dest, file.name);
+
+              if (file.isDirectory()) {
+                copyDir(srcPath, destPath);
+              } else {
+                copyFileSync(srcPath, destPath);
+              }
+            }
+          } catch (error) {
+            console.warn(`Could not copy ${src}:`, error.message);
+          }
+        }
+
+        copyDir(srcAssetsDir, destAssetsDir);
+        console.log("Assets copied to main package");
+      } catch (error) {
+        console.warn("Could not copy assets:", error.message);
+      }
+    },
+  };
+}
 
 /**
  * Implement Electron app reload when some file was changed

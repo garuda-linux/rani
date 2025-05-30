@@ -27,7 +27,7 @@ import { LanguagePacksService } from './components/language-packs/language-packs
 import { LocalesService } from './components/locales/locales.service';
 import { GamingService } from './components/gaming/gaming.service';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
-import { provideRouter } from '@angular/router';
+import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
 
 export const appConfig: ApplicationConfig = {
@@ -62,7 +62,7 @@ export const appConfig: ApplicationConfig = {
         inputStyle: 'outlined',
       },
     ),
-    provideRouter(routes),
+    provideRouter(routes, withHashLocation()),
     provideTransloco({
       config: {
         availableLangs: [

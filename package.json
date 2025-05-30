@@ -33,14 +33,15 @@
   "main": "packages/entry-point.mjs",
   "scripts": {
     "build": "corepack pnpm -r run build",
-    "check-bundle": "corepack pnpx asar list dist/linux-unpacked/resources/app.asar",
+    "check-bundle": "asar list dist/linux-unpacked/resources/app.asar",
     "check-pkglists": "ts-node --project tsconfig.cli.json assets/testPackageAvailability.ts",
     "compile": "corepack pnpm run build && corepack pnpm run electron-builder",
     "electron-builder": "electron-builder build --config electron-builder.mjs",
     "start": "node packages/dev-mode.mjs",
-    "test": "corepack pnpm exec playwright test ./tests/e2e.spec.ts",
+    "test": "playwright test ./tests/e2e.spec.ts",
     "translate": "ts-node --project tsconfig.cli.json assets/translator.ts",
-    "typecheck": "corepack pnpm run -r typecheck -ws --if-present"
+    "typecheck": "corepack pnpm run -r typecheck -ws --if-present",
+    "typegen": "tsc packages/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
     "@app/main": "workspace:*"

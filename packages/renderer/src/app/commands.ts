@@ -1,4 +1,4 @@
-import { Router } from '@angular/router';
+import type { Router } from '@angular/router';
 import { Logger } from './components/logging/logging';
 import { LogLevel } from './components/logging/interfaces';
 

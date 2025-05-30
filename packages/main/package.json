@@ -2,6 +2,7 @@
   "name": "@app/main",
   "type": "module",
   "files": [
+    "assets/**",
     "dist/**",
     "package.json"
   ],

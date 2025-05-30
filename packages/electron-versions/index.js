@@ -20,7 +20,8 @@ function createElectronEnvLoader() {
       return inMemoryCache;
     }
 
-    return (inMemoryCache = getElectronEnv());
+    inMemoryCache = getElectronEnv();
+    return inMemoryCache;
   };
 }
 
@@ -47,5 +48,5 @@ export function getNodeMajorVersion() {
 }
 
 function getMajorVersion(version) {
-  return parseInt(version.split(".")[0]);
+  return Number.parseInt(version.split(".")[0]);
 }

@@ -88,6 +88,14 @@ class WindowManager implements AppModule {
     browserWindow.webContents.on('will-navigate', (event, navigationUrl) => {
       const parsedUrl = new URL(navigationUrl);
 
+      // Allow devtools URLs
+      if (
+        navigationUrl.startsWith('devtools://') ||
+        navigationUrl.startsWith('chrome-devtools://')
+      ) {
+        return;
+      }
+
       if (
         parsedUrl.origin !== 'http://localhost:5173' &&
         parsedUrl.protocol !== 'file:'
@@ -99,6 +107,14 @@ class WindowManager implements AppModule {
 
     // Handle new window creation security
     browserWindow.webContents.setWindowOpenHandler(({ url }) => {
+      // Allow devtools
+      if (
+        url.startsWith('devtools://') ||
+        url.startsWith('chrome-devtools://')
+      ) {
+        return { action: 'allow' };
+      }
+
       // Allow external URLs to open in default browser
       if (url.startsWith('http://') || url.startsWith('https://')) {
         shell.openExternal(url);

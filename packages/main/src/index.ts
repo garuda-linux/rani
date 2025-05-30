@@ -17,56 +17,86 @@ import { createLoggingModule } from './modules/LoggingModule.js';
 import { createDialogModule } from './modules/DialogModule.js';
 import { createClipboardModule } from './modules/ClipboardModule.js';
 import { createEnhancedSecurityModule } from './modules/EnhancedSecurityModule.js';
+import { app } from 'electron';
 
 export async function initApp(initConfig: AppInitConfig) {
   const isDevelopment = import.meta.env.DEV;
 
-  const moduleRunner = createModuleRunner()
-    // Core modules
-    .init(
-      createWindowManagerModule({
-        initConfig,
-        openDevTools: isDevelopment,
-        isDevelopment,
-      }),
-    )
-    .init(disallowMultipleAppInstance())
-    .init(terminateAppOnLastWindowClose())
-    .init(autoUpdater())
+  try {
+    // Register IPC handlers immediately and synchronously BEFORE any async operations
+    const loggingModule = createLoggingModule();
+    const fileSystemModule = createFileSystemModule();
+    const storeModule = createStoreModule();
+    const pathModule = createPathModule(isDevelopment);
+    const osModule = createOSModule();
+    const notificationModule = createNotificationModule();
+    const windowControlModule = createWindowControlModule();
+    const dialogModule = createDialogModule();
+    const clipboardModule = createClipboardModule();
+    const shellModule = createShellModule(isDevelopment);
 
-    // Enhanced security
-    .init(createEnhancedSecurityModule(isDevelopment))
+    // Create module context
+    const moduleContext = { app };
 
-    // Original security modules
-    .init(
-      allowInternalOrigins(
-        new Set(
-          initConfig.renderer instanceof URL
-            ? [initConfig.renderer.origin]
-            : [],
+    // Enable IPC modules synchronously first
+    loggingModule.enable(moduleContext);
+    fileSystemModule.enable(moduleContext);
+    storeModule.enable(moduleContext);
+    pathModule.enable(moduleContext);
+    osModule.enable(moduleContext);
+    notificationModule.enable(moduleContext);
+    windowControlModule.enable(moduleContext);
+    dialogModule.enable(moduleContext);
+    clipboardModule.enable(moduleContext);
+    shellModule.enable(moduleContext);
+
+    console.log('IPC handlers registered successfully');
+
+    // Now run the async module runner for other modules
+    const moduleRunner = createModuleRunner()
+      // Core modules
+      .init(disallowMultipleAppInstance())
+      .init(terminateAppOnLastWindowClose())
+
+      // Enhanced security - but allow devtools
+      .init(createEnhancedSecurityModule(isDevelopment))
+
+      // Original security modules
+      .init(
+        allowInternalOrigins(
+          new Set(
+            initConfig.renderer instanceof URL
+              ? [initConfig.renderer.origin]
+              : [],
+          ),
         ),
-      ),
-    )
-    .init(
-      allowExternalUrls(
-        new Set(initConfig.renderer instanceof URL ? ['garudalinux.org'] : []),
-      ),
-    )
+      )
+      .init(
+        allowExternalUrls(
+          new Set(
+            initConfig.renderer instanceof URL ? ['garudalinux.org'] : [],
+          ),
+        ),
+      )
 
-    // IPC API modules
-    .init(createFileSystemModule())
-    .init(createShellModule(isDevelopment))
-    .init(createStoreModule())
-    .init(createPathModule(isDevelopment))
-    .init(createOSModule())
-    .init(createNotificationModule())
-    .init(createWindowControlModule())
-    .init(createLoggingModule())
-    .init(createDialogModule())
-    .init(createClipboardModule());
+      // Window manager - after all IPC handlers are ready
+      .init(
+        createWindowManagerModule({
+          initConfig,
+          openDevTools: isDevelopment,
+          isDevelopment,
+        }),
+      );
 
-  // Install DevTools extension if needed
-  // .init(chromeDevToolsExtension({extension: 'VUEJS3_DEVTOOLS'}))
+    // Auto updater after window is created
+    // .init(autoUpdater());
 
-  await moduleRunner;
+    // Install DevTools extension if needed
+    // .init(chromeDevToolsExtension({extension: 'VUEJS3_DEVTOOLS'}))
+
+    await moduleRunner;
+  } catch (error) {
+    console.error('Failed to initialize app:', error);
+    throw error;
+  }
 }

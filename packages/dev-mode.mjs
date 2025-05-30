@@ -15,7 +15,6 @@ if (
   process.on("unhandledRejection", showAndExit);
 }
 
-// noinspection JSIgnoredPromiseFromCall
 /**
  * We resolve '@app/renderer' and '@app/preload'
  * here and not in '@app/main'

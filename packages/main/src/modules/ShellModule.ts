@@ -8,16 +8,25 @@ import { readFileSync } from 'node:fs';
 
 class ShellModule implements AppModule {
   private readonly isDevelopment: boolean;
-  private readonly sshConfig: ConnectConfig;
+  private readonly sshConfig?: ConnectConfig;
 
   constructor(isDevelopment = false) {
     this.isDevelopment = isDevelopment;
-    this.sshConfig = {
-      host: '10.0.0.158',
-      port: 22,
-      username: 'alarm',
-      privateKey: readFileSync('/Users/nijen/.ssh/dev_vm'),
-    };
+    if (this.isDevelopment) {
+      try {
+        this.sshConfig = {
+          host: '10.0.0.158',
+          port: 22,
+          username: 'alarm',
+          privateKey: readFileSync('/Users/nijen/.ssh/dev_vm'),
+        };
+      } catch (error) {
+        console.warn(
+          'SSH key not found, SSH functionality will be disabled:',
+          error,
+        );
+      }
+    }
   }
 
   enable({ app: _app }: ModuleContext): void {
@@ -71,6 +80,8 @@ class ShellModule implements AppModule {
         'localectl',
         'timedatectl',
         'hostnamectl',
+        'hostname',
+        'lsb_release',
         'journalctl',
         'grub-install',
         'grub-mkconfig',
@@ -289,6 +300,7 @@ class ShellModule implements AppModule {
         'csplit',
         // Shells
         'bash',
+        'sh',
       ];
 
       const baseCommand = path.basename(command);

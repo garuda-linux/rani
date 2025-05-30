@@ -47,12 +47,24 @@ export class AutoUpdater implements AppModule {
       return await updater.checkForUpdatesAndNotify(this.#notification);
     } catch (error) {
       if (error instanceof Error) {
-        if (error.message.includes('No published versions')) {
+        // Handle common auto-updater errors gracefully
+        if (
+          error.message.includes('No published versions') ||
+          error.message.includes('404') ||
+          error.message.includes('HttpError') ||
+          error.message.includes('releases.atom')
+        ) {
+          console.warn(
+            'Auto-updater check failed (expected in development):',
+            error.message,
+          );
           return null;
         }
       }
 
-      throw error;
+      console.error('Auto-updater error:', error);
+      // Don't throw - let app continue without updates
+      return null;
     }
   }
 }
