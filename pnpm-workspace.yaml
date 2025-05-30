@@ -1,0 +1,17 @@
+packages:
+  - packages/*
+catalog:
+  "@app/electron-versions": workspace:*
+  "@app/main": workspace:*
+  "@app/preload": workspace:*
+  "@app/renderer": workspace:*
+onlyBuiltDependencies:
+  - "@parcel/watcher"
+  - "@tailwindcss/oxide"
+  - cpu-features
+  - electron
+  - electron-winstaller
+  - esbuild
+  - lmdb
+  - msgpackr-extract
+  - ssh2

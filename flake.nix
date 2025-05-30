@@ -1,117 +1,153 @@
 {
-  description = "Garuda's Rani ❄️";
+  description = "Nix for macOS";
+
+  nixConfig = {
+    substituters = [
+      "https://cache.nixos.org"
+    ];
+    extra-substituters = [
+      "https://nix-community.cachix.org/"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+    ];
+  };
 
   inputs = {
     devshell = {
       url = "github:numtide/devshell";
       flake = false;
     };
-    flake-parts.url = "github:hercules-ci/flake-parts";
-    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+    git-hooks = {
+      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    systems.url = "github:nix-systems/default";
   };
 
-  outputs = {
-    flake-parts,
-    nixpkgs,
-    pre-commit-hooks,
-    self,
-    ...
-  } @ inp: let
-    inputs = inp;
-    perSystem = {
-      pkgs,
-      system,
+  outputs =
+    inputs@{
+      nixpkgs,
+      self,
+      systems,
+      treefmt-nix,
       ...
-    }: {
-      apps.default = self.outputs.devShells.${system}.default.flakeApp;
-      checks.pre-commit-check = pre-commit-hooks.lib.${system}.run {
-        hooks = {
-          alejandra-quiet = {
-            description = "Run Alejandra in quiet mode";
+    }:
+    let
+      eachSystem = f: nixpkgs.lib.genAttrs (import systems) (system: f nixpkgs.legacyPackages.${system});
+      treefmtConfig = {
+        programs = {
+          deadnix.enable = true;
+          nixfmt.enable = true;
+          prettier = {
+            settings.editorconfig = true;
             enable = true;
-            entry = ''
-              ${pkgs.alejandra}/bin/alejandra --quiet
-            '';
-            files = "\\.nix$";
-            name = "alejandra";
           };
-          commitizen.enable = true;
-          # Eslint pulls ~1GB of nix derivations, let's reuse node_modules instead
-          eslint = {
-            description = "Run eslint";
+          shellcheck.enable = true;
+          shfmt.enable = true;
+          statix = {
+            disabled-lints = [ "repeated_keys" ];
             enable = true;
-            entry = ''
-              ${pkgs.corepack_latest}/bin/pnpm lint
-            '';
-            name = "eslint";
-            pass_filenames = false;
           };
-          flake-checker.enable = true;
-          prettier.enable = true;
-          yamllint.enable = true;
+          yamlfmt.enable = true;
         };
-        src = ./.;
       };
+      treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs treefmtConfig);
+    in
+    {
+      devShells = eachSystem (
+        pkgs:
+        let
+          treefmtEval = treefmt-nix.lib.evalModule pkgs treefmtConfig;
+          makeDevshell = import "${inputs.devshell}/modules" pkgs;
+          mkShell =
+            config:
+            (makeDevshell {
+              configuration = {
+                inherit config;
+                imports = [ ];
+              };
+            }).shell;
+        in
+        {
+          default = mkShell {
+            devshell = {
+              name = "Rani shell";
+              startup.preCommitHooks.text =
+                self.checks.${pkgs.system}.pre-commit-check.shellHook
+                + ''
+                  FLAKE_ROOT=$(${nixpkgs.lib.getExe pkgs.gitMinimal} rev-parse --show-toplevel)
+                  SYMLINK_SOURCE_PATH="${treefmtEval.config.build.configFile}"
+                  SYMLINK_TARGET_PATH="$FLAKE_ROOT/.treefmt.toml"
 
-      # Handy devshell for working with this flake
-      devShells = let
-        # Import the devshell module as module rather than a flake input
-        makeDevshell = import "${inp.devshell}/modules" pkgs;
-        mkShell = config:
-          (makeDevshell {
-            configuration = {
-              inherit config;
-              imports = [];
+                  if [[ -e "$SYMLINK_TARGET_PATH" && ! -L "$SYMLINK_TARGET_PATH" ]]; then
+                    echo "treefmt-nix: Error: Target exists but is not a symlink."
+                    exit 1
+                  fi
+
+                  if [[ -L "$SYMLINK_TARGET_PATH" ]]; then
+                    if [[ "$(readlink "$SYMLINK_TARGET_PATH")" != "$SYMLINK_SOURCE_PATH" ]]; then
+                      echo "treefmt-nix: Removing existing symlink"
+                      unlink "$SYMLINK_TARGET_PATH"
+                    else
+                      exit 0
+                    fi
+                  fi
+
+                  nix-store --add-root "$SYMLINK_TARGET_PATH" --indirect --realise "$SYMLINK_SOURCE_PATH"
+                  echo "treefmt-nix: Created symlink successfully"
+                '';
             };
-          })
-          .shell;
-      in rec {
-        default = garuda-rani;
-        garuda-rani = mkShell {
-          commands = [
-            {package = "corepack_latest";}
-            {package = "nodejs_latest";}
-            {package = "pre-commit";}
-          ];
-          devshell = {
-            name = "garuda-rani";
-            startup.preCommitHooks.text = ''
-              ${self.checks.${system}.pre-commit-check.shellHook}
-
-              if [ ! -d node_modules ]; then
-                ${pkgs.corepack_latest}/bin/pnpm install
-              else
-                outcome=$(${pkgs.corepack_latest}/bin/pnpm install)
-                if  [[ !  "$outcome" =~ "Already up to date" ]]; then
-                  echo "Dependencies have been updated"
-                fi
-              fi
-            '';
+            env = [
+              {
+                name = "NIX_PATH";
+                value = "${nixpkgs}";
+              }
+            ];
           };
-          env = [
-            {
-              name = "NIX_PATH";
-              value = "${nixpkgs}";
-            }
-          ];
-        };
-      };
+        }
+      );
 
-      # By default, alejandra is WAY to verbose
-      formatter = pkgs.writeShellScriptBin "alejandra" ''
-        exec ${pkgs.alejandra}/bin/alejandra --quiet "$@"
-      '';
-    };
-  in
-    flake-parts.lib.mkFlake {inherit inputs;} {
-      imports = [
-        inputs.pre-commit-hooks.flakeModule
-      ];
-      systems = ["x86_64-linux" "aarch64-linux"];
-      inherit perSystem;
+      formatter = eachSystem (pkgs: treefmtEval.${pkgs.system}.config.build.wrapper);
+
+      checks = eachSystem (pkgs: {
+        pre-commit-check = inputs.git-hooks.lib.${pkgs.system}.run {
+          hooks = {
+            check-json.enable = true;
+            check-yaml = {
+              enable = true;
+              excludes = [
+                "pnpm-lock.yaml"
+              ];
+            };
+            commitizen.enable = true;
+            detect-private-keys.enable = true;
+            eslint.enable = true;
+            oxlint = {
+              enable = true;
+              name = "Oxlint";
+              entry = "${pkgs.oxlint}/bin/oxlint";
+              files = "\\.(ts|js)$";
+              language = "system";
+              pass_filenames = false;
+              stages = [ "pre-commit" ];
+            };
+            ripsecrets.enable = true;
+            treefmt = {
+              enable = true;
+              args = [
+                "--config-file"
+                ".treefmt.toml"
+              ];
+            };
+          };
+          src = ./.;
+        };
+      });
     };
 }

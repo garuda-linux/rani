@@ -1,0 +1,136 @@
+<ng-container *transloco="let t">
+  <p-context-menu [global]="true" [model]="rightClickMenu()" />
+  <div class="background min-h-svh">
+    <garuda-shell id="shellBar" [menuItems]="menuItems()">
+      @if (!hideWindowButtons() && configService.settings().leftButtons) {
+        <div garudaShellBarStart>
+          <div class="flex">
+            <img
+              class="mx-1"
+              #closeButton
+              (click)="appWindow.close()"
+              (mouseenter)="closeButton.src = '/assets/window/close-hover.svg'"
+              (mouseleave)="closeButton.src = '/assets/window/close-main.svg'"
+              alt="close"
+              height="16"
+              ngSrc="/assets/window/close-main.svg"
+              width="16"
+            />
+            <img
+              class="mx-1"
+              #maximizeButton
+              (click)="appWindow.toggleMaximize()"
+              (mouseenter)="
+                maximizeButton.src = '/assets/window/maximize-hover.svg'
+              "
+              (mouseleave)="
+                maximizeButton.src = '/assets/window/maximize-main.svg'
+              "
+              alt="maximize"
+              height="16"
+              ngSrc="/assets/window/maximize-main.svg"
+              width="16"
+            />
+            <img
+              class="mx-1"
+              #minimizeButton
+              (click)="appWindow.minimize()"
+              (mouseenter)="
+                minimizeButton.src = '/assets/window/minimize-hover.svg'
+              "
+              (mouseleave)="
+                minimizeButton.src = '/assets/window/minimize-main.svg'
+              "
+              alt="minimize"
+              height="16"
+              ngSrc="/assets/window/minimize-main.svg"
+              width="16"
+            />
+          </div>
+        </div>
+      } @else if (!configService.settings().leftButtons) {
+        <div garudaShellBarStart>
+          @if (loadingService.loading()) {
+            <p-progress-spinner
+              [style]="{
+                width: '1.5rem',
+                height: '1.5rem',
+                'vertical-align': 'middle',
+              }"
+              ariaLabel="loading"
+            />
+          }
+        </div>
+      }
+      @if (!hideWindowButtons() && !configService.settings().leftButtons) {
+        <div garudaShellBarEnd>
+          <div class="flex">
+            <img
+              class="mx-1"
+              #minimizeButton
+              (click)="appWindow.minimize()"
+              (mouseenter)="
+                minimizeButton.src = '/assets/window/minimize-hover.svg'
+              "
+              (mouseleave)="
+                minimizeButton.src = '/assets/window/minimize-main.svg'
+              "
+              alt="minimize"
+              height="16"
+              ngSrc="/assets/window/minimize-main.svg"
+              width="16"
+            />
+            <img
+              class="mx-1"
+              #maximizeButton
+              (click)="appWindow.toggleMaximize()"
+              (mouseenter)="
+                maximizeButton.src = '/assets/window/maximize-hover.svg'
+              "
+              (mouseleave)="
+                maximizeButton.src = '/assets/window/maximize-main.svg'
+              "
+              alt="maximize"
+              height="16"
+              ngSrc="/assets/window/maximize-main.svg"
+              width="16"
+            />
+            <img
+              class="mx-1"
+              #closeButton
+              (click)="appWindow.close()"
+              (mouseenter)="closeButton.src = '/assets/window/close-hover.svg'"
+              (mouseleave)="closeButton.src = '/assets/window/close-main.svg'"
+              alt="close"
+              height="16"
+              ngSrc="/assets/window/close-main.svg"
+              width="16"
+            />
+          </div>
+        </div>
+      } @else if (configService.settings().leftButtons) {
+        <div garudaShellBarEnd>
+          @if (loadingService.loading()) {
+            <p-progress-spinner
+              [style]="{
+                width: '1.5rem',
+                height: '1.5rem',
+                'vertical-align': 'middle',
+              }"
+              strokeWidth="10"
+              ariaLabel="loading"
+            />
+          }
+        </div>
+      }
+      <div class="mt-5">
+        <router-outlet></router-outlet>
+      </div>
+      <p-scroll-top></p-scroll-top>
+    </garuda-shell>
+  </div>
+
+  <p-confirm-dialog></p-confirm-dialog>
+  <rani-terminal #terminalComponent></rani-terminal>
+  <rani-operation-manager #operationManagerComponent></rani-operation-manager>
+</ng-container>

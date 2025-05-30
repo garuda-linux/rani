@@ -1,0 +1,65 @@
+<ng-container *transloco="let t">
+  <div class="my-5 text-center">{{ t("languagePacks.description") }}</div>
+  <p-table
+    #packageTable
+    [globalFilterFields]="['base', 'locale', 'pkgname']"
+    [loading]="languagePacksService.loading()"
+    [paginator]="true"
+    [rowsPerPageOptions]="[10, 20, 30]"
+    [rows]="10"
+    [value]="languagePacksService.languagePacks()"
+    dataKey="locale"
+    groupRowsBy="locale"
+    rowGroupMode="rowspan"
+    sortField="locale"
+  >
+    <ng-template #header>
+      <tr>
+        <th class="w-16 whitespace-nowrap" pSortableColumn="selected">
+          {{ t("packages.selected") }}
+          <p-sortIcon field="selected" />
+        </th>
+        <th pSortableColumn="locale" style="width: 8rem">
+          {{ t("languagePacks.locale") }}
+          <p-sortIcon field="locale" />
+        </th>
+        <th pSortableColumn="base">
+          {{ t("languagePacks.base") }}
+          <p-sortIcon field="base" />
+        </th>
+        <th pSortableColumn="pkgname">
+          {{ t("languagePacks.pkgname") }}
+          <p-sortIcon field="base" />
+        </th>
+      </tr>
+    </ng-template>
+    <ng-template #body let-pkg let-rowgroup="rowgroup" let-rowspan="rowspan">
+      <tr>
+        <td>
+          <p-check-box
+            [(ngModel)]="pkg.selected"
+            [binary]="true"
+            (onChange)="togglePackage(pkg)"
+            ngClass="ml-5"
+          ></p-check-box>
+        </td>
+        <td *ngIf="rowgroup" [attr.rowspan]="rowspan">
+          <div class="flex items-center gap-2">
+            {{ pkg.locale | locale: false }}
+          </div>
+        </td>
+        <td>
+          <p>{{ pkg.base }}</p>
+        </td>
+        <td>
+          <p>{{ pkg.pkgname[0] }}</p>
+        </td>
+      </tr>
+    </ng-template>
+    <ng-template #emptymessage>
+      <tr>
+        <td colspan="5">{{ t("languagePacks.notFound") }}</td>
+      </tr>
+    </ng-template>
+  </p-table>
+</ng-container>

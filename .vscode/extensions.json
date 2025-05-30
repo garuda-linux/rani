@@ -2,10 +2,6 @@
   "recommendations": [
     "angular.ng-template",
     "dbaeumer.vscode-eslint",
-    "esbenp.prettier-vscode",
-    "nrwl.angular-console",
-    "rust-lang.rust-analyzer",
-    "tauri-apps.tauri-vscode",
-    "vadimcn.vscode-lldb"
+    "esbenp.prettier-vscode"
   ]
 }

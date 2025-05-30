@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ExternalDependencies">
+    <plugin id="Docker" />
+    <plugin id="NodeJS" />
+    <plugin id="com.github.oxc.project.oxcintellijplugin" />
+    <plugin id="com.intellij.tailwindcss" />
+    <plugin id="intellij.prettierJS" />
+    <plugin id="intellij.vitejs" />
+    <plugin id="org.editorconfig.editorconfigjetbrains" />
+  </component>
+</project>

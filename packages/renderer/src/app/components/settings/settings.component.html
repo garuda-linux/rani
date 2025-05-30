@@ -1,0 +1,79 @@
+<ng-container *transloco="let t">
+  <div class="surface-section px-4 text-center md:px-6 lg:px-8">
+    <div class="text-3xl font-bold">
+      <span class="text-color">{{ t("settings.title") }} </span>
+      <span class="text-primary">{{ t("settings.titleTwo") }}</span>
+    </div>
+  </div>
+
+  <div class="p-10">
+    <p-panel [header]="t('settings.toggleOptions')" styleClass="mt-5 z-0">
+      <div class="grid grid-cols-12 pb-5">
+        @for (entry of settings(); track entry.name) {
+          <div
+            class="text-sure col-span-12 sm:col-span-6 md:col-span-6 xl:col-span-4"
+          >
+            <div class="mt-5 pl-20">
+              <p-checkbox
+                [(ngModel)]="entry.value"
+                [inputId]="entry.name"
+                [value]="entry.value"
+                (click)="toggleSetting(entry.name)"
+                binary
+                name="group"
+              />
+              <label class="mx-2.5" [for]="entry.name">
+                {{ t("settings." + entry.name) }}
+              </label>
+            </div>
+          </div>
+        }
+      </div>
+    </p-panel>
+
+    <p-panel [header]="t('settings.selectOptions')">
+      <div class="grid grid-cols-4 gap-10 px-20 py-5">
+        <div
+          class="3xl:col-span-1 col-span-3 flex flex-col gap-2 md:col-span-2"
+        >
+          <label for="theme">{{ t("settings.themeLabel") }}</label>
+          <p-select
+            id="theme"
+            [(ngModel)]="configService.settings().activeTheme"
+            [options]="availableThemes"
+            (ngModelChange)="updateConfig('activeTheme', $event)"
+            fluid
+          />
+        </div>
+
+        <div
+          class="3xl:col-span-1 col-span-3 flex flex-col gap-2 md:col-span-2"
+        >
+          <label for="select-languages">{{ t("settings.language") }}</label>
+          <p-select
+            id="select-languages"
+            [ngModel]="configService.settings().language"
+            [options]="languages()"
+            (onChange)="selectLanguage($event)"
+            fluid
+            optionLabel="label"
+            optionValue="language"
+          />
+        </div>
+
+        <div
+          class="3xl:col-span-1 col-span-3 flex flex-col gap-2 md:col-span-2"
+        >
+          <label for="select-loglevel">{{ t("settings.logLevel") }}</label>
+          <p-select
+            id="select-loglevel"
+            [ngModel]="logLevelType[configService.settings().logLevel]"
+            [options]="logLevels"
+            (onChange)="selectLogLevel($event)"
+            fluid
+          />
+        </div>
+      </div>
+    </p-panel>
+  </div>
+</ng-container>
