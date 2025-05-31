@@ -76,7 +76,7 @@
                 } @else {
                   <fa-icon
                     class="text-primary"
-                    [icon]="item.icon!"
+                    [icon]="item.icon"
                     size="2xl"
                   ></fa-icon>
                 }
@@ -88,39 +88,39 @@
           </p-card>
         }
       </div>
-      <div class="mt-10 grid grid-cols-12">
-        @for (item of contactLinks; track item.title) {
-          <p-card
-            class="col-span-12 mb-4 cursor-pointer px-5 md:col-span-2"
-            (click)="respondClick(item)"
-          >
-            <span
-              class="shadow-2 surface-card mb-3 inline-block p-3"
-              style="border-radius: 10px"
-            >
-              <div class="min-h-8">
-                @if (typeof item.icon === "string") {
-                  <img
-                    ngSrc="/assets/icons/{{ item.icon }}"
-                    alt="{{ item.title }}"
-                    width="32"
-                    height="32"
-                  />
-                } @else {
-                  <fa-icon
-                    class="text-primary"
-                    [icon]="item.icon!"
-                    size="2xl"
-                  ></fa-icon>
-                }
-              </div>
-            </span>
-            <div class="mb-3 text-sm font-medium text-primary-emphasis">
-              {{ t(item.title) }}
-            </div>
-          </p-card>
-        }
-      </div>
+      <!--      <div class="mt-10 grid grid-cols-12">-->
+      <!--        @for (item of contactLinks; track item.title) {-->
+      <!--          <p-card-->
+      <!--            class="col-span-12 mb-4 cursor-pointer px-5 md:col-span-2"-->
+      <!--            (click)="respondClick(item)"-->
+      <!--          >-->
+      <!--            <span-->
+      <!--              class="shadow-2 surface-card mb-3 inline-block p-3"-->
+      <!--              style="border-radius: 10px"-->
+      <!--            >-->
+      <!--              <div class="min-h-8">-->
+      <!--                @if (typeof item.icon === "string") {-->
+      <!--                  <img-->
+      <!--                    ngSrc="/assets/icons/{{ item.icon }}"-->
+      <!--                    alt="{{ item.title }}"-->
+      <!--                    width="32"-->
+      <!--                    height="32"-->
+      <!--                  />-->
+      <!--                } @else {-->
+      <!--                  <fa-icon-->
+      <!--                    class="text-primary"-->
+      <!--                    [icon]="item.icon"-->
+      <!--                    size="2xl"-->
+      <!--                  ></fa-icon>-->
+      <!--                }-->
+      <!--              </div>-->
+      <!--            </span>-->
+      <!--            <div class="mb-3 text-sm font-medium text-primary-emphasis">-->
+      <!--              {{ t(item.title) }}-->
+      <!--            </div>-->
+      <!--          </p-card>-->
+      <!--        }-->
+      <!--      </div>-->
     }
   </div>
 </ng-container>

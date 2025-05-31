@@ -29,23 +29,24 @@ import { GamingService } from './components/gaming/gaming.service';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     ConfigService,
     ConfirmationService,
-    LanguageManagerService,
-    ThemeService,
-    PackagesService,
-    NotificationService,
-    TaskManagerService,
-    OsInteractService,
-    SystemStatusService,
-    KernelsService,
-    LanguagePacksService,
-    LocalesService,
     GamingService,
+    KernelsService,
+    LanguageManagerService,
+    LanguagePacksService,
     LoadingService,
+    LocalesService,
+    NotificationService,
+    OsInteractService,
+    PackagesService,
+    SystemStatusService,
+    TaskManagerService,
+    ThemeService,
     provideAnimationsAsync(),
     provideAppInitializer(initRani),
     provideExperimentalZonelessChangeDetection(),

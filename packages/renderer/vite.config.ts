@@ -33,14 +33,20 @@ function copyAssets(): Plugin {
               }
             }
           } catch (error) {
-            console.warn(`Could not copy ${src}:`, error.message);
+            console.warn(
+              `Could not copy ${src}:`,
+              (error as NodeJS.ErrnoException).message,
+            );
           }
         }
 
         copyDir(srcAssetsDir, destAssetsDir);
         console.log('Assets copied to renderer package');
       } catch (error) {
-        console.warn('Could not copy assets:', error.message);
+        console.warn(
+          'Could not copy assets:',
+          (error as NodeJS.ErrnoException).message,
+        );
       }
     },
   };

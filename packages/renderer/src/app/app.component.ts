@@ -38,6 +38,7 @@ import { TaskManagerService } from './components/task-manager/task-manager.servi
 import { NotificationService } from './components/notification/notification.service';
 import { ThemeService } from './components/theme-service/theme-service';
 import { ElectronShellService } from './components/electron-services';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   imports: [

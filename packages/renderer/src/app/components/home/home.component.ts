@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Card } from 'primeng/card';
 import { RouterLink } from '@angular/router';
-import { type ChildProcess, ElectronShellService } from '../electron-services';
+import { ElectronShellService } from '../electron-services';
 import type { ExternalLink, HomepageLink } from '../../interfaces';
 import { ConfigService } from '../config/config.service';
 import { FaIconComponent } from '@fortawesome/angular-fontawesome';

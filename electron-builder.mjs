@@ -5,6 +5,10 @@ import pkg from "./package.json" with { type: "json" };
  * @see https://www.electron.build/configuration
  */
 export default {
+  productName: "Garuda Rani",
+  appId: "org.garudalinux.rani",
+  copyright: "GPLv3",
+
   //compression: "normal",
   removePackageScripts: true,
 
