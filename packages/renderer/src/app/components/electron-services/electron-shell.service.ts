@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import type { Child, CommandResult } from '../../types/shell';
+import { ShellStreamingResult, ShellEvent } from './electron-types';
 
 @Injectable({
   providedIn: 'root',
@@ -61,18 +62,142 @@ export class ElectronShellService {
       )) as CommandResult;
     }
 
-    async spawn(): Promise<Child> {
+    async spawn(): Promise<StreamingShellProcess> {
       if (!window.electronAPI) {
         throw new Error('Electron API not available');
       }
-      return (await window.electronAPI.shell.execute(
-        this.command,
-        this.argsList,
-        {
-          ...this.options,
-          spawn: true,
-        },
-      )) as Child;
+      const result: ShellStreamingResult =
+        window.electronAPI.shell.spawnStreaming(
+          this.command,
+          this.argsList,
+          this.options,
+        );
+      return new StreamingShellProcess(result.processId, result.pid);
     }
   };
+}
+
+class StreamingShellProcess implements Child {
+  private readonly processId: string;
+  private readonly _pid: number;
+  private stdoutBuffer = '';
+  private stderrBuffer = '';
+  private exitCode: number | null = null;
+  private exitSignal: string | null = null;
+  private hasExited = false;
+  private exitPromise: Promise<void>;
+  private exitResolve!: () => void;
+  private stdinBuffer = '';
+
+  constructor(processId: string, pid: number | undefined) {
+    this.processId = processId;
+    this._pid = pid || 0;
+
+    this.exitPromise = new Promise((resolve) => {
+      this.exitResolve = resolve;
+    });
+
+    this.setupEventListeners();
+  }
+
+  private setupEventListeners(): void {
+    const handleStdout = (event: ShellEvent) => {
+      if (event.processId === this.processId && event.data) {
+        this.stdoutBuffer += event.data;
+      }
+    };
+
+    const handleStderr = (event: ShellEvent) => {
+      if (event.processId === this.processId && event.data) {
+        this.stderrBuffer += event.data;
+      }
+    };
+
+    const handleClose = (event: ShellEvent) => {
+      if (event.processId === this.processId) {
+        this.exitCode = event.code ?? null;
+        this.exitSignal = event.signal ?? null;
+        this.hasExited = true;
+        this.cleanup();
+        this.exitResolve();
+      }
+    };
+
+    const handleError = (event: ShellEvent) => {
+      if (event.processId === this.processId) {
+        this.hasExited = true;
+        this.cleanup();
+        this.exitResolve();
+      }
+    };
+
+    window.electronAPI.events.on('shell:stdout', handleStdout);
+    window.electronAPI.events.on('shell:stderr', handleStderr);
+    window.electronAPI.events.on('shell:close', handleClose);
+    window.electronAPI.events.on('shell:error', handleError);
+  }
+
+  private cleanup(): void {
+    // Note: In a real implementation, you'd want to properly remove these specific listeners
+    // For now, we'll rely on the process-specific event filtering
+  }
+
+  async write(input: string): Promise<void> {
+    // Store input for potential future use
+    this.stdinBuffer += input;
+
+    if (!window.electronAPI.shell.writeStdin(this.processId, input)) {
+      throw new Error(
+        'Failed to write to stdin - process may have exited or stdin is closed',
+      );
+    }
+  }
+
+  kill(signal: string = 'SIGTERM'): void {
+    if (!window.electronAPI.shell.killProcess(this.processId, signal)) {
+      console.warn('Failed to kill process - it may have already exited');
+    }
+
+    // Mark as exited for immediate compatibility
+    if (!this.hasExited) {
+      this.hasExited = true;
+      this.exitCode = -1;
+      this.exitSignal = signal;
+      this.exitResolve();
+    }
+  }
+
+  get pid(): number {
+    return this._pid;
+  }
+
+  get stdout(): any {
+    return {
+      data: this.stdoutBuffer,
+      toString: () => this.stdoutBuffer,
+    };
+  }
+
+  get stderr(): any {
+    return {
+      data: this.stderrBuffer,
+      toString: () => this.stderrBuffer,
+    };
+  }
+
+  get code(): number | null {
+    return this.exitCode;
+  }
+
+  get signal(): string | null {
+    return this.exitSignal;
+  }
+
+  async waitForExit(): Promise<void> {
+    return this.exitPromise;
+  }
+
+  get exited(): boolean {
+    return this.hasExited;
+  }
 }

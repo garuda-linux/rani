@@ -12,6 +12,7 @@ import { ConfigService } from '../config/config.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { TranslocoService } from '@jsverse/transloco';
+import { ElectronShellSpawnService } from '../electron-services/electron-shell-spawn.service';
 
 export class Task {
   constructor(
@@ -97,6 +98,7 @@ export class TaskManagerService {
   private readonly translocoService = inject(TranslocoService);
   private readonly fsService = new ElectronFsService();
   private readonly shellService = new ElectronShellService();
+  private readonly shellStreamingService = new ElectronShellSpawnService();
 
   readonly tasks = signal<Task[]>([]);
   readonly sortedTasks = computed(() =>
@@ -395,7 +397,7 @@ export class TaskManagerService {
     this.running.set(true);
     this.clearTerminal();
 
-    const shells = await this.createShells(!task.escalate, task.escalate);
+    const shells = this.createShells(!task.escalate, task.escalate);
     this.currentTask.set(task);
     await this.internalExecuteTask(task, shells);
     this.currentTask.set(null);

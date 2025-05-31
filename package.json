@@ -12,18 +12,18 @@
     "system",
     "settings"
   ],
-  "homepage": "https://github.com/dr460nf1r3/garuda-rani#readme",
+  "homepage": "https://github.com/garuda-linux/applications/rani#readme",
   "bugs": {
-    "url": "https://github.com/dr460nf1r3/garuda-rani/issues"
+    "url": "https://github.com/garuda-linux/applications/rani/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dr460nf1r3/garuda-rani.git"
+    "url": "git+https://github.com/garuda-linux/applications/rani.git"
   },
   "license": "GPL-3.0",
   "author": {
     "name": "dr460nf1r3",
-    "email": "dr460nf1r3@garudalinux.org"
+    "email": "root@dr460nf1r3.org"
   },
   "maintainers": [
     "dr460nf1r3",
@@ -34,6 +34,7 @@
   "scripts": {
     "build": "corepack pnpm -r run build",
     "check-bundle": "asar list dist/linux-unpacked/resources/app.asar",
+    "check-bundle-mac": "asar list dist/mac-arm64/Garuda\\ Rani.app/Contents/Resources/app.asar",
     "check-pkglists": "ts-node --project tsconfig.cli.json assets/testPackageAvailability.ts",
     "compile": "corepack pnpm run build && corepack pnpm run electron-builder",
     "electron-builder": "electron-builder build --config electron-builder.mjs",
@@ -44,30 +45,32 @@
     "typegen": "tsc packages/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
-    "@app/main": "workspace:*"
+    "@app/main": "workspace:*",
+    "@app/preload": "workspace:*",
+    "@app/renderer": "workspace:*"
   },
   "devDependencies": {
     "@electron-toolkit/eslint-config": "^2.1.0",
-    "@eslint/js": "^9.27.0",
+    "@eslint/js": "^9.28.0",
     "@playwright/test": "^1.52.0",
     "@tailwindcss/vite": "^4.1.8",
     "@types/emoji-js": "^3.5.2",
     "@types/jest": "29.5.14",
-    "@types/mime-types": "^2.1.4",
+    "@types/mime-types": "^3.0.0",
     "@types/node": "^22.15.24",
     "@types/pako": "^2.0.3",
     "@types/ssh2": "^1.15.5",
     "electron": "36.3.2",
     "electron-builder": "26.0.12",
-    "eslint": "9.27.0",
-    "eslint-plugin-oxlint": "^0.16.12",
+    "eslint": "9.28.0",
+    "eslint-plugin-oxlint": "^0.17.0",
     "glob": "11.0.2",
     "node-module-collector": "^1.1.4",
     "oxlint": "^0.16.12",
     "playwright": "^1.52.0",
     "prettier": "^3.5.3",
     "prettier-plugin-organize-attributes": "^1.0.0",
-    "prettier-plugin-tailwindcss": "^0.6.11",
+    "prettier-plugin-tailwindcss": "^0.6.12",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.0",
     "vite": "6.3.5"

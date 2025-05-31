@@ -7,7 +7,7 @@ import pkg from "./package.json" with { type: "json" };
 export default {
   productName: "Garuda Rani",
   appId: "org.garudalinux.rani",
-  copyright: "GPLv3",
+  copyright: "GPL-3.0",
 
   //compression: "normal",
   removePackageScripts: true,

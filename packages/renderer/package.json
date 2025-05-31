@@ -60,7 +60,7 @@
     "jsdom": "^26.1.0",
     "tailwindcss": "^4.1.4",
     "tailwindcss-primeui": "0.6.1",
-    "postcss": "^8.5.3",
+    "postcss": "^8.5.4",
     "typescript": "^5.8.3",
     "vite": "^6.3.5",
     "vite-tsconfig-paths": "^5.1.4",
@@ -68,12 +68,5 @@
   },
   "engines": {
     "node": ">=22.0.0"
-  },
-  "overrides": {
-    "@garudalinux-core": {
-      "angular/core": "19.2.14",
-      "@angular/platform-browser": "19.2.14",
-      "@angular/common": "19.2.14"
-    }
   }
 }

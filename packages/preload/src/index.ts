@@ -1,5 +1,10 @@
-import { sha256sum } from './nodeCrypto.js';
+import { sha256sum } from './node-crypto.js';
 import { versions } from './versions.js';
+import {
+  shellSpawnStreaming,
+  shellWriteStdin,
+  shellKillProcess,
+} from './shell.js';
 import { contextBridge, ipcRenderer } from 'electron';
 
 function send(channel: string, message: string) {
@@ -25,6 +30,17 @@ contextBridge.exposeInMainWorld('electronAPI', {
   // Shell Operations
   shell: {
     open: (url: string) => ipcRenderer.invoke('shell:open', url),
+    spawnStreaming(
+      command: string,
+      args?: string[],
+      options?: Record<string, unknown>,
+    ) {
+      return shellSpawnStreaming(command, args, options);
+    },
+    writeStdin: (processId: string, data: string) =>
+      shellWriteStdin(processId, data),
+    killProcess: (processId: string, signal?: string) =>
+      shellKillProcess(processId, signal),
     execute: (
       command: string,
       args?: string[],
@@ -176,6 +192,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
         'window-restore',
         'app-update',
         'system-theme-changed',
+        'shell:stdout',
+        'shell:stderr',
+        'shell:close',
+        'shell:error',
       ];
 
       if (validChannels.includes(channel)) {
@@ -199,6 +219,10 @@ contextBridge.exposeInMainWorld('electronAPI', {
         'window-restore',
         'app-update',
         'system-theme-changed',
+        'shell:stdout',
+        'shell:stderr',
+        'shell:close',
+        'shell:error',
       ];
 
       if (validChannels.includes(channel)) {
@@ -224,4 +248,11 @@ contextBridge.exposeInMainWorld('electronProcess', {
   version: process.version,
 });
 
-export { sha256sum, versions, send };
+export {
+  sha256sum,
+  versions,
+  send,
+  shellSpawnStreaming,
+  shellWriteStdin,
+  shellKillProcess,
+};

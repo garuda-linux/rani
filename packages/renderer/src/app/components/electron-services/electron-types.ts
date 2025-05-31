@@ -1,3 +1,38 @@
+export interface ShellStreamingResult {
+  processId: string;
+  pid: number | undefined;
+}
+
+export interface ShellEvent {
+  processId: string;
+  data?: string;
+  code?: number | null;
+  signal?: string | null;
+  error?: {
+    name: string;
+    message: string;
+    stack?: string;
+  };
+}
+
+// Event channel type definitions
+export interface EventChannelMap {
+  'shell:stdout': ShellEvent;
+  'shell:stderr': ShellEvent;
+  'shell:close': ShellEvent;
+  'shell:error': ShellEvent;
+  'window-focus': undefined;
+  'window-blur': undefined;
+  'window-maximize': undefined;
+  'window-unmaximize': undefined;
+  'window-minimize': undefined;
+  'window-restore': undefined;
+  'app-update': any;
+  'system-theme-changed': any;
+}
+
+export type EventChannel = keyof EventChannelMap;
+
 export interface ElectronAPI {
   fs: {
     exists: (filePath: string) => Promise<boolean>;
@@ -8,6 +43,13 @@ export interface ElectronAPI {
   };
   shell: {
     open: (url: string) => Promise<boolean>;
+    spawnStreaming: (
+      command: string,
+      args?: string[],
+      options?: Record<string, unknown>,
+    ) => ShellStreamingResult;
+    writeStdin: (processId: string, data: string) => boolean;
+    killProcess: (processId: string, signal?: string) => boolean;
     execute: (
       command: string,
       args?: string[],
@@ -35,6 +77,9 @@ export interface ElectronAPI {
     arch: () => Promise<string>;
     version: () => Promise<string>;
     locale: () => Promise<string>;
+    hostname: () => Promise<string>;
+    homedir: () => Promise<string>;
+    tmpdir: () => Promise<string>;
   };
   notification: {
     isPermissionGranted: () => Promise<boolean>;
@@ -44,6 +89,12 @@ export interface ElectronAPI {
       body?: string;
       icon?: string;
     }) => Promise<boolean>;
+    sendWithActions: (options: {
+      title: string;
+      body?: string;
+      icon?: string;
+      actions?: { type: string; text: string }[];
+    }) => Promise<boolean>;
   };
   window: {
     close: () => Promise<void>;
@@ -51,6 +102,16 @@ export interface ElectronAPI {
     maximize: () => Promise<void>;
     hide: () => Promise<void>;
     show: () => Promise<void>;
+    focus: () => Promise<void>;
+    isMaximized: () => Promise<boolean>;
+    isMinimized: () => Promise<boolean>;
+    isVisible: () => Promise<boolean>;
+    setTitle: (title: string) => Promise<void>;
+    getTitle: () => Promise<string>;
+    setSize: (width: number, height: number) => Promise<void>;
+    getSize: () => Promise<number[]>;
+    setPosition: (x: number, y: number) => Promise<void>;
+    getPosition: () => Promise<number[]>;
   };
   log: {
     trace: (message: string) => Promise<void>;
@@ -58,21 +119,90 @@ export interface ElectronAPI {
     info: (message: string) => Promise<void>;
     warn: (message: string) => Promise<void>;
     error: (message: string) => Promise<void>;
+    structured: (
+      level: string,
+      message: string,
+      data?: unknown,
+    ) => Promise<void>;
+    withContext: (
+      level: string,
+      message: string,
+      context: Record<string, unknown>,
+    ) => Promise<void>;
   };
   dialog: {
     open: (options: Record<string, unknown>) => Promise<unknown>;
     save: (options: Record<string, unknown>) => Promise<unknown>;
     message: (options: Record<string, unknown>) => Promise<unknown>;
+    error: (title: string, content: string) => Promise<unknown>;
+    certificate: (options: Record<string, unknown>) => Promise<unknown>;
+    confirm: (
+      message: string,
+      title?: string,
+      detail?: string,
+    ) => Promise<unknown>;
+    warning: (
+      message: string,
+      title?: string,
+      detail?: string,
+    ) => Promise<unknown>;
+    info: (
+      message: string,
+      title?: string,
+      detail?: string,
+    ) => Promise<unknown>;
   };
   clipboard: {
     writeText: (text: string) => Promise<boolean>;
     readText: () => Promise<string>;
     clear: () => Promise<boolean>;
+    writeHTML: (markup: string, text?: string) => Promise<boolean>;
+    readHTML: () => Promise<string>;
+    writeRTF: (text: string) => Promise<boolean>;
+    readRTF: () => Promise<string>;
+    writeImage: (dataURL: string) => Promise<boolean>;
+    readImage: () => Promise<string>;
+    writeBookmark: (title: string, url: string) => Promise<boolean>;
+    readBookmark: () => Promise<{ title: string; url: string }>;
+    availableFormats: () => Promise<string[]>;
+    has: (format: string) => Promise<boolean>;
+    read: (format: string) => Promise<string>;
+    isEmpty: () => Promise<boolean>;
+    hasText: () => Promise<boolean>;
+    hasImage: () => Promise<boolean>;
   };
+  events: {
+    on: <T extends EventChannel>(
+      channel: T,
+      listener: (event: EventChannelMap[T]) => void,
+    ) => void;
+    off: <T extends EventChannel>(
+      channel: T,
+      listener: (event: EventChannelMap[T]) => void,
+    ) => void;
+    once: <T extends EventChannel>(
+      channel: T,
+      listener: (event: EventChannelMap[T]) => void,
+    ) => void;
+  };
+}
+
+export interface ElectronVersions {
+  node: () => string;
+  chrome: () => string;
+  electron: () => string;
+}
+
+export interface ElectronProcess {
+  platform: string;
+  arch: string;
+  version: string;
 }
 
 declare global {
   interface Window {
     electronAPI: ElectronAPI;
+    electronVersions: ElectronVersions;
+    electronProcess: ElectronProcess;
   }
 }

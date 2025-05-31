@@ -39,6 +39,11 @@ function copyAssets() {
     name: "copy-assets",
     writeBundle() {
       try {
+        const isDevMode = process.env.NODE_ENV === "development";
+        if (isDevMode) {
+          return;
+        }
+
         // Copy assets directory to main package dist
         const srcAssetsDir = join(process.cwd(), "assets");
         const destAssetsDir = join(process.cwd(), "dist/assets");
