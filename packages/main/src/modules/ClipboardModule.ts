@@ -18,9 +18,7 @@ class ClipboardModule implements AppModule {
         return true;
       } catch (error) {
         console.error('Clipboard writeText error:', error);
-        throw new Error(
-          `Failed to write text to clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to write text to clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -29,9 +27,7 @@ class ClipboardModule implements AppModule {
         return clipboard.readText();
       } catch (error) {
         console.error('Clipboard readText error:', error);
-        throw new Error(
-          `Failed to read text from clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to read text from clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -41,39 +37,30 @@ class ClipboardModule implements AppModule {
         return true;
       } catch (error) {
         console.error('Clipboard clear error:', error);
-        throw new Error(
-          `Failed to clear clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to clear clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
     // HTML operations
-    ipcMain.handle(
-      'clipboard:writeHTML',
-      async (_, markup: string, text?: string) => {
-        try {
-          if (typeof markup !== 'string') {
-            throw new Error('Markup must be a string');
-          }
-          clipboard.writeHTML(markup);
-          return true;
-        } catch (error) {
-          console.error('Clipboard writeHTML error:', error);
-          throw new Error(
-            `Failed to write HTML to clipboard: ${error instanceof Error ? error.message : error}`,
-          );
+    ipcMain.handle('clipboard:writeHTML', async (_, markup: string, text?: string) => {
+      try {
+        if (typeof markup !== 'string') {
+          throw new Error('Markup must be a string');
         }
-      },
-    );
+        clipboard.writeHTML(markup);
+        return true;
+      } catch (error) {
+        console.error('Clipboard writeHTML error:', error);
+        throw new Error(`Failed to write HTML to clipboard: ${error instanceof Error ? error.message : error}`);
+      }
+    });
 
     ipcMain.handle('clipboard:readHTML', async () => {
       try {
         return clipboard.readHTML();
       } catch (error) {
         console.error('Clipboard readHTML error:', error);
-        throw new Error(
-          `Failed to read HTML from clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to read HTML from clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -87,9 +74,7 @@ class ClipboardModule implements AppModule {
         return true;
       } catch (error) {
         console.error('Clipboard writeRTF error:', error);
-        throw new Error(
-          `Failed to write RTF to clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to write RTF to clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -98,9 +83,7 @@ class ClipboardModule implements AppModule {
         return clipboard.readRTF();
       } catch (error) {
         console.error('Clipboard readRTF error:', error);
-        throw new Error(
-          `Failed to read RTF from clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to read RTF from clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -120,9 +103,7 @@ class ClipboardModule implements AppModule {
         return true;
       } catch (error) {
         console.error('Clipboard writeImage error:', error);
-        throw new Error(
-          `Failed to write image to clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to write image to clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -135,36 +116,29 @@ class ClipboardModule implements AppModule {
         return image.toDataURL();
       } catch (error) {
         console.error('Clipboard readImage error:', error);
-        throw new Error(
-          `Failed to read image from clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to read image from clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
     // Bookmark operations (macOS only)
-    ipcMain.handle(
-      'clipboard:writeBookmark',
-      async (_, title: string, url: string) => {
-        try {
-          if (process.platform !== 'darwin') {
-            console.warn('Bookmark operations are only supported on macOS');
-            return false;
-          }
-
-          if (typeof title !== 'string' || typeof url !== 'string') {
-            throw new Error('Title and URL must be strings');
-          }
-
-          clipboard.writeBookmark(title, url);
-          return true;
-        } catch (error) {
-          console.error('Clipboard writeBookmark error:', error);
-          throw new Error(
-            `Failed to write bookmark to clipboard: ${error instanceof Error ? error.message : error}`,
-          );
+    ipcMain.handle('clipboard:writeBookmark', async (_, title: string, url: string) => {
+      try {
+        if (process.platform !== 'darwin') {
+          console.warn('Bookmark operations are only supported on macOS');
+          return false;
         }
-      },
-    );
+
+        if (typeof title !== 'string' || typeof url !== 'string') {
+          throw new Error('Title and URL must be strings');
+        }
+
+        clipboard.writeBookmark(title, url);
+        return true;
+      } catch (error) {
+        console.error('Clipboard writeBookmark error:', error);
+        throw new Error(`Failed to write bookmark to clipboard: ${error instanceof Error ? error.message : error}`);
+      }
+    });
 
     ipcMain.handle('clipboard:readBookmark', async () => {
       try {
@@ -176,9 +150,7 @@ class ClipboardModule implements AppModule {
         return clipboard.readBookmark();
       } catch (error) {
         console.error('Clipboard readBookmark error:', error);
-        throw new Error(
-          `Failed to read bookmark from clipboard: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to read bookmark from clipboard: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -188,9 +160,7 @@ class ClipboardModule implements AppModule {
         return clipboard.availableFormats();
       } catch (error) {
         console.error('Clipboard availableFormats error:', error);
-        throw new Error(
-          `Failed to get available clipboard formats: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to get available clipboard formats: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -202,9 +172,7 @@ class ClipboardModule implements AppModule {
         return clipboard.has(format);
       } catch (error) {
         console.error('Clipboard has error:', error);
-        throw new Error(
-          `Failed to check clipboard format: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to check clipboard format: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -216,9 +184,7 @@ class ClipboardModule implements AppModule {
         return clipboard.read(format);
       } catch (error) {
         console.error('Clipboard read error:', error);
-        throw new Error(
-          `Failed to read clipboard format: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to read clipboard format: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -229,9 +195,7 @@ class ClipboardModule implements AppModule {
         return formats.length === 0;
       } catch (error) {
         console.error('Clipboard isEmpty error:', error);
-        throw new Error(
-          `Failed to check if clipboard is empty: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to check if clipboard is empty: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -241,9 +205,7 @@ class ClipboardModule implements AppModule {
         return text.length > 0;
       } catch (error) {
         console.error('Clipboard hasText error:', error);
-        throw new Error(
-          `Failed to check if clipboard has text: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to check if clipboard has text: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -253,9 +215,7 @@ class ClipboardModule implements AppModule {
         return !image.isEmpty();
       } catch (error) {
         console.error('Clipboard hasImage error:', error);
-        throw new Error(
-          `Failed to check if clipboard has image: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to check if clipboard has image: ${error instanceof Error ? error.message : error}`);
       }
     });
   }

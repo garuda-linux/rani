@@ -13,19 +13,10 @@ export * from './electron-types';
 export { ElectronFsService } from './electron-fs.service';
 export { ElectronShellService } from './electron-shell.service';
 export { ElectronStoreService } from './electron-store.service';
-export {
-  resolveResource,
-  appLocalDataDir,
-  resolve,
-  appConfigDir,
-} from './electron-path.service';
+export { resolveResource, appLocalDataDir, resolve, appConfigDir } from './electron-path.service';
 export { debug, error, info, trace, warn } from './electron-log.service';
 export { locale } from './electron-os.service';
-export {
-  isPermissionGranted,
-  requestPermission,
-  sendNotification,
-} from './electron-notification.service';
+export { isPermissionGranted, requestPermission, sendNotification } from './electron-notification.service';
 export type { Store, StoreOptions } from './electron-store.service';
 export type { CommandResult, ChildProcess, Child } from '../../types/shell';
 export type { NotificationOptions } from './electron-notification.service';

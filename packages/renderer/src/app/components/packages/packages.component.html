@@ -40,21 +40,17 @@
       <ng-template #header>
         <tr>
           <th pSortableColumn="name">
-            {{ t("packages.name") }}
+            {{ t('packages.name') }}
             <p-sortIcon field="name" />
           </th>
           <th>
-            {{ t("packages.description") }}
+            {{ t('packages.description') }}
           </th>
           <th>
-            {{ t("packages.url") }}
+            {{ t('packages.url') }}
           </th>
-          <th
-            class="whitespace-nowrap"
-            [style]="{ 'min-width': '3rem' }"
-            pSortableColumn="selected"
-          >
-            {{ t("packages.selected") }}
+          <th class="whitespace-nowrap" [style]="{ 'min-width': '3rem' }" pSortableColumn="selected">
+            {{ t('packages.selected') }}
             <p-sortIcon field="selected" />
           </th>
         </tr>
@@ -68,9 +64,7 @@
             {{ pkg.description }}
           </td>
           <td>
-            <a class="cursor-pointer" (click)="shellService.open(pkg.url)">
-              <i class="pi pi-external-link"></i
-            ></a>
+            <a class="cursor-pointer" (click)="shellService.open(pkg.url)"> <i class="pi pi-external-link"></i></a>
           </td>
           <td>
             <div>
@@ -86,7 +80,7 @@
       </ng-template>
       <ng-template #emptymessage>
         <tr>
-          <td colspan="5">{{ t("packages.notFound") }}</td>
+          <td colspan="5">{{ t('packages.notFound') }}</td>
         </tr>
       </ng-template>
     </p-table>

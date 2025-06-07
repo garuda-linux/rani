@@ -71,8 +71,7 @@ export class PackagesComponent {
   async updateUi(): Promise<void> {
     this.logger.trace('Updating packages UI');
 
-    const installedPackages: Map<string, boolean> =
-      this.osInteractService.packages();
+    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
     this.packagesService.packages.update((data: PackageSections) => {
       for (const sections of data) {
         for (const pkg of sections.sections) {
@@ -90,8 +89,7 @@ export class PackagesComponent {
 
     // We do it like this because via two-way binding, the table doesn't update the data
     // Very likely it is not compatible with zoneless change detection yet
-    this.table.value =
-      this.packagesService.packages()[this.tabIndex()].sections;
+    this.table.value = this.packagesService.packages()[this.tabIndex()].sections;
     this.table.totalRecords = this.table.value.length;
 
     this.cdr.markForCheck();

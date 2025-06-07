@@ -17,14 +17,10 @@ export class GamingService {
     this.packages.update((packages) => {
       for (const sections of packages) {
         for (const pkg of sections.sections) {
-          const disabled: boolean =
-            this.configService.state().availablePkgs.get(pkg.pkgname[0]) !==
-            true;
+          const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
           if (disabled) {
             pkg.disabled = true;
-            this.logger.warn(
-              `Package ${pkg.pkgname[0]} is not available, removing from list`,
-            );
+            this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
           }
         }
       }

@@ -25,35 +25,21 @@
     }
     @if (systemStatusService.warnUpdate()) {
       <div class="cursor-pointer" (click)="scheduleUpdates()">
-        <p-overlay-badge
-          [pTooltip]="t('systemStatus.warnUpdate')"
-          value="!"
-          severity="danger"
-          tooltipPosition="bottom"
-        >
+        <p-overlay-badge [pTooltip]="t('systemStatus.warnUpdate')" value="!" severity="danger" tooltipPosition="bottom">
           <i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i>
         </p-overlay-badge>
       </div>
     }
     @if (configService.state().rebootPending) {
       <div class="cursor-pointer" (click)="rebootNow($event)">
-        <p-overlay-badge
-          [pTooltip]="t('systemStatus.warnReboot')"
-          value="!"
-          severity="danger"
-          tooltipPosition="bottom"
-        >
+        <p-overlay-badge [pTooltip]="t('systemStatus.warnReboot')" value="!" severity="danger" tooltipPosition="bottom">
           <i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i>
         </p-overlay-badge>
       </div>
     }
   </div>
 
-  <p-dialog
-    [(visible)]="dialogVisible"
-    [header]="t('systemStatus.pendingUpdates')"
-    [modal]="true"
-  >
+  <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">
     <ul>
       @for (update of systemStatusService.updates(); track update.pkg) {
         <li>
@@ -72,15 +58,8 @@
     </ul>
 
     <div class="flex justify-end gap-2">
-      <p-button
-        [label]="t('systemStatus.cancel')"
-        (click)="dialogVisible.set(false)"
-        severity="secondary"
-      />
-      @if (
-        systemStatusService.updates().length > 0 &&
-        !systemStatusService.updatesAur()
-      ) {
+      <p-button [label]="t('systemStatus.cancel')" (click)="dialogVisible.set(false)" severity="secondary" />
+      @if (systemStatusService.updates().length > 0 && !systemStatusService.updatesAur()) {
         <p-button
           [disabled]="updateButtonDisabled()"
           [label]="t('systemStatus.scheduleUpdates')"
@@ -89,11 +68,7 @@
         />
       }
       @if (systemStatusService.updatesAur()) {
-        <p-button
-          [label]="t('systemStatus.runAurUpdates')"
-          (click)="runAurUpdates()"
-          severity="info"
-        />
+        <p-button [label]="t('systemStatus.runAurUpdates')" (click)="runAurUpdates()" severity="info" />
       }
     </div>
   </p-dialog>
@@ -105,7 +80,7 @@
     [style]="{ width: '90vw' }"
   >
     <p class="text-left text-lg font-bold">
-      {{ t("systemStatus.affectedFiles") }}
+      {{ t('systemStatus.affectedFiles') }}
     </p>
     <ul>
       @for (file of systemStatusService.pacFiles(); track file) {
@@ -114,36 +89,28 @@
     </ul>
 
     <div>
-      <p class="text-left text-lg font-bold">{{ t("systemStatus.proceed") }}</p>
+      <p class="text-left text-lg font-bold">{{ t('systemStatus.proceed') }}</p>
       <ul>
         <li>
           <a
             class="cursor-pointer text-primary"
-            (click)="
-              shellService.open(
-                'https://wiki.archlinux.org/title/Pacman/Pacnew_and_Pacsave'
-              )
-            "
+            (click)="shellService.open('https://wiki.archlinux.org/title/Pacman/Pacnew_and_Pacsave')"
           >
-            {{ t("systemStatus.learnPacdiff") }}</a
+            {{ t('systemStatus.learnPacdiff') }}</a
           >
         </li>
-        <li>{{ t("systemStatus.openMaintenance") }}</li>
-        <li>{{ t("systemStatus.snapshotCreation") }}</li>
-        <li>{{ t("systemStatus.proceedMerge") }}</li>
-        <li>{{ t("systemStatus.askHelp") }}</li>
+        <li>{{ t('systemStatus.openMaintenance') }}</li>
+        <li>{{ t('systemStatus.snapshotCreation') }}</li>
+        <li>{{ t('systemStatus.proceedMerge') }}</li>
+        <li>{{ t('systemStatus.askHelp') }}</li>
         <li class="text-primary-emphasis">
-          {{ t("systemStatus.cautionMerge") }}
+          {{ t('systemStatus.cautionMerge') }}
         </li>
       </ul>
     </div>
 
     <div class="flex justify-end gap-2">
-      <p-button
-        [label]="t('systemStatus.cancel')"
-        (click)="pacdiffDialogVisible.set(false)"
-        severity="secondary"
-      />
+      <p-button [label]="t('systemStatus.cancel')" (click)="pacdiffDialogVisible.set(false)" severity="secondary" />
       <p-button
         class="cursor-pointer"
         [label]="t('systemStatus.openMaintenanceButton')"

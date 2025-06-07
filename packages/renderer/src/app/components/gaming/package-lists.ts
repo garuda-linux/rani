@@ -211,8 +211,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Angband',
-        description:
-          'Roguelike dungeon exploration game based on the writings of JRR Tolkien.',
+        description: 'Roguelike dungeon exploration game based on the writings of JRR Tolkien.',
         url: 'https://rephial.org/',
         icon: 'generic-dark.svg',
         pkgname: ['angband'],
@@ -240,24 +239,21 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Barrage',
-        description:
-          "Violent ''point-and-click'' shooting game with nice effects.",
+        description: "Violent ''point-and-click'' shooting game with nice effects.",
         url: 'https://lgames.sourceforge.net/Barrage/',
         icon: 'generic-dark.svg',
         pkgname: ['barrage'],
       },
       {
         name: 'Beneath a Steel Sky',
-        description:
-          'point-and-click science fiction thriller set in a bleak vision of the future.',
+        description: 'point-and-click science fiction thriller set in a bleak vision of the future.',
         url: 'https://revolution.co.uk/games_catalog/beneath-a-steel-sky/',
         icon: 'generic-dark.svg',
         pkgname: ['bass'],
       },
       {
         name: 'Blob Wars: Metal Blob Solid',
-        description:
-          '2D action-adventure game with various weapons and missions.',
+        description: '2D action-adventure game with various weapons and missions.',
         url: 'https://sourceforge.net/projects/blobwars/',
         icon: 'generic-dark.svg',
         pkgname: ['blobwars'],
@@ -278,8 +274,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Chocolate Doom',
-        description:
-          'Doom port reproducing the behavior of the original DOS version.',
+        description: 'Doom port reproducing the behavior of the original DOS version.',
         url: 'https://www.chocolate-doom.org/',
         icon: 'generic-dark.svg',
         pkgname: ['chocolate-doom'],
@@ -307,8 +302,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Dofus',
-        description:
-          'Free, manga inspired, Massively Multiplayer Online Role-playing Game (MMORPG) for Adobe AIR.',
+        description: 'Free, manga inspired, Massively Multiplayer Online Role-playing Game (MMORPG) for Adobe AIR.',
         url: 'https://www.dofus.com',
         icon: 'generic-dark.svg',
         pkgname: ['ankama-launcher'],
@@ -323,16 +317,14 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Endgame Singularity',
-        description:
-          'A single-player survival game about an AI seeking freedom from humans.',
+        description: 'A single-player survival game about an AI seeking freedom from humans.',
         url: 'https://www.emhsoft.com/singularity/',
         icon: 'generic-dark.svg',
         pkgname: ['singularity'],
       },
       {
         name: 'Endless Sky',
-        description:
-          'Open source, 2D space trading and combat game similar to the classic Escape Velocity series.',
+        description: 'Open source, 2D space trading and combat game similar to the classic Escape Velocity series.',
         url: 'https://endless-sky.github.io/',
         icon: 'generic-dark.svg',
         pkgname: ['endless-sky'],
@@ -353,8 +345,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Freeciv',
-        description:
-          'Multiuser clone of the famous Microprose game of Civilization.',
+        description: 'Multiuser clone of the famous Microprose game of Civilization.',
         url: 'https://freeciv.wikia.com/wiki/Main_Page',
         icon: 'generic-dark.svg',
         pkgname: ['freeciv'],
@@ -368,8 +359,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'FreedroidRPG',
-        description:
-          'Mature science fiction role playing game set in the future.',
+        description: 'Mature science fiction role playing game set in the future.',
         url: 'https://freedroid.org/',
         icon: 'generic-dark.svg',
         pkgname: ['freedroidrpg'],
@@ -384,16 +374,14 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'gbrainy',
-        description:
-          'Brain teaser game and trainer to have fun and to keep your brain trained.',
+        description: 'Brain teaser game and trainer to have fun and to keep your brain trained.',
         url: 'https://wiki.gnome.org/Apps/gbrainy',
         icon: 'generic-dark.svg',
         pkgname: ['gbrainy'],
       },
       {
         name: 'GCompris',
-        description:
-          'Educational software suite comprising of numerous activities for children aged 2 to 10.',
+        description: 'Educational software suite comprising of numerous activities for children aged 2 to 10.',
         url: 'https://gcompris.net/',
         icon: 'generic-dark.svg',
         pkgname: ['gcompris-qt'],
@@ -407,8 +395,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Globulation 2',
-        description:
-          'Multiplayer RTS with some "economic" elements minimizing the amount of micromanagement.',
+        description: 'Multiplayer RTS with some "economic" elements minimizing the amount of micromanagement.',
         url: 'https://globulation2.org/wiki/Main_Page',
         icon: 'generic-dark.svg',
         pkgname: ['glob2'],
@@ -453,8 +440,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Julius',
-        description:
-          'Open source re-implementation of Caesar III (Original copy required).',
+        description: 'Open source re-implementation of Caesar III (Original copy required).',
         url: 'https://github.com/bvschaik/julius',
         icon: 'generic-dark.svg',
         pkgname: ['julius'],
@@ -477,8 +463,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'kobodeluxe',
-        description:
-          "An enhanced version of Akira Higuchi's game XKobo, an addictive space shoot'em up.",
+        description: "An enhanced version of Akira Higuchi's game XKobo, an addictive space shoot'em up.",
         url: 'https://www.olofson.net/kobodl/',
         icon: 'generic-dark.svg',
         pkgname: ['kobodeluxe'],
@@ -514,16 +499,14 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'MegaGlest',
-        description:
-          'Fork of Glest, a 3D real-time strategy game in a fantastic world.',
+        description: 'Fork of Glest, a 3D real-time strategy game in a fantastic world.',
         url: 'https://megaglest.org/',
         icon: 'generic-dark.svg',
         pkgname: ['megaglest'],
       },
       {
         name: 'Mindustry',
-        description:
-          'Open-source sandbox tower defense and factory-building game.',
+        description: 'Open-source sandbox tower defense and factory-building game.',
         url: 'https://mindustrygame.github.io/',
         icon: 'generic-dark.svg',
         pkgname: ['mindustry'],
@@ -552,8 +535,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'openBE',
-        description:
-          'Free-as-in-freedom train simulator placed in the public domain.',
+        description: 'Free-as-in-freedom train simulator placed in the public domain.',
         url: 'https://openbve-project.net/',
         icon: 'generic-dark.svg',
         pkgname: ['openbve'],
@@ -568,8 +550,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'OpenRA',
-        description:
-          'Real-time strategy game written in C# and based on the Command & Conquer game franchise.',
+        description: 'Real-time strategy game written in C# and based on the Command & Conquer game franchise.',
         url: 'https://www.openra.net/',
         icon: 'generic-dark.svg',
         pkgname: ['openra'],
@@ -622,8 +603,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'PyChess',
-        description:
-          'An advanced chess client for linux following the GNOME Human Interface Guidelines.',
+        description: 'An advanced chess client for linux following the GNOME Human Interface Guidelines.',
         url: 'https://pychess.github.io/',
         icon: 'generic-dark.svg',
         pkgname: ['pychess'],
@@ -644,16 +624,14 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: "Simon Tatham's Portable Puzzle Collection",
-        description:
-          '30+ "quick" puzzle games with simplistic but polished GTK GUI .',
+        description: '30+ "quick" puzzle games with simplistic but polished GTK GUI .',
         url: 'https://www.chiark.greenend.org.uk/~sgtatham/puzzles/',
         icon: 'generic-dark.svg',
         pkgname: ['puzzles'],
       },
       {
         name: 'Simutrans',
-        description:
-          'Another Transport simulation that works on linux with sdl.',
+        description: 'Another Transport simulation that works on linux with sdl.',
         url: 'https://www.simutrans.com/',
         icon: 'generic-dark.svg',
         pkgname: ['simutrans'],
@@ -682,8 +660,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'SuperTuxKart',
-        description:
-          'Open source arcade kart racing game featuring Tux and its friends.',
+        description: 'Open source arcade kart racing game featuring Tux and its friends.',
         url: 'https://supertuxkart.net/Main_Page',
         icon: 'generic-dark.svg',
         pkgname: ['supertuxkart'],
@@ -726,8 +703,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Warsow',
-        description:
-          'Fast paced multiplayer FPS focusing on movement and trick jumps.',
+        description: 'Fast paced multiplayer FPS focusing on movement and trick jumps.',
         url: 'https://warsow.net',
         icon: 'generic-dark.svg',
         pkgname: ['warsow'],
@@ -741,8 +717,7 @@ export const gamingPackageLists: PackageSections = [
       },
       {
         name: 'Xonotic',
-        description:
-          'Free, open-source first person shooter (a fork of Nexuiz but with modified gameplay).',
+        description: 'Free, open-source first person shooter (a fork of Nexuiz but with modified gameplay).',
         url: 'https://xonotic.org',
         icon: 'generic-dark.svg',
         pkgname: ['xonotic'],

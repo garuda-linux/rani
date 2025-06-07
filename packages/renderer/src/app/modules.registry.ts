@@ -89,11 +89,7 @@ export const MODULES_REGISTRY = {
   ],
 
   // Directives
-  directives: [
-    ShellBarStartDirective,
-    ShellBarEndDirective,
-    ShellBarLinkDirective,
-  ],
+  directives: [ShellBarStartDirective, ShellBarEndDirective, ShellBarLinkDirective],
 };
 
 // Ensure all modules are registered

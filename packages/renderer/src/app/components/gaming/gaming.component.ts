@@ -25,16 +25,7 @@ import { Router, type UrlTree } from '@angular/router';
 
 @Component({
   selector: 'rani-gaming',
-  imports: [
-    TranslocoDirective,
-    TableModule,
-    DataViewModule,
-    NgForOf,
-    Card,
-    NgOptimizedImage,
-    TabsModule,
-    Tooltip,
-  ],
+  imports: [TranslocoDirective, TableModule, DataViewModule, NgForOf, Card, NgOptimizedImage, TabsModule, Tooltip],
   templateUrl: './gaming.component.html',
   styleUrl: './gaming.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -46,9 +37,7 @@ export class GamingComponent implements OnInit {
   private readonly shellService = inject(ElectronShellService);
 
   backgroundColor = computed(() => {
-    const flavors = this.configService.settings().activeTheme.includes('Mocha')
-      ? 'primary'
-      : 'alt';
+    const flavors = this.configService.settings().activeTheme.includes('Mocha') ? 'primary' : 'alt';
     if (this.configService.settings().darkMode) {
       return flavors === 'primary'
         ? CatppuccinBackgroundColors.primary.darkSelected
@@ -69,8 +58,7 @@ export class GamingComponent implements OnInit {
 
   constructor() {
     effect(() => {
-      const installedPackages: Map<string, boolean> =
-        this.osInteractService.packages();
+      const installedPackages: Map<string, boolean> = this.osInteractService.packages();
       this.gamingService.packages.update((packages) => {
         for (const sections of packages) {
           for (const pkg of sections.sections) {

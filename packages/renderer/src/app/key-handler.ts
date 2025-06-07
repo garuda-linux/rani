@@ -1,9 +1,6 @@
 import type { AppComponent } from './app.component';
 
-export async function globalKeyHandler(
-  this: AppComponent,
-  event: KeyboardEvent,
-): Promise<void> {
+export async function globalKeyHandler(this: AppComponent, event: KeyboardEvent): Promise<void> {
   if (!event.ctrlKey) {
     switch (event.key) {
       case 'F1':

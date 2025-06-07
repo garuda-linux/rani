@@ -89,17 +89,11 @@ class WindowManager implements AppModule {
       const parsedUrl = new URL(navigationUrl);
 
       // Allow devtools URLs
-      if (
-        navigationUrl.startsWith('devtools://') ||
-        navigationUrl.startsWith('chrome-devtools://')
-      ) {
+      if (navigationUrl.startsWith('devtools://') || navigationUrl.startsWith('chrome-devtools://')) {
         return;
       }
 
-      if (
-        parsedUrl.origin !== 'http://localhost:5173' &&
-        parsedUrl.protocol !== 'file:'
-      ) {
+      if (parsedUrl.origin !== 'http://localhost:5173' && parsedUrl.protocol !== 'file:') {
         event.preventDefault();
         console.warn('Blocked navigation to:', navigationUrl);
       }
@@ -108,10 +102,7 @@ class WindowManager implements AppModule {
     // Handle new window creation security
     browserWindow.webContents.setWindowOpenHandler(({ url }) => {
       // Allow devtools
-      if (
-        url.startsWith('devtools://') ||
-        url.startsWith('chrome-devtools://')
-      ) {
+      if (url.startsWith('devtools://') || url.startsWith('chrome-devtools://')) {
         return { action: 'allow' };
       }
 
@@ -136,21 +127,12 @@ class WindowManager implements AppModule {
     });
 
     // Handle console messages from renderer for better debugging
-    browserWindow.webContents.on(
-      'console-message',
-      (event, level, message, line, sourceId) => {
-        if (level >= 2) {
-          // Warning or error
-          console.log(
-            `Renderer console [${level}]:`,
-            message,
-            'at',
-            sourceId,
-            line,
-          );
-        }
-      },
-    );
+    browserWindow.webContents.on('console-message', (event, level, message, line, sourceId) => {
+      if (level >= 2) {
+        // Warning or error
+        console.log(`Renderer console [${level}]:`, message, 'at', sourceId, line);
+      }
+    });
 
     if (this.#renderer instanceof URL) {
       await browserWindow.loadURL(this.#renderer.href);
@@ -199,8 +181,6 @@ class WindowManager implements AppModule {
   }
 }
 
-export function createWindowManagerModule(
-  ...args: ConstructorParameters<typeof WindowManager>
-) {
+export function createWindowManagerModule(...args: ConstructorParameters<typeof WindowManager>) {
   return new WindowManager(...args);
 }

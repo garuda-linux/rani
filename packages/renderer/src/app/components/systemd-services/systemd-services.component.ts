@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  type OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { Button } from 'primeng/button';
 import { IconField } from 'primeng/iconfield';
 import { InputIcon } from 'primeng/inputicon';
@@ -24,17 +18,7 @@ import type { ChildProcess } from '../electron-services';
 
 @Component({
   selector: 'rani-systemd-services',
-  imports: [
-    Button,
-    IconField,
-    InputIcon,
-    PopoverModule,
-    InputText,
-    TableModule,
-    NgClass,
-    TranslocoDirective,
-    Tooltip,
-  ],
+  imports: [Button, IconField, InputIcon, PopoverModule, InputText, TableModule, NgClass, TranslocoDirective, Tooltip],
   templateUrl: './systemd-services.component.html',
   styleUrl: './systemd-services.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -107,8 +91,7 @@ export class SystemdServicesComponent implements OnInit {
     }
 
     const finalResult: SystemdService[] = [];
-    const results: Nullable<SystemdService[]>[] =
-      await Promise.all(servicePromises);
+    const results: Nullable<SystemdService[]>[] = await Promise.all(servicePromises);
     for (const result of results) {
       if (result) {
         finalResult.push(...result);
@@ -132,9 +115,7 @@ export class SystemdServicesComponent implements OnInit {
    */
   async executeAction(event: SystemdServiceAction): Promise<void> {
     if (!this.activeService()) {
-      this.logger.error(
-        'No active service selected, something went wrong here',
-      );
+      this.logger.error('No active service selected, something went wrong here');
       return;
     }
 
@@ -172,9 +153,7 @@ export class SystemdServicesComponent implements OnInit {
     const command: string = `${action} ${this.activeService()!.unit}`;
     let output: any;
     if (!this.configService.settings().systemdUserContext) {
-      output = await this.taskManagerService.executeAndWaitBash(
-        `pkexec ${command}`,
-      );
+      output = await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
     } else {
       output = await this.taskManagerService.executeAndWaitBash(command);
     }
@@ -214,10 +193,7 @@ export class SystemdServicesComponent implements OnInit {
    * Toggle the auto-refresh of the systemd services, if enabled start the interval.
    */
   async toggleRefresh(): Promise<void> {
-    await this.configService.updateConfig(
-      'autoRefresh',
-      !this.configService.settings().autoRefresh,
-    );
+    await this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh);
 
     if (this.configService.settings().autoRefresh) {
       // @ts-ignore
@@ -236,10 +212,7 @@ export class SystemdServicesComponent implements OnInit {
    */
   async toggleContext(): Promise<void> {
     this.loading.set(true);
-    await this.configService.updateConfig(
-      'systemdUserContext',
-      !this.configService.settings().systemdUserContext,
-    );
+    await this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext);
     this.systemdServices.set(await this.getServices());
 
     this.loading.set(false);

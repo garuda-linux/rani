@@ -44,10 +44,7 @@ export async function handleCliArgs(router: Router) {
  * @param maintenanceCommand The maintenance command to handle.
  * @param router The router to use for navigation.
  */
-async function handleMaintenanceCommands(
-  maintenanceCommand: any,
-  router: Router,
-) {
+async function handleMaintenanceCommands(maintenanceCommand: any, router: Router) {
   if (maintenanceCommand?.matches?.subcommand?.name) {
     switch (maintenanceCommand.matches.subcommand.name) {
       case 'common':
@@ -143,10 +140,7 @@ async function handleGamingCommands(gamingCommand: any, router: Router) {
  * @param diagnosticsCommand The diagnostics command to handle.
  * @param router The router to use for navigation.
  */
-async function handleDiagnosticsCommands(
-  diagnosticsCommand: any,
-  router: Router,
-) {
+async function handleDiagnosticsCommands(diagnosticsCommand: any, router: Router) {
   const queryParams: { [key: string]: string } = {};
 
   if (diagnosticsCommand?.matches?.subcommand?.name) {

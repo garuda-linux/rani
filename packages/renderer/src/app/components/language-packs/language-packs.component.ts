@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  model,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model } from '@angular/core';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { TableModule } from 'primeng/table';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -18,15 +12,7 @@ import { LocalePipe } from '../lang-pipe/locale.pipe';
 
 @Component({
   selector: 'rani-language-packs',
-  imports: [
-    TableModule,
-    TranslocoDirective,
-    FormsModule,
-    NgIf,
-    Checkbox,
-    NgClass,
-    LocalePipe,
-  ],
+  imports: [TableModule, TranslocoDirective, FormsModule, NgIf, Checkbox, NgClass, LocalePipe],
   templateUrl: './language-packs.component.html',
   styleUrl: './language-packs.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -60,8 +46,7 @@ export class LanguagePacksComponent {
    * Update the state of the UI based on the installed packages.
    */
   updateUi(): void {
-    const installedPackages: Map<string, boolean> =
-      this.osInteractService.packages();
+    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
     this.languagePacksService.languagePacks.update((languagePacks) => {
       for (const pack of languagePacks) {
         pack.selected = installedPackages.get(pack.pkgname[0]) === true;

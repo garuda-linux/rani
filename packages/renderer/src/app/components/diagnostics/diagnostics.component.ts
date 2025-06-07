@@ -52,9 +52,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
       disableStdin: false,
       scrollback: 10000,
       convertEol: true,
-      theme: this.configService.settings().darkMode
-        ? CatppuccinXtermJs.dark
-        : CatppuccinXtermJs.light,
+      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
     };
   });
 
@@ -62,9 +60,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
     effect(() => {
       const darkMode: boolean = this.configService.settings().darkMode;
       if (this.term?.underlying) {
-        this.term.underlying.options.theme = darkMode
-          ? CatppuccinXtermJs.dark
-          : CatppuccinXtermJs.light;
+        this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
       this.logger.trace('Terminal theme switched via effect');
     });
@@ -116,13 +112,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
     this.loadingService.loadingOn();
 
     let cmd = '';
-    for (const type of [
-      'inxi',
-      'systemd-analyze',
-      'journalctl',
-      'pacman-log',
-      'dmesg',
-    ]) {
+    for (const type of ['inxi', 'systemd-analyze', 'journalctl', 'pacman-log', 'dmesg']) {
       const command = this.getCommand(type);
       if (!command) {
         this.logger.error(`Failed to get command for ${type}`);
@@ -132,9 +122,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
       cmd += `echo "### ${type} ###"; ${command.cmd}; echo "### END ${command.cmd} ###"; echo`;
     }
 
-    const result = await this.taskManagerService.executeAndWaitBash(
-      `pkexec sh -c '${cmd}'`,
-    );
+    const result = await this.taskManagerService.executeAndWaitBash(`pkexec sh -c '${cmd}'`);
 
     this.loadingService.loadingOff();
 
@@ -212,10 +200,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
         );
       }
     } else {
-      this.messageToastService.error(
-        this.translocoService.translate('diagnostics.failedCmdHeader'),
-        result.stderr,
-      );
+      this.messageToastService.error(this.translocoService.translate('diagnostics.failedCmdHeader'), result.stderr);
       this.logger.error(`Error collecting output: ${result.stderr}`);
     }
   }
@@ -225,14 +210,9 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
    * @param command The command to be executed.
    * @param needsSudo Whether the command needs to be run with sudo.
    */
-  private async executeCommand(
-    command: string,
-    needsSudo = false,
-  ): Promise<any> {
+  private async executeCommand(command: string, needsSudo = false): Promise<any> {
     if (needsSudo) {
-      return await this.taskManagerService.executeAndWaitBash(
-        `pkexec ${command}`,
-      );
+      return await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
     }
     return await this.taskManagerService.executeAndWaitBash(command);
   }
@@ -250,16 +230,14 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
         result.cmd = 'garuda-inxi';
         break;
       case 'systemd-analyze':
-        result.cmd =
-          'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
+        result.cmd = 'systemd-analyze blame --no-pager && systemd-analyze critical-chain --no-pager';
         break;
       case 'journalctl':
         result.cmd = 'journalctl -xe --no-pager';
         result.sudo = true;
         break;
       case 'pacman':
-        result.cmd =
-          "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac";
+        result.cmd = "tac /var/log/pacman.log | awk '!flag; /PACMAN.*pacman/{flag = 1};' | tac";
         break;
       case 'dmesg':
         result.cmd = 'dmesg';

@@ -25,9 +25,7 @@ class PathModule implements AppModule {
         return app.getPath('userData');
       } catch (error) {
         console.error('Path appConfigDir error:', error);
-        throw new Error(
-          `Failed to get app config directory: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to get app config directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -36,9 +34,7 @@ class PathModule implements AppModule {
         return app.getPath('appData');
       } catch (error) {
         console.error('Path appDataDir error:', error);
-        throw new Error(
-          `Failed to get app data directory: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to get app data directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -47,9 +43,7 @@ class PathModule implements AppModule {
         return app.getPath('userData');
       } catch (error) {
         console.error('Path appLocalDataDir error:', error);
-        throw new Error(
-          `Failed to get app local data directory: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to get app local data directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -58,9 +52,7 @@ class PathModule implements AppModule {
         return app.getPath('temp');
       } catch (error) {
         console.error('Path appCacheDir error:', error);
-        throw new Error(
-          `Failed to get app cache directory: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to get app cache directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -69,9 +61,7 @@ class PathModule implements AppModule {
         return path.resolve(...paths);
       } catch (error) {
         console.error('Path resolve error:', error);
-        throw new Error(
-          `Failed to resolve path: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to resolve path: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -80,9 +70,7 @@ class PathModule implements AppModule {
         return path.join(...paths);
       } catch (error) {
         console.error('Path join error:', error);
-        throw new Error(
-          `Failed to join paths: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to join paths: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -94,9 +82,7 @@ class PathModule implements AppModule {
         return path.join(__dirname, '../dist/browser/assets', resourcePath);
       } catch (error) {
         console.error('Path resolveResource error:', error);
-        throw new Error(
-          `Failed to resolve resource path: ${error instanceof Error ? error.message : error}`,
-        );
+        throw new Error(`Failed to resolve resource path: ${error instanceof Error ? error.message : error}`);
       }
     });
   }

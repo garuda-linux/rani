@@ -1,20 +1,11 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  computed,
-  inject,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
 import { ElectronShellService } from '../electron-services';
 import { OverlayBadge } from 'primeng/overlaybadge';
 import { Tooltip } from 'primeng/tooltip';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Dialog } from 'primeng/dialog';
 import { Button } from 'primeng/button';
-import {
-  type Task,
-  TaskManagerService,
-} from '../task-manager/task-manager.service';
+import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
 import type { SystemUpdate } from './types';
 import { ConfigService } from '../config/config.service';
 import { RouterLink } from '@angular/router';
@@ -23,14 +14,7 @@ import { SystemStatusService } from './system-status.service';
 
 @Component({
   selector: 'rani-system-status',
-  imports: [
-    OverlayBadge,
-    Tooltip,
-    TranslocoDirective,
-    Dialog,
-    Button,
-    RouterLink,
-  ],
+  imports: [OverlayBadge, Tooltip, TranslocoDirective, Dialog, Button, RouterLink],
   templateUrl: './system-status.component.html',
   styleUrl: './system-status.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,9 +31,7 @@ export class SystemStatusComponent {
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly translocoService = inject(TranslocoService);
 
-  updateButtonDisabled = computed(
-    () => this.taskManagerService.findTaskById('updateSystem') !== null,
-  );
+  updateButtonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
 
   /**
    * Schedule a system update, confirming with the user first. If confirmed, schedule the update.
@@ -63,9 +45,7 @@ export class SystemStatusComponent {
 
     if (
       this.systemStatusService.updates().length > 0 &&
-      this.systemStatusService
-        .updates()
-        .some((update: SystemUpdate) => !update.aur)
+      this.systemStatusService.updates().some((update: SystemUpdate) => !update.aur)
     ) {
       const task: Task = this.taskManagerService.createTask(
         0,

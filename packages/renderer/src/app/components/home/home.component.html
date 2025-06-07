@@ -1,29 +1,24 @@
 <ng-container *transloco="let t">
   <div class="surface-section px-4 py-8 text-center md:px-6 lg:px-8">
     <div class="mb-5 text-3xl font-bold">
-      <span class="text-primary">{{ t("welcome.title") }} </span>
-      <span class="text-color">{{ t("welcome.titleTwo") }}</span>
+      <span class="text-primary">{{ t('welcome.title') }} </span>
+      <span class="text-color">{{ t('welcome.titleTwo') }}</span>
       @if (configService.state().codeName) {
-        <span class="text-primary-emphasis">
-          "{{ configService.state().codeName }}"</span
-        >
+        <span class="text-primary-emphasis"> "{{ configService.state().codeName }}"</span>
       }
     </div>
     <div class="mb-10 text-xl text-color">
       @if (configService.state().user && configService.state().hostname) {
         <div class="flex place-content-center gap-2">
           <span
-            >{{ t("welcome.hello") }} {{ configService.state().user }}&#64;{{
-              configService.state().hostname
-            }}
-            !</span
+            >{{ t('welcome.hello') }} {{ configService.state().user }}&#64;{{ configService.state().hostname }} !</span
           >
           @if (configService.state().isLiveSystem === false) {
             <rani-system-status></rani-system-status>
           }
         </div>
       } @else {
-        <span>{{ t("welcome.subtitle") }}</span>
+        <span>{{ t('welcome.subtitle') }}</span>
       }
     </div>
     <div class="grid grid-cols-12">
@@ -34,14 +29,8 @@
             [routerLink]="item.routerLink ?? null"
             (click)="respondClick(item)"
           >
-            <span
-              class="shadow-2 surface-card mb-3 inline-block p-3"
-              style="border-radius: 10px"
-            >
-              <i
-                class="pi {{ item.icon }} text-primary"
-                style="font-size: 2rem"
-              ></i>
+            <span class="shadow-2 surface-card mb-3 inline-block p-3" style="border-radius: 10px">
+              <i class="pi {{ item.icon }} text-primary" style="font-size: 2rem"></i>
             </span>
             <div class="mb-3 text-xl font-medium text-primary-emphasis">
               {{ t(item.title) }}
@@ -57,28 +46,13 @@
     @if (configService.settings().showMainLinks) {
       <div class="mt-10 grid grid-cols-12">
         @for (item of webLinks; track item.title) {
-          <p-card
-            class="col-span-4 mb-4 cursor-pointer px-5 md:col-span-2"
-            (click)="respondClick(item)"
-          >
-            <span
-              class="shadow-2 surface-card mb-3 inline-block p-3"
-              style="border-radius: 10px"
-            >
+          <p-card class="col-span-4 mb-4 cursor-pointer px-5 md:col-span-2" (click)="respondClick(item)">
+            <span class="shadow-2 surface-card mb-3 inline-block p-3" style="border-radius: 10px">
               <div class="min-h-8">
-                @if (typeof item.icon === "string") {
-                  <img
-                    ngSrc="/assets/icons/{{ item.icon }}"
-                    alt="{{ item.title }}"
-                    width="32"
-                    height="32"
-                  />
+                @if (typeof item.icon === 'string') {
+                  <img ngSrc="/assets/icons/{{ item.icon }}" alt="{{ item.title }}" width="32" height="32" />
                 } @else {
-                  <fa-icon
-                    class="text-primary"
-                    [icon]="item.icon"
-                    size="2xl"
-                  ></fa-icon>
+                  <fa-icon class="text-primary" [icon]="item.icon" size="2xl"></fa-icon>
                 }
               </div>
             </span>
@@ -90,28 +64,13 @@
       </div>
       <div class="mt-10 grid grid-cols-12">
         @for (item of contactLinks; track item.title) {
-          <p-card
-            class="col-span-12 mb-4 cursor-pointer px-5 md:col-span-2"
-            (click)="respondClick(item)"
-          >
-            <span
-              class="shadow-2 surface-card mb-3 inline-block p-3"
-              style="border-radius: 10px"
-            >
+          <p-card class="col-span-12 mb-4 cursor-pointer px-5 md:col-span-2" (click)="respondClick(item)">
+            <span class="shadow-2 surface-card mb-3 inline-block p-3" style="border-radius: 10px">
               <div class="min-h-8">
-                @if (typeof item.icon === "string") {
-                  <img
-                    ngSrc="/assets/icons/{{ item.icon }}"
-                    alt="{{ item.title }}"
-                    width="32"
-                    height="32"
-                  />
+                @if (typeof item.icon === 'string') {
+                  <img ngSrc="/assets/icons/{{ item.icon }}" alt="{{ item.title }}" width="32" height="32" />
                 } @else {
-                  <fa-icon
-                    class="text-primary"
-                    [icon]="item.icon"
-                    size="2xl"
-                  ></fa-icon>
+                  <fa-icon class="text-primary" [icon]="item.icon" size="2xl"></fa-icon>
                 }
               </div>
             </span>

@@ -1,10 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  type OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
 import { TableModule } from 'primeng/table';
 import { SystemdServicesComponent } from '../systemd-services/systemd-services.component';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';

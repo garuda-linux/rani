@@ -122,21 +122,19 @@ describe('KernelsComponent', () => {
 
     mockKernelsService.kernels.mockReturnValue([...sampleKernels]);
     mockKernelsService.dkmsModules.mockReturnValue([...sampleDkmsModules]);
-    mockTaskManagerService.createTask.mockImplementation(
-      (p, n, s, t, i, c) => ({
-        priority: p,
-        name: n,
-        silent: s,
-        translation: t,
-        icon: i,
-        command: c,
-        status: 'pending',
-        output: [],
-        isRunning: false,
-        ran: false,
-        error: false,
-      }),
-    );
+    mockTaskManagerService.createTask.mockImplementation((p, n, s, t, i, c) => ({
+      priority: p,
+      name: n,
+      silent: s,
+      translation: t,
+      icon: i,
+      command: c,
+      status: 'pending',
+      output: [],
+      isRunning: false,
+      ran: false,
+      error: false,
+    }));
   });
 
   afterEach(() => {
@@ -153,12 +151,8 @@ describe('KernelsComponent', () => {
     };
     component.togglePackage(kernelToToggle);
     expect(mockOsInteractService.togglePackage).toHaveBeenCalledTimes(2);
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[0],
-    );
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[1],
-    );
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[0]);
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[1]);
   });
 
   it('togglePackage should toggle only base package if initially installed kernel without headers is deselected', () => {
@@ -170,9 +164,7 @@ describe('KernelsComponent', () => {
     };
     component.togglePackage(kernelToToggle);
     expect(mockOsInteractService.togglePackage).toHaveBeenCalledTimes(1);
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[0],
-    );
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[0]);
   });
 
   it('togglePackage should toggle both packages if not initially installed', () => {
@@ -183,12 +175,8 @@ describe('KernelsComponent', () => {
     };
     component.togglePackage(kernelToToggle);
     expect(mockOsInteractService.togglePackage).toHaveBeenCalledTimes(2);
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[0],
-    );
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[1],
-    );
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[0]);
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[1]);
   });
 
   it('togglePackage should toggle both packages if initially installed and selected=true', () => {
@@ -199,27 +187,19 @@ describe('KernelsComponent', () => {
     };
     component.togglePackage(kernelToToggle);
     expect(mockOsInteractService.togglePackage).toHaveBeenCalledTimes(2);
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[0],
-    );
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToToggle.pkgname[1],
-    );
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[0]);
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToToggle.pkgname[1]);
   });
 
   it('installMissingHeaders(true) should toggle headers for selected kernels missing them', () => {
     mockKernelsService.kernels.mockReturnValue([...sampleKernels]);
     component.installMissingHeaders(true);
     expect(mockOsInteractService.togglePackage).toHaveBeenCalledTimes(1);
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      sampleKernels[1].pkgname[1],
-    );
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(sampleKernels[1].pkgname[1]);
   });
 
   it('installMissingHeaders(true) should not toggle headers if none are missing', () => {
-    const kernelsAllHeaders: Kernel[] = [
-      { ...sampleKernels[0], selected: true, headersSelected: true },
-    ];
+    const kernelsAllHeaders: Kernel[] = [{ ...sampleKernels[0], selected: true, headersSelected: true }];
     mockKernelsService.kernels.mockReturnValue(kernelsAllHeaders);
 
     component.installMissingHeaders(true);
@@ -230,9 +210,7 @@ describe('KernelsComponent', () => {
     const kernelToInstallHeaders: Kernel = sampleKernels[1];
     component.installMissingHeaders(kernelToInstallHeaders);
     expect(mockOsInteractService.togglePackage).toHaveBeenCalledTimes(1);
-    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(
-      kernelToInstallHeaders.pkgname[1],
-    );
+    expect(mockOsInteractService.togglePackage).toHaveBeenCalledWith(kernelToInstallHeaders.pkgname[1]);
   });
 
   it('reinstallDkmsModules(true, "broken") should create task to reinstall all broken modules', () => {
@@ -262,12 +240,8 @@ describe('KernelsComponent', () => {
     mockKernelsService.kernels.mockReturnValue(kernelsForTest);
     mockKernelsService.dkmsModules.mockReturnValue([...sampleDkmsModules]);
 
-    const acpiModule = sampleDkmsModules.find(
-      (m) => m.moduleName === 'acpi_call' && m.kernelVersion !== '',
-    );
-    const zenModule = sampleDkmsModules.find(
-      (m) => m.moduleName === 'acpi_call' && m.kernelVersion === '',
-    );
+    const acpiModule = sampleDkmsModules.find((m) => m.moduleName === 'acpi_call' && m.kernelVersion !== '');
+    const zenModule = sampleDkmsModules.find((m) => m.moduleName === 'acpi_call' && m.kernelVersion === '');
 
     const expectedCmd = `dkms install --no-depmod ${acpiModule?.moduleName}/${acpiModule?.moduleVersion} -k ${kernelsForTest[0].version}; dkms install --no-depmod ${acpiModule?.moduleName}/${acpiModule?.moduleVersion} -k ${kernelsForTest[2].version}-zen; `;
 
@@ -301,8 +275,7 @@ describe('KernelsComponent', () => {
     mockKernelsService.dkmsModules.mockReturnValue(dummyModulesForTest);
     mockKernelsService.kernels.mockReturnValue([...sampleKernels]);
 
-    const foundDummyModule =
-      dummyModulesForTest[dummyModulesForTest.length - 1];
+    const foundDummyModule = dummyModulesForTest[dummyModulesForTest.length - 1];
     const expectedCmd = `dkms install --no-depmod ${foundDummyModule.moduleName}/${foundDummyModule.moduleVersion} -k ${foundDummyModule.kernelVersion}; `;
 
     component.reinstallDkmsModules(kernelWithBroken, 'broken');
@@ -330,13 +303,8 @@ describe('KernelsComponent', () => {
 
     const moduleObject =
       sampleDkmsModules.find(
-        (m) =>
-          m.moduleName === 'vboxhost' &&
-          m.kernelVersion.startsWith(kernelWithMissing.version),
-      ) ??
-      sampleDkmsModules.find(
-        (m) => m.moduleName === 'vboxhost' && m.kernelVersion === '',
-      );
+        (m) => m.moduleName === 'vboxhost' && m.kernelVersion.startsWith(kernelWithMissing.version),
+      ) ?? sampleDkmsModules.find((m) => m.moduleName === 'vboxhost' && m.kernelVersion === '');
 
     const expectedCmd = `dkms install --no-depmod ${moduleObject?.moduleName}/${moduleObject?.moduleVersion} -k ${kernelWithMissing.version}; `;
 
@@ -360,9 +328,7 @@ describe('KernelsComponent', () => {
       version: '6.13.8',
     };
     const missingModuleName = 'acpi_call';
-    const moduleObject = sampleDkmsModules.find(
-      (m) => m.moduleName === missingModuleName && m.kernelVersion === '',
-    );
+    const moduleObject = sampleDkmsModules.find((m) => m.moduleName === missingModuleName && m.kernelVersion === '');
     const expectedCmd = `dkms install --no-depmod ${moduleObject?.moduleName}/${moduleObject?.moduleVersion} -k ${kernelWithMissing.version}-zen; `;
 
     mockKernelsService.kernels.mockReturnValue([{ ...kernelWithMissing }]);

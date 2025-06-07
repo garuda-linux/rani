@@ -100,12 +100,8 @@ test('Main window state', async ({ electronApp, page }) => {
   );
 
   expect(windowState.isCrashed, 'The app has crashed').toEqual(false);
-  expect(windowState.isVisible, 'The main window was not visible').toEqual(
-    true,
-  );
-  expect(windowState.isDevToolsOpened, 'The DevTools panel was open').toEqual(
-    false,
-  );
+  expect(windowState.isVisible, 'The main window was not visible').toEqual(true);
+  expect(windowState.isDevToolsOpened, 'The DevTools panel was open').toEqual(false);
 });
 
 test.describe('Main window web content', async () => {
@@ -121,12 +117,8 @@ test.describe('Main window web content', async () => {
     const element = page.getByAltText('Vite logo');
     await expect(element).toBeVisible();
     await expect(element).toHaveRole('img');
-    const imgState = await element.evaluate(
-      (img: HTMLImageElement) => img.complete,
-    );
-    const imgNaturalWidth = await element.evaluate(
-      (img: HTMLImageElement) => img.naturalWidth,
-    );
+    const imgState = await element.evaluate((img: HTMLImageElement) => img.complete);
+    const imgNaturalWidth = await element.evaluate((img: HTMLImageElement) => img.naturalWidth);
 
     expect(imgState).toEqual(true);
     expect(imgNaturalWidth).toBeGreaterThan(0);
@@ -136,9 +128,7 @@ test.describe('Main window web content', async () => {
 test.describe('Preload context should be exposed', async () => {
   test.describe(`versions should be exposed`, async () => {
     test('with same type`', async ({ page }) => {
-      const type = await page.evaluate(
-        () => typeof globalThis[btoa('versions')],
-      );
+      const type = await page.evaluate(() => typeof globalThis[btoa('versions')]);
       expect(type).toEqual('object');
     });
 
@@ -150,21 +140,14 @@ test.describe('Preload context should be exposed', async () => {
 
   test.describe(`sha256sum should be exposed`, async () => {
     test('with same type`', async ({ page }) => {
-      const type = await page.evaluate(
-        () => typeof globalThis[btoa('sha256sum')],
-      );
+      const type = await page.evaluate(() => typeof globalThis[btoa('sha256sum')]);
       expect(type).toEqual('function');
     });
 
     test('with same behavior', async ({ page }) => {
       const testString = btoa(`${Date.now() * Math.random()}`);
-      const expectedValue = createHash('sha256')
-        .update(testString)
-        .digest('hex');
-      const value = await page.evaluate(
-        (str) => globalThis[btoa('sha256sum')](str),
-        testString,
-      );
+      const expectedValue = createHash('sha256').update(testString).digest('hex');
+      const value = await page.evaluate((str) => globalThis[btoa('sha256sum')](str), testString);
       expect(value).toEqual(expectedValue);
     });
   });
@@ -182,10 +165,7 @@ test.describe('Preload context should be exposed', async () => {
 
       const testString = btoa(`${Date.now() * Math.random()}`);
       const expectedValue = btoa(testString);
-      const value = await page.evaluate(
-        async (str) => await globalThis[btoa('send')]('test', str),
-        testString,
-      );
+      const value = await page.evaluate(async (str) => await globalThis[btoa('send')]('test', str), testString);
       expect(value).toEqual(expectedValue);
     });
   });

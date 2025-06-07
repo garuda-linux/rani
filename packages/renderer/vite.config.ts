@@ -2,13 +2,7 @@ import { defineConfig } from 'vite';
 import analog from '@analogjs/platform';
 import tailwindcss from '@tailwindcss/vite';
 import type { UserConfig, Plugin } from 'vite';
-import {
-  copyFileSync,
-  mkdirSync,
-  readdirSync,
-  readFileSync,
-  writeFileSync,
-} from 'node:fs';
+import { copyFileSync, mkdirSync, readdirSync, readFileSync, writeFileSync } from 'node:fs';
 import { join } from 'node:path';
 
 /**
@@ -39,10 +33,7 @@ function copyAssets(): Plugin {
               }
             }
           } catch (error) {
-            console.warn(
-              `Could not copy ${src}:`,
-              (error as NodeJS.ErrnoException).message,
-            );
+            console.warn(`Could not copy ${src}:`, (error as NodeJS.ErrnoException).message);
           }
         }
 
@@ -54,18 +45,12 @@ function copyAssets(): Plugin {
         try {
           copyFileSync(faviconSrc, faviconDest);
         } catch (error) {
-          console.warn(
-            'Could not copy favicon:',
-            (error as NodeJS.ErrnoException).message,
-          );
+          console.warn('Could not copy favicon:', (error as NodeJS.ErrnoException).message);
         }
 
         console.log('Assets copied to renderer package');
       } catch (error) {
-        console.warn(
-          'Could not copy assets:',
-          (error as NodeJS.ErrnoException).message,
-        );
+        console.warn('Could not copy assets:', (error as NodeJS.ErrnoException).message);
       }
     },
   };
@@ -83,10 +68,7 @@ function transformAssetPaths(): Plugin {
 
         // Find all files to process
         const assetsDir = join(distDir, 'assets');
-        const filesToProcess = [
-          join(distDir, 'index.html'),
-          join(distDir, 'index.js'),
-        ];
+        const filesToProcess = [join(distDir, 'index.html'), join(distDir, 'index.js')];
 
         // Add assets files if assets directory exists
         try {
@@ -110,18 +92,9 @@ function transformAssetPaths(): Plugin {
             // Transform various patterns of /assets/ to ./assets/
             content = content.replace(/(["\s(=:])\/assets\//g, '$1./assets/');
             content = content.replace(/^\/assets\//gm, './assets/');
-            content = content.replace(
-              /(src\s*=\s*["\'])\/assets\//g,
-              '$1./assets/',
-            );
-            content = content.replace(
-              /(ngSrc\s*=\s*["\'])\/assets\//g,
-              '$1./assets/',
-            );
-            content = content.replace(
-              /(href\s*=\s*["\'])\/assets\//g,
-              '$1./assets/',
-            );
+            content = content.replace(/(src\s*=\s*["\'])\/assets\//g, '$1./assets/');
+            content = content.replace(/(ngSrc\s*=\s*["\'])\/assets\//g, '$1./assets/');
+            content = content.replace(/(href\s*=\s*["\'])\/assets\//g, '$1./assets/');
             content = content.replace(/([^.])\/assets\//g, '$1./assets/');
 
             if (content !== originalContent) {
@@ -129,21 +102,13 @@ function transformAssetPaths(): Plugin {
               transformedCount++;
             }
           } catch (error) {
-            console.warn(
-              `Could not transform ${filePath}:`,
-              (error as NodeJS.ErrnoException).message,
-            );
+            console.warn(`Could not transform ${filePath}:`, (error as NodeJS.ErrnoException).message);
           }
         }
 
-        console.log(
-          `Asset paths transformed for Electron (${transformedCount} files)`,
-        );
+        console.log(`Asset paths transformed for Electron (${transformedCount} files)`);
       } catch (error) {
-        console.warn(
-          'Could not transform asset paths:',
-          (error as NodeJS.ErrnoException).message,
-        );
+        console.warn('Could not transform asset paths:', (error as NodeJS.ErrnoException).message);
       }
     },
   };

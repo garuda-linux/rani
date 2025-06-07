@@ -13,25 +13,21 @@ export interface ShellEvent {
 
 // Event channel type definitions
 export interface EventChannelMap {
-  "shell:stdout": ShellEvent;
-  "shell:stderr": ShellEvent;
-  "shell:close": ShellEvent;
-  "shell:error": ShellEvent;
-  "window-focus": undefined;
-  "window-blur": undefined;
-  "window-maximize": undefined;
-  "window-unmaximize": undefined;
-  "window-minimize": undefined;
-  "window-restore": undefined;
-  "app-update": any;
-  "system-theme-changed": any;
+  'shell:stdout': ShellEvent;
+  'shell:stderr': ShellEvent;
+  'shell:close': ShellEvent;
+  'shell:error': ShellEvent;
+  'window-focus': undefined;
+  'window-blur': undefined;
+  'window-maximize': undefined;
+  'window-unmaximize': undefined;
+  'window-minimize': undefined;
+  'window-restore': undefined;
+  'app-update': any;
+  'system-theme-changed': any;
 }
 
-export type EventChannel =
-  | "shell:stdout"
-  | "shell:stderr"
-  | "shell:close"
-  | "shell:error";
+export type EventChannel = 'shell:stdout' | 'shell:stderr' | 'shell:close' | 'shell:error';
 
 export interface ElectronAPI {
   fs: {
@@ -69,11 +65,7 @@ export interface ElectronAPI {
   notification: {
     isPermissionGranted: () => Promise<boolean>;
     requestPermission: () => Promise<string>;
-    send: (options: {
-      title: string;
-      body?: string;
-      icon?: string;
-    }) => Promise<boolean>;
+    send: (options: { title: string; body?: string; icon?: string }) => Promise<boolean>;
     sendWithActions: (options: {
       title: string;
       body?: string;
@@ -105,16 +97,8 @@ export interface ElectronAPI {
     info: (message: string) => Promise<void>;
     warn: (message: string) => Promise<void>;
     error: (message: string) => Promise<void>;
-    structured: (
-      level: string,
-      message: string,
-      data?: unknown,
-    ) => Promise<void>;
-    withContext: (
-      level: string,
-      message: string,
-      context: Record<string, unknown>,
-    ) => Promise<void>;
+    structured: (level: string, message: string, data?: unknown) => Promise<void>;
+    withContext: (level: string, message: string, context: Record<string, unknown>) => Promise<void>;
   };
   dialog: {
     open: (options: Record<string, unknown>) => Promise<unknown>;
@@ -122,21 +106,9 @@ export interface ElectronAPI {
     message: (options: Record<string, unknown>) => Promise<unknown>;
     error: (title: string, content: string) => Promise<unknown>;
     certificate: (options: Record<string, unknown>) => Promise<unknown>;
-    confirm: (
-      message: string,
-      title?: string,
-      detail?: string,
-    ) => Promise<unknown>;
-    warning: (
-      message: string,
-      title?: string,
-      detail?: string,
-    ) => Promise<unknown>;
-    info: (
-      message: string,
-      title?: string,
-      detail?: string,
-    ) => Promise<unknown>;
+    confirm: (message: string, title?: string, detail?: string) => Promise<unknown>;
+    warning: (message: string, title?: string, detail?: string) => Promise<unknown>;
+    info: (message: string, title?: string, detail?: string) => Promise<unknown>;
   };
   clipboard: {
     writeText: (text: string) => Promise<boolean>;
@@ -158,18 +130,9 @@ export interface ElectronAPI {
     hasImage: () => Promise<boolean>;
   };
   events: {
-    on: <T extends EventChannel>(
-      channel: T,
-      listener: (event: EventChannelMap[T]) => void,
-    ) => void;
-    off: <T extends EventChannel>(
-      channel: T,
-      listener: (event: EventChannelMap[T]) => void,
-    ) => void;
-    once: <T extends EventChannel>(
-      channel: T,
-      listener: (event: EventChannelMap[T]) => void,
-    ) => void;
+    on: <T extends EventChannel>(channel: T, listener: (event: EventChannelMap[T]) => void) => void;
+    off: <T extends EventChannel>(channel: T, listener: (event: EventChannelMap[T]) => void) => void;
+    once: <T extends EventChannel>(channel: T, listener: (event: EventChannelMap[T]) => void) => void;
   };
   shell: {
     open: (url: string) => Promise<boolean>;

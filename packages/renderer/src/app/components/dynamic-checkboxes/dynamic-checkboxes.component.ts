@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  input,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
 import type { SystemToolsEntry, SystemToolsSubEntry } from '../../interfaces';
 import { Checkbox } from 'primeng/checkbox';
 import { TranslocoDirective } from '@jsverse/transloco';
@@ -74,35 +67,18 @@ export class DynamicCheckboxesComponent {
    * @param current Whether to check the current state or the installed state
    * @returns Whether the entry is currently active in the system
    */
-  private checkState(
-    entry: SystemToolsSubEntry,
-    current: boolean = false,
-  ): boolean {
+  private checkState(entry: SystemToolsSubEntry, current: boolean = false): boolean {
     switch (entry.check.type) {
       case 'pkg': {
         this.logger.trace(`Checking package ${entry.check.name} as pkg`);
         return (
-          this.osInteractService.check(
-            entry.check.name,
-            entry.check.type,
-            current,
-          ) ||
-          this.osInteractService.check(
-            `${entry.check.name}-git`,
-            entry.check.type,
-            current,
-          )
+          this.osInteractService.check(entry.check.name, entry.check.type, current) ||
+          this.osInteractService.check(`${entry.check.name}-git`, entry.check.type, current)
         );
       }
       default: {
-        this.logger.trace(
-          `Checking service ${entry.check.name} as ${entry.check.type}`,
-        );
-        return this.osInteractService.check(
-          entry.check.name,
-          entry.check.type,
-          current,
-        );
+        this.logger.trace(`Checking service ${entry.check.name} as ${entry.check.type}`);
+        return this.osInteractService.check(entry.check.name, entry.check.type, current);
       }
     }
   }
@@ -118,14 +94,10 @@ export class DynamicCheckboxesComponent {
         let disabler: SystemToolsSubEntry | undefined;
         for (const section of entries) {
           if (typeof entry.disabler === 'string') {
-            disabler = section.sections.find(
-              (e: SystemToolsSubEntry) => e.name === entry.disabler,
-            );
+            disabler = section.sections.find((e: SystemToolsSubEntry) => e.name === entry.disabler);
           } else {
             for (const disablerName of entry.disabler) {
-              disabler = section.sections.find(
-                (e: SystemToolsSubEntry) => e.name === disablerName,
-              );
+              disabler = section.sections.find((e: SystemToolsSubEntry) => e.name === disablerName);
               if (disabler) break;
             }
           }
@@ -141,11 +113,7 @@ export class DynamicCheckboxesComponent {
         }
 
         if (disabled && !this.checkState(entry, true)) {
-          this.osInteractService.toggle(
-            entry.check.name,
-            entry.check.type,
-            true,
-          );
+          this.osInteractService.toggle(entry.check.name, entry.check.type, true);
           entry.disabled = true;
         } else entry.disabled = false;
       }

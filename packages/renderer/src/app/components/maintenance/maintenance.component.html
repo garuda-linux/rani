@@ -1,22 +1,16 @@
 <ng-container *transloco="let t">
   <div class="surface-section px-4 text-center md:px-6 lg:px-8">
     <div class="text-3xl font-bold">
-      <span class="text-color">{{ t("maintenance.title") }} </span>
-      <span class="text-primary">{{ t("maintenance.titleTwo") }}</span>
+      <span class="text-color">{{ t('maintenance.title') }} </span>
+      <span class="text-primary">{{ t('maintenance.titleTwo') }}</span>
     </div>
   </div>
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
-        <p-tab [value]="0" (click)="navigate('common')">{{
-          t("maintenance.common")
-        }}</p-tab>
-        <p-tab [value]="1" (click)="navigate('reset')">{{
-          t("maintenance.resetConfigs")
-        }}</p-tab>
-        <p-tab [value]="2" (click)="navigate('garuda-update')">{{
-          t("maintenance.garudaUpdate")
-        }}</p-tab>
+        <p-tab [value]="0" (click)="navigate('common')">{{ t('maintenance.common') }}</p-tab>
+        <p-tab [value]="1" (click)="navigate('reset')">{{ t('maintenance.resetConfigs') }}</p-tab>
+        <p-tab [value]="2" (click)="navigate('garuda-update')">{{ t('maintenance.garudaUpdate') }}</p-tab>
       </p-tablist>
       <p-tabpanels>
         <p-tabpanel [value]="0">
@@ -32,23 +26,17 @@
                       [style]="{ width: '100%' }"
                       [outlined]="true"
                       [disabled]="action.onlyDirect"
-                      [pTooltip]="
-                        action.onlyDirect ? t('maintenance.onlyDirect') : ''
-                      "
+                      [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
                       [label]="
                         taskManager.findTaskById(action.name)
                           ? t('maintenance.removePending')
                           : t('maintenance.addPending')
                       "
-                      [icon]="
-                        taskManager.findTaskById(action.name)
-                          ? 'pi pi-minus-circle'
-                          : 'pi pi-plus-circle'
-                      "
+                      [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
                       (click)="addToPending(action)"
                     ></p-button>
                     <p-button
-                      [style]="{ 'margin-top': '0.5rem', width: '100%' }"
+                      [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
                       [outlined]="true"
                       [label]="t('maintenance.runNow')"
                       (click)="runNow(action)"
@@ -75,11 +63,7 @@
                     {{ config.name }}
                     <i
                       class="pi pi-info-circle"
-                      [pTooltip]="
-                        t('maintenance.resetTooltip') +
-                        ' ' +
-                        config.files.join(', ')
-                      "
+                      [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
                       style="font-size: 0.75rem"
                       tooltipPosition="bottom"
                     >
@@ -112,23 +96,17 @@
                       [style]="{ width: '100%' }"
                       [outlined]="true"
                       [disabled]="action.onlyDirect"
-                      [pTooltip]="
-                        action.onlyDirect ? t('maintenance.onlyDirect') : ''
-                      "
+                      [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
                       [label]="
                         taskManager.findTaskById(action.name)
                           ? t('maintenance.removePending')
                           : t('maintenance.addPending')
                       "
-                      [icon]="
-                        taskManager.findTaskById(action.name)
-                          ? 'pi pi-minus-circle'
-                          : 'pi pi-plus-circle'
-                      "
+                      [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
                       (click)="addToPending(action)"
                     ></p-button>
                     <p-button
-                      [style]="{ 'margin-top': '0.5rem', width: '100%' }"
+                      [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
                       [outlined]="true"
                       [label]="t('maintenance.runNow')"
                       (click)="runNow(action)"

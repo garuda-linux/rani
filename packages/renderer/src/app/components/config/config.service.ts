@@ -1,15 +1,15 @@
-import { effect, inject, Injectable, signal } from "@angular/core";
-import type { AppSettings, AppState, DesktopEnvironment } from "./interfaces";
-import { getConfigStore } from "./store";
+import { effect, inject, Injectable, signal } from '@angular/core';
+import type { AppSettings, AppState, DesktopEnvironment } from './interfaces';
+import { getConfigStore } from './store';
 
-import { LoadingService } from "../loading-indicator/loading-indicator.service";
-import { Logger } from "../logging/logging";
-import { LogLevel } from "../logging/interfaces";
-import { usePreset } from "@primeng/themes";
-import { themes } from "../../theme";
-import { ElectronShellService } from "../electron-services";
-import type { CommandResult } from "../../types/shell";
-import { Store } from "../electron-services";
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Logger } from '../logging/logging';
+import { LogLevel } from '../logging/interfaces';
+import { usePreset } from '@primeng/themes';
+import { themes } from '../../theme';
+import { ElectronShellService } from '../electron-services';
+import type { CommandResult } from '../../types/shell';
+import { Store } from '../electron-services';
 
 class PendingConfigUpdate {
   state?: object;
@@ -17,31 +17,31 @@ class PendingConfigUpdate {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ConfigService {
   state = signal<AppState>({
     availablePkgs: new Map<string, boolean>(),
     borderlessMaximizedWindow: false,
-    codeName: "",
-    desktopEnvironment: "" as DesktopEnvironment,
-    hostname: "",
+    codeName: '',
+    desktopEnvironment: '' as DesktopEnvironment,
+    hostname: '',
     isLiveSystem: undefined,
     isMaximized: false,
-    kernel: "",
-    locale: "",
+    kernel: '',
+    locale: '',
     rebootPending: false,
-    user: "",
+    user: '',
   });
 
   settings = signal<AppSettings>({
-    activeTheme: "Catppuccin Mocha/Latte Aura",
+    activeTheme: 'Catppuccin Mocha/Latte Aura',
     autoRefresh: false,
     autoStart: true,
     copyDiagnostics: true,
     darkMode: true,
     firstBoot: undefined,
-    language: "en",
+    language: 'en',
     leftButtons: true,
     logLevel: LogLevel.INFO,
     showMainLinks: true,
@@ -78,9 +78,7 @@ export class ConfigService {
    * @param firstRun Indicates if this is the first run of the application. If false, only changing states are updated.
    */
   async init(firstRun = true): Promise<void> {
-    this.logger.trace(
-      `${firstRun ? "Initializing" : "updating"} ConfigService`,
-    );
+    this.logger.trace(`${firstRun ? 'Initializing' : 'updating'} ConfigService`);
     this.loadingService.loadingOn();
 
     try {
@@ -104,29 +102,18 @@ export class ConfigService {
         );
       }
 
-      const config_updates: PendingConfigUpdate[] =
-        await Promise.all(initPromises);
-      const settings_updates = config_updates
-        .map((update) => update.settings)
-        .filter((update) => update);
-      const state_updates = config_updates
-        .map((update) => update.state)
-        .filter((update) => update);
+      const config_updates: PendingConfigUpdate[] = await Promise.all(initPromises);
+      const settings_updates = config_updates.map((update) => update.settings).filter((update) => update);
+      const state_updates = config_updates.map((update) => update.state).filter((update) => update);
 
-      this.settings.set(
-        Object.assign({}, this.settings(), ...settings_updates),
-      );
+      this.settings.set(Object.assign({}, this.settings(), ...settings_updates));
       this.state.set(Object.assign({}, this.state(), ...state_updates));
 
-      this.logger.debug(
-        `ConfigService ${firstRun ? "initialized" : "updated"} successfully`,
-      );
+      this.logger.debug(`ConfigService ${firstRun ? 'initialized' : 'updated'} successfully`);
 
       console.debug(this.settings(), this.state());
     } catch (err: unknown) {
-      this.logger.error(
-        `Failed while ${firstRun ? "initializing" : "updating"} ConfigService: ${err}`,
-      );
+      this.logger.error(`Failed while ${firstRun ? 'initializing' : 'updating'} ConfigService: ${err}`);
     }
 
     this.loadingService.loadingOff();
@@ -146,7 +133,7 @@ export class ConfigService {
 
     // Save to store if available
     try {
-      const store: Store = await getConfigStore("updateConfig");
+      const store: Store = await getConfigStore('updateConfig');
       if (store) {
         this.logger.debug(`Saving setting ${key} to store: ${value}`);
         await store.set(key, value);
@@ -175,7 +162,7 @@ export class ConfigService {
    */
   private async initStore(): Promise<PendingConfigUpdate> {
     try {
-      const store: Store = await getConfigStore("initStore");
+      const store: Store = await getConfigStore('initStore');
 
       let storedSettings = 0;
       const settings: Record<string, unknown> = {};
@@ -206,11 +193,9 @@ export class ConfigService {
    */
   private async initUser(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command(
-        "whoami",
-      ).execute();
+      const result: CommandResult = await new this.shellService.Command('whoami').execute();
       if (result.code !== 0) {
-        this.logger.error("Could not get user");
+        this.logger.error('Could not get user');
       } else {
         const user: string = result.stdout.trim();
         this.logger.debug(`User ${user}, welcome!`);
@@ -228,26 +213,22 @@ export class ConfigService {
    */
   private async initCodeName(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command(
-        "lsb_release",
-      )
-        .args(["-c"])
-        .execute();
+      const result: CommandResult = await new this.shellService.Command('lsb_release').args(['-c']).execute();
 
       if (result.code !== 0) {
-        this.logger.error("Could not get code name");
+        this.logger.error('Could not get code name');
         return {};
       }
       const codeName: string =
         result.stdout
-          .split(":")[1]
+          .split(':')[1]
           .trim()
           .match(/[A-Z][a-z]+/g)
-          ?.join(" ") ?? "Unknown";
+          ?.join(' ') ?? 'Unknown';
       return { state: { codeName } };
     } catch (error) {
       this.logger.error(`Failed to get code name: ${error}`);
-      return { state: { codeName: "Garuda Linux" } }; // Default fallback
+      return { state: { codeName: 'Garuda Linux' } }; // Default fallback
     }
   }
 
@@ -257,19 +238,16 @@ export class ConfigService {
    */
   private async initIsLive(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command("sh")
-        .args(["-c", "df -T / |tail -n1 |awk '{print $2}'"])
+      const result: CommandResult = await new this.shellService.Command('sh')
+        .args(['-c', "df -T / |tail -n1 |awk '{print $2}'"])
         .execute();
 
       if (result.code !== 0) {
-        this.logger.error("Could not get filesystem type");
+        this.logger.error('Could not get filesystem type');
         return {};
       }
-      const isLiveSystem: boolean =
-        result.stdout.trim() === "overlay" || result.stdout.trim() === "aufs";
-      this.logger.debug(
-        `Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? "live" : "installed"}`,
-      );
+      const isLiveSystem: boolean = result.stdout.trim() === 'overlay' || result.stdout.trim() === 'aufs';
+      this.logger.debug(`Filesystem type: ${result.stdout.trim()}, is ${isLiveSystem ? 'live' : 'installed'}`);
       return { state: { isLiveSystem } };
     } catch (error) {
       this.logger.error(`Failed to get filesystem type: ${error}`);
@@ -283,8 +261,8 @@ export class ConfigService {
    */
   private async checkAutoStart(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command("test")
-        .args(["-f", "$HOME/.config/autostart/org.garudalinux.rani.desktop"])
+      const result: CommandResult = await new this.shellService.Command('test')
+        .args(['-f', '$HOME/.config/autostart/org.garudalinux.rani.desktop'])
         .execute();
 
       const has_autostartfile: boolean = result.code === 0;
@@ -301,18 +279,16 @@ export class ConfigService {
    */
   private async initHostname(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command(
-        "hostname",
-      ).execute();
+      const result: CommandResult = await new this.shellService.Command('hostname').execute();
       if (result.code === 0) {
         const hostname: string = result.stdout.trim();
         return { state: { hostname } };
       }
-      this.logger.error("Could not get hostname");
+      this.logger.error('Could not get hostname');
     } catch (error) {
       this.logger.error(`Failed to get hostname: ${error}`);
     }
-    return { state: { hostname: "" } };
+    return { state: { hostname: '' } };
   }
 
   /**
@@ -321,14 +297,10 @@ export class ConfigService {
    */
   private async initKernel(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command("uname")
-        .args(["-r"])
-        .execute();
+      const result: CommandResult = await new this.shellService.Command('uname').args(['-r']).execute();
 
       if (result.code !== 0) {
-        this.logger.error(
-          `Failed to get running kernel: ${result.stderr.trim()}`,
-        );
+        this.logger.error(`Failed to get running kernel: ${result.stderr.trim()}`);
         return {};
       }
       const runningKernel: string = result.stdout.trim();
@@ -336,20 +308,18 @@ export class ConfigService {
       return { state: { kernel: runningKernel } };
     } catch (error) {
       this.logger.error(`Failed to get running kernel: ${error}`);
-      return { state: { kernel: "6.1.0-12-garuda" } }; // Default fallback
+      return { state: { kernel: '6.1.0-12-garuda' } }; // Default fallback
     }
   }
 
   private async initDesktopEnvironment(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command("sh")
-        .args(["-c", "echo $XDG_CURRENT_DESKTOP"])
+      const result: CommandResult = await new this.shellService.Command('sh')
+        .args(['-c', 'echo $XDG_CURRENT_DESKTOP'])
         .execute();
 
       if (result.code !== 0) {
-        this.logger.error(
-          `Failed to get desktop environment: ${result.stderr.trim()}`,
-        );
+        this.logger.error(`Failed to get desktop environment: ${result.stderr.trim()}`);
         return {};
       }
       const desktopEnvironment: string = result.stdout.trim();
@@ -359,21 +329,17 @@ export class ConfigService {
       };
     } catch (error) {
       this.logger.error(`Failed to get desktop environment: ${error}`);
-      return { state: { desktopEnvironment: "KDE" } }; // Default to KDE for now
+      return { state: { desktopEnvironment: 'KDE' } }; // Default to KDE for now
     }
   }
 
   private async initRebootPending(): Promise<PendingConfigUpdate> {
     try {
       const cmd = `last_update="$(date -r /var/lib/garuda/last_update +%s 2> /dev/null)"; if [ "$last_update" -gt "$(date -r /proc +%s)" ]; then exit 100; else exit 0; fi`;
-      const result: CommandResult = await new this.shellService.Command("sh")
-        .args(["-c", cmd])
-        .execute();
+      const result: CommandResult = await new this.shellService.Command('sh').args(['-c', cmd]).execute();
 
       if (result.code !== 0 && result.code !== 100) {
-        this.logger.error(
-          `Failed to get reboot pending status: ${result.stderr.trim()}`,
-        );
+        this.logger.error(`Failed to get reboot pending status: ${result.stderr.trim()}`);
         return {};
       }
       this.logger.debug(`Reboot pending status: ${result.code !== 0}`);
@@ -390,22 +356,20 @@ export class ConfigService {
    */
   private async initLocale(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command("sh")
-        .args(["-c", "locale | grep LANG="])
+      const result: CommandResult = await new this.shellService.Command('sh')
+        .args(['-c', 'locale | grep LANG='])
         .execute();
 
       if (result.code !== 0) {
-        this.logger.error(
-          `Failed to get current locale: ${result.stderr.trim()}`,
-        );
+        this.logger.error(`Failed to get current locale: ${result.stderr.trim()}`);
         return {};
       }
-      const locale: string = result.stdout.trim().split("=")[1];
+      const locale: string = result.stdout.trim().split('=')[1];
       this.logger.debug(`Current locale: ${locale}`);
       return { state: { locale } };
     } catch (error) {
       this.logger.error(`Failed to get current locale: ${error}`);
-      return { state: { locale: "en" } };
+      return { state: { locale: 'en' } };
     }
   }
 
@@ -415,11 +379,7 @@ export class ConfigService {
    */
   private async initInstalledPkgs(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command(
-        "pacman",
-      )
-        .args(["-Ssq"])
-        .execute();
+      const result: CommandResult = await new this.shellService.Command('pacman').args(['-Ssq']).execute();
       console.log(result);
       if (result.code !== 0) {
         this.logger.error(`Failed to get installed packages: ${result.stderr}`);
@@ -427,7 +387,7 @@ export class ConfigService {
       }
 
       const availableMap = new Map<string, boolean>();
-      const packages = result.stdout.trim().split("\n");
+      const packages = result.stdout.trim().split('\n');
       for (const pkg of packages) {
         availableMap.set(pkg, true);
       }
@@ -446,16 +406,11 @@ export class ConfigService {
    */
   private async initBorderlessWindow(): Promise<PendingConfigUpdate> {
     try {
-      const result: CommandResult = await new this.shellService.Command("sh")
-        .args([
-          "-c",
-          "cat ~/.config/kwinrc | grep -q 'BorderlessMaximizedWindows=true'",
-        ])
+      const result: CommandResult = await new this.shellService.Command('sh')
+        .args(['-c', "cat ~/.config/kwinrc | grep -q 'BorderlessMaximizedWindows=true'"])
         .execute();
 
-      this.logger.debug(
-        `Borderless maximized window setting: ${result.code === 0 ? "enabled" : "disabled"}`,
-      );
+      this.logger.debug(`Borderless maximized window setting: ${result.code === 0 ? 'enabled' : 'disabled'}`);
       if (result.code === 0) {
         return { state: { borderlessMaximizedWindow: true } };
       }

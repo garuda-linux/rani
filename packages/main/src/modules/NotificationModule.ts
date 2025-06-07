@@ -27,50 +27,45 @@ class NotificationModule implements AppModule {
       }
     });
 
-    ipcMain.handle(
-      'notification:send',
-      async (_, options: { title: string; body?: string; icon?: string }) => {
-        try {
-          if (!Notification.isSupported()) {
-            console.warn('Notifications are not supported on this system');
-            return false;
-          }
-
-          if (!options.title) {
-            throw new Error('Notification title is required');
-          }
-
-          const notification = new Notification({
-            title: options.title,
-            body: options.body,
-            icon: options.icon,
-            silent: false,
-          });
-
-          notification.show();
-
-          // Handle notification events
-          notification.on('click', () => {
-            console.log('Notification clicked');
-          });
-
-          notification.on('close', () => {
-            console.log('Notification closed');
-          });
-
-          notification.on('failed', (error) => {
-            console.error('Notification failed:', error);
-          });
-
-          return true;
-        } catch (error) {
-          console.error('Notification send error:', error);
-          throw new Error(
-            `Failed to send notification: ${error instanceof Error ? error.message : error}`,
-          );
+    ipcMain.handle('notification:send', async (_, options: { title: string; body?: string; icon?: string }) => {
+      try {
+        if (!Notification.isSupported()) {
+          console.warn('Notifications are not supported on this system');
+          return false;
         }
-      },
-    );
+
+        if (!options.title) {
+          throw new Error('Notification title is required');
+        }
+
+        const notification = new Notification({
+          title: options.title,
+          body: options.body,
+          icon: options.icon,
+          silent: false,
+        });
+
+        notification.show();
+
+        // Handle notification events
+        notification.on('click', () => {
+          console.log('Notification clicked');
+        });
+
+        notification.on('close', () => {
+          console.log('Notification closed');
+        });
+
+        notification.on('failed', (error) => {
+          console.error('Notification failed:', error);
+        });
+
+        return true;
+      } catch (error) {
+        console.error('Notification send error:', error);
+        throw new Error(`Failed to send notification: ${error instanceof Error ? error.message : error}`);
+      }
+    });
 
     ipcMain.handle(
       'notification:sendWithActions',

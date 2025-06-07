@@ -3,9 +3,7 @@
     <p-card [header]="t(section.name)" [style]="{ 'margin-top': '1rem' }">
       <div class="mt-10 grid grid-cols-12 items-center">
         @for (entry of section.sections; track entry.name) {
-          <div
-            class="text-sure col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3"
-          >
+          <div class="text-sure col-span-12 sm:col-span-6 md:col-span-4 xl:col-span-3">
             <p-checkbox
               [(ngModel)]="entry.checked"
               [disabled]="entry.disabled ?? false"
@@ -15,11 +13,7 @@
               (click)="clickAction(entry)"
               name="group"
             />
-            <label
-              class="mx-2.5"
-              [for]="entry.name"
-              [ngClass]="{ 'text-surface-300': entry.disabled }"
-            >
+            <label class="mx-2.5" [for]="entry.name" [ngClass]="{ 'text-surface-300': entry.disabled }">
               {{ t(entry.description) }}
             </label>
           </div>

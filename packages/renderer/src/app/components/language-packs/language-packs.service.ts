@@ -45,18 +45,13 @@ export class LanguagePacksService {
       if (!territory) continue;
 
       const regex = `^.*-${language}(_${territory}|-${territory})?$`;
-      promises.push(
-        this.prepareLangPackExecution(regex, { language, territory, locale }),
-      );
+      promises.push(this.prepareLangPackExecution(regex, { language, territory, locale }));
     }
 
-    const promiseResults: { packages: string[]; locales: LanguagePackMeta }[] =
-      await Promise.all(promises);
+    const promiseResults: { packages: string[]; locales: LanguagePackMeta }[] = await Promise.all(promises);
     const totalPacks: LanguagePacks = this.processPackages(promiseResults);
 
-    this.logger.info(
-      `Found ${totalPacks.length} language packs for ${locales.length} locales`,
-    );
+    this.logger.info(`Found ${totalPacks.length} language packs for ${locales.length} locales`);
     this.languagePacks.set(totalPacks);
   }
 
@@ -65,13 +60,10 @@ export class LanguagePacksService {
    */
   async getLocales(): Promise<string[]> {
     const cmd = 'locale -a';
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
 
     if (result.code !== 0) {
-      this.logger.error(
-        `Failed to get available language packs: ${result.stderr}`,
-      );
+      this.logger.error(`Failed to get available language packs: ${result.stderr}`);
     }
 
     const locales = result.stdout
@@ -94,13 +86,10 @@ export class LanguagePacksService {
     locales: LanguagePackMeta,
   ): Promise<{ packages: string[]; locales: LanguagePackMeta }> {
     const cmd = `pacman -Ssq "${regex}"`;
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
 
     if (result.code !== 0) {
-      this.logger.error(
-        `Failed to get available language packs: ${result.stderr}`,
-      );
+      this.logger.error(`Failed to get available language packs: ${result.stderr}`);
       return { packages: [], locales };
     }
 
@@ -122,9 +111,7 @@ export class LanguagePacksService {
     const totalPacks: LanguagePack[] = [];
 
     for (const { packages, locales } of preparedData) {
-      this.logger.trace(
-        `Found ${packages.length} packages for locale: ${locales.locale}`,
-      );
+      this.logger.trace(`Found ${packages.length} packages for locale: ${locales.locale}`);
       const { language, territory, locale } = locales;
 
       for (const pkgname of packages) {

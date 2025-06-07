@@ -1,10 +1,6 @@
 import { Injectable, inject, NgZone } from '@angular/core';
 import { Logger } from '../logging/logging';
-import {
-  type ShellEvent,
-  type ShellStreamingResult,
-  type ElectronAPI,
-} from './electron-types';
+import { type ShellEvent, type ShellStreamingResult, type ElectronAPI } from './electron-types';
 
 // Re-export ShellStreamingResult for backward compatibility
 export type { ShellStreamingResult };
@@ -48,9 +44,7 @@ export class ElectronShellSpawnService {
     args?: string[],
     options?: ShellStreamingOptions,
   ): Promise<ShellStreamingResult> {
-    this.logger.debug(
-      `[SERVICE] Invoking spawnStreaming with command: ${command}, args: ${JSON.stringify(args)}`,
-    );
+    this.logger.debug(`[SERVICE] Invoking spawnStreaming with command: ${command}, args: ${JSON.stringify(args)}`);
 
     const result = await this.electronAPI.shell.spawnStreaming(command, args, {
       cwd: options?.cwd,
@@ -67,9 +61,7 @@ export class ElectronShellSpawnService {
       throw new Error(errorMessage);
     }
 
-    this.logger.info(
-      `[SERVICE] Spawned process with ID: ${processId}, PID: ${pid}`,
-    );
+    this.logger.info(`[SERVICE] Spawned process with ID: ${processId}, PID: ${pid}`);
 
     const cleanup = () => {
       // Remove listeners when the process is explicitly closed or ends
@@ -78,9 +70,7 @@ export class ElectronShellSpawnService {
       this.electronAPI.events.off('shell:close', closeListener);
       this.electronAPI.events.off('shell:error', errorListener);
       this.cleanupFunctions.delete(processId);
-      this.logger.debug(
-        `[SERVICE] Cleaned up listeners for process ID: ${processId}`,
-      );
+      this.logger.debug(`[SERVICE] Cleaned up listeners for process ID: ${processId}`);
     };
 
     // Store the cleanup function
@@ -126,9 +116,7 @@ export class ElectronShellSpawnService {
       if (event.processId !== processId) return;
       this.ngZone.run(() => {
         const errorMessage = event.error?.message ?? 'Unknown error';
-        this.logger.error(
-          `[SERVICE] Process ${event.processId} encountered error: ${errorMessage}`,
-        );
+        this.logger.error(`[SERVICE] Process ${event.processId} encountered error: ${errorMessage}`);
         if (options?.onError) {
           options.onError(new Error(errorMessage));
         }
@@ -156,9 +144,7 @@ export class ElectronShellSpawnService {
    * @param data The string data to write.
    */
   async writeStdin(processId: string, data: string): Promise<void> {
-    this.logger.debug(
-      `[SERVICE] Writing to stdin of process ${processId}: ${data.substring(0, 50)}...`,
-    );
+    this.logger.debug(`[SERVICE] Writing to stdin of process ${processId}: ${data.substring(0, 50)}...`);
     this.electronAPI.shell.writeStdin(processId, data);
   }
 
@@ -169,9 +155,7 @@ export class ElectronShellSpawnService {
    * @param signal The signal to send (e.g., 'SIGTERM', 'SIGKILL').
    */
   async killProcess(processId: string, signal?: string): Promise<void> {
-    this.logger.warn(
-      `[SERVICE] Killing process ${processId} with signal: ${signal || 'SIGTERM'}`,
-    );
+    this.logger.warn(`[SERVICE] Killing process ${processId} with signal: ${signal || 'SIGTERM'}`);
     this.electronAPI.shell.killProcess(processId, signal);
     // Immediately run cleanup after explicitly killing
     const cleanupFn = this.cleanupFunctions.get(processId);
@@ -199,9 +183,7 @@ export class ElectronShellSpawnService {
     code: number | null;
     signal: string | null;
   }> {
-    this.logger.debug(
-      `[SERVICE] Executing one-off command: ${command} ${JSON.stringify(args)}`,
-    );
+    this.logger.debug(`[SERVICE] Executing one-off command: ${command} ${JSON.stringify(args)}`);
     const result = await this.electronAPI.shell.execute(command, args, options);
     this.logger.debug(
       // @ts-ignore

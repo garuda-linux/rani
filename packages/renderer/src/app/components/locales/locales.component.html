@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <div class="my-5 text-center">{{ t("locales.description") }}</div>
+  <div class="my-5 text-center">{{ t('locales.description') }}</div>
   <p-pick-list
     [dragdrop]="true"
     [responsive]="true"
@@ -19,7 +19,7 @@
       {{ item | locale: true }}
     </ng-template>
   </p-pick-list>
-  <div class="mb-5 mt-10 text-center">{{ t("locales.selectLocale") }}</div>
+  <div class="mb-5 mt-10 text-center">{{ t('locales.selectLocale') }}</div>
   <div class="flex justify-center">
     <p-select
       class="w-full md:w-1/3"

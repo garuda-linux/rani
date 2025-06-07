@@ -1,20 +1,15 @@
 <ng-container *transloco="let t">
   <div class="surface-section px-4 text-center md:px-6 lg:px-8">
     <div class="text-3xl font-bold">
-      <span class="text-color">{{ t("gaming.title") }} </span>
-      <span class="text-primary">{{ t("gaming.titleTwo") }}</span>
+      <span class="text-color">{{ t('gaming.title') }} </span>
+      <span class="text-primary">{{ t('gaming.titleTwo') }}</span>
     </div>
   </div>
   <div class="p-10">
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
         @for (section of gamingService.packages(); track section.name) {
-          <p-tab
-            #tab
-            [value]="$index"
-            (click)="navigate(section.name.split('.')[1])"
-            >{{ t(section.name) }}</p-tab
-          >
+          <p-tab #tab [value]="$index" (click)="navigate(section.name.split('.')[1])">{{ t(section.name) }}</p-tab>
         }
       </p-tablist>
       <p-tabpanels>
@@ -28,10 +23,7 @@
             <p-data-view [value]="section.sections" [title]="t(section.name)">
               <ng-template #list let-items>
                 <div class="grid-nogutter grid grid-cols-12 gap-4 p-5">
-                  <div
-                    class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2"
-                    *ngFor="let item of items"
-                  >
+                  <div class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2" *ngFor="let item of items">
                     @defer (on viewport) {
                       @if (!item.disabled) {
                         <p-card
@@ -52,17 +44,12 @@
                                 <i class="pi pi-info-circle mr-2"> </i>
                               }
                               @if (item.url) {
-                                <a (click)="open(item.url)"
-                                  ><i class="pi pi-external-link"></i
-                                ></a>
+                                <a (click)="open(item.url)"><i class="pi pi-external-link"></i></a>
                               }
                             </div>
                           </ng-template>
                           <div class="mt-5 min-h-16">
-                            @if (
-                              item.icon === "generic-dark.svg" &&
-                              !configService.settings().darkMode
-                            ) {
+                            @if (item.icon === 'generic-dark.svg' && !configService.settings().darkMode) {
                               <img
                                 class="mx-auto rounded-border"
                                 [alt]="item.name"
@@ -92,7 +79,7 @@
                       >
                         <ng-template #title>
                           <div class="text-bold min-h-10 text-center text-sm">
-                            {{ t("gaming.loading") }}
+                            {{ t('gaming.loading') }}
                           </div>
                         </ng-template>
                         <div class="mt-5 min-h-16">

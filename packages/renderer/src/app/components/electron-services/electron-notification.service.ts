@@ -48,9 +48,7 @@ export async function requestPermission(): Promise<string> {
   return await window.electronAPI.notification.requestPermission();
 }
 
-export async function sendNotification(
-  options: NotificationOptions,
-): Promise<boolean> {
+export async function sendNotification(options: NotificationOptions): Promise<boolean> {
   if (!window.electronAPI) {
     throw new Error('Electron API not available');
   }

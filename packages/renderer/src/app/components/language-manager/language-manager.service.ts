@@ -43,9 +43,7 @@ export class LanguageManagerService {
     if (
       activeLang &&
       activeLang !== this.translocoService.getActiveLang() &&
-      (this.translocoService.getAvailableLangs() as string[]).includes(
-        activeLang,
-      )
+      (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)
     ) {
       await lastValueFrom(this.translocoService.load(activeLang));
       this.translocoService.setActiveLang(activeLang);

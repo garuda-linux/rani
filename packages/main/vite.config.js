@@ -1,8 +1,8 @@
-import { getNodeMajorVersion } from "@app/electron-versions";
-import { spawn } from "node:child_process";
-import electronPath from "electron";
-import { copyFileSync, mkdirSync, readdirSync } from "node:fs";
-import { join } from "node:path";
+import { getNodeMajorVersion } from '@app/electron-versions';
+import { spawn } from 'node:child_process';
+import electronPath from 'electron';
+import { copyFileSync, mkdirSync, readdirSync } from 'node:fs';
+import { join } from 'node:path';
 
 export default /**
  * @type {import('vite').UserConfig}
@@ -11,17 +11,17 @@ export default /**
 ({
   build: {
     ssr: true,
-    sourcemap: "inline",
-    outDir: "dist",
-    assetsDir: ".",
+    sourcemap: 'inline',
+    outDir: 'dist',
+    assetsDir: '.',
     target: `node${getNodeMajorVersion()}`,
     lib: {
-      entry: "src/index.ts",
-      formats: ["es"],
+      entry: 'src/index.ts',
+      formats: ['es'],
     },
     rollupOptions: {
       output: {
-        entryFileNames: "[name].js",
+        entryFileNames: '[name].js',
       },
     },
     emptyOutDir: true,
@@ -36,17 +36,17 @@ export default /**
  */
 function copyAssets() {
   return {
-    name: "copy-assets",
+    name: 'copy-assets',
     writeBundle() {
       try {
-        const isDevMode = process.env.NODE_ENV === "development";
+        const isDevMode = process.env.NODE_ENV === 'development';
         if (isDevMode) {
           return;
         }
 
         // Copy assets directory to main package dist
-        const srcAssetsDir = join(process.cwd(), "assets");
-        const destAssetsDir = join(process.cwd(), "dist/assets");
+        const srcAssetsDir = join(process.cwd(), 'assets');
+        const destAssetsDir = join(process.cwd(), 'dist/assets');
 
         function copyDir(src, dest) {
           try {
@@ -69,9 +69,9 @@ function copyAssets() {
         }
 
         copyDir(srcAssetsDir, destAssetsDir);
-        console.log("Assets copied to main package");
+        console.log('Assets copied to main package');
       } catch (error) {
-        console.warn("Could not copy assets:", error.message);
+        console.warn('Could not copy assets:', error.message);
       }
     },
   };
@@ -89,25 +89,21 @@ function handleHotReload() {
   let rendererWatchServer = null;
 
   return {
-    name: "@app/main-process-hot-reload",
+    name: '@app/main-process-hot-reload',
 
     config(config, env) {
-      if (env.mode !== "development") {
+      if (env.mode !== 'development') {
         return;
       }
 
-      const rendererWatchServerProvider = config.plugins.find(
-        (p) => p.name === "@app/renderer-watch-server-provider",
-      );
+      const rendererWatchServerProvider = config.plugins.find((p) => p.name === '@app/renderer-watch-server-provider');
       if (!rendererWatchServerProvider) {
-        throw new Error("Renderer watch server provider not found");
+        throw new Error('Renderer watch server provider not found');
       }
 
-      rendererWatchServer =
-        rendererWatchServerProvider.api.provideRendererWatchServer();
+      rendererWatchServer = rendererWatchServerProvider.api.provideRendererWatchServer();
 
-      process.env.VITE_DEV_SERVER_URL =
-        rendererWatchServer.resolvedUrls.local[0];
+      process.env.VITE_DEV_SERVER_URL = rendererWatchServer.resolvedUrls.local[0];
 
       return {
         build: {
@@ -117,24 +113,24 @@ function handleHotReload() {
     },
 
     writeBundle() {
-      if (process.env.NODE_ENV !== "development") {
+      if (process.env.NODE_ENV !== 'development') {
         return;
       }
 
       /** Kill electron if a process already exists */
       if (electronApp !== null) {
-        electronApp.removeListener("exit", process.exit);
-        electronApp.kill("SIGINT");
+        electronApp.removeListener('exit', process.exit);
+        electronApp.kill('SIGINT');
         electronApp = null;
       }
 
       /** Spawn a new electron process */
-      electronApp = spawn(String(electronPath), ["--inspect", "."], {
-        stdio: "inherit",
+      electronApp = spawn(String(electronPath), ['--inspect', '.'], {
+        stdio: 'inherit',
       });
 
       /** Stops the watch script when the application has been quit */
-      electronApp.addListener("exit", process.exit);
+      electronApp.addListener('exit', process.exit);
     },
   };
 }

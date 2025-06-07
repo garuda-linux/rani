@@ -21,9 +21,7 @@ export class ElectronShellService {
     if (!window.electronAPI) {
       throw new Error('Electron API not available');
     }
-    return (await window.electronAPI.shell.execute(command, args, options)) as
-      | CommandResult
-      | Child;
+    return (await window.electronAPI.shell.execute(command, args, options)) as CommandResult | Child;
   }
 
   // Command builder for compatibility with Tauri Command class
@@ -55,23 +53,18 @@ export class ElectronShellService {
       if (!window.electronAPI) {
         throw new Error('Electron API not available');
       }
-      return (await window.electronAPI.shell.execute(
-        this.command,
-        this.argsList,
-        this.options,
-      )) as CommandResult;
+      return (await window.electronAPI.shell.execute(this.command, this.argsList, this.options)) as CommandResult;
     }
 
     async spawn(): Promise<StreamingShellProcess> {
       if (!window.electronAPI) {
         throw new Error('Electron API not available');
       }
-      const result: ShellStreamingResult =
-        await window.electronAPI.shell.spawnStreaming(
-          this.command,
-          this.argsList,
-          this.options,
-        );
+      const result: ShellStreamingResult = await window.electronAPI.shell.spawnStreaming(
+        this.command,
+        this.argsList,
+        this.options,
+      );
       return new StreamingShellProcess(result.processId, result.pid);
     }
   };
@@ -147,9 +140,7 @@ class StreamingShellProcess implements Child {
     this.stdinBuffer += input;
 
     if (!window.electronAPI.shell.writeStdin(this.processId, input)) {
-      throw new Error(
-        'Failed to write to stdin - process may have exited or stdin is closed',
-      );
+      throw new Error('Failed to write to stdin - process may have exited or stdin is closed');
     }
   }
 

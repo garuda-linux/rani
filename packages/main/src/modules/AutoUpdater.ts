@@ -1,12 +1,7 @@
 import { AppModule } from '../AppModule.js';
-import electronUpdater, {
-  type AppUpdater,
-  type Logger,
-} from 'electron-updater';
+import electronUpdater, { type AppUpdater, type Logger } from 'electron-updater';
 
-type DownloadNotification = Parameters<
-  AppUpdater['checkForUpdatesAndNotify']
->[0];
+type DownloadNotification = Parameters<AppUpdater['checkForUpdatesAndNotify']>[0];
 
 export class AutoUpdater implements AppModule {
   readonly #logger: Logger | null;
@@ -54,10 +49,7 @@ export class AutoUpdater implements AppModule {
           error.message.includes('HttpError') ||
           error.message.includes('releases.atom')
         ) {
-          console.warn(
-            'Auto-updater check failed (expected in development):',
-            error.message,
-          );
+          console.warn('Auto-updater check failed (expected in development):', error.message);
           return null;
         }
       }
@@ -69,8 +61,6 @@ export class AutoUpdater implements AppModule {
   }
 }
 
-export function autoUpdater(
-  ...args: ConstructorParameters<typeof AutoUpdater>
-) {
+export function autoUpdater(...args: ConstructorParameters<typeof AutoUpdater>) {
   return new AutoUpdater(...args);
 }

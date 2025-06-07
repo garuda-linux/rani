@@ -1,6 +1,6 @@
-import { AppModule } from "./AppModule.js";
-import { ModuleContext } from "./ModuleContext.js";
-import { app } from "electron";
+import { AppModule } from './AppModule.js';
+import { ModuleContext } from './ModuleContext.js';
+import { app } from 'electron';
 
 class ModuleRunner implements PromiseLike<void> {
   #promise: Promise<void>;
@@ -10,14 +10,8 @@ class ModuleRunner implements PromiseLike<void> {
   }
 
   then<TResult1 = void, TResult2 = never>(
-    onFulfilled?:
-      | ((value: void) => TResult1 | PromiseLike<TResult1>)
-      | null
-      | undefined,
-    onRejected?:
-      | ((reason: any) => TResult2 | PromiseLike<TResult2>)
-      | null
-      | undefined,
+    onFulfilled?: ((value: void) => TResult1 | PromiseLike<TResult1>) | null | undefined,
+    onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined,
   ): PromiseLike<TResult1 | TResult2> {
     return this.#promise.then(onFulfilled, onRejected);
   }

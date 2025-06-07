@@ -11,29 +11,19 @@
                   <i
                     class="pi mr-2"
                     [ngClass]="{
-                      'pi-hourglass text-yellow-500':
-                        taskManagerService.currentTask()?.id !== op.id,
-                      'pi-spin pi-spinner text-orange-500':
-                        taskManagerService.currentTask()?.id === op.id,
+                      'pi-hourglass text-yellow-500': taskManagerService.currentTask()?.id !== op.id,
+                      'pi-spin pi-spinner text-orange-500': taskManagerService.currentTask()?.id === op.id,
                     }"
                   ></i>
                 </div>
               </ng-template>
               <div class="mt-2.5 text-center">
-                <span
-                  class="mr-2.5 cursor-pointer"
-                  (click)="taskManagerService.removeTask(op)"
-                >
-                  <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i
-                  >{{ t("operation.remove") }}
+                <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.removeTask(op)">
+                  <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
                 @if (!taskManagerService.running()) {
-                  <span
-                    class="mr-2.5 cursor-pointer"
-                    (click)="taskManagerService.executeTask(op)"
-                  >
-                    <i class="pi pi-play-circle mr-1 text-green-300"></i
-                    >{{ t("operation.run") }}
+                  <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.executeTask(op)">
+                    <i class="pi pi-play-circle mr-1 text-green-300"></i>{{ t('operation.run') }}
                   </span>
                 }
               </div>
@@ -58,56 +48,35 @@
       <div class="inline-flex items-center justify-center gap-2">
         <span class="mr-2.5 cursor-pointer whitespace-nowrap font-bold"
           >{{
-            t("terminal.title") +
-              (taskManagerService.currentTask()
-                ? " - " + t(taskManagerService.currentTask()!.name)
-                : "")
+            t('terminal.title') +
+              (taskManagerService.currentTask() ? ' - ' + t(taskManagerService.currentTask()!.name) : '')
           }}
         </span>
         @if (taskManagerService.count() > 0 && !taskManagerService.running()) {
-          <span
-            class="mr-2.5 cursor-pointer"
-            (click)="taskManagerService.executeTasks()"
-          >
-            <i class="pi pi-play-circle mr-1 text-primary"></i
-            >{{ t("terminal.runActions") }}
+          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.executeTasks()">
+            <i class="pi pi-play-circle mr-1 text-primary"></i>{{ t('terminal.runActions') }}
           </span>
-          <span
-            class="mr-2.5 cursor-pointer"
-            (click)="taskManagerService.clearTasks()"
-          >
-            <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i
-            >{{ t("terminal.removeAll") }}
+          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.clearTasks()">
+            <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
           </span>
-          <span
-            class="mr-2.5 cursor-pointer"
-            (click)="taskManagerService.printScripts()"
-          >
-            <i class="pi pi-shopping-cart mr-1 text-primary-emphasis-alt"></i
-            >{{ t("terminal.printScripts") }}
+          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.printScripts()">
+            <i class="pi pi-shopping-cart mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.printScripts') }}
           </span>
         }
         @if (taskManagerService.count() > 0 && taskManagerService.running()) {
-          <span
-            class="mr-2.5 cursor-pointer"
-            (click)="taskManagerService.abort()"
-          >
-            <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i
-            >{{ t("terminal.abortAll") }}
+          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.abort()">
+            <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.abortAll') }}
           </span>
         }
-        @if (taskManagerService.cachedData() !== "") {
+        @if (taskManagerService.cachedData() !== '') {
           <span class="mr-2.5 cursor-pointer" (click)="copyToClipboard()">
-            <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i
-            >{{ t("terminal.copyOutput") }}
+            <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.copyOutput') }}
           </span>
           <span class="mr-2.5 cursor-pointer" (click)="uploadLog()">
-            <i class="pi pi-upload mr-1 text-primary-emphasis-alt"></i
-            >{{ t("terminal.uploadPrivateBin") }}
+            <i class="pi pi-upload mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.uploadPrivateBin') }}
           </span>
           <span class="cursor-pointer" (click)="clearCache()">
-            <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i
-            >{{ t("terminal.clearOutputCache") }}
+            <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.clearOutputCache') }}
           </span>
         }
       </div>

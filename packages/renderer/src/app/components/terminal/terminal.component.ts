@@ -34,15 +34,7 @@ import { LoadingService } from '../loading-indicator/loading-indicator.service';
 
 @Component({
   selector: 'rani-terminal',
-  imports: [
-    CommonModule,
-    NgTerminalModule,
-    TranslocoDirective,
-    Dialog,
-    ProgressBar,
-    Card,
-    ScrollPanel,
-  ],
+  imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, ScrollPanel],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -73,9 +65,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
       disableStdin: false,
       scrollback: 10000,
       convertEol: true,
-      theme: this.configService.settings().darkMode
-        ? CatppuccinXtermJs.dark
-        : CatppuccinXtermJs.light,
+      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
     };
   });
 
@@ -83,9 +73,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     effect(() => {
       const darkMode = this.configService.settings().darkMode;
       if (this.term?.underlying) {
-        this.term.underlying.options.theme = darkMode
-          ? CatppuccinXtermJs.dark
-          : CatppuccinXtermJs.light;
+        this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
       }
       this.logger.trace('Terminal theme switched via effect');
     });
@@ -191,9 +179,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.loadingService.loadingOn();
 
     const garudaBin = new GarudaBin();
-    const url: string = await garudaBin.sendText(
-      this.taskManagerService.cachedData(),
-    );
+    const url: string = await garudaBin.sendText(this.taskManagerService.cachedData());
     this.logger.info(`Uploaded to ${url}`);
 
     void writeText(url);

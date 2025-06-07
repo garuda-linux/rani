@@ -1,22 +1,22 @@
-import type { AppInitConfig } from "./AppInitConfig.js";
-import { createModuleRunner } from "./ModuleRunner.js";
-import { disallowMultipleAppInstance } from "./modules/SingleInstanceApp.js";
-import { createWindowManagerModule } from "./modules/WindowManager.js";
-import { terminateAppOnLastWindowClose } from "./modules/ApplicationTerminatorOnLastWindowClose.js";
-import { allowInternalOrigins } from "./modules/BlockNotAllowdOrigins.js";
-import { allowExternalUrls } from "./modules/ExternalUrls.js";
-import { createFileSystemModule } from "./modules/FileSystemModule.js";
-import { createShellModule } from "./modules/ShellModule.js";
-import { createStoreModule } from "./modules/StoreModule.js";
-import { createPathModule } from "./modules/PathModule.js";
-import { createOSModule } from "./modules/OSModule.js";
-import { createNotificationModule } from "./modules/NotificationModule.js";
-import { createWindowControlModule } from "./modules/WindowControlModule.js";
-import { createLoggingModule } from "./modules/LoggingModule.js";
-import { createDialogModule } from "./modules/DialogModule.js";
-import { createClipboardModule } from "./modules/ClipboardModule.js";
-import { createEnhancedSecurityModule } from "./modules/EnhancedSecurityModule.js";
-import { app } from "electron";
+import type { AppInitConfig } from './AppInitConfig.js';
+import { createModuleRunner } from './ModuleRunner.js';
+import { disallowMultipleAppInstance } from './modules/SingleInstanceApp.js';
+import { createWindowManagerModule } from './modules/WindowManager.js';
+import { terminateAppOnLastWindowClose } from './modules/ApplicationTerminatorOnLastWindowClose.js';
+import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
+import { allowExternalUrls } from './modules/ExternalUrls.js';
+import { createFileSystemModule } from './modules/FileSystemModule.js';
+import { createShellModule } from './modules/ShellModule.js';
+import { createStoreModule } from './modules/StoreModule.js';
+import { createPathModule } from './modules/PathModule.js';
+import { createOSModule } from './modules/OSModule.js';
+import { createNotificationModule } from './modules/NotificationModule.js';
+import { createWindowControlModule } from './modules/WindowControlModule.js';
+import { createLoggingModule } from './modules/LoggingModule.js';
+import { createDialogModule } from './modules/DialogModule.js';
+import { createClipboardModule } from './modules/ClipboardModule.js';
+import { createEnhancedSecurityModule } from './modules/EnhancedSecurityModule.js';
+import { app } from 'electron';
 
 export async function initApp(initConfig: AppInitConfig) {
   const isDevelopment = import.meta.env.DEV;
@@ -49,7 +49,7 @@ export async function initApp(initConfig: AppInitConfig) {
     clipboardModule.enable(moduleContext);
     shellModule.enable(moduleContext);
 
-    console.log("IPC handlers registered successfully");
+    console.log('IPC handlers registered successfully');
 
     // Now run the async module runner for other modules
     const moduleRunner = createModuleRunner()
@@ -59,22 +59,8 @@ export async function initApp(initConfig: AppInitConfig) {
       .init(createEnhancedSecurityModule(isDevelopment))
 
       // Security modules
-      .init(
-        allowInternalOrigins(
-          new Set(
-            initConfig.renderer instanceof URL
-              ? [initConfig.renderer.origin]
-              : [],
-          ),
-        ),
-      )
-      .init(
-        allowExternalUrls(
-          new Set(
-            initConfig.renderer instanceof URL ? ["garudalinux.org"] : [],
-          ),
-        ),
-      )
+      .init(allowInternalOrigins(new Set(initConfig.renderer instanceof URL ? [initConfig.renderer.origin] : [])))
+      .init(allowExternalUrls(new Set(initConfig.renderer instanceof URL ? ['garudalinux.org'] : [])))
 
       // Window manager — after all IPC handlers are ready
       .init(
@@ -87,7 +73,7 @@ export async function initApp(initConfig: AppInitConfig) {
 
     await moduleRunner;
   } catch (error) {
-    console.error("Failed to initialize app:", error);
+    console.error('Failed to initialize app:', error);
     throw error;
   }
 }

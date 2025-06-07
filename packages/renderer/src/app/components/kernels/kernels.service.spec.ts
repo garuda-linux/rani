@@ -29,11 +29,7 @@ const mockOsInteractService = {
   check: vi.fn(),
 };
 const mockConfigService = {};
-const createMockResult = (
-  stdout: string,
-  stderr = '',
-  code = 0,
-): ChildProcess<string> => ({
+const createMockResult = (stdout: string, stderr = '', code = 0): ChildProcess<string> => ({
   stdout,
   stderr,
   code,
@@ -65,22 +61,18 @@ describe('KernelsService', () => {
       ],
     });
 
-    mockTaskManagerService.executeAndWaitBash.mockImplementation(
-      async (cmd: string) => {
-        if (cmd.includes('dkms status')) {
-          return createMockResult('vboxhost/7.0, 6.1.1: installed');
-        }
-        if (cmd.includes('find /var/lib/dkms')) {
-          return createMockResult('vboxhost');
-        }
-        if (cmd.includes('pacman -Ss linux')) {
-          return createMockResult(
-            'core/linux 6.1\n Desc\ncore/linux-headers 6.1\n HDesc',
-          );
-        }
-        return createMockResult('', 'Unknown command', 1);
-      },
-    );
+    mockTaskManagerService.executeAndWaitBash.mockImplementation(async (cmd: string) => {
+      if (cmd.includes('dkms status')) {
+        return createMockResult('vboxhost/7.0, 6.1.1: installed');
+      }
+      if (cmd.includes('find /var/lib/dkms')) {
+        return createMockResult('vboxhost');
+      }
+      if (cmd.includes('pacman -Ss linux')) {
+        return createMockResult('core/linux 6.1\n Desc\ncore/linux-headers 6.1\n HDesc');
+      }
+      return createMockResult('', 'Unknown command', 1);
+    });
 
     injector = TestBed.inject(Injector);
     service = TestBed.inject(KernelsService);
@@ -102,33 +94,22 @@ describe('KernelsService', () => {
 
     expect(mockLoadingService.loadingOn).toHaveBeenCalled();
     expect(mockLoadingService.loadingOff).toHaveBeenCalled();
-    expect(mockLoadingService.loadingOn).toHaveBeenCalledBefore(
-      mockLoadingService.loadingOff,
-    );
+    expect(mockLoadingService.loadingOn).toHaveBeenCalledBefore(mockLoadingService.loadingOff);
 
     expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledTimes(3);
-    expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith(
-      'which dkms &>/dev/null && dkms status',
-    );
+    expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith('which dkms &>/dev/null && dkms status');
     expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith(
       expect.stringContaining('find /var/lib/dkms'),
     );
-    expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith(
-      'pacman -Ss linux',
-    );
+    expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith('pacman -Ss linux');
 
-    expect(loggerMockInstance.trace).toHaveBeenCalledWith(
-      'Updating kernels UI',
-    );
+    expect(loggerMockInstance.trace).toHaveBeenCalledWith('Updating kernels UI');
     expect(service.loading()).toBe(false);
   });
 
   it('getDkmsStatus should parse valid output and set dkmsModules signal', async () => {
-    const mockOutput =
-      'acpi_call/1.2.2, 6.1.1-a: installed\nvboxhost/7.0, 6.1.1-a: installed (original)';
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
+    const mockOutput = 'acpi_call/1.2.2, 6.1.1-a: installed\nvboxhost/7.0, 6.1.1-a: installed (original)';
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
 
     await runInInjectionContext(injector, async () => {
       await service.getDkmsStatus();
@@ -148,16 +129,12 @@ describe('KernelsService', () => {
         status: 'installed',
       },
     ]);
-    expect(loggerMockInstance.info).toHaveBeenCalledWith(
-      expect.stringContaining(`Found 2 installed DKMS modules`),
-    );
+    expect(loggerMockInstance.info).toHaveBeenCalledWith(expect.stringContaining(`Found 2 installed DKMS modules`));
   });
 
   it('getDkmsStatus should handle broken status correctly', async () => {
     const mockOutput = 'nvidia/550.1, 6.2.2-z: broken';
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
 
     await runInInjectionContext(injector, async () => {
       await service.getDkmsStatus();
@@ -175,9 +152,7 @@ describe('KernelsService', () => {
   });
 
   it('getDkmsStatus should handle command failure', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('', 'dkms not found', 127),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('', 'dkms not found', 127));
 
     await runInInjectionContext(injector, async () => {
       service.dkmsModules.set([]);
@@ -185,15 +160,11 @@ describe('KernelsService', () => {
     });
 
     expect(service.dkmsModules().length).toEqual(0);
-    expect(loggerMockInstance.error).toHaveBeenCalledWith(
-      'Failed to get kernel DKMS status: dkms not found',
-    );
+    expect(loggerMockInstance.error).toHaveBeenCalledWith('Failed to get kernel DKMS status: dkms not found');
   });
 
   it('getDkmsStatus should handle empty successful output', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(''),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(''));
 
     await runInInjectionContext(injector, async () => {
       service.dkmsModules.set([]);
@@ -201,31 +172,23 @@ describe('KernelsService', () => {
     });
 
     expect(service.dkmsModules().length).toEqual(0);
-    expect(loggerMockInstance.error).toHaveBeenCalledWith(
-      'Failed to get kernel DKMS status: ',
-    );
+    expect(loggerMockInstance.error).toHaveBeenCalledWith('Failed to get kernel DKMS status: ');
   });
 
   it('getAvailableDkmsModules should parse valid output and set availableModules signal', async () => {
     const mockOutput = 'nvidia\nvboxhost\nzfs';
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
 
     await runInInjectionContext(injector, async () => {
       await service.getAvailableDkmsModules();
     });
 
     expect(service.availableModules()).toEqual(['nvidia', 'vboxhost', 'zfs']);
-    expect(loggerMockInstance.info).toHaveBeenCalledWith(
-      expect.stringContaining(`Found 3 available DKMS modules`),
-    );
+    expect(loggerMockInstance.info).toHaveBeenCalledWith(expect.stringContaining(`Found 3 available DKMS modules`));
   });
 
   it('getAvailableDkmsModules should handle command failure', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('', 'permission denied', 1),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('', 'permission denied', 1));
 
     await runInInjectionContext(injector, async () => {
       service.availableModules.set([]);
@@ -233,19 +196,13 @@ describe('KernelsService', () => {
     });
 
     expect(service.availableModules().length).toEqual(0);
-    expect(loggerMockInstance.error).toHaveBeenCalledWith(
-      'Failed to get available DKMS modules: permission denied',
-    );
+    expect(loggerMockInstance.error).toHaveBeenCalledWith('Failed to get available DKMS modules: permission denied');
   });
 
   it('getAvailableKernels should parse valid pacman output and set kernels signal', async () => {
     const mockOutput = `core/linux 6.14.0-4\n  The Linux kernel\ncore/linux-headers 6.14.0-4\n  Headers for linux\nextra/linux-lts 6.12.9-1\n  The LTS kernel\nextra/linux-lts-headers 6.12.9-1\n  Headers for linux-lts`;
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
-    mockOsInteractService.check.mockImplementation(
-      (pkg: string) => pkg === 'linux',
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
+    mockOsInteractService.check.mockImplementation((pkg: string) => pkg === 'linux');
 
     await runInInjectionContext(injector, async () => {
       await service.getAvailableKernels();
@@ -257,15 +214,11 @@ describe('KernelsService', () => {
     expect(kernels[1].pkgname[0]).toBe('linux-lts');
     expect(kernels[0].initialState).toBe(true);
     expect(kernels[1].initialState).toBe(false);
-    expect(loggerMockInstance.info).toHaveBeenCalledWith(
-      `Found 2 available kernels`,
-    );
+    expect(loggerMockInstance.info).toHaveBeenCalledWith(`Found 2 available kernels`);
   });
 
   it('getAvailableKernels should handle command failure', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('', 'pacman failed', 1),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('', 'pacman failed', 1));
 
     await runInInjectionContext(injector, async () => {
       service.kernels.set([]);
@@ -273,9 +226,7 @@ describe('KernelsService', () => {
     });
 
     expect(service.kernels().length).toEqual(0);
-    expect(loggerMockInstance.error).toHaveBeenCalledWith(
-      'Failed to get available kernels: pacman failed',
-    );
+    expect(loggerMockInstance.error).toHaveBeenCalledWith('Failed to get available kernels: pacman failed');
   });
 
   it('dkmsModulesBroken computed signal should be true if any module status is not "installed"', async () => {
@@ -316,9 +267,7 @@ describe('KernelsService', () => {
       await Promise.resolve();
     });
 
-    expect(loggerMockInstance.trace).toHaveBeenCalledWith(
-      'Updating kernels UI',
-    );
+    expect(loggerMockInstance.trace).toHaveBeenCalledWith('Updating kernels UI');
   });
 
   it('updateKernelStatus should identify missing DKMS modules for installed kernels (linux)', () => {
@@ -361,9 +310,7 @@ describe('KernelsService', () => {
         expect(kernels[0].dkmsModulesMissing).toEqual(['nvidia', 'vboxhost']);
         expect(service.dkmsModulesMissing()).toBe(true);
       } else {
-        throw new Error(
-          'Kernel array became empty or kernels[0] is undefined after updateKernelStatus',
-        );
+        throw new Error('Kernel array became empty or kernels[0] is undefined after updateKernelStatus');
       }
     });
   });

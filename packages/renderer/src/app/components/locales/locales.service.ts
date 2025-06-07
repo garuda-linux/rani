@@ -17,9 +17,7 @@ export class LocalesService {
   readonly loading = signal<boolean>(true);
   readonly selectedLocales = computed(() => {
     const locales: Map<string, boolean> = this.osInteractService.locales();
-    return this.allLocales().filter(
-      (entry) => locales.has(entry) && locales.get(entry),
-    );
+    return this.allLocales().filter((entry) => locales.has(entry) && locales.get(entry));
   });
 
   private readonly loadingService = inject(LoadingService);
@@ -42,10 +40,8 @@ export class LocalesService {
    * Get the available locales from the system and process them.
    */
   async initLocales(): Promise<void> {
-    const cmd =
-      "cat /usr/share/i18n/SUPPORTED | grep '\\.UTF-8' | cut -d ' ' -f 1";
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const cmd = "cat /usr/share/i18n/SUPPORTED | grep '\\.UTF-8' | cut -d ' ' -f 1";
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
 
     if (result.code === 0) {
       this.allLocales.set(result.stdout.trim().split('\n'));

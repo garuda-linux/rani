@@ -11,10 +11,7 @@
     <ng-content select="[garudaShellBarEnd]"></ng-content>
   </ng-template>
 </p-menubar>
-<div
-  class="garuda-shell-content"
-  [class.garuda-shell-relative]="relativePosition()"
->
+<div class="garuda-shell-content" [class.garuda-shell-relative]="relativePosition()">
   <ng-content></ng-content>
 </div>
 <p-toast position="top-left" key="top-left" />

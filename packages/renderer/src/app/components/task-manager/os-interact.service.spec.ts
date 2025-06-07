@@ -1,27 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 import { Injector, runInInjectionContext, signal } from '@angular/core';
-import {
-  afterEach,
-  beforeEach,
-  describe,
-  expect,
-  it,
-  Mock,
-  MockInstance,
-  vi,
-} from 'vitest';
+import { afterEach, beforeEach, describe, expect, it, Mock, MockInstance, vi } from 'vitest';
 
 import { OsInteractService } from './os-interact.service';
 import { ConfigService } from '../config/config.service';
 import { type Task, TaskManagerService } from './task-manager.service';
 import type { ChildProcess } from '../electron-services';
-import {
-  defaultDnsProvider,
-  DnsProviderEntry,
-  dnsProviders,
-  ShellEntry,
-  shells,
-} from '../system-settings/types';
+import { defaultDnsProvider, DnsProviderEntry, dnsProviders, ShellEntry, shells } from '../system-settings/types';
 import { Logger } from '../logging/logging';
 
 const mockLoggerInstanceHoisted = vi.hoisted(() => {
@@ -57,11 +42,7 @@ const mockConfigService = {
   state: signal({ user: mockUser }),
 };
 
-const createMockResult = (
-  stdout: string,
-  stderr = '',
-  code = 0,
-): ChildProcess<string> => ({
+const createMockResult = (stdout: string, stderr = '', code = 0): ChildProcess<string> => ({
   stdout,
   stderr,
   code,
@@ -115,37 +96,24 @@ describe('OsInteractService', () => {
 
     mockConfigService.state.set({ user: mockUser });
 
-    mockTaskManagerService.executeAndWaitBash.mockImplementation(
-      async (cmd: string) => {
-        if (cmd.includes('pacman -Qq')) return createMockResult('pkgA\npkgB');
-        if (cmd.includes('systemctl list-units --type service'))
-          return createMockResult(
-            JSON.stringify([{ unit: 'serviceA.service', active: 'active' }]),
-          );
-        if (cmd.includes('systemctl --user list-units'))
-          return createMockResult(
-            JSON.stringify([{ unit: 'serviceB.service', active: 'inactive' }]),
-          );
-        if (cmd.includes(`groups ${mockUser}`))
-          return createMockResult(` ${mockUser} : groupA groupB`);
-        if (cmd.includes('cat /etc/resolv.conf'))
-          return createMockResult(`nameserver ${dnsProviders[1].ips[0]}`);
-        if (cmd.includes('getent passwd')) return createMockResult('bash');
-        if (cmd.includes('cat /etc/hosts'))
-          return createMockResult(' # 0 domains added by hBlock');
-        if (cmd.includes('localectl list-locales'))
-          return createMockResult('en_US.UTF-8\nC.UTF-8\nde_DE.UTF-8');
-        if (cmd.includes('grep -q wifi.backend=iwd'))
-          return createMockResult('', 'Not found', 1);
-        return createMockResult('', 'Command not mocked', 1);
-      },
-    );
+    mockTaskManagerService.executeAndWaitBash.mockImplementation(async (cmd: string) => {
+      if (cmd.includes('pacman -Qq')) return createMockResult('pkgA\npkgB');
+      if (cmd.includes('systemctl list-units --type service'))
+        return createMockResult(JSON.stringify([{ unit: 'serviceA.service', active: 'active' }]));
+      if (cmd.includes('systemctl --user list-units'))
+        return createMockResult(JSON.stringify([{ unit: 'serviceB.service', active: 'inactive' }]));
+      if (cmd.includes(`groups ${mockUser}`)) return createMockResult(` ${mockUser} : groupA groupB`);
+      if (cmd.includes('cat /etc/resolv.conf')) return createMockResult(`nameserver ${dnsProviders[1].ips[0]}`);
+      if (cmd.includes('getent passwd')) return createMockResult('bash');
+      if (cmd.includes('cat /etc/hosts')) return createMockResult(' # 0 domains added by hBlock');
+      if (cmd.includes('localectl list-locales')) return createMockResult('en_US.UTF-8\nC.UTF-8\nde_DE.UTF-8');
+      if (cmd.includes('grep -q wifi.backend=iwd')) return createMockResult('', 'Not found', 1);
+      return createMockResult('', 'Command not mocked', 1);
+    });
 
-    mockTaskManagerService.createTask.mockImplementation(
-      (priority: number, id: string, icon: string): Task => {
-        return createMockTask(id, { priority, icon });
-      },
-    );
+    mockTaskManagerService.createTask.mockImplementation((priority: number, id: string, icon: string): Task => {
+      return createMockTask(id, { priority, icon });
+    });
 
     injector = TestBed.inject(Injector);
     runInInjectionContext(injector, () => {
@@ -166,12 +134,8 @@ describe('OsInteractService', () => {
 
   it('update() should call all get methods and set current signals', async () => {
     const pkgResult = 'pkgA\npkgC';
-    const serviceResult = JSON.stringify([
-      { unit: 'serviceA.service', active: 'active' },
-    ]);
-    const userServiceResult = JSON.stringify([
-      { unit: 'userServiceX.service', active: 'active' },
-    ]);
+    const serviceResult = JSON.stringify([{ unit: 'serviceA.service', active: 'active' }]);
+    const userServiceResult = JSON.stringify([{ unit: 'userServiceX.service', active: 'active' }]);
     const groupResult = `${mockUser} : groupC groupD`;
     mockTaskManagerService.executeAndWaitBash
       .mockReset()
@@ -180,9 +144,7 @@ describe('OsInteractService', () => {
       .mockResolvedValueOnce(createMockResult(pkgResult)) // getInstalledPackages
       .mockResolvedValueOnce(createMockResult(groupResult)) // getGroups
       .mockResolvedValueOnce(
-        createMockResult(
-          `nameserver ${dnsProviders.find((p) => p.name === 'Cloudflare')?.ips[0]}`,
-        ),
+        createMockResult(`nameserver ${dnsProviders.find((p) => p.name === 'Cloudflare')?.ips[0]}`),
       ) // getDNS
       .mockResolvedValueOnce(createMockResult('zsh')) // getShell
       .mockResolvedValueOnce(createMockResult(' # 100 domains added by hBlock')) // getHblock
@@ -199,26 +161,20 @@ describe('OsInteractService', () => {
     expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledTimes(9);
     expect(service['installedPackages']().get('pkgC')).toBe(true);
     expect(service['currentServices']().get('serviceA.service')).toBe(true);
-    expect(service['currentServicesUser']().get('userServiceX.service')).toBe(
-      true,
-    );
+    expect(service['currentServicesUser']().get('userServiceX.service')).toBe(true);
     expect(service['currentGroups']().get('groupC')).toBe(true);
     // expect(service['currentDNS']().name).toBe('Cloudflare');
     expect(service['currentShell']()?.name).toBe('zsh');
     // expect(service['currentHblock']()).toBe(true);
     expect(service['currentLocales']().get('fr_FR.UTF-8')).toBe(true);
     expect(service['currentIwd']()).toBe(true);
-    expect(service['currentDNS']()).toEqual(
-      dnsProviders.find((p) => p.name === 'Default'),
-    );
+    expect(service['currentDNS']()).toEqual(dnsProviders.find((p) => p.name === 'Default'));
     expect(mockLoggerInstanceHoisted.error).not.toHaveBeenCalled();
   });
 
   it('getInstalledPackages should parse pacman output', async () => {
     const mockOutput = 'package1\npackage2-ng\npackage3';
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
     const expectedMap = new Map([
       ['package1', true],
       ['package2-ng', true],
@@ -234,9 +190,7 @@ describe('OsInteractService', () => {
   });
 
   it('getInstalledPackages should return empty map on command failure', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('', 'error', 1),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('', 'error', 1));
     let result: Map<string, boolean> = new Map([['dummy', true]]);
 
     await runInInjectionContext(injector, async () => {
@@ -267,9 +221,7 @@ describe('OsInteractService', () => {
         sub: 'listening',
       },
     ]);
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockJson),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockJson));
     let result: Map<string, boolean> = new Map();
     await runInInjectionContext(injector, async () => {
       result = await service['getServices']();
@@ -282,9 +234,7 @@ describe('OsInteractService', () => {
 
   it('getGroups should parse groups output', async () => {
     const mockOutput = ` ${mockUser} : wheel lp storage network power`;
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
     let result: Map<string, boolean> = new Map();
     await runInInjectionContext(injector, async () => {
       result = await service['getGroups']();
@@ -297,9 +247,7 @@ describe('OsInteractService', () => {
 
   it('getDNS should find matching provider', async () => {
     const targetProvider = dnsProviders[2];
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(targetProvider.ips[0]),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(targetProvider.ips[0]));
     let result: DnsProviderEntry | null = null;
     await runInInjectionContext(injector, async () => {
       result = await service['getDNS']();
@@ -308,9 +256,7 @@ describe('OsInteractService', () => {
   });
 
   it('getDNS should return default provider if IP not found', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('1.2.3.4'),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('1.2.3.4'));
     let result: DnsProviderEntry | null = null;
     await runInInjectionContext(injector, async () => {
       result = await service['getDNS']();
@@ -319,9 +265,7 @@ describe('OsInteractService', () => {
   });
 
   it('getDNS should return default provider on command failure', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('', 'err', 1),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('', 'err', 1));
     let result: DnsProviderEntry | null = null;
     await runInInjectionContext(injector, async () => {
       result = await service['getDNS']();
@@ -331,9 +275,7 @@ describe('OsInteractService', () => {
 
   it('getShell should find matching shell', async () => {
     const targetShell = shells[1];
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(targetShell.name),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(targetShell.name));
     let result: ShellEntry | null = null;
     await runInInjectionContext(injector, async () => {
       result = await service['getShell']();
@@ -342,9 +284,7 @@ describe('OsInteractService', () => {
   });
 
   it('getShell should return null if shell not found', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('unknownsh'),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('unknownsh'));
     let result: ShellEntry | null = null;
     await runInInjectionContext(injector, async () => {
       result = await service['getShell']();
@@ -353,9 +293,7 @@ describe('OsInteractService', () => {
   });
 
   it('getIwd should return true on command success', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(''),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(''));
     let result = false;
     await runInInjectionContext(injector, async () => {
       result = await service['getIwd']();
@@ -364,9 +302,7 @@ describe('OsInteractService', () => {
   });
 
   it('getIwd should return false on command failure', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('', '', 1),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('', '', 1));
     let result = true;
     await runInInjectionContext(injector, async () => {
       result = await service['getIwd']();
@@ -376,9 +312,7 @@ describe('OsInteractService', () => {
 
   it('getHblock should return true if count > 0', async () => {
     // FIX: Mock stdout should be just the number string
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('1234'),
-    ); // <<< CORRECTED MOCK
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('1234')); // <<< CORRECTED MOCK
     let result = false;
     await runInInjectionContext(injector, async () => {
       result = await service['getHblock']();
@@ -387,18 +321,14 @@ describe('OsInteractService', () => {
   });
 
   it('getHblock should return false if count is 0 or parsing fails', async () => {
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(' # 0 domains added by hBlock'),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(' # 0 domains added by hBlock'));
     let result = true;
     await runInInjectionContext(injector, async () => {
       result = await service['getHblock']();
     });
     expect(result).toBe(false);
 
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult('some other output'),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult('some other output'));
     result = true;
     await runInInjectionContext(injector, async () => {
       result = await service['getHblock']();
@@ -408,9 +338,7 @@ describe('OsInteractService', () => {
 
   it('getLocales should parse locale output', async () => {
     const mockOutput = 'C.utf8\nen_US.UTF-8\nfr_FR.UTF-8';
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(mockOutput),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(mockOutput));
     let result: Map<string, boolean> = new Map();
     await runInInjectionContext(injector, async () => {
       result = await service['getLocales']();
@@ -554,9 +482,7 @@ describe('OsInteractService', () => {
   it('ensurePackageArchlinux should install package if not present', async () => {
     const pkgToInstall = 'missingPkg';
 
-    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(
-      createMockResult(pkgToInstall, '', 0),
-    );
+    mockTaskManagerService.executeAndWaitBash.mockResolvedValueOnce(createMockResult(pkgToInstall, '', 0));
 
     let result = false;
 
@@ -577,9 +503,7 @@ describe('OsInteractService', () => {
     );
     expect(mockTaskManagerService.executeTask).toHaveBeenCalledTimes(1);
 
-    expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith(
-      `pacman -Qq ${pkgToInstall}`,
-    );
+    expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledWith(`pacman -Qq ${pkgToInstall}`);
     expect(mockTaskManagerService.executeAndWaitBash).toHaveBeenCalledTimes(1);
     expect(result).toBe(true);
   });
@@ -620,13 +544,10 @@ describe('OsInteractService', () => {
         true,
         'os-interact.packages',
         'pi pi-box',
-        'pacman --noconfirm -R pkgRemove\n' +
-          'pacman --noconfirm -S pkgInstall\n',
+        'pacman --noconfirm -R pkgRemove\n' + 'pacman --noconfirm -S pkgInstall\n',
       );
       expect(mockTaskManagerService.scheduleTask).toHaveBeenCalledTimes(1);
-      expect(mockTaskManagerService.findTaskById).toHaveBeenCalledWith(
-        'os-interact-packages',
-      );
+      expect(mockTaskManagerService.findTaskById).toHaveBeenCalledWith('os-interact-packages');
 
       expect(mockTaskManagerService.findTaskById).toHaveBeenCalledTimes(6);
 
@@ -678,9 +599,7 @@ describe('OsInteractService', () => {
         expect.anything(),
       );
       expect(mockTaskManagerService.scheduleTask).toHaveBeenCalledTimes(1);
-      expect(mockTaskManagerService.findTaskById).toHaveBeenCalledWith(
-        'os-interact-services',
-      );
+      expect(mockTaskManagerService.findTaskById).toHaveBeenCalledWith('os-interact-services');
     });
   });
 
@@ -768,12 +687,8 @@ describe('OsInteractService', () => {
 
   it('wantedPrune should handle empty maps', () => {
     expect(service['wantedPrune'](new Map(), new Map())).toEqual(new Map());
-    expect(service['wantedPrune'](new Map([['a', true]]), new Map())).toEqual(
-      new Map([['a', true]]),
-    );
-    expect(service['wantedPrune'](new Map(), new Map([['a', true]]))).toEqual(
-      new Map(),
-    );
+    expect(service['wantedPrune'](new Map([['a', true]]), new Map())).toEqual(new Map([['a', true]]));
+    expect(service['wantedPrune'](new Map(), new Map([['a', true]]))).toEqual(new Map());
   });
 
   it('generateTasks should create AUR install task', async () => {
@@ -964,9 +879,7 @@ describe('OsInteractService', () => {
       await Promise.resolve();
       mockTaskRunningSignal.set(false);
 
-      await vi.waitUntil(
-        () => updateSpy.mock.calls.length > initialUpdateCalls,
-      );
+      await vi.waitUntil(() => updateSpy.mock.calls.length > initialUpdateCalls);
     });
 
     expect(updateSpy.mock.calls.length).toBe(initialUpdateCalls + 1);

@@ -26,13 +26,8 @@ export class OperationManagerComponent {
   applyOperations(event: Event | MenuItemCommandEvent) {
     this.logger.debug('Firing apply operations');
     this.confirmationService.confirm({
-      target:
-        'target' in event
-          ? (event.target as EventTarget)
-          : (event as EventTarget),
-      message: this.translocoService.translate(
-        'confirmation.applyOperationsBody',
-      ),
+      target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
+      message: this.translocoService.translate('confirmation.applyOperationsBody'),
       header: this.translocoService.translate('confirmation.applyOperations'),
       icon: 'pi pi-info-circle',
       rejectLabel: 'Cancel',
@@ -62,13 +57,9 @@ export class OperationManagerComponent {
    */
   clearOperations(event: Event | MenuItemCommandEvent): void {
     this.logger.debug('Firing clear operations');
-    const operations =
-      this.taskManagerService.count() === 1 ? 'operation' : 'operations';
+    const operations = this.taskManagerService.count() === 1 ? 'operation' : 'operations';
     this.confirmationService.confirm({
-      target:
-        'target' in event
-          ? (event.target as EventTarget)
-          : (event as EventTarget),
+      target: 'target' in event ? (event.target as EventTarget) : (event as EventTarget),
       message: `Do you want to delete ${this.taskManagerService.count()} ${operations}?`,
       header: 'Clear pending operations?',
       icon: 'pi pi-trash',
@@ -85,10 +76,7 @@ export class OperationManagerComponent {
 
       accept: () => {
         this.taskManagerService.clearTasks();
-        this.messageToastService.info(
-          'Confirmed',
-          'Pending operations cleared',
-        );
+        this.messageToastService.info('Confirmed', 'Pending operations cleared');
         this.logger.debug('Cleared pending operations');
       },
       reject: () => {

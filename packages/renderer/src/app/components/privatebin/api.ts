@@ -21,10 +21,7 @@ export class Api {
     this.defaultHeaders = config.headers || {};
   }
 
-  async get<T, R = ApiResponse<T>>(
-    url: string,
-    config?: { headers?: Record<string, string> },
-  ): Promise<R> {
+  async get<T, R = ApiResponse<T>>(url: string, config?: { headers?: Record<string, string> }): Promise<R> {
     const response = await fetch(this.baseURL + url, {
       method: 'GET',
       headers: {

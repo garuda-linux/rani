@@ -3,10 +3,7 @@ import { DataView } from 'primeng/dataview';
 import { NgClass, NgForOf } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import type { DkmsModule, DkmsModules, Kernel } from './types';
-import {
-  type Task,
-  TaskManagerService,
-} from '../task-manager/task-manager.service';
+import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
 import { Tag } from 'primeng/tag';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { Checkbox } from 'primeng/checkbox';
@@ -18,17 +15,7 @@ import { KernelsService } from './kernels.service';
 
 @Component({
   selector: 'rani-kernels',
-  imports: [
-    DataView,
-    FormsModule,
-    NgForOf,
-    Tag,
-    Checkbox,
-    NgClass,
-    TranslocoDirective,
-    Tooltip,
-    Skeleton,
-  ],
+  imports: [DataView, FormsModule, NgForOf, Tag, Checkbox, NgClass, TranslocoDirective, Tooltip, Skeleton],
   templateUrl: './kernels.component.html',
   styleUrl: './kernels.component.css',
 })
@@ -74,10 +61,7 @@ export class KernelsComponent {
    * @param kernel The kernel for which to reinstall DKMS modules, or `true` to reinstall all broken modules.
    * @param type The type of DKMS modules to reinstall, either "broken" or "missing".
    */
-  reinstallDkmsModules(
-    kernel: Kernel | boolean,
-    type: 'broken' | 'missing',
-  ): void {
+  reinstallDkmsModules(kernel: Kernel | boolean, type: 'broken' | 'missing'): void {
     let cmd = '';
     const modules: DkmsModules = this.kernelsService.dkmsModules();
 
@@ -96,9 +80,7 @@ export class KernelsComponent {
     } else {
       if (type === 'broken') {
         const module: DkmsModule | undefined = modules.find(
-          (m) =>
-            m.kernelVersion === kernel.version &&
-            m.moduleName === kernel.pkgname[0],
+          (m) => m.kernelVersion === kernel.version && m.moduleName === kernel.pkgname[0],
         );
         if (!module) return;
 
@@ -139,15 +121,9 @@ export class KernelsComponent {
    * @param cmd The command string to which the installation command will be appended.
    * @private
    */
-  private InstallMissingModules(
-    kernel: Kernel,
-    modules: DkmsModule[],
-    cmd: string,
-  ) {
+  private InstallMissingModules(kernel: Kernel, modules: DkmsModule[], cmd: string) {
     for (const module of kernel.dkmsModulesMissing) {
-      const moduleObject: DkmsModule | undefined = modules.find(
-        (m) => m.moduleName === module,
-      );
+      const moduleObject: DkmsModule | undefined = modules.find((m) => m.moduleName === module);
       if (!moduleObject) continue;
       if (kernel.pkgname[0] !== 'linux') {
         cmd += `dkms install --no-depmod ${moduleObject?.moduleName}/${moduleObject?.moduleVersion} -k ${kernel.version}-${kernel.pkgname[0].split('linux-')[1]}; `;

@@ -1,9 +1,9 @@
-import { execSync } from "node:child_process";
+import { execSync } from 'node:child_process';
 
 function getElectronEnv() {
   return JSON.parse(
     execSync(`pnpx electron -p "JSON.stringify(process.versions)"`, {
-      encoding: "utf-8",
+      encoding: 'utf-8',
       env: {
         ...process.env,
         ELECTRON_RUN_AS_NODE: 1,
@@ -48,5 +48,5 @@ export function getNodeMajorVersion() {
 }
 
 function getMajorVersion(version) {
-  return Number.parseInt(version.split(".")[0]);
+  return Number.parseInt(version.split('.')[0]);
 }

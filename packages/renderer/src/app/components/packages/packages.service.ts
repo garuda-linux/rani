@@ -63,13 +63,8 @@ export class PackagesService {
         const resourcePath: string = await resolveResource(path);
 
         // Use the new safe JSON reading method with default empty array
-        section.sections = await this.fsService.safeReadJsonFile(
-          resourcePath,
-          [] as any[],
-        );
-        this.logger.debug(
-          `Loaded section ${section.name} with ${section.sections.length} packages`,
-        );
+        section.sections = await this.fsService.safeReadJsonFile(resourcePath, [] as any[]);
+        this.logger.debug(`Loaded section ${section.name} with ${section.sections.length} packages`);
       } catch (error) {
         this.logger.error(`Failed to load section ${section.name}: ${error}`);
         section.sections = [];
@@ -78,13 +73,10 @@ export class PackagesService {
 
     for (const section of sections) {
       for (const pkg of section.sections) {
-        const disabled: boolean =
-          this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
+        const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
         if (disabled) {
           pkg.disabled = true;
-          this.logger.warn(
-            `Package ${pkg.pkgname[0]} is not available, removing from list`,
-          );
+          this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
         }
       }
     }

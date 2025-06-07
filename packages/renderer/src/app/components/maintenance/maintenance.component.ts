@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  model,
-  type OnInit,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, model, type OnInit, signal } from '@angular/core';
 import { Card } from 'primeng/card';
 import { Button } from 'primeng/button';
 import type { MaintenanceAction, ResettableConfig } from '../../interfaces';
@@ -27,19 +20,7 @@ import { Router, type UrlTree } from '@angular/router';
 
 @Component({
   selector: 'rani-maintenance',
-  imports: [
-    Card,
-    Button,
-    TranslocoDirective,
-    Tooltip,
-    Checkbox,
-    FormsModule,
-    Tab,
-    TabPanels,
-    Tabs,
-    TabList,
-    TabPanel,
-  ],
+  imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule, Tab, TabPanels, Tabs, TabList, TabPanel],
   templateUrl: './maintenance.component.html',
   styleUrl: './maintenance.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -52,10 +33,7 @@ export class MaintenanceComponent implements OnInit {
     {
       name: 'Bash',
       description: 'maintenance.resettableConfigs.bash',
-      files: [
-        '/etc/skel/.bashrc_garuda',
-        '/etc/skel/autostart/bashrc-setup.desktop',
-      ],
+      files: ['/etc/skel/.bashrc_garuda', '/etc/skel/autostart/bashrc-setup.desktop'],
     },
     {
       name: 'Fish',
@@ -125,10 +103,7 @@ export class MaintenanceComponent implements OnInit {
     {
       name: 'Environment',
       description: 'maintenance.resettableConfigs.environment',
-      files: [
-        '/etc/skel/.config/environment.d/garuda.conf',
-        '/etc/skel/.config/environment.d/firefox.conf',
-      ],
+      files: ['/etc/skel/.config/environment.d/garuda.conf', '/etc/skel/.config/environment.d/firefox.conf'],
     },
     {
       name: 'GTK3/4',
@@ -185,9 +160,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: async (): Promise<void> => {
         this.logger.info('Running remote fix');
-        await this.taskManager.executeAndWaitBashTerminal(
-          'GARUDA_UPDATE_RANI=1 garuda-update remote fix',
-        );
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fix');
       },
     },
     {
@@ -201,9 +174,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: async (): Promise<void> => {
         this.logger.info('Running remote keyring');
-        await this.taskManager.executeAndWaitBashTerminal(
-          'GARUDA_UPDATE_RANI=1 garuda-update remote keyring',
-        );
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote keyring');
       },
     },
     {
@@ -217,9 +188,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: async (): Promise<void> => {
         this.logger.info('Running remote full fix');
-        await this.taskManager.executeAndWaitBashTerminal(
-          'GARUDA_UPDATE_RANI=1 garuda-update remote fullfix',
-        );
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fullfix');
       },
     },
     {
@@ -233,9 +202,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: async (): Promise<void> => {
         this.logger.info('Running remote reset-audio');
-        await this.taskManager.executeAndWaitBashTerminal(
-          'GARUDA_UPDATE_RANI=1 garuda-update remote-audio',
-        );
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote-audio');
       },
     },
     {
@@ -249,9 +216,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: async (): Promise<void> => {
         this.logger.info('Running remote reset-snapper');
-        await this.taskManager.executeAndWaitBashTerminal(
-          'GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper',
-        );
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper');
       },
     },
     {
@@ -265,9 +230,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       command: async (): Promise<void> => {
         this.logger.info('Running remote reinstall');
-        await this.taskManager.executeAndWaitBashTerminal(
-          'GARUDA_UPDATE_RANI=1 garuda-update remote reinstall',
-        );
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reinstall');
       },
     },
   ];
@@ -322,11 +285,7 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
-        if (
-          await this.osInteractService.ensurePackageArchlinux(
-            'reflector-simple',
-          )
-        ) {
+        if (await this.osInteractService.ensurePackageArchlinux('reflector-simple')) {
           void this.taskManager.executeAndWaitBash('reflector-simple');
         }
       },
@@ -342,12 +301,8 @@ export class MaintenanceComponent implements OnInit {
       onlyDirect: true,
       command: async (): Promise<void> => {
         this.logger.info('Refreshing mirrors');
-        if (
-          await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')
-        ) {
-          void this.taskManager.executeAndWaitBash(
-            '/usr/lib/garuda/pkexec-gui btrfs-assistant',
-          );
+        if (await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')) {
+          void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
         }
       },
     },
@@ -434,9 +389,7 @@ export class MaintenanceComponent implements OnInit {
     this.resettableConfigs.set(await Promise.all(promises));
 
     this.loadingService.loadingOff();
-    this.logger.debug(
-      `Checked existing configs: ${JSON.stringify(this.resettableConfigs())}`,
-    );
+    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs())}`);
   }
 
   /**
@@ -479,11 +432,7 @@ export class MaintenanceComponent implements OnInit {
     const entry = this.taskManager.findTaskById(action.name);
 
     // Not a thing
-    if (
-      action.onlyDirect ||
-      action.command.constructor.name === 'AsyncFunction'
-    )
-      return;
+    if (action.onlyDirect || action.command.constructor.name === 'AsyncFunction') return;
 
     if (!entry) {
       this.logger.debug(`Adding ${action.name} to pending`);
@@ -541,9 +490,7 @@ export class MaintenanceComponent implements OnInit {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: this.translocoService.translate('confirmation.resetConfigsBody'),
-      header: this.translocoService.translate(
-        'confirmation.resetConfigsHeader',
-      ),
+      header: this.translocoService.translate('confirmation.resetConfigsHeader'),
       icon: 'pi pi-exclamation-triangle',
       acceptButtonProps: {
         severity: 'danger',

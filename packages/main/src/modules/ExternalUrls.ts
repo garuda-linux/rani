@@ -18,9 +18,7 @@ export class ExternalUrls implements AppModule {
         if (this.#externalUrls.has(origin)) {
           shell.openExternal(url).catch(console.error);
         } else if (import.meta.env.DEV) {
-          console.warn(
-            `Blocked the opening of a disallowed external origin: ${origin}`,
-          );
+          console.warn(`Blocked the opening of a disallowed external origin: ${origin}`);
         }
 
         // Prevent creating a new window.
@@ -30,8 +28,6 @@ export class ExternalUrls implements AppModule {
   }
 }
 
-export function allowExternalUrls(
-  ...args: ConstructorParameters<typeof ExternalUrls>
-) {
+export function allowExternalUrls(...args: ConstructorParameters<typeof ExternalUrls>) {
   return new ExternalUrls(...args);
 }

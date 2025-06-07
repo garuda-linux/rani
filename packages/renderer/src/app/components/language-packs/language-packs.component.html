@@ -1,5 +1,5 @@
 <ng-container *transloco="let t">
-  <div class="my-5 text-center">{{ t("languagePacks.description") }}</div>
+  <div class="my-5 text-center">{{ t('languagePacks.description') }}</div>
   <p-table
     #packageTable
     [globalFilterFields]="['base', 'locale', 'pkgname']"
@@ -16,19 +16,19 @@
     <ng-template #header>
       <tr>
         <th class="w-16 whitespace-nowrap" pSortableColumn="selected">
-          {{ t("packages.selected") }}
+          {{ t('packages.selected') }}
           <p-sortIcon field="selected" />
         </th>
         <th pSortableColumn="locale" style="width: 8rem">
-          {{ t("languagePacks.locale") }}
+          {{ t('languagePacks.locale') }}
           <p-sortIcon field="locale" />
         </th>
         <th pSortableColumn="base">
-          {{ t("languagePacks.base") }}
+          {{ t('languagePacks.base') }}
           <p-sortIcon field="base" />
         </th>
         <th pSortableColumn="pkgname">
-          {{ t("languagePacks.pkgname") }}
+          {{ t('languagePacks.pkgname') }}
           <p-sortIcon field="base" />
         </th>
       </tr>
@@ -58,7 +58,7 @@
     </ng-template>
     <ng-template #emptymessage>
       <tr>
-        <td colspan="5">{{ t("languagePacks.notFound") }}</td>
+        <td colspan="5">{{ t('languagePacks.notFound') }}</td>
       </tr>
     </ng-template>
   </p-table>

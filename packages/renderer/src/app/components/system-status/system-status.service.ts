@@ -90,13 +90,9 @@ export class SystemStatusService {
    * @param cmd The command to run to check for updates.
    * @param type The type of updates to check for.
    */
-  private async checkSystemUpdate(
-    cmd: string,
-    type: UpdateStatusOption,
-  ): Promise<void> {
+  private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
     const result: any = await this.shellService.execute('bash', ['-c', cmd]);
-    const updateString: UpdateType =
-      type === 'repo' ? 'Updates' : 'AUR updates';
+    const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
 
     if (result.code === 0) {
       const updates: string[] = result.stdout.trim().split('\n') ?? [];
@@ -114,15 +110,10 @@ export class SystemStatusService {
           return updates;
         });
       }
-    } else if (
-      (type === 'repo' && result.code === 2) ||
-      (type === 'aur' && result.code === 1)
-    ) {
+    } else if ((type === 'repo' && result.code === 2) || (type === 'aur' && result.code === 1)) {
       this.logger.info(`No ${updateString.toLowerCase()} available`);
     } else {
-      this.logger.error(
-        `Failed to get ${updateString.toLowerCase()}: ${result.stderr}`,
-      );
+      this.logger.error(`Failed to get ${updateString.toLowerCase()}: ${result.stderr}`);
     }
   }
 

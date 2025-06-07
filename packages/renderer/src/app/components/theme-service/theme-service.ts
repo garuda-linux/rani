@@ -13,9 +13,7 @@ export class ThemeService {
   constructor() {
     effect(() => {
       const settings: AppSettings = this.configService.settings();
-      this.logger.error(
-        `Enabled ${settings.darkMode ? 'dark mode' : 'light mode'} via effect`,
-      );
+      this.logger.error(`Enabled ${settings.darkMode ? 'dark mode' : 'light mode'} via effect`);
       void this.setDarkMode(settings.darkMode);
     });
   }
@@ -26,34 +24,24 @@ export class ThemeService {
    * @private
    */
   private setDarkMode(darkMode: boolean) {
-    const flavors = this.configService.settings().activeTheme.includes('Mocha')
-      ? 'primary'
-      : 'alt';
+    const flavors = this.configService.settings().activeTheme.includes('Mocha') ? 'primary' : 'alt';
     if (darkMode) {
       this.document.documentElement.classList.add('p-dark');
       if (flavors === 'primary') {
-        this.document.documentElement.style.scrollbarColor =
-          CatppuccinScrollBars.primary.dark;
-        this.document.documentElement.style.backgroundColor =
-          CatppuccinBackgroundColors.primary.dark;
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.primary.dark;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.primary.dark;
       } else {
-        this.document.documentElement.style.scrollbarColor =
-          CatppuccinScrollBars.alt.dark;
-        this.document.documentElement.style.backgroundColor =
-          CatppuccinBackgroundColors.alt.dark;
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.alt.dark;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.alt.dark;
       }
     } else {
       this.document.documentElement.classList.remove('p-dark');
       if (flavors === 'primary') {
-        this.document.documentElement.style.scrollbarColor =
-          CatppuccinScrollBars.primary.light;
-        this.document.documentElement.style.backgroundColor =
-          CatppuccinBackgroundColors.primary.light;
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.primary.light;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.primary.light;
       } else {
-        this.document.documentElement.style.scrollbarColor =
-          CatppuccinScrollBars.alt.light;
-        this.document.documentElement.style.backgroundColor =
-          CatppuccinBackgroundColors.alt.light;
+        this.document.documentElement.style.scrollbarColor = CatppuccinScrollBars.alt.light;
+        this.document.documentElement.style.backgroundColor = CatppuccinBackgroundColors.alt.light;
       }
     }
 

@@ -1,11 +1,4 @@
-import {
-  computed,
-  effect,
-  inject,
-  Injectable,
-  signal,
-  untracked,
-} from '@angular/core';
+import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { type Task, TaskManagerService } from './task-manager.service';
 import { ConfigService } from '../config/config.service';
 import {
@@ -31,9 +24,7 @@ export class OsInteractService {
   private readonly installedPackages = signal<Map<string, boolean>>(new Map());
   private readonly currentLocales = signal<Map<string, boolean>>(new Map());
   private readonly currentServices = signal<Map<string, boolean>>(new Map());
-  private readonly currentServicesUser = signal<Map<string, boolean>>(
-    new Map(),
-  );
+  private readonly currentServicesUser = signal<Map<string, boolean>>(new Map());
   private readonly currentGroups = signal<Map<string, boolean>>(new Map());
 
   private readonly currentDNS = signal<DnsProvider>(defaultDnsProvider);
@@ -54,11 +45,7 @@ export class OsInteractService {
   readonly wantedIwd = signal<boolean | null>(null);
 
   readonly packages = computed(() => {
-    return new Map([
-      ...this.installedPackages(),
-      ...this.wantedPackages(),
-      ...this.wantedPackagesAur(),
-    ]);
+    return new Map([...this.installedPackages(), ...this.wantedPackages(), ...this.wantedPackagesAur()]);
   });
   readonly locales = computed(() => {
     return new Map([...this.currentLocales(), ...this.wantedLocales()]);
@@ -67,10 +54,7 @@ export class OsInteractService {
     return new Map([...this.currentServices(), ...this.wantedServices()]);
   });
   readonly servicesUser = computed(() => {
-    return new Map([
-      ...this.currentServicesUser(),
-      ...this.wantedServicesUser(),
-    ]);
+    return new Map([...this.currentServicesUser(), ...this.wantedServicesUser()]);
   });
   readonly groups = computed(() => {
     return new Map([...this.currentGroups(), ...this.wantedGroups()]);
@@ -96,36 +80,12 @@ export class OsInteractService {
       }
     });
     effect(() => {
-      this.wantedPackages.set(
-        this.wantedPrune(
-          untracked(this.wantedPackages),
-          this.installedPackages(),
-        ),
-      );
-      this.wantedPackagesAur.set(
-        this.wantedPrune(
-          untracked(this.wantedPackagesAur),
-          this.installedPackages(),
-        ),
-      );
-      this.wantedServices.set(
-        this.wantedPrune(
-          untracked(this.wantedServices),
-          this.currentServices(),
-        ),
-      );
-      this.wantedServicesUser.set(
-        this.wantedPrune(
-          untracked(this.wantedServicesUser),
-          this.currentServicesUser(),
-        ),
-      );
-      this.wantedGroups.set(
-        this.wantedPrune(untracked(this.wantedGroups), this.currentGroups()),
-      );
-      this.wantedLocales.set(
-        this.wantedPrune(untracked(this.wantedLocales), this.currentLocales()),
-      );
+      this.wantedPackages.set(this.wantedPrune(untracked(this.wantedPackages), this.installedPackages()));
+      this.wantedPackagesAur.set(this.wantedPrune(untracked(this.wantedPackagesAur), this.installedPackages()));
+      this.wantedServices.set(this.wantedPrune(untracked(this.wantedServices), this.currentServices()));
+      this.wantedServicesUser.set(this.wantedPrune(untracked(this.wantedServicesUser), this.currentServicesUser()));
+      this.wantedGroups.set(this.wantedPrune(untracked(this.wantedGroups), this.currentGroups()));
+      this.wantedLocales.set(this.wantedPrune(untracked(this.wantedLocales), this.currentLocales()));
     });
     effect(() => this.generateTasks());
   }
@@ -311,8 +271,7 @@ export class OsInteractService {
         sedExpressions.push(`-e 's/${locale}/\#${locale}/'`);
       }
     }
-    if (sedExpressions.length > 0)
-      script_locales = `sed -i ${sedExpressions.join(' ')} /etc/locale.gen\nlocale-gen\n`;
+    if (sedExpressions.length > 0) script_locales = `sed -i ${sedExpressions.join(' ')} /etc/locale.gen\nlocale-gen\n`;
 
     untracked(() => {
       [
@@ -409,10 +368,7 @@ export class OsInteractService {
    * @param current The current map.
    * @private
    */
-  private wantedPrune(
-    wanted: Map<string, boolean>,
-    current: Map<string, boolean>,
-  ): Map<string, boolean> {
+  private wantedPrune(wanted: Map<string, boolean>, current: Map<string, boolean>): Map<string, boolean> {
     return new Map(
       [...wanted].filter(([key, value]) => {
         if (!current.has(key)) {
@@ -428,17 +384,7 @@ export class OsInteractService {
    * Update the current state of the system asynchronously.
    */
   async update(): Promise<void> {
-    const [
-      services,
-      servicesUser,
-      installedPackages,
-      groups,
-      dns,
-      shell,
-      hblock,
-      locales,
-      iwd,
-    ] = await Promise.all([
+    const [services, servicesUser, installedPackages, groups, dns, shell, hblock, locales, iwd] = await Promise.all([
       this.getServices(),
       this.getUserServices(),
       this.getInstalledPackages(),
@@ -467,8 +413,7 @@ export class OsInteractService {
    */
   private async getInstalledPackages(): Promise<Map<string, boolean>> {
     const cmd = 'pacman -Qq';
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return new Map<string, boolean>();
     }
@@ -488,10 +433,8 @@ export class OsInteractService {
    * @private
    */
   private async getServices(): Promise<Map<string, boolean>> {
-    const cmd =
-      'systemctl list-units --type service,socket --full --output json --no-pager';
-    const commandoutput: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const cmd = 'systemctl list-units --type service,socket --full --output json --no-pager';
+    const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     const result = JSON.parse(commandoutput.stdout.trim()) as any[];
 
     const services = new Map<string, boolean>();
@@ -508,10 +451,8 @@ export class OsInteractService {
    * @private
    */
   private async getUserServices(): Promise<Map<string, boolean>> {
-    const cmd =
-      'systemctl --user list-units --type service,socket --full --output json --no-pager';
-    const commandoutput: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const cmd = 'systemctl --user list-units --type service,socket --full --output json --no-pager';
+    const commandoutput: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     const result = JSON.parse(commandoutput.stdout.trim()) as any[];
 
     const services = new Map<string, boolean>();
@@ -529,8 +470,7 @@ export class OsInteractService {
    */
   private async getGroups(): Promise<Map<string, boolean>> {
     const cmd = `groups ${this.configService.state().user} | cut -d ' ' -f 3-`;
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return new Map<string, boolean>();
     }
@@ -550,16 +490,12 @@ export class OsInteractService {
    * @private
    */
   private async getDNS(): Promise<DnsProvider> {
-    const cmd =
-      'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const cmd = 'cat /etc/resolv.conf | grep nameserver | head -n 1 | cut -d " " -f 2';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) return defaultDnsProvider;
 
     const ip: string = result.stdout.trim();
-    const provider: DnsProviderEntry | undefined = dnsProviders.find(
-      (provider) => provider.ips.includes(ip),
-    );
+    const provider: DnsProviderEntry | undefined = dnsProviders.find((provider) => provider.ips.includes(ip));
     if (provider) {
       return provider;
     }
@@ -573,8 +509,7 @@ export class OsInteractService {
    */
   private async getShell(): Promise<ShellEntry | null> {
     const cmd = `basename $(/usr/bin/getent passwd $USER | awk -F':' '{print $7}')`;
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return null;
     }
@@ -589,8 +524,7 @@ export class OsInteractService {
    */
   private async getIwd(): Promise<boolean> {
     const cmd = `grep -q wifi.backend=iwd /etc/NetworkManager/conf.d/*.conf`;
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     return result.code === 0;
   }
 
@@ -600,10 +534,8 @@ export class OsInteractService {
    * @private
    */
   private async getHblock(): Promise<boolean> {
-    const cmd =
-      'cat /etc/hosts | grep -A1 "Blocked domains" | awk \'/Blocked domains/ { print $NF }\'';
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const cmd = 'cat /etc/hosts | grep -A1 "Blocked domains" | awk \'/Blocked domains/ { print $NF }\'';
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return false;
     }
@@ -626,10 +558,7 @@ export class OsInteractService {
         return wanted;
       }
       const newMap = new Map<string, boolean>(wanted);
-      newMap.set(
-        pkg,
-        this.packages().has(pkg) ? !this.packages().get(pkg) : true,
-      );
+      newMap.set(pkg, this.packages().has(pkg) ? !this.packages().get(pkg) : true);
       return this.wantedPrune(newMap, this.installedPackages());
     };
     this.wantedPackages.update(arrow);
@@ -650,10 +579,7 @@ export class OsInteractService {
       } else if (!remove) {
         // Otherwise, add it
         const newMap = new Map<string, boolean>(wanted);
-        newMap.set(
-          service,
-          this.services().has(service) ? !this.services().get(service) : true,
-        );
+        newMap.set(service, this.services().has(service) ? !this.services().get(service) : true);
         return newMap;
       }
       return wanted;
@@ -675,12 +601,7 @@ export class OsInteractService {
       } else if (!remove) {
         // Otherwise, add it
         const newMap = new Map<string, boolean>(wanted);
-        newMap.set(
-          service,
-          this.servicesUser().has(service)
-            ? !this.servicesUser().get(service)
-            : true,
-        );
+        newMap.set(service, this.servicesUser().has(service) ? !this.servicesUser().get(service) : true);
         return newMap;
       }
       return wanted;
@@ -746,21 +667,13 @@ export class OsInteractService {
   check(name: string, type: string, current = false): boolean {
     switch (type) {
       case 'pkg':
-        return current
-          ? this.installedPackages().get(name) == true
-          : this.packages().get(name) == true;
+        return current ? this.installedPackages().get(name) == true : this.packages().get(name) == true;
       case 'service':
-        return current
-          ? this.currentServices().get(name) == true
-          : this.services().get(name) == true;
+        return current ? this.currentServices().get(name) == true : this.services().get(name) == true;
       case 'serviceUser':
-        return current
-          ? this.currentServicesUser().get(name) == true
-          : this.servicesUser().get(name) == true;
+        return current ? this.currentServicesUser().get(name) == true : this.servicesUser().get(name) == true;
       case 'group':
-        return current
-          ? this.currentGroups().get(name) == true
-          : this.groups().get(name) == true;
+        return current ? this.currentGroups().get(name) == true : this.groups().get(name) == true;
     }
     return false;
   }
@@ -772,8 +685,7 @@ export class OsInteractService {
    * @private
    */
   private async isPackageInstalledArchlinux(pkg: string): Promise<boolean> {
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(`pacman -Qq ${pkg}`);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(`pacman -Qq ${pkg}`);
     return result.code === 0;
   }
 
@@ -804,8 +716,7 @@ export class OsInteractService {
    */
   private async getLocales(): Promise<Map<string, boolean>> {
     const cmd = 'localectl list-locales';
-    const result: ChildProcess<string> =
-      await this.taskManagerService.executeAndWaitBash(cmd);
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
     if (result.code !== 0) {
       return new Map<string, boolean>();
     }
@@ -832,10 +743,7 @@ export class OsInteractService {
         return newMap;
       } else if (!remove) {
         const newMap = new Map<string, boolean>(wanted);
-        newMap.set(
-          locale,
-          this.locales().has(locale) ? !this.locales().get(locale) : true,
-        );
+        newMap.set(locale, this.locales().has(locale) ? !this.locales().get(locale) : true);
         return newMap;
       }
       return wanted;

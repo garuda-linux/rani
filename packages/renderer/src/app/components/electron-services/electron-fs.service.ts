@@ -58,17 +58,11 @@ export class ElectronFsService {
     }
   }
 
-  async safeReadJsonFile<T = unknown>(
-    filePath: string,
-    defaultValue: T,
-  ): Promise<T> {
+  async safeReadJsonFile<T = unknown>(filePath: string, defaultValue: T): Promise<T> {
     try {
       return await this.readJsonFile<T>(filePath);
     } catch (error) {
-      console.warn(
-        `Could not read JSON file ${filePath}, using default value:`,
-        error,
-      );
+      console.warn(`Could not read JSON file ${filePath}, using default value:`, error);
       return defaultValue;
     }
   }

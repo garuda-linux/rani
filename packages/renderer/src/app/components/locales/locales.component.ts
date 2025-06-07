@@ -1,15 +1,5 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-  signal,
-} from '@angular/core';
-import {
-  PickList,
-  PickListMoveToSourceEvent,
-  PickListMoveToTargetEvent,
-} from 'primeng/picklist';
+import { ChangeDetectionStrategy, Component, inject, OnInit, signal } from '@angular/core';
+import { PickList, PickListMoveToSourceEvent, PickListMoveToTargetEvent } from 'primeng/picklist';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { LocalesService } from './locales.service';
 import { LocalePipe } from '../lang-pipe/locale.pipe';
@@ -46,9 +36,7 @@ export class LocalesComponent implements OnInit {
    * Toggles the selected state of a package.
    * @param $event The event from the picklist component.
    */
-  async toggleOne(
-    $event: PickListMoveToSourceEvent | PickListMoveToTargetEvent,
-  ) {
+  async toggleOne($event: PickListMoveToSourceEvent | PickListMoveToTargetEvent) {
     await this.localesService.toggleOne($event.items);
   }
 

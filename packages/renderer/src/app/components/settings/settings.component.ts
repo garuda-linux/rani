@@ -30,12 +30,8 @@ export class SettingsComponent implements OnInit {
   ];
 
   protected readonly availableThemes: string[] = Object.keys(themes);
-  protected readonly languages = signal<{ language: string; label: string }[]>(
-    [],
-  );
-  protected readonly logLevels: string[] = Object.values(LogLevel).filter(
-    (key) => typeof key !== 'number',
-  );
+  protected readonly languages = signal<{ language: string; label: string }[]>([]);
+  protected readonly logLevels: string[] = Object.values(LogLevel).filter((key) => typeof key !== 'number');
   protected readonly logLevelType = LogLevel;
 
   protected readonly settings = computed(() => {
@@ -63,10 +59,7 @@ export class SettingsComponent implements OnInit {
   }
 
   async toggleSetting(entry: string) {
-    await this.configService.updateConfig(
-      entry,
-      !this.configService.settings()[entry],
-    );
+    await this.configService.updateConfig(entry, !this.configService.settings()[entry]);
   }
 
   async selectLogLevel($event: SelectChangeEvent) {

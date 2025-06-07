@@ -3,20 +3,17 @@
  * @type {import("prettier").Config}
  */
 const config = {
-  arrowParens: "always",
+  arrowParens: 'always',
   bracketSpacing: true,
-  embeddedLanguageFormatting: "auto",
-  endOfLine: "lf",
-  plugins: [
-    "prettier-plugin-tailwindcss",
-    "prettier-plugin-organize-attributes",
-  ],
+  embeddedLanguageFormatting: 'auto',
+  endOfLine: 'lf',
+  plugins: ['prettier-plugin-tailwindcss', 'prettier-plugin-organize-attributes'],
   printWidth: 120,
-  quoteProps: "consistent",
+  quoteProps: 'consistent',
   semi: true,
   singleQuote: true,
   tabWidth: 2,
-  trailingComma: "all",
+  trailingComma: 'all',
   useTabs: false,
 };
 

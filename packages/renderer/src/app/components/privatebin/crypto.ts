@@ -1,24 +1,12 @@
 // Sourced from: https://github.com/pixelfactoryio/privatebin-cli
 import { base64ToBytes, bytesToBase64 } from 'byte-base64';
-import {
-  PrivatebinAdata,
-  PrivatebinPasteRequest,
-  PrivatebinSpec,
-} from './types';
+import { PrivatebinAdata, PrivatebinPasteRequest, PrivatebinSpec } from './types';
 
 export function importKey(key: Uint8Array): Promise<CryptoKey> {
-  return crypto.subtle.importKey('raw', key, 'PBKDF2', false, [
-    'deriveBits',
-    'deriveKey',
-  ]);
+  return crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits', 'deriveKey']);
 }
 
-export function deriveKey(
-  key: CryptoKey,
-  salt: Uint8Array,
-  iterations: number,
-  keyLength: number,
-): Promise<CryptoKey> {
+export function deriveKey(key: CryptoKey, salt: Uint8Array, iterations: number, keyLength: number): Promise<CryptoKey> {
   return crypto.subtle.deriveKey(
     { name: 'PBKDF2', salt, iterations, hash: 'SHA-256' },
     key,
@@ -38,10 +26,7 @@ export function uint8ArrayToString(buf: Uint8Array): string {
   return decoder.decode(buf);
 }
 
-export function concatUint8Array(
-  arr1: Uint8Array,
-  arr2: Uint8Array,
-): Uint8Array {
+export function concatUint8Array(arr1: Uint8Array, arr2: Uint8Array): Uint8Array {
   const result = new Uint8Array(arr1.length + arr2.length);
   result.set(arr1);
   result.set(arr2, arr1.length);
@@ -59,16 +44,7 @@ export async function encrypt(
   const derivedKey = await deriveKey(key, salt, spec.iter, spec.ks);
 
   const adata: PrivatebinAdata = [
-    [
-      bytesToBase64(iv),
-      bytesToBase64(salt),
-      spec.iter,
-      spec.ks,
-      spec.ts,
-      spec.algo,
-      spec.mode,
-      spec.compression,
-    ],
+    [bytesToBase64(iv), bytesToBase64(salt), spec.iter, spec.ks, spec.ts, spec.algo, spec.mode, spec.compression],
     spec.textformat,
     spec.opendiscussion,
     spec.burnafterreading,
@@ -91,11 +67,7 @@ export async function encrypt(
   };
 }
 
-export async function decrypt(
-  data: string,
-  masterkey: Uint8Array,
-  adata: PrivatebinAdata,
-): Promise<Uint8Array> {
+export async function decrypt(data: string, masterkey: Uint8Array, adata: PrivatebinAdata): Promise<Uint8Array> {
   const bData = base64ToBytes(data);
   const spec = adata[0];
   const iv = base64ToBytes(spec[0]);

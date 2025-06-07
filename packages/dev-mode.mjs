@@ -1,5 +1,5 @@
-import { build, createServer } from "vite";
-import path from "path";
+import { build, createServer } from 'vite';
+import path from 'path';
 
 /**
  * This script is designed to run multiple packages of your application in a special development mode.
@@ -9,7 +9,7 @@ import path from "path";
 /**
  * 1. We create a few flags to let everyone know that we are in development mode.
  */
-const mode = "development";
+const mode = 'development';
 process.env.NODE_ENV = mode;
 process.env.MODE = mode;
 
@@ -22,7 +22,7 @@ process.env.MODE = mode;
  */
 const rendererWatchServer = await createServer({
   mode,
-  root: path.resolve("packages/renderer"),
+  root: path.resolve('packages/renderer'),
 });
 
 await rendererWatchServer.listen();
@@ -33,7 +33,7 @@ await rendererWatchServer.listen();
  */
 /** @type {import('vite').Plugin} */
 const rendererWatchServerProvider = {
-  name: "@app/renderer-watch-server-provider",
+  name: '@app/renderer-watch-server-provider',
   api: {
     provideRendererWatchServer() {
       return rendererWatchServer;
@@ -47,7 +47,7 @@ const rendererWatchServerProvider = {
  */
 
 /** @type {string[]} */
-const packagesToStart = ["packages/preload", "packages/main"];
+const packagesToStart = ['packages/preload', 'packages/main'];
 
 for (const pkg of packagesToStart) {
   await build({

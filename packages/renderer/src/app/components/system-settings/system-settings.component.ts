@@ -1,11 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  model,
-  signal,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import type { Nullable } from 'primeng/ts-helpers';
@@ -18,13 +11,7 @@ import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'rani-system-settings',
-  imports: [
-    TranslocoDirective,
-    FormsModule,
-    Select,
-    Checkbox,
-    DynamicCheckboxesComponent,
-  ],
+  imports: [TranslocoDirective, FormsModule, Select, Checkbox, DynamicCheckboxesComponent],
   templateUrl: './system-settings.component.html',
   styleUrl: './system-settings.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -79,8 +66,7 @@ export class SystemSettingsComponent {
         {
           name: 'performance-tweaks',
           fancyTitle: 'systemSettings.performance.performanceTweaks.title',
-          description:
-            'systemSettings.performance.performanceTweaks.description',
+          description: 'systemSettings.performance.performanceTweaks.description',
           checked: false,
           check: { type: 'pkg', name: 'performance-tweaks' },
         },
@@ -95,8 +81,7 @@ export class SystemSettingsComponent {
         {
           name: 'enable-ananicy-cpp',
           fancyTitle: 'systemSettings.performance.ananicyCppEnabled.title',
-          description:
-            'systemSettings.performance.ananicyCppEnabled.description',
+          description: 'systemSettings.performance.ananicyCppEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
           check: { type: 'service', name: 'ananicy-cpp.service' },
@@ -127,8 +112,7 @@ export class SystemSettingsComponent {
         {
           name: 'enabled-irqbalance',
           fancyTitle: 'systemSettings.performance.irqbalanceEnabled.title',
-          description:
-            'systemSettings.performance.irqbalanceEnabled.description',
+          description: 'systemSettings.performance.irqbalanceEnabled.description',
           checked: false,
           disabler: 'performance-tweaks',
           check: { type: 'service', name: 'irqbalance.service' },
@@ -164,17 +148,14 @@ export class SystemSettingsComponent {
         {
           name: 'power-profiles-daemon',
           fancyTitle: 'systemSettings.powersave.powerProfilesDaemon.title',
-          description:
-            'systemSettings.powersave.powerProfilesDaemon.description',
+          description: 'systemSettings.powersave.powerProfilesDaemon.description',
           checked: false,
           check: { type: 'pkg', name: 'power-profiles-daemon' },
         },
         {
           name: 'enabled-power-profiles-daemon',
-          fancyTitle:
-            'systemSettings.powersave.powerProfilesDaemonEnabled.title',
-          description:
-            'systemSettings.powersave.powerProfilesDaemonEnabled.description',
+          fancyTitle: 'systemSettings.powersave.powerProfilesDaemonEnabled.title',
+          description: 'systemSettings.powersave.powerProfilesDaemonEnabled.description',
           checked: false,
           check: { type: 'service', name: 'power-profiles-daemon.service' },
         },
@@ -188,8 +169,7 @@ export class SystemSettingsComponent {
         {
           name: 'enabled-intel-untervolt',
           fancyTitle: 'systemSettings.powersave.intelUndervoltEnabled.title',
-          description:
-            'systemSettings.powersave.intelUndervoltEnabled.description',
+          description: 'systemSettings.powersave.intelUndervoltEnabled.description',
           checked: false,
           disabler: 'intel-untervolt',
           check: { type: 'service', name: 'intel-undervolt.service' },
@@ -202,18 +182,15 @@ export class SystemSettingsComponent {
       sections: [
         {
           name: 'rightclick-emulation',
-          fancyTitle:
-            'systemSettings.rightclickEmulation.evdevLongPressRightClick.title',
-          description:
-            'systemSettings.rightclickEmulation.evdevLongPressRightClick.description',
+          fancyTitle: 'systemSettings.rightclickEmulation.evdevLongPressRightClick.title',
+          description: 'systemSettings.rightclickEmulation.evdevLongPressRightClick.description',
           checked: false,
           check: { type: 'pkg', name: 'rightclick-emulation' },
         },
         {
           name: 'evdev-rce',
           fancyTitle: 'systemSettings.rightclickEmulation.evdevRce.title',
-          description:
-            'systemSettings.rightclickEmulation.evdevRce.description',
+          description: 'systemSettings.rightclickEmulation.evdevRce.description',
           checked: false,
           check: { type: 'pkg', name: 'rightclick-emulation' },
         },
@@ -239,9 +216,7 @@ export class SystemSettingsComponent {
    * Handle the selection of a new operation not included in the dynamic checkboxes.
    * @param type The type of operation to perform.
    */
-  async handleToggle(
-    type: 'dns' | 'shell' | 'shellConfigs' | 'hblock' | 'iwd',
-  ): Promise<void> {
+  async handleToggle(type: 'dns' | 'shell' | 'shellConfigs' | 'hblock' | 'iwd'): Promise<void> {
     // Workaround for ngModelChange event seemingly firing before the model is updated
     await new Promise((resolve) => setTimeout(resolve, 200));
 
@@ -255,37 +230,21 @@ export class SystemSettingsComponent {
         break;
       }
       case 'hblock': {
-        if (
-          !this.selectedBoxes().includes('hblock') &&
-          this.osInteractService.packages().get('hblock')
-        ) {
+        if (!this.selectedBoxes().includes('hblock') && this.osInteractService.packages().get('hblock')) {
           this.osInteractService.togglePackage('hblock');
-        } else if (
-          this.selectedBoxes().includes('hblock') &&
-          !this.osInteractService.packages().get('hblock')
-        ) {
+        } else if (this.selectedBoxes().includes('hblock') && !this.osInteractService.packages().get('hblock')) {
           this.osInteractService.togglePackage('hblock');
         }
-        this.osInteractService.wantedHblock.set(
-          this.selectedBoxes().includes('hblock'),
-        );
+        this.osInteractService.wantedHblock.set(this.selectedBoxes().includes('hblock'));
         break;
       }
       case 'iwd': {
-        if (
-          !this.selectedBoxes().includes('iwd') &&
-          this.osInteractService.packages().get('iwd')
-        ) {
+        if (!this.selectedBoxes().includes('iwd') && this.osInteractService.packages().get('iwd')) {
           this.osInteractService.togglePackage('iwd');
-        } else if (
-          this.selectedBoxes().includes('iwd') &&
-          !this.osInteractService.packages().get('iwd')
-        ) {
+        } else if (this.selectedBoxes().includes('iwd') && !this.osInteractService.packages().get('iwd')) {
           this.osInteractService.togglePackage('iwd');
         }
-        this.osInteractService.wantedIwd.set(
-          this.selectedBoxes().includes('iwd'),
-        );
+        this.osInteractService.wantedIwd.set(this.selectedBoxes().includes('iwd'));
       }
     }
   }

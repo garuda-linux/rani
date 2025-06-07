@@ -11,12 +11,7 @@ import type {
   PrivatebinResponse,
 } from './types';
 import { Api, type ApiConfig, type ApiResponse } from './api';
-import {
-  decrypt,
-  encrypt,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from './crypto';
+import { decrypt, encrypt, stringToUint8Array, uint8ArrayToString } from './crypto';
 
 /**
  * Encrypt a text to a Privatebin paste.
@@ -56,11 +51,7 @@ export async function encryptText(
  * @param key The key to decrypt the text.
  * @param adata The additional data.
  */
-export async function decryptText(
-  ct: string,
-  key: Uint8Array,
-  adata: PrivatebinAdata,
-): Promise<PrivatebinPaste> {
+export async function decryptText(ct: string, key: Uint8Array, adata: PrivatebinAdata): Promise<PrivatebinPaste> {
   const buf: Uint8Array = await decrypt(ct, key, adata);
   if (adata[0][7] === 'zlib') {
     return JSON.parse(pako.inflateRaw(buf, { to: 'string' }));
@@ -82,11 +73,7 @@ export class PrivatebinClient extends Api {
     super(apiConfig);
   }
 
-  public async sendText(
-    text: string,
-    key: Uint8Array,
-    options: PrivatebinOptions,
-  ): Promise<PrivatebinResponse> {
+  public async sendText(text: string, key: Uint8Array, options: PrivatebinOptions): Promise<PrivatebinResponse> {
     const payload = await encryptText(text, key, options);
     return this.postPaste(payload, options);
   }
@@ -100,10 +87,7 @@ export class PrivatebinClient extends Api {
   }
 
   private async getPaste(id: string): Promise<PrivatebinPasteRequest> {
-    const response = await this.get<
-      PrivatebinPasteRequest,
-      ApiResponse<PrivatebinPasteRequest>
-    >(`/?pasteid=${id}`);
+    const response = await this.get<PrivatebinPasteRequest, ApiResponse<PrivatebinPasteRequest>>(`/?pasteid=${id}`);
     return this.success(response);
   }
 
@@ -114,11 +98,7 @@ export class PrivatebinClient extends Api {
     const { expire } = options;
     const { ct, adata } = PrivatebinPasteRequest;
 
-    const response = await this.post<
-      PrivatebinResponse,
-      PrivatebinPasteRequest,
-      ApiResponse<PrivatebinResponse>
-    >('/', {
+    const response = await this.post<PrivatebinResponse, PrivatebinPasteRequest, ApiResponse<PrivatebinResponse>>('/', {
       v: 2,
       ct,
       adata,
@@ -154,11 +134,7 @@ export class GarudaBin {
     try {
       this.logger.trace('Sending text to GarudaBin');
       const key: Uint8Array = crypto.getRandomValues(new Uint8Array(32));
-      const paste: PrivatebinResponse = await this.instance.sendText(
-        text,
-        key,
-        this.options,
-      );
+      const paste: PrivatebinResponse = await this.instance.sendText(text, key, this.options);
 
       return `${this.url}${paste.url}#${BaseConverter.encode(key)}`;
     } catch (error) {
