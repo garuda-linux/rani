@@ -1,6 +1,6 @@
-import type { AppModule } from '../AppModule.js';
-import type { ModuleContext } from '../ModuleContext.js';
-import { app, session, shell } from 'electron';
+import type { AppModule } from "../AppModule.js";
+import type { ModuleContext } from "../ModuleContext.js";
+import { app, session, shell } from "electron";
 
 class EnhancedSecurityModule implements AppModule {
   private readonly isDevelopment: boolean;
@@ -25,7 +25,7 @@ class EnhancedSecurityModule implements AppModule {
           callback({
             responseHeaders: {
               ...details.responseHeaders,
-              'Content-Security-Policy': [
+              "Content-Security-Policy": [
                 "default-src 'self'; " +
                   "script-src 'self' 'unsafe-inline' 'unsafe-eval'; " +
                   "style-src 'self' 'unsafe-inline'; " +
@@ -37,18 +37,18 @@ class EnhancedSecurityModule implements AppModule {
                   "base-uri 'self'; " +
                   "form-action 'self';",
               ],
-              'X-Content-Type-Options': ['nosniff'],
-              'X-Frame-Options': ['DENY'],
-              'X-XSS-Protection': ['1; mode=block'],
-              'Referrer-Policy': ['strict-origin-when-cross-origin'],
-              'Permissions-Policy': [
-                'geolocation=(), microphone=(), camera=(), fullscreen=(self)',
+              "X-Content-Type-Options": ["nosniff"],
+              "X-Frame-Options": ["DENY"],
+              "X-XSS-Protection": ["1; mode=block"],
+              "Referrer-Policy": ["strict-origin-when-cross-origin"],
+              "Permissions-Policy": [
+                "geolocation=(), microphone=(), camera=(), fullscreen=(self)",
               ],
-              'Strict-Transport-Security': [
-                'max-age=31536000; includeSubDomains',
+              "Strict-Transport-Security": [
+                "max-age=31536000; includeSubDomains",
               ],
-              'X-Download-Options': ['noopen'],
-              'X-Permitted-Cross-Domain-Policies': ['none'],
+              "X-Download-Options": ["noopen"],
+              "X-Permitted-Cross-Domain-Policies": ["none"],
             },
           });
         },
@@ -62,12 +62,12 @@ class EnhancedSecurityModule implements AppModule {
       session.defaultSession.webRequest.onBeforeRequest((details, callback) => {
         try {
           const url = new URL(details.url);
-          const allowedDomains = ['localhost', '127.0.0.1'];
+          const allowedDomains = ["localhost", "127.0.0.1"];
           const allowedProtocols = [
-            'file:',
-            'data:',
-            'blob:',
-            'chrome-extension:',
+            "file:",
+            "data:",
+            "blob:",
+            "chrome-extension:",
           ];
 
           if (
@@ -88,26 +88,26 @@ class EnhancedSecurityModule implements AppModule {
 
     // Block potentially dangerous file downloads
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    session.defaultSession.on('will-download', (event, item, _webContents) => {
+    session.defaultSession.on("will-download", (event, item, _webContents) => {
       const filename = item.getFilename();
       const dangerousExtensions = [
-        '.exe',
-        '.bat',
-        '.cmd',
-        '.com',
-        '.scr',
-        '.pif',
-        '.vbs',
-        '.js',
-        '.jar',
-        '.app',
-        '.deb',
-        '.rpm',
-        '.dmg',
-        '.pkg',
-        '.msi',
-        '.ps1',
-        '.sh',
+        ".exe",
+        ".bat",
+        ".cmd",
+        ".com",
+        ".scr",
+        ".pif",
+        ".vbs",
+        ".js",
+        ".jar",
+        ".app",
+        ".deb",
+        ".rpm",
+        ".dmg",
+        ".pkg",
+        ".msi",
+        ".ps1",
+        ".sh",
       ];
 
       const isDangerous = dangerousExtensions.some((ext) =>
@@ -123,34 +123,39 @@ class EnhancedSecurityModule implements AppModule {
 
   private setupWebContentsProtection(): void {
     // Prevent new window creation with unsafe features
-    app.on('web-contents-created', (event, contents) => {
+    app.on("web-contents-created", (event, contents) => {
       // Handle window opening
       contents.setWindowOpenHandler(({ url }) => {
-        console.warn('Blocked new window creation:', url);
+        console.warn("Blocked new window creation:", url);
         // Allow external URLs to open in default browser instead
-        if (url.startsWith('http://') || url.startsWith('https://')) {
+        if (url.startsWith("http://") || url.startsWith("https://")) {
           shell.openExternal(url);
         }
-        return { action: 'deny' };
+        return { action: "deny" };
       });
 
       // Prevent webview attachment
-      contents.on('will-attach-webview', (event) => {
+      contents.on("will-attach-webview", (event) => {
         event.preventDefault();
-        console.warn('Blocked webview attachment');
+        console.warn("Blocked webview attachment");
       });
 
       // Handle navigation security
-      contents.on('will-navigate', (event, navigationUrl) => {
+      contents.on("will-navigate", (event, navigationUrl) => {
         try {
           const parsedUrl = new URL(navigationUrl);
-          const allowedOrigins = ['http://localhost:4200'];
-          const isFileProtocol = navigationUrl.startsWith('file://');
+          const allowedOrigins = ["http://localhost:5173"];
+          const isFileProtocol = navigationUrl.startsWith("file://");
+          const isDevTools = navigationUrl.includes("devtools");
 
-          // if (!allowedOrigins.includes(parsedUrl.origin) && !isFileProtocol) {
-          //   console.warn(`Blocked navigation to: ${navigationUrl}`);
-          //   event.preventDefault();
-          // }
+          if (
+            !allowedOrigins.includes(parsedUrl.origin) &&
+            !isFileProtocol &&
+            !isDevTools
+          ) {
+            console.warn(`Blocked navigation to: ${navigationUrl}`);
+            event.preventDefault();
+          }
         } catch (error) {
           console.warn(
             `Invalid navigation URL blocked: ${navigationUrl}`,
@@ -161,11 +166,11 @@ class EnhancedSecurityModule implements AppModule {
       });
 
       // Handle frame navigation
-      contents.on('will-navigate', (event, navigationUrl) => {
+      contents.on("will-navigate", (event, navigationUrl) => {
         try {
           const parsedUrl = new URL(navigationUrl);
-          const allowedOrigins = ['http://localhost:4200'];
-          const isFileProtocol = navigationUrl.startsWith('file://');
+          const allowedOrigins = ["http://localhost:5173"];
+          const isFileProtocol = navigationUrl.startsWith("file://");
 
           if (!allowedOrigins.includes(parsedUrl.origin) && !isFileProtocol) {
             console.warn(`Blocked frame navigation to: ${navigationUrl}`);
@@ -181,11 +186,11 @@ class EnhancedSecurityModule implements AppModule {
       });
 
       // Prevent loading of remote content in frames
-      contents.on('did-create-window', (window) => {
-        window.webContents.on('will-navigate', (event, url) => {
+      contents.on("did-create-window", (window) => {
+        window.webContents.on("will-navigate", (event, url) => {
           if (
-            !url.startsWith('file://') &&
-            !url.startsWith('http://localhost')
+            !url.startsWith("file://") &&
+            !url.startsWith("http://localhost")
           ) {
             event.preventDefault();
             console.warn(`Blocked remote navigation in child window: ${url}`);
@@ -195,13 +200,11 @@ class EnhancedSecurityModule implements AppModule {
 
       // Handle certificate errors
       contents.on(
-        'certificate-error',
+        "certificate-error",
         (event, url, error, certificate, callback) => {
           if (this.isDevelopment) {
-            // In development, you might want to allow self-signed certificates
             console.warn(`Certificate error for ${url}: ${error}`);
-            // event.preventDefault();
-            // callback(true);
+            callback(true);
           } else {
             console.error(`Certificate error for ${url}: ${error}`);
             callback(false);
@@ -211,21 +214,20 @@ class EnhancedSecurityModule implements AppModule {
 
       // Monitor console messages for security issues
       contents.on(
-        'console-message',
+        "console-message",
         (event, level, message, line, sourceId) => {
           if (level >= 2) {
-            // Warning or error
             console.log(
               `Renderer console [${level}]:`,
               message,
-              'at',
+              "at",
               sourceId,
               line,
             );
           }
 
           // Check for potential security issues in console messages
-          const securityKeywords = ['XSS', 'injection', 'eval', 'unsafe'];
+          const securityKeywords = ["XSS", "injection", "eval", "unsafe"];
           if (
             securityKeywords.some((keyword) =>
               message.toLowerCase().includes(keyword),
@@ -241,18 +243,15 @@ class EnhancedSecurityModule implements AppModule {
   }
 
   private setupAppProtection(): void {
-    // Set secure app settings
-    app.setAppUserModelId('com.garudalinux.assistant');
+    app.setAppUserModelId("org.garudalinux.rani");
 
     // Handle app certificate verification
     app.on(
-      'certificate-error',
+      "certificate-error",
       (event, webContents, url, error, certificate, callback) => {
         if (this.isDevelopment) {
           console.warn(`App certificate error for ${url}: ${error}`);
-          // In development, you might want to proceed anyway
-          // event.preventDefault();
-          // callback(true);
+          callback(true);
         } else {
           console.error(`App certificate error for ${url}: ${error}`);
           callback(false);
@@ -262,26 +261,28 @@ class EnhancedSecurityModule implements AppModule {
 
     // Handle select client certificate
     app.on(
-      'select-client-certificate',
+      "select-client-certificate",
       (event, webContents, url, list, callback) => {
         event.preventDefault();
         console.warn(`Client certificate request for ${url}`);
+
         // Don't provide any client certificate
         callback();
       },
     );
 
     // Handle login requests
-    app.on('login', (event, webContents, details, authInfo, callback) => {
+    app.on("login", (event, webContents, details, authInfo, callback) => {
       event.preventDefault();
       console.warn(`Login request for ${details.url}`);
+
       // Don't provide credentials
       callback();
     });
 
     // Monitor for suspicious activity
     app.on(
-      'accessibility-support-changed',
+      "accessibility-support-changed",
       (event, accessibilitySupportEnabled) => {
         console.log(
           `Accessibility support changed: ${accessibilitySupportEnabled}`,
@@ -290,25 +291,25 @@ class EnhancedSecurityModule implements AppModule {
     );
 
     // Handle GPU info update
-    app.on('gpu-info-update', () => {
-      console.log('GPU info updated');
+    app.on("gpu-info-update", () => {
+      console.log("GPU info updated");
     });
 
     // Handle renderer process crashed
-    app.on('render-process-gone', (event, webContents, details) => {
-      console.error('Renderer process gone:', details);
+    app.on("render-process-gone", (event, webContents, details) => {
+      console.error("Renderer process gone:", details);
     });
 
     // Handle child process gone
-    app.on('child-process-gone', (event, details) => {
-      console.error('Child process gone:', details);
+    app.on("child-process-gone", (event, details) => {
+      console.error("Child process gone:", details);
     });
   }
 
   // Method to update allowed origins dynamically
   updateAllowedOrigins(origins: string[]): void {
     // This could be used to update CSP or navigation rules dynamically
-    console.log('Updating allowed origins:', origins);
+    console.log("Updating allowed origins:", origins);
   }
 
   // Method to add temporary security exceptions (for development)
@@ -316,7 +317,7 @@ class EnhancedSecurityModule implements AppModule {
     if (this.isDevelopment) {
       console.warn(`Adding security exception - ${type}: ${value}`);
     } else {
-      console.error('Security exceptions are not allowed in production');
+      console.error("Security exceptions are not allowed in production");
     }
   }
 }

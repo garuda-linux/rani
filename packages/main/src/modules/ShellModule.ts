@@ -1,10 +1,10 @@
-import type { AppModule } from '../AppModule.js';
-import type { ModuleContext } from '../ModuleContext.js';
-import { ipcMain, shell } from 'electron';
-import { spawn } from 'node:child_process';
-import * as path from 'node:path';
-import { Client, ConnectConfig } from 'ssh2';
-import { readFileSync } from 'node:fs';
+import type { AppModule } from "../AppModule.js";
+import type { ModuleContext } from "../ModuleContext.js";
+import { ipcMain, shell } from "electron";
+import { spawn } from "node:child_process";
+import * as path from "node:path";
+import { Client, ConnectConfig } from "ssh2";
+import { readFileSync } from "node:fs";
 
 class ShellModule implements AppModule {
   private readonly isDevelopment: boolean;
@@ -15,14 +15,14 @@ class ShellModule implements AppModule {
     if (this.isDevelopment) {
       try {
         this.sshConfig = {
-          host: '10.0.0.158',
+          host: "172.16.230.129",
           port: 22,
-          username: 'alarm',
-          privateKey: readFileSync('/Users/nijen/.ssh/dev_vm'),
+          username: "nico",
+          privateKey: readFileSync("/Users/nijen/.ssh/dev_vm"),
         };
       } catch (error) {
         console.warn(
-          'SSH key not found, SSH functionality will be disabled:',
+          "SSH key not found, SSH functionality will be disabled:",
           error,
         );
       }
@@ -36,17 +36,17 @@ class ShellModule implements AppModule {
 
   private setupShellHandlers(): void {
     // Shell Operations
-    ipcMain.handle('shell:open', async (_, url: string) => {
+    ipcMain.handle("shell:open", async (_, url: string) => {
       try {
         // Validate URL for security
         const urlPattern = /^(https?:\/\/)|(file:\/\/)|(mailto:)|(tel:)/;
         if (!urlPattern.test(url)) {
-          throw new Error('Invalid URL protocol');
+          throw new Error("Invalid URL protocol");
         }
         await shell.openExternal(url);
         return true;
       } catch (error) {
-        console.error('Shell open error:', error);
+        console.error("Shell open error:", error);
         throw new Error(
           `Failed to open URL: ${error instanceof Error ? error.message : error}`,
         );
@@ -58,7 +58,7 @@ class ShellModule implements AppModule {
       // In development mode, allow all commands for flexibility
       if (this.isDevelopment) {
         console.log(
-          `[DEV MODE] Allowing command: ${command} ${args.join(' ')}`,
+          `[DEV MODE] Allowing command: ${command} ${args.join(" ")}`,
         );
         return true;
       }
@@ -66,242 +66,242 @@ class ShellModule implements AppModule {
       // Expanded whitelist of allowed commands for system management
       const allowedCommands = [
         // Package managers
-        'pacman',
-        'yay',
-        'paru',
-        'pamac',
-        'apt',
-        'apt-get',
-        'dnf',
-        'zypper',
-        'emerge',
+        "pacman",
+        "yay",
+        "paru",
+        "pamac",
+        "apt",
+        "apt-get",
+        "dnf",
+        "zypper",
+        "emerge",
         // System administration
-        'sudo',
-        'systemctl',
-        'localectl',
-        'timedatectl',
-        'hostnamectl',
-        'hostname',
-        'lsb_release',
-        'journalctl',
-        'grub-install',
-        'grub-mkconfig',
-        'update-grub',
-        'dkms',
-        'modprobe',
-        'rmmod',
+        "sudo",
+        "systemctl",
+        "localectl",
+        "timedatectl",
+        "hostnamectl",
+        "hostname",
+        "lsb_release",
+        "journalctl",
+        "grub-install",
+        "grub-mkconfig",
+        "update-grub",
+        "dkms",
+        "modprobe",
+        "rmmod",
         // File operations
-        'ls',
-        'cat',
-        'head',
-        'tail',
-        'less',
-        'more',
-        'file',
-        'stat',
-        'du',
-        'df',
-        'find',
-        'locate',
-        'which',
-        'whereis',
-        'type',
-        'readlink',
-        'realpath',
-        'mkdir',
-        'rmdir',
-        'touch',
-        'cp',
-        'mv',
-        'ln',
-        'chmod',
-        'chown',
-        'chgrp',
+        "ls",
+        "cat",
+        "head",
+        "tail",
+        "less",
+        "more",
+        "file",
+        "stat",
+        "du",
+        "df",
+        "find",
+        "locate",
+        "which",
+        "whereis",
+        "type",
+        "readlink",
+        "realpath",
+        "mkdir",
+        "rmdir",
+        "touch",
+        "cp",
+        "mv",
+        "ln",
+        "chmod",
+        "chown",
+        "chgrp",
         // Text processing
-        'grep',
-        'egrep',
-        'fgrep',
-        'awk',
-        'sed',
-        'sort',
-        'uniq',
-        'cut',
-        'tr',
-        'wc',
-        'diff',
-        'cmp',
-        'comm',
-        'join',
-        'paste',
-        'column',
-        'tee',
+        "grep",
+        "egrep",
+        "fgrep",
+        "awk",
+        "sed",
+        "sort",
+        "uniq",
+        "cut",
+        "tr",
+        "wc",
+        "diff",
+        "cmp",
+        "comm",
+        "join",
+        "paste",
+        "column",
+        "tee",
         // System information
-        'uname',
-        'whoami',
-        'id',
-        'groups',
-        'w',
-        'who',
-        'last',
-        'lastlog',
-        'uptime',
-        'free',
-        'vmstat',
-        'iostat',
-        'top',
-        'htop',
-        'ps',
-        'pstree',
-        'jobs',
-        'fg',
-        'bg',
-        'lscpu',
-        'lsmem',
-        'lsblk',
-        'lsusb',
-        'lspci',
-        'lsmod',
-        'dmesg',
-        'dmidecode',
-        'fdisk',
-        'parted',
-        'blkid',
-        'mount',
-        'umount',
-        'lsof',
-        'fuser',
+        "uname",
+        "whoami",
+        "id",
+        "groups",
+        "w",
+        "who",
+        "last",
+        "lastlog",
+        "uptime",
+        "free",
+        "vmstat",
+        "iostat",
+        "top",
+        "htop",
+        "ps",
+        "pstree",
+        "jobs",
+        "fg",
+        "bg",
+        "lscpu",
+        "lsmem",
+        "lsblk",
+        "lsusb",
+        "lspci",
+        "lsmod",
+        "dmesg",
+        "dmidecode",
+        "fdisk",
+        "parted",
+        "blkid",
+        "mount",
+        "umount",
+        "lsof",
+        "fuser",
         // Network
-        'ping',
-        'ping6',
-        'traceroute',
-        'tracepath',
-        'nslookup',
-        'dig',
-        'host',
-        'netstat',
-        'ss',
-        'ip',
-        'route',
-        'arp',
-        'iwconfig',
-        'iwlist',
-        'nmcli',
-        'curl',
-        'wget',
-        'nc',
-        'netcat',
-        'telnet',
-        'ssh',
-        'scp',
-        'rsync',
+        "ping",
+        "ping6",
+        "traceroute",
+        "tracepath",
+        "nslookup",
+        "dig",
+        "host",
+        "netstat",
+        "ss",
+        "ip",
+        "route",
+        "arp",
+        "iwconfig",
+        "iwlist",
+        "nmcli",
+        "curl",
+        "wget",
+        "nc",
+        "netcat",
+        "telnet",
+        "ssh",
+        "scp",
+        "rsync",
         // Process management
-        'kill',
-        'killall',
-        'pkill',
-        'pgrep',
-        'nohup',
-        'timeout',
-        'sleep',
+        "kill",
+        "killall",
+        "pkill",
+        "pgrep",
+        "nohup",
+        "timeout",
+        "sleep",
         // Archive operations
-        'tar',
-        'gzip',
-        'gunzip',
-        'zip',
-        'unzip',
-        'bzip2',
-        'bunzip2',
-        'xz',
-        'unxz',
-        '7z',
-        'rar',
-        'unrar',
+        "tar",
+        "gzip",
+        "gunzip",
+        "zip",
+        "unzip",
+        "bzip2",
+        "bunzip2",
+        "xz",
+        "unxz",
+        "7z",
+        "rar",
+        "unrar",
         // Development tools
-        'git',
-        'make',
-        'gcc',
-        'g++',
-        'python',
-        'python3',
-        'node',
-        'npm',
-        'yarn',
-        'java',
-        'javac',
-        'ruby',
-        'perl',
-        'php',
-        'go',
-        'rustc',
-        'cargo',
+        "git",
+        "make",
+        "gcc",
+        "g++",
+        "python",
+        "python3",
+        "node",
+        "npm",
+        "yarn",
+        "java",
+        "javac",
+        "ruby",
+        "perl",
+        "php",
+        "go",
+        "rustc",
+        "cargo",
         // Text editors
-        'nano',
-        'vim',
-        'vi',
-        'emacs',
-        'gedit',
-        'kate',
+        "nano",
+        "vim",
+        "vi",
+        "emacs",
+        "gedit",
+        "kate",
         // System configuration
-        'locale',
-        'locale-gen',
-        'dpkg-reconfigure',
-        'update-alternatives',
-        'alternatives',
-        'eselect',
-        'rc-update',
-        'rc-service',
+        "locale",
+        "locale-gen",
+        "dpkg-reconfigure",
+        "update-alternatives",
+        "alternatives",
+        "eselect",
+        "rc-update",
+        "rc-service",
         // Hardware/drivers
-        'lshw',
-        'hwinfo',
-        'inxi',
-        'sensors',
-        'nvidia-smi',
-        'glxinfo',
-        'xrandr',
+        "lshw",
+        "hwinfo",
+        "inxi",
+        "sensors",
+        "nvidia-smi",
+        "glxinfo",
+        "xrandr",
         // Environment
-        'env',
-        'printenv',
-        'export',
-        'set',
-        'unset',
-        'alias',
-        'unalias',
-        'history',
-        'fc',
-        'hash',
-        'command',
-        'builtin',
+        "env",
+        "printenv",
+        "export",
+        "set",
+        "unset",
+        "alias",
+        "unalias",
+        "history",
+        "fc",
+        "hash",
+        "command",
+        "builtin",
         // Date/time
-        'date',
-        'cal',
-        'timedatectl',
-        'hwclock',
+        "date",
+        "cal",
+        "timedatectl",
+        "hwclock",
         // Misc utilities
-        'echo',
-        'printf',
-        'test',
-        'expr',
-        'bc',
-        'seq',
-        'yes',
-        'true',
-        'false',
-        'basename',
-        'dirname',
-        'pathchk',
-        'mktemp',
-        'shuf',
-        'factor',
-        'base64',
-        'od',
-        'hexdump',
-        'xxd',
-        'strings',
-        'iconv',
-        'split',
-        'csplit',
+        "echo",
+        "printf",
+        "test",
+        "expr",
+        "bc",
+        "seq",
+        "yes",
+        "true",
+        "false",
+        "basename",
+        "dirname",
+        "pathchk",
+        "mktemp",
+        "shuf",
+        "factor",
+        "base64",
+        "od",
+        "hexdump",
+        "xxd",
+        "strings",
+        "iconv",
+        "split",
+        "csplit",
         // Shells
-        'bash',
-        'sh',
+        "bash",
+        "sh",
       ];
 
       const baseCommand = path.basename(command);
@@ -330,7 +330,7 @@ class ShellModule implements AppModule {
         /modprobe.*-r.*essential/,
       ];
 
-      const fullCommand = [command, ...args].join(' ');
+      const fullCommand = [command, ...args].join(" ");
       const isDangerous = dangerousPatterns.some((pattern) =>
         pattern.test(fullCommand),
       );
@@ -344,7 +344,7 @@ class ShellModule implements AppModule {
     };
 
     ipcMain.handle(
-      'shell:execute',
+      "shell:execute",
       async (
         _,
         command: string,
@@ -354,7 +354,7 @@ class ShellModule implements AppModule {
         try {
           if (!validateCommand(command, args)) {
             const errorMsg = this.isDevelopment
-              ? 'Command validation failed (this should not happen in dev mode)'
+              ? "Command validation failed (this should not happen in dev mode)"
               : `Command not allowed for security reasons: ${command}`;
             throw new Error(errorMsg);
           }
@@ -362,7 +362,7 @@ class ShellModule implements AppModule {
           const isSpawn = options.spawn === true;
           const timeout = (options.timeout as number) || 30000; // 30 second default timeout
 
-          if (process.platform === 'darwin') {
+          if (process.platform === "darwin") {
             return await this.executeViaSsh(
               command,
               args,
@@ -380,7 +380,7 @@ class ShellModule implements AppModule {
             isSpawn,
           );
         } catch (error) {
-          console.error('Shell execute error:', error);
+          console.error("Shell execute error:", error);
           throw error;
         }
       },
@@ -396,16 +396,16 @@ class ShellModule implements AppModule {
   ): Promise<any> {
     let fullCommand;
     if (
-      (command.includes('bash') || command.includes('sh')) &&
-      args.includes('-c')
+      (command.includes("bash") || command.includes("sh")) &&
+      args.includes("-c")
     ) {
-      fullCommand = `${args.slice(1).join(' ')}`;
+      fullCommand = `${args.slice(1).join(" ")}`;
     } else {
-      fullCommand = [command, ...args].join(' ');
+      fullCommand = [command, ...args].join(" ");
     }
 
-    let stdout = '';
-    let stderr = '';
+    let stdout = "";
+    let stderr = "";
 
     return new Promise((resolve, reject) => {
       const client = new Client();
@@ -416,7 +416,7 @@ class ShellModule implements AppModule {
         if (!isResolved) {
           isResolved = true;
           client.end();
-          reject(new Error('SSH command execution timed out'));
+          reject(new Error("SSH command execution timed out"));
         }
       }, timeout);
 
@@ -425,15 +425,15 @@ class ShellModule implements AppModule {
         try {
           client.destroy();
         } catch (error) {
-          console.error('SSH client destroy error:', error);
+          console.error("SSH client destroy error:", error);
         }
       };
 
       if (isSpawn) {
-        client.on('ready', () => {
+        client.on("ready", () => {
           client.exec(fullCommand, (err, stream) => {
             if (err) {
-              console.error('SSH exec error:', err);
+              console.error("SSH exec error:", err);
               cleanup();
               if (!isResolved) {
                 isResolved = true;
@@ -444,7 +444,7 @@ class ShellModule implements AppModule {
 
             if (!isResolved) {
               isResolved = true;
-              console.log('SSH Stream ready', stream, stream.stderr);
+              console.log("SSH Stream ready", stream, stream.stderr);
               resolve({
                 pid: `ssh-${Date.now()}`, // Fake PID for SSH processes
                 kill: () => {
@@ -458,11 +458,11 @@ class ShellModule implements AppModule {
           });
         });
       } else {
-        client.on('ready', () => {
+        client.on("ready", () => {
           client.exec(fullCommand, (err, stream) => {
             if (err) reject(new Error(`SSH exec error: ${err.message}`));
             stream
-              .on('close', (code: number) => {
+              .on("close", (code: number) => {
                 resolve({
                   code,
                   stdout: stdout.substring(0, 1024 * 1024), // Limit output to 1MB
@@ -471,18 +471,18 @@ class ShellModule implements AppModule {
                 });
                 client.end();
               })
-              .stdout.on('data', (data: string) => {
+              .stdout.on("data", (data: string) => {
                 stdout += data;
               })
-              .stderr.on('data', (data) => {
+              .stderr.on("data", (data) => {
                 stderr += data;
               });
           });
         });
       }
 
-      client.on('error', (err) => {
-        console.error('SSH connection error:', err);
+      client.on("error", (err) => {
+        console.error("SSH connection error:", err);
         cleanup();
         if (!isResolved) {
           isResolved = true;
@@ -502,7 +502,7 @@ class ShellModule implements AppModule {
     if (isSpawn) {
       // For spawned processes, return the child process handle immediately
       const child = spawn(command, args, {
-        stdio: ['pipe', 'pipe', 'pipe'],
+        stdio: ["pipe", "pipe", "pipe"],
         timeout,
         ...options,
       });
@@ -518,31 +518,31 @@ class ShellModule implements AppModule {
     // For executed commands, wait for completion with timeout
     return new Promise((resolve, reject) => {
       const child = spawn(command, args, {
-        stdio: ['pipe', 'pipe', 'pipe'],
+        stdio: ["pipe", "pipe", "pipe"],
         timeout,
         ...options,
       });
 
-      let stdout = '';
-      let stderr = '';
+      let stdout = "";
+      let stderr = "";
       const timeoutId: NodeJS.Timeout = setTimeout(() => {
-        child.kill('SIGTERM');
-        reject(new Error('Command execution timed out'));
+        child.kill("SIGTERM");
+        reject(new Error("Command execution timed out"));
       }, timeout);
 
       const cleanup = () => {
         clearTimeout(timeoutId);
       };
 
-      child.stdout?.on('data', (data) => {
+      child.stdout?.on("data", (data) => {
         stdout += data.toString();
       });
 
-      child.stderr?.on('data', (data) => {
+      child.stderr?.on("data", (data) => {
         stderr += data.toString();
       });
 
-      child.on('close', (code) => {
+      child.on("close", (code) => {
         cleanup();
         resolve({
           code,
@@ -552,9 +552,9 @@ class ShellModule implements AppModule {
         });
       });
 
-      child.on('error', (error) => {
+      child.on("error", (error) => {
         cleanup();
-        console.error('Command execution error:', error);
+        console.error("Command execution error:", error);
         reject(new Error(`Command execution failed: ${error.message}`));
       });
     });
@@ -562,64 +562,64 @@ class ShellModule implements AppModule {
 
   private setupStreamingHandlers(): void {
     // Handle streaming shell events from preload
-    ipcMain.on('shell:stdout', (event, data) => {
+    ipcMain.on("shell:stdout", (event, data) => {
       console.log(
-        '[MAIN] Received shell:stdout:',
+        "[MAIN] Received shell:stdout:",
         data.processId,
         data.data?.substring(0, 100),
       );
       try {
-        console.log('[MAIN] Forwarding shell:stdout to renderer');
-        event.sender.send('shell:stdout', data);
-        console.log('[MAIN] Successfully forwarded shell:stdout');
+        console.log("[MAIN] Forwarding shell:stdout to renderer");
+        event.sender.send("shell:stdout", data);
+        console.log("[MAIN] Successfully forwarded shell:stdout");
       } catch (error) {
-        console.error('[MAIN] Failed to forward shell:stdout:', error);
+        console.error("[MAIN] Failed to forward shell:stdout:", error);
       }
     });
 
-    ipcMain.on('shell:stderr', (event, data) => {
+    ipcMain.on("shell:stderr", (event, data) => {
       console.log(
-        '[MAIN] Received shell:stderr:',
+        "[MAIN] Received shell:stderr:",
         data.processId,
         data.data?.substring(0, 100),
       );
       try {
-        console.log('[MAIN] Forwarding shell:stderr to renderer');
-        event.sender.send('shell:stderr', data);
-        console.log('[MAIN] Successfully forwarded shell:stderr');
+        console.log("[MAIN] Forwarding shell:stderr to renderer");
+        event.sender.send("shell:stderr", data);
+        console.log("[MAIN] Successfully forwarded shell:stderr");
       } catch (error) {
-        console.error('[MAIN] Failed to forward shell:stderr:', error);
+        console.error("[MAIN] Failed to forward shell:stderr:", error);
       }
     });
 
-    ipcMain.on('shell:close', (event, data) => {
+    ipcMain.on("shell:close", (event, data) => {
       console.log(
-        '[MAIN] Received shell:close:',
+        "[MAIN] Received shell:close:",
         data.processId,
-        'code:',
+        "code:",
         data.code,
       );
       try {
-        console.log('[MAIN] Forwarding shell:close to renderer');
-        event.sender.send('shell:close', data);
-        console.log('[MAIN] Successfully forwarded shell:close');
+        console.log("[MAIN] Forwarding shell:close to renderer");
+        event.sender.send("shell:close", data);
+        console.log("[MAIN] Successfully forwarded shell:close");
       } catch (error) {
-        console.error('[MAIN] Failed to forward shell:close:', error);
+        console.error("[MAIN] Failed to forward shell:close:", error);
       }
     });
 
-    ipcMain.on('shell:error', (event, data) => {
+    ipcMain.on("shell:error", (event, data) => {
       console.log(
-        '[MAIN] Received shell:error:',
+        "[MAIN] Received shell:error:",
         data.processId,
         data.error?.message,
       );
       try {
-        console.log('[MAIN] Forwarding shell:error to renderer');
-        event.sender.send('shell:error', data);
-        console.log('[MAIN] Successfully forwarded shell:error');
+        console.log("[MAIN] Forwarding shell:error to renderer");
+        event.sender.send("shell:error", data);
+        console.log("[MAIN] Successfully forwarded shell:error");
       } catch (error) {
-        console.error('[MAIN] Failed to forward shell:error:', error);
+        console.error("[MAIN] Failed to forward shell:error:", error);
       }
     });
   }

@@ -13,25 +13,25 @@ export interface ShellEvent {
 
 // Event channel type definitions
 export interface EventChannelMap {
-  'shell:stdout': ShellEvent;
-  'shell:stderr': ShellEvent;
-  'shell:close': ShellEvent;
-  'shell:error': ShellEvent;
-  'window-focus': undefined;
-  'window-blur': undefined;
-  'window-maximize': undefined;
-  'window-unmaximize': undefined;
-  'window-minimize': undefined;
-  'window-restore': undefined;
-  'app-update': any;
-  'system-theme-changed': any;
+  "shell:stdout": ShellEvent;
+  "shell:stderr": ShellEvent;
+  "shell:close": ShellEvent;
+  "shell:error": ShellEvent;
+  "window-focus": undefined;
+  "window-blur": undefined;
+  "window-maximize": undefined;
+  "window-unmaximize": undefined;
+  "window-minimize": undefined;
+  "window-restore": undefined;
+  "app-update": any;
+  "system-theme-changed": any;
 }
 
 export type EventChannel =
-  | 'shell:stdout'
-  | 'shell:stderr'
-  | 'shell:close'
-  | 'shell:error';
+  | "shell:stdout"
+  | "shell:stderr"
+  | "shell:close"
+  | "shell:error";
 
 export interface ElectronAPI {
   fs: {
@@ -83,6 +83,7 @@ export interface ElectronAPI {
   };
   window: {
     close: () => Promise<void>;
+    requestClose: () => Promise<void>;
     minimize: () => Promise<void>;
     maximize: () => Promise<void>;
     hide: () => Promise<void>;
