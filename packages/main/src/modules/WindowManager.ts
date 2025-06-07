@@ -126,6 +126,10 @@ class WindowManager implements AppModule {
       // Window cleanup will be handled by the framework
     });
 
+    browserWindow.on('page-title-updated', (e) => {
+      e.preventDefault();
+    });
+
     // Handle uncaught exceptions in renderer
     browserWindow.webContents.on('render-process-gone', (event, details) => {
       console.error('Renderer process gone:', details);
