@@ -41,7 +41,7 @@ export class SystemStatusComponent {
 
   protected readonly configService = inject(ConfigService);
   protected readonly systemStatusService = inject(SystemStatusService);
-  protected readonly shellService = new ElectronShellService();
+  protected readonly shellService = inject(ElectronShellService);
 
   private readonly confirmationService = inject(ConfirmationService);
   private readonly taskManagerService = inject(TaskManagerService);

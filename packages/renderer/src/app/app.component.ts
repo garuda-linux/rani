@@ -77,7 +77,7 @@ export class AppComponent implements OnInit {
   readonly taskManager = inject(TaskManagerService);
   private readonly notificationService = inject(NotificationService);
 
-  protected readonly shellService = new ElectronShellService();
+  protected readonly shellService = inject(ElectronShellService);
   protected readonly appWindow = {
     minimize: () => window.electronAPI?.window.minimize(),
     toggleMaximize: () => window.electronAPI?.window.maximize(),

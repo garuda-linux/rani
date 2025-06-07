@@ -5,14 +5,14 @@ import {
   Injectable,
   signal,
 } from '@angular/core';
-import { appLocalDataDir, resolve } from '../electron-services';
-import { ElectronFsService } from '../electron-services';
-import { type ChildProcess, ElectronShellService } from '../electron-services';
+import { ElectronFsService } from '../electron-services'; // Ensure this path is correct
+import { ElectronShellSpawnService } from '../electron-services/electron-shell-spawn.service';
+import { ShellStreamingResult } from '../electron-services/electron-types';
 import { ConfigService } from '../config/config.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../logging/logging';
 import { TranslocoService } from '@jsverse/transloco';
-import { ElectronShellSpawnService } from '../electron-services/electron-shell-spawn.service';
+import { ElectronPathService } from '../electron-services/electron-path.service';
 
 export class Task {
   constructor(
@@ -39,52 +39,135 @@ export class Task {
   icon: string;
 }
 
+// Adapted TrackedShell for Electron's ChildProcess and ElectronShellSpawnService
 export class TrackedShell {
+  private processId: string | undefined;
+  private resolvePromise: (() => void) | null = null;
+  private rejectPromise: ((error: Error) => void) | null = null;
+  private outputs: EventEmitter<string>;
+  public running = false; // Initial state
+
   constructor(
-    shell: ElectronShellService['Command'],
-    _outputs: EventEmitter<string>,
+    private command: string,
+    private args: string[],
+    outputs: EventEmitter<string>,
+    private shellSpawnService: ElectronShellSpawnService, // Inject this to use your service
   ) {
-    this.shell = shell;
+    this.outputs = outputs;
   }
 
-  async process(): Promise<any> {
-    if (this._process === null) {
-      this._process = await (this.shell as any).spawn();
+  async start(): Promise<void> {
+    return new Promise<void>(async (resolve, reject) => {
+      // Mark async here to use await
+      this.running = true;
+      this.resolvePromise = resolve;
+      this.rejectPromise = reject;
+
+      console.log(
+        `[TM] Starting persistent shell: ${this.command} ${JSON.stringify(this.args)}`,
+      );
+
+      try {
+        // AWAIT the promise to get the actual ShellStreamingResult object
+        const result: ShellStreamingResult =
+          await this.shellSpawnService.spawnStreaming(this.command, this.args, {
+            onStdout: (data) => this.outputs.emit(data),
+            onStderr: (data) => this.outputs.emit(data),
+            onClose: (code: number | null, signal: string | null) => {
+              this.running = false;
+              console.log(
+                `[TM] Persistent shell closed. Code: ${code}, Signal: ${signal}`,
+              );
+              if (code === 0) {
+                this.resolvePromise?.();
+              } else {
+                this.rejectPromise?.(
+                  new Error(`Persistent shell exited with code ${code}`),
+                );
+              }
+            },
+            onError: (error: unknown) => {
+              this.running = false;
+              console.error(
+                `[TM] Persistent shell error: ${error instanceof Error ? error.message : String(error)}`,
+              );
+              this.rejectPromise?.(
+                error instanceof Error ? error : new Error(String(error)),
+              );
+            },
+          });
+
+        this.processId = result.processId;
+        if (!this.processId) {
+          throw new Error(
+            `Failed to get processId for spawned shell: ${this.command}`,
+          );
+        }
+        // Resolve immediately after spawning, as the shell is now "running"
+        // and ready to accept commands. The close/error events will handle termination.
+        resolve();
+      } catch (error: any) {
+        this.running = false; // Ensure running is false on spawn error
+        console.error(`[TM] Error starting persistent shell: ${error.message}`);
+        reject(error); // Reject the outer promise if spawn fails
+      }
+    });
+  }
+
+  async write(data: string): Promise<void> {
+    if (!this.processId) {
+      throw new Error('Tracked shell not started. Call start() first.');
     }
-    return this._process;
+    // Append a newline to ensure the command is executed
+    this.shellSpawnService.writeStdin(this.processId, data + '\n');
   }
 
-  async stop() {
-    if (this._process !== null && 'kill' in this._process) {
-      this._process.kill();
-      this.running = false;
+  async stop(): Promise<void> {
+    if (!this.processId || !this.running) {
+      console.log('[TM] Shell not running or already stopped.');
+      return;
+    }
+
+    console.log(`[TM] Stopping persistent shell ${this.processId}`);
+    // Attempt graceful shutdown by sending exit command
+    this.shellSpawnService.writeStdin(this.processId, 'exit 0\n');
+
+    // Wait for the shell to truly stop (its `onClose` event will set `running = false`)
+    const startTime = Date.now();
+    const timeout = 5000; // 5 second timeout for graceful exit
+    while (this.running && Date.now() - startTime < timeout) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+    }
+
+    if (this.running) {
+      console.warn(
+        `[TM] Shell ${this.processId} did not exit gracefully within timeout, killing.`,
+      );
+      await this.shellSpawnService.killProcess(this.processId, 'SIGTERM'); // Force kill if it didn't stop
     }
   }
-
-  shell: any;
-  private _process: any = null;
-  running = true;
 }
 
 export class TrackedShells {
-  constructor(normal: TrackedShell | null, escalated: TrackedShell | null) {
-    this.escalated = escalated;
-    this.normal = normal;
-  }
+  constructor(
+    public normal: TrackedShell | null,
+    public escalated: TrackedShell | null,
+  ) {}
 
-  async stop() {
+  async startAll(): Promise<void> {
     const promises: Promise<void>[] = [];
-    if (this.escalated !== null) {
-      promises.push(this.escalated.stop());
-    }
-    if (this.normal !== null) {
-      promises.push(this.normal.stop());
-    }
+    if (this.normal) promises.push(this.normal.start());
+    if (this.escalated) promises.push(this.escalated.start());
     await Promise.all(promises);
   }
 
-  escalated: TrackedShell | null;
-  normal: TrackedShell | null;
+  async stopAll(): Promise<void> {
+    const promises: Promise<void>[] = [];
+    // Stop escalated first, then normal (optional, but good practice)
+    if (this.escalated) promises.push(this.escalated.stop());
+    if (this.normal) promises.push(this.normal.stop());
+    await Promise.all(promises);
+  }
 }
 
 // Task manager keeps track of scheduled tasks as well as tasks that are executed now.
@@ -96,9 +179,11 @@ export class TaskManagerService {
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly translocoService = inject(TranslocoService);
-  private readonly fsService = new ElectronFsService();
-  private readonly shellService = new ElectronShellService();
-  private readonly shellStreamingService = new ElectronShellSpawnService();
+  private readonly fsService = inject(ElectronFsService); // Correctly injected
+  private readonly pathService = inject(ElectronPathService);
+  // Note: ElectronShellService (for execute) is separate from ShellSpawnService (for streaming/persistent)
+  // private readonly shellService = inject(ElectronShellService); // If you still need direct `execute` calls
+  private readonly shellStreamingService = inject(ElectronShellSpawnService);
 
   readonly tasks = signal<Task[]>([]);
   readonly sortedTasks = computed(() =>
@@ -130,7 +215,11 @@ export class TaskManagerService {
   readonly dataEvents = new EventEmitter<string>();
   data = '';
 
+  // Holds the active persistent shell instances
+  private activeShells: TrackedShells | null = null;
+
   constructor() {
+    this.logger.debug('TaskManagerService constructor initialized.');
     this.dataEvents.subscribe((data) => {
       this.data += data;
       this.cachedData.update((currentData) => (currentData += data));
@@ -139,21 +228,24 @@ export class TaskManagerService {
 
   /**
    * Execute a bash scriptlet using basic bash and wait for it to finish.
+   * This uses the non-streaming `execute` path, likely for one-off commands.
    * @param script The bash scriptlet to execute
    * @param reinit Whether to reinitialize the config service or not.
    */
-  async executeAndWaitBash(
-    script: string,
-    reinit = false,
-  ): Promise<ChildProcess<string>> {
-    let result: ChildProcess<string>;
+  async executeAndWaitBash(script: string, reinit = false): Promise<any> {
+    // Change ChildProcess<string> to any due to varied return type
+    let result: any; // Type 'any' for now, should be specific return of ipcRenderer.invoke('shell:execute')
     try {
       this.logger.info(`Executing bash code: ${script}`);
-      // @ts-ignore
-      result = (await this.shellService.execute('bash', [
+      // Assuming shellService.execute is ipcRenderer.invoke('shell:execute')
+      // You'll need to inject ElectronShellService if you intend to use this.
+      // For now, let's directly call invoke if shellService is not defined yet.
+      // If you're only using ElectronShellSpawnService for *all* shell interaction,
+      // this method should also use the persistent shells.
+      result = await this.shellStreamingService.execute('bash', [
         '-c',
         `LANG=C ${script}`,
-      ])) as ChildProcess<string>;
+      ]);
     } catch (error) {
       this.logger.error(
         `Unexpected error while executing bash script: ${error}`,
@@ -182,7 +274,8 @@ export class TaskManagerService {
     try {
       this.logger.info(`Executing bash code in terminal: ${script}`);
       this.loadingService.loadingOn();
-      await this.shellService.execute('launch-terminal', [script]);
+      // Assuming shellService.execute for 'launch-terminal'
+      await this.shellStreamingService.execute('launch-terminal', [script]);
     } catch (error) {
       this.logger.error(
         `Unexpected error while executing bash script in terminal: ${error}`,
@@ -257,27 +350,6 @@ export class TaskManagerService {
   }
 
   /**
-   * Create requested shells and return them.
-   * @param normal Whether to create a normal shell or not.
-   * @param escalated Whether to create an escalated shell or not.
-   */
-  private createShells(normal: boolean, escalated: boolean): TrackedShells {
-    const shell_normal = normal ? new this.shellService.Command('bash') : null;
-    const shell_escalated = escalated
-      ? new this.shellService.Command('pkexec').args(['bash'])
-      : null;
-
-    return new TrackedShells(
-      shell_normal
-        ? new TrackedShell(shell_normal as any, this.dataEvents)
-        : null,
-      shell_escalated
-        ? new TrackedShell(shell_escalated as any, this.dataEvents)
-        : null,
-    );
-  }
-
-  /**
    * Remove all tasks from the task list.
    */
   clearTasks(): void {
@@ -332,19 +404,21 @@ export class TaskManagerService {
       ? shells.escalated
       : shells.normal;
     if (!shell) {
-      this.logger.error('No shell available for task execution');
-      return;
+      throw new Error(
+        `No ${task.escalate ? 'escalated' : 'normal'} shell available for task ${task.name}`,
+      );
     }
 
-    const path: string = await resolve(
-      await appLocalDataDir(),
+    const appLocalDataDirectory = await this.pathService.appLocalDataDir();
+    const path: string = await this.pathService.resolve(
+      appLocalDataDirectory,
       'taskscript.tmp',
     );
 
     // Safety check, make sure path does not contain '
     if (path.includes("'")) {
-      this.logger.error(`Path contains unsafe character: ${path}`);
-      return;
+      this.logger.error('Path contains unsafe character: ' + path);
+      throw new Error('Unsafe path character detected.');
     }
 
     // Write script to a temporary file
@@ -359,27 +433,41 @@ export class TaskManagerService {
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
 
-    // Execute the script with extra safeguards
-    const process = await shell.process();
-    if (process && 'write' in process) {
-      await process.write(`
-        # Read file into variable
-        script=$(<'${path}')
-        # Check if the script is the same as the one we wrote
-        if [ "$(printf '%s' "$script" | sha256sum | cut -d ' ' -f 1)" != "${hash}" ]; then
-          echo "Script has been tampered with, refusing to execute"
-          # This is bad enough to end the entire shell
-          exit 1
-        fi
-        # Execute the script
-        bash -x /dev/stdin <<< "$script"
-        rm '${path}'
-      `);
+    // Execute the script with extra safeguards by writing to the persistent shell's stdin
+    await shell.write(`
+      # Read file into variable
+      script=$(<'${path}')
+      # Check if the script is the same as the one we wrote
+      if [ "$(printf '%s' "$script" | sha256sum | cut -d ' ' -f 1)" != "${hash}" ]; then
+        echo "Script has been tampered with, refusing to execute"
+        # This is bad enough to end the entire shell
+        exit 1
+      fi
+      # Execute the script, -x for debugging output
+      bash -x /dev/stdin <<< "$script"
+      rm '${path}'
+      # Echo a sentinel to indicate script completion if needed for more robust waiting
+      echo "TASK_COMPLETED_SENTINEL:${task.id}"
+    `);
+
+    // Wait until the temporary file is deleted OR a completion sentinel is received
+    // For simplicity, we'll continue using file deletion as a signal for now.
+    // A more robust solution would involve parsing `dataEvents` for "TASK_COMPLETED_SENTINEL".
+    const startTime = Date.now();
+    const timeout = 60000; // 60 seconds timeout for script execution
+    while (
+      (await this.fsService.exists(path)) &&
+      shell.running &&
+      Date.now() - startTime < timeout
+    ) {
+      await new Promise((resolve) => setTimeout(resolve, 100));
     }
 
-    // Wait until the file is deleted
-    while ((await this.fsService.exists(path)) && shell.running) {
-      await new Promise((resolve) => setTimeout(resolve, 100));
+    if (await this.fsService.exists(path)) {
+      this.logger.warn(
+        `Temporary script file '${path}' still exists after timeout for task ${task.name}.`,
+      );
+      // Optionally attempt to remove it again or log an error
     }
 
     this.logger.info(`Task ${task.name} has finished`);
@@ -397,16 +485,45 @@ export class TaskManagerService {
     this.running.set(true);
     this.clearTerminal();
 
-    const shells = this.createShells(!task.escalate, task.escalate);
-    this.currentTask.set(task);
-    await this.internalExecuteTask(task, shells);
-    this.currentTask.set(null);
-    this.removeTask(task);
+    // Create shells as needed for this single task execution
+    this.activeShells = new TrackedShells(
+      task.escalate
+        ? null
+        : new TrackedShell(
+            'bash',
+            ['-l'],
+            this.dataEvents,
+            this.shellStreamingService,
+          ), // Normal shell
+      task.escalate
+        ? new TrackedShell(
+            'pkexec',
+            ['bash', '-l'],
+            this.dataEvents,
+            this.shellStreamingService,
+          )
+        : null, // Escalated shell
+    );
 
-    await shells.stop();
-
-    this.running.set(false);
-    this.aborting.set(false);
+    try {
+      await this.activeShells.startAll(); // This is where the pkexec prompt will happen if escalated
+      this.currentTask.set(task);
+      await this.internalExecuteTask(task, this.activeShells);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Task execution failed: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    } finally {
+      this.currentTask.set(null);
+      this.removeTask(task); // Remove the task after execution
+      if (this.activeShells) {
+        await this.activeShells.stopAll(); // Stop all shells
+        this.activeShells = null;
+      }
+      this.running.set(false);
+      this.aborting.set(false);
+      void this.configService.init(false); // Reinitialize config if needed
+    }
   }
 
   /**
@@ -422,25 +539,58 @@ export class TaskManagerService {
 
     const needsNormal = this.tasks().some((task) => !task.escalate);
     const needsEscalated = this.tasks().some((task) => task.escalate);
-    const shells = this.createShells(needsNormal, needsEscalated);
 
-    // Execute tasks in correct order
-    for (const task of this.sortedTasks()) {
-      if (this.aborting()) {
-        break;
+    // Create persistent shells at the beginning of the entire task queue execution
+    this.activeShells = new TrackedShells(
+      needsNormal
+        ? new TrackedShell(
+            'bash',
+            ['-l'],
+            this.dataEvents,
+            this.shellStreamingService,
+          )
+        : null,
+      needsEscalated
+        ? new TrackedShell(
+            'pkexec',
+            ['bash', '-l'],
+            this.dataEvents,
+            this.shellStreamingService,
+          )
+        : null,
+    );
+
+    try {
+      await this.activeShells.startAll(); // Single pkexec prompt for all escalated tasks here
+      // Execute tasks in correct order
+      for (const task of this.sortedTasks()) {
+        if (this.aborting()) {
+          break; // Stop if aborting is signaled
+        }
+        this.currentTask.set(task);
+        try {
+          await this.internalExecuteTask(task, this.activeShells);
+        } catch (error: unknown) {
+          this.logger.error(
+            `Task execution failed for task ${task.name}: ${error instanceof Error ? error.message : String(error)}`,
+          );
+        }
       }
-      this.currentTask.set(task);
-      await this.internalExecuteTask(task, shells);
+    } catch (error: unknown) {
+      this.logger.error(
+        `Error during shell startup or task execution: ${error instanceof Error ? error.message : String(error)}`,
+      );
+    } finally {
+      this.currentTask.set(null);
+      this.tasks.set([]); // Clear all tasks after execution
+      if (this.activeShells) {
+        await this.activeShells.stopAll(); // Stop all shells
+        this.activeShells = null;
+      }
+      this.running.set(false);
+      this.aborting.set(false);
+      void this.configService.init(false); // Reinitialize config if needed
     }
-    this.currentTask.set(null);
-    this.tasks.set([]);
-
-    await shells.stop();
-
-    this.running.set(false);
-    this.aborting.set(false);
-
-    void this.configService.init(false);
   }
 
   /**

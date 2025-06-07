@@ -1,18 +1,14 @@
 export interface ShellStreamingResult {
   processId: string;
-  pid: number | undefined;
+  pid: number;
 }
 
 export interface ShellEvent {
   processId: string;
   data?: string;
-  code?: number | null;
-  signal?: string | null;
-  error?: {
-    name: string;
-    message: string;
-    stack?: string;
-  };
+  code?: number;
+  signal?: string;
+  error?: Error;
 }
 
 // Event channel type definitions
@@ -31,7 +27,11 @@ export interface EventChannelMap {
   'system-theme-changed': any;
 }
 
-export type EventChannel = keyof EventChannelMap;
+export type EventChannel =
+  | 'shell:stdout'
+  | 'shell:stderr'
+  | 'shell:close'
+  | 'shell:error';
 
 export interface ElectronAPI {
   fs: {
@@ -184,6 +184,28 @@ export interface ElectronAPI {
       channel: T,
       listener: (event: EventChannelMap[T]) => void,
     ) => void;
+  };
+  shell: {
+    spawnStreaming: (
+      command: string,
+      args?: string[],
+      cwd?: string,
+      env?: Record<string, string>,
+    ) => Promise<ShellStreamingResult>;
+    writeStdin: (processId: string, data: string) => Promise<void>;
+    killProcess: (processId: string, signal?: string) => Promise<void>;
+    execute: (
+      command: string,
+      args?: string[],
+      options?: Record<string, unknown>,
+    ) => Promise<{
+      stdout: string;
+      stderr: string;
+      code: number | null;
+      signal: string | null;
+    }>;
+    on: (channel: string, listener: (...args: any[]) => void) => void;
+    off: (channel: string, listener: (...args: any[]) => void) => void;
   };
 }
 

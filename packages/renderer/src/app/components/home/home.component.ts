@@ -123,7 +123,7 @@ export class HomeComponent {
   private readonly translocoService = inject(TranslocoService);
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly osInteractService = inject(OsInteractService);
-  private readonly shellService = new ElectronShellService();
+  private readonly shellService = inject(ElectronShellService);
 
   mainLinks: HomepageLink[] = [
     {

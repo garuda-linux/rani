@@ -43,7 +43,7 @@ export class GamingComponent implements OnInit {
   tabIndex = signal<number>(0);
 
   protected readonly configService = inject(ConfigService);
-  private readonly shellService = new ElectronShellService();
+  private readonly shellService = inject(ElectronShellService);
 
   backgroundColor = computed(() => {
     const flavors = this.configService.settings().activeTheme.includes('Mocha')

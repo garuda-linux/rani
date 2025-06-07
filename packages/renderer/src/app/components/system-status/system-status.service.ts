@@ -18,7 +18,7 @@ export class SystemStatusService {
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly taskManagerService = inject(TaskManagerService);
-  private readonly shellService = new ElectronShellService();
+  private readonly shellService = inject(ElectronShellService);
 
   constructor() {
     effect(async () => {

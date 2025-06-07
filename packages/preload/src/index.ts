@@ -182,7 +182,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   // Event listeners for renderer-main communication
   events: {
-    on: (channel: string, listener: (...args: unknown[]) => void) => {
+    on: (channel: string, callback: (...args: unknown[]) => void) => {
       const validChannels = [
         'window-focus',
         'window-blur',
@@ -199,14 +199,19 @@ contextBridge.exposeInMainWorld('electronAPI', {
       ];
 
       if (validChannels.includes(channel)) {
-        ipcRenderer.on(channel, listener);
+        const subscription = (
+          _event: Electron.IpcRendererEvent,
+          ...args: unknown[]
+        ) => callback(...args);
+        ipcRenderer.on(channel, subscription);
+        return () => ipcRenderer.removeListener(channel, subscription);
       } else {
         console.warn(`Invalid event channel: ${channel}`);
       }
     },
 
     off: (channel: string, listener: (...args: unknown[]) => void) => {
-      ipcRenderer.off(channel, listener);
+      ipcRenderer.removeListener(channel, listener);
     },
 
     once: (channel: string, listener: (...args: unknown[]) => void) => {
@@ -226,7 +231,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
       ];
 
       if (validChannels.includes(channel)) {
-        ipcRenderer.once(channel, listener);
+        const subscription = (
+          _event: Electron.IpcRendererEvent,
+          ...args: unknown[]
+        ) => listener(...args);
+        ipcRenderer.once(channel, subscription);
       } else {
         console.warn(`Invalid event channel: ${channel}`);
       }

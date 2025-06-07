@@ -91,7 +91,7 @@ export function shellWriteStdin(processId: string, data: string): boolean {
 
 export function shellKillProcess(
   processId: string,
-  signal: string = 'SIGTERM',
+  signal = 'SIGTERM',
 ): boolean {
   const handle = activeProcesses.get(processId);
   if (handle && !handle.killed) {

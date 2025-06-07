@@ -51,8 +51,8 @@ class FileSystemModule implements AppModule {
         }
         await fs.promises.access(filePath);
         return true;
-      } catch (error) {
-        console.error('File access error:', error);
+      } catch {
+        // File doesn't exist or access denied - this is normal for exists check
         return false;
       }
     });

@@ -31,6 +31,7 @@ class ShellModule implements AppModule {
 
   enable({ app: _app }: ModuleContext): void {
     this.setupShellHandlers();
+    this.setupStreamingHandlers();
   }
 
   private setupShellHandlers(): void {
@@ -408,7 +409,7 @@ class ShellModule implements AppModule {
 
     return new Promise((resolve, reject) => {
       const client = new Client();
-      client.connect(this.sshConfig);
+      client.connect(this.sshConfig as ConnectConfig);
       let isResolved = false;
 
       const timeoutId = setTimeout(() => {
@@ -556,6 +557,70 @@ class ShellModule implements AppModule {
         console.error('Command execution error:', error);
         reject(new Error(`Command execution failed: ${error.message}`));
       });
+    });
+  }
+
+  private setupStreamingHandlers(): void {
+    // Handle streaming shell events from preload
+    ipcMain.on('shell:stdout', (event, data) => {
+      console.log(
+        '[MAIN] Received shell:stdout:',
+        data.processId,
+        data.data?.substring(0, 100),
+      );
+      try {
+        console.log('[MAIN] Forwarding shell:stdout to renderer');
+        event.sender.send('shell:stdout', data);
+        console.log('[MAIN] Successfully forwarded shell:stdout');
+      } catch (error) {
+        console.error('[MAIN] Failed to forward shell:stdout:', error);
+      }
+    });
+
+    ipcMain.on('shell:stderr', (event, data) => {
+      console.log(
+        '[MAIN] Received shell:stderr:',
+        data.processId,
+        data.data?.substring(0, 100),
+      );
+      try {
+        console.log('[MAIN] Forwarding shell:stderr to renderer');
+        event.sender.send('shell:stderr', data);
+        console.log('[MAIN] Successfully forwarded shell:stderr');
+      } catch (error) {
+        console.error('[MAIN] Failed to forward shell:stderr:', error);
+      }
+    });
+
+    ipcMain.on('shell:close', (event, data) => {
+      console.log(
+        '[MAIN] Received shell:close:',
+        data.processId,
+        'code:',
+        data.code,
+      );
+      try {
+        console.log('[MAIN] Forwarding shell:close to renderer');
+        event.sender.send('shell:close', data);
+        console.log('[MAIN] Successfully forwarded shell:close');
+      } catch (error) {
+        console.error('[MAIN] Failed to forward shell:close:', error);
+      }
+    });
+
+    ipcMain.on('shell:error', (event, data) => {
+      console.log(
+        '[MAIN] Received shell:error:',
+        data.processId,
+        data.error?.message,
+      );
+      try {
+        console.log('[MAIN] Forwarding shell:error to renderer');
+        event.sender.send('shell:error', data);
+        console.log('[MAIN] Successfully forwarded shell:error');
+      } catch (error) {
+        console.error('[MAIN] Failed to forward shell:error:', error);
+      }
     });
   }
 }

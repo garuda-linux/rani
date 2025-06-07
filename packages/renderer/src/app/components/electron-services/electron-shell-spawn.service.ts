@@ -1,104 +1,226 @@
-import { Injectable } from '@angular/core';
-import { ShellStreamingResult } from './electron-types';
+import { Injectable, inject, NgZone } from '@angular/core';
+import { Logger } from '../logging/logging';
+import {
+  type ShellEvent,
+  type ShellStreamingResult,
+  type ElectronAPI,
+} from './electron-types';
 
-export interface ShellEvent {
-  processId: string;
-  data?: string;
-  code?: number | null;
-  signal?: string | null;
-  error?: {
-    name: string;
-    message: string;
-    stack?: string;
-  };
+// Re-export ShellStreamingResult for backward compatibility
+export type { ShellStreamingResult };
+
+// Options for the streaming spawn method
+export interface ShellStreamingOptions {
+  onStdout?: (data: string) => void;
+  onStderr?: (data: string) => void;
+  onClose?: (code: number | null, signal: string | null) => void;
+  onError?: (error: Error) => void;
+  cwd?: string;
+  env?: Record<string, string>;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class ElectronShellSpawnService {
-  private activeProcesses = new Map<
-    string,
-    {
-      onStdout?: (data: string) => void;
-      onStderr?: (data: string) => void;
-      onClose?: (code: number | null, signal: string | null) => void;
-      onError?: (error: Error) => void;
-    }
-  >();
+  private readonly logger = Logger.getInstance();
+  private readonly ngZone = inject(NgZone);
+  private readonly electronAPI: ElectronAPI = window.electronAPI;
+
+  // Map to store cleanup functions for each streamed process
+  private cleanupFunctions = new Map<string, () => void>();
 
   constructor() {
-    // Set up event listeners for shell events
-    window.electronAPI.events.on('shell:stdout', (event: ShellEvent) => {
-      const process = this.activeProcesses.get(event.processId);
-      if (process?.onStdout && event.data) {
-        process.onStdout(event.data);
-      }
-    });
-
-    window.electronAPI.events.on('shell:stderr', (event: ShellEvent) => {
-      const process = this.activeProcesses.get(event.processId);
-      if (process?.onStderr && event.data) {
-        process.onStderr(event.data);
-      }
-    });
-
-    window.electronAPI.events.on('shell:close', (event: ShellEvent) => {
-      const process = this.activeProcesses.get(event.processId);
-      if (process?.onClose) {
-        process.onClose(event.code ?? null, event.signal ?? null);
-      }
-      // Clean up the process from our tracking
-      this.activeProcesses.delete(event.processId);
-    });
-
-    window.electronAPI.events.on('shell:error', (event: ShellEvent) => {
-      const process = this.activeProcesses.get(event.processId);
-      if (process?.onError && event.error) {
-        const error = new Error(event.error.message);
-        error.name = event.error.name;
-        error.stack = event.error.stack;
-        process.onError(error);
-      }
-      // Clean up the process from our tracking
-      this.activeProcesses.delete(event.processId);
-    });
+    this.logger.debug('ElectronShellSpawnService constructor called.');
   }
 
-  spawnStreaming(
+  /**
+   * Spawns a shell command with streaming stdout/stderr to callbacks.
+   * This is designed for long-lived processes or processes where you need real-time output.
+   *
+   * @param command The command to execute (e.g., 'bash', 'pkexec').
+   * @param args Arguments for the command.
+   * @param options Callbacks for stdout, stderr, close, and error events.
+   * @returns A Promise resolving to ShellStreamingResult containing processId and pid.
+   */
+  async spawnStreaming(
     command: string,
-    args: string[] = [],
-    options: {
-      onStdout?: (data: string) => void;
-      onStderr?: (data: string) => void;
-      onClose?: (code: number | null, signal: string | null) => void;
-      onError?: (error: Error) => void;
-      spawnOptions?: Record<string, unknown>;
-    } = {},
-  ) {
-    const { onStdout, onStderr, onClose, onError, spawnOptions } = options;
+    args?: string[],
+    options?: ShellStreamingOptions,
+  ): Promise<ShellStreamingResult> {
+    this.logger.debug(
+      `[SERVICE] Invoking spawnStreaming with command: ${command}, args: ${JSON.stringify(args)}`,
+    );
 
-    // Start the process
-    const result: ShellStreamingResult =
-      window.electronAPI.shell.spawnStreaming(command, args, spawnOptions);
-
-    // Register event handlers for this specific process
-    this.activeProcesses.set(result.processId, {
-      onStdout,
-      onStderr,
-      onClose,
-      onError,
+    const result = await this.electronAPI.shell.spawnStreaming(command, args, {
+      cwd: options?.cwd,
+      env: options?.env,
     });
+    const { processId, pid } = result;
+
+    if (!processId) {
+      const errorMessage = `Failed to spawn process for command: ${command}. No processId returned.`;
+      this.logger.error(errorMessage);
+      if (options?.onError) {
+        this.ngZone.run(() => options.onError(new Error(errorMessage)));
+      }
+      throw new Error(errorMessage);
+    }
+
+    this.logger.info(
+      `[SERVICE] Spawned process with ID: ${processId}, PID: ${pid}`,
+    );
+
+    const cleanup = () => {
+      // Remove listeners when the process is explicitly closed or ends
+      this.electronAPI.events.off('shell:stdout', stdoutListener);
+      this.electronAPI.events.off('shell:stderr', stderrListener);
+      this.electronAPI.events.off('shell:close', closeListener);
+      this.electronAPI.events.off('shell:error', errorListener);
+      this.cleanupFunctions.delete(processId);
+      this.logger.debug(
+        `[SERVICE] Cleaned up listeners for process ID: ${processId}`,
+      );
+    };
+
+    // Store the cleanup function
+    this.cleanupFunctions.set(processId, cleanup);
+
+    // Define listeners that run inside Angular's zone to ensure change detection
+    const stdoutListener = (event: ShellEvent) => {
+      if (event.processId !== processId) return;
+      this.ngZone.run(() => {
+        if (options?.onStdout && event.data) {
+          options.onStdout(event.data);
+        }
+      });
+    };
+
+    const stderrListener = (event: ShellEvent) => {
+      if (event.processId !== processId) return;
+      this.ngZone.run(() => {
+        if (options?.onStderr && event.data) {
+          options.onStderr(event.data);
+        }
+      });
+    };
+
+    const closeListener = (event: ShellEvent) => {
+      if (event.processId !== processId) return;
+      this.ngZone.run(() => {
+        this.logger.info(
+          `[SERVICE] Process ${event.processId} closed with code: ${event.code}, signal: ${event.signal}`,
+        );
+        if (options?.onClose) {
+          options.onClose(event.code ?? null, event.signal ?? null);
+        }
+        // Perform cleanup when the process closes
+        const cleanupFn = this.cleanupFunctions.get(event.processId);
+        if (cleanupFn) {
+          cleanupFn();
+        }
+      });
+    };
+
+    const errorListener = (event: ShellEvent) => {
+      if (event.processId !== processId) return;
+      this.ngZone.run(() => {
+        const errorMessage = event.error?.message ?? 'Unknown error';
+        this.logger.error(
+          `[SERVICE] Process ${event.processId} encountered error: ${errorMessage}`,
+        );
+        if (options?.onError) {
+          options.onError(new Error(errorMessage));
+        }
+        // Perform cleanup on error as well
+        const cleanupFn = this.cleanupFunctions.get(event.processId);
+        if (cleanupFn) {
+          cleanupFn();
+        }
+      });
+    };
+
+    // Register listeners for this specific processId
+    this.electronAPI.events.on('shell:stdout', stdoutListener);
+    this.electronAPI.events.on('shell:stderr', stderrListener);
+    this.electronAPI.events.on('shell:close', closeListener);
+    this.electronAPI.events.on('shell:error', errorListener);
 
     return result;
   }
 
-  cleanup() {
-    // Remove all event listeners
-    window.electronAPI.events.off('shell:stdout', () => {});
-    window.electronAPI.events.off('shell:stderr', () => {});
-    window.electronAPI.events.off('shell:close', () => {});
-    window.electronAPI.events.off('shell:error', () => {});
-    this.activeProcesses.clear();
+  /**
+   * Writes data to the stdin of a spawned process.
+   *
+   * @param processId The ID of the process to write to.
+   * @param data The string data to write.
+   */
+  async writeStdin(processId: string, data: string): Promise<void> {
+    this.logger.debug(
+      `[SERVICE] Writing to stdin of process ${processId}: ${data.substring(0, 50)}...`,
+    );
+    this.electronAPI.shell.writeStdin(processId, data);
+  }
+
+  /**
+   * Kills a spawned process.
+   *
+   * @param processId The ID of the process to kill.
+   * @param signal The signal to send (e.g., 'SIGTERM', 'SIGKILL').
+   */
+  async killProcess(processId: string, signal?: string): Promise<void> {
+    this.logger.warn(
+      `[SERVICE] Killing process ${processId} with signal: ${signal || 'SIGTERM'}`,
+    );
+    this.electronAPI.shell.killProcess(processId, signal);
+    // Immediately run cleanup after explicitly killing
+    const cleanupFn = this.cleanupFunctions.get(processId);
+    if (cleanupFn) {
+      cleanupFn();
+    }
+  }
+
+  /**
+   * Executes a command and waits for it to complete, returning the result (stdout, stderr, code).
+   * This is for one-off commands where you only care about the final output.
+   *
+   * @param command The command to execute.
+   * @param args Arguments for the command.
+   * @param options Optional record for additional options like cwd, env.
+   * @returns A Promise resolving to an object containing stdout, stderr, and exit code.
+   */
+  async execute(
+    command: string,
+    args?: string[],
+    options?: Record<string, unknown>,
+  ): Promise<{
+    stdout: string;
+    stderr: string;
+    code: number | null;
+    signal: string | null;
+  }> {
+    this.logger.debug(
+      `[SERVICE] Executing one-off command: ${command} ${JSON.stringify(args)}`,
+    );
+    const result = await this.electronAPI.shell.execute(command, args, options);
+    this.logger.debug(
+      `[SERVICE] One-off command ${command} finished with code: ${result.code}`,
+    );
+    return result as {
+      stdout: string;
+      stderr: string;
+      code: number | null;
+      signal: string | null;
+    };
+  }
+
+  /**
+   * Cleans up all active event listeners for shell processes.
+   * Call this when your application is shutting down or if you want to ensure no stale listeners.
+   */
+  cleanupAllListeners(): void {
+    this.logger.info('[SERVICE] Cleaning up all shell process listeners.');
+    this.cleanupFunctions.forEach((cleanup) => cleanup());
+    this.cleanupFunctions.clear();
   }
 }

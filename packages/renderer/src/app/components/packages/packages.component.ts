@@ -53,7 +53,7 @@ export class PackagesComponent {
   private readonly cdr = inject(ChangeDetectorRef);
   private readonly logger = Logger.getInstance();
   private readonly osInteractService = inject(OsInteractService);
-  protected readonly shellService = new ElectronShellService();
+  protected readonly shellService = inject(ElectronShellService);
 
   constructor() {
     effect(() => {
