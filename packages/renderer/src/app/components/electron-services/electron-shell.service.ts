@@ -67,7 +67,7 @@ export class ElectronShellService {
         throw new Error('Electron API not available');
       }
       const result: ShellStreamingResult =
-        window.electronAPI.shell.spawnStreaming(
+        await window.electronAPI.shell.spawnStreaming(
           this.command,
           this.argsList,
           this.options,

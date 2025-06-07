@@ -816,7 +816,7 @@ describe('OsInteractService', () => {
       service['generateTasks']();
       await Promise.resolve();
 
-      const expectedCommand = `sed -i -e 's/\#de_DE.UTF-8/de_DE.UTF-8/' -e 's/fr_FR.UTF-8/\#fr_FR.UTF-8/' /etc/locale.gen\nlocale-gen\n`;
+      const expectedCommand = `sed -i -e 's/\#de_DE.UTF-8/de_DE.UTF-8/' -e 's/fr_FR.UTF-8/#fr_FR.UTF-8/' /etc/locale.gen\nlocale-gen\n`;
       expect(mockTaskManagerService.createTask).toHaveBeenCalledWith(
         13,
         'os-interact-locales',

@@ -68,5 +68,5 @@ export interface CommandResult {
   code: number | null;
   stdout: string;
   stderr: string;
-  success: boolean;
+  success?: boolean;
 }

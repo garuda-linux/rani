@@ -41,21 +41,6 @@ export interface ElectronAPI {
     createDirectory: (dirPath: string) => Promise<boolean>;
     removeFile: (filePath: string) => Promise<boolean>;
   };
-  shell: {
-    open: (url: string) => Promise<boolean>;
-    spawnStreaming: (
-      command: string,
-      args?: string[],
-      options?: Record<string, unknown>,
-    ) => ShellStreamingResult;
-    writeStdin: (processId: string, data: string) => boolean;
-    killProcess: (processId: string, signal?: string) => boolean;
-    execute: (
-      command: string,
-      args?: string[],
-      options?: Record<string, unknown>,
-    ) => Promise<unknown>;
-  };
   store: {
     get: (key: string) => Promise<unknown>;
     set: (key: string, value: unknown) => Promise<boolean>;
@@ -186,10 +171,11 @@ export interface ElectronAPI {
     ) => void;
   };
   shell: {
+    open: (url: string) => Promise<boolean>;
     spawnStreaming: (
       command: string,
       args?: string[],
-      cwd?: string,
+      cwd?: Record<string, unknown>,
       env?: Record<string, string>,
     ) => Promise<ShellStreamingResult>;
     writeStdin: (processId: string, data: string) => Promise<void>;

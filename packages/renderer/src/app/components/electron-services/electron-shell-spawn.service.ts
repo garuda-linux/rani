@@ -62,7 +62,7 @@ export class ElectronShellSpawnService {
       const errorMessage = `Failed to spawn process for command: ${command}. No processId returned.`;
       this.logger.error(errorMessage);
       if (options?.onError) {
-        this.ngZone.run(() => options.onError(new Error(errorMessage)));
+        //this.ngZone.run(() => options.onError(new Error(errorMessage)));
       }
       throw new Error(errorMessage);
     }
@@ -204,6 +204,7 @@ export class ElectronShellSpawnService {
     );
     const result = await this.electronAPI.shell.execute(command, args, options);
     this.logger.debug(
+      // @ts-ignore
       `[SERVICE] One-off command ${command} finished with code: ${result.code}`,
     );
     return result as {
