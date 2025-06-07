@@ -5,9 +5,11 @@ import { spawn } from "node:child_process";
 import { Client, ConnectConfig } from "ssh2";
 import { readFileSync } from "node:fs";
 import { basename } from "node:path";
+import { Logger } from "../logging/logging.js";
 
 class ShellModule implements AppModule {
   private readonly isDevelopment: boolean;
+  private readonly logger = Logger.getInstance();
   private readonly sshConfig?: ConnectConfig;
 
   constructor(isDevelopment = false) {
@@ -20,10 +22,10 @@ class ShellModule implements AppModule {
           username: "nico",
           privateKey: readFileSync("/Users/nijen/.ssh/dev_vm"),
         };
-      } catch (error) {
-        console.warn(
+      } catch (error: any) {
+        this.logger.warn(
           "SSH key not found, SSH functionality will be disabled:",
-          error,
+          error instanceof Error ? error.message : error,
         );
       }
     }
@@ -45,8 +47,11 @@ class ShellModule implements AppModule {
         }
         await shell.openExternal(url);
         return true;
-      } catch (error) {
-        console.error("Shell open error:", error);
+      } catch (error: any) {
+        this.logger.error(
+          "Shell open error:",
+          error instanceof Error ? error.message : error,
+        );
         throw new Error(
           `Failed to open URL: ${error instanceof Error ? error.message : error}`,
         );
@@ -57,7 +62,7 @@ class ShellModule implements AppModule {
     const validateCommand = (command: string, args: string[]): boolean => {
       // In development mode, allow all commands for flexibility
       if (this.isDevelopment) {
-        console.log(
+        this.logger.info(
           `[DEV MODE] Allowing command: ${command} ${args.join(" ")}`,
         );
         return true;
@@ -306,7 +311,7 @@ class ShellModule implements AppModule {
 
       const baseCommand = basename(command);
       if (!allowedCommands.includes(baseCommand)) {
-        console.warn(`Blocked unauthorized command: ${command}`);
+        this.logger.warn(`Blocked unauthorized command: ${command}`);
         return false;
       }
 
@@ -336,7 +341,7 @@ class ShellModule implements AppModule {
       );
 
       if (isDangerous) {
-        console.warn(`Blocked dangerous command pattern: ${fullCommand}`);
+        this.logger.warn(`Blocked dangerous command pattern: ${fullCommand}`);
         return false;
       }
 
@@ -379,8 +384,15 @@ class ShellModule implements AppModule {
             timeout,
             isSpawn,
           );
-        } catch (error) {
-          console.error("Shell execute error:", error);
+        } catch (error: any) {
+          this.logger.error(
+            "Shell execute error:",
+            error.message
+              ? error.message
+              : error instanceof Error
+                ? error.message
+                : error,
+          );
           throw error;
         }
       },
@@ -424,8 +436,15 @@ class ShellModule implements AppModule {
         clearTimeout(timeoutId);
         try {
           client.destroy();
-        } catch (error) {
-          console.error("SSH client destroy error:", error);
+        } catch (error: any) {
+          this.logger.error(
+            "SSH client destroy error:",
+            error.message
+              ? error.message
+              : error instanceof Error
+                ? error.message
+                : error,
+          );
         }
       };
 
@@ -433,7 +452,7 @@ class ShellModule implements AppModule {
         client.on("ready", () => {
           client.exec(fullCommand, (err, stream) => {
             if (err) {
-              console.error("SSH exec error:", err);
+              this.logger.error("SSH exec error:", err);
               cleanup();
               if (!isResolved) {
                 isResolved = true;
@@ -444,7 +463,7 @@ class ShellModule implements AppModule {
 
             if (!isResolved) {
               isResolved = true;
-              console.log("SSH Stream ready", stream, stream.stderr);
+              this.logger.info("SSH Stream ready", stream, stream.stderr);
               resolve({
                 pid: `ssh-${Date.now()}`, // Fake PID for SSH processes
                 kill: () => {
@@ -482,7 +501,7 @@ class ShellModule implements AppModule {
       }
 
       client.on("error", (err) => {
-        console.error("SSH connection error:", err);
+        this.logger.error("SSH connection error:", err.message);
         cleanup();
         if (!isResolved) {
           isResolved = true;
@@ -552,9 +571,9 @@ class ShellModule implements AppModule {
         });
       });
 
-      child.on("error", (error) => {
+      child.on("error", (error: any) => {
         cleanup();
-        console.error("Command execution error:", error);
+        this.logger.error("Command execution error:", error.cause);
         reject(new Error(`Command execution failed: ${error.message}`));
       });
     });
@@ -563,63 +582,91 @@ class ShellModule implements AppModule {
   private setupStreamingHandlers(): void {
     // Handle streaming shell events from preload
     ipcMain.on("shell:stdout", (event, data) => {
-      console.log(
+      this.logger.info(
         "[MAIN] Received shell:stdout:",
         data.processId,
         data.data?.substring(0, 100),
       );
       try {
-        console.log("[MAIN] Forwarding shell:stdout to renderer");
+        this.logger.info("[MAIN] Forwarding shell:stdout to renderer");
         event.sender.send("shell:stdout", data);
-        console.log("[MAIN] Successfully forwarded shell:stdout");
-      } catch (error) {
-        console.error("[MAIN] Failed to forward shell:stdout:", error);
+        this.logger.info("[MAIN] Successfully forwarded shell:stdout");
+      } catch (error: any) {
+        this.logger.error(
+          "[MAIN] Failed to forward shell:stdout:",
+          error.message
+            ? error.message
+            : error instanceof Error
+              ? error.message
+              : error,
+        );
       }
     });
 
     ipcMain.on("shell:stderr", (event, data) => {
-      console.log(
+      this.logger.info(
         "[MAIN] Received shell:stderr:",
         data.processId,
         data.data?.substring(0, 100),
       );
       try {
-        console.log("[MAIN] Forwarding shell:stderr to renderer");
+        this.logger.info("[MAIN] Forwarding shell:stderr to renderer");
         event.sender.send("shell:stderr", data);
-        console.log("[MAIN] Successfully forwarded shell:stderr");
-      } catch (error) {
-        console.error("[MAIN] Failed to forward shell:stderr:", error);
+        this.logger.info("[MAIN] Successfully forwarded shell:stderr");
+      } catch (error: any) {
+        this.logger.error(
+          "[MAIN] Failed to forward shell:stderr:",
+          error.message
+            ? error.message
+            : error instanceof Error
+              ? error.message
+              : error,
+        );
       }
     });
 
     ipcMain.on("shell:close", (event, data) => {
-      console.log(
+      this.logger.info(
         "[MAIN] Received shell:close:",
         data.processId,
         "code:",
         data.code,
       );
       try {
-        console.log("[MAIN] Forwarding shell:close to renderer");
+        this.logger.info("[MAIN] Forwarding shell:close to renderer");
         event.sender.send("shell:close", data);
-        console.log("[MAIN] Successfully forwarded shell:close");
-      } catch (error) {
-        console.error("[MAIN] Failed to forward shell:close:", error);
+        this.logger.info("[MAIN] Successfully forwarded shell:close");
+      } catch (error: any) {
+        this.logger.error(
+          "[MAIN] Failed to forward shell:close:",
+          error.message
+            ? error.message
+            : error instanceof Error
+              ? error.message
+              : error,
+        );
       }
     });
 
     ipcMain.on("shell:error", (event, data) => {
-      console.log(
+      this.logger.info(
         "[MAIN] Received shell:error:",
         data.processId,
         data.error?.message,
       );
       try {
-        console.log("[MAIN] Forwarding shell:error to renderer");
+        this.logger.info("[MAIN] Forwarding shell:error to renderer");
         event.sender.send("shell:error", data);
-        console.log("[MAIN] Successfully forwarded shell:error");
-      } catch (error) {
-        console.error("[MAIN] Failed to forward shell:error:", error);
+        this.logger.info("[MAIN] Successfully forwarded shell:error");
+      } catch (error: any) {
+        this.logger.error(
+          "[MAIN] Failed to forward shell:error:",
+          error.message
+            ? error.message
+            : error instanceof Error
+              ? error.message
+              : error,
+        );
       }
     });
   }

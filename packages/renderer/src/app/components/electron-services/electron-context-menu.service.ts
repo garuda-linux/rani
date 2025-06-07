@@ -1,10 +1,12 @@
 import { Injectable } from "@angular/core";
 import type { ContextMenuItem } from "./electron-types";
+import { Logger } from "../logging/logging";
 
 @Injectable({
   providedIn: "root",
 })
 export class ElectronContextMenuService {
+  private readonly logger = Logger.getInstance();
   private readonly menuClickHandlers = new Map<
     string,
     () => void | Promise<void>
@@ -27,7 +29,7 @@ export class ElectronContextMenuService {
     y?: number,
   ): Promise<boolean> {
     if (!window.electronAPI?.contextMenu) {
-      console.warn("Context menu API not available");
+      this.logger.warn("Context menu API not available");
       return false;
     }
 
@@ -37,7 +39,7 @@ export class ElectronContextMenuService {
 
       return await window.electronAPI.contextMenu.show(items, x, y);
     } catch (error) {
-      console.error("Failed to show context menu:", error);
+      this.logger.error("Failed to show context menu:", error);
       return false;
     }
   }
@@ -118,20 +120,20 @@ export class ElectronContextMenuService {
             const result = handler();
             if (result instanceof Promise) {
               result.catch((error) => {
-                console.error(
+                this.logger.error(
                   `Error executing menu item handler for ${itemId}:`,
                   error,
                 );
               });
             }
           } catch (error) {
-            console.error(
+            this.logger.error(
               `Error executing menu item handler for ${itemId}:`,
               error,
             );
           }
         } else {
-          console.warn(`No handler found for menu item: ${itemId}`);
+          this.logger.warn(`No handler found for menu item: ${itemId}`);
         }
       },
     );

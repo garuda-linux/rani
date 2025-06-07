@@ -1,19 +1,22 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
+import { Logger } from "../logging/logging";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ElectronFsService {
+  private readonly logger = Logger.getInstance();
+
   async exists(filePath: string): Promise<boolean> {
     if (!window.electronAPI) {
-      throw new Error('Electron API not available');
+      throw new Error("Electron API not available");
     }
     return await window.electronAPI.fs.exists(filePath);
   }
 
   async readTextFile(filePath: string): Promise<string> {
     if (!window.electronAPI) {
-      throw new Error('Electron API not available');
+      throw new Error("Electron API not available");
     }
 
     try {
@@ -45,7 +48,7 @@ export class ElectronFsService {
       }
 
       // Check if content looks like JSON
-      if (!trimmedContent.startsWith('{') && !trimmedContent.startsWith('[')) {
+      if (!trimmedContent.startsWith("{") && !trimmedContent.startsWith("[")) {
         throw new Error(`File does not contain valid JSON format: ${filePath}`);
       }
 
@@ -58,32 +61,38 @@ export class ElectronFsService {
     }
   }
 
-  async safeReadJsonFile<T = unknown>(filePath: string, defaultValue: T): Promise<T> {
+  async safeReadJsonFile<T = unknown>(
+    filePath: string,
+    defaultValue: T,
+  ): Promise<T> {
     try {
       return await this.readJsonFile<T>(filePath);
     } catch (error) {
-      console.warn(`Could not read JSON file ${filePath}, using default value:`, error);
+      this.logger.warn(
+        `Could not read JSON file ${filePath}, using default value:`,
+        error,
+      );
       return defaultValue;
     }
   }
 
   async writeTextFile(filePath: string, contents: string): Promise<boolean> {
     if (!window.electronAPI) {
-      throw new Error('Electron API not available');
+      throw new Error("Electron API not available");
     }
     return await window.electronAPI.fs.writeTextFile(filePath, contents);
   }
 
   async createDirectory(dirPath: string): Promise<boolean> {
     if (!window.electronAPI) {
-      throw new Error('Electron API not available');
+      throw new Error("Electron API not available");
     }
     return await window.electronAPI.fs.createDirectory(dirPath);
   }
 
   async removeFile(filePath: string): Promise<boolean> {
     if (!window.electronAPI) {
-      throw new Error('Electron API not available');
+      throw new Error("Electron API not available");
     }
     return await window.electronAPI.fs.removeFile(filePath);
   }

@@ -1,8 +1,11 @@
-import type { AppModule } from '../AppModule.js';
-import type { ModuleContext } from '../ModuleContext.js';
-import { ipcMain, BrowserWindow } from 'electron';
+import type { AppModule } from "../AppModule.js";
+import type { ModuleContext } from "../ModuleContext.js";
+import { ipcMain, BrowserWindow } from "electron";
+import { Logger } from "../logging/logging.js";
 
 class WindowControlModule implements AppModule {
+  private readonly logger = Logger.getInstance();
+
   enable({ app }: ModuleContext): void {
     this.setupWindowControlHandlers();
   }
@@ -15,7 +18,7 @@ class WindowControlModule implements AppModule {
     };
 
     // Window Operations
-    ipcMain.handle('window:close', async () => {
+    ipcMain.handle("window:close", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -24,14 +27,19 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window close error:', error);
-        throw new Error(`Failed to close window: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window close error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to close window: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
     // Add a new handler for graceful close with confirmation
-    ipcMain.handle('window:requestClose', async () => {
+    ipcMain.handle("window:requestClose", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -41,13 +49,18 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window request close error:', error);
-        throw new Error(`Failed to request window close: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window request close error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to request window close: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:minimize', async () => {
+    ipcMain.handle("window:minimize", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -55,13 +68,18 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window minimize error:', error);
-        throw new Error(`Failed to minimize window: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window minimize error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to minimize window: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:maximize', async () => {
+    ipcMain.handle("window:maximize", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -73,13 +91,18 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window maximize error:', error);
-        throw new Error(`Failed to maximize window: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window maximize error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to maximize window: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:hide', async () => {
+    ipcMain.handle("window:hide", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -87,13 +110,18 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window hide error:', error);
-        throw new Error(`Failed to hide window: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window hide error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to hide window: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:show', async () => {
+    ipcMain.handle("window:show", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -101,13 +129,18 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window show error:', error);
-        throw new Error(`Failed to show window: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window show error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to show window: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:focus', async () => {
+    ipcMain.handle("window:focus", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -115,52 +148,72 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window focus error:', error);
-        throw new Error(`Failed to focus window: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window focus error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to focus window: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:isMaximized', async () => {
+    ipcMain.handle("window:isMaximized", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
           return win.isMaximized();
         }
         return false;
-      } catch (error) {
-        console.error('Window isMaximized error:', error);
-        throw new Error(`Failed to check if window is maximized: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window isMaximized error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to check if window is maximized: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:isMinimized', async () => {
+    ipcMain.handle("window:isMinimized", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
           return win.isMinimized();
         }
         return false;
-      } catch (error) {
-        console.error('Window isMinimized error:', error);
-        throw new Error(`Failed to check if window is minimized: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window isMinimized error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to check if window is minimized: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:isVisible', async () => {
+    ipcMain.handle("window:isVisible", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
           return win.isVisible();
         }
         return false;
-      } catch (error) {
-        console.error('Window isVisible error:', error);
-        throw new Error(`Failed to check if window is visible: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window isVisible error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to check if window is visible: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:setTitle', async (_, title: string) => {
+    ipcMain.handle("window:setTitle", async (_, title: string) => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -168,53 +221,76 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window setTitle error:', error);
-        throw new Error(`Failed to set window title: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window setTitle error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to set window title: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:getTitle', async () => {
+    ipcMain.handle("window:getTitle", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
           return win.getTitle();
         }
-        return '';
-      } catch (error) {
-        console.error('Window getTitle error:', error);
-        throw new Error(`Failed to get window title: ${error instanceof Error ? error.message : error}`);
+        return "";
+      } catch (error: any) {
+        this.logger.error(
+          "Window getTitle error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to get window title: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:setSize', async (_, width: number, height: number) => {
-      try {
-        const win = getMainWindow();
-        if (win && !win.isDestroyed()) {
-          win.setSize(width, height);
-          return true;
+    ipcMain.handle(
+      "window:setSize",
+      async (_, width: number, height: number) => {
+        try {
+          const win = getMainWindow();
+          if (win && !win.isDestroyed()) {
+            win.setSize(width, height);
+            return true;
+          }
+          return false;
+        } catch (error: any) {
+          this.logger.error(
+            "Window setSize error:",
+            error instanceof Error ? error.message : error,
+          );
+          throw new Error(
+            `Failed to set window size: ${error instanceof Error ? error.message : error}`,
+          );
         }
-        return false;
-      } catch (error) {
-        console.error('Window setSize error:', error);
-        throw new Error(`Failed to set window size: ${error instanceof Error ? error.message : error}`);
-      }
-    });
+      },
+    );
 
-    ipcMain.handle('window:getSize', async () => {
+    ipcMain.handle("window:getSize", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
           return win.getSize();
         }
         return [0, 0];
-      } catch (error) {
-        console.error('Window getSize error:', error);
-        throw new Error(`Failed to get window size: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window getSize error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to get window size: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:setPosition', async (_, x: number, y: number) => {
+    ipcMain.handle("window:setPosition", async (_, x: number, y: number) => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
@@ -222,22 +298,32 @@ class WindowControlModule implements AppModule {
           return true;
         }
         return false;
-      } catch (error) {
-        console.error('Window setPosition error:', error);
-        throw new Error(`Failed to set window position: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window setPosition error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to set window position: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
 
-    ipcMain.handle('window:getPosition', async () => {
+    ipcMain.handle("window:getPosition", async () => {
       try {
         const win = getMainWindow();
         if (win && !win.isDestroyed()) {
           return win.getPosition();
         }
         return [0, 0];
-      } catch (error) {
-        console.error('Window getPosition error:', error);
-        throw new Error(`Failed to get window position: ${error instanceof Error ? error.message : error}`);
+      } catch (error: any) {
+        this.logger.error(
+          "Window getPosition error:",
+          error instanceof Error ? error.message : error,
+        );
+        throw new Error(
+          `Failed to get window position: ${error instanceof Error ? error.message : error}`,
+        );
       }
     });
   }

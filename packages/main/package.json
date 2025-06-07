@@ -20,6 +20,7 @@
     "@app/preload": "workspace:*",
     "@app/renderer": "workspace:*",
     "electron-store": "^10.0.1",
+    "electron-timber": "^1.0.0",
     "electron-updater": "6.6.2",
     "ssh2": "^1.16.0"
   },

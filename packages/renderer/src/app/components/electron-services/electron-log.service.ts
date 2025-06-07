@@ -1,5 +1,4 @@
-import { Injectable } from '@angular/core';
-import { ElectronAPI } from './electron-types';
+import { Injectable } from "@angular/core";
 
 export enum LogLevel {
   Trace = 1,
@@ -10,87 +9,87 @@ export enum LogLevel {
 }
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class ElectronLogService {
-  async trace(message: string): Promise<void> {
+  async trace(...args: any[]): Promise<void> {
     if (!window.electronAPI) {
-      console.trace(`[TRACE] ${message}`);
+      console.trace(`[TRACE]`, ...args);
       return;
     }
-    await window.electronAPI.log.trace(message);
+    await window.electronAPI.log.trace(...args);
   }
 
-  async debug(message: string): Promise<void> {
+  async debug(...args: any[]): Promise<void> {
     if (!window.electronAPI) {
-      console.debug(`[DEBUG] ${message}`);
+      console.debug(`[DEBUG]`, ...args);
       return;
     }
-    await window.electronAPI.log.debug(message);
+    await window.electronAPI.log.debug(...args);
   }
 
-  async info(message: string): Promise<void> {
+  async info(...args: any[]): Promise<void> {
     if (!window.electronAPI) {
-      console.info(`[INFO] ${message}`);
+      console.info(`[INFO]`, ...args);
       return;
     }
-    await window.electronAPI.log.info(message);
+    await window.electronAPI.log.info(...args);
   }
 
-  async warn(message: string): Promise<void> {
+  async warn(...args: any[]): Promise<void> {
     if (!window.electronAPI) {
-      console.warn(`[WARN] ${message}`);
+      console.warn(`[WARN]`, ...args);
       return;
     }
-    await window.electronAPI.log.warn(message);
+    await window.electronAPI.log.warn(...args);
   }
 
-  async error(message: string): Promise<void> {
+  async error(...args: any[]): Promise<void> {
     if (!window.electronAPI) {
-      console.error(`[ERROR] ${message}`);
+      console.error(`[ERROR]`, ...args);
       return;
     }
-    await window.electronAPI.log.error(message);
+    await window.electronAPI.log.error(...args);
   }
 }
 
 // Static functions for compatibility with Tauri API
-export async function trace(message: string): Promise<void> {
+export async function trace(...args: any[]): Promise<void> {
   if (!window.electronAPI) {
-    console.trace(`[TRACE] ${message}`);
+    console.trace(`[TRACE]`, ...args);
     return;
   }
-  await window.electronAPI.log.trace(message);
+  await window.electronAPI.log.trace(...args);
 }
 
-export async function debug(message: string): Promise<void> {
+export async function debug(...args: any[]): Promise<void> {
   if (!window.electronAPI) {
-    console.debug(`[DEBUG] ${message}`);
+    console.debug(`[DEBUG]`, ...args);
     return;
   }
-  await window.electronAPI.log.debug(message);
+  await window.electronAPI.log.debug(...args);
 }
 
-export async function info(message: string): Promise<void> {
+export async function info(...args: any[]): Promise<void> {
   if (!window.electronAPI) {
-    console.info(`[INFO] ${message}`);
+    console.info(`[INFO]`, ...args);
     return;
   }
-  await window.electronAPI.log.info(message);
+  await window.electronAPI.log.info(...args);
 }
 
-export async function warn(message: string): Promise<void> {
+export async function warn(...args: any[]): Promise<void> {
   if (!window.electronAPI) {
-    console.warn(`[WARN] ${message}`);
+    console.warn(`[WARN]`, ...args);
     return;
   }
-  await window.electronAPI.log.warn(message);
+  await window.electronAPI.log.warn(...args);
 }
 
-export async function error(message: string): Promise<void> {
+export async function error(...args: any[]): Promise<void> {
   if (!window.electronAPI) {
-    console.error(`[ERROR] ${message}`);
+    console.error(`[ERROR]`, ...args);
     return;
   }
-  await window.electronAPI.log.error(message);
+  await window.electronAPI.log.error(...args);
 }

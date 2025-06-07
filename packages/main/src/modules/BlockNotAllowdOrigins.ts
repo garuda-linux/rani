@@ -1,6 +1,7 @@
 import { AbstractSecurityRule } from "./AbstractSecurityModule.js";
 import { URL } from "node:url";
 import type { WebContents } from "electron";
+import { Logger } from "../logging/logging.js";
 
 /**
  * Block navigation to origins not on the allowlist.
@@ -12,6 +13,7 @@ import type { WebContents } from "electron";
  */
 export class BlockNotAllowedOrigins extends AbstractSecurityRule {
   readonly #allowedOrigins: Set<string>;
+  private readonly logger = Logger.getInstance();
 
   constructor(allowedOrigins: Set<string> = new Set()) {
     super();
@@ -29,7 +31,7 @@ export class BlockNotAllowedOrigins extends AbstractSecurityRule {
       event.preventDefault();
 
       if (import.meta.env.DEV) {
-        console.warn(`Blocked navigating to disallowed origin: ${origin}`);
+        this.logger.warn(`Blocked navigating to disallowed origin: ${origin}`);
       }
     });
   }

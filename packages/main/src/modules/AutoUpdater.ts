@@ -1,7 +1,13 @@
-import { AppModule } from '../AppModule.js';
-import electronUpdater, { type AppUpdater, type Logger } from 'electron-updater';
+import { AppModule } from "../AppModule.js";
+import electronUpdater, {
+  type AppUpdater,
+  type Logger,
+} from "electron-updater";
+import logger from "electron-timber";
 
-type DownloadNotification = Parameters<AppUpdater['checkForUpdatesAndNotify']>[0];
+type DownloadNotification = Parameters<
+  AppUpdater["checkForUpdatesAndNotify"]
+>[0];
 
 export class AutoUpdater implements AppModule {
   readonly #logger: Logger | null;
@@ -44,23 +50,28 @@ export class AutoUpdater implements AppModule {
       if (error instanceof Error) {
         // Handle common auto-updater errors gracefully
         if (
-          error.message.includes('No published versions') ||
-          error.message.includes('404') ||
-          error.message.includes('HttpError') ||
-          error.message.includes('releases.atom')
+          error.message.includes("No published versions") ||
+          error.message.includes("404") ||
+          error.message.includes("HttpError") ||
+          error.message.includes("releases.atom")
         ) {
-          console.warn('Auto-updater check failed (expected in development):', error.message);
+          logger.warn(
+            "Auto-updater check failed (expected in development):",
+            error.message,
+          );
           return null;
         }
       }
 
-      console.error('Auto-updater error:', error);
+      logger.error("Auto-updater error:", error);
       // Don't throw - let app continue without updates
       return null;
     }
   }
 }
 
-export function autoUpdater(...args: ConstructorParameters<typeof AutoUpdater>) {
+export function autoUpdater(
+  ...args: ConstructorParameters<typeof AutoUpdater>
+) {
   return new AutoUpdater(...args);
 }

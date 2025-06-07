@@ -114,21 +114,11 @@ export interface ElectronAPI {
     getPosition: () => Promise<number[]>;
   };
   log: {
-    trace: (message: string) => Promise<void>;
-    debug: (message: string) => Promise<void>;
-    info: (message: string) => Promise<void>;
-    warn: (message: string) => Promise<void>;
-    error: (message: string) => Promise<void>;
-    structured: (
-      level: string,
-      message: string,
-      data?: unknown,
-    ) => Promise<void>;
-    withContext: (
-      level: string,
-      message: string,
-      context: Record<string, unknown>,
-    ) => Promise<void>;
+    trace: (...args: any[]) => Promise<void>;
+    debug: (...args: any[]) => Promise<void>;
+    info: (...args: any[]) => Promise<void>;
+    warn: (...args: any[]) => Promise<void>;
+    error: (...args: any[]) => Promise<void>;
   };
   dialog: {
     open: (options: Record<string, unknown>) => Promise<unknown>;
@@ -214,6 +204,17 @@ export interface ElectronAPI {
     }>;
     on: (channel: string, listener: (...args: any[]) => void) => void;
     off: (channel: string, listener: (...args: any[]) => void) => void;
+  };
+  app: {
+    relaunch: () => Promise<void>;
+    exit: (exitCode?: number) => Promise<void>;
+    quit: () => Promise<void>;
+    getVersion: () => Promise<string>;
+    getName: () => Promise<string>;
+    isReady: () => Promise<boolean>;
+  };
+  config: {
+    notifyChange: (key: string, value: unknown) => Promise<boolean>;
   };
 }
 

@@ -1,12 +1,17 @@
-import { debug, error, info, trace, warn } from "../electron-services";
-import { LogLevel } from "./interfaces";
+import { LogLevel } from "./interfaces.js";
+import logger from "electron-timber";
 
 export class Logger {
   public static logLevel = LogLevel.TRACE;
 
   private static instance: Logger;
 
-  private constructor() {}
+  private constructor() {
+    logger.setDefaults({
+      logLevel: "info",
+      name: "main",
+    });
+  }
 
   /**
    * Get the singleton instance of the Logger.
@@ -25,7 +30,7 @@ export class Logger {
    */
   trace(...args: any[]): void {
     if (Logger.logLevel <= LogLevel.TRACE) {
-      void trace(...args);
+      logger.log("[TRACE]", ...args);
     }
   }
 
@@ -35,7 +40,7 @@ export class Logger {
    */
   debug(...args: any[]): void {
     if (Logger.logLevel <= LogLevel.DEBUG) {
-      void debug(...args);
+      logger.log("[DEBUG]", ...args);
     }
   }
 
@@ -45,7 +50,7 @@ export class Logger {
    */
   info(...args: any[]): void {
     if (Logger.logLevel <= LogLevel.INFO) {
-      void info(...args);
+      logger.log("[INFO]", ...args);
     }
   }
 
@@ -55,7 +60,7 @@ export class Logger {
    */
   warn(...args: any[]): void {
     if (Logger.logLevel <= LogLevel.WARN) {
-      void warn(...args);
+      logger.warn("[WARN]", ...args);
     }
   }
 
@@ -65,7 +70,7 @@ export class Logger {
    */
   error(...args: any[]): void {
     if (Logger.logLevel <= LogLevel.ERROR) {
-      void error(...args);
+      logger.error("[ERROR]", ...args);
     }
   }
 }

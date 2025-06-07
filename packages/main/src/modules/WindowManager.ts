@@ -2,12 +2,17 @@ import type { AppModule } from "../AppModule.js";
 import type { ModuleContext } from "../ModuleContext.js";
 import { BrowserWindow, screen, shell } from "electron";
 import type { AppInitConfig } from "../AppInitConfig.js";
+import logger from "electron-timber";
+import { Logger } from "../logging/logging.js";
 
 class WindowManager implements AppModule {
   readonly #preload: { path: string };
   readonly #renderer: { path: string } | URL;
   readonly #openDevTools;
   readonly #isDevelopment;
+
+  private readonly rendererLogger = logger.create({ name: "renderer" });
+  private readonly logger = Logger.getInstance();
 
   constructor({
     initConfig,
@@ -71,11 +76,11 @@ class WindowManager implements AppModule {
 
       // Additional error handling for renderer process
       browserWindow.webContents.on("unresponsive", () => {
-        console.warn("Renderer process became unresponsive");
+        this.logger.warn("Renderer process became unresponsive");
       });
 
       browserWindow.webContents.on("responsive", () => {
-        console.log("Renderer process became responsive again");
+        this.logger.info("Renderer process became responsive again");
       });
     });
 
@@ -96,7 +101,7 @@ class WindowManager implements AppModule {
         parsedUrl.protocol !== "file:"
       ) {
         event.preventDefault();
-        console.warn("Blocked navigation to:", navigationUrl);
+        this.logger.warn("Blocked navigation to:", navigationUrl);
       }
     });
 
@@ -127,25 +132,26 @@ class WindowManager implements AppModule {
 
     // Handle uncaught exceptions in renderer
     browserWindow.webContents.on("render-process-gone", (event, details) => {
-      console.error("Renderer process gone:", details);
+      this.logger.error("Renderer process gone:", details);
     });
 
     // Handle console messages from renderer for better debugging
-    browserWindow.webContents.on(
-      "console-message",
-      (event, level, message, line, sourceId) => {
-        if (level >= 2) {
-          // Warning or error
-          console.log(
-            `Renderer console [${level}]:`,
-            message,
-            "at",
-            sourceId,
-            line,
-          );
-        }
-      },
-    );
+    browserWindow.webContents.on("console-message", (event) => {
+      switch (event.level) {
+        case "debug":
+          this.rendererLogger.log(`[DEBUG] ${event.message}`);
+          break;
+        case "info":
+          this.rendererLogger.log(`[INFO] ${event.message}`);
+          break;
+        case "warning":
+          this.rendererLogger.warn(`[WARN] ${event.message}`);
+          break;
+        case "error":
+          this.rendererLogger.error(`[ERROR] ${event.message}`);
+          break;
+      }
+    });
 
     if (this.#renderer instanceof URL) {
       await browserWindow.loadURL(this.#renderer.href);
@@ -159,7 +165,7 @@ class WindowManager implements AppModule {
         try {
           browserWindow.webContents.openDevTools({ mode: "detach" });
         } catch (error) {
-          console.warn("Could not open DevTools:", error);
+          this.logger.warn("Could not open DevTools:", error);
         }
       });
     }

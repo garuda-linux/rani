@@ -554,7 +554,7 @@
   },
   {
     "name": "fbi",
-    "description": "Image viewer for the linux framebuffer console.",
+    "description": "Image viewer for the linux framebuffer logger.",
     "url": "https://www.kraxel.org/blog/linux/fbida/",
     "icon": "generic-dark.svg",
     "pkgname": ["fbida"]
