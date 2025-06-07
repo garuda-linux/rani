@@ -15,6 +15,7 @@ import { createWindowControlModule } from './modules/WindowControlModule.js';
 import { createLoggingModule } from './modules/LoggingModule.js';
 import { createDialogModule } from './modules/DialogModule.js';
 import { createClipboardModule } from './modules/ClipboardModule.js';
+import { createContextMenuModule } from './modules/ContextMenuModule.js';
 import { createEnhancedSecurityModule } from './modules/EnhancedSecurityModule.js';
 import { app } from 'electron';
 
@@ -32,6 +33,7 @@ export async function initApp(initConfig: AppInitConfig) {
     const windowControlModule = createWindowControlModule();
     const dialogModule = createDialogModule();
     const clipboardModule = createClipboardModule();
+    const contextMenuModule = createContextMenuModule();
     const shellModule = createShellModule(isDevelopment);
 
     // Create module context
@@ -47,6 +49,7 @@ export async function initApp(initConfig: AppInitConfig) {
     windowControlModule.enable(moduleContext);
     dialogModule.enable(moduleContext);
     clipboardModule.enable(moduleContext);
+    contextMenuModule.enable(moduleContext);
     shellModule.enable(moduleContext);
 
     console.log('IPC handlers registered successfully');

@@ -1,5 +1,4 @@
 <ng-container *transloco="let t">
-  <p-context-menu [global]="true" [model]="rightClickMenu()" />
   <div class="background min-h-svh">
     <garuda-shell id="shellBar" [menuItems]="menuItems()">
       @if (!hideWindowButtons() && configService.settings().leftButtons) {
@@ -20,8 +19,12 @@
               class="mx-1"
               #maximizeButton
               (click)="appWindow.toggleMaximize()"
-              (mouseenter)="maximizeButton.src = '/assets/window/maximize-hover.svg'"
-              (mouseleave)="maximizeButton.src = '/assets/window/maximize-main.svg'"
+              (mouseenter)="
+                maximizeButton.src = '/assets/window/maximize-hover.svg'
+              "
+              (mouseleave)="
+                maximizeButton.src = '/assets/window/maximize-main.svg'
+              "
               alt="maximize"
               height="16"
               ngSrc="/assets/window/maximize-main.svg"
@@ -31,8 +34,12 @@
               class="mx-1"
               #minimizeButton
               (click)="appWindow.minimize()"
-              (mouseenter)="minimizeButton.src = '/assets/window/minimize-hover.svg'"
-              (mouseleave)="minimizeButton.src = '/assets/window/minimize-main.svg'"
+              (mouseenter)="
+                minimizeButton.src = '/assets/window/minimize-hover.svg'
+              "
+              (mouseleave)="
+                minimizeButton.src = '/assets/window/minimize-main.svg'
+              "
               alt="minimize"
               height="16"
               ngSrc="/assets/window/minimize-main.svg"
@@ -45,8 +52,8 @@
           @if (loadingService.loading()) {
             <p-progress-spinner
               [style]="{
-                'width': '1.5rem',
-                'height': '1.5rem',
+                width: '1.5rem',
+                height: '1.5rem',
                 'vertical-align': 'middle',
               }"
               ariaLabel="loading"
@@ -61,8 +68,12 @@
               class="mx-1"
               #minimizeButton
               (click)="appWindow.minimize()"
-              (mouseenter)="minimizeButton.src = '/assets/window/minimize-hover.svg'"
-              (mouseleave)="minimizeButton.src = '/assets/window/minimize-main.svg'"
+              (mouseenter)="
+                minimizeButton.src = '/assets/window/minimize-hover.svg'
+              "
+              (mouseleave)="
+                minimizeButton.src = '/assets/window/minimize-main.svg'
+              "
               alt="minimize"
               height="16"
               ngSrc="/assets/window/minimize-main.svg"
@@ -72,8 +83,12 @@
               class="mx-1"
               #maximizeButton
               (click)="appWindow.toggleMaximize()"
-              (mouseenter)="maximizeButton.src = '/assets/window/maximize-hover.svg'"
-              (mouseleave)="maximizeButton.src = '/assets/window/maximize-main.svg'"
+              (mouseenter)="
+                maximizeButton.src = '/assets/window/maximize-hover.svg'
+              "
+              (mouseleave)="
+                maximizeButton.src = '/assets/window/maximize-main.svg'
+              "
               alt="maximize"
               height="16"
               ngSrc="/assets/window/maximize-main.svg"
@@ -97,8 +112,8 @@
           @if (loadingService.loading()) {
             <p-progress-spinner
               [style]="{
-                'width': '1.5rem',
-                'height': '1.5rem',
+                width: '1.5rem',
+                height: '1.5rem',
                 'vertical-align': 'middle',
               }"
               strokeWidth="10"
