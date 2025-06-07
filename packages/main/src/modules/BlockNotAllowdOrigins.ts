@@ -1,6 +1,6 @@
-import { AbstractSecurityRule } from './AbstractSecurityModule.js';
-import * as Electron from 'electron';
-import { URL } from 'node:url';
+import { AbstractSecurityRule } from "./AbstractSecurityModule.js";
+import { URL } from "node:url";
+import type { WebContents } from "electron";
 
 /**
  * Block navigation to origins not on the allowlist.
@@ -18,8 +18,8 @@ export class BlockNotAllowedOrigins extends AbstractSecurityRule {
     this.#allowedOrigins = structuredClone(allowedOrigins);
   }
 
-  applyRule(contents: Electron.WebContents): Promise<void> | void {
-    contents.on('will-navigate', (event, url) => {
+  applyRule(contents: WebContents): Promise<void> | void {
+    contents.on("will-navigate", (event, url) => {
       const { origin } = new URL(url);
       if (this.#allowedOrigins.has(origin)) {
         return;
