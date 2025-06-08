@@ -80,8 +80,14 @@ class ShellModule implements AppModule {
         "lsb_release",
         "journalctl",
         "dkms",
+        // General system utilities
+        "cp",
+        "test",
+        "uname",
+        "whoami",
         // Garuda specific tools
         "garuda-inxi",
+        "launch-terminal",
         "setup-assistant",
         // Shells
         "bash",
