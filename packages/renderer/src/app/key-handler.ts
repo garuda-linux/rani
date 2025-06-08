@@ -1,30 +1,27 @@
-import type { AppComponent } from "./app.component";
+import type { AppComponent } from './app.component';
 
-export async function globalKeyHandler(
-  this: AppComponent,
-  event: KeyboardEvent,
-): Promise<void> {
+export async function globalKeyHandler(this: AppComponent, event: KeyboardEvent): Promise<void> {
   if (!event.ctrlKey) {
     switch (event.key) {
-      case "F1":
-        void this.shellService.open("https://forum.garudalinux.org");
+      case 'F1':
+        void this.shellService.open('https://forum.garudalinux.org');
         break;
-      case "F2":
-        void this.shellService.open("https://start.garudalinux.org");
+      case 'F2':
+        void this.shellService.open('https://start.garudalinux.org');
         break;
-      case "F3":
-        void this.shellService.open("https://wiki.garudalinux.org");
+      case 'F3':
+        void this.shellService.open('https://wiki.garudalinux.org');
         break;
-      case "F4":
+      case 'F4':
         this.terminalComponent.visible.set(!this.terminalComponent.visible());
         break;
-      case "F11":
+      case 'F11':
         this.toggleMaximize();
         break;
     }
   } else if (event.ctrlKey) {
     switch (event.key) {
-      case "q":
+      case 'q':
         await this.requestShutdown();
         break;
     }

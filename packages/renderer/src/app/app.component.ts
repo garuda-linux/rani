@@ -1,4 +1,4 @@
-import type { OnInit } from "@angular/core";
+import type { OnInit } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -9,34 +9,30 @@ import {
   signal,
   untracked,
   ViewChild,
-} from "@angular/core";
-import { Router, RouterModule } from "@angular/router";
-import { ScrollTop } from "primeng/scrolltop";
-import { TranslocoDirective, TranslocoService } from "@jsverse/transloco";
-import { ElectronAppService } from "./electron-services";
-import { DialogModule } from "primeng/dialog";
-import { DrawerModule } from "primeng/drawer";
-import { TableModule } from "primeng/table";
-import { ToastModule } from "primeng/toast";
-import { FormsModule } from "@angular/forms";
-import { ConfirmationService } from "primeng/api";
-import type { MenuItem } from "primeng/api";
-import { globalKeyHandler } from "./key-handler";
-import {
-  ShellBarEndDirective,
-  ShellBarStartDirective,
-  ShellComponent,
-} from "./components/shell";
-import { ProgressSpinner } from "primeng/progressspinner";
-import { LoadingService } from "./components/loading-indicator/loading-indicator.service";
-import { TerminalComponent } from "./components/terminal/terminal.component";
-import { OperationManagerComponent } from "./components/operation-manager/operation-manager.component";
-import { ConfirmDialog } from "primeng/confirmdialog";
-import { ConfigService } from "./components/config/config.service";
-import { Logger } from "./logging/logging";
-import { TaskManagerService } from "./components/task-manager/task-manager.service";
-import { NotificationService } from "./components/notification/notification.service";
-import { ThemeService } from "./components/theme-service/theme-service";
+} from '@angular/core';
+import { Router, RouterModule } from '@angular/router';
+import { ScrollTop } from 'primeng/scrolltop';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { ElectronAppService } from './electron-services';
+import { DialogModule } from 'primeng/dialog';
+import { DrawerModule } from 'primeng/drawer';
+import { TableModule } from 'primeng/table';
+import { ToastModule } from 'primeng/toast';
+import { FormsModule } from '@angular/forms';
+import { ConfirmationService } from 'primeng/api';
+import type { MenuItem } from 'primeng/api';
+import { globalKeyHandler } from './key-handler';
+import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from './components/shell';
+import { ProgressSpinner } from 'primeng/progressspinner';
+import { LoadingService } from './components/loading-indicator/loading-indicator.service';
+import { TerminalComponent } from './components/terminal/terminal.component';
+import { OperationManagerComponent } from './components/operation-manager/operation-manager.component';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ConfigService } from './components/config/config.service';
+import { Logger } from './logging/logging';
+import { TaskManagerService } from './components/task-manager/task-manager.service';
+import { NotificationService } from './components/notification/notification.service';
+import { ThemeService } from './components/theme-service/theme-service';
 import {
   ElectronShellService,
   ElectronContextMenuService,
@@ -44,7 +40,7 @@ import {
   type ContextMenuItem,
   type AppMenuItem,
   ElectronOsService,
-} from "./electron-services";
+} from './electron-services';
 
 @Component({
   imports: [
@@ -66,14 +62,14 @@ import {
     OperationManagerComponent,
     ConfirmDialog,
   ],
-  selector: "rani-root",
-  templateUrl: "./app.component.html",
-  styleUrl: "./app.component.css",
+  selector: 'rani-root',
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent implements OnInit {
-  @ViewChild("terminalComponent") terminalComponent!: TerminalComponent;
-  @ViewChild("operationManagerComponent")
+  @ViewChild('terminalComponent') terminalComponent!: TerminalComponent;
+  @ViewChild('operationManagerComponent')
   operationManagerComponent!: OperationManagerComponent;
 
   readonly confirmationService = inject(ConfirmationService);
@@ -95,31 +91,31 @@ export class AppComponent implements OnInit {
 
   rightClickMenu = signal<ContextMenuItem[]>([
     this.contextMenuService.createMenuItem({
-      id: "apply",
-      label: "Apply",
-      icon: "pi pi-check",
+      id: 'apply',
+      label: 'Apply',
+      icon: 'pi pi-check',
       onClick: () => this.operationManagerComponent.applyOperations(),
     }),
     this.contextMenuService.createMenuItem({
-      id: "clear",
-      label: "Clear",
-      icon: "pi pi-trash",
+      id: 'clear',
+      label: 'Clear',
+      icon: 'pi pi-trash',
       onClick: () => this.operationManagerComponent.clearOperations(),
     }),
     this.contextMenuService.createSeparator(),
     this.contextMenuService.createMenuItem({
-      id: "show-terminal",
-      label: "Show terminal",
-      icon: "pi pi-hashtag",
+      id: 'show-terminal',
+      label: 'Show terminal',
+      icon: 'pi pi-hashtag',
       onClick: () => {
         void this.terminalComponent.visible.set(true);
       },
     }),
     this.contextMenuService.createSeparator(),
     this.contextMenuService.createMenuItem({
-      id: "exit",
-      label: "Exit",
-      icon: "pi pi-times",
+      id: 'exit',
+      label: 'Exit',
+      icon: 'pi pi-times',
       onClick: () => {
         void window.electronAPI?.window.requestClose();
       },
@@ -130,141 +126,138 @@ export class AppComponent implements OnInit {
   protected readonly logger = Logger.getInstance();
 
   protected readonly hideWindowButtons = computed(() => {
-    return (
-      this.configService.state().borderlessMaximizedWindow &&
-      this.configService.state().isMaximized
-    );
+    return this.configService.state().borderlessMaximizedWindow && this.configService.state().isMaximized;
   });
   private readonly themeService = inject(ThemeService);
   private readonly translocoService = inject(TranslocoService);
 
   readonly moduleItems = [
     {
-      id: "welcome",
-      icon: "pi pi-home",
-      label: "Welcome",
-      translocoKey: "menu.welcome",
-      command: () => this.router.navigate(["/"]),
+      id: 'welcome',
+      icon: 'pi pi-home',
+      label: 'Welcome',
+      translocoKey: 'menu.welcome',
+      command: () => this.router.navigate(['/']),
     },
     {
-      id: "maintenance",
-      icon: "pi pi-desktop",
-      label: "Maintenance",
-      translocoKey: "menu.maintenance",
-      command: () => this.router.navigate(["/maintenance"]),
+      id: 'maintenance',
+      icon: 'pi pi-desktop',
+      label: 'Maintenance',
+      translocoKey: 'menu.maintenance',
+      command: () => this.router.navigate(['/maintenance']),
     },
     {
-      id: "system-tools",
-      icon: "pi pi-microchip",
-      label: "System tools",
-      translocoKey: "menu.systemTools",
-      command: () => this.router.navigate(["/system-tools"]),
+      id: 'system-tools',
+      icon: 'pi pi-microchip',
+      label: 'System tools',
+      translocoKey: 'menu.systemTools',
+      command: () => this.router.navigate(['/system-tools']),
     },
     {
-      id: "gaming",
-      icon: "pi pi-play-circle",
-      label: "Gaming apps",
-      translocoKey: "menu.gaming",
-      command: () => this.router.navigate(["/gaming"]),
+      id: 'gaming',
+      icon: 'pi pi-play-circle',
+      label: 'Gaming apps',
+      translocoKey: 'menu.gaming',
+      command: () => this.router.navigate(['/gaming']),
     },
     {
-      id: "boot-tools",
-      icon: "pi pi-hammer",
-      label: "Boot options/repair",
-      translocoKey: "menu.boot",
-      command: () => this.router.navigate(["/boot-tools"]),
+      id: 'boot-tools',
+      icon: 'pi pi-hammer',
+      label: 'Boot options/repair',
+      translocoKey: 'menu.boot',
+      command: () => this.router.navigate(['/boot-tools']),
       // TODO: implement
       visible: false,
     },
     {
-      id: "network-tools",
-      icon: "pi pi-globe",
-      label: "Network tools",
-      translocoKey: "menu.network",
-      command: () => this.router.navigate(["/net-tools"]),
+      id: 'network-tools',
+      icon: 'pi pi-globe',
+      label: 'Network tools',
+      translocoKey: 'menu.network',
+      command: () => this.router.navigate(['/net-tools']),
       // TODO: implement
       visible: false,
     },
     {
-      id: "diagnostics",
-      icon: "pi pi-info-circle",
-      label: "Diagnostics",
-      translocoKey: "menu.diagnostics",
-      command: () => this.router.navigate(["/diagnostics"]),
+      id: 'diagnostics',
+      icon: 'pi pi-info-circle',
+      label: 'Diagnostics',
+      translocoKey: 'menu.diagnostics',
+      command: () => this.router.navigate(['/diagnostics']),
     },
     {
-      id: "terminal",
-      icon: "pi pi-spinner",
-      label: "Terminal",
-      translocoKey: "menu.terminal",
+      id: 'terminal',
+      icon: 'pi pi-spinner',
+      label: 'Terminal',
+      translocoKey: 'menu.terminal',
       command: () => this.terminalComponent.visible.set(true),
     },
   ];
   helpItems = [
     {
-      id: "help-forum",
-      icon: "pi pi-info-circle",
-      label: "Get help on the forum",
-      translocoKey: "menu.help.getHelpForum",
-      command: () => this.shellService.open("https://forum.garudalinux.org/"),
+      id: 'help-forum',
+      icon: 'pi pi-info-circle',
+      label: 'Get help on the forum',
+      translocoKey: 'menu.help.getHelpForum',
+      command: () => this.shellService.open('https://forum.garudalinux.org/'),
     },
     {
-      id: "help-wiki",
-      icon: "pi pi-info-circle",
-      label: "Search the wiki",
-      translocoKey: "menu.help.getHelpWiki",
-      command: () => this.shellService.open("https://wiki.garudalinux.org/"),
+      id: 'help-wiki',
+      icon: 'pi pi-info-circle',
+      label: 'Search the wiki',
+      translocoKey: 'menu.help.getHelpWiki',
+      command: () => this.shellService.open('https://wiki.garudalinux.org/'),
     },
     {
-      id: "help-arch-wiki",
-      icon: "pi pi-info-circle",
-      label: "Search the Arch wiki",
-      translocoKey: "menu.help.getHelpArchWiki",
-      command: () => this.shellService.open("https://wiki.archlinux.org/"),
+      id: 'help-arch-wiki',
+      icon: 'pi pi-info-circle',
+      label: 'Search the Arch wiki',
+      translocoKey: 'menu.help.getHelpArchWiki',
+      command: () => this.shellService.open('https://wiki.archlinux.org/'),
     },
     {
-      id: "help-status",
-      icon: "pi pi-info-circle",
-      label: "Garuda Linux infra status",
-      translocoKey: "menu.help.garudaStatus",
-      command: () => this.shellService.open("https://status.garudalinux.org"),
+      id: 'help-status',
+      icon: 'pi pi-info-circle',
+      label: 'Garuda Linux infra status',
+      translocoKey: 'menu.help.garudaStatus',
+      command: () => this.shellService.open('https://status.garudalinux.org'),
     },
     {
-      id: "help-exorcist",
-      icon: "pi pi-info-circle",
-      label: "About",
-      translocoKey: "menu.help.callExorcist",
+      id: 'help-exorcist',
+      icon: 'pi pi-info-circle',
+      label: 'About',
+      translocoKey: 'menu.help.callExorcist',
       command: () =>
         this.notificationService.sendNotification({
-          title: this.translocoService.translate("menu.help.callExorcistTitle"),
-          body: `${this.translocoService.translate("menu.help.callExorcistBody")} 🐛`,
+          title: this.translocoService.translate('menu.help.callExorcistTitle'),
+          body: `${this.translocoService.translate('menu.help.callExorcistBody')} 🐛`,
         }),
     } as MenuItem,
     {
-      id: "help-about",
-      icon: "pi pi-info-circle",
-      label: "About",
-      translocoKey: "menu.help.about",
+      id: 'help-about',
+      icon: 'pi pi-info-circle',
+      label: 'About',
+      translocoKey: 'menu.help.about',
       command: () =>
         this.notificationService.sendNotification({
-          title: this.translocoService.translate("menu.help.about"),
-          body: this.translocoService.translate("menu.help.aboutBody"),
+          title: this.translocoService.translate('menu.help.about'),
+          body: this.translocoService.translate('menu.help.aboutBody'),
         }),
     },
   ];
   private fileItems = [
     {
-      id: "file-preferences",
-      icon: "pi pi-cog",
-      label: "Preferences",
-      translocoKey: "menu.file.preferences",
-      command: () => this.router.navigate(["/settings"]),
+      id: 'file-preferences',
+      icon: 'pi pi-cog',
+      label: 'Preferences',
+      translocoKey: 'menu.file.preferences',
+      command: () => this.router.navigate(['/settings']),
     },
     {
-      id: "file-quit",
-      icon: "pi pi-sign-out",
-      label: "Quit",
-      translocoKey: "menu.file.quit",
+      id: 'file-quit',
+      icon: 'pi pi-sign-out',
+      label: 'Quit',
+      translocoKey: 'menu.file.quit',
       command: () => {
         this.shutdown();
       },
@@ -274,18 +267,18 @@ export class AppComponent implements OnInit {
   menuItems = signal<MenuItem[]>(
     this.setupLabels(this.translocoService.getActiveLang(), [
       {
-        id: "file",
-        icon: "pi pi-file",
-        label: "File",
-        translocoKey: "menu.file.title",
+        id: 'file',
+        icon: 'pi pi-file',
+        label: 'File',
+        translocoKey: 'menu.file.title',
         items: [...this.fileItems],
       },
       ...this.moduleItems,
       {
-        id: "help",
-        icon: "pi pi-question-circle",
-        label: "Help",
-        translocoKey: "menu.help.title",
+        id: 'help',
+        icon: 'pi pi-question-circle',
+        label: 'Help',
+        translocoKey: 'menu.help.title',
         items: [...this.helpItems],
       },
     ]),
@@ -296,17 +289,13 @@ export class AppComponent implements OnInit {
       const curItems: MenuItem[] = untracked(this.menuItems);
 
       const moduleIndex: number = curItems.findIndex(
-        (item) =>
-          (item as MenuItem & { translocoKey: string }).translocoKey ===
-          "menu.modules.title",
+        (item) => (item as MenuItem & { translocoKey: string }).translocoKey === 'menu.modules.title',
       );
       if (moduleIndex === -1) return;
 
       const terminalIndex: number =
         curItems[moduleIndex].items?.findIndex(
-          (item) =>
-            (item as MenuItem & { translocoKey: string }).translocoKey ===
-            "menu.terminal",
+          (item) => (item as MenuItem & { translocoKey: string }).translocoKey === 'menu.terminal',
         ) ?? -1;
       const index = terminalIndex;
       if (index === -1) return;
@@ -315,22 +304,18 @@ export class AppComponent implements OnInit {
       const moduleItems = [...(items[moduleIndex].items || [])];
 
       if (this.taskManager.running()) {
-        moduleItems[index].icon = "pi pi-spin pi-spinner";
-        moduleItems[index].label = this.translocoService.translate(
-          "menu.terminalRunning",
-        );
-        moduleItems[index].styleClass = "garuda-button-shine";
+        moduleItems[index].icon = 'pi pi-spin pi-spinner';
+        moduleItems[index].label = this.translocoService.translate('menu.terminalRunning');
+        moduleItems[index].styleClass = 'garuda-button-shine';
         moduleItems[index].badge = undefined;
       } else if (this.taskManager.count() > 0) {
-        moduleItems[index].icon = "pi pi-hourglass";
-        moduleItems[index].label =
-          this.translocoService.translate("menu.terminalTasks");
+        moduleItems[index].icon = 'pi pi-hourglass';
+        moduleItems[index].label = this.translocoService.translate('menu.terminalTasks');
         moduleItems[index].badge = this.taskManager.count().toString();
-        moduleItems[index].styleClass = "garuda-button-shine";
+        moduleItems[index].styleClass = 'garuda-button-shine';
       } else {
-        moduleItems[index].icon = "pi pi-spinner";
-        moduleItems[index].label =
-          this.translocoService.translate("menu.terminal");
+        moduleItems[index].icon = 'pi pi-spinner';
+        moduleItems[index].label = this.translocoService.translate('menu.terminal');
         moduleItems[index].styleClass = undefined;
         moduleItems[index].badge = undefined;
       }
@@ -348,45 +333,34 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     // Set up global error handling for JSON parsing and network errors
-    window.addEventListener("unhandledrejection", (event) => {
+    window.addEventListener('unhandledrejection', (event) => {
       this.logger.error(`Unhandled promise rejection: ${event.reason}`);
 
       // Handle specific JSON parsing errors
-      if (
-        event.reason instanceof SyntaxError &&
-        event.reason.message.includes("JSON")
-      ) {
-        this.logger.error(
-          `JSON parsing error detected: ${event.reason.message}`,
-        );
+      if (event.reason instanceof SyntaxError && event.reason.message.includes('JSON')) {
+        this.logger.error(`JSON parsing error detected: ${event.reason.message}`);
         event.preventDefault();
       }
 
       // Handle HTTP-related errors
-      if (
-        event.reason &&
-        typeof event.reason === "string" &&
-        event.reason.includes("HTTP")
-      ) {
+      if (event.reason && typeof event.reason === 'string' && event.reason.includes('HTTP')) {
         this.logger.error(`HTTP error detected: ${event.reason}`);
         event.preventDefault();
       }
     });
 
     // Handle global errors
-    window.addEventListener("error", (event) => {
+    window.addEventListener('error', (event) => {
       this.logger.error(`Global error: ${event.error}`);
 
       if (event.error instanceof SyntaxError) {
-        this.logger.error(
-          `Syntax error (possibly JSON): ${event.error.message}`,
-        );
+        this.logger.error(`Syntax error (possibly JSON): ${event.error.message}`);
       }
     });
 
     this.translocoService.events$.subscribe((event) => {
-      if (event.type === "langChanged") {
-        this.logger.trace("Updating menu labels via event");
+      if (event.type === 'langChanged') {
+        this.logger.trace('Updating menu labels via event');
         this.menuItems.update((items: MenuItem[]) => {
           return this.setupLabels(this.translocoService.getActiveLang(), items);
         });
@@ -397,7 +371,7 @@ export class AppComponent implements OnInit {
     this.attachElectronListeners();
 
     // Initialize the application menu
-    this.logger.info("Initializing application menu on ngOnInit");
+    this.logger.info('Initializing application menu on ngOnInit');
     this.setupAppMenuHandlers();
     this.updateApplicationMenu(this.menuItems());
   }
@@ -406,7 +380,7 @@ export class AppComponent implements OnInit {
    * Handle all relevant keyboard events on the app window. Attaches to the document.
    * @param event The keyboard event
    */
-  @HostListener("document:keydown", ["$event"])
+  @HostListener('document:keydown', ['$event'])
   async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
     const thisBoundKeyHandler = globalKeyHandler.bind(this);
     await thisBoundKeyHandler(event);
@@ -416,16 +390,12 @@ export class AppComponent implements OnInit {
    * Handle right click events on the app window to show native context menu
    * @param event The mouse event
    */
-  @HostListener("contextmenu", ["$event"])
+  @HostListener('contextmenu', ['$event'])
   async handleRightClick(event: MouseEvent): Promise<void> {
     event.preventDefault();
 
     const menu = this.rightClickMenu();
-    await this.contextMenuService.showContextMenu(
-      menu,
-      event.clientX,
-      event.clientY,
-    );
+    await this.contextMenuService.showContextMenu(menu, event.clientX, event.clientY);
   }
 
   /**
@@ -435,24 +405,24 @@ export class AppComponent implements OnInit {
   private async updateApplicationMenu(items: MenuItem[]): Promise<void> {
     const menubar = this.setupLabels(this.translocoService.getActiveLang(), [
       {
-        id: "file",
-        icon: "pi pi-file",
-        label: "File",
-        translocoKey: "menu.file.title",
+        id: 'file',
+        icon: 'pi pi-file',
+        label: 'File',
+        translocoKey: 'menu.file.title',
         items: [...this.fileItems],
       },
       {
-        id: "modules",
-        icon: "pi pi-cog",
-        label: "Modules",
-        translocoKey: "menu.modules.title",
+        id: 'modules',
+        icon: 'pi pi-cog',
+        label: 'Modules',
+        translocoKey: 'menu.modules.title',
         items: [...this.moduleItems],
       },
       {
-        id: "help",
-        icon: "pi pi-question-circle",
-        label: "Help",
-        translocoKey: "menu.help.title",
+        id: 'help',
+        icon: 'pi pi-question-circle',
+        label: 'Help',
+        translocoKey: 'menu.help.title',
         items: [...this.helpItems],
       },
     ]);
@@ -461,7 +431,7 @@ export class AppComponent implements OnInit {
       const appMenuItems: AppMenuItem[] = this.convertToAppMenuItems(menubar);
       await this.appMenuService.updateAppMenu(appMenuItems);
     } catch (error) {
-      this.logger.error("Failed to update application menu:", error);
+      this.logger.error('Failed to update application menu:', error);
     }
   }
 
@@ -471,12 +441,10 @@ export class AppComponent implements OnInit {
    * @returns Converted app menu items
    */
   private convertToAppMenuItems(items: MenuItem[]): AppMenuItem[] {
-    const dontShow = ["terminal"];
+    const dontShow = ['terminal'];
 
     return items
-      .filter(
-        (item) => item.visible !== false && !dontShow.includes(item.id ?? ""),
-      )
+      .filter((item) => item.visible !== false && !dontShow.includes(item.id ?? ''))
       .map((item) => ({
         id: item.id,
         label: item.label,
@@ -485,9 +453,7 @@ export class AppComponent implements OnInit {
         visible: item.visible !== false,
         routerLink: item.routerLink as string,
         command: item.command ? item.id : undefined,
-        submenu: item.items
-          ? this.convertToAppMenuItems(item.items)
-          : undefined,
+        submenu: item.items ? this.convertToAppMenuItems(item.items) : undefined,
         accelerator: (item as any).shortcut as string,
       }));
   }
@@ -496,59 +462,56 @@ export class AppComponent implements OnInit {
    * Sets up handlers for app menu item clicks
    */
   private setupAppMenuHandlers(): void {
-    this.logger.info("Setting up app menu handlers");
+    this.logger.info('Setting up app menu handlers');
 
     if (!window.electronAPI?.events) {
-      this.logger.error("electronAPI.events not available!");
+      this.logger.error('electronAPI.events not available!');
       return;
     }
 
     try {
-      window.electronAPI.events.on("appMenu:itemClicked", (data: any) => {
-        this.logger.info("App menu item clicked event received:", data);
+      window.electronAPI.events.on('appMenu:itemClicked', (data: any) => {
+        this.logger.info('App menu item clicked event received:', data);
 
         const menuData = data;
 
         // Handle router navigation
         if (menuData.routerLink) {
-          this.logger.info("Menu item navigating to:", menuData.routerLink);
+          this.logger.info('Menu item navigating to:', menuData.routerLink);
           try {
             this.router.navigate([menuData.routerLink]);
           } catch (error) {
-            this.logger.error("Failed to navigate to route:", error);
+            this.logger.error('Failed to navigate to route:', error);
           }
         }
 
         // Handle command execution
         if (menuData.command && menuData.id) {
-          this.logger.info("Executing command for menu item:", menuData.id);
+          this.logger.info('Executing command for menu item:', menuData.id);
           // Find the original menu item and execute its command
           const menuItem = this.findMenuItemById(this.menuItems(), menuData.id);
-          this.logger.debug("Found menu item:", menuItem);
+          this.logger.debug('Found menu item:', menuItem);
 
           if (menuItem?.command) {
             try {
-              this.logger.info("Calling command function for:", menuData.id);
+              this.logger.info('Calling command function for:', menuData.id);
               // @ts-expect-error - PrimeNG MenuItem command property
               menuItem.command();
-              this.logger.info(
-                "Successfully executed command for:",
-                menuData.id,
-              );
+              this.logger.info('Successfully executed command for:', menuData.id);
             } catch (error) {
-              this.logger.error("Error executing menu command:", error);
+              this.logger.error('Error executing menu command:', error);
             }
           } else {
-            this.logger.warn("No command found for menu item:", menuData.id);
+            this.logger.warn('No command found for menu item:', menuData.id);
           }
         } else {
-          this.logger.debug("No command to execute for menu item");
+          this.logger.debug('No command to execute for menu item');
         }
       });
 
-      this.logger.info("App menu handlers setup complete");
+      this.logger.info('App menu handlers setup complete');
     } catch (error) {
-      this.logger.error("Error setting up app menu event handler:", error);
+      this.logger.error('Error setting up app menu event handler:', error);
     }
   }
 
@@ -558,10 +521,7 @@ export class AppComponent implements OnInit {
    * @param id ID to find
    * @returns Found menu item or undefined
    */
-  private findMenuItemById(
-    items: MenuItem[],
-    id: string,
-  ): MenuItem | undefined {
+  private findMenuItemById(items: MenuItem[], id: string): MenuItem | undefined {
     for (const item of items) {
       if (item.id === id) {
         return item;
@@ -602,11 +562,7 @@ export class AppComponent implements OnInit {
       }
       newItems.push(
         Object.assign({}, item, {
-          label: this.translocoService.translate(
-            (item as MenuItem & { translocoKey: string }).translocoKey,
-            {},
-            lang,
-          ),
+          label: this.translocoService.translate((item as MenuItem & { translocoKey: string }).translocoKey, {}, lang),
           items: newSubItems,
         }),
       );
@@ -620,7 +576,7 @@ export class AppComponent implements OnInit {
    * @private
    */
   private async shutdown(): Promise<void> {
-    this.logger.info("Shutting down");
+    this.logger.info('Shutting down');
     void window.electronAPI?.window.close();
   }
 
@@ -629,13 +585,13 @@ export class AppComponent implements OnInit {
    * @private
    */
   private attachElectronListeners() {
-    this.logger.trace("Electron window listeners initialized");
+    this.logger.trace('Electron window listeners initialized');
 
     // Handle close events through beforeunload if needed
-    window.addEventListener("beforeunload", (event) => {
+    window.addEventListener('beforeunload', (event) => {
       if (this.taskManager.running() || this.taskManager.count()) {
         event.preventDefault();
-        event.returnValue = "";
+        event.returnValue = '';
         this.requestShutdown();
       }
     });
@@ -667,9 +623,7 @@ export class AppComponent implements OnInit {
    * @protected
    */
   protected async requestShutdown() {
-    this.logger.info(
-      `Close requested, ${this.taskManager.currentTask() ? "one" : "no"} action is running`,
-    );
+    this.logger.info(`Close requested, ${this.taskManager.currentTask() ? 'one' : 'no'} action is running`);
 
     if (!this.taskManager.running() && !this.taskManager.count()) {
       void this.shutdown();
@@ -678,19 +632,19 @@ export class AppComponent implements OnInit {
 
     this.confirmationService.confirm({
       message: this.taskManager.running()
-        ? this.translocoService.translate("confirmation.exitAppRunningAction")
-        : this.translocoService.translate("confirmation.exitApp"),
-      header: this.translocoService.translate("confirmation.exitAppHeader"),
-      icon: "pi pi-exclamation-triangle",
-      acceptIcon: "pi pi-check",
-      rejectIcon: "pi pi-times",
+        ? this.translocoService.translate('confirmation.exitAppRunningAction')
+        : this.translocoService.translate('confirmation.exitApp'),
+      header: this.translocoService.translate('confirmation.exitAppHeader'),
+      icon: 'pi pi-exclamation-triangle',
+      acceptIcon: 'pi pi-check',
+      rejectIcon: 'pi pi-times',
       acceptButtonProps: {
-        severity: this.taskManager.running() ? "danger" : "success",
-        label: this.translocoService.translate("confirmation.accept"),
+        severity: this.taskManager.running() ? 'danger' : 'success',
+        label: this.translocoService.translate('confirmation.accept'),
       },
       rejectButtonProps: {
-        severity: "secondary",
-        label: this.translocoService.translate("confirmation.reject"),
+        severity: 'secondary',
+        label: this.translocoService.translate('confirmation.reject'),
       },
       accept: () => {
         void this.shutdown();

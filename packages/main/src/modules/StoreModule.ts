@@ -1,8 +1,8 @@
-import type { AppModule } from "../AppModule.js";
-import type { ModuleContext } from "../ModuleContext.js";
-import { ipcMain } from "electron";
-import ElectronStore from "electron-store";
-import { Logger } from "../logging/logging.js";
+import type { AppModule } from '../AppModule.js';
+import type { ModuleContext } from '../ModuleContext.js';
+import { ipcMain } from 'electron';
+import ElectronStore from 'electron-store';
+import { Logger } from '../logging/logging.js';
 
 class StoreModule implements AppModule {
   private store: ElectronStore;
@@ -10,7 +10,7 @@ class StoreModule implements AppModule {
 
   constructor() {
     this.store = new ElectronStore({
-      encryptionKey: "non-security-by-obscurity",
+      encryptionKey: 'non-security-by-obscurity',
     });
   }
 
@@ -19,73 +19,53 @@ class StoreModule implements AppModule {
   }
 
   private setupStoreHandlers(): void {
-    ipcMain.handle("store:get", async (_, key: string) => {
+    ipcMain.handle('store:get', async (_, key: string) => {
       try {
         const result = this.store.get(key);
         this.logger.trace(`Store get: ${key} => ${JSON.stringify(result)}`);
         return result;
       } catch (error: any) {
-        this.logger.error(
-          `Store get error: ${error.message ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to get store value: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Store get error: ${error.message ? error.message : String(error)}`);
+        throw new Error(`Failed to get store value: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("store:set", async (_, key: string, value: unknown) => {
+    ipcMain.handle('store:set', async (_, key: string, value: unknown) => {
       try {
         this.store.set(key, value);
         return true;
       } catch (error: any) {
-        this.logger.error(
-          `Store set error: ${error.message ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to set store value: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Store set error: ${error.message ? error.message : String(error)}`);
+        throw new Error(`Failed to set store value: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("store:delete", async (_, key: string) => {
+    ipcMain.handle('store:delete', async (_, key: string) => {
       try {
         this.store.delete(key);
         return true;
       } catch (error: any) {
-        this.logger.error(
-          `Store delete error: ${error.message ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to delete store value: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Store delete error: ${error.message ? error.message : String(error)}`);
+        throw new Error(`Failed to delete store value: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("store:clear", async () => {
+    ipcMain.handle('store:clear', async () => {
       try {
         this.store.clear();
         return true;
       } catch (error: any) {
-        this.logger.error(
-          `Store clear error: ${error.message ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to clear store: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Store clear error: ${error.message ? error.message : String(error)}`);
+        throw new Error(`Failed to clear store: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("store:has", async (_, key: string) => {
+    ipcMain.handle('store:has', async (_, key: string) => {
       try {
         return this.store.has(key);
       } catch (error: any) {
-        this.logger.error(
-          `Store has error: ${error.message ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to check store key: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Store has error: ${error.message ? error.message : String(error)}`);
+        throw new Error(`Failed to check store key: ${error instanceof Error ? error.message : error}`);
       }
     });
   }

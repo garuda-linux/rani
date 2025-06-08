@@ -1,7 +1,7 @@
-import type { AppModule } from "../AppModule.js";
-import type { ModuleContext } from "../ModuleContext.js";
-import { ipcMain, Notification } from "electron";
-import { Logger } from "../logging/logging.js";
+import type { AppModule } from '../AppModule.js';
+import type { ModuleContext } from '../ModuleContext.js';
+import { ipcMain, Notification } from 'electron';
+import { Logger } from '../logging/logging.js';
 
 class NotificationModule implements AppModule {
   private readonly logger = Logger.getInstance();
@@ -12,7 +12,7 @@ class NotificationModule implements AppModule {
 
   private setupNotificationHandlers(): void {
     // Notification Operations
-    ipcMain.handle("notification:isPermissionGranted", async () => {
+    ipcMain.handle('notification:isPermissionGranted', async () => {
       try {
         return true;
       } catch (error: any) {
@@ -23,68 +23,59 @@ class NotificationModule implements AppModule {
       }
     });
 
-    ipcMain.handle("notification:requestPermission", async () => {
+    ipcMain.handle('notification:requestPermission', async () => {
       try {
-        return "granted";
+        return 'granted';
       } catch (error: any) {
         this.logger.error(
           `Notification permission request error: ${error instanceof Error ? error.message : String(error)}`,
         );
-        return "denied";
+        return 'denied';
+      }
+    });
+
+    ipcMain.handle('notification:send', async (_, options: { title: string; body?: string; icon?: string }) => {
+      try {
+        if (!Notification.isSupported()) {
+          this.logger.warn('Notifications are not supported on this system');
+          return false;
+        }
+
+        if (!options.title) {
+          throw new Error('Notification title is required');
+        }
+
+        const notification = new Notification({
+          title: options.title,
+          body: options.body,
+          icon: options.icon,
+          silent: false,
+        });
+
+        notification.show();
+
+        // Handle notification events
+        notification.on('click', () => {
+          this.logger.info('Notification clicked');
+        });
+
+        notification.on('close', () => {
+          this.logger.info('Notification closed');
+        });
+
+        notification.on('failed', (error: any) => {
+          this.logger.error(`Notification failed: ${error instanceof Error ? error.message : String(error)}`);
+        });
+
+        return true;
+      } catch (error: any) {
+        this.logger.error(`Notification send error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to send notification: ${error instanceof Error ? error.message : error}`);
       }
     });
 
     ipcMain.handle(
-      "notification:send",
-      async (_, options: { title: string; body?: string; icon?: string }) => {
-        try {
-          if (!Notification.isSupported()) {
-            this.logger.warn("Notifications are not supported on this system");
-            return false;
-          }
-
-          if (!options.title) {
-            throw new Error("Notification title is required");
-          }
-
-          const notification = new Notification({
-            title: options.title,
-            body: options.body,
-            icon: options.icon,
-            silent: false,
-          });
-
-          notification.show();
-
-          // Handle notification events
-          notification.on("click", () => {
-            this.logger.info("Notification clicked");
-          });
-
-          notification.on("close", () => {
-            this.logger.info("Notification closed");
-          });
-
-          notification.on("failed", (error: any) => {
-            this.logger.error(
-              `Notification failed: ${error instanceof Error ? error.message : String(error)}`,
-            );
-          });
-
-          return true;
-        } catch (error: any) {
-          this.logger.error(
-            `Notification send error: ${error instanceof Error ? error.message : String(error)}`,
-          );
-          throw new Error(
-            `Failed to send notification: ${error instanceof Error ? error.message : error}`,
-          );
-        }
-      },
-    );
-
-    ipcMain.handle(
-      "notification:sendWithActions",
+      'notification:sendWithActions',
       async (
         _,
         options: {
@@ -96,12 +87,12 @@ class NotificationModule implements AppModule {
       ) => {
         try {
           if (!Notification.isSupported()) {
-            this.logger.warn("Notifications are not supported on this system");
+            this.logger.warn('Notifications are not supported on this system');
             return false;
           }
 
           if (!options.title) {
-            throw new Error("Notification title is required");
+            throw new Error('Notification title is required');
           }
 
           const notification = new Notification({
@@ -115,23 +106,21 @@ class NotificationModule implements AppModule {
 
           // Return a promise that resolves when the notification is interacted with
           return new Promise((resolve) => {
-            notification.on("click", () => {
-              resolve({ action: "click" });
+            notification.on('click', () => {
+              resolve({ action: 'click' });
             });
 
-            notification.on("action", (event, index) => {
-              resolve({ action: "action", index });
+            notification.on('action', (event, index) => {
+              resolve({ action: 'action', index });
             });
 
-            notification.on("close", () => {
-              resolve({ action: "close" });
+            notification.on('close', () => {
+              resolve({ action: 'close' });
             });
 
-            notification.on("failed", (error: any) => {
-              this.logger.error(
-                `Notification failed: ${error instanceof Error ? error.message : String(error)}`,
-              );
-              resolve({ action: "failed", error: "Notification failed" });
+            notification.on('failed', (error: any) => {
+              this.logger.error(`Notification failed: ${error instanceof Error ? error.message : String(error)}`);
+              resolve({ action: 'failed', error: 'Notification failed' });
             });
           });
         } catch (error: any) {

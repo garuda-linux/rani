@@ -1,49 +1,33 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  type OnInit,
-  signal,
-} from "@angular/core";
-import { Button } from "primeng/button";
-import { IconField } from "primeng/iconfield";
-import { InputIcon } from "primeng/inputicon";
-import { InputText } from "primeng/inputtext";
-import { type Table, TableModule } from "primeng/table";
-import type { SystemdService, SystemdServiceAction } from "../../interfaces";
-import { NgClass } from "@angular/common";
-import { TranslocoDirective, TranslocoService } from "@jsverse/transloco";
-import { type Popover, PopoverModule } from "primeng/popover";
-import { MessageToastService } from "@garudalinux/core";
-import type { Nullable } from "primeng/ts-helpers";
-import { Tooltip } from "primeng/tooltip";
-import { ConfigService } from "../config/config.service";
-import { Logger } from "../../logging/logging";
-import { TaskManagerService } from "../task-manager/task-manager.service";
-import type { ChildProcess } from "../../electron-services";
+import { ChangeDetectionStrategy, Component, inject, type OnInit, signal } from '@angular/core';
+import { Button } from 'primeng/button';
+import { IconField } from 'primeng/iconfield';
+import { InputIcon } from 'primeng/inputicon';
+import { InputText } from 'primeng/inputtext';
+import { type Table, TableModule } from 'primeng/table';
+import type { SystemdService, SystemdServiceAction } from '../../interfaces';
+import { NgClass } from '@angular/common';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { type Popover, PopoverModule } from 'primeng/popover';
+import { MessageToastService } from '@garudalinux/core';
+import type { Nullable } from 'primeng/ts-helpers';
+import { Tooltip } from 'primeng/tooltip';
+import { ConfigService } from '../config/config.service';
+import { Logger } from '../../logging/logging';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import type { ChildProcess } from '../../electron-services';
 
 @Component({
-  selector: "rani-systemd-services",
-  imports: [
-    Button,
-    IconField,
-    InputIcon,
-    PopoverModule,
-    InputText,
-    TableModule,
-    NgClass,
-    TranslocoDirective,
-    Tooltip,
-  ],
-  templateUrl: "./systemd-services.component.html",
-  styleUrl: "./systemd-services.component.css",
+  selector: 'rani-systemd-services',
+  imports: [Button, IconField, InputIcon, PopoverModule, InputText, TableModule, NgClass, TranslocoDirective, Tooltip],
+  templateUrl: './systemd-services.component.html',
+  styleUrl: './systemd-services.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class SystemdServicesComponent implements OnInit {
   activeService = signal<SystemdService | null>(null);
   includeDisabled = signal<boolean>(false);
   loading = signal<boolean>(true);
-  serviceSearch = signal<string>("");
+  serviceSearch = signal<string>('');
   systemdServices = signal<SystemdService[]>([]);
 
   intervalRef: Nullable<number> = null;
@@ -55,7 +39,7 @@ export class SystemdServicesComponent implements OnInit {
   private readonly taskManagerService = inject(TaskManagerService);
 
   async ngOnInit() {
-    this.logger.debug("Initializing system tools");
+    this.logger.debug('Initializing system tools');
     this.systemdServices.set(await this.getServices());
 
     if (this.configService.settings().autoRefresh) {
@@ -63,7 +47,7 @@ export class SystemdServicesComponent implements OnInit {
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);
-      this.logger.debug("Started auto-refresh");
+      this.logger.debug('Started auto-refresh');
     }
 
     this.loading.set(false);
@@ -74,11 +58,11 @@ export class SystemdServicesComponent implements OnInit {
    */
   async getServices(): Promise<SystemdService[]> {
     const toDo: string[] = [
-      `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}list-units --type service,socket --full --all --output json --no-pager`,
+      `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-units --type service,socket --full --all --output json --no-pager`,
     ];
     if (this.includeDisabled()) {
       toDo.push(
-        `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}list-unit-files --type=service,socket --state=disabled --full --all --output json --no-pager`,
+        `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}list-unit-files --type=service,socket --state=disabled --full --all --output json --no-pager`,
       );
     }
 
@@ -107,8 +91,7 @@ export class SystemdServicesComponent implements OnInit {
     }
 
     const finalResult: SystemdService[] = [];
-    const results: Nullable<SystemdService[]>[] =
-      await Promise.all(servicePromises);
+    const results: Nullable<SystemdService[]>[] = await Promise.all(servicePromises);
     for (const result of results) {
       if (result) {
         finalResult.push(...result);
@@ -123,7 +106,7 @@ export class SystemdServicesComponent implements OnInit {
    */
   clear(table: Table): void {
     table.clear();
-    this.serviceSearch.set("");
+    this.serviceSearch.set('');
   }
 
   /**
@@ -132,57 +115,53 @@ export class SystemdServicesComponent implements OnInit {
    */
   async executeAction(event: SystemdServiceAction): Promise<void> {
     if (!this.activeService()) {
-      this.logger.error(
-        "No active service selected, something went wrong here",
-      );
+      this.logger.error('No active service selected, something went wrong here');
       return;
     }
 
     let action: string;
     switch (event) {
-      case "start":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}start`;
+      case 'start':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}start`;
         break;
-      case "stop":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}stop`;
+      case 'stop':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}stop`;
         break;
-      case "restart":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}restart`;
+      case 'restart':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}restart`;
         break;
-      case "reload":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}reload`;
+      case 'reload':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}reload`;
         break;
-      case "enable":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}enable --now`;
+      case 'enable':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}enable --now`;
         break;
-      case "disable":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}disable --now`;
+      case 'disable':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}disable --now`;
         break;
-      case "mask":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user" : ""}mask`;
+      case 'mask':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user' : ''}mask`;
         break;
-      case "unmask":
-        action = `systemctl ${this.configService.settings().systemdUserContext ? "--user " : ""}unmask`;
+      case 'unmask':
+        action = `systemctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}unmask`;
         break;
-      case "logs":
-        action = `journalctl ${this.configService.settings().systemdUserContext ? "--user " : ""}--no-pager -eu`;
+      case 'logs':
+        action = `journalctl ${this.configService.settings().systemdUserContext ? '--user ' : ''}--no-pager -eu`;
         break;
     }
 
     const command = `${action} ${this.activeService()!.unit}`;
     let output: any;
     if (!this.configService.settings().systemdUserContext) {
-      output = await this.taskManagerService.executeAndWaitBash(
-        `pkexec ${command}`,
-      );
+      output = await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
     } else {
       output = await this.taskManagerService.executeAndWaitBash(command);
     }
 
     if (output.code !== 0) {
       this.messageToastService.error(
-        this.translocoService.translate("systemdServices.errorTitle"),
-        this.translocoService.translate("systemdServices.error", {
+        this.translocoService.translate('systemdServices.errorTitle'),
+        this.translocoService.translate('systemdServices.error', {
           action: event,
         }),
       );
@@ -191,7 +170,7 @@ export class SystemdServicesComponent implements OnInit {
     }
 
     this.logger.trace(`Command '${command}' executed successfully`);
-    if (event === "logs") {
+    if (event === 'logs') {
       this.taskManagerService.clearTerminal(output.stdout);
       this.taskManagerService.toggleTerminal(true);
     } else {
@@ -214,20 +193,17 @@ export class SystemdServicesComponent implements OnInit {
    * Toggle the auto-refresh of the systemd services, if enabled start the interval.
    */
   async toggleRefresh(): Promise<void> {
-    await this.configService.updateConfig(
-      "autoRefresh",
-      !this.configService.settings().autoRefresh,
-    );
+    await this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh);
 
     if (this.configService.settings().autoRefresh) {
       // @ts-ignore
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);
-      this.logger.debug("Started auto-refresh");
+      this.logger.debug('Started auto-refresh');
     } else if (this.intervalRef) {
       clearInterval(this.intervalRef);
-      this.logger.debug("Stopped auto-refresh");
+      this.logger.debug('Stopped auto-refresh');
     }
   }
 
@@ -236,10 +212,7 @@ export class SystemdServicesComponent implements OnInit {
    */
   async toggleContext(): Promise<void> {
     this.loading.set(true);
-    await this.configService.updateConfig(
-      "systemdUserContext",
-      !this.configService.settings().systemdUserContext,
-    );
+    await this.configService.updateConfig('systemdUserContext', !this.configService.settings().systemdUserContext);
     this.systemdServices.set(await this.getServices());
 
     this.loading.set(false);

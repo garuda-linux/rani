@@ -1,12 +1,12 @@
-import { effect, inject, Injectable } from "@angular/core";
-import { ConfigService } from "../config/config.service";
-import { TranslocoService } from "@jsverse/transloco";
-import { locale } from "../../electron-services";
-import { Logger } from "../../logging/logging";
-import { firstValueFrom, lastValueFrom } from "rxjs";
+import { effect, inject, Injectable } from '@angular/core';
+import { ConfigService } from '../config/config.service';
+import { TranslocoService } from '@jsverse/transloco';
+import { locale } from '../../electron-services';
+import { Logger } from '../../logging/logging';
+import { firstValueFrom, lastValueFrom } from 'rxjs';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class LanguageManagerService {
   private readonly configService = inject(ConfigService);
@@ -25,7 +25,7 @@ export class LanguageManagerService {
    * as the effect will already run once on startup.
    */
   async init() {
-    await firstValueFrom(this.translocoService.selectTranslate("menu.welcome"));
+    await firstValueFrom(this.translocoService.selectTranslate('menu.welcome'));
   }
 
   /**
@@ -36,16 +36,14 @@ export class LanguageManagerService {
     const sysLang: string | null = await locale();
     let activeLang: string = lang ?? sysLang;
     if (activeLang.match(/en-/)) {
-      activeLang = "en";
+      activeLang = 'en';
     }
     this.logger.trace(`Active language: ${activeLang}`);
 
     if (
       activeLang &&
       activeLang !== this.translocoService.getActiveLang() &&
-      (this.translocoService.getAvailableLangs() as string[]).includes(
-        activeLang,
-      )
+      (this.translocoService.getAvailableLangs() as string[]).includes(activeLang)
     ) {
       await lastValueFrom(this.translocoService.load(activeLang));
       this.translocoService.setActiveLang(activeLang);

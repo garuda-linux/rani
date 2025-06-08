@@ -13,34 +13,34 @@ export interface ShellEvent {
 
 // Event channel type definitions
 export interface EventChannelMap {
-  "shell:stdout": ShellEvent;
-  "shell:stderr": ShellEvent;
-  "shell:close": ShellEvent;
-  "shell:error": ShellEvent;
-  "contextMenu:itemClicked": string;
-  "appMenu:itemClicked": {
+  'shell:stdout': ShellEvent;
+  'shell:stderr': ShellEvent;
+  'shell:close': ShellEvent;
+  'shell:error': ShellEvent;
+  'contextMenu:itemClicked': string;
+  'appMenu:itemClicked': {
     id?: string;
     routerLink?: string;
     command?: string;
     item: AppMenuItem;
   };
-  "window-focus": undefined;
-  "window-blur": undefined;
-  "window-maximize": undefined;
-  "window-unmaximize": undefined;
-  "window-minimize": undefined;
-  "window-restore": undefined;
-  "app-update": unknown;
-  "system-theme-changed": unknown;
+  'window-focus': undefined;
+  'window-blur': undefined;
+  'window-maximize': undefined;
+  'window-unmaximize': undefined;
+  'window-minimize': undefined;
+  'window-restore': undefined;
+  'app-update': unknown;
+  'system-theme-changed': unknown;
 }
 
 export type EventChannel =
-  | "shell:stdout"
-  | "shell:stderr"
-  | "shell:close"
-  | "shell:error"
-  | "contextMenu:itemClicked"
-  | "appMenu:itemClicked";
+  | 'shell:stdout'
+  | 'shell:stderr'
+  | 'shell:close'
+  | 'shell:error'
+  | 'contextMenu:itemClicked'
+  | 'appMenu:itemClicked';
 
 export interface ContextMenuItem {
   id?: string;
@@ -48,7 +48,7 @@ export interface ContextMenuItem {
   icon?: string;
   enabled?: boolean;
   visible?: boolean;
-  type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+  type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
   checked?: boolean;
   accelerator?: string;
   submenu?: ContextMenuItem[];
@@ -60,7 +60,7 @@ export interface AppMenuItem {
   icon?: string;
   enabled?: boolean;
   visible?: boolean;
-  type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+  type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
   checked?: boolean;
   accelerator?: string;
   role?: string;
@@ -106,11 +106,7 @@ export interface ElectronAPI {
   notification: {
     isPermissionGranted: () => Promise<boolean>;
     requestPermission: () => Promise<string>;
-    send: (options: {
-      title: string;
-      body?: string;
-      icon?: string;
-    }) => Promise<boolean>;
+    send: (options: { title: string; body?: string; icon?: string }) => Promise<boolean>;
     sendWithActions: (options: {
       title: string;
       body?: string;
@@ -149,21 +145,9 @@ export interface ElectronAPI {
     message: (options: Record<string, unknown>) => Promise<unknown>;
     error: (title: string, content: string) => Promise<unknown>;
     certificate: (options: Record<string, unknown>) => Promise<unknown>;
-    confirm: (
-      message: string,
-      title?: string,
-      detail?: string,
-    ) => Promise<unknown>;
-    warning: (
-      message: string,
-      title?: string,
-      detail?: string,
-    ) => Promise<unknown>;
-    info: (
-      message: string,
-      title?: string,
-      detail?: string,
-    ) => Promise<unknown>;
+    confirm: (message: string, title?: string, detail?: string) => Promise<unknown>;
+    warning: (message: string, title?: string, detail?: string) => Promise<unknown>;
+    info: (message: string, title?: string, detail?: string) => Promise<unknown>;
   };
   clipboard: {
     writeText: (text: string) => Promise<boolean>;
@@ -185,25 +169,12 @@ export interface ElectronAPI {
     hasImage: () => Promise<boolean>;
   };
   events: {
-    on: <T extends EventChannel>(
-      channel: T,
-      listener: (event: EventChannelMap[T]) => void,
-    ) => void;
-    off: <T extends EventChannel>(
-      channel: T,
-      listener: (event: EventChannelMap[T]) => void,
-    ) => void;
-    once: <T extends EventChannel>(
-      channel: T,
-      listener: (event: EventChannelMap[T]) => void,
-    ) => void;
+    on: <T extends EventChannel>(channel: T, listener: (event: EventChannelMap[T]) => void) => void;
+    off: <T extends EventChannel>(channel: T, listener: (event: EventChannelMap[T]) => void) => void;
+    once: <T extends EventChannel>(channel: T, listener: (event: EventChannelMap[T]) => void) => void;
   };
   contextMenu: {
-    show: (
-      items: ContextMenuItem[],
-      x?: number,
-      y?: number,
-    ) => Promise<boolean>;
+    show: (items: ContextMenuItem[], x?: number, y?: number) => Promise<boolean>;
   };
   appMenu: {
     update: (items: AppMenuItem[]) => Promise<boolean>;

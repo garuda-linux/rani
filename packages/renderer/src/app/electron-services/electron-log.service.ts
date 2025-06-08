@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 export enum LogLevel {
   Trace = 1,
@@ -15,7 +15,7 @@ interface LogObject {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ElectronLogService {
   async trace(message: string, logObj?: LogObject): Promise<void> {
@@ -60,10 +60,7 @@ export class ElectronLogService {
 }
 
 // Static functions for compatibility with Tauri API
-export async function trace(
-  message: string,
-  logObj?: LogObject,
-): Promise<void> {
+export async function trace(message: string, logObj?: LogObject): Promise<void> {
   if (!window.electronAPI) {
     console.trace(message, logObj);
     return;
@@ -71,10 +68,7 @@ export async function trace(
   await window.electronAPI.log.trace(message, logObj);
 }
 
-export async function debug(
-  message: string,
-  logObj?: LogObject,
-): Promise<void> {
+export async function debug(message: string, logObj?: LogObject): Promise<void> {
   if (!window.electronAPI) {
     console.debug(message, logObj);
     return;
@@ -98,10 +92,7 @@ export async function warn(message: string, logObj?: LogObject): Promise<void> {
   await window.electronAPI.log.warn(message, logObj);
 }
 
-export async function error(
-  message: string,
-  logObj?: LogObject,
-): Promise<void> {
+export async function error(message: string, logObj?: LogObject): Promise<void> {
   if (!window.electronAPI) {
     console.error(message, logObj);
     return;

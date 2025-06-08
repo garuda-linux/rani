@@ -1,47 +1,28 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  model,
-  type OnInit,
-  signal,
-} from "@angular/core";
-import { Card } from "primeng/card";
-import { Button } from "primeng/button";
-import type { MaintenanceAction, ResettableConfig } from "../../interfaces";
-import { TranslocoDirective, TranslocoService } from "@jsverse/transloco";
-import { Tooltip } from "primeng/tooltip";
-import { Checkbox } from "primeng/checkbox";
-import { FormsModule } from "@angular/forms";
-import { path } from "../../electron-services";
-import { Tab, TabList, TabPanel, TabPanels, Tabs } from "primeng/tabs";
-import { MessageToastService } from "@garudalinux/core";
-import { ElectronFsService } from "../../electron-services";
-import { OsInteractService } from "../task-manager/os-interact.service";
-import { TaskManagerService } from "../task-manager/task-manager.service";
-import { ConfirmationService } from "primeng/api";
-import { LoadingService } from "../loading-indicator/loading-indicator.service";
-import { Logger } from "../../logging/logging";
-import type { ChildProcess } from "../../electron-services";
-import { Router, type UrlTree } from "@angular/router";
+import { ChangeDetectionStrategy, Component, inject, model, type OnInit, signal } from '@angular/core';
+import { Card } from 'primeng/card';
+import { Button } from 'primeng/button';
+import type { MaintenanceAction, ResettableConfig } from '../../interfaces';
+import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
+import { Tooltip } from 'primeng/tooltip';
+import { Checkbox } from 'primeng/checkbox';
+import { FormsModule } from '@angular/forms';
+import { path } from '../../electron-services';
+import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
+import { MessageToastService } from '@garudalinux/core';
+import { ElectronFsService } from '../../electron-services';
+import { OsInteractService } from '../task-manager/os-interact.service';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { ConfirmationService } from 'primeng/api';
+import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { Logger } from '../../logging/logging';
+import type { ChildProcess } from '../../electron-services';
+import { Router, type UrlTree } from '@angular/router';
 
 @Component({
-  selector: "rani-maintenance",
-  imports: [
-    Card,
-    Button,
-    TranslocoDirective,
-    Tooltip,
-    Checkbox,
-    FormsModule,
-    Tab,
-    TabPanels,
-    Tabs,
-    TabList,
-    TabPanel,
-  ],
-  templateUrl: "./maintenance.component.html",
-  styleUrl: "./maintenance.component.css",
+  selector: 'rani-maintenance',
+  imports: [Card, Button, TranslocoDirective, Tooltip, Checkbox, FormsModule, Tab, TabPanels, Tabs, TabList, TabPanel],
+  templateUrl: './maintenance.component.html',
+  styleUrl: './maintenance.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class MaintenanceComponent implements OnInit {
@@ -50,118 +31,112 @@ export class MaintenanceComponent implements OnInit {
 
   resettableConfigs = signal<ResettableConfig[]>([
     {
-      name: "Bash",
-      description: "maintenance.resettableConfigs.bash",
+      name: 'Bash',
+      description: 'maintenance.resettableConfigs.bash',
+      files: ['/etc/skel/.bashrc_garuda', '/etc/skel/autostart/bashrc-setup.desktop'],
+    },
+    {
+      name: 'Fish',
+      description: 'maintenance.resettableConfigs.fish',
+      files: ['/etc/skel/.config/fish/config.fish'],
+    },
+    {
+      name: 'ZSH',
+      description: 'maintenance.resettableConfigs.zsh',
+      files: ['/etc/skel/.zshrc'],
+    },
+    {
+      name: 'Kvantum',
+      description: 'maintenance.resettableConfigs.kvantum',
+      files: ['/etc/skel/.config/Kvantum/kvantum.kvconfig'],
+    },
+    {
+      name: 'Libinput',
+      description: 'maintenance.resettableConfigs.libinput',
+      files: ['/etc/skel/.config/libinput-gestures.conf'],
+    },
+    {
+      name: 'Bleachbit',
+      description: 'maintenance.resettableConfigs.bleachbit',
+      files: ['/etc/skel/.config/bleachbit/bleachbit.ini'],
+    },
+    {
+      name: 'LibreOffice',
+      description: 'maintenance.resettableConfigs.libreoffice',
+      files: ['/etc/skel/.config/libreoffice/4/user/registrymodifications.xcu'],
+    },
+    {
+      name: 'Starship',
+      description: 'maintenance.resettableConfigs.starship',
+      files: ['/etc/skel/.config/starship.toml'],
+    },
+    {
+      name: 'SMPlayer',
+      description: 'maintenance.resettableConfigs.smplayer',
+      files: ['/etc/skel/.config/smplayer/smplayer.ini'],
+    },
+    {
+      name: 'VLC',
+      description: 'maintenance.resettableConfigs.vlc',
+      files: ['/etc/skel/.config/vlc/vlcrc'],
+    },
+    {
+      name: 'Deluge',
+      description: 'maintenance.resettableConfigs.deluge',
+      files: ['/etc/skel/.config/deluge/gtk3ui.conf'],
+    },
+    {
+      name: 'MPV',
+      description: 'maintenance.resettableConfigs.mpv',
+      files: ['/etc/skel/.config/mpv/mpv.conf'],
+    },
+    {
+      name: 'Micro',
+      description: 'maintenance.resettableConfigs.micro',
+      files: ['/etc/skel/.config/micro/settings.json'],
+    },
+    {
+      name: 'Bat',
+      description: 'maintenance.resettableConfigs.bat',
+      files: ['/etc/skel/.config/bat/config', '/etc/skel/.config/bat/themes'],
+    },
+    {
+      name: 'Environment',
+      description: 'maintenance.resettableConfigs.environment',
+      files: ['/etc/skel/.config/environment.d/garuda.conf', '/etc/skel/.config/environment.d/firefox.conf'],
+    },
+    {
+      name: 'GTK3/4',
+      description: 'maintenance.resettableConfigs.gtk',
+      files: ['/etc/skel/.config/gtk-3.0', '/etc/skel/.config/gtk-4.0'],
+    },
+    {
+      name: 'PacSeek',
+      description: 'maintenance.resettableConfigs.pacseek',
+      files: ['/etc/skel/.config/pacseek/config.json'],
+    },
+    {
+      name: 'Profile sync daemon',
+      description: 'maintenance.resettableConfigs.psd',
+      files: ['/etc/skel/.config/psd/psd.conf'],
+    },
+    {
+      name: 'KDE settings',
+      description: 'maintenance.resettableConfigs.kde',
       files: [
-        "/etc/skel/.bashrc_garuda",
-        "/etc/skel/autostart/bashrc-setup.desktop",
-      ],
-    },
-    {
-      name: "Fish",
-      description: "maintenance.resettableConfigs.fish",
-      files: ["/etc/skel/.config/fish/config.fish"],
-    },
-    {
-      name: "ZSH",
-      description: "maintenance.resettableConfigs.zsh",
-      files: ["/etc/skel/.zshrc"],
-    },
-    {
-      name: "Kvantum",
-      description: "maintenance.resettableConfigs.kvantum",
-      files: ["/etc/skel/.config/Kvantum/kvantum.kvconfig"],
-    },
-    {
-      name: "Libinput",
-      description: "maintenance.resettableConfigs.libinput",
-      files: ["/etc/skel/.config/libinput-gestures.conf"],
-    },
-    {
-      name: "Bleachbit",
-      description: "maintenance.resettableConfigs.bleachbit",
-      files: ["/etc/skel/.config/bleachbit/bleachbit.ini"],
-    },
-    {
-      name: "LibreOffice",
-      description: "maintenance.resettableConfigs.libreoffice",
-      files: ["/etc/skel/.config/libreoffice/4/user/registrymodifications.xcu"],
-    },
-    {
-      name: "Starship",
-      description: "maintenance.resettableConfigs.starship",
-      files: ["/etc/skel/.config/starship.toml"],
-    },
-    {
-      name: "SMPlayer",
-      description: "maintenance.resettableConfigs.smplayer",
-      files: ["/etc/skel/.config/smplayer/smplayer.ini"],
-    },
-    {
-      name: "VLC",
-      description: "maintenance.resettableConfigs.vlc",
-      files: ["/etc/skel/.config/vlc/vlcrc"],
-    },
-    {
-      name: "Deluge",
-      description: "maintenance.resettableConfigs.deluge",
-      files: ["/etc/skel/.config/deluge/gtk3ui.conf"],
-    },
-    {
-      name: "MPV",
-      description: "maintenance.resettableConfigs.mpv",
-      files: ["/etc/skel/.config/mpv/mpv.conf"],
-    },
-    {
-      name: "Micro",
-      description: "maintenance.resettableConfigs.micro",
-      files: ["/etc/skel/.config/micro/settings.json"],
-    },
-    {
-      name: "Bat",
-      description: "maintenance.resettableConfigs.bat",
-      files: ["/etc/skel/.config/bat/config", "/etc/skel/.config/bat/themes"],
-    },
-    {
-      name: "Environment",
-      description: "maintenance.resettableConfigs.environment",
-      files: [
-        "/etc/skel/.config/environment.d/garuda.conf",
-        "/etc/skel/.config/environment.d/firefox.conf",
-      ],
-    },
-    {
-      name: "GTK3/4",
-      description: "maintenance.resettableConfigs.gtk",
-      files: ["/etc/skel/.config/gtk-3.0", "/etc/skel/.config/gtk-4.0"],
-    },
-    {
-      name: "PacSeek",
-      description: "maintenance.resettableConfigs.pacseek",
-      files: ["/etc/skel/.config/pacseek/config.json"],
-    },
-    {
-      name: "Profile sync daemon",
-      description: "maintenance.resettableConfigs.psd",
-      files: ["/etc/skel/.config/psd/psd.conf"],
-    },
-    {
-      name: "KDE settings",
-      description: "maintenance.resettableConfigs.kde",
-      files: [
-        "/etc/skel/.config/auroraerc",
-        "/etc/skel/.config/baloofilerc",
-        "/etc/skel/.config/dolphinrc",
-        "/etc/skel/.config/katerc",
-        "/etc/skel/.config/kcminputrc",
-        "/etc/skel/.config/kdeglobals",
-        "/etc/skel/.config/konsolerc",
-        "/etc/skel/.config/kscreenlockerrc",
-        "/etc/skel/.config/kwinrc",
-        "/etc/skel/.config/touchpadrc",
-        "/etc/skel/.config/yakuakerc",
-        "/etc/skel/.local/share/konsole/Garuda.profile",
-        "/etc/skel/.local/share/kxmlgui5/dolphin/dolphinui.rc",
+        '/etc/skel/.config/auroraerc',
+        '/etc/skel/.config/baloofilerc',
+        '/etc/skel/.config/dolphinrc',
+        '/etc/skel/.config/katerc',
+        '/etc/skel/.config/kcminputrc',
+        '/etc/skel/.config/kdeglobals',
+        '/etc/skel/.config/konsolerc',
+        '/etc/skel/.config/kscreenlockerrc',
+        '/etc/skel/.config/kwinrc',
+        '/etc/skel/.config/touchpadrc',
+        '/etc/skel/.config/yakuakerc',
+        '/etc/skel/.local/share/konsole/Garuda.profile',
+        '/etc/skel/.local/share/kxmlgui5/dolphin/dolphinui.rc',
       ],
     },
   ]);
@@ -175,216 +150,196 @@ export class MaintenanceComponent implements OnInit {
 
   actionsGarudaUpdate: MaintenanceAction[] = [
     {
-      name: "updateRemoteFix",
-      label: "maintenance.updateRemoteFix",
-      description: "maintenance.updateRemoteFixSub",
-      icon: "pi pi-pencil",
+      name: 'updateRemoteFix',
+      label: 'maintenance.updateRemoteFix',
+      description: 'maintenance.updateRemoteFixSub',
+      icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: true,
       onlyDirect: true,
       priority: 0,
       command: async (): Promise<void> => {
-        this.logger.info("Running remote fix");
-        await this.taskManager.executeAndWaitBashTerminal(
-          "GARUDA_UPDATE_RANI=1 garuda-update remote fix",
-        );
+        this.logger.info('Running remote fix');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fix');
       },
     },
     {
-      name: "updateRemoteKeyring",
-      label: "maintenance.updateRemoteKeyring",
-      description: "maintenance.updateRemoteKeyringSub",
-      icon: "pi pi-pencil",
+      name: 'updateRemoteKeyring',
+      label: 'maintenance.updateRemoteKeyring',
+      description: 'maintenance.updateRemoteKeyringSub',
+      icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: true,
       onlyDirect: true,
       priority: 0,
       command: async (): Promise<void> => {
-        this.logger.info("Running remote keyring");
-        await this.taskManager.executeAndWaitBashTerminal(
-          "GARUDA_UPDATE_RANI=1 garuda-update remote keyring",
-        );
+        this.logger.info('Running remote keyring');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote keyring');
       },
     },
     {
-      name: "updateRemoteFullFix",
-      label: "maintenance.updateRemoteFullFix",
-      description: "maintenance.updateRemoteFullFixSub",
-      icon: "pi pi-pencil",
+      name: 'updateRemoteFullFix',
+      label: 'maintenance.updateRemoteFullFix',
+      description: 'maintenance.updateRemoteFullFixSub',
+      icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: true,
       onlyDirect: true,
       priority: 0,
       command: async (): Promise<void> => {
-        this.logger.info("Running remote full fix");
-        await this.taskManager.executeAndWaitBashTerminal(
-          "GARUDA_UPDATE_RANI=1 garuda-update remote fullfix",
-        );
+        this.logger.info('Running remote full fix');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fullfix');
       },
     },
     {
-      name: "updateRemoteResetAudio",
-      label: "maintenance.updateRemoteResetAudio",
-      description: "maintenance.updateRemoteResetAudioSub",
-      icon: "pi pi-pencil",
+      name: 'updateRemoteResetAudio',
+      label: 'maintenance.updateRemoteResetAudio',
+      description: 'maintenance.updateRemoteResetAudioSub',
+      icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: true,
       onlyDirect: true,
       priority: 0,
       command: async (): Promise<void> => {
-        this.logger.info("Running remote reset-audio");
-        await this.taskManager.executeAndWaitBashTerminal(
-          "GARUDA_UPDATE_RANI=1 garuda-update remote-audio",
-        );
+        this.logger.info('Running remote reset-audio');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote-audio');
       },
     },
     {
-      name: "updateRemoteResetSnapper",
-      label: "maintenance.updateRemoteResetSnapper",
-      description: "maintenance.updateRemoteResetSnapperSub",
-      icon: "pi pi-pencil",
+      name: 'updateRemoteResetSnapper',
+      label: 'maintenance.updateRemoteResetSnapper',
+      description: 'maintenance.updateRemoteResetSnapperSub',
+      icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: true,
       onlyDirect: true,
       priority: 0,
       command: async (): Promise<void> => {
-        this.logger.info("Running remote reset-snapper");
-        await this.taskManager.executeAndWaitBashTerminal(
-          "GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper",
-        );
+        this.logger.info('Running remote reset-snapper');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper');
       },
     },
     {
-      name: "reinstallPackages",
-      label: "maintenance.reinstallPackages",
-      description: "maintenance.reinstallPackagesSub",
-      icon: "pi pi-refresh",
+      name: 'reinstallPackages',
+      label: 'maintenance.reinstallPackages',
+      description: 'maintenance.reinstallPackagesSub',
+      icon: 'pi pi-refresh',
       hasOutput: false,
       sudo: true,
       onlyDirect: true,
       priority: 0,
       command: async (): Promise<void> => {
-        this.logger.info("Running remote reinstall");
-        await this.taskManager.executeAndWaitBashTerminal(
-          "GARUDA_UPDATE_RANI=1 garuda-update remote reinstall",
-        );
+        this.logger.info('Running remote reinstall');
+        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reinstall');
       },
     },
   ];
   actions: MaintenanceAction[] = [
     {
-      name: "updateSystem",
-      label: "maintenance.updateSystem",
-      description: "maintenance.updateSystemSub",
-      icon: "pi pi-refresh",
+      name: 'updateSystem',
+      label: 'maintenance.updateSystem',
+      description: 'maintenance.updateSystemSub',
+      icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: true,
       priority: 5,
       command: (): string => {
-        this.logger.info("Updating system");
-        return "GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm";
+        this.logger.info('Updating system');
+        return 'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm';
       },
     },
     {
-      name: "cleanCache",
-      label: "maintenance.cleanCache",
-      description: "maintenance.cleanCacheSub",
-      icon: "pi pi-trash",
+      name: 'cleanCache',
+      label: 'maintenance.cleanCache',
+      description: 'maintenance.cleanCacheSub',
+      icon: 'pi pi-trash',
       sudo: true,
       hasOutput: true,
       priority: 99,
       command: (): string => {
-        this.logger.info("Cleaning cache");
-        return "paccache -ruk 0";
+        this.logger.info('Cleaning cache');
+        return 'paccache -ruk 0';
       },
     },
     {
-      name: "cleanOrphans",
-      label: "maintenance.clearOrphans",
-      description: "maintenance.clearOrphansSub",
-      icon: "pi pi-trash",
+      name: 'cleanOrphans',
+      label: 'maintenance.clearOrphans',
+      description: 'maintenance.clearOrphansSub',
+      icon: 'pi pi-trash',
       sudo: true,
       hasOutput: true,
       priority: 10,
       command: (): string => {
-        this.logger.info("Cleaning orphans");
-        return "pacman --noconfirm -Rns $(pacman -Qtdq)";
+        this.logger.info('Cleaning orphans');
+        return 'pacman --noconfirm -Rns $(pacman -Qtdq)';
       },
     },
     {
-      name: "refreshMirrors",
-      label: "maintenance.refreshMirrors",
-      description: "maintenance.refreshMirrorsSub",
-      icon: "pi pi-refresh",
+      name: 'refreshMirrors',
+      label: 'maintenance.refreshMirrors',
+      description: 'maintenance.refreshMirrorsSub',
+      icon: 'pi pi-refresh',
       sudo: false,
       hasOutput: false,
       priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        this.logger.info("Refreshing mirrors");
-        if (
-          await this.osInteractService.ensurePackageArchlinux(
-            "reflector-simple",
-          )
-        ) {
-          void this.taskManager.executeAndWaitBash("reflector-simple");
+        this.logger.info('Refreshing mirrors');
+        if (await this.osInteractService.ensurePackageArchlinux('reflector-simple')) {
+          void this.taskManager.executeAndWaitBash('reflector-simple');
         }
       },
     },
     {
-      name: "btrfsAssistant",
-      label: "maintenance.btrfsAssistant",
-      description: "maintenance.btrfsAssistantSub",
-      icon: "pi pi-refresh",
+      name: 'btrfsAssistant',
+      label: 'maintenance.btrfsAssistant',
+      description: 'maintenance.btrfsAssistantSub',
+      icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: false,
       priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        this.logger.info("Refreshing mirrors");
-        if (
-          await this.osInteractService.ensurePackageArchlinux("btrfs-assistant")
-        ) {
-          void this.taskManager.executeAndWaitBash(
-            "/usr/lib/garuda/pkexec-gui btrfs-assistant",
-          );
+        this.logger.info('Refreshing mirrors');
+        if (await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')) {
+          void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
         }
       },
     },
     {
-      name: "removeLock",
-      label: "maintenance.removeLock",
-      description: "maintenance.removeLockSub",
-      icon: "pi pi-trash",
+      name: 'removeLock',
+      label: 'maintenance.removeLock',
+      description: 'maintenance.removeLockSub',
+      icon: 'pi pi-trash',
       hasOutput: false,
       sudo: true,
       priority: 0,
       command: (): string => {
-        this.logger.info("Removing database lock");
+        this.logger.info('Removing database lock');
         return 'test -f /var/lib/pacman/db.lck && rm /var/lib/pacman/db.lck && echo "Successfully removed lock" || echo "No lock found"';
       },
     },
     {
-      name: "Edit repositories",
-      label: "maintenance.editRepos",
-      description: "maintenance.editReposSub",
-      icon: "pi pi-pencil",
+      name: 'Edit repositories',
+      label: 'maintenance.editRepos',
+      description: 'maintenance.editReposSub',
+      icon: 'pi pi-pencil',
       hasOutput: false,
       sudo: false,
       priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        this.logger.info("Editing repositories, checking for pace");
-        if (await this.osInteractService.ensurePackageArchlinux("pace")) {
-          void this.taskManager.executeAndWaitBash("pace");
+        this.logger.info('Editing repositories, checking for pace');
+        if (await this.osInteractService.ensurePackageArchlinux('pace')) {
+          void this.taskManager.executeAndWaitBash('pace');
         }
       },
     },
     {
-      name: "mergePacDiff",
-      label: "maintenance.mergePacDiff",
-      description: "maintenance.mergePacDiffSub",
-      icon: "pi pi-refresh",
+      name: 'mergePacDiff',
+      label: 'maintenance.mergePacDiff',
+      description: 'maintenance.mergePacDiffSub',
+      icon: 'pi pi-refresh',
       sudo: true,
       hasOutput: false,
       priority: 0,
@@ -398,7 +353,7 @@ export class MaintenanceComponent implements OnInit {
   private readonly translocoService = inject(TranslocoService);
 
   async ngOnInit(): Promise<void> {
-    this.logger.debug("Initializing maintenance");
+    this.logger.debug('Initializing maintenance');
     await this.checkExistingConfigs();
 
     this.checkRoute();
@@ -410,7 +365,7 @@ export class MaintenanceComponent implements OnInit {
   async checkExistingConfigs() {
     this.loadingService.loadingOn();
     const promises: Promise<ResettableConfig>[] = [];
-    this.logger.debug("Checking existing configs");
+    this.logger.debug('Checking existing configs');
 
     for (const config of this.resettableConfigs()) {
       const promise = new Promise<ResettableConfig>(async (resolve) => {
@@ -434,23 +389,21 @@ export class MaintenanceComponent implements OnInit {
     this.resettableConfigs.set(await Promise.all(promises));
 
     this.loadingService.loadingOff();
-    this.logger.debug(
-      `Checked existing configs: ${JSON.stringify(this.resettableConfigs())}`,
-    );
+    this.logger.debug(`Checked existing configs: ${JSON.stringify(this.resettableConfigs())}`);
   }
 
   /**
    * Reset a configuration file to its default state.
    */
   async resetConfigs(): Promise<void> {
-    this.logger.debug("Resetting configs");
+    this.logger.debug('Resetting configs');
     this.loadingService.loadingOn();
-    const homeDir: string = await path.resolve("~");
+    const homeDir: string = await path.resolve('~');
 
     for (const config of this.selectedResetConfigs()) {
       this.logger.trace(`Resetting config: ${config.name}`);
       for (const file of config.files) {
-        const cmd = `cp -r ${file} ${file.replace("/etc/skel", homeDir)}`;
+        const cmd = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
         this.logger.debug(`Running command: ${cmd}`);
 
         const output = await this.taskManager.executeAndWaitBash(cmd);
@@ -459,8 +412,8 @@ export class MaintenanceComponent implements OnInit {
         } else {
           this.logger.error(`Failed to reset ${file}`);
           this.messageToastService.error(
-            this.translocoService.translate("maintenance.failedReset"),
-            this.translocoService.translate("maintenance.failedResetFile", {
+            this.translocoService.translate('maintenance.failedReset'),
+            this.translocoService.translate('maintenance.failedResetFile', {
               file,
             }),
           );
@@ -479,11 +432,7 @@ export class MaintenanceComponent implements OnInit {
     const entry = this.taskManager.findTaskById(action.name);
 
     // Not a thing
-    if (
-      action.onlyDirect ||
-      action.command.constructor.name === "AsyncFunction"
-    )
-      return;
+    if (action.onlyDirect || action.command.constructor.name === 'AsyncFunction') return;
 
     if (!entry) {
       this.logger.debug(`Adding ${action.name} to pending`);
@@ -507,15 +456,15 @@ export class MaintenanceComponent implements OnInit {
    * @param action The action to run
    */
   runNow(action: MaintenanceAction) {
-    this.logger.debug("Running maintenance action now");
+    this.logger.debug('Running maintenance action now');
     if (action.onlyDirect) {
-      this.logger.debug("Boom its a direct action");
+      this.logger.debug('Boom its a direct action');
       void action.command();
     } else {
       if (this.taskManager.running()) {
         this.messageToastService.error(
-          this.translocoService.translate("maintenance.taskRunningHeader"),
-          this.translocoService.translate("maintenance.taskRunning"),
+          this.translocoService.translate('maintenance.taskRunningHeader'),
+          this.translocoService.translate('maintenance.taskRunning'),
         );
         return;
       }
@@ -537,21 +486,19 @@ export class MaintenanceComponent implements OnInit {
    * @param event The event that triggered the action
    */
   confirmResetConfigs(event: Event): void {
-    this.logger.trace("Confirming resetting configs");
+    this.logger.trace('Confirming resetting configs');
     this.confirmationService.confirm({
       target: event.target as EventTarget,
-      message: this.translocoService.translate("confirmation.resetConfigsBody"),
-      header: this.translocoService.translate(
-        "confirmation.resetConfigsHeader",
-      ),
-      icon: "pi pi-exclamation-triangle",
+      message: this.translocoService.translate('confirmation.resetConfigsBody'),
+      header: this.translocoService.translate('confirmation.resetConfigsHeader'),
+      icon: 'pi pi-exclamation-triangle',
       acceptButtonProps: {
-        severity: "danger",
-        label: this.translocoService.translate("confirmation.accept"),
+        severity: 'danger',
+        label: this.translocoService.translate('confirmation.accept'),
       },
       rejectButtonProps: {
-        severity: "secondary",
-        label: this.translocoService.translate("confirmation.reject"),
+        severity: 'secondary',
+        label: this.translocoService.translate('confirmation.reject'),
       },
       accept: () => {
         void this.resetConfigs();
@@ -566,7 +513,7 @@ export class MaintenanceComponent implements OnInit {
   private async mergePacDiff(): Promise<void> {
     const script = `echo "Creating pre-merge snapshot..." && snap=$(sudo snapper create -d "Before PacDiff merge" -p) && echo "Created snapshot $snap" && for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..." && SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}" && read -e -p 'Were the files successfully merged? (deleting .pacnew in this case) [y/N] ' answer && [[ $answer == [Yy]* ]] && echo deleting "$i"... && sudo rm "$i"; done; read -p "Press enter to finish"`;
 
-    if (await this.osInteractService.ensurePackageArchlinux("meld")) {
+    if (await this.osInteractService.ensurePackageArchlinux('meld')) {
       void this.taskManager.executeAndWaitBashTerminal(script);
     }
   }
@@ -576,25 +523,25 @@ export class MaintenanceComponent implements OnInit {
    */
   checkRoute() {
     const url: UrlTree = this.router.parseUrl(this.router.url);
-    if (url.queryParams["action"] === "pacdiff") {
-      this.logger.debug("Requested pacdiff action");
+    if (url.queryParams['action'] === 'pacdiff') {
+      this.logger.debug('Requested pacdiff action');
       void this.mergePacDiff();
       return;
     }
 
     if (!url.fragment) {
-      void this.router.navigate([], { fragment: "common" });
+      void this.router.navigate([], { fragment: 'common' });
       return;
     }
 
     switch (url.fragment) {
-      case "common":
+      case 'common':
         this.tabIndex.set(0);
         break;
-      case "reset":
+      case 'reset':
         this.tabIndex.set(1);
         break;
-      case "garuda-update":
+      case 'garuda-update':
         this.tabIndex.set(2);
         break;
       default:

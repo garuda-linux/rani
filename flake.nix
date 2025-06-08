@@ -45,6 +45,23 @@
           deadnix.enable = true;
           nixfmt.enable = true;
           prettier = {
+            settings = {
+              arrowParens = "always";
+              bracketSpacing = true;
+              embeddedLanguageFormatting = "auto";
+              endOfLine = "lf";
+              plugins = [
+                "prettier-plugin-tailwindcss"
+                "prettier-plugin-organize-attributes"
+              ];
+              printWidth = 120;
+              quoteProps = "consistent";
+              semi = true;
+              singleQuote = true;
+              tabWidth = 2;
+              trailingComma = "all";
+              useTabs = false;
+            };
             settings.editorconfig = true;
             enable = true;
           };

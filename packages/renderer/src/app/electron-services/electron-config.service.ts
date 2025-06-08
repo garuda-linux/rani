@@ -1,7 +1,7 @@
-import { Injectable } from "@angular/core";
+import { Injectable } from '@angular/core';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ElectronConfigService {
   /**
@@ -11,31 +11,28 @@ export class ElectronConfigService {
    */
   async notifyConfigChange(key: string, value: unknown): Promise<boolean> {
     if (!window.electronAPI) {
-      throw new Error("Electron API not available");
+      throw new Error('Electron API not available');
     }
 
     try {
       return await window.electronAPI.config.notifyChange(key, value);
     } catch (error) {
-      console.error("Failed to notify config change:", error);
+      console.error('Failed to notify config change:', error);
       return false;
     }
   }
 }
 
 // Export function for direct use
-export async function notifyConfigChange(
-  key: string,
-  value: unknown,
-): Promise<boolean> {
+export async function notifyConfigChange(key: string, value: unknown): Promise<boolean> {
   if (!window.electronAPI) {
-    throw new Error("Electron API not available");
+    throw new Error('Electron API not available');
   }
 
   try {
     return await window.electronAPI.config.notifyChange(key, value);
   } catch (error) {
-    console.error("Failed to notify config change:", error);
+    console.error('Failed to notify config change:', error);
     return false;
   }
 }

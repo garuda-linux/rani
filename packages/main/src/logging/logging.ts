@@ -1,5 +1,5 @@
-import { LogLevel } from "./interfaces.js";
-import { pino } from "pino";
+import { LogLevel } from './interfaces.js';
+import { pino } from 'pino';
 
 interface LogObject {
   scope?: string;
@@ -13,29 +13,27 @@ export class Logger {
     Logger.instance.mainLogger.level = LogLevel[level].toLowerCase();
   }
   public static get logLevel(): LogLevel {
-    return LogLevel[
-      Logger.instance.logger.level.toUpperCase() as keyof typeof LogLevel
-    ];
+    return LogLevel[Logger.instance.logger.level.toUpperCase() as keyof typeof LogLevel];
   }
 
   public readonly logger = pino({
     transport: {
       targets: [
         {
-          target: "pino-pretty",
+          target: 'pino-pretty',
           options: {
             colorize: true,
             colorizeObjects: true,
             crlf: false,
-            errorLikeObjectKeys: ["err", "error"],
+            errorLikeObjectKeys: ['err', 'error'],
             levelFirst: true,
-            messageKey: "msg",
-            levelKey: "level",
-            messageFormat: "{module} - {msg} ",
-            timestampKey: "time",
+            messageKey: 'msg',
+            levelKey: 'level',
+            messageFormat: '{module} - {msg} ',
+            timestampKey: 'time',
             translateTime: true,
-            ignore: "pid,hostname",
-            include: "level,time",
+            ignore: 'pid,hostname',
+            include: 'level,time',
             hideObject: false,
             singleLine: true,
             useOnlyCustomProps: false,
@@ -44,7 +42,7 @@ export class Logger {
       ],
     },
   });
-  private readonly mainLogger = this.logger.child({ module: "Main" });
+  private readonly mainLogger = this.logger.child({ module: 'Main' });
 
   private static instance: Logger;
 

@@ -1,10 +1,6 @@
-import { Injectable, inject, NgZone } from "@angular/core";
-import { Logger } from "../logging/logging";
-import {
-  type ShellEvent,
-  type ShellStreamingResult,
-  type ElectronAPI,
-} from "./electron-types";
+import { Injectable, inject, NgZone } from '@angular/core';
+import { Logger } from '../logging/logging';
+import { type ShellEvent, type ShellStreamingResult, type ElectronAPI } from './electron-types';
 
 // Re-export ShellStreamingResult for backward compatibility
 export type { ShellStreamingResult };
@@ -20,7 +16,7 @@ export interface ShellStreamingOptions {
 }
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ElectronShellSpawnService {
   private readonly logger = Logger.getInstance();
@@ -30,7 +26,7 @@ export class ElectronShellSpawnService {
   private cleanupFunctions = new Map<string, () => void>();
 
   constructor() {
-    this.logger.debug("ElectronShellSpawnService constructor called.");
+    this.logger.debug('ElectronShellSpawnService constructor called.');
   }
 
   /**
@@ -47,9 +43,7 @@ export class ElectronShellSpawnService {
     args?: string[],
     options?: ShellStreamingOptions,
   ): Promise<ShellStreamingResult> {
-    this.logger.debug(
-      `Invoking spawnStreaming with command: ${command}, args: ${JSON.stringify(args)}`,
-    );
+    this.logger.debug(`Invoking spawnStreaming with command: ${command}, args: ${JSON.stringify(args)}`);
 
     const result = await this.electronAPI.shell.spawnStreaming(command, args, {
       cwd: options?.cwd,
@@ -70,10 +64,10 @@ export class ElectronShellSpawnService {
 
     const cleanup = () => {
       // Remove listeners when the process is explicitly closed or ends
-      this.electronAPI.events.off("shell:stdout", stdoutListener);
-      this.electronAPI.events.off("shell:stderr", stderrListener);
-      this.electronAPI.events.off("shell:close", closeListener);
-      this.electronAPI.events.off("shell:error", errorListener);
+      this.electronAPI.events.off('shell:stdout', stdoutListener);
+      this.electronAPI.events.off('shell:stderr', stderrListener);
+      this.electronAPI.events.off('shell:close', closeListener);
+      this.electronAPI.events.off('shell:error', errorListener);
       this.cleanupFunctions.delete(processId);
       this.logger.debug(`Cleaned up listeners for process ID: ${processId}`);
     };
@@ -98,9 +92,7 @@ export class ElectronShellSpawnService {
 
     const closeListener = (event: ShellEvent) => {
       if (event.processId !== processId) return;
-      this.logger.info(
-        `Process ${event.processId} closed with code: ${event.code}, signal: ${event.signal}`,
-      );
+      this.logger.info(`Process ${event.processId} closed with code: ${event.code}, signal: ${event.signal}`);
       if (options?.onClose) {
         options.onClose(event.code ?? null, event.signal ?? null);
       }
@@ -113,10 +105,8 @@ export class ElectronShellSpawnService {
 
     const errorListener = (event: ShellEvent) => {
       if (event.processId !== processId) return;
-      const errorMessage = event.error?.message ?? "Unknown error";
-      this.logger.error(
-        `Process ${event.processId} encountered error: ${errorMessage}`,
-      );
+      const errorMessage = event.error?.message ?? 'Unknown error';
+      this.logger.error(`Process ${event.processId} encountered error: ${errorMessage}`);
       if (options?.onError) {
         options.onError(new Error(errorMessage));
       }
@@ -128,10 +118,10 @@ export class ElectronShellSpawnService {
     };
 
     // Register listeners for this specific processId
-    this.electronAPI.events.on("shell:stdout", stdoutListener);
-    this.electronAPI.events.on("shell:stderr", stderrListener);
-    this.electronAPI.events.on("shell:close", closeListener);
-    this.electronAPI.events.on("shell:error", errorListener);
+    this.electronAPI.events.on('shell:stdout', stdoutListener);
+    this.electronAPI.events.on('shell:stderr', stderrListener);
+    this.electronAPI.events.on('shell:close', closeListener);
+    this.electronAPI.events.on('shell:error', errorListener);
 
     return result;
   }
@@ -143,9 +133,7 @@ export class ElectronShellSpawnService {
    * @param data The string data to write.
    */
   async writeStdin(processId: string, data: string): Promise<void> {
-    this.logger.debug(
-      `Writing to stdin of process ${processId}: ${data.substring(0, 50)}...`,
-    );
+    this.logger.debug(`Writing to stdin of process ${processId}: ${data.substring(0, 50)}...`);
     await this.electronAPI.shell.writeStdin(processId, data);
   }
 
@@ -156,9 +144,7 @@ export class ElectronShellSpawnService {
    * @param signal The signal to send (e.g., 'SIGTERM', 'SIGKILL').
    */
   async killProcess(processId: string, signal?: string): Promise<void> {
-    this.logger.warn(
-      `Killing process ${processId} with signal: ${signal || "SIGTERM"}`,
-    );
+    this.logger.warn(`Killing process ${processId} with signal: ${signal || 'SIGTERM'}`);
     await this.electronAPI.shell.killProcess(processId, signal);
 
     // Immediately run cleanup after explicitly killing
@@ -187,9 +173,7 @@ export class ElectronShellSpawnService {
     code: number | null;
     signal: string | null;
   }> {
-    this.logger.debug(
-      `Executing one-off command: ${command} ${JSON.stringify(args)}`,
-    );
+    this.logger.debug(`Executing one-off command: ${command} ${JSON.stringify(args)}`);
     const result = await this.electronAPI.shell.execute(command, args, options);
     this.logger.debug(
       // @ts-ignore
@@ -208,7 +192,7 @@ export class ElectronShellSpawnService {
    * Call this when your application is shutting down or if you want to ensure no stale listeners.
    */
   cleanupAllListeners(): void {
-    this.logger.info("Cleaning up all shell process listeners.");
+    this.logger.info('Cleaning up all shell process listeners.');
     this.cleanupFunctions.forEach((cleanup) => cleanup());
     this.cleanupFunctions.clear();
   }

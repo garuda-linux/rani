@@ -1,7 +1,7 @@
-import { AbstractSecurityRule } from "./AbstractSecurityModule.js";
-import { URL } from "node:url";
-import type { WebContents } from "electron";
-import { Logger } from "../logging/logging.js";
+import { AbstractSecurityRule } from './AbstractSecurityModule.js';
+import { URL } from 'node:url';
+import type { WebContents } from 'electron';
+import { Logger } from '../logging/logging.js';
 
 /**
  * Block navigation to origins not on the allowlist.
@@ -21,7 +21,7 @@ export class BlockNotAllowedOrigins extends AbstractSecurityRule {
   }
 
   applyRule(contents: WebContents): Promise<void> | void {
-    contents.on("will-navigate", (event, url) => {
+    contents.on('will-navigate', (event, url) => {
       const { origin } = new URL(url);
       if (this.#allowedOrigins.has(origin)) {
         return;

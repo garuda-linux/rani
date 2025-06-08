@@ -1,26 +1,19 @@
-import {
-  ChangeDetectionStrategy,
-  Component,
-  effect,
-  inject,
-  input,
-  signal,
-} from "@angular/core";
-import type { SystemToolsEntry, SystemToolsSubEntry } from "../../interfaces";
-import { Checkbox } from "primeng/checkbox";
-import { TranslocoDirective } from "@jsverse/transloco";
-import { FormsModule } from "@angular/forms";
-import { NgClass } from "@angular/common";
-import { Card } from "primeng/card";
-import { Logger } from "../../logging/logging";
-import { TaskManagerService } from "../task-manager/task-manager.service";
-import { OsInteractService } from "../task-manager/os-interact.service";
+import { ChangeDetectionStrategy, Component, effect, inject, input, signal } from '@angular/core';
+import type { SystemToolsEntry, SystemToolsSubEntry } from '../../interfaces';
+import { Checkbox } from 'primeng/checkbox';
+import { TranslocoDirective } from '@jsverse/transloco';
+import { FormsModule } from '@angular/forms';
+import { NgClass } from '@angular/common';
+import { Card } from 'primeng/card';
+import { Logger } from '../../logging/logging';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
-  selector: "rani-dynamic-checkboxes",
+  selector: 'rani-dynamic-checkboxes',
   imports: [Checkbox, TranslocoDirective, FormsModule, NgClass, Card],
-  templateUrl: "./dynamic-checkboxes.component.html",
-  styleUrl: "./dynamic-checkboxes.component.css",
+  templateUrl: './dynamic-checkboxes.component.html',
+  styleUrl: './dynamic-checkboxes.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DynamicCheckboxesComponent {
@@ -76,30 +69,16 @@ export class DynamicCheckboxesComponent {
    */
   private checkState(entry: SystemToolsSubEntry, current = false): boolean {
     switch (entry.check.type) {
-      case "pkg": {
+      case 'pkg': {
         this.logger.trace(`Checking package ${entry.check.name} as pkg`);
         return (
-          this.osInteractService.check(
-            entry.check.name,
-            entry.check.type,
-            current,
-          ) ||
-          this.osInteractService.check(
-            `${entry.check.name}-git`,
-            entry.check.type,
-            current,
-          )
+          this.osInteractService.check(entry.check.name, entry.check.type, current) ||
+          this.osInteractService.check(`${entry.check.name}-git`, entry.check.type, current)
         );
       }
       default: {
-        this.logger.trace(
-          `Checking service ${entry.check.name} as ${entry.check.type}`,
-        );
-        return this.osInteractService.check(
-          entry.check.name,
-          entry.check.type,
-          current,
-        );
+        this.logger.trace(`Checking service ${entry.check.name} as ${entry.check.type}`);
+        return this.osInteractService.check(entry.check.name, entry.check.type, current);
       }
     }
   }
@@ -114,15 +93,11 @@ export class DynamicCheckboxesComponent {
 
         let disabler: SystemToolsSubEntry | undefined;
         for (const section of entries) {
-          if (typeof entry.disabler === "string") {
-            disabler = section.sections.find(
-              (e: SystemToolsSubEntry) => e.name === entry.disabler,
-            );
+          if (typeof entry.disabler === 'string') {
+            disabler = section.sections.find((e: SystemToolsSubEntry) => e.name === entry.disabler);
           } else {
             for (const disablerName of entry.disabler) {
-              disabler = section.sections.find(
-                (e: SystemToolsSubEntry) => e.name === disablerName,
-              );
+              disabler = section.sections.find((e: SystemToolsSubEntry) => e.name === disablerName);
               if (disabler) break;
             }
           }
@@ -138,11 +113,7 @@ export class DynamicCheckboxesComponent {
         }
 
         if (disabled && !this.checkState(entry, true)) {
-          this.osInteractService.toggle(
-            entry.check.name,
-            entry.check.type,
-            true,
-          );
+          this.osInteractService.toggle(entry.check.name, entry.check.type, true);
           entry.disabled = true;
         } else entry.disabled = false;
       }

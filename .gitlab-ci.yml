@@ -1,6 +1,4 @@
----
 stages: [checks, build, release]
-
 check-commitizen:
   # Check the current commit message for compliance with commitizen
   stage: checks
@@ -11,7 +9,6 @@ check-commitizen:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
 check-packagelists:
   # Check whether all packages advertised in the package lists are available
   stage: checks
@@ -33,7 +30,6 @@ check-packagelists:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
 build-linux:
   image: node:22-slim
   stage: build
@@ -64,7 +60,6 @@ build-linux:
       - src-tauri/target/release/bundle/deb/*.deb
       - src-tauri/target/release/bundle/appimage/*.AppImage
       - src-tauri/target/release/bundle/rpm/*.rpm
-
 tag-to-release:
   stage: release
   # https://gitlab.com/gitlab-org/release-cli/-/blob/master/Dockerfile
@@ -79,7 +74,6 @@ tag-to-release:
     - git clone "$CI_PROJECT_URL.git"
     - cd "$CI_PROJECT_NAME"
     - CHANGELOG=$(cz changelog "$CI_COMMIT_TAG" --dry-run | sed /^Invalid/d)
-    - release-cli create --name "$CI_COMMIT_TAG" --description "$CHANGELOG" \
-      --tag-name "$CI_COMMIT_TAG"
+    - release-cli create --name "$CI_COMMIT_TAG" --description "$CHANGELOG" \ --tag-name "$CI_COMMIT_TAG"
   rules:
     - if: $CI_COMMIT_TAG != null

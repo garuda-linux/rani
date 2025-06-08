@@ -1,9 +1,9 @@
-import type { AppModule } from "../AppModule.js";
-import type { ModuleContext } from "../ModuleContext.js";
-import { ipcMain } from "electron";
-import { fileURLToPath } from "node:url";
-import { dirname, join, resolve } from "node:path";
-import { Logger } from "../logging/logging.js";
+import type { AppModule } from '../AppModule.js';
+import type { ModuleContext } from '../ModuleContext.js';
+import { ipcMain } from 'electron';
+import { fileURLToPath } from 'node:url';
+import { dirname, join, resolve } from 'node:path';
+import { Logger } from '../logging/logging.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -22,97 +22,69 @@ class PathModule implements AppModule {
 
   private setupPathHandlers(app: Electron.App): void {
     // Path Operations
-    ipcMain.handle("path:appConfigDir", async () => {
+    ipcMain.handle('path:appConfigDir', async () => {
       try {
-        return app.getPath("userData");
+        return app.getPath('userData');
       } catch (error: any) {
-        this.logger.error(
-          `Path appConfigDir error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to get app config directory: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path appConfigDir error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to get app config directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("path:appDataDir", async () => {
+    ipcMain.handle('path:appDataDir', async () => {
       try {
-        return app.getPath("appData");
+        return app.getPath('appData');
       } catch (error: any) {
-        this.logger.error(
-          `Path appDataDir error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to get app data directory: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path appDataDir error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to get app data directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("path:appLocalDataDir", async () => {
+    ipcMain.handle('path:appLocalDataDir', async () => {
       try {
-        return app.getPath("userData");
+        return app.getPath('userData');
       } catch (error: any) {
-        this.logger.error(
-          `Path appLocalDataDir error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to get app local data directory: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path appLocalDataDir error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to get app local data directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("path:appCacheDir", async () => {
+    ipcMain.handle('path:appCacheDir', async () => {
       try {
-        return app.getPath("temp");
+        return app.getPath('temp');
       } catch (error: any) {
-        this.logger.error(
-          `Path appCacheDir error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to get app cache directory: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path appCacheDir error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to get app cache directory: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("path:resolve", async (_, ...paths: string[]) => {
+    ipcMain.handle('path:resolve', async (_, ...paths: string[]) => {
       try {
         return resolve(...paths);
       } catch (error: any) {
-        this.logger.error(
-          `Path resolve error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to resolve path: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path resolve error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to resolve path: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("path:join", async (_, ...paths: string[]) => {
+    ipcMain.handle('path:join', async (_, ...paths: string[]) => {
       try {
         return join(...paths);
       } catch (error: any) {
-        this.logger.error(
-          `Path join error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to join paths: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path join error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to join paths: ${error instanceof Error ? error.message : error}`);
       }
     });
 
-    ipcMain.handle("path:resolveResource", async (_, resourcePath: string) => {
+    ipcMain.handle('path:resolveResource', async (_, resourcePath: string) => {
       try {
         if (this.isDevelopment) {
-          return join(process.cwd(), "src", "assets", resourcePath);
+          return join(process.cwd(), 'src', 'assets', resourcePath);
         }
-        return join(__dirname, "../dist/browser/assets", resourcePath);
+        return join(__dirname, '../dist/browser/assets', resourcePath);
       } catch (error: any) {
-        this.logger.error(
-          `Path resolveResource error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to resolve resource path: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Path resolveResource error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to resolve resource path: ${error instanceof Error ? error.message : error}`);
       }
     });
   }

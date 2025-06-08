@@ -1,16 +1,13 @@
-import { Injectable } from "@angular/core";
-import type { ContextMenuItem } from "./electron-types";
-import { Logger } from "../logging/logging";
+import { Injectable } from '@angular/core';
+import type { ContextMenuItem } from './electron-types';
+import { Logger } from '../logging/logging';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ElectronContextMenuService {
   private readonly logger = Logger.getInstance();
-  private readonly menuClickHandlers = new Map<
-    string,
-    () => void | Promise<void>
-  >();
+  private readonly menuClickHandlers = new Map<string, () => void | Promise<void>>();
 
   constructor() {
     this.setupEventListeners();
@@ -23,13 +20,9 @@ export class ElectronContextMenuService {
    * @param y Optional Y coordinate (defaults to cursor position)
    * @returns Promise that resolves when the menu is shown
    */
-  async showContextMenu(
-    items: ContextMenuItem[],
-    x?: number,
-    y?: number,
-  ): Promise<boolean> {
+  async showContextMenu(items: ContextMenuItem[], x?: number, y?: number): Promise<boolean> {
     if (!window.electronAPI?.contextMenu) {
-      this.logger.warn("Context menu API not available");
+      this.logger.warn('Context menu API not available');
       return false;
     }
 
@@ -39,7 +32,7 @@ export class ElectronContextMenuService {
 
       return await window.electronAPI.contextMenu.show(items, x, y);
     } catch (error) {
-      this.logger.error("Failed to show context menu:", error);
+      this.logger.error('Failed to show context menu:', error);
       return false;
     }
   }
@@ -55,7 +48,7 @@ export class ElectronContextMenuService {
     icon?: string;
     enabled?: boolean;
     visible?: boolean;
-    type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+    type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
     checked?: boolean;
     accelerator?: string;
     onClick?: () => void | Promise<void>;
@@ -67,7 +60,7 @@ export class ElectronContextMenuService {
       icon: options.icon,
       enabled: options.enabled,
       visible: options.visible,
-      type: options.type || "normal",
+      type: options.type || 'normal',
       checked: options.checked,
       accelerator: options.accelerator,
       submenu: options.submenu,
@@ -86,7 +79,7 @@ export class ElectronContextMenuService {
    * @returns A separator menu item
    */
   createSeparator(): ContextMenuItem {
-    return { type: "separator" };
+    return { type: 'separator' };
   }
 
   /**
@@ -111,32 +104,23 @@ export class ElectronContextMenuService {
       return;
     }
 
-    window.electronAPI.events.on(
-      "contextMenu:itemClicked",
-      (itemId: string) => {
-        const handler = this.menuClickHandlers.get(itemId);
-        if (handler) {
-          try {
-            const result = handler();
-            if (result instanceof Promise) {
-              result.catch((error) => {
-                this.logger.error(
-                  `Error executing menu item handler for ${itemId}:`,
-                  error,
-                );
-              });
-            }
-          } catch (error) {
-            this.logger.error(
-              `Error executing menu item handler for ${itemId}:`,
-              error,
-            );
+    window.electronAPI.events.on('contextMenu:itemClicked', (itemId: string) => {
+      const handler = this.menuClickHandlers.get(itemId);
+      if (handler) {
+        try {
+          const result = handler();
+          if (result instanceof Promise) {
+            result.catch((error) => {
+              this.logger.error(`Error executing menu item handler for ${itemId}:`, error);
+            });
           }
-        } else {
-          this.logger.warn(`No handler found for menu item: ${itemId}`);
+        } catch (error) {
+          this.logger.error(`Error executing menu item handler for ${itemId}:`, error);
         }
-      },
-    );
+      } else {
+        this.logger.warn(`No handler found for menu item: ${itemId}`);
+      }
+    });
   }
 
   /**

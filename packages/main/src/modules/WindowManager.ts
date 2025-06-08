@@ -1,8 +1,8 @@
-import type { AppModule } from "../AppModule.js";
-import type { ModuleContext } from "../ModuleContext.js";
-import { BrowserWindow, screen, shell } from "electron";
-import type { AppInitConfig } from "../AppInitConfig.js";
-import { Logger } from "../logging/logging.js";
+import type { AppModule } from '../AppModule.js';
+import type { ModuleContext } from '../ModuleContext.js';
+import { BrowserWindow, screen, shell } from 'electron';
+import type { AppInitConfig } from '../AppInitConfig.js';
+import { Logger } from '../logging/logging.js';
 
 class WindowManager implements AppModule {
   readonly #preload: { path: string };
@@ -11,7 +11,7 @@ class WindowManager implements AppModule {
   readonly #isDevelopment;
 
   private readonly logger = Logger.getInstance();
-  private readonly rendererLogger = Logger.child("Renderer");
+  private readonly rendererLogger = Logger.child('Renderer');
 
   constructor({
     initConfig,
@@ -31,8 +31,8 @@ class WindowManager implements AppModule {
   async enable({ app }: ModuleContext): Promise<void> {
     await app.whenReady();
     await this.restoreOrCreateWindow(true);
-    app.on("second-instance", () => this.restoreOrCreateWindow(true));
-    app.on("activate", () => this.restoreOrCreateWindow(true));
+    app.on('second-instance', () => this.restoreOrCreateWindow(true));
+    app.on('activate', () => this.restoreOrCreateWindow(true));
   }
 
   async createWindow(): Promise<BrowserWindow> {
@@ -46,7 +46,7 @@ class WindowManager implements AppModule {
       height: size.height - 100,
       show: false,
       frame: true,
-      title: "Garuda Rani",
+      title: 'Garuda Rani',
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
@@ -58,47 +58,41 @@ class WindowManager implements AppModule {
         experimentalFeatures: false,
         plugins: false,
         webgl: true, // XtermJs uses webgl
-        accessibleTitle: "Garuda Rani",
+        accessibleTitle: 'Garuda Rani',
         navigateOnDragDrop: false,
-        autoplayPolicy: "user-gesture-required",
+        autoplayPolicy: 'user-gesture-required',
         safeDialogs: true,
-        safeDialogsMessage: "This app is preventing additional dialogs",
+        safeDialogsMessage: 'This app is preventing additional dialogs',
       },
     });
 
     // Set title
-    browserWindow.setTitle("Garuda Rani");
+    browserWindow.setTitle('Garuda Rani');
 
     // Show window when ready to prevent visual flash
-    browserWindow.once("ready-to-show", () => {
+    browserWindow.once('ready-to-show', () => {
       browserWindow.show();
 
       // Additional error handling for renderer process
-      browserWindow.webContents.on("unresponsive", () => {
-        this.logger.warn("Renderer process became unresponsive");
+      browserWindow.webContents.on('unresponsive', () => {
+        this.logger.warn('Renderer process became unresponsive');
       });
 
-      browserWindow.webContents.on("responsive", () => {
-        this.logger.info("Renderer process became responsive again");
+      browserWindow.webContents.on('responsive', () => {
+        this.logger.info('Renderer process became responsive again');
       });
     });
 
     // Handle navigation security
-    browserWindow.webContents.on("will-navigate", (event, navigationUrl) => {
+    browserWindow.webContents.on('will-navigate', (event, navigationUrl) => {
       const parsedUrl = new URL(navigationUrl);
 
       // Allow devtools URLs
-      if (
-        navigationUrl.startsWith("devtools://") ||
-        navigationUrl.startsWith("chrome-devtools://")
-      ) {
+      if (navigationUrl.startsWith('devtools://') || navigationUrl.startsWith('chrome-devtools://')) {
         return;
       }
 
-      if (
-        parsedUrl.origin !== "http://localhost:5173" &&
-        parsedUrl.protocol !== "file:"
-      ) {
+      if (parsedUrl.origin !== 'http://localhost:5173' && parsedUrl.protocol !== 'file:') {
         event.preventDefault();
         this.logger.warn(`Blocked navigation to: ${navigationUrl}`);
       }
@@ -107,48 +101,43 @@ class WindowManager implements AppModule {
     // Handle new window creation security
     browserWindow.webContents.setWindowOpenHandler(({ url }) => {
       // Allow devtools
-      if (
-        url.startsWith("devtools://") ||
-        url.startsWith("chrome-devtools://")
-      ) {
-        return { action: "allow" };
+      if (url.startsWith('devtools://') || url.startsWith('chrome-devtools://')) {
+        return { action: 'allow' };
       }
 
       // Allow external URLs to open in default browser
-      if (url.startsWith("http://") || url.startsWith("https://")) {
+      if (url.startsWith('http://') || url.startsWith('https://')) {
         shell.openExternal(url);
       }
-      return { action: "deny" };
+      return { action: 'deny' };
     });
 
-    browserWindow.on("closed", () => {
+    browserWindow.on('closed', () => {
       // Window cleanup will be handled by the framework
     });
 
-    browserWindow.on("page-title-updated", (e) => {
+    browserWindow.on('page-title-updated', (e) => {
       e.preventDefault();
     });
 
     // Handle uncaught exceptions in renderer
-    browserWindow.webContents.on("render-process-gone", (event, details) => {
-      this.logger.error(
-        `Renderer process gone: ${JSON.stringify(details, null, 2)}`,
-      );
+    browserWindow.webContents.on('render-process-gone', (event, details) => {
+      this.logger.error(`Renderer process gone: ${JSON.stringify(details, null, 2)}`);
     });
 
     // Handle console messages from renderer for better debugging
-    browserWindow.webContents.on("console-message", (event) => {
+    browserWindow.webContents.on('console-message', (event) => {
       switch (event.level) {
-        case "debug":
+        case 'debug':
           this.rendererLogger.debug(`${event.message}`);
           break;
-        case "info":
+        case 'info':
           this.rendererLogger.info(`${event.message}`);
           break;
-        case "warning":
+        case 'warning':
           this.rendererLogger.warn(`${event.message}`);
           break;
-        case "error":
+        case 'error':
           this.rendererLogger.error(`${event.message}`);
           break;
       }
@@ -162,13 +151,11 @@ class WindowManager implements AppModule {
 
     // Only open dev tools in development and handle errors
     if (this.#isDevelopment && this.#openDevTools) {
-      browserWindow.webContents.once("dom-ready", () => {
+      browserWindow.webContents.once('dom-ready', () => {
         try {
-          browserWindow.webContents.openDevTools({ mode: "detach" });
+          browserWindow.webContents.openDevTools({ mode: 'detach' });
         } catch (error) {
-          this.logger.warn(
-            `Could not open DevTools: ${error instanceof Error ? error.message : String(error)}`,
-          );
+          this.logger.warn(`Could not open DevTools: ${error instanceof Error ? error.message : String(error)}`);
         }
       });
     }
@@ -203,8 +190,6 @@ class WindowManager implements AppModule {
   }
 }
 
-export function createWindowManagerModule(
-  ...args: ConstructorParameters<typeof WindowManager>
-) {
+export function createWindowManagerModule(...args: ConstructorParameters<typeof WindowManager>) {
   return new WindowManager(...args);
 }

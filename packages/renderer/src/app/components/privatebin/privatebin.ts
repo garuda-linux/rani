@@ -1,7 +1,7 @@
 // PrivatebinClient parts sourced from: https://github.com/pixelfactoryio/privatebin-cli
-import BaseConverter from "bs58";
-import { Logger } from "../../logging/logging";
-import pako from "pako";
+import BaseConverter from 'bs58';
+import { Logger } from '../../logging/logging';
+import pako from 'pako';
 
 import type {
   PrivatebinAdata,
@@ -9,14 +9,9 @@ import type {
   PrivatebinPaste,
   PrivatebinPasteRequest,
   PrivatebinResponse,
-} from "./types";
-import { Api, type ApiConfig, type ApiResponse } from "./api";
-import {
-  decrypt,
-  encrypt,
-  stringToUint8Array,
-  uint8ArrayToString,
-} from "./crypto";
+} from './types';
+import { Api, type ApiConfig, type ApiResponse } from './api';
+import { decrypt, encrypt, stringToUint8Array, uint8ArrayToString } from './crypto';
 
 /**
  * Encrypt a text to a Privatebin paste.
@@ -31,8 +26,8 @@ export async function encryptText(
 ): Promise<PrivatebinPasteRequest> {
   const { burnafterreading, opendiscussion, compression, textformat } = options;
   const spec = {
-    algo: "aes",
-    mode: "gcm",
+    algo: 'aes',
+    mode: 'gcm',
     ks: 256,
     ts: 128,
     iter: 100000,
@@ -43,7 +38,7 @@ export async function encryptText(
   };
 
   let buf = stringToUint8Array(JSON.stringify({ paste: text }));
-  if (compression === "zlib") {
+  if (compression === 'zlib') {
     buf = pako.deflateRaw(buf);
   }
 
@@ -56,37 +51,29 @@ export async function encryptText(
  * @param key The key to decrypt the text.
  * @param adata The additional data.
  */
-export async function decryptText(
-  ct: string,
-  key: Uint8Array,
-  adata: PrivatebinAdata,
-): Promise<PrivatebinPaste> {
+export async function decryptText(ct: string, key: Uint8Array, adata: PrivatebinAdata): Promise<PrivatebinPaste> {
   const buf: Uint8Array = await decrypt(ct, key, adata);
-  if (adata[0][7] === "zlib") {
-    return JSON.parse(pako.inflateRaw(buf, { to: "string" }));
+  if (adata[0][7] === 'zlib') {
+    return JSON.parse(pako.inflateRaw(buf, { to: 'string' }));
   }
 
   return JSON.parse(uint8ArrayToString(buf));
 }
 
 export class PrivatebinClient extends Api {
-  constructor(baseURL = "https://privatebin.net") {
+  constructor(baseURL = 'https://privatebin.net') {
     const apiConfig: ApiConfig = {
       baseURL: baseURL,
       headers: {
-        "Content-Type": "application/json",
-        "X-Requested-With": "JSONHttpRequest",
+        'Content-Type': 'application/json',
+        'X-Requested-With': 'JSONHttpRequest',
       },
     };
 
     super(apiConfig);
   }
 
-  public async sendText(
-    text: string,
-    key: Uint8Array,
-    options: PrivatebinOptions,
-  ): Promise<PrivatebinResponse> {
+  public async sendText(text: string, key: Uint8Array, options: PrivatebinOptions): Promise<PrivatebinResponse> {
     const payload = await encryptText(text, key, options);
     return this.postPaste(payload, options);
   }
@@ -100,10 +87,7 @@ export class PrivatebinClient extends Api {
   }
 
   private async getPaste(id: string): Promise<PrivatebinPasteRequest> {
-    const response = await this.get<
-      PrivatebinPasteRequest,
-      ApiResponse<PrivatebinPasteRequest>
-    >(`/?pasteid=${id}`);
+    const response = await this.get<PrivatebinPasteRequest, ApiResponse<PrivatebinPasteRequest>>(`/?pasteid=${id}`);
     return this.success(response);
   }
 
@@ -114,11 +98,7 @@ export class PrivatebinClient extends Api {
     const { expire } = options;
     const { ct, adata } = PrivatebinPasteRequest;
 
-    const response = await this.post<
-      PrivatebinResponse,
-      PrivatebinPasteRequest,
-      ApiResponse<PrivatebinResponse>
-    >("/", {
+    const response = await this.post<PrivatebinResponse, PrivatebinPasteRequest, ApiResponse<PrivatebinResponse>>('/', {
       v: 2,
       ct,
       adata,
@@ -132,14 +112,14 @@ export class GarudaBin {
   private readonly instance: PrivatebinClient;
   private readonly logger = Logger.getInstance();
   private readonly options: PrivatebinOptions = {
-    textformat: "plaintext",
-    expire: "1year",
+    textformat: 'plaintext',
+    expire: '1year',
     burnafterreading: 0,
     opendiscussion: 0,
-    output: "text",
-    compression: "zlib",
+    output: 'text',
+    compression: 'zlib',
   };
-  private readonly url = "https://bin.garudalinux.org";
+  private readonly url = 'https://bin.garudalinux.org';
 
   constructor() {
     this.instance = new PrivatebinClient(this.url);
@@ -152,13 +132,9 @@ export class GarudaBin {
    */
   async sendText(text: string): Promise<string> {
     try {
-      this.logger.trace("Sending text to GarudaBin");
+      this.logger.trace('Sending text to GarudaBin');
       const key: Uint8Array = crypto.getRandomValues(new Uint8Array(32));
-      const paste: PrivatebinResponse = await this.instance.sendText(
-        text,
-        key,
-        this.options,
-      );
+      const paste: PrivatebinResponse = await this.instance.sendText(text, key, this.options);
 
       return `${this.url}${paste.url}#${BaseConverter.encode(key)}`;
     } catch (error) {

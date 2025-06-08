@@ -1,16 +1,13 @@
-import { Injectable } from "@angular/core";
-import type { AppMenuItem } from "./electron-types";
-import { Logger } from "../logging/logging";
+import { Injectable } from '@angular/core';
+import type { AppMenuItem } from './electron-types';
+import { Logger } from '../logging/logging';
 
 @Injectable({
-  providedIn: "root",
+  providedIn: 'root',
 })
 export class ElectronAppMenuService {
   private readonly logger = Logger.getInstance();
-  private readonly menuClickHandlers = new Map<
-    string,
-    () => void | Promise<void>
-  >();
+  private readonly menuClickHandlers = new Map<string, () => void | Promise<void>>();
 
   constructor() {
     this.setupEventListeners();
@@ -27,10 +24,10 @@ export class ElectronAppMenuService {
       this.registerMenuItemHandlers(items);
 
       const result = await window.electronAPI.appMenu.update(items);
-      this.logger.info("App menu update result from main process:", result);
+      this.logger.info('App menu update result from main process:', result);
       return result;
     } catch (error) {
-      this.logger.error("Failed to update application menu:", error);
+      this.logger.error('Failed to update application menu:', error);
       return false;
     }
   }
@@ -43,7 +40,7 @@ export class ElectronAppMenuService {
     try {
       return await window.electronAPI.appMenu.getItems();
     } catch (error) {
-      this.logger.error("Failed to get application menu items:", error);
+      this.logger.error('Failed to get application menu items:', error);
       return [];
     }
   }
@@ -53,12 +50,9 @@ export class ElectronAppMenuService {
    * @param id Menu item ID
    * @param handler Function to execute when the menu item is clicked
    */
-  registerMenuItemHandler(
-    id: string,
-    handler: () => void | Promise<void>,
-  ): void {
+  registerMenuItemHandler(id: string, handler: () => void | Promise<void>): void {
     this.menuClickHandlers.set(id, handler);
-    this.logger.info("Registered menu item handler for:", id);
+    this.logger.info('Registered menu item handler for:', id);
   }
 
   /**
@@ -67,7 +61,7 @@ export class ElectronAppMenuService {
    */
   unregisterMenuItemHandler(id: string): void {
     this.menuClickHandlers.delete(id);
-    this.logger.info("Unregistered menu item handler for:", id);
+    this.logger.info('Unregistered menu item handler for:', id);
   }
 
   /**
@@ -81,7 +75,7 @@ export class ElectronAppMenuService {
     icon?: string;
     enabled?: boolean;
     visible?: boolean;
-    type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+    type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
     checked?: boolean;
     accelerator?: string;
     role?: string;
@@ -120,48 +114,42 @@ export class ElectronAppMenuService {
    * @private
    */
   private setupEventListeners(): void {
-    this.logger.info("Setting up app menu event listeners");
+    this.logger.info('Setting up app menu event listeners');
 
-    window.electronAPI.events.on("appMenu:itemClicked", (data) => {
-      this.logger.info("App menu service received click event:", data);
+    window.electronAPI.events.on('appMenu:itemClicked', (data) => {
+      this.logger.info('App menu service received click event:', data);
 
       try {
         // Handle router navigation
         if (data.routerLink) {
           // This would be handled by the component using this service
           // since the service doesn't have direct access to the router
-          this.logger.info("Menu item has router link:", data.routerLink);
+          this.logger.info('Menu item has router link:', data.routerLink);
         }
 
         // Handle command execution
         if (data.command) {
-          this.logger.info("Menu item has command:", data.command);
+          this.logger.info('Menu item has command:', data.command);
           // Commands would be handled by the component
         }
 
         // Handle registered click handlers
         if (data.id && this.menuClickHandlers.has(data.id)) {
-          this.logger.info("Executing registered handler for:", data.id);
+          this.logger.info('Executing registered handler for:', data.id);
           const handler = this.menuClickHandlers.get(data.id);
           if (handler) {
             Promise.resolve(handler()).catch((error) => {
-              this.logger.error(
-                `Error executing menu item handler for ${data.id}:`,
-                error,
-              );
+              this.logger.error(`Error executing menu item handler for ${data.id}:`, error);
             });
           }
         } else if (data.id) {
-          this.logger.warn(
-            "No registered handler found for menu item:",
-            data.id,
-          );
+          this.logger.warn('No registered handler found for menu item:', data.id);
         }
       } catch (error) {
-        this.logger.error("Error handling menu item click:", error);
+        this.logger.error('Error handling menu item click:', error);
       }
     });
 
-    this.logger.info("App menu event listeners setup complete");
+    this.logger.info('App menu event listeners setup complete');
   }
 }

@@ -1,11 +1,11 @@
-import type { AppModule } from "../AppModule.js";
-import type { ModuleContext } from "../ModuleContext.js";
-import { ipcMain, shell } from "electron";
-import { spawn } from "node:child_process";
-import { Client, type ConnectConfig } from "ssh2";
-import { readFileSync } from "node:fs";
-import { basename } from "node:path";
-import { Logger } from "../logging/logging.js";
+import type { AppModule } from '../AppModule.js';
+import type { ModuleContext } from '../ModuleContext.js';
+import { ipcMain, shell } from 'electron';
+import { spawn } from 'node:child_process';
+import { Client, type ConnectConfig } from 'ssh2';
+import { readFileSync } from 'node:fs';
+import { basename } from 'node:path';
+import { Logger } from '../logging/logging.js';
 
 class ShellModule implements AppModule {
   private readonly isDevelopment: boolean;
@@ -17,10 +17,10 @@ class ShellModule implements AppModule {
     if (this.isDevelopment) {
       try {
         this.sshConfig = {
-          host: "172.16.230.129",
+          host: '172.16.230.129',
           port: 22,
-          username: "nico",
-          privateKey: readFileSync("/Users/nijen/.ssh/dev_vm"),
+          username: 'nico',
+          privateKey: readFileSync('/Users/nijen/.ssh/dev_vm'),
         };
       } catch (error: any) {
         this.logger.warn(
@@ -37,22 +37,18 @@ class ShellModule implements AppModule {
 
   private setupShellHandlers(): void {
     // Shell Operations
-    ipcMain.handle("shell:open", async (_, url: string) => {
+    ipcMain.handle('shell:open', async (_, url: string) => {
       try {
         // Validate URL for security
         const urlPattern = /^(https?:\/\/)|(file:\/\/)|(mailto:)|(tel:)/;
         if (!urlPattern.test(url)) {
-          throw new Error("Invalid URL protocol");
+          throw new Error('Invalid URL protocol');
         }
         await shell.openExternal(url);
         return true;
       } catch (error: any) {
-        this.logger.error(
-          `Shell open error: ${error instanceof Error ? error.message : String(error)}`,
-        );
-        throw new Error(
-          `Failed to open URL: ${error instanceof Error ? error.message : error}`,
-        );
+        this.logger.error(`Shell open error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to open URL: ${error instanceof Error ? error.message : error}`);
       }
     });
 
@@ -60,38 +56,36 @@ class ShellModule implements AppModule {
     const validateCommand = (command: string, args: string[]): boolean => {
       // In development mode, allow all commands for flexibility
       if (this.isDevelopment) {
-        this.logger.info(
-          `[DEV MODE] Allowing command: ${command} ${args.join(" ")}`,
-        );
+        this.logger.info(`[DEV MODE] Allowing command: ${command} ${args.join(' ')}`);
         return true;
       }
 
       // Expanded whitelist of allowed commands for system management
       const allowedCommands = [
         // Package managers
-        "pacman",
-        "yay",
-        "paru",
-        "systemctl",
-        "localectl",
-        "timedatectl",
-        "hostnamectl",
-        "hostname",
-        "lsb_release",
-        "journalctl",
-        "dkms",
+        'pacman',
+        'yay',
+        'paru',
+        'systemctl',
+        'localectl',
+        'timedatectl',
+        'hostnamectl',
+        'hostname',
+        'lsb_release',
+        'journalctl',
+        'dkms',
         // General system utilities
-        "cp",
-        "test",
-        "uname",
-        "whoami",
+        'cp',
+        'test',
+        'uname',
+        'whoami',
         // Garuda specific tools
-        "garuda-inxi",
-        "launch-terminal",
-        "setup-assistant",
+        'garuda-inxi',
+        'launch-terminal',
+        'setup-assistant',
         // Shells
-        "bash",
-        "sh",
+        'bash',
+        'sh',
       ];
 
       const baseCommand = basename(command);
@@ -120,10 +114,8 @@ class ShellModule implements AppModule {
         /modprobe.*-r.*essential/,
       ];
 
-      const fullCommand = [command, ...args].join(" ");
-      const isDangerous = dangerousPatterns.some((pattern) =>
-        pattern.test(fullCommand),
-      );
+      const fullCommand = [command, ...args].join(' ');
+      const isDangerous = dangerousPatterns.some((pattern) => pattern.test(fullCommand));
 
       if (isDangerous) {
         this.logger.warn(`Blocked dangerous command pattern: ${fullCommand}`);
@@ -134,17 +126,12 @@ class ShellModule implements AppModule {
     };
 
     ipcMain.handle(
-      "shell:execute",
-      async (
-        _,
-        command: string,
-        args: string[] = [],
-        options: Record<string, unknown> = {},
-      ) => {
+      'shell:execute',
+      async (_, command: string, args: string[] = [], options: Record<string, unknown> = {}) => {
         try {
           if (!validateCommand(command, args)) {
             const errorMsg = this.isDevelopment
-              ? "Command validation failed (this should not happen in dev mode)"
+              ? 'Command validation failed (this should not happen in dev mode)'
               : `Command not allowed for security reasons: ${command}`;
             throw new Error(errorMsg);
           }
@@ -152,23 +139,11 @@ class ShellModule implements AppModule {
           const isSpawn = options.spawn === true;
           const timeout = (options.timeout as number) || 30000; // 30 second default timeout
 
-          if (process.platform === "darwin") {
-            return await this.executeViaSsh(
-              command,
-              args,
-              options,
-              timeout,
-              isSpawn,
-            );
+          if (process.platform === 'darwin') {
+            return await this.executeViaSsh(command, args, options, timeout, isSpawn);
           }
 
-          return await this.executeLocally(
-            command,
-            args,
-            options,
-            timeout,
-            isSpawn,
-          );
+          return await this.executeLocally(command, args, options, timeout, isSpawn);
         } catch (error: any) {
           this.logger.error(
             `Shell execute error: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
@@ -187,17 +162,14 @@ class ShellModule implements AppModule {
     isSpawn: boolean,
   ): Promise<any> {
     let fullCommand;
-    if (
-      (command.includes("bash") || command.includes("sh")) &&
-      args.includes("-c")
-    ) {
-      fullCommand = `${args.slice(1).join(" ")}`;
+    if ((command.includes('bash') || command.includes('sh')) && args.includes('-c')) {
+      fullCommand = `${args.slice(1).join(' ')}`;
     } else {
-      fullCommand = [command, ...args].join(" ");
+      fullCommand = [command, ...args].join(' ');
     }
 
-    let stdout = "";
-    let stderr = "";
+    let stdout = '';
+    let stderr = '';
 
     return new Promise((resolve, reject) => {
       const client = new Client();
@@ -208,7 +180,7 @@ class ShellModule implements AppModule {
         if (!isResolved) {
           isResolved = true;
           client.end();
-          reject(new Error("SSH command execution timed out"));
+          reject(new Error('SSH command execution timed out'));
         }
       }, timeout);
 
@@ -224,7 +196,7 @@ class ShellModule implements AppModule {
       };
 
       if (isSpawn) {
-        client.on("ready", () => {
+        client.on('ready', () => {
           client.exec(fullCommand, (err, stream) => {
             if (err) {
               this.logger.error(`SSH exec error: ${err}`);
@@ -239,7 +211,7 @@ class ShellModule implements AppModule {
             if (!isResolved) {
               isResolved = true;
               this.logger.info(
-                `SSH Stream ready - stream: ${stream ? "available" : "null"}, stderr: ${stream.stderr ? "available" : "null"}`,
+                `SSH Stream ready - stream: ${stream ? 'available' : 'null'}, stderr: ${stream.stderr ? 'available' : 'null'}`,
               );
               resolve({
                 pid: `ssh-${Date.now()}`, // Fake PID for SSH processes
@@ -254,11 +226,11 @@ class ShellModule implements AppModule {
           });
         });
       } else {
-        client.on("ready", () => {
+        client.on('ready', () => {
           client.exec(fullCommand, (err, stream) => {
             if (err) reject(new Error(`SSH exec error: ${err.message}`));
             stream
-              .on("close", (code: number) => {
+              .on('close', (code: number) => {
                 resolve({
                   code,
                   stdout: stdout.substring(0, 1024 * 1024), // Limit output to 1MB
@@ -267,17 +239,17 @@ class ShellModule implements AppModule {
                 });
                 client.end();
               })
-              .stdout.on("data", (data: string) => {
+              .stdout.on('data', (data: string) => {
                 stdout += data;
               })
-              .stderr.on("data", (data) => {
+              .stderr.on('data', (data) => {
                 stderr += data;
               });
           });
         });
       }
 
-      client.on("error", (err) => {
+      client.on('error', (err) => {
         this.logger.error(`SSH connection error: ${err.message}`);
         cleanup();
         if (!isResolved) {
@@ -298,7 +270,7 @@ class ShellModule implements AppModule {
     if (isSpawn) {
       // For spawned processes, return the child process handle immediately
       const child = spawn(command, args, {
-        stdio: ["pipe", "pipe", "pipe"],
+        stdio: ['pipe', 'pipe', 'pipe'],
         timeout,
         ...options,
       });
@@ -314,31 +286,31 @@ class ShellModule implements AppModule {
     // For executed commands, wait for completion with timeout
     return new Promise((resolve, reject) => {
       const child = spawn(command, args, {
-        stdio: ["pipe", "pipe", "pipe"],
+        stdio: ['pipe', 'pipe', 'pipe'],
         timeout,
         ...options,
       });
 
-      let stdout = "";
-      let stderr = "";
+      let stdout = '';
+      let stderr = '';
       const timeoutId: NodeJS.Timeout = setTimeout(() => {
-        child.kill("SIGTERM");
-        reject(new Error("Command execution timed out"));
+        child.kill('SIGTERM');
+        reject(new Error('Command execution timed out'));
       }, timeout);
 
       const cleanup = () => {
         clearTimeout(timeoutId);
       };
 
-      child.stdout?.on("data", (data) => {
+      child.stdout?.on('data', (data) => {
         stdout += data.toString();
       });
 
-      child.stderr?.on("data", (data) => {
+      child.stderr?.on('data', (data) => {
         stderr += data.toString();
       });
 
-      child.on("close", (code) => {
+      child.on('close', (code) => {
         cleanup();
         resolve({
           code,
@@ -348,7 +320,7 @@ class ShellModule implements AppModule {
         });
       });
 
-      child.on("error", (error: any) => {
+      child.on('error', (error: any) => {
         cleanup();
         this.logger.error(`Command execution error: ${error.cause}`);
         reject(new Error(`Command execution failed: ${error.message}`));
@@ -358,9 +330,9 @@ class ShellModule implements AppModule {
 
   private setupStreamingHandlers(): void {
     // Handle streaming shell events from preload
-    ipcMain.on("shell:stdout", (event, data) => {
+    ipcMain.on('shell:stdout', (event, data) => {
       try {
-        event.sender.send("shell:stdout", data);
+        event.sender.send('shell:stdout', data);
       } catch (error: any) {
         this.logger.error(
           `Failed to forward shell:stdout: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
@@ -368,14 +340,12 @@ class ShellModule implements AppModule {
       }
     });
 
-    ipcMain.on("shell:stderr", (event, data) => {
-      this.logger.info(
-        `[MAIN] Received shell:stderr: ${data.processId} ${data.data?.substring(0, 100)}`,
-      );
+    ipcMain.on('shell:stderr', (event, data) => {
+      this.logger.info(`[MAIN] Received shell:stderr: ${data.processId} ${data.data?.substring(0, 100)}`);
       try {
-        this.logger.info("[MAIN] Forwarding shell:stderr to renderer");
-        event.sender.send("shell:stderr", data);
-        this.logger.info("[MAIN] Successfully forwarded shell:stderr");
+        this.logger.info('[MAIN] Forwarding shell:stderr to renderer');
+        event.sender.send('shell:stderr', data);
+        this.logger.info('[MAIN] Successfully forwarded shell:stderr');
       } catch (error: any) {
         this.logger.error(
           `[MAIN] Failed to forward shell:stderr: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
@@ -383,14 +353,12 @@ class ShellModule implements AppModule {
       }
     });
 
-    ipcMain.on("shell:close", (event, data) => {
-      this.logger.info(
-        `[MAIN] Received shell:close: ${data.processId} code: ${data.code}`,
-      );
+    ipcMain.on('shell:close', (event, data) => {
+      this.logger.info(`[MAIN] Received shell:close: ${data.processId} code: ${data.code}`);
       try {
-        this.logger.info("[MAIN] Forwarding shell:close to renderer");
-        event.sender.send("shell:close", data);
-        this.logger.info("[MAIN] Successfully forwarded shell:close");
+        this.logger.info('[MAIN] Forwarding shell:close to renderer');
+        event.sender.send('shell:close', data);
+        this.logger.info('[MAIN] Successfully forwarded shell:close');
       } catch (error: any) {
         this.logger.error(
           `[MAIN] Failed to forward shell:close: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
@@ -398,14 +366,12 @@ class ShellModule implements AppModule {
       }
     });
 
-    ipcMain.on("shell:error", (event, data) => {
-      this.logger.info(
-        `[MAIN] Received shell:error: ${data.processId} ${data.error?.message}`,
-      );
+    ipcMain.on('shell:error', (event, data) => {
+      this.logger.info(`[MAIN] Received shell:error: ${data.processId} ${data.error?.message}`);
       try {
-        this.logger.info("[MAIN] Forwarding shell:error to renderer");
-        event.sender.send("shell:error", data);
-        this.logger.info("[MAIN] Successfully forwarded shell:error");
+        this.logger.info('[MAIN] Forwarding shell:error to renderer');
+        event.sender.send('shell:error', data);
+        this.logger.info('[MAIN] Successfully forwarded shell:error');
       } catch (error: any) {
         this.logger.error(
           `[MAIN] Failed to forward shell:error: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
