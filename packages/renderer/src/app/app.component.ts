@@ -371,7 +371,6 @@ export class AppComponent implements OnInit {
     this.attachElectronListeners();
 
     // Initialize the application menu
-    this.logger.info('Initializing application menu on ngOnInit');
     this.setupAppMenuHandlers();
     this.updateApplicationMenu(this.menuItems());
   }
@@ -462,8 +461,6 @@ export class AppComponent implements OnInit {
    * Sets up handlers for app menu item clicks
    */
   private setupAppMenuHandlers(): void {
-    this.logger.info('Setting up app menu handlers');
-
     if (!window.electronAPI?.events) {
       this.logger.error('electronAPI.events not available!');
       return;
@@ -471,13 +468,12 @@ export class AppComponent implements OnInit {
 
     try {
       window.electronAPI.events.on('appMenu:itemClicked', (data: any) => {
-        this.logger.info('App menu item clicked event received:', data);
+        this.logger.trace('App menu item clicked event received:', data);
 
         const menuData = data;
 
         // Handle router navigation
         if (menuData.routerLink) {
-          this.logger.info('Menu item navigating to:', menuData.routerLink);
           try {
             this.router.navigate([menuData.routerLink]);
           } catch (error) {
@@ -487,17 +483,13 @@ export class AppComponent implements OnInit {
 
         // Handle command execution
         if (menuData.command && menuData.id) {
-          this.logger.info('Executing command for menu item:', menuData.id);
-          // Find the original menu item and execute its command
           const menuItem = this.findMenuItemById(this.menuItems(), menuData.id);
           this.logger.debug('Found menu item:', menuItem);
 
           if (menuItem?.command) {
             try {
-              this.logger.info('Calling command function for:', menuData.id);
               // @ts-expect-error - PrimeNG MenuItem command property
               menuItem.command();
-              this.logger.info('Successfully executed command for:', menuData.id);
             } catch (error) {
               this.logger.error('Error executing menu command:', error);
             }
@@ -509,7 +501,7 @@ export class AppComponent implements OnInit {
         }
       });
 
-      this.logger.info('App menu handlers setup complete');
+      this.logger.debug('App menu handlers setup complete');
     } catch (error) {
       this.logger.error('Error setting up app menu event handler:', error);
     }
@@ -623,7 +615,7 @@ export class AppComponent implements OnInit {
    * @protected
    */
   protected async requestShutdown() {
-    this.logger.info(`Close requested, ${this.taskManager.currentTask() ? 'one' : 'no'} action is running`);
+    this.logger.debug(`Close requested, ${this.taskManager.currentTask() ? 'one' : 'no'} action is running`);
 
     if (!this.taskManager.running() && !this.taskManager.count()) {
       void this.shutdown();

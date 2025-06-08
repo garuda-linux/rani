@@ -52,7 +52,7 @@ export async function checkFirstBoot(): Promise<boolean> {
       return true;
     }
 
-    logger.info('Setup assistant does not exist');
+    logger.debug('Setup assistant does not exist');
     return false;
   } catch (error) {
     logger.error(`Error checking first boot: ${error}`);

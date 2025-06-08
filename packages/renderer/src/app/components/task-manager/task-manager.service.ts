@@ -51,7 +51,7 @@ export class TrackedShell {
       this.resolvePromise = resolve;
       this.rejectPromise = reject;
 
-      this.logger.info(`[TM] Starting persistent shell: ${this.command} ${JSON.stringify(this.args)}`);
+      this.logger.trace(`Starting persistent shell: ${this.command} ${JSON.stringify(this.args)}`);
 
       try {
         // AWAIT the promise to get the actual ShellStreamingResult object
@@ -60,7 +60,7 @@ export class TrackedShell {
           onStderr: (data) => this.outputs.emit(data),
           onClose: (code: number | null, signal: string | null) => {
             this.running = false;
-            this.logger.info(`[TM] Persistent shell closed. Code: ${code}, Signal: ${signal}`);
+            this.logger.trace(`Persistent shell closed. Code: ${code}, Signal: ${signal}`);
             if (code === 0) {
               this.resolvePromise?.();
             } else {
@@ -99,11 +99,11 @@ export class TrackedShell {
 
   async stop(): Promise<void> {
     if (!this.processId || !this.running) {
-      this.logger.info('[TM] Shell not running or already stopped.');
+      this.logger.debug('Shell not running or already stopped.');
       return;
     }
 
-    this.logger.info(`[TM] Stopping persistent shell ${this.processId}`);
+    this.logger.debug(`Stopping persistent shell ${this.processId}`);
     await this.shellSpawnService.writeStdin(this.processId, 'exit 0\n');
 
     const startTime = Date.now();
@@ -203,9 +203,8 @@ export class TaskManagerService {
     // Change ChildProcess<string> to any due to varied return type
     let result: any; // Type 'any' for now, should be specific return of ipcRenderer.invoke('shell:execute')
     try {
-      this.logger.info(`Executing bash code: ${script}`);
-      // Assuming shellService.execute is ipcRenderer.invoke('shell:execute')
-      // You'll need to inject ElectronShellService if you intend to use this.
+      this.logger.debug(`Executing bash code: ${script}`);
+
       // For now, let's directly call invoke if shellService is not defined yet.
       // If you're only using ElectronShellSpawnService for *all* shell interaction,
       // this method should also use the persistent shells.
@@ -231,7 +230,7 @@ export class TaskManagerService {
    */
   async executeAndWaitBashTerminal(script: string, reinit = false): Promise<void> {
     try {
-      this.logger.info(`Executing bash code in terminal: ${script}`);
+      this.logger.debug(`Executing bash code in terminal: ${script}`);
       this.loadingService.loadingOn();
       // Assuming shellService.execute for 'launch-terminal'
       await this.shellStreamingService.execute('launch-terminal', [script]);
@@ -345,7 +344,7 @@ export class TaskManagerService {
    * @private
    */
   private async internalExecuteTask(task: Task, shells: TrackedShells): Promise<void> {
-    this.logger.info(`Executing task: ${task.script}`);
+    this.logger.debug(`Executing task: ${task.script}`);
 
     const shell: TrackedShell | null = task.escalate ? shells.escalated : shells.normal;
     if (!shell) {

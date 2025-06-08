@@ -56,7 +56,7 @@ class ShellModule implements AppModule {
     const validateCommand = (command: string, args: string[]): boolean => {
       // In development mode, allow all commands for flexibility
       if (this.isDevelopment) {
-        this.logger.info(`[DEV MODE] Allowing command: ${command} ${args.join(' ')}`);
+        this.logger.trace(`Allowing command: ${command} ${args.join(' ')}`);
         return true;
       }
 
@@ -210,7 +210,7 @@ class ShellModule implements AppModule {
 
             if (!isResolved) {
               isResolved = true;
-              this.logger.info(
+              this.logger.debug(
                 `SSH Stream ready - stream: ${stream ? 'available' : 'null'}, stderr: ${stream.stderr ? 'available' : 'null'}`,
               );
               resolve({
@@ -341,11 +341,8 @@ class ShellModule implements AppModule {
     });
 
     ipcMain.on('shell:stderr', (event, data) => {
-      this.logger.info(`[MAIN] Received shell:stderr: ${data.processId} ${data.data?.substring(0, 100)}`);
       try {
-        this.logger.info('[MAIN] Forwarding shell:stderr to renderer');
         event.sender.send('shell:stderr', data);
-        this.logger.info('[MAIN] Successfully forwarded shell:stderr');
       } catch (error: any) {
         this.logger.error(
           `[MAIN] Failed to forward shell:stderr: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
@@ -354,11 +351,8 @@ class ShellModule implements AppModule {
     });
 
     ipcMain.on('shell:close', (event, data) => {
-      this.logger.info(`[MAIN] Received shell:close: ${data.processId} code: ${data.code}`);
       try {
-        this.logger.info('[MAIN] Forwarding shell:close to renderer');
         event.sender.send('shell:close', data);
-        this.logger.info('[MAIN] Successfully forwarded shell:close');
       } catch (error: any) {
         this.logger.error(
           `[MAIN] Failed to forward shell:close: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
@@ -367,11 +361,8 @@ class ShellModule implements AppModule {
     });
 
     ipcMain.on('shell:error', (event, data) => {
-      this.logger.info(`[MAIN] Received shell:error: ${data.processId} ${data.error?.message}`);
       try {
-        this.logger.info('[MAIN] Forwarding shell:error to renderer');
         event.sender.send('shell:error', data);
-        this.logger.info('[MAIN] Successfully forwarded shell:error');
       } catch (error: any) {
         this.logger.error(
           `[MAIN] Failed to forward shell:error: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,

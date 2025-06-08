@@ -60,7 +60,7 @@ export class LocalesService {
       this.osInteractService.toggleLocale(locale);
     }
     this.osInteractService.locales().forEach((string, locale) => {
-      this.logger.info(locale);
+      this.logger.trace(locale);
     });
   }
 

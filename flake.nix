@@ -48,6 +48,7 @@
             settings = {
               arrowParens = "always";
               bracketSpacing = true;
+              editorconfig = true;
               embeddedLanguageFormatting = "auto";
               endOfLine = "lf";
               plugins = [
@@ -62,7 +63,6 @@
               trailingComma = "all";
               useTabs = false;
             };
-            settings.editorconfig = true;
             enable = true;
           };
           shellcheck.enable = true;

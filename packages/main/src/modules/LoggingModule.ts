@@ -50,9 +50,10 @@ class LoggingModule implements AppModule {
       }
     });
 
-    ipcMain.handle('log:trace', async (_, msg: string, obj: LogObject) => {
+    ipcMain.handle('log:trace', async (_, msg: string, obj?: LogObject) => {
       try {
-        this.logger.trace(`${msg} ${JSON.stringify(obj, null, 2)}`);
+        const objStr = obj && Object.keys(obj).length > 0 ? ` ${JSON.stringify(obj, null, 2)}` : '';
+        this.logger.trace(`${msg}${objStr}`);
         return true;
       } catch (error) {
         this.logger.error(`Logging trace error: ${error instanceof Error ? error.message : String(error)}`);
@@ -60,9 +61,10 @@ class LoggingModule implements AppModule {
       }
     });
 
-    ipcMain.handle('log:debug', async (_, msg: string, obj: LogObject) => {
+    ipcMain.handle('log:debug', async (_, msg: string, obj?: LogObject) => {
       try {
-        this.logger.debug(`${msg} ${JSON.stringify(obj, null, 2)}`);
+        const objStr = obj && Object.keys(obj).length > 0 ? ` ${JSON.stringify(obj, null, 2)}` : '';
+        this.logger.debug(`${msg}${objStr}`);
         return true;
       } catch (error) {
         this.logger.error(`Logging debug error: ${error instanceof Error ? error.message : String(error)}`);
@@ -70,9 +72,10 @@ class LoggingModule implements AppModule {
       }
     });
 
-    ipcMain.handle('log:info', async (_, msg: string, obj: LogObject) => {
+    ipcMain.handle('log:info', async (_, msg: string, obj?: LogObject) => {
       try {
-        this.logger.info(`${msg} ${JSON.stringify(obj, null, 2)}`);
+        const objStr = obj && Object.keys(obj).length > 0 ? ` ${JSON.stringify(obj, null, 2)}` : '';
+        this.logger.info(`${msg}${objStr}`);
         return true;
       } catch (error) {
         this.logger.error(`Logging info error: ${error instanceof Error ? error.message : String(error)}`);
@@ -80,9 +83,10 @@ class LoggingModule implements AppModule {
       }
     });
 
-    ipcMain.handle('log:warn', async (_, msg: string, obj: LogObject) => {
+    ipcMain.handle('log:warn', async (_, msg: string, obj?: LogObject) => {
       try {
-        this.logger.warn(`${msg} ${JSON.stringify(obj, null, 2)}`);
+        const objStr = obj && Object.keys(obj).length > 0 ? ` ${JSON.stringify(obj, null, 2)}` : '';
+        this.logger.warn(`${msg}${objStr}`);
         return true;
       } catch (error) {
         this.logger.error(`Logging warn error: ${error instanceof Error ? error.message : String(error)}`);
@@ -90,9 +94,10 @@ class LoggingModule implements AppModule {
       }
     });
 
-    ipcMain.handle('log:error', async (_, msg: string, obj: LogObject) => {
+    ipcMain.handle('log:error', async (_, msg: string, obj?: LogObject) => {
       try {
-        this.logger.error(`${msg} ${JSON.stringify(obj, null, 2)}`);
+        const objStr = obj && Object.keys(obj).length > 0 ? ` ${JSON.stringify(obj, null, 2)}` : '';
+        this.logger.error(`${msg}${objStr}`);
         return true;
       } catch (error) {
         this.logger.error(`Logging error error: ${error instanceof Error ? error.message : String(error)}`);

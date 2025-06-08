@@ -23,20 +23,8 @@ class AppMenuModule implements AppModule {
   private readonly logger = Logger.getInstance();
   private currentMenuItems: AppMenuItem[] = [];
 
-  constructor() {
-    this.logger.info('AppMenuModule constructor called');
-  }
-
   enable(context: ModuleContext): void {
-    this.logger.info('AppMenuModule enable called');
-
-    this.preventDefaultMenu();
     this.setupMenuHandlers();
-  }
-
-  private preventDefaultMenu(): void {
-    // Don't set to null immediately - we'll replace it with our custom menu
-    this.logger.info('Will replace default application menu with custom menu');
   }
 
   private setupMenuHandlers(): void {
@@ -53,7 +41,7 @@ class AppMenuModule implements AppModule {
         const menu = this.buildApplicationMenu(menuItems);
         Menu.setApplicationMenu(menu);
 
-        this.logger.info('Application menu updated successfully');
+        this.logger.debug('Application menu updated successfully');
         return true;
       } catch (error: unknown) {
         this.logger.error(`App menu update error: ${error instanceof Error ? error.message : String(error)}`);
@@ -85,7 +73,7 @@ class AppMenuModule implements AppModule {
   }
 
   private buildApplicationMenu(items: AppMenuItem[]): Menu {
-    this.logger.info(`Building application menu with items: ${items.length}`);
+    this.logger.debug(`Building application menu with items: ${items.length}`);
 
     const isMac = process.platform === 'darwin';
     const template: Electron.MenuItemConstructorOptions[] = [
@@ -207,7 +195,7 @@ class AppMenuModule implements AppModule {
     // Handle click events for non-submenu items
     if (item.id && !hasSubmenu) {
       menuItem.click = () => {
-        this.logger.info(`Native menu item clicked: ${item.id}`);
+        this.logger.trace(`Native menu item clicked: ${item.id}`);
         this.handleMenuItemClick(item);
       };
     }
@@ -216,7 +204,7 @@ class AppMenuModule implements AppModule {
   }
 
   private handleMenuItemClick(item: AppMenuItem): void {
-    this.logger.info(`Menu item click handler called for: ${item.id || item.label}`);
+    this.logger.trace(`Menu item click handler called for: ${item.id || item.label}`);
 
     const win = BrowserWindow.getAllWindows()[0];
     if (!win || win.isDestroyed()) {

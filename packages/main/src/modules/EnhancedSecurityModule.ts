@@ -233,12 +233,12 @@ class EnhancedSecurityModule implements AppModule {
 
     // Monitor for suspicious activity
     app.on('accessibility-support-changed', (event, accessibilitySupportEnabled) => {
-      this.logger.info(`Accessibility support changed: ${accessibilitySupportEnabled}`);
+      this.logger.debug(`Accessibility support changed: ${accessibilitySupportEnabled}`);
     });
 
     // Handle GPU info update
     app.on('gpu-info-update', () => {
-      this.logger.info('GPU info updated');
+      this.logger.debug('GPU info updated');
     });
 
     // Handle renderer process crashed

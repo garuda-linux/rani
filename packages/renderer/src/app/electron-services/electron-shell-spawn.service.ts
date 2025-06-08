@@ -60,7 +60,7 @@ export class ElectronShellSpawnService {
       throw new Error(errorMessage);
     }
 
-    this.logger.info(`Spawned process with ID: ${processId}, PID: ${pid}`);
+    this.logger.debug(`Spawned process with ID: ${processId}, PID: ${pid}`);
 
     const cleanup = () => {
       // Remove listeners when the process is explicitly closed or ends
@@ -92,7 +92,7 @@ export class ElectronShellSpawnService {
 
     const closeListener = (event: ShellEvent) => {
       if (event.processId !== processId) return;
-      this.logger.info(`Process ${event.processId} closed with code: ${event.code}, signal: ${event.signal}`);
+      this.logger.debug(`Process ${event.processId} closed with code: ${event.code}, signal: ${event.signal}`);
       if (options?.onClose) {
         options.onClose(event.code ?? null, event.signal ?? null);
       }
@@ -192,7 +192,7 @@ export class ElectronShellSpawnService {
    * Call this when your application is shutting down or if you want to ensure no stale listeners.
    */
   cleanupAllListeners(): void {
-    this.logger.info('Cleaning up all shell process listeners.');
+    this.logger.debug('Cleaning up all shell process listeners');
     this.cleanupFunctions.forEach((cleanup) => cleanup());
     this.cleanupFunctions.clear();
   }

@@ -63,7 +63,7 @@ export async function initApp(initConfig: AppInitConfig) {
     appMenuModule.enable(moduleContext);
     shellModule.enable(moduleContext);
 
-    logger.info('IPC handlers registered successfully');
+    logger.debug('IPC handlers registered successfully');
 
     // Now run the async module runner for other modules
     const moduleRunner = createModuleRunner()

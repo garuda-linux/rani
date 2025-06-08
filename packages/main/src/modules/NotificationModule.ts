@@ -56,11 +56,11 @@ class NotificationModule implements AppModule {
 
         // Handle notification events
         notification.on('click', () => {
-          this.logger.info('Notification clicked');
+          this.logger.debug('Notification clicked');
         });
 
         notification.on('close', () => {
-          this.logger.info('Notification closed');
+          this.logger.debug('Notification closed');
         });
 
         notification.on('failed', (error: any) => {

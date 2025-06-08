@@ -24,7 +24,7 @@ export class ElectronAppMenuService {
       this.registerMenuItemHandlers(items);
 
       const result = await window.electronAPI.appMenu.update(items);
-      this.logger.info('App menu update result from main process:', result);
+      this.logger.trace('App menu update result from main process:', result);
       return result;
     } catch (error) {
       this.logger.error('Failed to update application menu:', error);
@@ -52,7 +52,7 @@ export class ElectronAppMenuService {
    */
   registerMenuItemHandler(id: string, handler: () => void | Promise<void>): void {
     this.menuClickHandlers.set(id, handler);
-    this.logger.info('Registered menu item handler for:', id);
+    this.logger.trace('Registered menu item handler for:', id);
   }
 
   /**
@@ -61,7 +61,7 @@ export class ElectronAppMenuService {
    */
   unregisterMenuItemHandler(id: string): void {
     this.menuClickHandlers.delete(id);
-    this.logger.info('Unregistered menu item handler for:', id);
+    this.logger.trace('Unregistered menu item handler for:', id);
   }
 
   /**
@@ -114,28 +114,28 @@ export class ElectronAppMenuService {
    * @private
    */
   private setupEventListeners(): void {
-    this.logger.info('Setting up app menu event listeners');
+    this.logger.trace('Setting up app menu event listeners');
 
     window.electronAPI.events.on('appMenu:itemClicked', (data) => {
-      this.logger.info('App menu service received click event:', data);
+      this.logger.trace('App menu service received click event:', data);
 
       try {
         // Handle router navigation
         if (data.routerLink) {
           // This would be handled by the component using this service
           // since the service doesn't have direct access to the router
-          this.logger.info('Menu item has router link:', data.routerLink);
+          this.logger.trace('Menu item has router link:', data.routerLink);
         }
 
         // Handle command execution
         if (data.command) {
-          this.logger.info('Menu item has command:', data.command);
+          this.logger.trace('Menu item has command:', data.command);
           // Commands would be handled by the component
         }
 
         // Handle registered click handlers
         if (data.id && this.menuClickHandlers.has(data.id)) {
-          this.logger.info('Executing registered handler for:', data.id);
+          this.logger.trace('Executing registered handler for:', data.id);
           const handler = this.menuClickHandlers.get(data.id);
           if (handler) {
             Promise.resolve(handler()).catch((error) => {
@@ -150,6 +150,6 @@ export class ElectronAppMenuService {
       }
     });
 
-    this.logger.info('App menu event listeners setup complete');
+    this.logger.debug('App menu event listeners setup complete');
   }
 }
