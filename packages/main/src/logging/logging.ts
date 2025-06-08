@@ -1,17 +1,54 @@
 import { LogLevel } from "./interfaces.js";
-import logger from "electron-timber";
+import { pino } from "pino";
+
+interface LogObject {
+  scope?: string;
+  filename?: string;
+  function?: string;
+}
 
 export class Logger {
-  public static logLevel = LogLevel.TRACE;
+  public static set logLevel(level: LogLevel) {
+    Logger.instance.logger.level = LogLevel[level].toLowerCase();
+    Logger.instance.mainLogger.level = LogLevel[level].toLowerCase();
+  }
+  public static get logLevel(): LogLevel {
+    return LogLevel[
+      Logger.instance.logger.level.toUpperCase() as keyof typeof LogLevel
+    ];
+  }
+
+  public readonly logger = pino({
+    transport: {
+      targets: [
+        {
+          target: "pino-pretty",
+          options: {
+            colorize: true,
+            colorizeObjects: true,
+            crlf: false,
+            errorLikeObjectKeys: ["err", "error"],
+            levelFirst: true,
+            messageKey: "msg",
+            levelKey: "level",
+            messageFormat: "{module} - {msg} ",
+            timestampKey: "time",
+            translateTime: true,
+            ignore: "pid,hostname",
+            include: "level,time",
+            hideObject: false,
+            singleLine: true,
+            useOnlyCustomProps: false,
+          },
+        },
+      ],
+    },
+  });
+  private readonly mainLogger = this.logger.child({ module: "Main" });
 
   private static instance: Logger;
 
-  private constructor() {
-    logger.setDefaults({
-      logLevel: "info",
-      name: "main",
-    });
-  }
+  private constructor() {}
 
   /**
    * Get the singleton instance of the Logger.
@@ -25,52 +62,61 @@ export class Logger {
   }
 
   /**
-   * Log a trace message, if the log level is set to trace.
-   * @param args The arguments to log.
+   * Returns a child logger with the specified scope.
+   * @param module The scope of the child logger, typically the module or component name.
    */
-  trace(...args: any[]): void {
-    if (Logger.logLevel <= LogLevel.TRACE) {
-      logger.log("[TRACE]", ...args);
+  static child(module: string): pino.Logger {
+    if (!Logger.instance) {
+      Logger.getInstance();
     }
+    return this.instance.logger.child({ module });
+  }
+
+  /**
+   * Log a trace message, if the log level is set to trace.
+   * @param message The message to log.
+   */
+  trace(message: string): void {
+    this.mainLogger.trace(message);
   }
 
   /**
    * Log a debug message, if the log level is set at least to debug.
-   * @param args The arguments to log.
+   * @param message The message to log.
    */
-  debug(...args: any[]): void {
-    if (Logger.logLevel <= LogLevel.DEBUG) {
-      logger.log("[DEBUG]", ...args);
-    }
+  debug(message: string): void {
+    this.mainLogger.debug(message);
   }
 
   /**
    * Log an info message, if the log level is set at least to info.
-   * @param args The arguments to log.
+   * @param message The message to log.
    */
-  info(...args: any[]): void {
-    if (Logger.logLevel <= LogLevel.INFO) {
-      logger.log("[INFO]", ...args);
-    }
+  info(message: string): void {
+    this.mainLogger.info(message);
   }
 
   /**
    * Log a warning message, if the log level is set at least to warn.
-   * @param args The arguments to log.
+   * @param message The message to log.
    */
-  warn(...args: any[]): void {
-    if (Logger.logLevel <= LogLevel.WARN) {
-      logger.warn("[WARN]", ...args);
-    }
+  warn(message: string): void {
+    this.mainLogger.warn(message);
   }
 
   /**
    * Log an error message.
-   * @param args The arguments to log.
+   * @param message The message to log.
    */
-  error(...args: any[]): void {
-    if (Logger.logLevel <= LogLevel.ERROR) {
-      logger.error("[ERROR]", ...args);
-    }
+  error(message: string): void {
+    this.mainLogger.error(message);
+  }
+
+  /**
+   * Log an fatal message.
+   * @param message The message to log.
+   */
+  fatal(message: string): void {
+    this.mainLogger.fatal(message);
   }
 }

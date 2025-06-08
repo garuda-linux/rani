@@ -27,12 +27,7 @@ class PathModule implements AppModule {
         return app.getPath("userData");
       } catch (error: any) {
         this.logger.error(
-          "Path appConfigDir error:",
-          error instanceof Error
-            ? error.message
-            : error instanceof Error
-              ? error.message
-              : error,
+          `Path appConfigDir error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get app config directory: ${error instanceof Error ? error.message : error}`,
@@ -45,8 +40,7 @@ class PathModule implements AppModule {
         return app.getPath("appData");
       } catch (error: any) {
         this.logger.error(
-          "Path appDataDir error:",
-          error instanceof Error ? error.message : error,
+          `Path appDataDir error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get app data directory: ${error instanceof Error ? error.message : error}`,
@@ -59,8 +53,7 @@ class PathModule implements AppModule {
         return app.getPath("userData");
       } catch (error: any) {
         this.logger.error(
-          "Path appLocalDataDir error:",
-          error instanceof Error ? error.message : error,
+          `Path appLocalDataDir error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get app local data directory: ${error instanceof Error ? error.message : error}`,
@@ -73,8 +66,7 @@ class PathModule implements AppModule {
         return app.getPath("temp");
       } catch (error: any) {
         this.logger.error(
-          "Path appCacheDir error:",
-          error instanceof Error ? error.message : error,
+          `Path appCacheDir error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get app cache directory: ${error instanceof Error ? error.message : error}`,
@@ -87,8 +79,7 @@ class PathModule implements AppModule {
         return resolve(...paths);
       } catch (error: any) {
         this.logger.error(
-          "Path resolve error:",
-          error instanceof Error ? error.message : error,
+          `Path resolve error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to resolve path: ${error instanceof Error ? error.message : error}`,
@@ -101,8 +92,7 @@ class PathModule implements AppModule {
         return join(...paths);
       } catch (error: any) {
         this.logger.error(
-          "Path join error:",
-          error instanceof Error ? error.message : error,
+          `Path join error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to join paths: ${error instanceof Error ? error.message : error}`,
@@ -118,8 +108,7 @@ class PathModule implements AppModule {
         return join(__dirname, "../dist/browser/assets", resourcePath);
       } catch (error: any) {
         this.logger.error(
-          "Path resolveResource error:",
-          error instanceof Error ? error.message : error,
+          `Path resolveResource error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to resolve resource path: ${error instanceof Error ? error.message : error}`,

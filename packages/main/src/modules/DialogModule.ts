@@ -33,8 +33,7 @@ class DialogModule implements AppModule {
               );
         } catch (error: any) {
           this.logger.error(
-            "Dialog open error:",
-            error instanceof Error ? error.message : error,
+            `Dialog open error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show open dialog: ${error instanceof Error ? error.message : error}`,
@@ -58,8 +57,7 @@ class DialogModule implements AppModule {
               );
         } catch (error: any) {
           this.logger.error(
-            "Dialog save error:",
-            error instanceof Error ? error.message : error,
+            `Dialog save error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show save dialog: ${error instanceof Error ? error.message : error}`,
@@ -84,8 +82,7 @@ class DialogModule implements AppModule {
           return result;
         } catch (error: any) {
           this.logger.error(
-            "Dialog message error:",
-            error instanceof Error ? error.message : error,
+            `Dialog message error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show message dialog: ${error instanceof Error ? error.message : error}`,
@@ -102,8 +99,7 @@ class DialogModule implements AppModule {
           return true;
         } catch (error: any) {
           this.logger.error(
-            "Dialog error box error:",
-            error instanceof Error ? error.message : error,
+            `Dialog error box error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show error dialog: ${error instanceof Error ? error.message : error}`,
@@ -128,8 +124,7 @@ class DialogModule implements AppModule {
           return result;
         } catch (error: any) {
           this.logger.error(
-            "Dialog certificate error:",
-            error instanceof Error ? error.message : error,
+            `Dialog certificate error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show certificate dialog: ${error instanceof Error ? error.message : error}`,
@@ -159,8 +154,7 @@ class DialogModule implements AppModule {
           return result.response === 1; // Returns true if OK was clicked
         } catch (error: any) {
           this.logger.error(
-            "Dialog confirm error:",
-            error instanceof Error ? error.message : error,
+            `Dialog confirm error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show confirm dialog: ${error instanceof Error ? error.message : error}`,
@@ -188,8 +182,7 @@ class DialogModule implements AppModule {
           return result;
         } catch (error: any) {
           this.logger.error(
-            "Dialog warning error:",
-            error instanceof Error ? error.message : error,
+            `Dialog warning error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show warning dialog: ${error instanceof Error ? error.message : error}`,
@@ -217,8 +210,7 @@ class DialogModule implements AppModule {
           return result;
         } catch (error: any) {
           this.logger.error(
-            "Dialog info error:",
-            error instanceof Error ? error.message : error,
+            `Dialog info error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show info dialog: ${error instanceof Error ? error.message : error}`,

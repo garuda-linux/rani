@@ -18,8 +18,7 @@ class OSModule implements AppModule {
         return process.platform;
       } catch (error: any) {
         this.logger.error(
-          "OS platform error:",
-          error instanceof Error ? error.message : error,
+          `OS platform error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get platform: ${error instanceof Error ? error.message : error}`,
@@ -32,8 +31,7 @@ class OSModule implements AppModule {
         return process.arch;
       } catch (error: any) {
         this.logger.error(
-          "OS arch error:",
-          error instanceof Error ? error.message : error,
+          `OS arch error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get architecture: ${error instanceof Error ? error.message : error}`,
@@ -46,8 +44,7 @@ class OSModule implements AppModule {
         return release();
       } catch (error: any) {
         this.logger.error(
-          "OS version error:",
-          error instanceof Error ? error.message : error,
+          `OS version error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get OS version: ${error instanceof Error ? error.message : error}`,
@@ -60,8 +57,7 @@ class OSModule implements AppModule {
         return app.getLocale();
       } catch (error: any) {
         this.logger.error(
-          "OS locale error:",
-          error instanceof Error ? error.message : error,
+          `OS locale error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get locale: ${error instanceof Error ? error.message : error}`,
@@ -74,8 +70,7 @@ class OSModule implements AppModule {
         return hostname();
       } catch (error: any) {
         this.logger.error(
-          "OS hostname error:",
-          error instanceof Error ? error.message : error,
+          `OS hostname error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get hostname: ${error instanceof Error ? error.message : error}`,
@@ -88,8 +83,7 @@ class OSModule implements AppModule {
         return homedir();
       } catch (error: any) {
         this.logger.error(
-          "OS homedir error:",
-          error instanceof Error ? error.message : error,
+          `OS homedir error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get home directory: ${error instanceof Error ? error.message : error}`,
@@ -102,8 +96,7 @@ class OSModule implements AppModule {
         return tmpdir();
       } catch (error: any) {
         this.logger.error(
-          "OS tmpdir error:",
-          error instanceof Error ? error.message : error,
+          `OS tmpdir error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get temp directory: ${error instanceof Error ? error.message : error}`,

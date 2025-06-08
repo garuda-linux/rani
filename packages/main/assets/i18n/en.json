@@ -1,5 +1,13 @@
 {
   "menu": {
+    "file": {
+      "title": "File",
+      "preferences": "Preferences",
+      "quit": "Quit"
+    },
+    "modules": {
+      "title": "Modules"
+    },
     "welcome": "Welcome",
     "maintenance": "Maintenance",
     "systemTools": "System settings",
@@ -72,7 +80,19 @@
     "setupAssistant": "Setup assistant",
     "setupAssistantSub": "Run the Garuda setup assistant",
     "hello": "Hello",
-    "error": "An error occurred."
+    "error": "An error occurred.",
+    "gitlab": "GitLab",
+    "gitlabSub": "Have a look at our source code",
+    "chaotic": "Chaotic-AUR",
+    "chaoticSub": "Take a look at package updates and more",
+    "searxng": "SearxNG",
+    "searxngSub": "Search engine that respects your privacy",
+    "whoogle": "Whoogle",
+    "whoogleSub": "Privacy respecting search engine",
+    "vaultwarden": "Vaultwarden",
+    "vaultwardenSub": "Bitwarden compatible, secure password manager",
+    "donate": "Donate",
+    "donateSub": "Support the Garuda Linux project"
   },
   "gaming": {
     "title": "Gaming ",

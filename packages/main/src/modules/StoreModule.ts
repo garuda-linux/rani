@@ -22,12 +22,11 @@ class StoreModule implements AppModule {
     ipcMain.handle("store:get", async (_, key: string) => {
       try {
         const result = this.store.get(key);
-        this.logger.trace(`Store get: ${key}`, result);
+        this.logger.trace(`Store get: ${key} => ${JSON.stringify(result)}`);
         return result;
       } catch (error: any) {
         this.logger.error(
-          "Store get error:",
-          error.message ? error.message : error,
+          `Store get error: ${error.message ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to get store value: ${error instanceof Error ? error.message : error}`,
@@ -41,8 +40,7 @@ class StoreModule implements AppModule {
         return true;
       } catch (error: any) {
         this.logger.error(
-          "Store set error:",
-          error.message ? error.message : error,
+          `Store set error: ${error.message ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to set store value: ${error instanceof Error ? error.message : error}`,
@@ -56,8 +54,7 @@ class StoreModule implements AppModule {
         return true;
       } catch (error: any) {
         this.logger.error(
-          "Store delete error:",
-          error.message ? error.message : error,
+          `Store delete error: ${error.message ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to delete store value: ${error instanceof Error ? error.message : error}`,
@@ -71,8 +68,7 @@ class StoreModule implements AppModule {
         return true;
       } catch (error: any) {
         this.logger.error(
-          "Store clear error:",
-          error.message ? error.message : error,
+          `Store clear error: ${error.message ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to clear store: ${error instanceof Error ? error.message : error}`,
@@ -85,8 +81,7 @@ class StoreModule implements AppModule {
         return this.store.has(key);
       } catch (error: any) {
         this.logger.error(
-          "Store has error:",
-          error.message ? error.message : error,
+          `Store has error: ${error.message ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to check store key: ${error instanceof Error ? error.message : error}`,

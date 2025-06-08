@@ -1,8 +1,8 @@
-import { Injectable, signal, computed } from '@angular/core';
-import { Logger } from '../logging/logging';
+import { Injectable, signal, computed } from "@angular/core";
+import { Logger } from "../../logging/logging";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class LoadingService {
   private readonly loadingRefCounter = signal<number>(0);
@@ -10,12 +10,12 @@ export class LoadingService {
   readonly loading = computed(() => this.loadingRefCounter() > 0);
 
   loadingOn(): void {
-    this.logger.trace('Loading on');
+    this.logger.trace("Loading on");
     this.loadingRefCounter.update((prev) => prev + 1);
   }
 
   loadingOff(): void {
-    this.logger.trace('Loading off');
+    this.logger.trace("Loading off");
     this.loadingRefCounter.update((prev) => prev - 1);
   }
 }

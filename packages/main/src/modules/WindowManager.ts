@@ -2,7 +2,6 @@ import type { AppModule } from "../AppModule.js";
 import type { ModuleContext } from "../ModuleContext.js";
 import { BrowserWindow, screen, shell } from "electron";
 import type { AppInitConfig } from "../AppInitConfig.js";
-import logger from "electron-timber";
 import { Logger } from "../logging/logging.js";
 
 class WindowManager implements AppModule {
@@ -11,8 +10,8 @@ class WindowManager implements AppModule {
   readonly #openDevTools;
   readonly #isDevelopment;
 
-  private readonly rendererLogger = logger.create({ name: "renderer" });
   private readonly logger = Logger.getInstance();
+  private readonly rendererLogger = Logger.child("Renderer");
 
   constructor({
     initConfig,
@@ -46,7 +45,7 @@ class WindowManager implements AppModule {
       width: size.width - 100,
       height: size.height - 100,
       show: false,
-      frame: false,
+      frame: true,
       title: "Garuda Rani",
       webPreferences: {
         nodeIntegration: false,
@@ -54,8 +53,8 @@ class WindowManager implements AppModule {
         allowRunningInsecureContent: false,
         preload: this.#preload.path,
         webSecurity: true,
-        sandbox: false, // Sandbox disabled because the demo of preload script depend on the Node.js api
-        webviewTag: false, // The webview tag is not recommended. Consider alternatives like an iframe or Electron's BrowserView. @see https://www.electronjs.org/docs/latest/api/webview-tag#warning
+        sandbox: false,
+        webviewTag: false,
         experimentalFeatures: false,
         plugins: false,
         webgl: true, // XtermJs uses webgl
@@ -101,7 +100,7 @@ class WindowManager implements AppModule {
         parsedUrl.protocol !== "file:"
       ) {
         event.preventDefault();
-        this.logger.warn("Blocked navigation to:", navigationUrl);
+        this.logger.warn(`Blocked navigation to: ${navigationUrl}`);
       }
     });
 
@@ -132,23 +131,25 @@ class WindowManager implements AppModule {
 
     // Handle uncaught exceptions in renderer
     browserWindow.webContents.on("render-process-gone", (event, details) => {
-      this.logger.error("Renderer process gone:", details);
+      this.logger.error(
+        `Renderer process gone: ${JSON.stringify(details, null, 2)}`,
+      );
     });
 
     // Handle console messages from renderer for better debugging
     browserWindow.webContents.on("console-message", (event) => {
       switch (event.level) {
         case "debug":
-          this.rendererLogger.log(`[DEBUG] ${event.message}`);
+          this.rendererLogger.debug(`${event.message}`);
           break;
         case "info":
-          this.rendererLogger.log(`[INFO] ${event.message}`);
+          this.rendererLogger.info(`${event.message}`);
           break;
         case "warning":
-          this.rendererLogger.warn(`[WARN] ${event.message}`);
+          this.rendererLogger.warn(`${event.message}`);
           break;
         case "error":
-          this.rendererLogger.error(`[ERROR] ${event.message}`);
+          this.rendererLogger.error(`${event.message}`);
           break;
       }
     });
@@ -165,7 +166,9 @@ class WindowManager implements AppModule {
         try {
           browserWindow.webContents.openDevTools({ mode: "detach" });
         } catch (error) {
-          this.logger.warn("Could not open DevTools:", error);
+          this.logger.warn(
+            `Could not open DevTools: ${error instanceof Error ? error.message : String(error)}`,
+          );
         }
       });
     }

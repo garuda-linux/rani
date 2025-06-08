@@ -1,5 +1,5 @@
-import type { LogLevel } from '../logging/interfaces';
-import { AppTheme } from '../../theme';
+import type { LogLevel } from "../../logging/interfaces";
+import { AppTheme } from "../../theme";
 
 export interface AppSettings {
   activeTheme: AppTheme;
@@ -32,17 +32,17 @@ export interface AppState {
 }
 
 export type DesktopEnvironment =
-  | 'GNOME'
-  | 'GNOME-Flashback'
-  | 'KDE'
-  | 'LXDE'
-  | 'LXQt'
-  | 'MATE'
-  | 'TDE'
-  | 'Unity'
-  | 'XFCE'
-  | 'EDGE'
-  | 'Cinnamon'
-  | 'Pantheon'
-  | 'DDE'
-  | 'Hyprland';
+  | "GNOME"
+  | "GNOME-Flashback"
+  | "KDE"
+  | "LXDE"
+  | "LXQt"
+  | "MATE"
+  | "TDE"
+  | "Unity"
+  | "XFCE"
+  | "EDGE"
+  | "Cinnamon"
+  | "Pantheon"
+  | "DDE"
+  | "Hyprland";

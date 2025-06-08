@@ -1,12 +1,12 @@
-import { effect, inject, Injectable, signal } from '@angular/core';
-import type { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
-import { Task, TaskManagerService } from '../task-manager/task-manager.service';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
-import { Logger } from '../logging/logging';
-import { ChildProcess, ElectronShellService } from '../electron-services';
+import { effect, inject, Injectable, signal } from "@angular/core";
+import type { SystemUpdate, UpdateStatusOption, UpdateType } from "./types";
+import { Task, TaskManagerService } from "../task-manager/task-manager.service";
+import { LoadingService } from "../loading-indicator/loading-indicator.service";
+import { Logger } from "../../logging/logging";
+import { ChildProcess, ElectronShellService } from "../../electron-services";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class SystemStatusService {
   firstRun = true;
@@ -62,8 +62,8 @@ export class SystemStatusService {
 
     return [
       this.getPacFiles(),
-      this.checkSystemUpdate('checkupdates --nocolor', 'repo'),
-      this.checkSystemUpdate('paru -Qua', 'aur'),
+      this.checkSystemUpdate("checkupdates --nocolor", "repo"),
+      this.checkSystemUpdate("paru -Qua", "aur"),
       this.checkLastUpdate(),
     ];
   }
@@ -72,14 +72,14 @@ export class SystemStatusService {
    * Get a list of pacfiles to check and merge.
    */
   private async getPacFiles(): Promise<void> {
-    const cmd = 'pacdiff -o';
-    const result: any = await this.shellService.execute('bash', ['-c', cmd]);
+    const cmd = "pacdiff -o";
+    const result: any = await this.shellService.execute("bash", ["-c", cmd]);
 
     if (result.success) {
-      if (result.stdout.trim() === '') return;
+      if (result.stdout.trim() === "") return;
 
-      this.pacFiles.set(result.stdout.trim().split('\n') ?? []);
-      this.logger.trace(`Pacfiles: ${this.pacFiles().join(', ')}`);
+      this.pacFiles.set(result.stdout.trim().split("\n") ?? []);
+      this.logger.trace(`Pacfiles: ${this.pacFiles().join(", ")}`);
     } else {
       this.logger.error(`Failed to get pacfiles: ${result.stderr}`);
     }
@@ -90,30 +90,39 @@ export class SystemStatusService {
    * @param cmd The command to run to check for updates.
    * @param type The type of updates to check for.
    */
-  private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
-    const result: any = await this.shellService.execute('bash', ['-c', cmd]);
-    const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
+  private async checkSystemUpdate(
+    cmd: string,
+    type: UpdateStatusOption,
+  ): Promise<void> {
+    const result: any = await this.shellService.execute("bash", ["-c", cmd]);
+    const updateString: UpdateType =
+      type === "repo" ? "Updates" : "AUR updates";
 
     if (result.code === 0) {
-      const updates: string[] = result.stdout.trim().split('\n') ?? [];
+      const updates: string[] = result.stdout.trim().split("\n") ?? [];
       for (const update of updates) {
         this.logger.trace(`${updateString}: ${update}`);
 
-        const [pkg, version, invalid, newVersion] = update.split(' ');
+        const [pkg, version, invalid, newVersion] = update.split(" ");
         this.updates.update((updates: SystemUpdate[]) => {
           updates.push({
             pkg,
             version,
             newVersion: newVersion,
-            aur: type === 'aur',
+            aur: type === "aur",
           });
           return updates;
         });
       }
-    } else if ((type === 'repo' && result.code === 2) || (type === 'aur' && result.code === 1)) {
+    } else if (
+      (type === "repo" && result.code === 2) ||
+      (type === "aur" && result.code === 1)
+    ) {
       this.logger.info(`No ${updateString.toLowerCase()} available`);
     } else {
-      this.logger.error(`Failed to get ${updateString.toLowerCase()}: ${result.stderr}`);
+      this.logger.error(
+        `Failed to get ${updateString.toLowerCase()}: ${result.stderr}`,
+      );
     }
   }
 
@@ -121,15 +130,15 @@ export class SystemStatusService {
    * Check the last update time.
    */
   private async checkLastUpdate(): Promise<void> {
-    const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
-    const result: any = await this.shellService.execute('bash', ['-c', cmd]);
+    const cmd = "awk 'END{sub(/\\[/,\"\"); print $1}' /var/log/pacman.log";
+    const result: any = await this.shellService.execute("bash", ["-c", cmd]);
 
     if (result.code === 0) {
-      const date = new Date(result.stdout.trim().replace(']', ''));
+      const date = new Date(result.stdout.trim().replace("]", ""));
       this.logger.info(`Last update: ${date.toISOString()}`);
 
       if (date < new Date(new Date().setDate(new Date().getDate() - 14))) {
-        this.logger.warn('Last update was more than two week ago');
+        this.logger.warn("Last update was more than two week ago");
         this.warnUpdate.set(true);
       }
     } else {

@@ -6,25 +6,25 @@ import {
   inject,
   signal,
   ViewChild,
-} from '@angular/core';
-import { OsInteractService } from '../task-manager/os-interact.service';
-import type { PackageSections, StatefulPackage } from '../gaming/interfaces';
-import { Tab, TabList, Tabs } from 'primeng/tabs';
-import { TranslocoDirective } from '@jsverse/transloco';
-import { Logger } from '../logging/logging';
-import { Button } from 'primeng/button';
-import { ElectronShellService } from '../electron-services';
-import { IconField } from 'primeng/iconfield';
-import { InputIcon } from 'primeng/inputicon';
-import { InputText } from 'primeng/inputtext';
-import { type Table, TableModule } from 'primeng/table';
-import { Checkbox } from 'primeng/checkbox';
-import { FormsModule } from '@angular/forms';
-import { NgClass } from '@angular/common';
-import { PackagesService } from './packages.service';
+} from "@angular/core";
+import { OsInteractService } from "../task-manager/os-interact.service";
+import type { PackageSections, StatefulPackage } from "../gaming/interfaces";
+import { Tab, TabList, Tabs } from "primeng/tabs";
+import { TranslocoDirective } from "@jsverse/transloco";
+import { Logger } from "../../logging/logging";
+import { Button } from "primeng/button";
+import { ElectronShellService } from "../../electron-services";
+import { IconField } from "primeng/iconfield";
+import { InputIcon } from "primeng/inputicon";
+import { InputText } from "primeng/inputtext";
+import { type Table, TableModule } from "primeng/table";
+import { Checkbox } from "primeng/checkbox";
+import { FormsModule } from "@angular/forms";
+import { NgClass } from "@angular/common";
+import { PackagesService } from "./packages.service";
 
 @Component({
-  selector: 'rani-packages',
+  selector: "rani-packages",
   imports: [
     Tab,
     TabList,
@@ -39,15 +39,15 @@ import { PackagesService } from './packages.service';
     FormsModule,
     NgClass,
   ],
-  templateUrl: './packages.component.html',
-  styleUrl: './packages.component.css',
+  templateUrl: "./packages.component.html",
+  styleUrl: "./packages.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PackagesComponent {
   tabIndex = signal<number>(0);
-  packageSearch = signal<string>('');
+  packageSearch = signal<string>("");
 
-  @ViewChild('packageTable') table!: Table;
+  @ViewChild("packageTable") table!: Table;
 
   protected readonly packagesService = inject(PackagesService);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -69,9 +69,10 @@ export class PackagesComponent {
    * Update the state of the UI based on the installed packages.
    */
   async updateUi(): Promise<void> {
-    this.logger.trace('Updating packages UI');
+    this.logger.trace("Updating packages UI");
 
-    const installedPackages: Map<string, boolean> = this.osInteractService.packages();
+    const installedPackages: Map<string, boolean> =
+      this.osInteractService.packages();
     this.packagesService.packages.update((data: PackageSections) => {
       for (const sections of data) {
         for (const pkg of sections.sections) {
@@ -89,7 +90,8 @@ export class PackagesComponent {
 
     // We do it like this because via two-way binding, the table doesn't update the data
     // Very likely it is not compatible with zoneless change detection yet
-    this.table.value = this.packagesService.packages()[this.tabIndex()].sections;
+    this.table.value =
+      this.packagesService.packages()[this.tabIndex()].sections;
     this.table.totalRecords = this.table.value.length;
 
     this.cdr.markForCheck();
@@ -111,6 +113,6 @@ export class PackagesComponent {
    */
   clear(table: Table): void {
     table.clear();
-    this.packageSearch.set('');
+    this.packageSearch.set("");
   }
 }

@@ -1,6 +1,6 @@
-import { ElectronStoreService, Store } from '../electron-services';
-import { appConfigDir } from '../electron-services';
-import { Logger } from '../logging/logging';
+import { ElectronStoreService, Store } from "../../electron-services";
+import { appConfigDir } from "../../electron-services";
+import { Logger } from "../../logging/logging";
 
 const logger = Logger.getInstance();
 const storeService = new ElectronStoreService();

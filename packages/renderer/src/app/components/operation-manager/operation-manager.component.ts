@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject } from "@angular/core";
 import { ConfirmationService } from "primeng/api";
 import { MessageToastService } from "@garudalinux/core";
 import { TranslocoService } from "@jsverse/transloco";
-import { Logger } from "../logging/logging";
+import { Logger } from "../../logging/logging";
 import { TaskManagerService } from "../task-manager/task-manager.service";
 
 @Component({

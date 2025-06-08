@@ -7,6 +7,12 @@ import {
 } from "./shell.js";
 import { contextBridge, ipcRenderer, type IpcRendererEvent } from "electron";
 
+interface LogObject {
+  scope?: string;
+  filename?: string;
+  function?: string;
+}
+
 // Expose protected methods that allow the renderer process to use
 // the ipcRenderer without exposing the entire object
 contextBridge.exposeInMainWorld("electronAPI", {
@@ -118,18 +124,16 @@ contextBridge.exposeInMainWorld("electronAPI", {
 
   // Logging Operations
   log: {
-    trace: (message: string) => ipcRenderer.invoke("log:trace", message),
-    debug: (message: string) => ipcRenderer.invoke("log:debug", message),
-    info: (message: string) => ipcRenderer.invoke("log:info", message),
-    warn: (message: string) => ipcRenderer.invoke("log:warn", message),
-    error: (message: string) => ipcRenderer.invoke("log:error", message),
-    structured: (level: string, message: string, data?: unknown) =>
-      ipcRenderer.invoke("log:structured", level, message, data),
-    withContext: (
-      level: string,
-      message: string,
-      context: Record<string, unknown>,
-    ) => ipcRenderer.invoke("log:withContext", level, message, context),
+    trace: (msg: string, obj: LogObject) =>
+      ipcRenderer.invoke("log:trace", msg, obj),
+    debug: (msg: string, obj: LogObject) =>
+      ipcRenderer.invoke("log:debug", msg, obj),
+    info: (msg: string, obj: LogObject) =>
+      ipcRenderer.invoke("log:info", msg, obj),
+    warn: (msg: string, obj: LogObject) =>
+      ipcRenderer.invoke("log:warn", msg, obj),
+    error: (msg: string, obj: LogObject) =>
+      ipcRenderer.invoke("log:error", msg, obj),
   },
 
   // Dialog Operations
@@ -183,6 +187,12 @@ contextBridge.exposeInMainWorld("electronAPI", {
       ipcRenderer.invoke("contextMenu:show", items, x, y),
   },
 
+  // App Menu Operations
+  appMenu: {
+    update: (items: unknown[]) => ipcRenderer.invoke("appMenu:update", items),
+    getItems: () => ipcRenderer.invoke("appMenu:getItems"),
+  },
+
   // Config Operations
   config: {
     notifyChange: (key: string, value: unknown) =>
@@ -206,6 +216,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
         "shell:close",
         "shell:error",
         "contextMenu:itemClicked",
+        "appMenu:itemClicked",
       ];
 
       if (validChannels.includes(channel)) {
@@ -237,6 +248,7 @@ contextBridge.exposeInMainWorld("electronAPI", {
         "shell:close",
         "shell:error",
         "contextMenu:itemClicked",
+        "appMenu:itemClicked",
       ];
 
       if (validChannels.includes(channel)) {

@@ -1,23 +1,25 @@
 import { AppModule } from "../AppModule.js";
 import electronUpdater, {
   type AppUpdater,
-  type Logger,
+  type Logger as UpdateLogger,
 } from "electron-updater";
-import logger from "electron-timber";
+import { Logger } from "../logging/logging.js";
 
 type DownloadNotification = Parameters<
   AppUpdater["checkForUpdatesAndNotify"]
 >[0];
 
 export class AutoUpdater implements AppModule {
-  readonly #logger: Logger | null;
+  readonly #logger: UpdateLogger | null;
   readonly #notification: DownloadNotification;
+
+  private readonly logger = Logger.getInstance();
 
   constructor({
     logger = null,
     downloadNotification = undefined,
   }: {
-    logger?: Logger | null | undefined;
+    logger?: UpdateLogger | null | undefined;
     downloadNotification?: DownloadNotification;
   } = {}) {
     this.#logger = logger;
@@ -36,7 +38,7 @@ export class AutoUpdater implements AppModule {
   }
 
   async runAutoUpdater() {
-    const updater = this.getAutoUpdater();
+    const updater: AppUpdater = this.getAutoUpdater();
     try {
       updater.logger = this.#logger || null;
       updater.fullChangelog = true;
@@ -55,15 +57,16 @@ export class AutoUpdater implements AppModule {
           error.message.includes("HttpError") ||
           error.message.includes("releases.atom")
         ) {
-          logger.warn(
-            "Auto-updater check failed (expected in development):",
-            error.message,
+          this.logger.warn(
+            `Auto-updater check failed (expected in development): ${error.message}`,
           );
           return null;
         }
       }
 
-      logger.error("Auto-updater error:", error);
+      this.logger.error(
+        `AutoUpdater - Auto-updater error: ${error instanceof Error ? error.message : String(error)}`,
+      );
       // Don't throw - let app continue without updates
       return null;
     }

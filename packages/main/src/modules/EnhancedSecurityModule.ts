@@ -83,8 +83,7 @@ class EnhancedSecurityModule implements AppModule {
           }
         } catch (error: any) {
           this.logger.warn(
-            `Invalid URL blocked: ${details.url}`,
-            error instanceof Error ? error.message : error,
+            `Invalid URL blocked: ${details.url} - ${error instanceof Error ? error.message : String(error)}`,
           );
           callback({ cancel: true });
         }
@@ -131,7 +130,7 @@ class EnhancedSecurityModule implements AppModule {
     app.on("web-contents-created", (event, contents) => {
       // Handle window opening
       contents.setWindowOpenHandler(({ url }) => {
-        this.logger.warn("Blocked new window creation:", url);
+        this.logger.warn(`Blocked new window creation: ${url}`);
         // Allow external URLs to open in default browser instead
         if (url.startsWith("http://") || url.startsWith("https://")) {
           shell.openExternal(url);
@@ -163,8 +162,7 @@ class EnhancedSecurityModule implements AppModule {
           }
         } catch (error: any) {
           this.logger.warn(
-            `Invalid navigation URL blocked: ${navigationUrl}`,
-            error instanceof Error ? error.message : error,
+            `Invalid navigation URL blocked: ${navigationUrl} - ${error instanceof Error ? error.message : String(error)}`,
           );
           event.preventDefault();
         }
@@ -183,8 +181,7 @@ class EnhancedSecurityModule implements AppModule {
           }
         } catch (error: any) {
           this.logger.warn(
-            `Invalid frame navigation URL blocked: ${navigationUrl}`,
-            error instanceof Error ? error.message : error,
+            `Invalid frame navigation URL blocked: ${navigationUrl} - ${error instanceof Error ? error.message : String(error)}`,
           );
           event.preventDefault();
         }
@@ -220,22 +217,19 @@ class EnhancedSecurityModule implements AppModule {
       );
 
       // Monitor console messages for security issues
-      contents.on(
-        "console-message",
-        (event, level, message, line, sourceId) => {
-          // Check for potential security issues in console messages
-          const securityKeywords = ["XSS", "injection", "eval", "unsafe"];
-          if (
-            securityKeywords.some((keyword) =>
-              message.toLowerCase().includes(keyword),
-            )
-          ) {
-            this.logger.warn(
-              `Potential security issue detected in renderer: ${message}`,
-            );
-          }
-        },
-      );
+      contents.on("console-message", (event) => {
+        // Check for potential security issues in console messages
+        const securityKeywords = ["XSS", "injection", "eval", "unsafe"];
+        if (
+          securityKeywords.some((keyword) =>
+            event.message.toLowerCase().includes(keyword),
+          )
+        ) {
+          this.logger.warn(
+            `Potential security issue detected in renderer: ${event.message}`,
+          );
+        }
+      });
     });
   }
 
@@ -294,19 +288,25 @@ class EnhancedSecurityModule implements AppModule {
 
     // Handle renderer process crashed
     app.on("render-process-gone", (event, webContents, details) => {
-      this.logger.error("Renderer process gone:", details);
+      this.logger.error(
+        `Renderer process gone: ${JSON.stringify(details, null, 2)}`,
+      );
     });
 
     // Handle child process gone
     app.on("child-process-gone", (event, details) => {
-      this.logger.error("Child process gone:", details);
+      this.logger.error(
+        `Child process gone: ${JSON.stringify(details, null, 2)}`,
+      );
     });
   }
 
   // Method to update allowed origins dynamically
   updateAllowedOrigins(origins: string[]): void {
     // This could be used to update CSP or navigation rules dynamically
-    this.logger.info("Updating allowed origins:", origins);
+    this.logger.info(
+      `Updating allowed origins: ${JSON.stringify(origins, null, 2)}`,
+    );
   }
 
   // Method to add temporary security exceptions (for development)

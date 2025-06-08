@@ -22,7 +22,9 @@ class ConfigModule implements AppModule {
 
           return true;
         } catch (error) {
-          this.logger.error("Config notification error:", error);
+          this.logger.error(
+            `Config notification error: ${error instanceof Error ? error.message : String(error)}`,
+          );
           return false;
         }
       },

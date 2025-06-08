@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import type { Child, CommandResult } from "../../types/shell";
+import type { Child, CommandResult } from "../types/shell";
 import { ShellStreamingResult, ShellEvent } from "./electron-types";
 import { Logger } from "../logging/logging";
 
@@ -147,17 +147,11 @@ class StreamingShellProcess implements Child {
   }
 
   async write(input: string): Promise<void> {
-    // Store input for potential future use
     this.stdinBuffer += input;
-
-    if (!window.electronAPI.shell.writeStdin(this.processId, input)) {
-      throw new Error(
-        "Failed to write to stdin - process may have exited or stdin is closed",
-      );
-    }
+    await window.electronAPI.shell.writeStdin(this.processId, input);
   }
 
-  kill(signal: string = "SIGTERM"): void {
+  kill(signal = "SIGTERM"): void {
     if (!window.electronAPI.shell.killProcess(this.processId, signal)) {
       this.logger.warn("Failed to kill process - it may have already exited");
     }

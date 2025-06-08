@@ -2,13 +2,13 @@ import { effect, inject, Injectable, signal } from "@angular/core";
 import type { AppSettings, AppState, DesktopEnvironment } from "./interfaces";
 import { getConfigStore } from "./store";
 import { LoadingService } from "../loading-indicator/loading-indicator.service";
-import { Logger } from "../logging/logging";
-import { LogLevel } from "../logging/interfaces";
+import { Logger } from "../../logging/logging";
+import { LogLevel } from "../../logging/interfaces";
 import { usePreset } from "@primeng/themes";
 import { themes } from "../../theme";
-import { ElectronShellService } from "../electron-services";
+import { ElectronShellService } from "../../electron-services";
 import type { CommandResult } from "../../types/shell";
-import { Store, notifyConfigChange } from "../electron-services";
+import { Store, notifyConfigChange } from "../../electron-services";
 
 class PendingConfigUpdate {
   state?: object;

@@ -5,14 +5,14 @@ import {
   Injectable,
   signal,
 } from "@angular/core";
-import { ElectronFsService } from "../electron-services";
-import { ElectronShellSpawnService } from "../electron-services/electron-shell-spawn.service";
-import { ShellStreamingResult } from "../electron-services";
+import { ElectronFsService } from "../../electron-services";
+import { ElectronShellSpawnService } from "../../electron-services/electron-shell-spawn.service";
+import { ShellStreamingResult } from "../../electron-services";
 import { ConfigService } from "../config/config.service";
 import { LoadingService } from "../loading-indicator/loading-indicator.service";
-import { Logger } from "../logging/logging";
+import { Logger } from "../../logging/logging";
 import { TranslocoService } from "@jsverse/transloco";
-import { ElectronPathService } from "../electron-services";
+import { ElectronPathService } from "../../electron-services";
 
 export class Task {
   constructor(

@@ -1,17 +1,17 @@
-import { Injectable } from '@angular/core';
+import { Injectable } from "@angular/core";
 import {
   isPermissionGranted,
   requestPermission,
   sendNotification,
   type NotificationOptions,
-} from '../electron-services';
-import { Logger } from '../logging/logging';
+} from "../../electron-services";
+import { Logger } from "../../logging/logging";
 
 @Injectable({
-  providedIn: 'root',
+  providedIn: "root",
 })
 export class NotificationService {
-  private permissionGranted: boolean = false;
+  private permissionGranted = false;
   private readonly logger = Logger.getInstance();
 
   constructor() {
@@ -21,11 +21,11 @@ export class NotificationService {
   async init(): Promise<void> {
     const permissionGranted: boolean = await isPermissionGranted();
     if (!permissionGranted) {
-      this.logger.info('Requesting notification permission');
+      this.logger.info("Requesting notification permission");
       const permission: string = await requestPermission();
-      this.permissionGranted = permission === 'granted';
+      this.permissionGranted = permission === "granted";
     } else {
-      this.logger.info('Notification permission already granted');
+      this.logger.info("Notification permission already granted");
       this.permissionGranted = true;
     }
   }
@@ -36,7 +36,7 @@ export class NotificationService {
    */
   async sendNotification(options: NotificationOptions): Promise<void> {
     if (!this.permissionGranted) {
-      this.logger.warn('Notification permission not granted');
+      this.logger.warn("Notification permission not granted");
       return;
     }
 

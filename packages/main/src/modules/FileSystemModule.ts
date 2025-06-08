@@ -81,7 +81,9 @@ class FileSystemModule implements AppModule {
 
         return content;
       } catch (error) {
-        this.logger.error("File read error:", error);
+        this.logger.error(
+          `File read error: ${error instanceof Error ? error.message : String(error)}`,
+        );
 
         // Provide more specific error messages
         if (error instanceof Error) {
@@ -115,7 +117,9 @@ class FileSystemModule implements AppModule {
           await writeFile(filePath, contents, "utf-8");
           return true;
         } catch (error) {
-          this.logger.error("File write error:", error);
+          this.logger.error(
+            `File write error: ${error instanceof Error ? error.message : String(error)}`,
+          );
           throw new Error(
             `Failed to write file: ${error instanceof Error ? error.message : error}`,
           );
@@ -131,7 +135,9 @@ class FileSystemModule implements AppModule {
         await mkdir(dirPath, { recursive: true });
         return true;
       } catch (error) {
-        this.logger.error("Directory creation error:", error);
+        this.logger.error(
+          `Directory creation error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         throw new Error(
           `Failed to create directory: ${error instanceof Error ? error.message : error}`,
         );
@@ -146,7 +152,9 @@ class FileSystemModule implements AppModule {
         await unlink(filePath);
         return true;
       } catch (error) {
-        this.logger.error("File removal error:", error);
+        this.logger.error(
+          `File removal error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         throw new Error(
           `Failed to remove file: ${error instanceof Error ? error.message : error}`,
         );

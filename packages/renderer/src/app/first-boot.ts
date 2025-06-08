@@ -1,4 +1,4 @@
-import { Logger } from "./components/logging/logging";
+import { Logger } from "./logging/logging";
 import { getConfigStore } from "./components/config/store";
 import {
   type Store,
@@ -7,7 +7,7 @@ import {
   ElectronFsService,
   ElectronWindowService,
   ElectronAppService,
-} from "./components/electron-services";
+} from "./electron-services";
 
 const logger = Logger.getInstance();
 

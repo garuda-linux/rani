@@ -17,6 +17,7 @@ import { createLoggingModule } from "./modules/LoggingModule.js";
 import { createDialogModule } from "./modules/DialogModule.js";
 import { createClipboardModule } from "./modules/ClipboardModule.js";
 import { createContextMenuModule } from "./modules/ContextMenuModule.js";
+import { createAppMenuModule } from "./modules/AppMenuModule.js";
 import { createEnhancedSecurityModule } from "./modules/EnhancedSecurityModule.js";
 import { app } from "electron";
 import { Logger } from "./logging/logging.js";
@@ -41,6 +42,7 @@ export async function initApp(initConfig: AppInitConfig) {
     const dialogModule = createDialogModule();
     const clipboardModule = createClipboardModule();
     const contextMenuModule = createContextMenuModule();
+    const appMenuModule = createAppMenuModule();
     const shellModule = createShellModule(isDevelopment);
 
     // Create module context
@@ -58,6 +60,7 @@ export async function initApp(initConfig: AppInitConfig) {
     dialogModule.enable(moduleContext);
     clipboardModule.enable(moduleContext);
     contextMenuModule.enable(moduleContext);
+    appMenuModule.enable(moduleContext);
     shellModule.enable(moduleContext);
 
     logger.info("IPC handlers registered successfully");
@@ -98,7 +101,9 @@ export async function initApp(initConfig: AppInitConfig) {
 
     await moduleRunner;
   } catch (error) {
-    logger.error("Failed to initialize app:", error);
+    logger.error(
+      `Failed to initialize app: ${error instanceof Error ? error.message : String(error)}`,
+    );
     throw error;
   }
 }

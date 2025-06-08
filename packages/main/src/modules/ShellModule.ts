@@ -2,7 +2,7 @@ import type { AppModule } from "../AppModule.js";
 import type { ModuleContext } from "../ModuleContext.js";
 import { ipcMain, shell } from "electron";
 import { spawn } from "node:child_process";
-import { Client, ConnectConfig } from "ssh2";
+import { Client, type ConnectConfig } from "ssh2";
 import { readFileSync } from "node:fs";
 import { basename } from "node:path";
 import { Logger } from "../logging/logging.js";
@@ -24,8 +24,7 @@ class ShellModule implements AppModule {
         };
       } catch (error: any) {
         this.logger.warn(
-          "SSH key not found, SSH functionality will be disabled:",
-          error instanceof Error ? error.message : error,
+          `SSH key not found, SSH functionality will be disabled: ${error instanceof Error ? error.message : String(error)}`,
         );
       }
     }
@@ -49,8 +48,7 @@ class ShellModule implements AppModule {
         return true;
       } catch (error: any) {
         this.logger.error(
-          "Shell open error:",
-          error instanceof Error ? error.message : error,
+          `Shell open error: ${error instanceof Error ? error.message : String(error)}`,
         );
         throw new Error(
           `Failed to open URL: ${error instanceof Error ? error.message : error}`,
@@ -74,14 +72,6 @@ class ShellModule implements AppModule {
         "pacman",
         "yay",
         "paru",
-        "pamac",
-        "apt",
-        "apt-get",
-        "dnf",
-        "zypper",
-        "emerge",
-        // System administration
-        "sudo",
         "systemctl",
         "localectl",
         "timedatectl",
@@ -89,221 +79,10 @@ class ShellModule implements AppModule {
         "hostname",
         "lsb_release",
         "journalctl",
-        "grub-install",
-        "grub-mkconfig",
-        "update-grub",
         "dkms",
-        "modprobe",
-        "rmmod",
-        // File operations
-        "ls",
-        "cat",
-        "head",
-        "tail",
-        "less",
-        "more",
-        "file",
-        "stat",
-        "du",
-        "df",
-        "find",
-        "locate",
-        "which",
-        "whereis",
-        "type",
-        "readlink",
-        "realpath",
-        "mkdir",
-        "rmdir",
-        "touch",
-        "cp",
-        "mv",
-        "ln",
-        "chmod",
-        "chown",
-        "chgrp",
-        // Text processing
-        "grep",
-        "egrep",
-        "fgrep",
-        "awk",
-        "sed",
-        "sort",
-        "uniq",
-        "cut",
-        "tr",
-        "wc",
-        "diff",
-        "cmp",
-        "comm",
-        "join",
-        "paste",
-        "column",
-        "tee",
-        // System information
-        "uname",
-        "whoami",
-        "id",
-        "groups",
-        "w",
-        "who",
-        "last",
-        "lastlog",
-        "uptime",
-        "free",
-        "vmstat",
-        "iostat",
-        "top",
-        "htop",
-        "ps",
-        "pstree",
-        "jobs",
-        "fg",
-        "bg",
-        "lscpu",
-        "lsmem",
-        "lsblk",
-        "lsusb",
-        "lspci",
-        "lsmod",
-        "dmesg",
-        "dmidecode",
-        "fdisk",
-        "parted",
-        "blkid",
-        "mount",
-        "umount",
-        "lsof",
-        "fuser",
-        // Network
-        "ping",
-        "ping6",
-        "traceroute",
-        "tracepath",
-        "nslookup",
-        "dig",
-        "host",
-        "netstat",
-        "ss",
-        "ip",
-        "route",
-        "arp",
-        "iwconfig",
-        "iwlist",
-        "nmcli",
-        "curl",
-        "wget",
-        "nc",
-        "netcat",
-        "telnet",
-        "ssh",
-        "scp",
-        "rsync",
-        // Process management
-        "kill",
-        "killall",
-        "pkill",
-        "pgrep",
-        "nohup",
-        "timeout",
-        "sleep",
-        // Archive operations
-        "tar",
-        "gzip",
-        "gunzip",
-        "zip",
-        "unzip",
-        "bzip2",
-        "bunzip2",
-        "xz",
-        "unxz",
-        "7z",
-        "rar",
-        "unrar",
-        // Development tools
-        "git",
-        "make",
-        "gcc",
-        "g++",
-        "python",
-        "python3",
-        "node",
-        "npm",
-        "yarn",
-        "java",
-        "javac",
-        "ruby",
-        "perl",
-        "php",
-        "go",
-        "rustc",
-        "cargo",
-        // Text editors
-        "nano",
-        "vim",
-        "vi",
-        "emacs",
-        "gedit",
-        "kate",
-        // System configuration
-        "locale",
-        "locale-gen",
-        "dpkg-reconfigure",
-        "update-alternatives",
-        "alternatives",
-        "eselect",
-        "rc-update",
-        "rc-service",
-        // Hardware/drivers
-        "lshw",
-        "hwinfo",
-        "inxi",
-        "sensors",
-        "nvidia-smi",
-        "glxinfo",
-        "xrandr",
-        // Environment
-        "env",
-        "printenv",
-        "export",
-        "set",
-        "unset",
-        "alias",
-        "unalias",
-        "history",
-        "fc",
-        "hash",
-        "command",
-        "builtin",
-        // Date/time
-        "date",
-        "cal",
-        "timedatectl",
-        "hwclock",
-        // Misc utilities
-        "echo",
-        "printf",
-        "test",
-        "expr",
-        "bc",
-        "seq",
-        "yes",
-        "true",
-        "false",
-        "basename",
-        "dirname",
-        "pathchk",
-        "mktemp",
-        "shuf",
-        "factor",
-        "base64",
-        "od",
-        "hexdump",
-        "xxd",
-        "strings",
-        "iconv",
-        "split",
-        "csplit",
+        // Garuda specific tools
+        "garuda-inxi",
+        "setup-assistant",
         // Shells
         "bash",
         "sh",
@@ -328,7 +107,7 @@ class ShellModule implements AppModule {
         /reboot/,
         /halt/,
         /init\s+[06]/,
-        /systemctl\s+(poweroff|reboot|halt)/,
+        /systemctl\s+(poweroff|halt)/,
         // Dangerous sudo operations
         /sudo\s+rm\s+-rf\s+\/[^/]/,
         // Kernel modules that could be dangerous
@@ -386,12 +165,7 @@ class ShellModule implements AppModule {
           );
         } catch (error: any) {
           this.logger.error(
-            "Shell execute error:",
-            error.message
-              ? error.message
-              : error instanceof Error
-                ? error.message
-                : error,
+            `Shell execute error: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
           );
           throw error;
         }
@@ -438,12 +212,7 @@ class ShellModule implements AppModule {
           client.destroy();
         } catch (error: any) {
           this.logger.error(
-            "SSH client destroy error:",
-            error.message
-              ? error.message
-              : error instanceof Error
-                ? error.message
-                : error,
+            `SSH client destroy error: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
           );
         }
       };
@@ -452,7 +221,7 @@ class ShellModule implements AppModule {
         client.on("ready", () => {
           client.exec(fullCommand, (err, stream) => {
             if (err) {
-              this.logger.error("SSH exec error:", err);
+              this.logger.error(`SSH exec error: ${err}`);
               cleanup();
               if (!isResolved) {
                 isResolved = true;
@@ -463,7 +232,9 @@ class ShellModule implements AppModule {
 
             if (!isResolved) {
               isResolved = true;
-              this.logger.info("SSH Stream ready", stream, stream.stderr);
+              this.logger.info(
+                `SSH Stream ready - stream: ${stream ? "available" : "null"}, stderr: ${stream.stderr ? "available" : "null"}`,
+              );
               resolve({
                 pid: `ssh-${Date.now()}`, // Fake PID for SSH processes
                 kill: () => {
@@ -501,7 +272,7 @@ class ShellModule implements AppModule {
       }
 
       client.on("error", (err) => {
-        this.logger.error("SSH connection error:", err.message);
+        this.logger.error(`SSH connection error: ${err.message}`);
         cleanup();
         if (!isResolved) {
           isResolved = true;
@@ -573,7 +344,7 @@ class ShellModule implements AppModule {
 
       child.on("error", (error: any) => {
         cleanup();
-        this.logger.error("Command execution error:", error.cause);
+        this.logger.error(`Command execution error: ${error.cause}`);
         reject(new Error(`Command execution failed: ${error.message}`));
       });
     });
@@ -582,32 +353,18 @@ class ShellModule implements AppModule {
   private setupStreamingHandlers(): void {
     // Handle streaming shell events from preload
     ipcMain.on("shell:stdout", (event, data) => {
-      this.logger.info(
-        "[MAIN] Received shell:stdout:",
-        data.processId,
-        data.data?.substring(0, 100),
-      );
       try {
-        this.logger.info("[MAIN] Forwarding shell:stdout to renderer");
         event.sender.send("shell:stdout", data);
-        this.logger.info("[MAIN] Successfully forwarded shell:stdout");
       } catch (error: any) {
         this.logger.error(
-          "[MAIN] Failed to forward shell:stdout:",
-          error.message
-            ? error.message
-            : error instanceof Error
-              ? error.message
-              : error,
+          `Failed to forward shell:stdout: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
         );
       }
     });
 
     ipcMain.on("shell:stderr", (event, data) => {
       this.logger.info(
-        "[MAIN] Received shell:stderr:",
-        data.processId,
-        data.data?.substring(0, 100),
+        `[MAIN] Received shell:stderr: ${data.processId} ${data.data?.substring(0, 100)}`,
       );
       try {
         this.logger.info("[MAIN] Forwarding shell:stderr to renderer");
@@ -615,22 +372,14 @@ class ShellModule implements AppModule {
         this.logger.info("[MAIN] Successfully forwarded shell:stderr");
       } catch (error: any) {
         this.logger.error(
-          "[MAIN] Failed to forward shell:stderr:",
-          error.message
-            ? error.message
-            : error instanceof Error
-              ? error.message
-              : error,
+          `[MAIN] Failed to forward shell:stderr: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
         );
       }
     });
 
     ipcMain.on("shell:close", (event, data) => {
       this.logger.info(
-        "[MAIN] Received shell:close:",
-        data.processId,
-        "code:",
-        data.code,
+        `[MAIN] Received shell:close: ${data.processId} code: ${data.code}`,
       );
       try {
         this.logger.info("[MAIN] Forwarding shell:close to renderer");
@@ -638,21 +387,14 @@ class ShellModule implements AppModule {
         this.logger.info("[MAIN] Successfully forwarded shell:close");
       } catch (error: any) {
         this.logger.error(
-          "[MAIN] Failed to forward shell:close:",
-          error.message
-            ? error.message
-            : error instanceof Error
-              ? error.message
-              : error,
+          `[MAIN] Failed to forward shell:close: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
         );
       }
     });
 
     ipcMain.on("shell:error", (event, data) => {
       this.logger.info(
-        "[MAIN] Received shell:error:",
-        data.processId,
-        data.error?.message,
+        `[MAIN] Received shell:error: ${data.processId} ${data.error?.message}`,
       );
       try {
         this.logger.info("[MAIN] Forwarding shell:error to renderer");
@@ -660,12 +402,7 @@ class ShellModule implements AppModule {
         this.logger.info("[MAIN] Successfully forwarded shell:error");
       } catch (error: any) {
         this.logger.error(
-          "[MAIN] Failed to forward shell:error:",
-          error.message
-            ? error.message
-            : error instanceof Error
-              ? error.message
-              : error,
+          `[MAIN] Failed to forward shell:error: ${error.message ? error.message : error instanceof Error ? error.message : String(error)}`,
         );
       }
     });

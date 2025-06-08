@@ -1,37 +1,41 @@
-import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { ConfigService } from '../config/config.service';
-import { Checkbox } from 'primeng/checkbox';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { FormsModule } from '@angular/forms';
-import { Select, SelectChangeEvent } from 'primeng/select';
-import { LogLevel } from '../logging/interfaces';
-import { Logger } from '../logging/logging';
-import { LangPipePipe } from '../lang-pipe/lang-pipe.pipe';
-import { themes } from '../../theme';
-import { Panel } from 'primeng/panel';
+import { Component, computed, inject, OnInit, signal } from "@angular/core";
+import { ConfigService } from "../config/config.service";
+import { Checkbox } from "primeng/checkbox";
+import { TranslocoDirective, TranslocoService } from "@jsverse/transloco";
+import { FormsModule } from "@angular/forms";
+import { Select, SelectChangeEvent } from "primeng/select";
+import { LogLevel } from "../../logging/interfaces";
+import { Logger } from "../../logging/logging";
+import { LangPipePipe } from "../lang-pipe/lang-pipe.pipe";
+import { themes } from "../../theme";
+import { Panel } from "primeng/panel";
 
 @Component({
-  selector: 'rani-settings',
+  selector: "rani-settings",
   imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel],
-  templateUrl: './settings.component.html',
-  styleUrl: './settings.component.css',
+  templateUrl: "./settings.component.html",
+  styleUrl: "./settings.component.css",
   providers: [LangPipePipe],
 })
 export class SettingsComponent implements OnInit {
   protected readonly configService = inject(ConfigService);
   protected readonly checkBoxSettings: string[] = [
-    'leftButtons',
-    'copyDiagnostics',
-    'darkMode',
-    'autoStart',
-    'autoRefresh',
-    'showMainLinks',
-    'systemdUserContext',
+    "leftButtons",
+    "copyDiagnostics",
+    "darkMode",
+    "autoStart",
+    "autoRefresh",
+    "showMainLinks",
+    "systemdUserContext",
   ];
 
   protected readonly availableThemes: string[] = Object.keys(themes);
-  protected readonly languages = signal<{ language: string; label: string }[]>([]);
-  protected readonly logLevels: string[] = Object.values(LogLevel).filter((key) => typeof key !== 'number');
+  protected readonly languages = signal<{ language: string; label: string }[]>(
+    [],
+  );
+  protected readonly logLevels: string[] = Object.values(LogLevel).filter(
+    (key) => typeof key !== "number",
+  );
   protected readonly logLevelType = LogLevel;
 
   protected readonly settings = computed(() => {
@@ -59,17 +63,20 @@ export class SettingsComponent implements OnInit {
   }
 
   async toggleSetting(entry: string) {
-    await this.configService.updateConfig(entry, !this.configService.settings()[entry]);
+    await this.configService.updateConfig(
+      entry,
+      !this.configService.settings()[entry],
+    );
   }
 
   async selectLogLevel($event: SelectChangeEvent) {
-    const level = $event.value as 'ERROR' | 'DEBUG' | 'WARN' | 'TRACE' | 'INFO';
-    await this.configService.updateConfig('logLevel', LogLevel[level]);
+    const level = $event.value as "ERROR" | "DEBUG" | "WARN" | "TRACE" | "INFO";
+    await this.configService.updateConfig("logLevel", LogLevel[level]);
   }
 
   async selectLanguage($event: SelectChangeEvent) {
     this.logger.trace($event.value);
-    await this.configService.updateConfig('language', $event.value);
+    await this.configService.updateConfig("language", $event.value);
   }
 
   async updateConfig(config: string, value: string) {

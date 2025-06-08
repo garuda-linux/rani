@@ -11,40 +11,48 @@ import {
   signal,
   type Signal,
   ViewChild,
-} from '@angular/core';
-import { CommonModule } from '@angular/common';
-import type { ITerminalOptions } from '@xterm/xterm';
-import { CatppuccinXtermJs } from '../../theme';
-import { type NgTerminal, NgTerminalModule } from 'ng-terminal';
-import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { Dialog } from 'primeng/dialog';
-import { ProgressBar } from 'primeng/progressbar';
-import { Card } from 'primeng/card';
-import { ScrollPanel } from 'primeng/scrollpanel';
-import { Logger } from '../logging/logging';
-import { WebglAddon } from '@xterm/addon-webgl';
-import { WebLinksAddon } from '@xterm/addon-web-links';
-import { ConfigService } from '../config/config.service';
-import { Subscription } from 'rxjs';
-import { TaskManagerService } from '../task-manager/task-manager.service';
-import { clear, writeText } from '../electron-services';
-import { MessageToastService } from '@garudalinux/core';
-import { GarudaBin } from '../privatebin/privatebin';
-import { LoadingService } from '../loading-indicator/loading-indicator.service';
+} from "@angular/core";
+import { CommonModule } from "@angular/common";
+import type { ITerminalOptions } from "@xterm/xterm";
+import { CatppuccinXtermJs } from "../../theme";
+import { type NgTerminal, NgTerminalModule } from "ng-terminal";
+import { TranslocoDirective, TranslocoService } from "@jsverse/transloco";
+import { Dialog } from "primeng/dialog";
+import { ProgressBar } from "primeng/progressbar";
+import { Card } from "primeng/card";
+import { ScrollPanel } from "primeng/scrollpanel";
+import { Logger } from "../../logging/logging";
+import { WebglAddon } from "@xterm/addon-webgl";
+import { WebLinksAddon } from "@xterm/addon-web-links";
+import { ConfigService } from "../config/config.service";
+import { Subscription } from "rxjs";
+import { TaskManagerService } from "../task-manager/task-manager.service";
+import { clear, writeText } from "../../electron-services";
+import { MessageToastService } from "@garudalinux/core";
+import { GarudaBin } from "../privatebin/privatebin";
+import { LoadingService } from "../loading-indicator/loading-indicator.service";
 
 @Component({
-  selector: 'rani-terminal',
-  imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, ScrollPanel],
-  templateUrl: './terminal.component.html',
-  styleUrl: './terminal.component.css',
+  selector: "rani-terminal",
+  imports: [
+    CommonModule,
+    NgTerminalModule,
+    TranslocoDirective,
+    Dialog,
+    ProgressBar,
+    Card,
+    ScrollPanel,
+  ],
+  templateUrl: "./terminal.component.html",
+  styleUrl: "./terminal.component.css",
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   public visible = signal<boolean>(false);
   private subscriptions: Subscription[] = [];
 
-  @ViewChild('dialog', { static: false }) dialog!: Dialog;
-  @ViewChild('term', { static: false }) term!: NgTerminal;
+  @ViewChild("dialog", { static: false }) dialog!: Dialog;
+  @ViewChild("term", { static: false }) term!: NgTerminal;
 
   protected readonly taskManagerService = inject(TaskManagerService);
   private readonly configService = inject(ConfigService);
@@ -65,7 +73,9 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
       disableStdin: false,
       scrollback: 10000,
       convertEol: true,
-      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+      theme: this.configService.settings().darkMode
+        ? CatppuccinXtermJs.dark
+        : CatppuccinXtermJs.light,
     };
   });
 
@@ -73,26 +83,28 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     effect(() => {
       const darkMode = this.configService.settings().darkMode;
       if (this.term?.underlying) {
-        this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+        this.term.underlying.options.theme = darkMode
+          ? CatppuccinXtermJs.dark
+          : CatppuccinXtermJs.light;
       }
-      this.logger.trace('Terminal theme switched via effect');
+      this.logger.trace("Terminal theme switched via effect");
     });
   }
 
   ngOnInit(): void {
     this.subscriptions.push(
       this.taskManagerService.events.subscribe((output: string) => {
-        if (output === 'show') this.visible.set(true);
-        else if (output === 'hide') this.visible.set(false);
+        if (output === "show") this.visible.set(true);
+        else if (output === "hide") this.visible.set(false);
       }),
     );
   }
 
   async ngAfterViewInit() {
-    this.logger.debug('Terminal component initialized');
+    this.logger.debug("Terminal component initialized");
     await this.loadXterm();
 
-    this.logger.trace('Subscribing to terminal output/clear emitter');
+    this.logger.trace("Subscribing to terminal output/clear emitter");
     this.subscriptions.push(
       this.taskManagerService.dataEvents.subscribe((output: string) => {
         this.term.write(output);
@@ -100,7 +112,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     );
     this.subscriptions.push(
       this.taskManagerService.events.subscribe((output: string) => {
-        if (output === 'clear') this.term.underlying?.clear();
+        if (output === "clear") this.term.underlying?.clear();
       }),
     );
   }
@@ -111,23 +123,23 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  @HostListener('keydown', ['$event'])
+  @HostListener("keydown", ["$event"])
   respondToKeydown(event: KeyboardEvent) {
     if (event.ctrlKey) {
       switch (event.key) {
-        case 'q':
+        case "q":
           this.visible.set(false);
           break;
-        case 'c':
+        case "c":
           void this.copyToClipboard();
           break;
-        case 'x':
+        case "x":
           this.clearCache();
           break;
-        case 'e':
+        case "e":
           void this.taskManagerService.executeTasks();
           break;
-        case 's':
+        case "s":
           void this.uploadLog();
       }
     }
@@ -142,7 +154,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.term.underlying?.clear();
 
     if (this.taskManagerService.data) {
-      this.logger.trace('Terminal output cleared, now writing to terminal');
+      this.logger.trace("Terminal output cleared, now writing to terminal");
       this.term.write(this.taskManagerService.data);
     }
   }
@@ -155,8 +167,8 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     await writeText(this.taskManagerService.cachedData());
 
     this.messageToastService.success(
-      this.translocoService.translate('terminal.copyToClipboardTitle'),
-      this.translocoService.translate('terminal.copyToClipboard'),
+      this.translocoService.translate("terminal.copyToClipboardTitle"),
+      this.translocoService.translate("terminal.copyToClipboard"),
     );
   }
 
@@ -164,10 +176,10 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
    * Clear the cached terminal output.
    */
   clearCache() {
-    this.taskManagerService.cachedData.set('');
+    this.taskManagerService.cachedData.set("");
     this.messageToastService.success(
-      this.translocoService.translate('terminal.clearCachedDataTitle'),
-      this.translocoService.translate('terminal.clearCachedData'),
+      this.translocoService.translate("terminal.clearCachedDataTitle"),
+      this.translocoService.translate("terminal.clearCachedData"),
     );
   }
 
@@ -175,17 +187,19 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
    * Upload the current terminal output to PrivateBin and copy the URL to the clipboard.
    */
   async uploadLog() {
-    this.logger.trace('Uploading output to PrivateBin');
+    this.logger.trace("Uploading output to PrivateBin");
     this.loadingService.loadingOn();
 
     const garudaBin = new GarudaBin();
-    const url: string = await garudaBin.sendText(this.taskManagerService.cachedData());
+    const url: string = await garudaBin.sendText(
+      this.taskManagerService.cachedData(),
+    );
     this.logger.info(`Uploaded to ${url}`);
 
     void writeText(url);
     this.messageToastService.info(
-      this.translocoService.translate('diagnostics.success'),
-      this.translocoService.translate('diagnostics.uploadSuccess'),
+      this.translocoService.translate("diagnostics.success"),
+      this.translocoService.translate("diagnostics.uploadSuccess"),
     );
 
     this.loadingService.loadingOff();

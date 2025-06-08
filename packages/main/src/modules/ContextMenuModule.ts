@@ -31,7 +31,6 @@ class ContextMenuModule implements AppModule {
     ipcMain.handle(
       "contextMenu:show",
       async (_, items: ContextMenuItem[], x?: number, y?: number) => {
-        this.logger.info("ContextMenuModule:show", items, x, y);
         try {
           const win = getMainWindow();
           if (!win || win.isDestroyed()) {
@@ -53,8 +52,7 @@ class ContextMenuModule implements AppModule {
           return true;
         } catch (error: any) {
           this.logger.error(
-            "Context menu show error:",
-            error instanceof Error ? error.message : error,
+            `Context menu show error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to show context menu: ${error instanceof Error ? error.message : error}`,

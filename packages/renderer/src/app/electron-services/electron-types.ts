@@ -18,14 +18,20 @@ export interface EventChannelMap {
   "shell:close": ShellEvent;
   "shell:error": ShellEvent;
   "contextMenu:itemClicked": string;
+  "appMenu:itemClicked": {
+    id?: string;
+    routerLink?: string;
+    command?: string;
+    item: AppMenuItem;
+  };
   "window-focus": undefined;
   "window-blur": undefined;
   "window-maximize": undefined;
   "window-unmaximize": undefined;
   "window-minimize": undefined;
   "window-restore": undefined;
-  "app-update": any;
-  "system-theme-changed": any;
+  "app-update": unknown;
+  "system-theme-changed": unknown;
 }
 
 export type EventChannel =
@@ -33,7 +39,8 @@ export type EventChannel =
   | "shell:stderr"
   | "shell:close"
   | "shell:error"
-  | "contextMenu:itemClicked";
+  | "contextMenu:itemClicked"
+  | "appMenu:itemClicked";
 
 export interface ContextMenuItem {
   id?: string;
@@ -45,6 +52,22 @@ export interface ContextMenuItem {
   checked?: boolean;
   accelerator?: string;
   submenu?: ContextMenuItem[];
+}
+
+export interface AppMenuItem {
+  id?: string;
+  label?: string;
+  icon?: string;
+  enabled?: boolean;
+  visible?: boolean;
+  type?: "normal" | "separator" | "submenu" | "checkbox" | "radio";
+  checked?: boolean;
+  accelerator?: string;
+  role?: string;
+  submenu?: AppMenuItem[];
+  routerLink?: string;
+  command?: string;
+  items?: AppMenuItem[];
 }
 
 export interface ElectronAPI {
@@ -182,6 +205,10 @@ export interface ElectronAPI {
       y?: number,
     ) => Promise<boolean>;
   };
+  appMenu: {
+    update: (items: AppMenuItem[]) => Promise<boolean>;
+    getItems: () => Promise<AppMenuItem[]>;
+  };
   shell: {
     open: (url: string) => Promise<boolean>;
     spawnStreaming: (
@@ -202,8 +229,8 @@ export interface ElectronAPI {
       code: number | null;
       signal: string | null;
     }>;
-    on: (channel: string, listener: (...args: any[]) => void) => void;
-    off: (channel: string, listener: (...args: any[]) => void) => void;
+    on: (channel: string, listener: (...args: unknown[]) => void) => void;
+    off: (channel: string, listener: (...args: unknown[]) => void) => void;
   };
   app: {
     relaunch: () => Promise<void>;

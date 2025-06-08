@@ -7,6 +7,7 @@ export * from "./electron-notification.service";
 export * from "./electron-log.service";
 export * from "./electron-clipboard.service";
 export * from "./electron-context-menu.service";
+export * from "./electron-app-menu.service";
 export * from "./electron-config.service";
 export * from "./electron-app.service";
 export * from "./electron-window.service";
@@ -29,6 +30,7 @@ export {
   sendNotification,
 } from "./electron-notification.service";
 export { ElectronContextMenuService } from "./electron-context-menu.service";
+export { ElectronAppMenuService } from "./electron-app-menu.service";
 export {
   ElectronConfigService,
   notifyConfigChange,
@@ -36,8 +38,12 @@ export {
 export { ElectronAppService } from "./electron-app.service";
 export { ElectronWindowService } from "./electron-window.service";
 export type { Store, StoreOptions } from "./electron-store.service";
-export type { CommandResult, ChildProcess, Child } from "../../types/shell";
+export type { CommandResult, ChildProcess, Child } from "../types/shell";
 export type { NotificationOptions } from "./electron-notification.service";
 export type { LogLevel } from "./electron-log.service";
 export { writeText, readText, clear } from "./electron-clipboard.service";
-export type { ElectronAPI, ContextMenuItem } from "./electron-types";
+export type {
+  ElectronAPI,
+  ContextMenuItem,
+  AppMenuItem,
+} from "./electron-types";

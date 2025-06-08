@@ -17,8 +17,7 @@ class NotificationModule implements AppModule {
         return true;
       } catch (error: any) {
         this.logger.error(
-          "Notification permission check error:",
-          error instanceof Error ? error.message : error,
+          `Notification permission check error: ${error instanceof Error ? error.message : String(error)}`,
         );
         return false;
       }
@@ -29,8 +28,7 @@ class NotificationModule implements AppModule {
         return "granted";
       } catch (error: any) {
         this.logger.error(
-          "Notification permission request error:",
-          error instanceof Error ? error.message : error,
+          `Notification permission request error: ${error instanceof Error ? error.message : String(error)}`,
         );
         return "denied";
       }
@@ -69,16 +67,14 @@ class NotificationModule implements AppModule {
 
           notification.on("failed", (error: any) => {
             this.logger.error(
-              "Notification failed:",
-              error instanceof Error ? error.message : error,
+              `Notification failed: ${error instanceof Error ? error.message : String(error)}`,
             );
           });
 
           return true;
         } catch (error: any) {
           this.logger.error(
-            "Notification send error:",
-            error instanceof Error ? error.message : error,
+            `Notification send error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to send notification: ${error instanceof Error ? error.message : error}`,
@@ -133,16 +129,14 @@ class NotificationModule implements AppModule {
 
             notification.on("failed", (error: any) => {
               this.logger.error(
-                "Notification failed:",
-                error instanceof Error ? error.message : error,
+                `Notification failed: ${error instanceof Error ? error.message : String(error)}`,
               );
               resolve({ action: "failed", error: "Notification failed" });
             });
           });
         } catch (error: any) {
           this.logger.error(
-            "Notification with actions send error:",
-            error instanceof Error ? error.message : error,
+            `Notification with actions send error: ${error instanceof Error ? error.message : String(error)}`,
           );
           throw new Error(
             `Failed to send notification with actions: ${error instanceof Error ? error.message : error}`,

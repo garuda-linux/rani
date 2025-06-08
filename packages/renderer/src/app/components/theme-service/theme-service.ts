@@ -1,7 +1,7 @@
 import { effect, inject } from "@angular/core";
 import { DOCUMENT } from "@angular/common";
 import { CatppuccinBackgroundColors, CatppuccinScrollBars } from "../../theme";
-import { Logger } from "../logging/logging";
+import { Logger } from "../../logging/logging";
 import { ConfigService } from "../config/config.service";
 import { AppSettings } from "../config/interfaces";
 

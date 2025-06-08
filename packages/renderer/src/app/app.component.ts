@@ -1,4 +1,3 @@
-import { NgOptimizedImage } from "@angular/common";
 import type { OnInit } from "@angular/core";
 import {
   ChangeDetectionStrategy,
@@ -11,9 +10,10 @@ import {
   untracked,
   ViewChild,
 } from "@angular/core";
-import { RouterModule } from "@angular/router";
+import { Router, RouterModule } from "@angular/router";
 import { ScrollTop } from "primeng/scrolltop";
 import { TranslocoDirective, TranslocoService } from "@jsverse/transloco";
+import { ElectronAppService } from "./electron-services";
 import { DialogModule } from "primeng/dialog";
 import { DrawerModule } from "primeng/drawer";
 import { TableModule } from "primeng/table";
@@ -33,20 +33,22 @@ import { TerminalComponent } from "./components/terminal/terminal.component";
 import { OperationManagerComponent } from "./components/operation-manager/operation-manager.component";
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { ConfigService } from "./components/config/config.service";
-import { Logger } from "./components/logging/logging";
+import { Logger } from "./logging/logging";
 import { TaskManagerService } from "./components/task-manager/task-manager.service";
 import { NotificationService } from "./components/notification/notification.service";
 import { ThemeService } from "./components/theme-service/theme-service";
 import {
   ElectronShellService,
   ElectronContextMenuService,
+  ElectronAppMenuService,
   type ContextMenuItem,
-} from "./components/electron-services";
+  type AppMenuItem,
+  ElectronOsService,
+} from "./electron-services";
 
 @Component({
   imports: [
     RouterModule,
-    NgOptimizedImage,
     DialogModule,
     ScrollTop,
     ShellComponent,
@@ -78,9 +80,13 @@ export class AppComponent implements OnInit {
   readonly loadingService = inject(LoadingService);
   readonly taskManager = inject(TaskManagerService);
   private readonly notificationService = inject(NotificationService);
+  private readonly router = inject(Router);
+  private readonly electronAppService = inject(ElectronAppService);
+  private readonly electronOsService = inject(ElectronOsService);
 
   protected readonly shellService = inject(ElectronShellService);
   private readonly contextMenuService = inject(ElectronContextMenuService);
+  private readonly appMenuService = inject(ElectronAppMenuService);
   protected readonly appWindow = {
     minimize: () => window.electronAPI?.window.minimize(),
     toggleMaximize: () => window.electronAPI?.window.maximize(),
@@ -132,122 +138,155 @@ export class AppComponent implements OnInit {
   private readonly themeService = inject(ThemeService);
   private readonly translocoService = inject(TranslocoService);
 
+  readonly moduleItems = [
+    {
+      id: "welcome",
+      icon: "pi pi-home",
+      label: "Welcome",
+      translocoKey: "menu.welcome",
+      command: () => this.router.navigate(["/"]),
+    },
+    {
+      id: "maintenance",
+      icon: "pi pi-desktop",
+      label: "Maintenance",
+      translocoKey: "menu.maintenance",
+      command: () => this.router.navigate(["/maintenance"]),
+    },
+    {
+      id: "system-tools",
+      icon: "pi pi-microchip",
+      label: "System tools",
+      translocoKey: "menu.systemTools",
+      command: () => this.router.navigate(["/system-tools"]),
+    },
+    {
+      id: "gaming",
+      icon: "pi pi-play-circle",
+      label: "Gaming apps",
+      translocoKey: "menu.gaming",
+      command: () => this.router.navigate(["/gaming"]),
+    },
+    {
+      id: "boot-tools",
+      icon: "pi pi-hammer",
+      label: "Boot options/repair",
+      translocoKey: "menu.boot",
+      command: () => this.router.navigate(["/boot-tools"]),
+      // TODO: implement
+      visible: false,
+    },
+    {
+      id: "network-tools",
+      icon: "pi pi-globe",
+      label: "Network tools",
+      translocoKey: "menu.network",
+      command: () => this.router.navigate(["/net-tools"]),
+      // TODO: implement
+      visible: false,
+    },
+    {
+      id: "diagnostics",
+      icon: "pi pi-info-circle",
+      label: "Diagnostics",
+      translocoKey: "menu.diagnostics",
+      command: () => this.router.navigate(["/diagnostics"]),
+    },
+    {
+      id: "terminal",
+      icon: "pi pi-spinner",
+      label: "Terminal",
+      translocoKey: "menu.terminal",
+      command: () => this.terminalComponent.visible.set(true),
+    },
+  ];
+  helpItems = [
+    {
+      id: "help-forum",
+      icon: "pi pi-info-circle",
+      label: "Get help on the forum",
+      translocoKey: "menu.help.getHelpForum",
+      command: () => this.shellService.open("https://forum.garudalinux.org/"),
+    },
+    {
+      id: "help-wiki",
+      icon: "pi pi-info-circle",
+      label: "Search the wiki",
+      translocoKey: "menu.help.getHelpWiki",
+      command: () => this.shellService.open("https://wiki.garudalinux.org/"),
+    },
+    {
+      id: "help-arch-wiki",
+      icon: "pi pi-info-circle",
+      label: "Search the Arch wiki",
+      translocoKey: "menu.help.getHelpArchWiki",
+      command: () => this.shellService.open("https://wiki.archlinux.org/"),
+    },
+    {
+      id: "help-status",
+      icon: "pi pi-info-circle",
+      label: "Garuda Linux infra status",
+      translocoKey: "menu.help.garudaStatus",
+      command: () => this.shellService.open("https://status.garudalinux.org"),
+    },
+    {
+      id: "help-exorcist",
+      icon: "pi pi-info-circle",
+      label: "About",
+      translocoKey: "menu.help.callExorcist",
+      command: () =>
+        this.notificationService.sendNotification({
+          title: this.translocoService.translate("menu.help.callExorcistTitle"),
+          body: `${this.translocoService.translate("menu.help.callExorcistBody")} 🐛`,
+        }),
+    } as MenuItem,
+    {
+      id: "help-about",
+      icon: "pi pi-info-circle",
+      label: "About",
+      translocoKey: "menu.help.about",
+      command: () =>
+        this.notificationService.sendNotification({
+          title: this.translocoService.translate("menu.help.about"),
+          body: this.translocoService.translate("menu.help.aboutBody"),
+        }),
+    },
+  ];
+  private fileItems = [
+    {
+      id: "file-preferences",
+      icon: "pi pi-cog",
+      label: "Preferences",
+      translocoKey: "menu.file.preferences",
+      command: () => this.router.navigate(["/settings"]),
+    },
+    {
+      id: "file-quit",
+      icon: "pi pi-sign-out",
+      label: "Quit",
+      translocoKey: "menu.file.quit",
+      command: () => {
+        this.shutdown();
+      },
+    },
+  ];
+
   menuItems = signal<MenuItem[]>(
     this.setupLabels(this.translocoService.getActiveLang(), [
       {
-        icon: "pi pi-home",
-        label: "Welcome",
-        translocoKey: "menu.welcome",
-        routerLink: "/",
+        id: "file",
+        icon: "pi pi-file",
+        label: "File",
+        translocoKey: "menu.file.title",
+        items: [...this.fileItems],
       },
+      ...this.moduleItems,
       {
-        icon: "pi pi-desktop",
-        label: "Maintenance",
-        translocoKey: "menu.maintenance",
-        routerLink: "/maintenance",
-      },
-      {
-        icon: "pi pi-microchip",
-        label: "System tools",
-        translocoKey: "menu.systemTools",
-        routerLink: "/system-tools",
-      },
-      {
-        icon: "pi pi-play-circle",
-        label: "Gaming apps",
-        translocoKey: "menu.gaming",
-        routerLink: "/gaming",
-      },
-      {
-        icon: "pi pi-hammer",
-        label: "Boot options/repair",
-        translocoKey: "menu.boot",
-        routerLink: "/boot-tools",
-        // TODO: implement
-        visible: false,
-      },
-      {
-        icon: "pi pi-globe",
-        label: "Network tools",
-        translocoKey: "menu.network",
-        routerLink: "/net-tools",
-        // TODO: implement
-        visible: false,
-      },
-      {
-        icon: "pi pi-info-circle",
-        label: "Diagnostics",
-        translocoKey: "menu.diagnostics",
-        routerLink: "/diagnostics",
-      },
-      {
-        icon: "pi pi-spinner",
-        label: "Terminal",
-        translocoKey: "menu.terminal",
-        command: () => this.terminalComponent.visible.set(true),
-      },
-      {
-        icon: "pi pi-cog",
-        label: "Settings page",
-        translocoKey: "menu.settings",
-        routerLink: "/settings",
-      },
-      {
+        id: "help",
         icon: "pi pi-question-circle",
         label: "Help",
         translocoKey: "menu.help.title",
-        items: [
-          {
-            icon: "pi pi-info-circle",
-            label: "Get help on the forum",
-            translocoKey: "menu.help.getHelpForum",
-            command: () =>
-              this.shellService.open("https://forum.garudalinux.org/"),
-          },
-          {
-            icon: "pi pi-info-circle",
-            label: "Search the wiki",
-            translocoKey: "menu.help.getHelpWiki",
-            command: () =>
-              this.shellService.open("https://wiki.garudalinux.org/"),
-          },
-          {
-            icon: "pi pi-info-circle",
-            label: "Search the Arch wiki",
-            translocoKey: "menu.help.getHelpArchWiki",
-            command: () =>
-              this.shellService.open("https://wiki.archlinux.org/"),
-          },
-          {
-            icon: "pi pi-info-circle",
-            label: "Garuda Linux infra status",
-            translocoKey: "menu.help.garudaStatus",
-            command: () =>
-              this.shellService.open("https://status.garudalinux.org"),
-          },
-          {
-            icon: "pi pi-info-circle",
-            label: "About",
-            translocoKey: "menu.help.callExorcist",
-            command: () =>
-              this.notificationService.sendNotification({
-                title: this.translocoService.translate(
-                  "menu.help.callExorcistTitle",
-                ),
-                body: `${this.translocoService.translate("menu.help.callExorcistBody")} 🐛`,
-              }),
-          } as MenuItem,
-          {
-            icon: "pi pi-info-circle",
-            label: "About",
-            translocoKey: "menu.help.about",
-            command: () =>
-              this.notificationService.sendNotification({
-                title: this.translocoService.translate("menu.help.about"),
-                body: this.translocoService.translate("menu.help.aboutBody"),
-              }),
-          },
-        ],
+        items: [...this.helpItems],
       },
     ]),
   );
@@ -256,36 +295,55 @@ export class AppComponent implements OnInit {
     effect(() => {
       const curItems: MenuItem[] = untracked(this.menuItems);
 
-      const index: number = curItems.findIndex(
+      const moduleIndex: number = curItems.findIndex(
         (item) =>
           (item as MenuItem & { translocoKey: string }).translocoKey ===
-          "menu.terminal",
+          "menu.modules.title",
       );
+      if (moduleIndex === -1) return;
+
+      const terminalIndex: number =
+        curItems[moduleIndex].items?.findIndex(
+          (item) =>
+            (item as MenuItem & { translocoKey: string }).translocoKey ===
+            "menu.terminal",
+        ) ?? -1;
+      const index = terminalIndex;
       if (index === -1) return;
 
       const items: MenuItem[] = [...curItems];
+      const moduleItems = [...(items[moduleIndex].items || [])];
 
       if (this.taskManager.running()) {
-        items[index].icon = "pi pi-spin pi-spinner";
-        items[index].label = this.translocoService.translate(
+        moduleItems[index].icon = "pi pi-spin pi-spinner";
+        moduleItems[index].label = this.translocoService.translate(
           "menu.terminalRunning",
         );
-        items[index].styleClass = "garuda-button-shine";
-        items[index].badge = undefined;
+        moduleItems[index].styleClass = "garuda-button-shine";
+        moduleItems[index].badge = undefined;
       } else if (this.taskManager.count() > 0) {
-        items[index].icon = "pi pi-hourglass";
-        items[index].label =
+        moduleItems[index].icon = "pi pi-hourglass";
+        moduleItems[index].label =
           this.translocoService.translate("menu.terminalTasks");
-        items[index].styleClass = "garuda-button-shine";
+        moduleItems[index].badge = this.taskManager.count().toString();
+        moduleItems[index].styleClass = "garuda-button-shine";
       } else {
-        items[index].icon = "pi pi-expand";
-        items[index].label = this.translocoService.translate("menu.terminal");
-        items[index].badge = undefined;
-        items[index].styleClass = "";
+        moduleItems[index].icon = "pi pi-spinner";
+        moduleItems[index].label =
+          this.translocoService.translate("menu.terminal");
+        moduleItems[index].styleClass = undefined;
+        moduleItems[index].badge = undefined;
       }
 
+      items[moduleIndex].items = moduleItems;
       this.menuItems.set(items);
+
+      // Update the application menu when menuItems change
+      this.updateApplicationMenu(items);
     });
+
+    // Set up app menu item click handlers
+    this.setupAppMenuHandlers();
   }
 
   ngOnInit(): void {
@@ -337,6 +395,11 @@ export class AppComponent implements OnInit {
 
     // Initialize Electron window event listeners
     this.attachElectronListeners();
+
+    // Initialize the application menu
+    this.logger.info("Initializing application menu on ngOnInit");
+    this.setupAppMenuHandlers();
+    this.updateApplicationMenu(this.menuItems());
   }
 
   /**
@@ -355,11 +418,6 @@ export class AppComponent implements OnInit {
    */
   @HostListener("contextmenu", ["$event"])
   async handleRightClick(event: MouseEvent): Promise<void> {
-    const noDragSelector =
-      "a, button, input, img, span, h1, h2, h3, h4, h5, h6, p-tab, p-card, p-select, p-table, p-dialog, rani-system-status, ng-terminal, rani-languages, rani-locales";
-    const target = event.target as HTMLElement;
-    if (target.closest(noDragSelector)) return;
-
     event.preventDefault();
 
     const menu = this.rightClickMenu();
@@ -371,8 +429,156 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Set up the labels for the menu items with the given language.
-   * @param lang The language to set the labels in
+   * Updates the application menu with current menu items
+   * @param items The current menu items
+   */
+  private async updateApplicationMenu(items: MenuItem[]): Promise<void> {
+    const menubar = this.setupLabels(this.translocoService.getActiveLang(), [
+      {
+        id: "file",
+        icon: "pi pi-file",
+        label: "File",
+        translocoKey: "menu.file.title",
+        items: [...this.fileItems],
+      },
+      {
+        id: "modules",
+        icon: "pi pi-cog",
+        label: "Modules",
+        translocoKey: "menu.modules.title",
+        items: [...this.moduleItems],
+      },
+      {
+        id: "help",
+        icon: "pi pi-question-circle",
+        label: "Help",
+        translocoKey: "menu.help.title",
+        items: [...this.helpItems],
+      },
+    ]);
+
+    try {
+      const appMenuItems: AppMenuItem[] = this.convertToAppMenuItems(menubar);
+      await this.appMenuService.updateAppMenu(appMenuItems);
+    } catch (error) {
+      this.logger.error("Failed to update application menu:", error);
+    }
+  }
+
+  /**
+   * Converts PrimeNG MenuItem[] to AppMenuItem[] for the app menu
+   * @param items PrimeNG menu items
+   * @returns Converted app menu items
+   */
+  private convertToAppMenuItems(items: MenuItem[]): AppMenuItem[] {
+    const dontShow = ["terminal"];
+
+    return items
+      .filter(
+        (item) => item.visible !== false && !dontShow.includes(item.id ?? ""),
+      )
+      .map((item) => ({
+        id: item.id,
+        label: item.label,
+        icon: item.icon,
+        enabled: !item.disabled,
+        visible: item.visible !== false,
+        routerLink: item.routerLink as string,
+        command: item.command ? item.id : undefined,
+        submenu: item.items
+          ? this.convertToAppMenuItems(item.items)
+          : undefined,
+        accelerator: (item as any).shortcut as string,
+      }));
+  }
+
+  /**
+   * Sets up handlers for app menu item clicks
+   */
+  private setupAppMenuHandlers(): void {
+    this.logger.info("Setting up app menu handlers");
+
+    if (!window.electronAPI?.events) {
+      this.logger.error("electronAPI.events not available!");
+      return;
+    }
+
+    try {
+      window.electronAPI.events.on("appMenu:itemClicked", (data: any) => {
+        this.logger.info("App menu item clicked event received:", data);
+
+        const menuData = data;
+
+        // Handle router navigation
+        if (menuData.routerLink) {
+          this.logger.info("Menu item navigating to:", menuData.routerLink);
+          try {
+            this.router.navigate([menuData.routerLink]);
+          } catch (error) {
+            this.logger.error("Failed to navigate to route:", error);
+          }
+        }
+
+        // Handle command execution
+        if (menuData.command && menuData.id) {
+          this.logger.info("Executing command for menu item:", menuData.id);
+          // Find the original menu item and execute its command
+          const menuItem = this.findMenuItemById(this.menuItems(), menuData.id);
+          this.logger.debug("Found menu item:", menuItem);
+
+          if (menuItem?.command) {
+            try {
+              this.logger.info("Calling command function for:", menuData.id);
+              // @ts-expect-error - PrimeNG MenuItem command property
+              menuItem.command();
+              this.logger.info(
+                "Successfully executed command for:",
+                menuData.id,
+              );
+            } catch (error) {
+              this.logger.error("Error executing menu command:", error);
+            }
+          } else {
+            this.logger.warn("No command found for menu item:", menuData.id);
+          }
+        } else {
+          this.logger.debug("No command to execute for menu item");
+        }
+      });
+
+      this.logger.info("App menu handlers setup complete");
+    } catch (error) {
+      this.logger.error("Error setting up app menu event handler:", error);
+    }
+  }
+
+  /**
+   * Finds a menu item by ID recursively
+   * @param items Menu items to search
+   * @param id ID to find
+   * @returns Found menu item or undefined
+   */
+  private findMenuItemById(
+    items: MenuItem[],
+    id: string,
+  ): MenuItem | undefined {
+    for (const item of items) {
+      if (item.id === id) {
+        return item;
+      }
+      if (item.items) {
+        const found = this.findMenuItemById(item.items, id);
+        if (found) {
+          return found;
+        }
+      }
+    }
+    return undefined;
+  }
+
+  /**
+   * Sets up the labels for the menu items, based on the current language
+   * @param lang The language to set the labels to
    * @param entries The menu items to set the labels for
    * @returns The menu items with the labels set
    */

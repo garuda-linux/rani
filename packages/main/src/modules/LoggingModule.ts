@@ -1,7 +1,6 @@
 import type { AppModule } from "../AppModule.js";
 import type { ModuleContext } from "../ModuleContext.js";
 import { ipcMain } from "electron";
-import logger from "electron-timber";
 import ElectronStore from "electron-store";
 import { Logger } from "../logging/logging.js";
 
@@ -13,12 +12,14 @@ enum LogLevel {
   ERROR = 4,
 }
 
+interface LogObject {
+  scope?: string;
+  filename?: string;
+  function?: string;
+}
+
 class LoggingModule implements AppModule {
-  private readonly logger = Logger.getInstance();
-  private readonly rendererLogger = logger.create({
-    name: "renderer",
-    logLevel: "info",
-  });
+  public readonly logger = Logger.child("Renderer");
   private readonly store: ElectronStore;
 
   constructor() {
@@ -41,73 +42,75 @@ class LoggingModule implements AppModule {
 
     ipcMain.on(
       "config:changed",
-      (_event: unknown, configData: { key: string; value: unknown }) => {
+      (_, configData: { key: string; value: unknown }) => {
         try {
           if (configData.key === "logLevel") {
             Logger.logLevel = configData.value as LogLevel;
           }
         } catch (error) {
-          this.rendererLogger.error("Config change listener error:", error);
+          this.logger.error(
+            `Config change listener error: ${error instanceof Error ? error.message : String(error)}`,
+          );
         }
       },
     );
 
-    ipcMain.handle("log:trace", async (_event: unknown, ...args: unknown[]) => {
+    ipcMain.handle("log:trace", async (_, msg: string, obj: LogObject) => {
       try {
-        if (Logger.logLevel <= LogLevel.TRACE) {
-          this.rendererLogger.log("[TRACE]", ...args);
-        }
+        this.logger.trace(`${msg} ${JSON.stringify(obj, null, 2)}`);
         return true;
       } catch (error) {
-        this.rendererLogger.error("Logging trace error:", error);
+        this.logger.error(
+          `Logging trace error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         return false;
       }
     });
 
-    ipcMain.handle("log:debug", async (_event: unknown, ...args: unknown[]) => {
+    ipcMain.handle("log:debug", async (_, msg: string, obj: LogObject) => {
       try {
-        if (Logger.logLevel <= LogLevel.DEBUG) {
-          this.rendererLogger.log("[DEBUG]", ...args);
-        }
+        this.logger.debug(`${msg} ${JSON.stringify(obj, null, 2)}`);
         return true;
       } catch (error) {
-        this.rendererLogger.error("Logging debug error:", error);
+        this.logger.error(
+          `Logging debug error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         return false;
       }
     });
 
-    ipcMain.handle("log:info", async (_event: unknown, ...args: unknown[]) => {
+    ipcMain.handle("log:info", async (_, msg: string, obj: LogObject) => {
       try {
-        if (Logger.logLevel <= LogLevel.INFO) {
-          this.rendererLogger.log("[INFO]", ...args);
-        }
+        this.logger.info(`${msg} ${JSON.stringify(obj, null, 2)}`);
         return true;
       } catch (error) {
-        this.rendererLogger.error("Logging info error:", error);
+        this.logger.error(
+          `Logging info error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         return false;
       }
     });
 
-    ipcMain.handle("log:warn", async (_event: unknown, ...args: unknown[]) => {
+    ipcMain.handle("log:warn", async (_, msg: string, obj: LogObject) => {
       try {
-        if (Logger.logLevel <= LogLevel.WARN) {
-          this.rendererLogger.warn("[WARN]", ...args);
-        }
+        this.logger.warn(`${msg} ${JSON.stringify(obj, null, 2)}`);
         return true;
       } catch (error) {
-        this.rendererLogger.error("Logging warn error:", error);
+        this.logger.error(
+          `Logging warn error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         return false;
       }
     });
 
-    ipcMain.handle("log:error", async (_event: unknown, ...args: unknown[]) => {
+    ipcMain.handle("log:error", async (_, msg: string, obj: LogObject) => {
       try {
-        if (Logger.logLevel <= LogLevel.ERROR) {
-          this.rendererLogger.error("[ERROR]", ...args);
-        }
+        this.logger.error(`${msg} ${JSON.stringify(obj, null, 2)}`);
         return true;
       } catch (error) {
-        this.rendererLogger.error("Logging error error:", error);
+        this.logger.error(
+          `Logging error error: ${error instanceof Error ? error.message : String(error)}`,
+        );
         return false;
       }
     });
