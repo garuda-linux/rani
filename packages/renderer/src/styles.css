@@ -90,6 +90,10 @@ p-button {
   color: unset !important;
 }
 
+.p-menubar {
+  height: 50px !important;
+}
+
 .garuda-button-shine {
   position: relative;
   background: transparent;

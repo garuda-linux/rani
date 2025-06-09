@@ -1,9 +1,9 @@
 import { error, warn } from './logging.js';
+import { ipcRenderer } from 'electron';
 
-export function close(): boolean {
+export async function close(): Promise<boolean> {
   try {
-    // In preload context, we can trigger window close
-    window.close();
+    await ipcRenderer.invoke('window:close');
     return true;
   } catch (err) {
     error(`Window close error: ${err instanceof Error ? err.message : String(err)}`);
@@ -13,7 +13,6 @@ export function close(): boolean {
 
 export function requestClose(): boolean {
   try {
-    // Same as close in preload context
     window.close();
     return true;
   } catch (err) {
@@ -22,43 +21,39 @@ export function requestClose(): boolean {
   }
 }
 
-export function minimize(): boolean {
+export async function minimize(): Promise<boolean> {
   try {
-    // Cannot minimize from preload context without main process
-    warn('Window minimize not available in preload context');
-    return false;
+    await ipcRenderer.invoke('window:minimize');
+    return true;
   } catch (err) {
     error(`Window minimize error: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }
 
-export function maximize(): boolean {
+export async function maximize(): Promise<boolean> {
   try {
-    // Cannot maximize from preload context without main process
-    warn('Window maximize not available in preload context');
-    return false;
+    await ipcRenderer.invoke('window:maximize');
+    return true;
   } catch (err) {
     error(`Window maximize error: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }
 
-export function hide(): boolean {
+export async function hide(): Promise<boolean> {
   try {
-    // Cannot hide from preload context without main process
-    warn('Window hide not available in preload context');
-    return false;
+    await ipcRenderer.invoke('window:hide');
+    return true;
   } catch (err) {
     error(`Window hide error: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }
 
-export function show(): boolean {
+export async function show(): Promise<boolean> {
   try {
-    // Focus is closest equivalent in preload context
-    window.focus();
+    await ipcRenderer.invoke('window:show');
     return true;
   } catch (err) {
     error(`Window show error: ${err instanceof Error ? err.message : String(err)}`);
@@ -76,29 +71,27 @@ export function focus(): boolean {
   }
 }
 
-export function isMaximized(): boolean {
+export async function isMaximized(): Promise<boolean> {
   try {
-    // Check if window matches screen size (approximation)
-    return window.outerWidth >= window.screen.availWidth && window.outerHeight >= window.screen.availHeight;
+    return await ipcRenderer.invoke('window:isMaximized');
   } catch (err) {
     error(`Window isMaximized error: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }
 
-export function isMinimized(): boolean {
+export async function isMinimized(): Promise<boolean> {
   try {
-    // Check document visibility as approximation
-    return document.hidden || document.visibilityState === 'hidden';
+    return await ipcRenderer.invoke('window:isMinimized');
   } catch (err) {
     error(`Window isMinimized error: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }
 
-export function isVisible(): boolean {
+export async function isVisible(): Promise<boolean> {
   try {
-    return !document.hidden && document.visibilityState === 'visible';
+    return await ipcRenderer.invoke('window:isVisible');
   } catch (err) {
     error(`Window isVisible error: ${err instanceof Error ? err.message : String(err)}`);
     return false;

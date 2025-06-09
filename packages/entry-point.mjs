@@ -11,7 +11,6 @@ if (process.env.NODE_ENV === 'development' || process.env.PLAYWRIGHT_TEST === 't
   process.on('unhandledRejection', showAndExit);
 }
 
-// noinspection JSIgnoredPromiseFromCall
 /**
  * We resolve '@app/renderer' and '@app/preload'
  * here and not in '@app/main'
@@ -21,7 +20,7 @@ if (process.env.NODE_ENV === 'development' || process.env.PLAYWRIGHT_TEST === 't
  * the main module remains simplistic and efficient
  * as it receives initialization instructions rather than direct module imports.
  */
-initApp({
+void initApp({
   renderer:
     process.env.MODE === 'development' && !!process.env.VITE_DEV_SERVER_URL
       ? new URL(process.env.VITE_DEV_SERVER_URL)

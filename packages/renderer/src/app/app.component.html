@@ -30,6 +30,19 @@
           }
         </div>
       }
+      @if (taskManager.count() === 0) {
+        <p-splitbutton
+          [model]="applyMenuItems"
+          (onClick)="taskManager.toggleTerminal(true)"
+          garudaShellBarEnd
+          severity="success"
+          size="small"
+        >
+          <ng-template #content>
+            {{ t('menu.pending') }}
+          </ng-template>
+        </p-splitbutton>
+      }
       <div class="mt-5">
         <router-outlet></router-outlet>
       </div>

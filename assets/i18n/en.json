@@ -17,6 +17,9 @@
     "diagnostics": "Diagnostics",
     "network": "Network tools",
     "settings": "App settings",
+    "apply": "Apply pending operations",
+    "pending": "Pending operations",
+    "clearTasks": "Clear tasks",
     "help": {
       "title": "Help",
       "getHelpForum": "Get help on the forum",
@@ -31,8 +34,7 @@
     },
     "terminal": "Show terminal",
     "terminalRunning": "Running tasks",
-    "terminalTasks": "Execute tasks",
-    "pending": "Pending"
+    "terminalTasks": "Execute tasks"
   },
   "diagnostics": {
     "title": "Debug info ",

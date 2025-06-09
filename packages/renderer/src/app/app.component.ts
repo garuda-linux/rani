@@ -48,6 +48,10 @@ import {
   type AppMenuItem,
   ElectronOsService,
 } from './electron-services';
+import { CheckIcon, WindowMaximizeIcon } from 'primeng/icons';
+import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
+import { Ripple } from 'primeng/ripple';
+import { SplitButton } from 'primeng/splitbutton';
 
 @Component({
   imports: [
@@ -68,6 +72,13 @@ import {
     TerminalComponent,
     OperationManagerComponent,
     ConfirmDialog,
+    WindowMaximizeIcon,
+    ButtonDirective,
+    Ripple,
+    ButtonIcon,
+    ButtonLabel,
+    CheckIcon,
+    SplitButton,
   ],
   selector: 'rani-root',
   templateUrl: './app.component.html',
@@ -266,7 +277,7 @@ export class AppComponent implements OnInit {
       label: 'Quit',
       translocoKey: 'menu.file.quit',
       command: () => {
-        this.shutdown();
+        void this.shutdown();
       },
     },
   ];
@@ -644,4 +655,19 @@ export class AppComponent implements OnInit {
       },
     });
   }
+
+  /**
+   * Menu items for the apply menu in case tasks are pending.
+   * @protected
+   */
+  protected readonly applyMenuItems = [
+    {
+      label: this.translocoService.translate('menu.apply'),
+      command: () => this.taskManager.toggleTerminal(true),
+    },
+    {
+      label: this.translocoService.translate('menu.clearTasks'),
+      command: () => this.taskManager.clearTasks(),
+    },
+  ];
 }
