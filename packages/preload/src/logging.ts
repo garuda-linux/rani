@@ -1,11 +1,5 @@
 import { ipcRenderer } from 'electron';
 
-interface LogObject {
-  scope?: string;
-  filename?: string;
-  function?: string;
-}
-
 interface Logger {
   trace(message: string): void;
   debug(message: string): void;
@@ -23,7 +17,7 @@ const fallbackLogger: Logger = {
   error: (message: string) => console.error(`${message}`),
 };
 
-export function trace(msg: string, obj?: LogObject): boolean {
+export function trace(msg: string): boolean {
   try {
     // Use IPC to send to main process logger
     ipcRenderer.invoke('log:trace', msg).catch((error) => {
@@ -40,7 +34,7 @@ export function trace(msg: string, obj?: LogObject): boolean {
   }
 }
 
-export function debug(msg: string, obj?: LogObject): boolean {
+export function debug(msg: string): boolean {
   try {
     // Use IPC to send to main process logger
     ipcRenderer.invoke('log:debug', msg).catch((error) => {
@@ -57,7 +51,7 @@ export function debug(msg: string, obj?: LogObject): boolean {
   }
 }
 
-export function info(msg: string, obj?: LogObject): boolean {
+export function info(msg: string): boolean {
   try {
     // Use IPC to send to main process logger
     ipcRenderer.invoke('log:info', msg).catch((error) => {
@@ -74,7 +68,7 @@ export function info(msg: string, obj?: LogObject): boolean {
   }
 }
 
-export function warn(msg: string, obj?: LogObject): boolean {
+export function warn(msg: string): boolean {
   try {
     // Use IPC to send to main process logger
     ipcRenderer.invoke('log:warn', msg).catch((error) => {
@@ -91,7 +85,7 @@ export function warn(msg: string, obj?: LogObject): boolean {
   }
 }
 
-export function error(msg: string, obj?: LogObject): boolean {
+export function error(msg: string): boolean {
   try {
     // Use IPC to send to main process logger
     ipcRenderer.invoke('log:error', msg).catch((error) => {
