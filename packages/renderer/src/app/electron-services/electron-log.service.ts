@@ -9,54 +9,48 @@ export enum LogLevel {
   Error = 5,
 }
 
-export interface LogObject {
-  scope?: string;
-  filename?: string;
-  function?: string;
-}
-
 @Injectable({
   providedIn: 'root',
 })
 export class ElectronLogService {
-  async trace(message: string, logObj?: LogObject): Promise<void> {
-    logTrace(message, logObj);
+  async trace(message: string): Promise<void> {
+    logTrace(message);
   }
 
-  async debug(message: string, logObj?: LogObject): Promise<void> {
-    logDebug(message, logObj);
+  async debug(message: string): Promise<void> {
+    logDebug(message);
   }
 
-  async info(message: string, logObj?: LogObject): Promise<void> {
-    logInfo(message, logObj);
+  async info(message: string): Promise<void> {
+    logInfo(message);
   }
 
-  async warn(message: string, logObj?: LogObject): Promise<void> {
-    logWarn(message, logObj);
+  async warn(message: string): Promise<void> {
+    logWarn(message);
   }
 
-  async error(message: string, logObj?: LogObject): Promise<void> {
-    logError(message, logObj);
+  async error(message: string): Promise<void> {
+    logError(message);
   }
 }
 
 // Standalone functions for direct use
-export async function trace(message: string, logObj?: LogObject): Promise<void> {
-  logTrace(message, logObj);
+export async function trace(message: string): Promise<void> {
+  logTrace(message);
 }
 
-export async function debug(message: string, logObj?: LogObject): Promise<void> {
-  logDebug(message, logObj);
+export async function debug(message: string): Promise<void> {
+  logDebug(message);
 }
 
-export async function info(message: string, logObj?: LogObject): Promise<void> {
-  logInfo(message, logObj);
+export async function info(message: string): Promise<void> {
+  logInfo(message);
 }
 
-export async function warn(message: string, logObj?: LogObject): Promise<void> {
-  logWarn(message, logObj);
+export async function warn(message: string): Promise<void> {
+  logWarn(message);
 }
 
-export async function error(message: string, logObj?: LogObject): Promise<void> {
-  logError(message, logObj);
+export async function error(message: string): Promise<void> {
+  logError(message);
 }

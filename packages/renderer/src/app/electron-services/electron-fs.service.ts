@@ -59,7 +59,7 @@ export class ElectronFsService {
     try {
       return await this.readJsonFile<T>(filePath);
     } catch (error) {
-      this.logger.warn(`Could not read JSON file ${filePath}, using default value:`, error);
+      this.logger.warn(`Could not read JSON file ${filePath}, using default value: ${error}`);
       return defaultValue;
     }
   }

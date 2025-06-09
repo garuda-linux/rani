@@ -437,7 +437,7 @@ export class AppComponent implements OnInit {
       const appMenuItems: AppMenuItem[] = this.convertToAppMenuItems(menubar);
       await this.appMenuService.updateAppMenu(appMenuItems);
     } catch (error) {
-      this.logger.error('Failed to update application menu:', error);
+      this.logger.error(`Failed to update application menu: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
@@ -471,7 +471,7 @@ export class AppComponent implements OnInit {
     try {
       eventsOn('appMenu:itemClicked', (...args: unknown[]) => {
         const data = args[0] as any;
-        this.logger.trace('App menu item clicked event received:', data);
+        this.logger.trace(`App menu item clicked event received: ${JSON.stringify(data)}`);
 
         const menuData = data;
 
@@ -480,7 +480,7 @@ export class AppComponent implements OnInit {
           try {
             this.router.navigate([menuData.routerLink]);
           } catch (error) {
-            this.logger.error('Navigation error:', error);
+            this.logger.error(`Navigation error: ${error instanceof Error ? error.message : String(error)}`);
           }
         }
 
@@ -490,22 +490,21 @@ export class AppComponent implements OnInit {
         }
       });
     } catch (error) {
-      this.logger.error('Setup app menu handlers error:', error);
+      this.logger.error(`Setup app menu handlers error: ${error instanceof Error ? error.message : String(error)}`);
     }
   }
 
   private handleMenuCommand(command: string): void {
-    this.logger.debug('Handling menu command:', command);
+    this.logger.debug(`Handling menu command: ${command}`);
 
     switch (command) {
       case 'shutdown':
         void this.shutdown();
         break;
       case 'restart':
-        // Handle restart command
         break;
       default:
-        this.logger.warn('Unknown menu command:', command);
+        this.logger.warn(`Unknown menu command: ${command}`);
         break;
     }
   }
@@ -586,8 +585,7 @@ export class AppComponent implements OnInit {
     window.addEventListener('beforeunload', (event) => {
       if (this.taskManager.running() || this.taskManager.count()) {
         event.preventDefault();
-        event.returnValue = '';
-        this.requestShutdown();
+        void this.requestShutdown();
       }
     });
   }

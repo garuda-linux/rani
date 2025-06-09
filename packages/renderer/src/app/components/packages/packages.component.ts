@@ -109,7 +109,7 @@ export class PackagesComponent {
    * Clear the systemd service table search and options.
    * @param table The table component to clear
    */
-  clear(table: Table): void {
+  clear(table: any): void {
     table.clear();
     this.packageSearch.set('');
   }

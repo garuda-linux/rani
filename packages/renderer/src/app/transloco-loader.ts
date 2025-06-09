@@ -11,7 +11,7 @@ export class TranslocoHttpLoader implements TranslocoLoader {
   async getTranslation(lang: string): Promise<Translation> {
     try {
       // Validate language parameter
-      if (!lang || typeof lang !== 'string' || lang.trim().length === 0) {
+      if (!lang || lang.trim().length === 0) {
         this.logger.warn(`Invalid language parameter: ${lang}`);
         return {};
       }

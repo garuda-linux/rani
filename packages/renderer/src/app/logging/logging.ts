@@ -1,6 +1,3 @@
-import { debug, error, info, trace, warn } from '../electron-services';
-import type { LogObject } from './interfaces';
-
 export class Logger {
   private static instance: Logger;
 
@@ -20,45 +17,40 @@ export class Logger {
   /**
    * Log a trace message, if the log level is set to trace.
    * @param message The message to log
-   * @param logObj Additional log context
    */
-  trace(message: string, logObj?: LogObject | any): void {
-    void trace(message, logObj);
+  trace(message: string): void {
+    console.debug(message);
   }
 
   /**
    * Log a debug message, if the log level is set at least to debug.
    * @param message The message to log
-   * @param logObj Additional log context
    */
-  debug(message: string, logObj?: LogObject | any): void {
-    void debug(message, logObj);
+  debug(message: string): void {
+    console.debug(message);
   }
 
   /**
    * Log an info message, if the log level is set at least to info.
    * @param message The message to log
-   * @param logObj Additional log context
    */
-  info(message: string, logObj?: LogObject | any): void {
-    void info(message, logObj);
+  info(message: string): void {
+    console.info(message);
   }
 
   /**
    * Log a warning message, if the log level is set at least to warn.
    * @param message The message to log
-   * @param logObj Additional log context
    */
-  warn(message: string, logObj?: LogObject | any): void {
-    void warn(message, logObj);
+  warn(message: string): void {
+    console.warn(message);
   }
 
   /**
    * Log an error message.
    * @param message The message to log
-   * @param logObj Additional log context
    */
-  error(message: string, logObj?: LogObject | any): void {
-    void error(message, logObj);
+  error(message: string): void {
+    console.error(message);
   }
 }

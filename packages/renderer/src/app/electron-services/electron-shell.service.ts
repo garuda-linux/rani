@@ -59,7 +59,7 @@ export class ElectronShellService {
     }
 
     async spawn(): Promise<StreamingShellProcess> {
-      const result = await shellSpawnStreaming(this.command, this.argsList, this.options);
+      const result = shellSpawnStreaming(this.command, this.argsList, this.options);
       return new StreamingShellProcess(result.processId, result.pid);
     }
   };

@@ -30,7 +30,7 @@
             <input
               #filterInput
               [placeholder]="t('packages.searchKey')"
-              (input)="packageTable.filterGlobal(filterInput.value, 'contains')"
+              (input)="$any(packageTable).filterGlobal(filterInput.value, 'contains')"
               pInputText
               type="text"
             />

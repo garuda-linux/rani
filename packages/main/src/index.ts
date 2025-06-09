@@ -5,7 +5,6 @@ import { createWindowManagerModule } from './modules/WindowManager.js';
 import { terminateAppOnLastWindowClose } from './modules/ApplicationTerminatorOnLastWindowClose.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
-
 import { createConfigModule } from './modules/ConfigModule.js';
 import { createOSModule } from './modules/OSModule.js';
 import { createNotificationModule } from './modules/NotificationModule.js';

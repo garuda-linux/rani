@@ -28,7 +28,7 @@ export class ElectronContextMenuService {
 
       return contextMenuShow(items, x, y);
     } catch (error) {
-      this.logger.error('Failed to show context menu:', error);
+      this.logger.error('Failed to show context menu:');
       return false;
     }
   }
@@ -104,11 +104,15 @@ export class ElectronContextMenuService {
           const result = handler();
           if (result instanceof Promise) {
             result.catch((error) => {
-              this.logger.error(`Error executing menu item handler for ${itemId}:`, error);
+              this.logger.error(
+                `Error executing menu item handler for ${itemId}:  ${error instanceof Error ? error.message : String(error)}`,
+              );
             });
           }
         } catch (error) {
-          this.logger.error(`Error executing menu item handler for ${itemId}:`, error);
+          this.logger.error(
+            `Error executing menu item handler for ${itemId}: ${error instanceof Error ? error.message : String(error)}`,
+          );
         }
       } else {
         this.logger.warn(`No handler found for menu item: ${itemId}`);

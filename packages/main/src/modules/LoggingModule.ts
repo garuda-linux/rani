@@ -32,13 +32,8 @@ class LoggingModule implements AppModule {
     this.setupLoggingHandlers();
   }
 
-  private updateLogLevel(): void {
-    Logger.logLevel = this.store.get('logLevel', LogLevel.INFO) as LogLevel;
-    this.logger.info(`Log level initialized to: ${LogLevel[Logger.logLevel]}`);
-  }
-
   private setupLoggingHandlers(): void {
-    this.updateLogLevel();
+    Logger.logLevel = this.store.get('logLevel', LogLevel.INFO) as LogLevel;
 
     ipcMain.on('config:changed', (_, configData: { key: string; value: unknown }) => {
       try {
