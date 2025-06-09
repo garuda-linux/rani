@@ -2,7 +2,7 @@
   "name": "garuda-rani",
   "version": "3.0.0",
   "private": true,
-  "description": "Garuda Linux' app for easily managing installations. Includes Gaming apps, system settings, kernels and much more.",
+  "description": "Garuda Linux app for easily managing installations. Includes Gaming apps, system settings, kernels and much more.",
   "keywords": [
     "garuda",
     "linux",
@@ -32,18 +32,17 @@
   "type": "module",
   "main": "packages/entry-point.mjs",
   "scripts": {
-    "build": "corepack pnpm -r run build",
+    "build": "pnpm -r run build",
     "check-bundle": "asar list dist/linux-unpacked/resources/app.asar",
-    "check-bundle-mac": "asar list dist/mac-arm64/Garuda\\ Rani.app/Contents/Resources/app.asar",
-    "check-pkglists": "ts-node --project tsconfig.cli.json assets/testPackageAvailability.ts",
-    "compile": "corepack pnpm run build && corepack pnpm run electron-builder",
+    "check-bundle-mac": "asar list dist/mac-arm64/garuda-rani.app/Contents/Resources/app.asar",
+    "check-pkglists": "pnpx tsx assets/testPackageAvailability.ts",
+    "compile": "pnpm run build && pnpm run electron-builder",
     "dev": "node packages/dev-mode.mjs",
     "electron-builder": "electron-builder build --config electron-builder.mjs",
     "format": "prettier --write .",
     "test": "playwright test ./tests/e2e.spec.ts",
-    "translate": "ts-node --project tsconfig.cli.json assets/translator.ts",
-    "typecheck": "corepack pnpm run -r typecheck -ws --if-present",
-    "typegen": "tsc packages/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types"
+    "translate": "pnpx tsx assets/translator.ts",
+    "typegen": "tsc packages/**/*.js --moduleResolution NodeNext --module NodeNext --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
     "@app/main": "workspace:*",
@@ -72,7 +71,7 @@
     "prettier": "^3.5.3",
     "prettier-plugin-organize-attributes": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.6.12",
-    "ts-node": "^10.9.2",
+    "tsx": "^4.19.4",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.33.1",
     "vite": "6.3.5"

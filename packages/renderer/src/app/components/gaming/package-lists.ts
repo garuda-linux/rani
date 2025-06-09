@@ -572,14 +572,6 @@ export const gamingPackageLists: PackageSections = [
         pkgname: ['openttd'],
       },
       {
-        name: 'OpenXRay',
-        description:
-          'Improved version of the X-Ray Engine, the game engine used in the world-famous S.T.A.L.K.E.R. game series by GSC Game World. Game assets must be bought separately.',
-        url: 'https://github.com/OpenXRay',
-        icon: 'generic-dark.svg',
-        pkgname: ['openxray'],
-      },
-      {
         name: 'Pingus',
         description: 'Lemmings clone, i.e. a level-based puzzle game.',
         url: 'https://pingus.seul.org/',

@@ -1,6 +1,6 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs';
 import { execSync } from 'node:child_process';
-import { Package } from '../src/app/gaming/interfaces';
+import type { Package } from '../packages/renderer/src/app/components/gaming/interfaces';
 
 // Read the list of racing games from the file
 // This is supposed to taken from the Arch wiki source, e.g.
@@ -76,8 +76,8 @@ for (const source of sources) {
 
   console.log(`Parsed ${allEntries.length} entries`);
 
-  let toDisplay: AppData[] = [];
-  let inAur: AppData[] = [];
+  const toDisplay: AppData[] = [];
+  const inAur: AppData[] = [];
 
   // Get a list of all packages in repo and compare with AUR packages
   const aurPkg: AppData[] = allEntries.filter((game) => game.type === 'AUR');
@@ -93,7 +93,7 @@ for (const source of sources) {
   }
 
   // Add all Arch packages
-  let archPkg: AppData[] = allEntries.filter((game) => game.type === 'Pkg');
+  const archPkg: AppData[] = allEntries.filter((game) => game.type === 'Pkg');
   toDisplay.push(...archPkg);
 
   // Cleanup the data

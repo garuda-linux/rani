@@ -1,1 +1,0 @@
-../../packages/renderer/src/app/components/gaming/package-lists.ts
