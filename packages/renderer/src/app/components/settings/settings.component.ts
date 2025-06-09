@@ -20,7 +20,6 @@ import { Panel } from 'primeng/panel';
 export class SettingsComponent implements OnInit {
   protected readonly configService = inject(ConfigService);
   protected readonly checkBoxSettings: string[] = [
-    'leftButtons',
     'copyDiagnostics',
     'darkMode',
     'autoStart',

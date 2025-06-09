@@ -41,7 +41,6 @@ export class ConfigService {
     darkMode: true,
     firstBoot: undefined,
     language: 'en',
-    leftButtons: true,
     logLevel: LogLevel.INFO,
     showMainLinks: true,
     systemdUserContext: false,

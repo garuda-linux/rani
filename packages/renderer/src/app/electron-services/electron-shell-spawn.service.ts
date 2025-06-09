@@ -26,10 +26,6 @@ export class ElectronShellSpawnService {
   // Map to store cleanup functions for each streamed process
   private cleanupFunctions = new Map<string, () => void>();
 
-  constructor() {
-    this.logger.debug('ElectronShellSpawnService constructor called.');
-  }
-
   /**
    * Spawns a shell command with streaming stdout/stderr to callbacks.
    * This is designed for long-lived processes or processes where you need real-time output.
@@ -45,26 +41,19 @@ export class ElectronShellSpawnService {
     options?: ShellStreamingOptions,
   ): Promise<ShellStreamingResult> {
     this.logger.debug(`Invoking spawnStreaming with command: ${command}, args: ${JSON.stringify(args)}`);
-
-    const result = await shellSpawnStreaming(command, args, {
+    const { processId, pid } = shellSpawnStreaming(command, args, {
       cwd: options?.cwd,
       env: options?.env,
     });
-    const { processId, pid } = result;
 
     if (!processId) {
       const errorMessage = `Failed to spawn process for command: ${command}. No processId returned.`;
       this.logger.error(errorMessage);
-      if (options?.onError) {
-        //this.ngZone.run(() => options.onError(new Error(errorMessage)));
-      }
       throw new Error(errorMessage);
     }
-
     this.logger.debug(`Spawned process with ID: ${processId}, PID: ${pid}`);
 
     const cleanup = () => {
-      // Remove listeners when the process is explicitly closed or ends
       eventsOff('shell:stdout', stdoutListener);
       eventsOff('shell:stderr', stderrListener);
       eventsOff('shell:close', closeListener);
@@ -76,8 +65,8 @@ export class ElectronShellSpawnService {
     // Store the cleanup function
     this.cleanupFunctions.set(processId, cleanup);
 
-    // Define listeners that run inside Angular's zone to ensure change detection
     const stdoutListener = (...args: unknown[]) => {
+      console.debug(`Received stdout for process ${processId}`);
       const event = args[0] as ShellEvent;
       if (event.processId !== processId) return;
       if (options?.onStdout && event.data) {
@@ -100,7 +89,6 @@ export class ElectronShellSpawnService {
       if (options?.onClose) {
         options.onClose(event.code ?? null, event.signal ?? null);
       }
-      // Perform cleanup when the process closes
       const cleanupFn = this.cleanupFunctions.get(event.processId);
       if (cleanupFn) {
         cleanupFn();
@@ -115,20 +103,18 @@ export class ElectronShellSpawnService {
       if (options?.onError) {
         options.onError(new Error(errorMessage));
       }
-      // Perform cleanup on error as well
       const cleanupFn = this.cleanupFunctions.get(event.processId);
       if (cleanupFn) {
         cleanupFn();
       }
     };
 
-    // Register listeners for this specific processId
     eventsOn('shell:stdout', stdoutListener);
     eventsOn('shell:stderr', stderrListener);
     eventsOn('shell:close', closeListener);
     eventsOn('shell:error', errorListener);
 
-    return result;
+    return { processId, pid };
   }
 
   /**
@@ -138,7 +124,7 @@ export class ElectronShellSpawnService {
    * @param data The string data to write.
    */
   async writeStdin(processId: string, data: string): Promise<void> {
-    this.logger.debug(`Writing to stdin of process ${processId}: ${data.substring(0, 50)}...`);
+    this.logger.debug(`Writing to stdin of process ${processId}: ${data}`);
     shellWriteStdin(processId, data);
   }
 
@@ -152,7 +138,6 @@ export class ElectronShellSpawnService {
     this.logger.warn(`Killing process ${processId} with signal: ${signal || 'SIGTERM'}`);
     shellKillProcess(processId, signal);
 
-    // Immediately run cleanup after explicitly killing
     const cleanupFn = this.cleanupFunctions.get(processId);
     if (cleanupFn) {
       cleanupFn();

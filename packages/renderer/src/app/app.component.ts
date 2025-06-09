@@ -125,7 +125,7 @@ export class AppComponent implements OnInit {
   protected readonly logger = Logger.getInstance();
 
   // Not used, but required for the app component to work properly!
-  private readonly themeService = inject(ThemeService);
+  private readonly _themeService = inject(ThemeService);
 
   readonly moduleItems = [
     {
@@ -180,13 +180,6 @@ export class AppComponent implements OnInit {
       label: 'Diagnostics',
       translocoKey: 'menu.diagnostics',
       command: () => this.router.navigate(['/diagnostics']),
-    },
-    {
-      id: 'terminal',
-      icon: 'pi pi-spinner',
-      label: 'Terminal',
-      translocoKey: 'menu.terminal',
-      command: () => this.terminalComponent.visible.set(true),
     },
   ];
   helpItems = [
@@ -275,6 +268,13 @@ export class AppComponent implements OnInit {
         label: 'Modules',
         translocoKey: 'menu.modules.title',
         items: [...this.moduleItems],
+      },
+      {
+        id: 'terminal',
+        icon: 'pi pi-spinner',
+        label: 'Terminal',
+        translocoKey: 'menu.terminal',
+        command: () => this.terminalComponent.visible.set(true),
       },
       {
         id: 'help',

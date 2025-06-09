@@ -57,7 +57,7 @@ samp {
 }
 
 ul {
-  @apply my-4 block list-inside list-disc space-y-1 text-left;
+  @apply my-4 block list-inside list-disc text-left;
 }
 
 .garuda-panel {

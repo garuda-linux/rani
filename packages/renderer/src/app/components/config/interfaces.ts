@@ -9,7 +9,6 @@ export interface AppSettings {
   darkMode: boolean;
   firstBoot: boolean | undefined;
   language: string;
-  leftButtons: boolean;
   logLevel: LogLevel;
   showMainLinks: boolean;
   systemdUserContext: boolean;

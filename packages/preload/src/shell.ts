@@ -1,9 +1,9 @@
 import { spawn } from 'node:child_process';
-import { ipcRenderer } from 'electron';
 import { randomUUID } from 'node:crypto';
 import { shell } from 'electron';
 import { basename } from 'node:path';
-import { debug, info, trace, warn, error } from './logging.js';
+import { trace, warn, error } from './logging.js';
+import { emit } from './events.js';
 
 export function shellSpawn(command: string, args: string[], options?: Record<string, unknown>) {
   const handle = spawn(command, args, options);
@@ -13,8 +13,6 @@ export function shellSpawn(command: string, args: string[], options?: Record<str
     handle.on('close', resolve);
   });
 }
-
-// Store active processes for stdin/kill operations
 const activeProcesses = new Map<string, any>();
 
 export function shellSpawnStreaming(command: string, args: string[] = [], options?: Record<string, unknown>) {
@@ -29,7 +27,7 @@ export function shellSpawnStreaming(command: string, args: string[] = [], option
 
   // Send stdout data chunks to renderer
   handle.stdout?.on('data', (data: Buffer) => {
-    ipcRenderer.send('shell:stdout', {
+    emit('shell:stdout', {
       processId,
       data: data.toString(),
     });
@@ -37,7 +35,7 @@ export function shellSpawnStreaming(command: string, args: string[] = [], option
 
   // Send stderr data chunks to renderer
   handle.stderr?.on('data', (data: Buffer) => {
-    ipcRenderer.send('shell:stderr', {
+    emit('shell:stderr', {
       processId,
       data: data.toString(),
     });
@@ -45,7 +43,7 @@ export function shellSpawnStreaming(command: string, args: string[] = [], option
 
   // Send process completion event
   handle.on('close', (code: number | null, signal: string | null) => {
-    ipcRenderer.send('shell:close', {
+    emit('shell:close', {
       processId,
       code,
       signal,
@@ -56,7 +54,7 @@ export function shellSpawnStreaming(command: string, args: string[] = [], option
 
   // Send process error event
   handle.on('error', (error: Error) => {
-    ipcRenderer.send('shell:error', {
+    emit('shell:error', {
       processId,
       error: {
         name: error.name,
@@ -96,7 +94,6 @@ export function shellKillProcess(processId: string, signal = 'SIGTERM'): boolean
 
 export async function open(url: string): Promise<boolean> {
   try {
-    // Validate URL for security
     const urlPattern = /^(https?:\/\/)|(file:\/\/)|(mailto:)|(tel:)/;
     if (!urlPattern.test(url)) {
       throw new Error('Invalid URL protocol');
@@ -120,7 +117,6 @@ function validateCommand(command: string, args: string[]): boolean {
     return true;
   }
 
-  // Expanded whitelist of allowed commands for system management
   const allowedCommands = [
     // Package managers
     'pacman',
@@ -141,7 +137,6 @@ function validateCommand(command: string, args: string[]): boolean {
     'whoami',
     // Garuda specific tools
     'garuda-inxi',
-    'launch-terminal',
     'setup-assistant',
     // Shells
     'bash',
@@ -197,6 +192,7 @@ export async function execute(
 }> {
   try {
     const isDevelopment = process.env.NODE_ENV === 'development';
+    const timeout = (options.timeout as number) || 30000;
 
     if (!validateCommand(command, args)) {
       const errorMsg = isDevelopment
@@ -204,8 +200,6 @@ export async function execute(
         : `Command not allowed for security reasons: ${command}`;
       throw new Error(errorMsg);
     }
-
-    const timeout = (options.timeout as number) || 30000; // 30 second default timeout
 
     return await executeLocally(command, args, options, timeout);
   } catch (err: any) {
@@ -225,7 +219,6 @@ async function executeLocally(
   stderr: string;
   signal: string | null;
 }> {
-  // For executed commands, wait for completion with timeout
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
       stdio: ['pipe', 'pipe', 'pipe'],
@@ -256,7 +249,7 @@ async function executeLocally(
       cleanup();
       resolve({
         code,
-        stdout: stdout.substring(0, 1024 * 1024), // Limit output to 1MB
+        stdout: stdout.substring(0, 1024 * 1024),
         stderr: stderr.substring(0, 1024 * 1024),
         signal,
       });
