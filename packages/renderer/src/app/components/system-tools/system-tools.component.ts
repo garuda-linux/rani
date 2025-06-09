@@ -39,13 +39,20 @@ export class SystemToolsComponent implements OnInit {
   private readonly router = inject(Router);
 
   ngOnInit(): void {
-    const url: UrlTree = this.router.parseUrl(this.router.url);
-    if (!url.fragment) {
-      void this.router.navigate([], { fragment: 'components' });
-      return;
-    }
+    this.router.events.subscribe(() => {
+      const currentUrl: UrlTree = this.router.parseUrl(this.router.url);
+      if (currentUrl.fragment) {
+        this.navigateToTab(currentUrl.fragment);
+      }
+    });
+  }
 
-    switch (url.fragment) {
+  /**
+   * Navigate to a specific tab based on the fragment in the URL.
+   * @param fragment The fragment to navigate to.
+   */
+  navigateToTab(fragment: string) {
+    switch (fragment) {
       case 'components':
         this.tabIndex.set(0);
         break;
@@ -58,10 +65,10 @@ export class SystemToolsComponent implements OnInit {
       case 'kernels':
         this.tabIndex.set(3);
         break;
-      case 'locales':
+      case 'language-packs':
         this.tabIndex.set(4);
         break;
-      case 'services':
+      case 'locales':
         this.tabIndex.set(5);
         break;
       default:

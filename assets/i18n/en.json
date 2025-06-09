@@ -6,7 +6,19 @@
       "quit": "Quit"
     },
     "modules": {
-      "title": "Modules"
+      "title": "Modules",
+      "search": "Search options",
+      "diagnostics": "Diagnostics",
+      "maintenance": "Maintenance",
+      "systemSettings": "System settings",
+      "components": "System components",
+      "gaming": "Gaming",
+      "locales": "Localizations",
+      "appSettings": "App settings",
+      "kernels": "Kernels",
+      "welcome": "Welcome",
+      "systemdServices": "Systemd services",
+      "packages": "Packages"
     },
     "welcome": "Welcome",
     "maintenance": "Maintenance",

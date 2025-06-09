@@ -30,13 +30,34 @@
           }
         </div>
       }
-      @if (taskManager.count() === 0) {
+
+      <p-auto-complete
+        [(ngModel)]="selectedModule"
+        [ngClass]="{ 'ng-dirty ng-invalid': selectedModule() !== '' && moduleSuggestions().length === 0 }"
+        [placeholder]="t('menu.modules.search')"
+        [forceSelection]="true"
+        [suggestions]="moduleSuggestions()"
+        (completeMethod)="filterModuleSuggestions($event)"
+        (onSelect)="selectModule($event)"
+        garudaShellBarEnd
+        size="small"
+        optionLabel="moduleName"
+      >
+        <ng-template #item let-module>
+          <div class="flex items-center gap-2">
+            <div>{{ t(module.moduleName) }}</div>
+          </div>
+        </ng-template>
+      </p-auto-complete>
+
+      @if (taskManager.count() > 0) {
         <p-splitbutton
           [model]="applyMenuItems"
           (onClick)="taskManager.toggleTerminal(true)"
           garudaShellBarEnd
-          severity="success"
+          severity="secondary"
           size="small"
+          styleClass="garuda-button-shine"
         >
           <ng-template #content>
             {{ t('menu.pending') }}

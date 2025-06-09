@@ -16,7 +16,6 @@ export async function globalKeyHandler(this: AppComponent, event: KeyboardEvent)
         this.terminalComponent.visible.set(!this.terminalComponent.visible());
         break;
       case 'F11':
-        this.toggleMaximize();
         break;
     }
   } else if (event.ctrlKey) {

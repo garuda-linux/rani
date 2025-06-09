@@ -13,14 +13,7 @@ import {
 import { Router, RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
-import { ElectronAppService } from './electron-services';
-import {
-  windowClose,
-  windowRequestClose,
-  windowMinimize,
-  windowMaximize,
-  eventsOn,
-} from './electron-services/electron-api-utils.js';
+import { windowClose, windowRequestClose, eventsOn } from './electron-services/electron-api-utils.js';
 import { DialogModule } from 'primeng/dialog';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
@@ -46,12 +39,11 @@ import {
   ElectronAppMenuService,
   type ContextMenuItem,
   type AppMenuItem,
-  ElectronOsService,
 } from './electron-services';
-import { CheckIcon, WindowMaximizeIcon } from 'primeng/icons';
-import { ButtonDirective, ButtonIcon, ButtonLabel } from 'primeng/button';
-import { Ripple } from 'primeng/ripple';
 import { SplitButton } from 'primeng/splitbutton';
+import { AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent } from 'primeng/autocomplete';
+import { MODULE_SEARCH, ModuleSearchEntry } from './constants/module-search';
+import { NgClass } from '@angular/common';
 
 @Component({
   imports: [
@@ -72,13 +64,9 @@ import { SplitButton } from 'primeng/splitbutton';
     TerminalComponent,
     OperationManagerComponent,
     ConfirmDialog,
-    WindowMaximizeIcon,
-    ButtonDirective,
-    Ripple,
-    ButtonIcon,
-    ButtonLabel,
-    CheckIcon,
     SplitButton,
+    AutoComplete,
+    NgClass,
   ],
   selector: 'rani-root',
   templateUrl: './app.component.html',
@@ -87,25 +75,17 @@ import { SplitButton } from 'primeng/splitbutton';
 })
 export class AppComponent implements OnInit {
   @ViewChild('terminalComponent') terminalComponent!: TerminalComponent;
-  @ViewChild('operationManagerComponent')
-  operationManagerComponent!: OperationManagerComponent;
+  @ViewChild('operationManagerComponent') operationManagerComponent!: OperationManagerComponent;
 
-  readonly confirmationService = inject(ConfirmationService);
-  readonly loadingService = inject(LoadingService);
-  readonly taskManager = inject(TaskManagerService);
+  private readonly appMenuService = inject(ElectronAppMenuService);
+  private readonly contextMenuService = inject(ElectronContextMenuService);
   private readonly notificationService = inject(NotificationService);
   private readonly router = inject(Router);
-  private readonly electronAppService = inject(ElectronAppService);
-  private readonly electronOsService = inject(ElectronOsService);
 
+  protected readonly confirmationService = inject(ConfirmationService);
+  protected readonly loadingService = inject(LoadingService);
   protected readonly shellService = inject(ElectronShellService);
-  private readonly contextMenuService = inject(ElectronContextMenuService);
-  private readonly appMenuService = inject(ElectronAppMenuService);
-  protected readonly appWindow = {
-    minimize: () => windowMinimize(),
-    toggleMaximize: () => windowMaximize(),
-    close: () => windowRequestClose(),
-  };
+  protected readonly taskManager = inject(TaskManagerService);
 
   rightClickMenu = signal<ContextMenuItem[]>([
     this.contextMenuService.createMenuItem({
@@ -143,9 +123,7 @@ export class AppComponent implements OnInit {
   protected readonly configService = inject(ConfigService);
   protected readonly logger = Logger.getInstance();
 
-  protected readonly hideWindowButtons = computed(() => {
-    return this.configService.state().borderlessMaximizedWindow && this.configService.state().isMaximized;
-  });
+  // Not used, but required for the app component to work properly!
   private readonly themeService = inject(ThemeService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -302,6 +280,27 @@ export class AppComponent implements OnInit {
     ]),
   );
 
+  /**
+   * Menu items for the apply menu in case tasks are pending.
+   * @protected
+   */
+  protected readonly applyMenuItems = [
+    {
+      label: this.translocoService.translate('menu.apply'),
+      command: () => this.taskManager.toggleTerminal(true),
+    },
+    {
+      label: this.translocoService.translate('menu.clearTasks'),
+      command: () => this.taskManager.clearTasks(),
+    },
+  ];
+
+  /**
+   * App module search stuff.
+   */
+  selectedModule = signal<string>('');
+  moduleSuggestions = signal<ModuleSearchEntry[]>([]);
+
   constructor() {
     effect(() => {
       const curItems: MenuItem[] = untracked(this.menuItems);
@@ -419,7 +418,7 @@ export class AppComponent implements OnInit {
    * Updates the application menu with current menu items
    * @param items The current menu items
    */
-  private async updateApplicationMenu(_items: MenuItem[]): Promise<void> {
+  private async updateApplicationMenu(items: MenuItem[]): Promise<void> {
     const menubar = this.setupLabels(this.translocoService.getActiveLang(), [
       {
         id: 'file',
@@ -602,27 +601,6 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Close the window
-   */
-  closeWindow(): void {
-    windowRequestClose();
-  }
-
-  /**
-   * Minimize the window
-   */
-  minimizeWindow(): void {
-    windowMinimize();
-  }
-
-  /**
-   * Toggle maximize/restore the window
-   */
-  toggleMaximize(): void {
-    windowMaximize();
-  }
-
-  /**
    * Request a shutdown of the app. If there are any tasks running, ask the user for confirmation.
    * @protected
    */
@@ -657,17 +635,32 @@ export class AppComponent implements OnInit {
   }
 
   /**
-   * Menu items for the apply menu in case tasks are pending.
-   * @protected
+   * Filter module suggestions based on the user's input.
+   * @param $event The autocomplete event containing the query
    */
-  protected readonly applyMenuItems = [
-    {
-      label: this.translocoService.translate('menu.apply'),
-      command: () => this.taskManager.toggleTerminal(true),
-    },
-    {
-      label: this.translocoService.translate('menu.clearTasks'),
-      command: () => this.taskManager.clearTasks(),
-    },
-  ];
+  filterModuleSuggestions($event: AutoCompleteCompleteEvent) {
+    const filtered: ModuleSearchEntry[] = [];
+    for (const entry of MODULE_SEARCH) {
+      if (entry.keywords.find((entry) => entry.match($event.query.toLowerCase()))) {
+        console.debug(`Matched module suggestion: ${JSON.stringify(entry)}`);
+        filtered.push(entry);
+      } else {
+        console.debug(`No match for module suggestion: ${JSON.stringify(entry)}`);
+      }
+    }
+    this.moduleSuggestions.set(filtered);
+  }
+
+  /**
+   * Handle the selection of a module by navigating to its route.
+   * @param $event The select event containing the selected module
+   */
+  selectModule($event: AutoCompleteSelectEvent) {
+    this.logger.debug(`Selected module: ${$event.value}`);
+    const module = $event.value as ModuleSearchEntry;
+
+    this.logger.debug(`Navigating to module: ${module.moduleName} (${module.routerLink}) with hash ${module.hash}`);
+    this.selectedModule.set('');
+    void this.router.navigate([module.routerLink], { fragment: module.hash });
+  }
 }
