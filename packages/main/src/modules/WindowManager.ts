@@ -1,6 +1,6 @@
 import type { AppModule } from '../AppModule.js';
 import type { ModuleContext } from '../ModuleContext.js';
-import { BrowserWindow, screen, shell } from 'electron';
+import { BrowserWindow, Size, screen, shell } from 'electron';
 import type { AppInitConfig } from '../AppInitConfig.js';
 import { Logger } from '../logging/logging.js';
 
@@ -36,7 +36,7 @@ class WindowManager implements AppModule {
   }
 
   async createWindow(): Promise<BrowserWindow> {
-    const size = screen.getPrimaryDisplay().workAreaSize;
+    const size: Size = screen.getPrimaryDisplay().workAreaSize;
 
     // Create the browser window with secure defaults
     const browserWindow = new BrowserWindow({
@@ -44,6 +44,8 @@ class WindowManager implements AppModule {
       y: screen.getPrimaryDisplay().workArea.y + 50,
       width: size.width - 100,
       height: size.height - 100,
+      minHeight: 500,
+      minWidth: 700,
       show: false,
       frame: true,
       title: 'Garuda Rani',

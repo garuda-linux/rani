@@ -81,6 +81,7 @@ export class AppComponent implements OnInit {
   private readonly contextMenuService = inject(ElectronContextMenuService);
   private readonly notificationService = inject(NotificationService);
   private readonly router = inject(Router);
+  private readonly translocoService = inject(TranslocoService);
 
   protected readonly confirmationService = inject(ConfirmationService);
   protected readonly loadingService = inject(LoadingService);
@@ -125,7 +126,6 @@ export class AppComponent implements OnInit {
 
   // Not used, but required for the app component to work properly!
   private readonly themeService = inject(ThemeService);
-  private readonly translocoService = inject(TranslocoService);
 
   readonly moduleItems = [
     {
@@ -269,7 +269,13 @@ export class AppComponent implements OnInit {
         translocoKey: 'menu.file.title',
         items: [...this.fileItems],
       },
-      ...this.moduleItems,
+      {
+        id: 'modules',
+        icon: 'pi pi-cog',
+        label: 'Modules',
+        translocoKey: 'menu.modules.title',
+        items: [...this.moduleItems],
+      },
       {
         id: 'help',
         icon: 'pi pi-question-circle',
@@ -300,53 +306,6 @@ export class AppComponent implements OnInit {
    */
   selectedModule = signal<string>('');
   moduleSuggestions = signal<ModuleSearchEntry[]>([]);
-
-  constructor() {
-    effect(() => {
-      const curItems: MenuItem[] = untracked(this.menuItems);
-
-      const moduleIndex: number = curItems.findIndex(
-        (item) => (item as MenuItem & { translocoKey: string }).translocoKey === 'menu.modules.title',
-      );
-      if (moduleIndex === -1) return;
-
-      const terminalIndex: number =
-        curItems[moduleIndex].items?.findIndex(
-          (item) => (item as MenuItem & { translocoKey: string }).translocoKey === 'menu.terminal',
-        ) ?? -1;
-      const index = terminalIndex;
-      if (index === -1) return;
-
-      const items: MenuItem[] = [...curItems];
-      const moduleItems = [...(items[moduleIndex].items || [])];
-
-      if (this.taskManager.running()) {
-        moduleItems[index].icon = 'pi pi-spin pi-spinner';
-        moduleItems[index].label = this.translocoService.translate('menu.terminalRunning');
-        moduleItems[index].styleClass = 'garuda-button-shine';
-        moduleItems[index].badge = undefined;
-      } else if (this.taskManager.count() > 0) {
-        moduleItems[index].icon = 'pi pi-hourglass';
-        moduleItems[index].label = this.translocoService.translate('menu.terminalTasks');
-        moduleItems[index].badge = this.taskManager.count().toString();
-        moduleItems[index].styleClass = 'garuda-button-shine';
-      } else {
-        moduleItems[index].icon = 'pi pi-spinner';
-        moduleItems[index].label = this.translocoService.translate('menu.terminal');
-        moduleItems[index].styleClass = undefined;
-        moduleItems[index].badge = undefined;
-      }
-
-      items[moduleIndex].items = moduleItems;
-      this.menuItems.set(items);
-
-      // Update the application menu when menuItems change
-      this.updateApplicationMenu(items);
-    });
-
-    // Set up app menu item click handlers
-    this.setupAppMenuHandlers();
-  }
 
   ngOnInit(): void {
     // Set up global error handling for JSON parsing and network errors
@@ -389,7 +348,7 @@ export class AppComponent implements OnInit {
 
     // Initialize the application menu
     this.setupAppMenuHandlers();
-    this.updateApplicationMenu(this.menuItems());
+    void this.updateApplicationMenu(this.menuItems());
   }
 
   /**
@@ -485,18 +444,24 @@ export class AppComponent implements OnInit {
 
         const menuData = data;
 
-        // Handle router navigation
         if (menuData.routerLink) {
           try {
-            this.router.navigate([menuData.routerLink]);
+            void this.router.navigate([menuData.routerLink]);
           } catch (error) {
             this.logger.error(`Navigation error: ${error instanceof Error ? error.message : String(error)}`);
           }
         }
 
-        // Handle commands
         if (menuData.command) {
-          this.handleMenuCommand(menuData.command);
+          try {
+            this.handleMenuCommand(menuData.command);
+          } catch (error) {
+            this.logger.error(
+              `Error handling menu command: ${menuData.command}, Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            );
+          }
         }
       });
     } catch (error) {
@@ -511,11 +476,21 @@ export class AppComponent implements OnInit {
       case 'shutdown':
         void this.shutdown();
         break;
-      case 'restart':
-        break;
-      default:
+      default: {
+        const menuItem: MenuItem | undefined = this.findMenuItemById(this.menuItems(), command);
+        if (menuItem) {
+          this.logger.debug(`Executing command for menu item: ${menuItem.label}`);
+          if (menuItem.command) {
+            // @ts-expect-error - irrelevant, we don't care about the arguments here
+            menuItem.command();
+          } else {
+            this.logger.warn(`Menu item with command not found: ${command}`);
+          }
+          return;
+        }
         this.logger.warn(`Unknown menu command: ${command}`);
         break;
+      }
     }
   }
 

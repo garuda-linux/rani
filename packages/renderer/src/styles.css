@@ -121,29 +121,29 @@ p-button {
     mask-composite: exclude;
     padding: 2px;
   }
+}
 
-  & .p-menubar-item-label {
-    position: relative;
-    z-index: 1;
-    animation-name: garuda-button-shine;
-    animation-duration: 5s;
-    animation-iteration-count: infinite;
-    animation-timing-function: linear;
+p-splitbutton > div > button.garuda-button-shine {
+  position: relative;
+  z-index: 1;
+  animation-name: garuda-button-shine;
+  animation-duration: 5s;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear;
 
-    background-image: linear-gradient(90deg, #cba6f7 20%, #f38ba8 40%, #f38ba8 60%, #cba6f7 80%);
-    color: transparent;
-    background-clip: text;
-    background-size: 200%;
+  background-image: linear-gradient(90deg, #cba6f7 20%, #f38ba8 40%, #f38ba8 60%, #cba6f7 80%);
+  color: transparent;
+  background-clip: text;
+  background-size: 200%;
+  background-position: 200%;
+}
+
+@keyframes garuda-button-shine {
+  0% {
     background-position: 200%;
   }
 
-  @keyframes garuda-button-shine {
-    0% {
-      background-position: 200%;
-    }
-
-    100% {
-      background-position: -200%;
-    }
+  100% {
+    background-position: -200%;
   }
 }

@@ -3,6 +3,7 @@ import { Menubar } from 'primeng/menubar';
 import { MenuItem } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { GARUDA_NG_CONFIG } from '@garudalinux/core';
+import { TaskManagerService } from '../task-manager/task-manager.service';
 
 @Component({
   selector: 'garuda-shell',
@@ -20,4 +21,6 @@ export class ShellComponent {
   config = inject(GARUDA_NG_CONFIG);
 
   @HostBinding('style.font-family') font_family = this.config.font;
+
+  protected readonly taskManagerService = inject(TaskManagerService);
 }

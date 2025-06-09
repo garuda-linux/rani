@@ -65,10 +65,10 @@ export class SystemToolsComponent implements OnInit {
       case 'kernels':
         this.tabIndex.set(3);
         break;
-      case 'language-packs':
+      case 'locales':
         this.tabIndex.set(4);
         break;
-      case 'locales':
+      case 'services':
         this.tabIndex.set(5);
         break;
       default:
