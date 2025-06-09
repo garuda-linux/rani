@@ -70,30 +70,150 @@ export interface AppMenuItem {
   items?: AppMenuItem[];
 }
 
+// Helper function to get base64 encoded function from window
+export function getExposedFunction<T extends (...args: any[]) => any>(name: string): T | undefined {
+  const encodedName = btoa(name);
+  return (window as any)[encodedName] as T | undefined;
+}
+
+// New exposed API interface that accesses functions directly
+export interface NewElectronAPI {
+  // Crypto
+  sha256sum: (data: any) => string;
+
+  // Versions
+  versions: any;
+
+  // Shell
+  shellSpawnStreaming: (
+    command: string,
+    args?: string[],
+    options?: Record<string, unknown>,
+  ) => { processId: string; pid: number };
+  shellWriteStdin: (processId: string, data: string) => boolean;
+  shellKillProcess: (processId: string, signal?: string) => boolean;
+  open: (url: string) => Promise<boolean>;
+  execute: (
+    command: string,
+    args?: string[],
+    options?: Record<string, unknown>,
+  ) => Promise<{ code: number | null; stdout: string; stderr: string; signal: string | null }>;
+
+  // Filesystem
+  exists: (filePath: string) => Promise<boolean>;
+  readTextFile: (filePath: string) => Promise<string>;
+  writeTextFile: (filePath: string, contents: string) => Promise<boolean>;
+  createDirectory: (dirPath: string) => Promise<boolean>;
+  removeFile: (filePath: string) => Promise<boolean>;
+
+  // Store
+  get: (key: string) => Promise<unknown>;
+  set: (key: string, value: unknown) => Promise<boolean>;
+  deleteKey: (key: string) => Promise<boolean>;
+  clear: () => Promise<boolean>;
+  has: (key: string) => Promise<boolean>;
+
+  // Path
+  appConfigDir: () => Promise<string>;
+  appDataDir: () => Promise<string>;
+  appLocalDataDir: () => Promise<string>;
+  appCacheDir: () => Promise<string>;
+  pathResolve: (...paths: string[]) => Promise<string>;
+  pathJoin: (...paths: string[]) => Promise<string>;
+  resolveResource: (resourcePath: string) => Promise<string>;
+
+  // OS Operations
+  osPlatform: () => string;
+  osArch: () => string;
+  osVersion: () => string;
+  osLocale: () => string;
+  osHostname: () => string;
+  osHomedir: () => string;
+  osTmpdir: () => string;
+
+  // Notification Operations
+  notificationIsPermissionGranted: () => boolean;
+  notificationRequestPermission: () => Promise<boolean>;
+  notificationSend: (options: { title: string; body?: string; icon?: string }) => boolean;
+  notificationSendWithActions: (options: {
+    title: string;
+    body?: string;
+    icon?: string;
+    actions?: { type: string; text: string }[];
+  }) => boolean;
+
+  // Window Operations
+  windowClose: () => boolean;
+  windowRequestClose: () => boolean;
+  windowMinimize: () => boolean;
+  windowMaximize: () => boolean;
+  windowHide: () => boolean;
+  windowShow: () => boolean;
+  windowFocus: () => boolean;
+  windowIsMaximized: () => boolean;
+  windowIsMinimized: () => boolean;
+  windowIsVisible: () => boolean;
+  windowSetTitle: (title: string) => boolean;
+  windowGetTitle: () => string;
+  windowSetSize: (width: number, height: number) => boolean;
+  windowGetSize: () => { width: number; height: number };
+  windowSetPosition: (x: number, y: number) => boolean;
+  windowGetPosition: () => { x: number; y: number };
+
+  // Logging Operations
+  logTrace: (msg: string, obj?: any) => boolean;
+  logDebug: (msg: string, obj?: any) => boolean;
+  logInfo: (msg: string, obj?: any) => boolean;
+  logWarn: (msg: string, obj?: any) => boolean;
+  logError: (msg: string, obj?: any) => boolean;
+
+  // Dialog Operations
+  dialogOpen: (options: Record<string, unknown>) => Promise<string[]>;
+  dialogSave: (options: Record<string, unknown>) => Promise<string>;
+  dialogMessage: (options: Record<string, unknown>) => Promise<number>;
+  dialogError: (title: string, content: string) => Promise<boolean>;
+  dialogCertificate: (options: Record<string, unknown>) => Promise<boolean>;
+  dialogConfirm: (message: string, title?: string, detail?: string) => Promise<boolean>;
+  dialogWarning: (message: string, title?: string, detail?: string) => Promise<boolean>;
+  dialogInfo: (message: string, title?: string, detail?: string) => Promise<boolean>;
+
+  // Clipboard Operations
+  clipboardWriteText: (text: string) => Promise<boolean>;
+  clipboardReadText: () => Promise<string>;
+  clipboardClear: () => Promise<boolean>;
+  clipboardWriteHTML: (markup: string, text?: string) => Promise<boolean>;
+  clipboardReadHTML: () => Promise<string>;
+  clipboardWriteRTF: (text: string) => Promise<boolean>;
+  clipboardReadRTF: () => Promise<string>;
+  clipboardWriteImage: (dataURL: string) => Promise<boolean>;
+  clipboardReadImage: () => Promise<string>;
+  clipboardWriteBookmark: (title: string, url: string) => Promise<boolean>;
+  clipboardReadBookmark: () => Promise<{ title: string; url: string }>;
+  clipboardAvailableFormats: () => Promise<string[]>;
+  clipboardHas: (format: string) => Promise<boolean>;
+  clipboardRead: (format: string) => Promise<string>;
+  clipboardIsEmpty: () => Promise<boolean>;
+  clipboardHasText: () => Promise<boolean>;
+  clipboardHasImage: () => Promise<boolean>;
+
+  // Context Menu Operations
+  contextMenuShow: (items: ContextMenuItem[], x?: number, y?: number) => boolean;
+
+  // App Menu Operations
+  appMenuUpdate: (items: AppMenuItem[]) => boolean;
+  appMenuGetItems: () => AppMenuItem[];
+
+  // Config Operations
+  configNotifyChange: (key: string, value: unknown) => boolean;
+
+  // Event Operations
+  eventsOn: (channel: string, callback: (...args: unknown[]) => void) => (() => void) | undefined;
+  eventsOff: (channel: string, listener: (...args: unknown[]) => void) => boolean;
+  eventsOnce: (channel: string, listener: (...args: unknown[]) => void) => boolean;
+}
+
+// Legacy API interface (keeping for backward compatibility during migration)
 export interface ElectronAPI {
-  fs: {
-    exists: (filePath: string) => Promise<boolean>;
-    readTextFile: (filePath: string) => Promise<string>;
-    writeTextFile: (filePath: string, contents: string) => Promise<boolean>;
-    createDirectory: (dirPath: string) => Promise<boolean>;
-    removeFile: (filePath: string) => Promise<boolean>;
-  };
-  store: {
-    get: (key: string) => Promise<unknown>;
-    set: (key: string, value: unknown) => Promise<boolean>;
-    delete: (key: string) => Promise<boolean>;
-    clear: () => Promise<boolean>;
-    has: (key: string) => Promise<boolean>;
-  };
-  path: {
-    appConfigDir: () => Promise<string>;
-    appDataDir: () => Promise<string>;
-    appLocalDataDir: () => Promise<string>;
-    appCacheDir: () => Promise<string>;
-    resolve: (...paths: string[]) => Promise<string>;
-    join: (...paths: string[]) => Promise<string>;
-    resolveResource: (resourcePath: string) => Promise<string>;
-  };
   os: {
     platform: () => Promise<string>;
     arch: () => Promise<string>;
@@ -179,29 +299,6 @@ export interface ElectronAPI {
   appMenu: {
     update: (items: AppMenuItem[]) => Promise<boolean>;
     getItems: () => Promise<AppMenuItem[]>;
-  };
-  shell: {
-    open: (url: string) => Promise<boolean>;
-    spawnStreaming: (
-      command: string,
-      args?: string[],
-      cwd?: Record<string, unknown>,
-      env?: Record<string, string>,
-    ) => Promise<ShellStreamingResult>;
-    writeStdin: (processId: string, data: string) => Promise<void>;
-    killProcess: (processId: string, signal?: string) => Promise<void>;
-    execute: (
-      command: string,
-      args?: string[],
-      options?: Record<string, unknown>,
-    ) => Promise<{
-      stdout: string;
-      stderr: string;
-      code: number | null;
-      signal: string | null;
-    }>;
-    on: (channel: string, listener: (...args: unknown[]) => void) => void;
-    off: (channel: string, listener: (...args: unknown[]) => void) => void;
   };
   app: {
     relaunch: () => Promise<void>;

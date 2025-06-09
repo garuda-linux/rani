@@ -28,6 +28,5 @@ export { ElectronWindowService } from './electron-window.service';
 export type { Store, StoreOptions } from './electron-store.service';
 export type { CommandResult, ChildProcess, Child } from '../types/shell';
 export type { NotificationOptions } from './electron-notification.service';
-export type { LogLevel } from './electron-log.service';
 export { writeText, readText, clear } from './electron-clipboard.service';
 export type { ElectronAPI, ContextMenuItem, AppMenuItem } from './electron-types';

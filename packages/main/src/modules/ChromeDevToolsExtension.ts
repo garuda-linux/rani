@@ -1,5 +1,5 @@
-import { AppModule } from '../AppModule.js';
-import { ModuleContext } from '../ModuleContext.js';
+import type { AppModule } from '../AppModule.js';
+import type { ModuleContext } from '../ModuleContext.js';
 import installer from 'electron-devtools-installer';
 
 const { default: installExtension } = installer;

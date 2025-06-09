@@ -14,6 +14,13 @@ import { Router, RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { ElectronAppService } from './electron-services';
+import {
+  windowClose,
+  windowRequestClose,
+  windowMinimize,
+  windowMaximize,
+  eventsOn,
+} from './electron-services/electron-api-utils.js';
 import { DialogModule } from 'primeng/dialog';
 import { DrawerModule } from 'primeng/drawer';
 import { TableModule } from 'primeng/table';
@@ -84,9 +91,9 @@ export class AppComponent implements OnInit {
   private readonly contextMenuService = inject(ElectronContextMenuService);
   private readonly appMenuService = inject(ElectronAppMenuService);
   protected readonly appWindow = {
-    minimize: () => window.electronAPI?.window.minimize(),
-    toggleMaximize: () => window.electronAPI?.window.maximize(),
-    close: () => window.electronAPI?.window.requestClose(),
+    minimize: () => windowMinimize(),
+    toggleMaximize: () => windowMaximize(),
+    close: () => windowRequestClose(),
   };
 
   rightClickMenu = signal<ContextMenuItem[]>([
@@ -117,7 +124,7 @@ export class AppComponent implements OnInit {
       label: 'Exit',
       icon: 'pi pi-times',
       onClick: () => {
-        void window.electronAPI?.window.requestClose();
+        windowRequestClose();
       },
     }),
   ]);
@@ -401,7 +408,7 @@ export class AppComponent implements OnInit {
    * Updates the application menu with current menu items
    * @param items The current menu items
    */
-  private async updateApplicationMenu(items: MenuItem[]): Promise<void> {
+  private async updateApplicationMenu(_items: MenuItem[]): Promise<void> {
     const menubar = this.setupLabels(this.translocoService.getActiveLang(), [
       {
         id: 'file',
@@ -461,13 +468,9 @@ export class AppComponent implements OnInit {
    * Sets up handlers for app menu item clicks
    */
   private setupAppMenuHandlers(): void {
-    if (!window.electronAPI?.events) {
-      this.logger.error('electronAPI.events not available!');
-      return;
-    }
-
     try {
-      window.electronAPI.events.on('appMenu:itemClicked', (data: any) => {
+      eventsOn('appMenu:itemClicked', (...args: unknown[]) => {
+        const data = args[0] as any;
         this.logger.trace('App menu item clicked event received:', data);
 
         const menuData = data;
@@ -477,33 +480,33 @@ export class AppComponent implements OnInit {
           try {
             this.router.navigate([menuData.routerLink]);
           } catch (error) {
-            this.logger.error('Failed to navigate to route:', error);
+            this.logger.error('Navigation error:', error);
           }
         }
 
-        // Handle command execution
-        if (menuData.command && menuData.id) {
-          const menuItem = this.findMenuItemById(this.menuItems(), menuData.id);
-          this.logger.debug('Found menu item:', menuItem);
-
-          if (menuItem?.command) {
-            try {
-              // @ts-expect-error - PrimeNG MenuItem command property
-              menuItem.command();
-            } catch (error) {
-              this.logger.error('Error executing menu command:', error);
-            }
-          } else {
-            this.logger.warn('No command found for menu item:', menuData.id);
-          }
-        } else {
-          this.logger.debug('No command to execute for menu item');
+        // Handle commands
+        if (menuData.command) {
+          this.handleMenuCommand(menuData.command);
         }
       });
-
-      this.logger.debug('App menu handlers setup complete');
     } catch (error) {
-      this.logger.error('Error setting up app menu event handler:', error);
+      this.logger.error('Setup app menu handlers error:', error);
+    }
+  }
+
+  private handleMenuCommand(command: string): void {
+    this.logger.debug('Handling menu command:', command);
+
+    switch (command) {
+      case 'shutdown':
+        void this.shutdown();
+        break;
+      case 'restart':
+        // Handle restart command
+        break;
+      default:
+        this.logger.warn('Unknown menu command:', command);
+        break;
     }
   }
 
@@ -569,7 +572,7 @@ export class AppComponent implements OnInit {
    */
   private async shutdown(): Promise<void> {
     this.logger.info('Shutting down');
-    void window.electronAPI?.window.close();
+    windowClose();
   }
 
   /**
@@ -593,21 +596,21 @@ export class AppComponent implements OnInit {
    * Close the window
    */
   closeWindow(): void {
-    void window.electronAPI?.window.requestClose();
+    windowRequestClose();
   }
 
   /**
    * Minimize the window
    */
   minimizeWindow(): void {
-    void window.electronAPI?.window.minimize();
+    windowMinimize();
   }
 
   /**
    * Toggle maximize/restore the window
    */
   toggleMaximize(): void {
-    void window.electronAPI?.window.maximize();
+    windowMaximize();
   }
 
   /**

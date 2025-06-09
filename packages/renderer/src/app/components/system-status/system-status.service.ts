@@ -1,9 +1,9 @@
 import { effect, inject, Injectable, signal } from '@angular/core';
 import type { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
-import { Task, TaskManagerService } from '../task-manager/task-manager.service';
+import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../../logging/logging';
-import { ChildProcess, ElectronShellService } from '../../electron-services';
+import { ElectronShellService } from '../../electron-services';
 
 @Injectable({
   providedIn: 'root',
@@ -22,7 +22,7 @@ export class SystemStatusService {
 
   constructor() {
     effect(async () => {
-      const tasks: Task[] = this.taskManagerService.tasks();
+      const _tasks: Task[] = this.taskManagerService.tasks();
       if (!this.firstRun) {
         const allPromises: Promise<void>[] = this.refreshStatuses();
         await Promise.all(allPromises);
@@ -73,9 +73,10 @@ export class SystemStatusService {
    */
   private async getPacFiles(): Promise<void> {
     const cmd = 'pacdiff -o';
-    const result: any = await this.shellService.execute('bash', ['-c', cmd]);
+    const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
+      await this.shellService.execute('bash', ['-c', cmd]);
 
-    if (result.success) {
+    if (result.code === 0) {
       if (result.stdout.trim() === '') return;
 
       this.pacFiles.set(result.stdout.trim().split('\n') ?? []);
@@ -91,7 +92,8 @@ export class SystemStatusService {
    * @param type The type of updates to check for.
    */
   private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
-    const result: any = await this.shellService.execute('bash', ['-c', cmd]);
+    const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
+      await this.shellService.execute('bash', ['-c', cmd]);
     const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
 
     if (result.code === 0) {
@@ -99,7 +101,7 @@ export class SystemStatusService {
       for (const update of updates) {
         this.logger.trace(`${updateString}: ${update}`);
 
-        const [pkg, version, invalid, newVersion] = update.split(' ');
+        const [pkg, version, _invalid, newVersion] = update.split(' ');
         this.updates.update((updates: SystemUpdate[]) => {
           updates.push({
             pkg,
@@ -122,7 +124,8 @@ export class SystemStatusService {
    */
   private async checkLastUpdate(): Promise<void> {
     const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
-    const result: any = await this.shellService.execute('bash', ['-c', cmd]);
+    const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
+      await this.shellService.execute('bash', ['-c', cmd]);
 
     if (result.code === 0) {
       const date = new Date(result.stdout.trim().replace(']', ''));

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { logTrace, logDebug, logInfo, logWarn, logError } from './electron-api-utils.js';
 
 export enum LogLevel {
   Trace = 1,
@@ -8,7 +9,7 @@ export enum LogLevel {
   Error = 5,
 }
 
-interface LogObject {
+export interface LogObject {
   scope?: string;
   filename?: string;
   function?: string;
@@ -19,83 +20,43 @@ interface LogObject {
 })
 export class ElectronLogService {
   async trace(message: string, logObj?: LogObject): Promise<void> {
-    if (!window.electronAPI) {
-      console.trace(message, logObj);
-      return;
-    }
-    await window.electronAPI.log.trace(message, logObj);
+    logTrace(message, logObj);
   }
 
   async debug(message: string, logObj?: LogObject): Promise<void> {
-    if (!window.electronAPI) {
-      console.debug(message, logObj);
-      return;
-    }
-    await window.electronAPI.log.debug(message, logObj);
+    logDebug(message, logObj);
   }
 
   async info(message: string, logObj?: LogObject): Promise<void> {
-    if (!window.electronAPI) {
-      console.info(message, logObj);
-      return;
-    }
-    await window.electronAPI.log.info(message, logObj);
+    logInfo(message, logObj);
   }
 
   async warn(message: string, logObj?: LogObject): Promise<void> {
-    if (!window.electronAPI) {
-      console.warn(message, logObj);
-      return;
-    }
-    await window.electronAPI.log.warn(message, logObj);
+    logWarn(message, logObj);
   }
 
   async error(message: string, logObj?: LogObject): Promise<void> {
-    if (!window.electronAPI) {
-      console.error(message, logObj);
-      return;
-    }
-    await window.electronAPI.log.error(message, logObj);
+    logError(message, logObj);
   }
 }
 
-// Static functions for compatibility with Tauri API
+// Standalone functions for direct use
 export async function trace(message: string, logObj?: LogObject): Promise<void> {
-  if (!window.electronAPI) {
-    console.trace(message, logObj);
-    return;
-  }
-  await window.electronAPI.log.trace(message, logObj);
+  logTrace(message, logObj);
 }
 
 export async function debug(message: string, logObj?: LogObject): Promise<void> {
-  if (!window.electronAPI) {
-    console.debug(message, logObj);
-    return;
-  }
-  await window.electronAPI.log.debug(message, logObj);
+  logDebug(message, logObj);
 }
 
 export async function info(message: string, logObj?: LogObject): Promise<void> {
-  if (!window.electronAPI) {
-    console.info(message, logObj);
-    return;
-  }
-  await window.electronAPI.log.info(message, logObj);
+  logInfo(message, logObj);
 }
 
 export async function warn(message: string, logObj?: LogObject): Promise<void> {
-  if (!window.electronAPI) {
-    console.warn(message, logObj);
-    return;
-  }
-  await window.electronAPI.log.warn(message, logObj);
+  logWarn(message, logObj);
 }
 
 export async function error(message: string, logObj?: LogObject): Promise<void> {
-  if (!window.electronAPI) {
-    console.error(message, logObj);
-    return;
-  }
-  await window.electronAPI.log.error(message, logObj);
+  logError(message, logObj);
 }

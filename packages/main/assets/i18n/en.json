@@ -47,7 +47,7 @@
     "failedCmdHeader": "Failed to run command",
     "failedCmd": "Something bad happened and no diagnostics could be retrieved",
     "pacman": "Latest Pacman logs",
-    "copied": "Successfully copied to clipboard",
+    "copySuccess": "Successfully copied to clipboard",
     "success": "Success",
     "uploadSuccess": "Successfully uploaded to PrivateBin, URL copied to clipboard"
   },

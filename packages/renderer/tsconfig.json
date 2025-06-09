@@ -20,7 +20,10 @@
     "module": "ESNext",
     "lib": ["ESNext", "dom"],
     "useDefineForClassFields": false,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "paths": {
+      "@app/preload": ["../preload"]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

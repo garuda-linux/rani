@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import type { AppMenuItem } from './electron-types';
 import { Logger } from '../logging/logging';
+import { appMenuUpdate, appMenuGetItems, eventsOn } from './electron-api-utils.js';
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,7 @@ export class ElectronAppMenuService {
       // Register click handlers for items with commands
       this.registerMenuItemHandlers(items);
 
-      const result = await window.electronAPI.appMenu.update(items);
+      const result = appMenuUpdate(items);
       this.logger.trace('App menu update result from main process:', result);
       return result;
     } catch (error) {
@@ -38,7 +39,7 @@ export class ElectronAppMenuService {
    */
   async getAppMenuItems(): Promise<AppMenuItem[]> {
     try {
-      return await window.electronAPI.appMenu.getItems();
+      return appMenuGetItems();
     } catch (error) {
       this.logger.error('Failed to get application menu items:', error);
       return [];
@@ -116,7 +117,8 @@ export class ElectronAppMenuService {
   private setupEventListeners(): void {
     this.logger.trace('Setting up app menu event listeners');
 
-    window.electronAPI.events.on('appMenu:itemClicked', (data) => {
+    eventsOn('appMenu:itemClicked', (...args: unknown[]) => {
+      const data = args[0] as any;
       this.logger.trace('App menu service received click event:', data);
 
       try {

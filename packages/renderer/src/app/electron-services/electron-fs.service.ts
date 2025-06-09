@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Logger } from '../logging/logging';
+import { exists, readTextFile, writeTextFile, createDirectory, removeFile } from './electron-api-utils.js';
 
 @Injectable({
   providedIn: 'root',
@@ -8,19 +9,12 @@ export class ElectronFsService {
   private readonly logger = Logger.getInstance();
 
   async exists(filePath: string): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.fs.exists(filePath);
+    return await exists(filePath);
   }
 
   async readTextFile(filePath: string): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-
     try {
-      const content = await window.electronAPI.fs.readTextFile(filePath);
+      const content = await readTextFile(filePath);
 
       // Validate content is not null/undefined
       if (content === null || content === undefined) {
@@ -71,23 +65,14 @@ export class ElectronFsService {
   }
 
   async writeTextFile(filePath: string, contents: string): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.fs.writeTextFile(filePath, contents);
+    return await writeTextFile(filePath, contents);
   }
 
   async createDirectory(dirPath: string): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.fs.createDirectory(dirPath);
+    return await createDirectory(dirPath);
   }
 
   async removeFile(filePath: string): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.fs.removeFile(filePath);
+    return await removeFile(filePath);
   }
 }

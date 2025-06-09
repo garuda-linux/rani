@@ -1,5 +1,5 @@
-import { AppModule } from '../AppModule.js';
-import { App } from 'electron';
+import type { AppModule } from '../AppModule.js';
+import type { App } from 'electron';
 
 class SingleInstanceApp implements AppModule {
   enable({ app }: { app: App }): void {

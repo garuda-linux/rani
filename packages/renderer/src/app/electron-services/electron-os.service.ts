@@ -1,63 +1,64 @@
 import { Injectable } from '@angular/core';
+import { osPlatform, osArch, osVersion, osLocale, osHostname, osHomedir, osTmpdir } from './electron-api-utils.js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ElectronOsService {
   async platform(): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.os.platform();
+    return osPlatform();
   }
 
   async arch(): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.os.arch();
+    return osArch();
   }
 
   async version(): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.os.version();
+    return osVersion();
   }
 
   async locale(): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.os.locale();
+    return osLocale();
+  }
+
+  async hostname(): Promise<string> {
+    return osHostname();
+  }
+
+  async homedir(): Promise<string> {
+    return osHomedir();
+  }
+
+  async tmpdir(): Promise<string> {
+    return osTmpdir();
   }
 }
 
-// Static functions for compatibility with Tauri API
+// Standalone functions for direct use
 export async function platform(): Promise<string> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
-  }
-  return await window.electronAPI.os.platform();
+  return osPlatform();
 }
 
 export async function arch(): Promise<string> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
-  }
-  return await window.electronAPI.os.arch();
+  return osArch();
 }
 
 export async function version(): Promise<string> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
-  }
-  return await window.electronAPI.os.version();
+  return osVersion();
 }
 
 export async function locale(): Promise<string> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
-  }
-  return await window.electronAPI.os.locale();
+  return osLocale();
+}
+
+export async function hostname(): Promise<string> {
+  return osHostname();
+}
+
+export async function homedir(): Promise<string> {
+  return osHomedir();
+}
+
+export async function tmpdir(): Promise<string> {
+  return osTmpdir();
 }

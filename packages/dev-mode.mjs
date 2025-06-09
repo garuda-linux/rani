@@ -1,5 +1,5 @@
 import { build, createServer } from 'vite';
-import path from 'path';
+import { resolve } from 'node:path';
 
 /**
  * This script is designed to run multiple packages of your application in a special development mode.
@@ -22,7 +22,7 @@ process.env.MODE = mode;
  */
 const rendererWatchServer = await createServer({
   mode,
-  root: path.resolve('packages/renderer'),
+  root: resolve('packages/renderer'),
 });
 
 await rendererWatchServer.listen();
@@ -52,7 +52,7 @@ const packagesToStart = ['packages/preload', 'packages/main'];
 for (const pkg of packagesToStart) {
   await build({
     mode,
-    root: path.resolve(pkg),
+    root: resolve(pkg),
     plugins: [rendererWatchServerProvider],
   });
 }

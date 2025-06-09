@@ -1,6 +1,9 @@
 import { spawn } from 'node:child_process';
 import { ipcRenderer } from 'electron';
 import { randomUUID } from 'node:crypto';
+import { shell } from 'electron';
+import { basename } from 'node:path';
+import { debug, info, trace, warn, error } from './logging.js';
 
 export function shellSpawn(command: string, args: string[], options?: Record<string, unknown>) {
   const handle = spawn(command, args, options);
@@ -68,7 +71,7 @@ export function shellSpawnStreaming(command: string, args: string[] = [], option
   // Return process info immediately
   return {
     processId,
-    pid: handle.pid,
+    pid: handle.pid || 0,
   };
 }
 
@@ -89,4 +92,180 @@ export function shellKillProcess(processId: string, signal = 'SIGTERM'): boolean
     return true;
   }
   return false;
+}
+
+export async function open(url: string): Promise<boolean> {
+  try {
+    // Validate URL for security
+    const urlPattern = /^(https?:\/\/)|(file:\/\/)|(mailto:)|(tel:)/;
+    if (!urlPattern.test(url)) {
+      throw new Error('Invalid URL protocol');
+    }
+    await shell.openExternal(url);
+    return true;
+  } catch (err: any) {
+    error(`Shell open error: ${err instanceof Error ? err.message : String(err)}`);
+    throw new Error(`Failed to open URL: ${err instanceof Error ? err.message : err}`);
+  }
+}
+
+// Command validation for security
+function validateCommand(command: string, args: string[]): boolean {
+  // Check if we're in development mode (simplified check)
+  const isDevelopment = process.env.NODE_ENV === 'development';
+
+  // In development mode, allow all commands for flexibility
+  if (isDevelopment) {
+    trace(`Allowing command: ${command} ${args.join(' ')}`);
+    return true;
+  }
+
+  // Expanded whitelist of allowed commands for system management
+  const allowedCommands = [
+    // Package managers
+    'pacman',
+    'yay',
+    'paru',
+    'systemctl',
+    'localectl',
+    'timedatectl',
+    'hostnamectl',
+    'hostname',
+    'lsb_release',
+    'journalctl',
+    'dkms',
+    // General system utilities
+    'cp',
+    'test',
+    'uname',
+    'whoami',
+    // Garuda specific tools
+    'garuda-inxi',
+    'launch-terminal',
+    'setup-assistant',
+    // Shells
+    'bash',
+    'sh',
+  ];
+
+  const baseCommand = basename(command);
+  if (!allowedCommands.includes(baseCommand)) {
+    warn(`Blocked unauthorized command: ${command}`);
+    return false;
+  }
+
+  // Check for dangerous argument patterns
+  const dangerousPatterns = [
+    // Destructive file operations
+    /rm\s+-rf\s+\/[^/]/, // rm -rf on root directories
+    /del\s+\//,
+    /format\s+/,
+    /mkfs/,
+    /dd\s+if=.*of=\/dev\/[sh]d/, // dd to disk devices
+    // System control
+    /shutdown/,
+    /reboot/,
+    /halt/,
+    /init\s+[06]/,
+    /systemctl\s+(poweroff|halt)/,
+    // Dangerous sudo operations
+    /sudo\s+rm\s+-rf\s+\/[^/]/,
+    // Kernel modules that could be dangerous
+    /modprobe.*-r.*essential/,
+  ];
+
+  const fullCommand = [command, ...args].join(' ');
+  const isDangerous = dangerousPatterns.some((pattern) => pattern.test(fullCommand));
+
+  if (isDangerous) {
+    warn(`Blocked dangerous command pattern: ${fullCommand}`);
+    return false;
+  }
+
+  return true;
+}
+
+export async function execute(
+  command: string,
+  args: string[] = [],
+  options: Record<string, unknown> = {},
+): Promise<{
+  code: number | null;
+  stdout: string;
+  stderr: string;
+  signal: string | null;
+}> {
+  try {
+    const isDevelopment = process.env.NODE_ENV === 'development';
+
+    if (!validateCommand(command, args)) {
+      const errorMsg = isDevelopment
+        ? 'Command validation failed (this should not happen in dev mode)'
+        : `Command not allowed for security reasons: ${command}`;
+      throw new Error(errorMsg);
+    }
+
+    const timeout = (options.timeout as number) || 30000; // 30 second default timeout
+
+    return await executeLocally(command, args, options, timeout);
+  } catch (err: any) {
+    error(`Shell execute error: ${err.message ? err.message : err instanceof Error ? err.message : String(err)}`);
+    throw err;
+  }
+}
+
+async function executeLocally(
+  command: string,
+  args: string[] = [],
+  options: Record<string, unknown> = {},
+  timeout: number,
+): Promise<{
+  code: number | null;
+  stdout: string;
+  stderr: string;
+  signal: string | null;
+}> {
+  // For executed commands, wait for completion with timeout
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, {
+      stdio: ['pipe', 'pipe', 'pipe'],
+      timeout,
+      ...options,
+    });
+
+    let stdout = '';
+    let stderr = '';
+    const timeoutId: NodeJS.Timeout = setTimeout(() => {
+      child.kill('SIGTERM');
+      reject(new Error('Command execution timed out'));
+    }, timeout);
+
+    const cleanup = () => {
+      clearTimeout(timeoutId);
+    };
+
+    child.stdout?.on('data', (data) => {
+      stdout += data.toString();
+    });
+
+    child.stderr?.on('data', (data) => {
+      stderr += data.toString();
+    });
+
+    child.on('close', (code, signal) => {
+      cleanup();
+      resolve({
+        code,
+        stdout: stdout.substring(0, 1024 * 1024), // Limit output to 1MB
+        stderr: stderr.substring(0, 1024 * 1024),
+        signal,
+      });
+    });
+
+    child.on('error', (err: any) => {
+      cleanup();
+      error(`Command execution error: ${err.cause}`);
+      reject(new Error(`Command execution failed: ${err.message}`));
+    });
+  });
 }

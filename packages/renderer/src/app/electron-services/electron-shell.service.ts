@@ -1,7 +1,15 @@
 import { Injectable } from '@angular/core';
 import type { Child, CommandResult } from '../types/shell';
-import { ShellStreamingResult, ShellEvent } from './electron-types';
+import type { ShellEvent } from './electron-types';
 import { Logger } from '../logging/logging';
+import {
+  open,
+  execute,
+  shellSpawnStreaming,
+  shellWriteStdin,
+  shellKillProcess,
+  eventsOn,
+} from './electron-api-utils.js';
 
 @Injectable({
   providedIn: 'root',
@@ -10,21 +18,15 @@ export class ElectronShellService {
   private readonly logger = Logger.getInstance();
 
   async open(url: string): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.shell.open(url);
+    return await open(url);
   }
 
   async execute(
     command: string,
     args: string[] = [],
     options: Record<string, unknown> = {},
-  ): Promise<CommandResult | Child> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return (await window.electronAPI.shell.execute(command, args, options)) as CommandResult | Child;
+  ): Promise<{ code: number | null; stdout: string; stderr: string; signal: string | null }> {
+    return execute(command, args, options);
   }
 
   // Command builder for compatibility with Tauri Command class
@@ -53,21 +55,11 @@ export class ElectronShellService {
     }
 
     async execute(): Promise<CommandResult> {
-      if (!window.electronAPI) {
-        throw new Error('Electron API not available');
-      }
-      return (await window.electronAPI.shell.execute(this.command, this.argsList, this.options)) as CommandResult;
+      return await execute(this.command, this.argsList, this.options);
     }
 
     async spawn(): Promise<StreamingShellProcess> {
-      if (!window.electronAPI) {
-        throw new Error('Electron API not available');
-      }
-      const result: ShellStreamingResult = await window.electronAPI.shell.spawnStreaming(
-        this.command,
-        this.argsList,
-        this.options,
-      );
+      const result = await shellSpawnStreaming(this.command, this.argsList, this.options);
       return new StreamingShellProcess(result.processId, result.pid);
     }
   };
@@ -128,10 +120,22 @@ class StreamingShellProcess implements Child {
       }
     };
 
-    window.electronAPI.events.on('shell:stdout', handleStdout);
-    window.electronAPI.events.on('shell:stderr', handleStderr);
-    window.electronAPI.events.on('shell:close', handleClose);
-    window.electronAPI.events.on('shell:error', handleError);
+    eventsOn('shell:stdout', (...args: unknown[]) => {
+      const event = args[0] as ShellEvent;
+      handleStdout(event);
+    });
+    eventsOn('shell:stderr', (...args: unknown[]) => {
+      const event = args[0] as ShellEvent;
+      handleStderr(event);
+    });
+    eventsOn('shell:close', (...args: unknown[]) => {
+      const event = args[0] as ShellEvent;
+      handleClose(event);
+    });
+    eventsOn('shell:error', (...args: unknown[]) => {
+      const event = args[0] as ShellEvent;
+      handleError(event);
+    });
   }
 
   private cleanup(): void {
@@ -141,11 +145,11 @@ class StreamingShellProcess implements Child {
 
   async write(input: string): Promise<void> {
     this.stdinBuffer += input;
-    await window.electronAPI.shell.writeStdin(this.processId, input);
+    shellWriteStdin(this.processId, input);
   }
 
   kill(signal = 'SIGTERM'): void {
-    if (!window.electronAPI.shell.killProcess(this.processId, signal)) {
+    if (!shellKillProcess(this.processId, signal)) {
       this.logger.warn('Failed to kill process - it may have already exited');
     }
 
@@ -162,14 +166,14 @@ class StreamingShellProcess implements Child {
     return this._pid;
   }
 
-  get stdout(): any {
+  get stdout(): { data: string; toString: () => string } {
     return {
       data: this.stdoutBuffer,
       toString: () => this.stdoutBuffer,
     };
   }
 
-  get stderr(): any {
+  get stderr(): { data: string; toString: () => string } {
     return {
       data: this.stderrBuffer,
       toString: () => this.stderrBuffer,

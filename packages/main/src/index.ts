@@ -5,11 +5,8 @@ import { createWindowManagerModule } from './modules/WindowManager.js';
 import { terminateAppOnLastWindowClose } from './modules/ApplicationTerminatorOnLastWindowClose.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
-import { createFileSystemModule } from './modules/FileSystemModule.js';
-import { createShellModule } from './modules/ShellModule.js';
-import { createStoreModule } from './modules/StoreModule.js';
+
 import { createConfigModule } from './modules/ConfigModule.js';
-import { createPathModule } from './modules/PathModule.js';
 import { createOSModule } from './modules/OSModule.js';
 import { createNotificationModule } from './modules/NotificationModule.js';
 import { createWindowControlModule } from './modules/WindowControlModule.js';
@@ -32,10 +29,7 @@ export async function initApp(initConfig: AppInitConfig) {
   try {
     // Register IPC handlers immediately and synchronously BEFORE any async operations
     const loggingModule = createLoggingModule();
-    const fileSystemModule = createFileSystemModule();
-    const storeModule = createStoreModule();
     const configModule = createConfigModule();
-    const pathModule = createPathModule(isDevelopment);
     const osModule = createOSModule();
     const notificationModule = createNotificationModule();
     const windowControlModule = createWindowControlModule();
@@ -43,17 +37,13 @@ export async function initApp(initConfig: AppInitConfig) {
     const clipboardModule = createClipboardModule();
     const contextMenuModule = createContextMenuModule();
     const appMenuModule = createAppMenuModule();
-    const shellModule = createShellModule(isDevelopment);
 
     // Create module context
     const moduleContext = { app };
 
     // Enable IPC modules synchronously first
     loggingModule.enable(moduleContext);
-    fileSystemModule.enable(moduleContext);
-    storeModule.enable(moduleContext);
     configModule.enable(moduleContext);
-    pathModule.enable(moduleContext);
     osModule.enable(moduleContext);
     notificationModule.enable(moduleContext);
     windowControlModule.enable(moduleContext);
@@ -61,7 +51,6 @@ export async function initApp(initConfig: AppInitConfig) {
     clipboardModule.enable(moduleContext);
     contextMenuModule.enable(moduleContext);
     appMenuModule.enable(moduleContext);
-    shellModule.enable(moduleContext);
 
     logger.debug('IPC handlers registered successfully');
 

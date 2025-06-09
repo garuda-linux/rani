@@ -6,7 +6,7 @@ import { Logger } from '../logging/logging.js';
 class WindowControlModule implements AppModule {
   private readonly logger = Logger.getInstance();
 
-  enable({ app }: ModuleContext): void {
+  enable({ app: _app }: ModuleContext): void {
     this.setupWindowControlHandlers();
   }
 

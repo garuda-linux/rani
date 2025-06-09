@@ -1,4 +1,4 @@
-import { AppModule } from '../AppModule.js';
+import type { AppModule } from '../AppModule.js';
 import electronUpdater, { type AppUpdater, type Logger as UpdateLogger } from 'electron-updater';
 import { Logger } from '../logging/logging.js';
 

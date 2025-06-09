@@ -1,12 +1,6 @@
 import { LogLevel } from './interfaces.js';
 import { pino } from 'pino';
 
-interface LogObject {
-  scope?: string;
-  filename?: string;
-  function?: string;
-}
-
 export class Logger {
   public static set logLevel(level: LogLevel) {
     Logger.instance.logger.level = LogLevel[level].toLowerCase();

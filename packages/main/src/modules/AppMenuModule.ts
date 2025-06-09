@@ -70,6 +70,168 @@ class AppMenuModule implements AppModule {
         return false;
       }
     });
+
+    // Handle adding a menu item
+    ipcMain.handle('appMenu:addItem', async (_, item: AppMenuItem, position?: number) => {
+      try {
+        if (!item || typeof item !== 'object') {
+          throw new Error('Invalid menu item provided');
+        }
+
+        if (!item.label && item.type !== 'separator') {
+          throw new Error('Menu item must have a label (except separators)');
+        }
+
+        const newItem = { ...item };
+
+        if (position !== undefined && position >= 0 && position <= this.currentMenuItems.length) {
+          this.currentMenuItems.splice(position, 0, newItem);
+        } else {
+          this.currentMenuItems.push(newItem);
+        }
+
+        // Rebuild and apply the menu
+        const menu = this.buildApplicationMenu(this.currentMenuItems);
+        Menu.setApplicationMenu(menu);
+
+        this.logger.debug(`Added menu item: ${item.label || 'separator'}`);
+        return true;
+      } catch (error: unknown) {
+        this.logger.error(`App menu addItem error: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+      }
+    });
+
+    // Handle removing a menu item
+    ipcMain.handle('appMenu:removeItem', async (_, id: string) => {
+      try {
+        if (!id || typeof id !== 'string') {
+          throw new Error('Item ID must be a non-empty string');
+        }
+
+        const initialLength = this.currentMenuItems.length;
+        this.currentMenuItems = this.currentMenuItems.filter((item) => item.id !== id);
+
+        const removed = this.currentMenuItems.length < initialLength;
+
+        if (removed) {
+          // Rebuild and apply the menu
+          const menu = this.buildApplicationMenu(this.currentMenuItems);
+          Menu.setApplicationMenu(menu);
+          this.logger.debug(`Removed menu item with ID: ${id}`);
+        }
+
+        return removed;
+      } catch (error: unknown) {
+        this.logger.error(`App menu removeItem error: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+      }
+    });
+
+    // Handle finding a menu item
+    ipcMain.handle('appMenu:findItem', async (_, id: string) => {
+      try {
+        if (!id || typeof id !== 'string') {
+          throw new Error('Item ID must be a non-empty string');
+        }
+
+        const findInItems = (items: AppMenuItem[]): AppMenuItem | null => {
+          for (const item of items) {
+            if (item.id === id) {
+              return { ...item }; // Return a copy
+            }
+            if (item.submenu) {
+              const found = findInItems(item.submenu);
+              if (found) return found;
+            }
+          }
+          return null;
+        };
+
+        return findInItems(this.currentMenuItems);
+      } catch (error: unknown) {
+        this.logger.error(`App menu findItem error: ${error instanceof Error ? error.message : String(error)}`);
+        return null;
+      }
+    });
+
+    // Handle updating a menu item
+    ipcMain.handle('appMenu:updateItem', async (_, id: string, updates: Partial<AppMenuItem>) => {
+      try {
+        if (!id || typeof id !== 'string') {
+          throw new Error('Item ID must be a non-empty string');
+        }
+
+        if (!updates || typeof updates !== 'object') {
+          throw new Error('Updates must be an object');
+        }
+
+        const updateInItems = (items: AppMenuItem[]): boolean => {
+          for (const item of items) {
+            if (item.id === id) {
+              Object.assign(item, updates);
+              return true;
+            }
+            if (item.submenu && updateInItems(item.submenu)) {
+              return true;
+            }
+          }
+          return false;
+        };
+
+        const updated = updateInItems(this.currentMenuItems);
+
+        if (updated) {
+          // Rebuild and apply the menu
+          const menu = this.buildApplicationMenu(this.currentMenuItems);
+          Menu.setApplicationMenu(menu);
+          this.logger.debug(`Updated menu item with ID: ${id}`);
+        }
+
+        return updated;
+      } catch (error: unknown) {
+        this.logger.error(`App menu updateItem error: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+      }
+    });
+
+    // Handle clearing all menu items
+    ipcMain.handle('appMenu:clear', async () => {
+      try {
+        this.currentMenuItems = [];
+
+        // Rebuild and apply the menu
+        const menu = this.buildApplicationMenu(this.currentMenuItems);
+        Menu.setApplicationMenu(menu);
+
+        this.logger.debug('Cleared all menu items');
+        return true;
+      } catch (error: unknown) {
+        this.logger.error(`App menu clear error: ${error instanceof Error ? error.message : String(error)}`);
+        return false;
+      }
+    });
+
+    // Handle getting menu item count
+    ipcMain.handle('appMenu:getItemCount', async () => {
+      try {
+        const countItems = (items: AppMenuItem[]): number => {
+          let count = 0;
+          for (const item of items) {
+            count++;
+            if (item.submenu) {
+              count += countItems(item.submenu);
+            }
+          }
+          return count;
+        };
+
+        return countItems(this.currentMenuItems);
+      } catch (error: unknown) {
+        this.logger.error(`App menu getItemCount error: ${error instanceof Error ? error.message : String(error)}`);
+        return 0;
+      }
+    });
   }
 
   private buildApplicationMenu(items: AppMenuItem[]): Menu {

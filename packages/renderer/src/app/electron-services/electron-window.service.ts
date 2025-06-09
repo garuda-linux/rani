@@ -1,118 +1,90 @@
 import { Injectable } from '@angular/core';
+import {
+  windowClose,
+  windowRequestClose,
+  windowMinimize,
+  windowMaximize,
+  windowHide,
+  windowShow,
+  windowFocus,
+  windowIsMaximized,
+  windowIsMinimized,
+  windowIsVisible,
+  windowSetTitle,
+  windowGetTitle,
+  windowSetSize,
+  windowGetSize,
+  windowSetPosition,
+  windowGetPosition,
+} from './electron-api-utils.js';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ElectronWindowService {
   async close(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.close();
+    windowClose();
   }
 
   async requestClose(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.requestClose();
+    windowRequestClose();
   }
 
   async minimize(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.minimize();
+    windowMinimize();
   }
 
   async maximize(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.maximize();
+    windowMaximize();
   }
 
   async hide(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.hide();
+    windowHide();
   }
 
   async show(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.show();
+    windowShow();
   }
 
   async focus(): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.focus();
+    windowFocus();
   }
 
   async isMaximized(): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.isMaximized();
+    return windowIsMaximized();
   }
 
   async isMinimized(): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.isMinimized();
+    return windowIsMinimized();
   }
 
   async isVisible(): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.isVisible();
+    return windowIsVisible();
   }
 
   async setTitle(title: string): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.setTitle(title);
+    windowSetTitle(title);
   }
 
   async getTitle(): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.getTitle();
+    return windowGetTitle();
   }
 
   async setSize(width: number, height: number): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.setSize(width, height);
+    windowSetSize(width, height);
   }
 
   async getSize(): Promise<number[]> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.getSize();
+    const size = windowGetSize();
+    return [size.width, size.height];
   }
 
   async setPosition(x: number, y: number): Promise<void> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.setPosition(x, y);
+    windowSetPosition(x, y);
   }
 
   async getPosition(): Promise<number[]> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.window.getPosition();
+    const position = windowGetPosition();
+    return [position.x, position.y];
   }
 }

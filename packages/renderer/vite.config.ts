@@ -125,12 +125,14 @@ const viteConfig: UserConfig = {
         assetFileNames: 'assets/[name].[ext]',
       },
     },
+    chunkSizeWarningLimit: 50000,
   },
   resolve: {
     mainFields: ['module'],
   },
 
   plugins: [
+    // @ts-ignore
     analog({
       ssr: false,
       static: true,

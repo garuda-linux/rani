@@ -1,5 +1,5 @@
 import { debug, error, info, trace, warn } from '../electron-services';
-import { LogObject } from './interfaces';
+import type { LogObject } from './interfaces';
 
 export class Logger {
   private static instance: Logger;

@@ -1,237 +1,256 @@
+// Import crypto utilities
 import { sha256sum } from './node-crypto.js';
+
+// Import version information
 import { versions } from './versions.js';
-import { shellSpawnStreaming, shellWriteStdin, shellKillProcess } from './shell.js';
-import { contextBridge, ipcRenderer, type IpcRendererEvent } from 'electron';
 
-interface LogObject {
-  scope?: string;
-  filename?: string;
-  function?: string;
-}
+// Import shell operations
+import { shellSpawnStreaming, shellWriteStdin, shellKillProcess, open, execute } from './shell.js';
 
-// Expose protected methods that allow the renderer process to use
-// the ipcRenderer without exposing the entire object
-contextBridge.exposeInMainWorld('electronAPI', {
-  // File System Operations
-  fs: {
-    exists: (filePath: string) => ipcRenderer.invoke('fs:exists', filePath),
-    readTextFile: (filePath: string) => ipcRenderer.invoke('fs:readTextFile', filePath),
-    writeTextFile: (filePath: string, contents: string) => ipcRenderer.invoke('fs:writeTextFile', filePath, contents),
-    createDirectory: (dirPath: string) => ipcRenderer.invoke('fs:createDirectory', dirPath),
-    removeFile: (filePath: string) => ipcRenderer.invoke('fs:removeFile', filePath),
-  },
+// Import filesystem operations
+import { exists, readTextFile, writeTextFile, createDirectory, removeFile } from './filesystem.js';
 
-  // Shell Operations
-  shell: {
-    open: (url: string) => ipcRenderer.invoke('shell:open', url),
-    spawnStreaming(command: string, args?: string[], options?: Record<string, unknown>) {
-      return shellSpawnStreaming(command, args, options);
-    },
-    writeStdin: (processId: string, data: string) => shellWriteStdin(processId, data),
-    killProcess: (processId: string, signal?: string) => shellKillProcess(processId, signal),
-    execute: (command: string, args?: string[], options?: Record<string, unknown>) =>
-      ipcRenderer.invoke('shell:execute', command, args, options),
-  },
+// Import store operations
+import { get, set, deleteKey, clear, has } from './store.js';
 
-  // Store Operations
-  store: {
-    get: (key: string) => ipcRenderer.invoke('store:get', key),
-    set: (key: string, value: unknown) => ipcRenderer.invoke('store:set', key, value),
-    delete: (key: string) => ipcRenderer.invoke('store:delete', key),
-    clear: () => ipcRenderer.invoke('store:clear'),
-    has: (key: string) => ipcRenderer.invoke('store:has', key),
-  },
+// Import path operations
+import {
+  appConfigDir,
+  appDataDir,
+  appLocalDataDir,
+  appCacheDir,
+  pathResolve,
+  pathJoin,
+  resolveResource,
+} from './path.js';
 
-  // Path Operations
-  path: {
-    appConfigDir: () => ipcRenderer.invoke('path:appConfigDir'),
-    appDataDir: () => ipcRenderer.invoke('path:appDataDir'),
-    appLocalDataDir: () => ipcRenderer.invoke('path:appLocalDataDir'),
-    appCacheDir: () => ipcRenderer.invoke('path:appCacheDir'),
-    resolve: (...paths: string[]) => ipcRenderer.invoke('path:resolve', ...paths),
-    join: (...paths: string[]) => ipcRenderer.invoke('path:join', ...paths),
-    resolveResource: (resourcePath: string) => ipcRenderer.invoke('path:resolveResource', resourcePath),
-  },
+// Import OS operations
+import {
+  getPlatform as osPlatform,
+  getArch as osArch,
+  getVersion as osVersion,
+  getLocale as osLocale,
+  getHostname as osHostname,
+  getHomedir as osHomedir,
+  getTmpdir as osTmpdir,
+} from './os.js';
+
+// Import notification operations
+import {
+  isPermissionGranted as notificationIsPermissionGranted,
+  requestPermission as notificationRequestPermission,
+  send as notificationSend,
+  sendWithActions as notificationSendWithActions,
+} from './notification.js';
+
+// Import window operations
+import {
+  close as windowClose,
+  requestClose as windowRequestClose,
+  minimize as windowMinimize,
+  maximize as windowMaximize,
+  hide as windowHide,
+  show as windowShow,
+  focus as windowFocus,
+  isMaximized as windowIsMaximized,
+  isMinimized as windowIsMinimized,
+  isVisible as windowIsVisible,
+  setTitle as windowSetTitle,
+  getTitle as windowGetTitle,
+  setSize as windowSetSize,
+  getSize as windowGetSize,
+  setPosition as windowSetPosition,
+  getPosition as windowGetPosition,
+} from './window.js';
+
+// Import logging operations
+import {
+  trace as logTrace,
+  debug as logDebug,
+  info as logInfo,
+  warn as logWarn,
+  error as logError,
+} from './logging.js';
+
+// Import dialog operations
+import {
+  open as dialogOpen,
+  save as dialogSave,
+  message as dialogMessage,
+  error as dialogError,
+  certificate as dialogCertificate,
+  confirm as dialogConfirm,
+  warning as dialogWarning,
+  info as dialogInfo,
+} from './dialog.js';
+
+// Import clipboard operations
+import {
+  writeText as clipboardWriteText,
+  readText as clipboardReadText,
+  clear as clipboardClear,
+  writeHTML as clipboardWriteHTML,
+  readHTML as clipboardReadHTML,
+  writeRTF as clipboardWriteRTF,
+  readRTF as clipboardReadRTF,
+  writeImage as clipboardWriteImage,
+  readImage as clipboardReadImage,
+  writeBookmark as clipboardWriteBookmark,
+  readBookmark as clipboardReadBookmark,
+  availableFormats as clipboardAvailableFormats,
+  has as clipboardHas,
+  read as clipboardRead,
+  isEmpty as clipboardIsEmpty,
+  hasText as clipboardHasText,
+  hasImage as clipboardHasImage,
+} from './clipboard.js';
+
+// Import context menu operations
+import { show as contextMenuShow } from './context-menu.js';
+
+// Import app menu operations
+import {
+  update as appMenuUpdate,
+  getItems as appMenuGetItems,
+  addItem as appMenuAddItem,
+  removeItem as appMenuRemoveItem,
+  findItem as appMenuFindItem,
+  updateItem as appMenuUpdateItem,
+  clear as appMenuClear,
+  getItemCount as appMenuGetItemCount,
+} from './app-menu.js';
+
+// Import config operations
+import { notifyChange as configNotifyChange } from './config.js';
+
+// Import event operations
+import { on as eventsOn, off as eventsOff, once as eventsOnce, emit as eventsEmit } from './events.js';
+
+// Export all functions with their original names
+export {
+  // Crypto
+  sha256sum,
+
+  // Versions
+  versions,
+
+  // Shell
+  shellSpawnStreaming,
+  shellWriteStdin,
+  shellKillProcess,
+  open,
+  execute,
+
+  // Filesystem
+  exists,
+  readTextFile,
+  writeTextFile,
+  createDirectory,
+  removeFile,
+
+  // Store
+  get,
+  set,
+  deleteKey,
+  clear,
+  has,
+
+  // Path
+  appConfigDir,
+  appDataDir,
+  appLocalDataDir,
+  appCacheDir,
+  pathResolve,
+  pathJoin,
+  resolveResource,
 
   // OS Operations
-  os: {
-    platform: () => ipcRenderer.invoke('os:platform'),
-    arch: () => ipcRenderer.invoke('os:arch'),
-    version: () => ipcRenderer.invoke('os:version'),
-    locale: () => ipcRenderer.invoke('os:locale'),
-    hostname: () => ipcRenderer.invoke('os:hostname'),
-    homedir: () => ipcRenderer.invoke('os:homedir'),
-    tmpdir: () => ipcRenderer.invoke('os:tmpdir'),
-  },
+  osPlatform,
+  osArch,
+  osVersion,
+  osLocale,
+  osHostname,
+  osHomedir,
+  osTmpdir,
 
   // Notification Operations
-  notification: {
-    isPermissionGranted: () => ipcRenderer.invoke('notification:isPermissionGranted'),
-    requestPermission: () => ipcRenderer.invoke('notification:requestPermission'),
-    send: (options: { title: string; body?: string; icon?: string }) =>
-      ipcRenderer.invoke('notification:send', options),
-    sendWithActions: (options: {
-      title: string;
-      body?: string;
-      icon?: string;
-      actions?: { type: string; text: string }[];
-    }) => ipcRenderer.invoke('notification:sendWithActions', options),
-  },
+  notificationIsPermissionGranted,
+  notificationRequestPermission,
+  notificationSend,
+  notificationSendWithActions,
 
   // Window Operations
-  window: {
-    close: () => ipcRenderer.invoke('window:close'),
-    requestClose: () => ipcRenderer.invoke('window:requestClose'),
-    minimize: () => ipcRenderer.invoke('window:minimize'),
-    maximize: () => ipcRenderer.invoke('window:maximize'),
-    hide: () => ipcRenderer.invoke('window:hide'),
-    show: () => ipcRenderer.invoke('window:show'),
-    focus: () => ipcRenderer.invoke('window:focus'),
-    isMaximized: () => ipcRenderer.invoke('window:isMaximized'),
-    isMinimized: () => ipcRenderer.invoke('window:isMinimized'),
-    isVisible: () => ipcRenderer.invoke('window:isVisible'),
-    setTitle: (title: string) => ipcRenderer.invoke('window:setTitle', title),
-    getTitle: () => ipcRenderer.invoke('window:getTitle'),
-    setSize: (width: number, height: number) => ipcRenderer.invoke('window:setSize', width, height),
-    getSize: () => ipcRenderer.invoke('window:getSize'),
-    setPosition: (x: number, y: number) => ipcRenderer.invoke('window:setPosition', x, y),
-    getPosition: () => ipcRenderer.invoke('window:getPosition'),
-  },
+  windowClose,
+  windowRequestClose,
+  windowMinimize,
+  windowMaximize,
+  windowHide,
+  windowShow,
+  windowFocus,
+  windowIsMaximized,
+  windowIsMinimized,
+  windowIsVisible,
+  windowSetTitle,
+  windowGetTitle,
+  windowSetSize,
+  windowGetSize,
+  windowSetPosition,
+  windowGetPosition,
 
   // Logging Operations
-  log: {
-    trace: (msg: string, obj: LogObject) => ipcRenderer.invoke('log:trace', msg, obj),
-    debug: (msg: string, obj: LogObject) => ipcRenderer.invoke('log:debug', msg, obj),
-    info: (msg: string, obj: LogObject) => ipcRenderer.invoke('log:info', msg, obj),
-    warn: (msg: string, obj: LogObject) => ipcRenderer.invoke('log:warn', msg, obj),
-    error: (msg: string, obj: LogObject) => ipcRenderer.invoke('log:error', msg, obj),
-  },
+  logTrace,
+  logDebug,
+  logInfo,
+  logWarn,
+  logError,
 
   // Dialog Operations
-  dialog: {
-    open: (options: Record<string, unknown>) => ipcRenderer.invoke('dialog:open', options),
-    save: (options: Record<string, unknown>) => ipcRenderer.invoke('dialog:save', options),
-    message: (options: Record<string, unknown>) => ipcRenderer.invoke('dialog:message', options),
-    error: (title: string, content: string) => ipcRenderer.invoke('dialog:error', title, content),
-    certificate: (options: Record<string, unknown>) => ipcRenderer.invoke('dialog:certificate', options),
-    confirm: (message: string, title?: string, detail?: string) =>
-      ipcRenderer.invoke('dialog:confirm', message, title, detail),
-    warning: (message: string, title?: string, detail?: string) =>
-      ipcRenderer.invoke('dialog:warning', message, title, detail),
-    info: (message: string, title?: string, detail?: string) =>
-      ipcRenderer.invoke('dialog:info', message, title, detail),
-  },
+  dialogOpen,
+  dialogSave,
+  dialogMessage,
+  dialogError,
+  dialogCertificate,
+  dialogConfirm,
+  dialogWarning,
+  dialogInfo,
 
   // Clipboard Operations
-  clipboard: {
-    writeText: (text: string) => ipcRenderer.invoke('clipboard:writeText', text),
-    readText: () => ipcRenderer.invoke('clipboard:readText'),
-    clear: () => ipcRenderer.invoke('clipboard:clear'),
-    writeHTML: (markup: string, text?: string) => ipcRenderer.invoke('clipboard:writeHTML', markup, text),
-    readHTML: () => ipcRenderer.invoke('clipboard:readHTML'),
-    writeRTF: (text: string) => ipcRenderer.invoke('clipboard:writeRTF', text),
-    readRTF: () => ipcRenderer.invoke('clipboard:readRTF'),
-    writeImage: (dataURL: string) => ipcRenderer.invoke('clipboard:writeImage', dataURL),
-    readImage: () => ipcRenderer.invoke('clipboard:readImage'),
-    writeBookmark: (title: string, url: string) => ipcRenderer.invoke('clipboard:writeBookmark', title, url),
-    readBookmark: () => ipcRenderer.invoke('clipboard:readBookmark'),
-    availableFormats: () => ipcRenderer.invoke('clipboard:availableFormats'),
-    has: (format: string) => ipcRenderer.invoke('clipboard:has', format),
-    read: (format: string) => ipcRenderer.invoke('clipboard:read', format),
-    isEmpty: () => ipcRenderer.invoke('clipboard:isEmpty'),
-    hasText: () => ipcRenderer.invoke('clipboard:hasText'),
-    hasImage: () => ipcRenderer.invoke('clipboard:hasImage'),
-  },
+  clipboardWriteText,
+  clipboardReadText,
+  clipboardClear,
+  clipboardWriteHTML,
+  clipboardReadHTML,
+  clipboardWriteRTF,
+  clipboardReadRTF,
+  clipboardWriteImage,
+  clipboardReadImage,
+  clipboardWriteBookmark,
+  clipboardReadBookmark,
+  clipboardAvailableFormats,
+  clipboardHas,
+  clipboardRead,
+  clipboardIsEmpty,
+  clipboardHasText,
+  clipboardHasImage,
 
   // Context Menu Operations
-  contextMenu: {
-    show: (items: unknown[], x?: number, y?: number) => ipcRenderer.invoke('contextMenu:show', items, x, y),
-  },
+  contextMenuShow,
 
   // App Menu Operations
-  appMenu: {
-    update: (items: unknown[]) => ipcRenderer.invoke('appMenu:update', items),
-    getItems: () => ipcRenderer.invoke('appMenu:getItems'),
-  },
+  appMenuUpdate,
+  appMenuGetItems,
+  appMenuAddItem,
+  appMenuRemoveItem,
+  appMenuFindItem,
+  appMenuUpdateItem,
+  appMenuClear,
+  appMenuGetItemCount,
 
   // Config Operations
-  config: {
-    notifyChange: (key: string, value: unknown) => ipcRenderer.invoke('config:notify-change', key, value),
-  },
+  configNotifyChange,
 
-  // Event listeners for renderer-main communication
-  events: {
-    on: (channel: string, callback: (...args: unknown[]) => void) => {
-      const validChannels = [
-        'window-focus',
-        'window-blur',
-        'window-maximize',
-        'window-unmaximize',
-        'window-minimize',
-        'window-restore',
-        'app-update',
-        'system-theme-changed',
-        'shell:stdout',
-        'shell:stderr',
-        'shell:close',
-        'shell:error',
-        'contextMenu:itemClicked',
-        'appMenu:itemClicked',
-      ];
-
-      if (validChannels.includes(channel)) {
-        const subscription = (_event: IpcRendererEvent, ...args: unknown[]) => callback(...args);
-        ipcRenderer.on(channel, subscription);
-        return () => ipcRenderer.removeListener(channel, subscription);
-      } else {
-        console.warn(`Invalid event channel: ${channel}`);
-      }
-    },
-
-    off: (channel: string, listener: (...args: unknown[]) => void) => {
-      ipcRenderer.removeListener(channel, listener);
-    },
-
-    once: (channel: string, listener: (...args: unknown[]) => void) => {
-      const validChannels = [
-        'window-focus',
-        'window-blur',
-        'window-maximize',
-        'window-unmaximize',
-        'window-minimize',
-        'window-restore',
-        'app-update',
-        'system-theme-changed',
-        'shell:stdout',
-        'shell:stderr',
-        'shell:close',
-        'shell:error',
-        'contextMenu:itemClicked',
-        'appMenu:itemClicked',
-      ];
-
-      if (validChannels.includes(channel)) {
-        const subscription = (_event: IpcRendererEvent, ...args: unknown[]) => listener(...args);
-        ipcRenderer.once(channel, subscription);
-      } else {
-        console.warn(`Invalid event channel: ${channel}`);
-      }
-    },
-  },
-});
-
-// Expose version information
-contextBridge.exposeInMainWorld('electronVersions', {
-  node: () => process.versions.node,
-  chrome: () => process.versions.chrome,
-  electron: () => process.versions.electron,
-});
-
-// Expose process information
-contextBridge.exposeInMainWorld('electronProcess', {
-  platform: process.platform,
-  arch: process.arch,
-  version: process.version,
-});
-
-export { sha256sum, versions, shellSpawnStreaming, shellWriteStdin, shellKillProcess };
+  // Event Operations
+  eventsOn,
+  eventsOff,
+  eventsOnce,
+};

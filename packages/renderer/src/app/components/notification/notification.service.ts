@@ -22,8 +22,7 @@ export class NotificationService {
     const permissionGranted: boolean = await isPermissionGranted();
     if (!permissionGranted) {
       this.logger.info('Requesting notification permission');
-      const permission: string = await requestPermission();
-      this.permissionGranted = permission === 'granted';
+      this.permissionGranted = await requestPermission();
     } else {
       this.logger.debug('Notification permission already granted');
       this.permissionGranted = true;

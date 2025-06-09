@@ -1,9 +1,16 @@
 import { Injectable } from '@angular/core';
+import {
+  notificationIsPermissionGranted,
+  notificationRequestPermission,
+  notificationSend,
+  notificationSendWithActions,
+} from './electron-api-utils.js';
 
 export interface NotificationOptions {
   title: string;
   body?: string;
   icon?: string;
+  actions?: { type: string; text: string }[];
 }
 
 @Injectable({
@@ -11,45 +18,41 @@ export interface NotificationOptions {
 })
 export class ElectronNotificationService {
   async isPermissionGranted(): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.notification.isPermissionGranted();
+    return notificationIsPermissionGranted();
   }
 
-  async requestPermission(): Promise<string> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
-    }
-    return await window.electronAPI.notification.requestPermission();
+  async requestPermission(): Promise<boolean> {
+    return await notificationRequestPermission();
   }
 
   async sendNotification(options: NotificationOptions): Promise<boolean> {
-    if (!window.electronAPI) {
-      throw new Error('Electron API not available');
+    if (options.actions && options.actions.length > 0) {
+      return notificationSendWithActions(options);
     }
-    return await window.electronAPI.notification.send(options);
+    return notificationSend(options);
+  }
+
+  async sendNotificationWithActions(options: NotificationOptions): Promise<boolean> {
+    return notificationSendWithActions(options);
   }
 }
 
-// Static functions for compatibility with Tauri API
+// Standalone functions for direct use
 export async function isPermissionGranted(): Promise<boolean> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
-  }
-  return await window.electronAPI.notification.isPermissionGranted();
+  return notificationIsPermissionGranted();
 }
 
-export async function requestPermission(): Promise<string> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
-  }
-  return await window.electronAPI.notification.requestPermission();
+export async function requestPermission(): Promise<boolean> {
+  return await notificationRequestPermission();
 }
 
 export async function sendNotification(options: NotificationOptions): Promise<boolean> {
-  if (!window.electronAPI) {
-    throw new Error('Electron API not available');
+  if (options.actions && options.actions.length > 0) {
+    return notificationSendWithActions(options);
   }
-  return await window.electronAPI.notification.send(options);
+  return notificationSend(options);
+}
+
+export async function sendNotificationWithActions(options: NotificationOptions): Promise<boolean> {
+  return notificationSendWithActions(options);
 }

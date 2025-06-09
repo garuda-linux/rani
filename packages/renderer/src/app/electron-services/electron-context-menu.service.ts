@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import type { ContextMenuItem } from './electron-types';
 import { Logger } from '../logging/logging';
+import { contextMenuShow, eventsOn } from './electron-api-utils.js';
 
 @Injectable({
   providedIn: 'root',
@@ -21,16 +22,11 @@ export class ElectronContextMenuService {
    * @returns Promise that resolves when the menu is shown
    */
   async showContextMenu(items: ContextMenuItem[], x?: number, y?: number): Promise<boolean> {
-    if (!window.electronAPI?.contextMenu) {
-      this.logger.warn('Context menu API not available');
-      return false;
-    }
-
     try {
       // Register click handlers for menu items
       this.registerMenuItemHandlers(items);
 
-      return await window.electronAPI.contextMenu.show(items, x, y);
+      return contextMenuShow(items, x, y);
     } catch (error) {
       this.logger.error('Failed to show context menu:', error);
       return false;
@@ -100,11 +96,8 @@ export class ElectronContextMenuService {
    * @private
    */
   private setupEventListeners(): void {
-    if (!window.electronAPI?.events) {
-      return;
-    }
-
-    window.electronAPI.events.on('contextMenu:itemClicked', (itemId: string) => {
+    eventsOn('contextMenu:itemClicked', (...args: unknown[]) => {
+      const itemId = args[0] as string;
       const handler = this.menuClickHandlers.get(itemId);
       if (handler) {
         try {
