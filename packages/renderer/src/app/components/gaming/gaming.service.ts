@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import type { PackageSections } from './interfaces';
+import type { FullPackageDefinition, PackageSections } from './interfaces';
 import { gamingPackageLists } from './package-lists';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../../logging/logging';
@@ -14,18 +14,18 @@ export class GamingService {
   private readonly logger = Logger.getInstance();
 
   constructor() {
-    this.packages.update((packages) => {
-      for (const sections of packages) {
-        for (const pkg of sections.sections) {
-          const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
-          if (disabled) {
-            pkg.disabled = true;
-            this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
-          }
+    const availablePkgs: PackageSections = this.packages().map((section) => {
+      const sections: FullPackageDefinition[] = section.sections.filter((pkg) => {
+        const pkgname: string = pkg.pkgname[0];
+        const isAvailable: boolean = this.configService.state().availablePkgs.get(pkgname) === true;
+        if (!isAvailable) {
+          this.logger.warn(`Package ${pkgname} is not available, removing from list`);
         }
-      }
-
-      return packages;
+        return isAvailable;
+      });
+      return { ...section, sections };
     });
+
+    this.packages.set(availablePkgs);
   }
 }

@@ -71,17 +71,19 @@ export class PackagesService {
       }
     }
 
-    for (const section of sections) {
-      for (const pkg of section.sections) {
-        const disabled: boolean = this.configService.state().availablePkgs.get(pkg.pkgname[0]) !== true;
-        if (disabled) {
-          pkg.disabled = true;
-          this.logger.warn(`Package ${pkg.pkgname[0]} is not available, removing from list`);
+    const availablePkgs: PackageSections = sections.map((section) => {
+      const sections: any[] = section.sections.filter((pkg) => {
+        const pkgname: string = pkg.pkgname[0];
+        const isAvailable: boolean = this.configService.state().availablePkgs.get(pkgname) === true;
+        if (!isAvailable) {
+          this.logger.warn(`Package ${pkgname} is not available, removing from list`);
         }
-      }
-    }
+        return isAvailable;
+      });
+      return { ...section, sections };
+    });
 
-    this.packages.set(sections);
+    this.packages.set(availablePkgs);
     this.loading.set(false);
     this.loadingService.loadingOff();
   }

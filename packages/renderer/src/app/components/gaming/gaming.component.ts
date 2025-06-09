@@ -12,7 +12,6 @@ import { TranslocoDirective } from '@jsverse/transloco';
 import { TableModule } from 'primeng/table';
 import { NgForOf, NgOptimizedImage } from '@angular/common';
 import { DataViewModule } from 'primeng/dataview';
-import { ElectronShellService } from '../../electron-services';
 import { Card } from 'primeng/card';
 import { TabsModule } from 'primeng/tabs';
 import { Tooltip } from 'primeng/tooltip';
@@ -34,7 +33,6 @@ export class GamingComponent implements OnInit {
   tabIndex = signal<number>(0);
 
   protected readonly configService = inject(ConfigService);
-  private readonly shellService = inject(ElectronShellService);
 
   backgroundColor = computed(() => {
     const flavors = this.configService.settings().activeTheme.includes('Mocha') ? 'primary' : 'alt';
