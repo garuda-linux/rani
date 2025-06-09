@@ -2,6 +2,7 @@
   "name": "@app/preload",
   "type": "module",
   "files": [
+    "assets/**",
     "dist/**",
     "package.json"
   ],

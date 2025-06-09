@@ -38,8 +38,6 @@ async function getListOfFilesFromEachWorkspace() {
         // Map patterns to node_modules location
         patterns = patterns.map((p) => join('node_modules', packageName, p));
         allFilesToInclude.push(...patterns);
-
-        console.log(`Added workspace ${packageName} with patterns:`, patterns);
       } catch (error) {
         console.warn(`Could not process package ${packageDir}:`, error.message);
       }

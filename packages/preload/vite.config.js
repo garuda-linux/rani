@@ -1,5 +1,8 @@
 import { resolveModuleExportNames } from 'mlly';
 import { getChromeMajorVersion } from '@app/electron-versions';
+import { btoa } from 'node:buffer';
+import { join } from 'node:path';
+import { copyFileSync, mkdirSync, readdirSync } from 'node:fs';
 
 export default /**
  * @type {import('vite').UserConfig}
@@ -27,7 +30,7 @@ export default /**
     emptyOutDir: true,
     reportCompressedSize: false,
   },
-  plugins: [mockExposed(), handleHotReload()],
+  plugins: [copyAssets(), mockExposed(), handleHotReload()],
 });
 
 /**
@@ -114,6 +117,57 @@ function handleHotReload() {
       rendererWatchServer.ws.send({
         type: 'full-reload',
       });
+    },
+  };
+}
+
+/**
+ * Copy assets from packages/main/assets to dist/assets
+ * @return {import('vite').Plugin}
+ */
+function copyAssets() {
+  return {
+    name: 'copy-assets',
+    writeBundle() {
+      try {
+        const isDevMode = process.env.NODE_ENV === 'development';
+        if (isDevMode) {
+          return;
+        }
+
+        const srcAssetsDir = join(process.cwd(), '../../assets');
+        const destAssetsDir = join(process.cwd(), 'dist/assets');
+        const dirsToCopy = ['i18n', 'parsed'];
+
+        function copyDir(src, dest) {
+          try {
+            mkdirSync(dest, { recursive: true });
+            const files = readdirSync(src, { withFileTypes: true });
+
+            for (const file of files) {
+              const srcPath = join(src, file.name);
+              const destPath = join(dest, file.name);
+
+              if (file.isDirectory()) {
+                copyDir(srcPath, destPath);
+              } else {
+                copyFileSync(srcPath, destPath);
+              }
+            }
+          } catch (error) {
+            console.warn(`Could not copy ${src}:`, error.message);
+          }
+        }
+
+        for (const dir of dirsToCopy) {
+          const srcDir = join(srcAssetsDir, dir);
+          const destDir = join(destAssetsDir, dir);
+          copyDir(srcDir, destDir);
+        }
+        console.log('Assets copied to main package');
+      } catch (error) {
+        console.warn('Could not copy assets:', error.message);
+      }
     },
   };
 }

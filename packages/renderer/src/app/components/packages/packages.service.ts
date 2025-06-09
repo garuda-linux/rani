@@ -55,10 +55,8 @@ export class PackagesService {
     this.loadingService.loadingOn();
 
     const sections = this.packages();
-    for (let i = 0; i < sections.length; i++) {
-      const section: PackageSection = sections[i];
+    for (const section of sections) {
       const path = `../../assets/parsed/${section.name.replace('packages.', '')}-repo.json`;
-
       try {
         const resourcePath: string = await resolveResource(path);
 
