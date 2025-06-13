@@ -616,13 +616,6 @@
     "pkgname": ["stlink"]
   },
   {
-    "name": "Subsurface",
-    "description": "Diving logbook to keep track of your dives by logging dive locations (with GPS coordinates), weights and exposure protection used, divemasters and dive buddies, etc.",
-    "url": "https://subsurface-divelog.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["subsurface-git"]
-  },
-  {
     "name": "Tensorflow",
     "description": "An end-to-end open source machine learning platform.",
     "url": "https://www.tensorflow.org/ ",

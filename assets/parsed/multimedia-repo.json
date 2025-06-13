@@ -434,13 +434,6 @@
     "pkgname": ["drumstick"]
   },
   {
-    "name": "Dust3D",
-    "description": "3D modeling software. It helps you create a 3D watertight base model in seconds. Use it to speed up your character modeling in game making, 3D printing, and so on.",
-    "url": "https://dust3d.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["dust3d"]
-  },
-  {
     "name": "DVDStyler",
     "description": "DVD authoring application for the creation of professional-looking DVDs.",
     "url": "https://www.dvdstyler.org/",
@@ -554,7 +547,7 @@
   },
   {
     "name": "fbi",
-    "description": "Image viewer for the linux framebuffer console.",
+    "description": "Image viewer for the linux framebuffer logger.",
     "url": "https://www.kraxel.org/blog/linux/fbida/",
     "icon": "generic-dark.svg",
     "pkgname": ["fbida"]
@@ -1853,13 +1846,6 @@
     "url": "https://github.com/kraxarn/spotify-qt",
     "icon": "generic-dark.svg",
     "pkgname": ["spotify-qt"]
-  },
-  {
-    "name": "spotify-tui",
-    "description": "Spotify for the terminal written in Rust.",
-    "url": "https://github.com/Rigellute/spotify-tui",
-    "icon": "generic-dark.svg",
-    "pkgname": ["spotify-tui"]
   },
   {
     "name": "Strawberry",

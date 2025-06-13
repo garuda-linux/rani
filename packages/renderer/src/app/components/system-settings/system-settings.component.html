@@ -1,0 +1,59 @@
+<ng-container *transloco="let t">
+  <div>
+    <div class="mt-10 grid grid-cols-1 gap-5 text-color md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="ml-10">
+        <h2>{{ t('systemSettings.defaultShell') }}</h2>
+        <p-select
+          class="mt-2.5 w-full md:w-56"
+          [(ngModel)]="currentShell"
+          [options]="shells"
+          (ngModelChange)="handleToggle('shell')"
+          optionLabel="name"
+          placeholder="Select a login shell to use"
+        />
+      </div>
+      <div class="ml-10">
+        <h2>{{ t('systemSettings.defaultDns') }}</h2>
+        <p-select
+          class="mt-2.5 w-full md:w-56"
+          [(ngModel)]="currentDns"
+          [options]="dnsProviders"
+          (ngModelChange)="handleToggle('dns')"
+          optionLabel="name"
+          placeholder="Select a DNS server to use"
+        />
+      </div>
+    </div>
+    <div class="mt-10 grid grid-cols-1 gap-5 text-color md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      <div class="ml-10">
+        <p-checkbox
+          id="enable-hblock"
+          [(ngModel)]="selectedBoxes"
+          (click)="handleToggle('hblock')"
+          inputId="enable-hblock"
+          name="enable-hblock"
+          value="hblock"
+        />
+        <label class="ml-2" for="enable-hblock">
+          {{ t('systemSettings.enableHblock') }}
+        </label>
+      </div>
+      <div class="ml-10">
+        <p-checkbox
+          id="iwd-backend"
+          [(ngModel)]="selectedBoxes"
+          (click)="handleToggle('iwd')"
+          inputId="iwd-backend"
+          name="iwd-backend"
+          value="iwd"
+        />
+        <label class="ml-2" for="iwd-backend">
+          {{ t('systemSettings.enableIwd') }}
+        </label>
+      </div>
+    </div>
+    <div>
+      <rani-dynamic-checkboxes [data]="sections"></rani-dynamic-checkboxes>
+    </div>
+  </div>
+</ng-container>

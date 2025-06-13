@@ -1,5 +1,25 @@
 {
   "menu": {
+    "file": {
+      "title": "File",
+      "preferences": "Preferences",
+      "quit": "Quit"
+    },
+    "modules": {
+      "title": "Modules",
+      "search": "Search options",
+      "diagnostics": "Diagnostics",
+      "maintenance": "Maintenance",
+      "systemSettings": "System settings",
+      "components": "System components",
+      "gaming": "Gaming",
+      "locales": "Localizations",
+      "appSettings": "App settings",
+      "kernels": "Kernels",
+      "welcome": "Welcome",
+      "systemdServices": "Systemd services",
+      "packages": "Packages"
+    },
     "welcome": "Welcome",
     "maintenance": "Maintenance",
     "systemTools": "System settings",
@@ -9,6 +29,9 @@
     "diagnostics": "Diagnostics",
     "network": "Network tools",
     "settings": "App settings",
+    "apply": "Apply pending operations",
+    "pending": "Pending operations",
+    "clearTasks": "Clear tasks",
     "help": {
       "title": "Help",
       "getHelpForum": "Get help on the forum",
@@ -23,8 +46,7 @@
     },
     "terminal": "Show terminal",
     "terminalRunning": "Running tasks",
-    "terminalTasks": "Execute tasks",
-    "pending": "Pending"
+    "terminalTasks": "Execute tasks"
   },
   "diagnostics": {
     "title": "Debug info ",
@@ -39,7 +61,7 @@
     "failedCmdHeader": "Failed to run command",
     "failedCmd": "Something bad happened and no diagnostics could be retrieved",
     "pacman": "Latest Pacman logs",
-    "copied": "Successfully copied to clipboard",
+    "copySuccess": "Successfully copied to clipboard",
     "success": "Success",
     "uploadSuccess": "Successfully uploaded to PrivateBin, URL copied to clipboard"
   },
@@ -72,7 +94,19 @@
     "setupAssistant": "Setup assistant",
     "setupAssistantSub": "Run the Garuda setup assistant",
     "hello": "Hello",
-    "error": "An error occurred."
+    "error": "An error occurred.",
+    "gitlab": "GitLab",
+    "gitlabSub": "Have a look at our source code",
+    "chaotic": "Chaotic-AUR",
+    "chaoticSub": "Take a look at package updates and more",
+    "searxng": "SearxNG",
+    "searxngSub": "Search engine that respects your privacy",
+    "whoogle": "Whoogle",
+    "whoogleSub": "Privacy respecting search engine",
+    "vaultwarden": "Vaultwarden",
+    "vaultwardenSub": "Bitwarden compatible, secure password manager",
+    "donate": "Donate",
+    "donateSub": "Support the Garuda Linux project"
   },
   "gaming": {
     "title": "Gaming ",

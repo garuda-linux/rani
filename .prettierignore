@@ -24,18 +24,11 @@ pnpm-lock.yaml
 /.sass-cache
 /connect.lock
 /coverage
-/libpeerconnection.log
 /typings
-core
 db
-npm-debug.log
 repos
-testem.log
-yarn-error.log
 
 # System Files
 .DS_Store
 Thumbs.db
 
-# Misc
-src-tauri/target

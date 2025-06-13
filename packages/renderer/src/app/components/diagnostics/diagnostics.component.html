@@ -1,0 +1,27 @@
+<ng-container *transloco="let t">
+  <div class="surface-section px-4 text-center md:px-6 lg:px-8">
+    <div class="text-3xl font-bold">
+      <span class="text-color">{{ t('diagnostics.title') }} </span>
+      <span class="text-primary">{{ t('diagnostics.titleTwo') }}</span>
+    </div>
+  </div>
+  <div class="px-10 pt-10">
+    <div class="flex justify-evenly gap-4">
+      <p-button [label]="t('diagnostics.inxi')" [outlined]="true" (click)="getOutput('inxi')"></p-button>
+      <p-button
+        [label]="t('diagnostics.systemctl')"
+        [outlined]="true"
+        (click)="getOutput('systemd-analyze')"
+      ></p-button>
+      <p-button [label]="t('diagnostics.journalctl')" [outlined]="true" (click)="getOutput('journalctl')"></p-button>
+      <p-button [label]="t('diagnostics.pacman')" [outlined]="true" (click)="getOutput('pacman')"></p-button>
+      <p-button [label]="t('diagnostics.dmesg')" [outlined]="true" (click)="getOutput('dmesg')"></p-button>
+      <p-button [label]="t('diagnostics.full')" [outlined]="true" (click)="getFullLogs()"></p-button>
+      <p-button [label]="t('diagnostics.upload')" [outlined]="true" (click)="uploadPrivateBin()"></p-button>
+    </div>
+
+    <div class="mt-5 h-[80vh]">
+      <ng-terminal #term [xtermOptions]="xtermOptions()"></ng-terminal>
+    </div>
+  </div>
+</ng-container>

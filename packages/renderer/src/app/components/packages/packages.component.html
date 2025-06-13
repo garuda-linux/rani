@@ -1,0 +1,88 @@
+<ng-container *transloco="let t">
+  <p-tabs [(value)]="tabIndex">
+    <p-tablist>
+      @for (section of packagesService.packages(); track section.name) {
+        <p-tab #tab [value]="$index">{{ t(section.name) }}</p-tab>
+      }
+    </p-tablist>
+    <p-table
+      #packageTable
+      [globalFilterFields]="['name', 'description', 'url']"
+      [loading]="packagesService.loading()"
+      [paginator]="true"
+      [rowsPerPageOptions]="[50, 100, 150]"
+      [rows]="50"
+      dataKey="name"
+      sortField="name"
+    >
+      <ng-template #caption>
+        <div class="flex">
+          <p-button
+            [label]="t('packages.clear')"
+            [outlined]="true"
+            (click)="clear(packageTable)"
+            icon="pi pi-filter-slash"
+          />
+          <p-iconfield class="ml-auto" iconPosition="left">
+            <p-inputicon>
+              <i class="pi pi-search"></i>
+            </p-inputicon>
+            <input
+              #filterInput
+              [placeholder]="t('packages.searchKey')"
+              (input)="$any(packageTable).filterGlobal(filterInput.value, 'contains')"
+              pInputText
+              type="text"
+            />
+          </p-iconfield>
+        </div>
+      </ng-template>
+      <ng-template #header>
+        <tr>
+          <th pSortableColumn="name">
+            {{ t('packages.name') }}
+            <p-sortIcon field="name" />
+          </th>
+          <th>
+            {{ t('packages.description') }}
+          </th>
+          <th>
+            {{ t('packages.url') }}
+          </th>
+          <th class="whitespace-nowrap" [style]="{ 'min-width': '3rem' }" pSortableColumn="selected">
+            {{ t('packages.selected') }}
+            <p-sortIcon field="selected" />
+          </th>
+        </tr>
+      </ng-template>
+      <ng-template #body let-pkg>
+        <tr>
+          <td>
+            <p>{{ pkg.name }}</p>
+          </td>
+          <td>
+            {{ pkg.description }}
+          </td>
+          <td>
+            <a class="cursor-pointer" (click)="shellService.open(pkg.url)"> <i class="pi pi-external-link"></i></a>
+          </td>
+          <td>
+            <div>
+              <p-check-box
+                [(ngModel)]="pkg.selected"
+                [binary]="true"
+                (onChange)="togglePackage(pkg)"
+                ngClass="ml-5"
+              ></p-check-box>
+            </div>
+          </td>
+        </tr>
+      </ng-template>
+      <ng-template #emptymessage>
+        <tr>
+          <td colspan="5">{{ t('packages.notFound') }}</td>
+        </tr>
+      </ng-template>
+    </p-table>
+  </p-tabs>
+</ng-container>

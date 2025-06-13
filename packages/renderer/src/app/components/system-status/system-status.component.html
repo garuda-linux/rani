@@ -1,0 +1,123 @@
+<ng-container *transloco="let t">
+  <div class="flex gap-5">
+    @if (systemStatusService.updates().length > 0) {
+      <div class="cursor-pointer" (click)="scheduleUpdates()">
+        <p-overlay-badge
+          [value]="systemStatusService.updates().length"
+          [pTooltip]="t('systemStatus.updates')"
+          tooltipPosition="bottom"
+        >
+          <i class="pi pi-bell" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+    @if (systemStatusService.pacFiles().length > 0) {
+      <div class="cursor-pointer" (click)="pacdiffDialogVisible.set(true)">
+        <p-overlay-badge
+          [value]="systemStatusService.pacFiles().length"
+          [pTooltip]="t('systemStatus.pacFiles')"
+          severity="warn"
+          tooltipPosition="bottom"
+        >
+          <i class="pi pi-pen-to-square" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+    @if (systemStatusService.warnUpdate()) {
+      <div class="cursor-pointer" (click)="scheduleUpdates()">
+        <p-overlay-badge [pTooltip]="t('systemStatus.warnUpdate')" value="!" severity="danger" tooltipPosition="bottom">
+          <i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+    @if (configService.state().rebootPending) {
+      <div class="cursor-pointer" (click)="rebootNow($event)">
+        <p-overlay-badge [pTooltip]="t('systemStatus.warnReboot')" value="!" severity="danger" tooltipPosition="bottom">
+          <i class="pi pi-exclamation-triangle" style="font-size: 1rem"></i>
+        </p-overlay-badge>
+      </div>
+    }
+  </div>
+
+  <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">
+    <ul>
+      @for (update of systemStatusService.updates(); track update.pkg) {
+        <li>
+          {{ update.pkg }}: {{ update.version }} ->
+          <span class="text-primary-emphasis">{{ update.newVersion }}</span>
+          @if (update.aur) {
+            <span
+              class="ml-1 text-primary-emphasis-alt"
+              [pTooltip]="t('systemStatus.aurUpdates')"
+              tooltipPosition="bottom"
+              >AUR<i class="pi pi-info-circle ml-1"></i>
+            </span>
+          }
+        </li>
+      }
+    </ul>
+
+    <div class="flex justify-end gap-2">
+      <p-button [label]="t('systemStatus.cancel')" (click)="dialogVisible.set(false)" severity="secondary" />
+      @if (systemStatusService.updates().length > 0 && !systemStatusService.updatesAur()) {
+        <p-button
+          [disabled]="updateButtonDisabled()"
+          [label]="t('systemStatus.scheduleUpdates')"
+          (click)="scheduleUpdates(true)"
+          severity="success"
+        />
+      }
+      @if (systemStatusService.updatesAur()) {
+        <p-button [label]="t('systemStatus.runAurUpdates')" (click)="runAurUpdates()" severity="info" />
+      }
+    </div>
+  </p-dialog>
+
+  <p-dialog
+    [(visible)]="pacdiffDialogVisible"
+    [header]="t('systemStatus.pendingPacdiff')"
+    [modal]="true"
+    [style]="{ width: '90vw' }"
+  >
+    <p class="text-left text-lg font-bold">
+      {{ t('systemStatus.affectedFiles') }}
+    </p>
+    <ul>
+      @for (file of systemStatusService.pacFiles(); track file) {
+        <li>{{ file }}</li>
+      }
+    </ul>
+
+    <div>
+      <p class="text-left text-lg font-bold">{{ t('systemStatus.proceed') }}</p>
+      <ul>
+        <li>
+          <a
+            class="cursor-pointer text-primary"
+            (click)="shellService.open('https://wiki.archlinux.org/title/Pacman/Pacnew_and_Pacsave')"
+          >
+            {{ t('systemStatus.learnPacdiff') }}</a
+          >
+        </li>
+        <li>{{ t('systemStatus.openMaintenance') }}</li>
+        <li>{{ t('systemStatus.snapshotCreation') }}</li>
+        <li>{{ t('systemStatus.proceedMerge') }}</li>
+        <li>{{ t('systemStatus.askHelp') }}</li>
+        <li class="text-primary-emphasis">
+          {{ t('systemStatus.cautionMerge') }}
+        </li>
+      </ul>
+    </div>
+
+    <div class="flex justify-end gap-2">
+      <p-button [label]="t('systemStatus.cancel')" (click)="pacdiffDialogVisible.set(false)" severity="secondary" />
+      <p-button
+        class="cursor-pointer"
+        [label]="t('systemStatus.openMaintenanceButton')"
+        [queryParams]="{ action: 'pacdiff' }"
+        routerLink="/maintenance"
+        severity="success"
+      />
+    </div>
+  </p-dialog>
+</ng-container>

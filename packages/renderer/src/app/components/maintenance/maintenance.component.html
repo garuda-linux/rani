@@ -1,0 +1,124 @@
+<ng-container *transloco="let t">
+  <div class="surface-section px-4 text-center md:px-6 lg:px-8">
+    <div class="text-3xl font-bold">
+      <span class="text-color">{{ t('maintenance.title') }} </span>
+      <span class="text-primary">{{ t('maintenance.titleTwo') }}</span>
+    </div>
+  </div>
+  <div class="p-10">
+    <p-tabs [(value)]="tabIndex">
+      <p-tablist>
+        <p-tab [value]="0" (click)="navigate('common')">{{ t('maintenance.common') }}</p-tab>
+        <p-tab [value]="1" (click)="navigate('reset')">{{ t('maintenance.resetConfigs') }}</p-tab>
+        <p-tab [value]="2" (click)="navigate('garuda-update')">{{ t('maintenance.garudaUpdate') }}</p-tab>
+      </p-tablist>
+      <p-tabpanels>
+        <p-tabpanel [value]="0">
+          <div class="grid grid-cols-12 gap-4 p-10">
+            @for (action of actions; track action.name) {
+              <div class="col-span-6 lg:col-span-3">
+                <p-card [header]="t(action.label)">
+                  <div class="h-16 text-surface-200">
+                    {{ t(action.description) }}
+                  </div>
+                  <div class="mx-auto">
+                    <p-button
+                      [style]="{ width: '100%' }"
+                      [outlined]="true"
+                      [disabled]="action.onlyDirect"
+                      [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
+                      [label]="
+                        taskManager.findTaskById(action.name)
+                          ? t('maintenance.removePending')
+                          : t('maintenance.addPending')
+                      "
+                      [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
+                      (click)="addToPending(action)"
+                    ></p-button>
+                    <p-button
+                      [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
+                      [outlined]="true"
+                      [label]="t('maintenance.runNow')"
+                      (click)="runNow(action)"
+                      icon="pi pi-play-circle"
+                    ></p-button>
+                  </div>
+                </p-card>
+              </div>
+            }
+          </div>
+        </p-tabpanel>
+        <p-tabpanel [value]="1">
+          <div class="mt-10 grid grid-cols-12">
+            @for (config of resettableConfigs(); track config.name) {
+              @if (config.exists) {
+                <div class="col-span-6 ml-32 lg:col-span-4">
+                  <p-checkbox
+                    [(ngModel)]="selectedResetConfigs"
+                    [inputId]="config.name"
+                    [value]="config"
+                    name="group"
+                  />
+                  <label class="ml-2" [for]="config.name">
+                    {{ config.name }}
+                    <i
+                      class="pi pi-info-circle"
+                      [pTooltip]="t('maintenance.resetTooltip') + ' ' + config.files.join(', ')"
+                      style="font-size: 0.75rem"
+                      tooltipPosition="bottom"
+                    >
+                    </i>
+                  </label>
+                </div>
+              }
+            }
+          </div>
+          <div class="mt-10 text-center">
+            <p-button
+              [label]="t('maintenance.resetConfigs')"
+              [outlined]="true"
+              (click)="confirmResetConfigs($event)"
+              icon="pi pi-refresh"
+            >
+            </p-button>
+          </div>
+        </p-tabpanel>
+        <p-tabpanel [value]="2">
+          <div class="grid grid-cols-12 gap-4 p-10">
+            @for (action of actionsGarudaUpdate; track action.name) {
+              <div class="col-span-6 lg:col-span-3">
+                <p-card [header]="t(action.label)">
+                  <div class="h-16 text-surface-200">
+                    {{ t(action.description) }}
+                  </div>
+                  <div class="mx-auto">
+                    <p-button
+                      [style]="{ width: '100%' }"
+                      [outlined]="true"
+                      [disabled]="action.onlyDirect"
+                      [pTooltip]="action.onlyDirect ? t('maintenance.onlyDirect') : ''"
+                      [label]="
+                        taskManager.findTaskById(action.name)
+                          ? t('maintenance.removePending')
+                          : t('maintenance.addPending')
+                      "
+                      [icon]="taskManager.findTaskById(action.name) ? 'pi pi-minus-circle' : 'pi pi-plus-circle'"
+                      (click)="addToPending(action)"
+                    ></p-button>
+                    <p-button
+                      [style]="{ 'margin-top': '0.5rem', 'width': '100%' }"
+                      [outlined]="true"
+                      [label]="t('maintenance.runNow')"
+                      (click)="runNow(action)"
+                      icon="pi pi-play-circle"
+                    ></p-button>
+                  </div>
+                </p-card>
+              </div>
+            }
+          </div>
+        </p-tabpanel>
+      </p-tabpanels>
+    </p-tabs>
+  </div>
+</ng-container>

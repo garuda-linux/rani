@@ -1,0 +1,24 @@
+<p-menubar
+  class="garuda-shell-menubar"
+  [model]="menuItems()"
+  [class.garuda-shell-relative]="relativePosition()"
+  [breakpoint]="taskManagerService.count() > 0 ? '1100px' : '900px'"
+>
+  <ng-template #start>
+    <ng-content select="[garudaShellBarStart]"></ng-content>
+  </ng-template>
+  <ng-template #end>
+    <ng-content select="[garudaShellBarEnd]"></ng-content>
+  </ng-template>
+</p-menubar>
+<div class="garuda-shell-content" [class.garuda-shell-relative]="relativePosition()">
+  <ng-content></ng-content>
+</div>
+
+<p-toast position="top-left" key="top-left" />
+<p-toast position="top-center" key="top-center" />
+<p-toast position="top-right" key="top-right" />
+<p-toast position="bottom-left" key="bottom-left" />
+<p-toast position="bottom-center" key="bottom-center" />
+<p-toast position="bottom-right" key="bottom-right" />
+<p-toast position="center" key="center" />

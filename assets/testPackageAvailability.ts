@@ -1,7 +1,7 @@
 import { execSync } from 'node:child_process';
-import { gamingPackageLists } from '../src/app/gaming/package-lists';
+import { gamingPackageLists } from '../packages/renderer/src/app/components/gaming/package-lists';
 import { readFileSync } from 'node:fs';
-import { FullPackageDefinition } from '../src/app/gaming/interfaces';
+import type { FullPackageDefinition } from '../packages/renderer/src/app/components/gaming/interfaces';
 
 const inRepo: string[] = execSync('pacman -Ssq').toString().split('\n');
 const inAur: string[] = execSync('paru -Slaq', { maxBuffer: 10240000 }).toString().split('\n');
@@ -9,8 +9,8 @@ const inAur: string[] = execSync('paru -Slaq', { maxBuffer: 10240000 }).toString
 console.log(`In total ${inRepo.length} packages were found in the repositories`);
 console.log(`In total ${inAur.length} packages were found in the AUR\n`);
 
-let total: number = 0;
-let totalMissing: number = 0;
+let total = 0;
+let totalMissing = 0;
 
 function checkMissing(missing: string[], missingAur: string[]) {
   if (missing.length > 0) {
@@ -51,7 +51,7 @@ function checkGeneral(): number {
 
   for (const section of toCheck) {
     console.log(`Checking section: ${section}`);
-    const resourcePath: string = `./assets/parsed/${section}-repo.json`;
+    const resourcePath = `./assets/parsed/${section}-repo.json`;
     const packages: FullPackageDefinition[] = JSON.parse(readFileSync(resourcePath, 'utf8'));
     for (const pkg of packages) {
       if (!inRepo.includes(pkg.pkgname[0]) && !inAur.includes(pkg.pkgname[0])) {

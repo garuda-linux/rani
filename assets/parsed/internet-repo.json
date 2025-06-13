@@ -490,13 +490,6 @@
     "pkgname": ["gist"]
   },
   {
-    "name": "GNU IceCat",
-    "description": "A customized build of Firefox ESR distributed by the GNU Project, stripped of non-free components and with additional privacy extensions. Release cycle may be delayed compared to Mozilla Firefox.",
-    "url": "https://www.gnu.org/software/gnuzilla/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["icecat"]
-  },
-  {
     "name": "Gnubiff",
     "description": "Mail notification program that checks for mail and displays headers when new mail has arrived.",
     "url": "https://gnubiff.sourceforge.net/",

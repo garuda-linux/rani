@@ -1,6 +1,4 @@
----
 stages: [checks, build, release]
-
 check-commitizen:
   # Check the current commit message for compliance with commitizen
   stage: checks
@@ -11,7 +9,6 @@ check-commitizen:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
 check-packagelists:
   # Check whether all packages advertised in the package lists are available
   stage: checks
@@ -26,48 +23,34 @@ check-packagelists:
     - pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-'{keyring,mirrorlist}'.pkg.tar.zst'
     - echo -e "[garuda]\\nInclude = /etc/pacman.d/chaotic-mirrorlist\\n[chaotic-aur]\\nInclude = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
     - echo "" >>/etc/pacman.conf
-    - pacman -Syu --noconfirm --needed nodejs-lts-jod paru
-    - corepack enable pnpm
-    - pnpm install
+    - pacman -Syu --noconfirm --needed nodejs paru
+    - corepack enable
     - pnpm check-pkglists
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
-
 build-linux:
-  image: node:22-slim
+  image: node:24-slim
   stage: build
   script:
-    - apt-get update
     - |
-      DEBIAN_FRONTEND=noninteractive apt-get install -y \
-        libwebkit2gtk-4.1-dev \
-        build-essential \
-        curl \
-        wget \
-        file \
-        libxdo-dev \
-        libssl-dev \
-        libayatana-appindicator3-dev \
-        librsvg2-dev \
-        libsoup-3.0-0
-    - curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- --default-toolchain stable -y
-    - source "$HOME/.cargo/env"
-    - corepack enable pnpm
-    - pnpm install
-    - pnpm run tauri build
+      apt update && apt install -y \
+        libglib2.0-dev libdbus-1-dev libatk1.0-dev \
+        libnotify-dev libasound2-dev libcap-dev \
+        libcups2-dev libxtst-dev libgtk-3-dev \
+        libxss1 libnss3-dev libarchive-tools
+    - corepack enable
+    - COREPACK_ENABLE_DOWNLOAD_PROMPT=0 pnpm -r install --frozen-lockfile --shamefully-hoist
+    - pnpm run compile
   artifacts:
     when: on_success
     access: all
     expire_in: '30 days'
     paths:
-      - src-tauri/target/release/bundle/deb/*.deb
-      - src-tauri/target/release/bundle/appimage/*.AppImage
-      - src-tauri/target/release/bundle/rpm/*.rpm
-
+      - dist/*.AppImage
+      - dist/*.pacman
 tag-to-release:
   stage: release
-  # https://gitlab.com/gitlab-org/release-cli/-/blob/master/Dockerfile
   image: registry.gitlab.com/gitlab-org/release-cli:latest
   dependencies:
     - build-linux
@@ -79,7 +62,6 @@ tag-to-release:
     - git clone "$CI_PROJECT_URL.git"
     - cd "$CI_PROJECT_NAME"
     - CHANGELOG=$(cz changelog "$CI_COMMIT_TAG" --dry-run | sed /^Invalid/d)
-    - release-cli create --name "$CI_COMMIT_TAG" --description "$CHANGELOG" \
-      --tag-name "$CI_COMMIT_TAG"
+    - release-cli create --name "$CI_COMMIT_TAG" --description "$CHANGELOG" \ --tag-name "$CI_COMMIT_TAG"
   rules:
     - if: $CI_COMMIT_TAG != null
