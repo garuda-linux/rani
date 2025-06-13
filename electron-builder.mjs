@@ -66,10 +66,6 @@ export default {
     buildResources: 'buildResources',
   },
 
-  linux: {
-    target: ['AppImage', 'pacman'],
-  },
-
   generateUpdatesFilesForAllChannels: false,
 
   artifactName: '${productName}-${version}-${os}-${arch}.${ext}',
