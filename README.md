@@ -7,11 +7,10 @@
 ## Dependencies
 
 - `pacman-contrib`: Required for the `checkupdates` command and some other functionalities.
+- `garuda-libs`: Required for functionality like opening a terminal based on desktop environment.
+- `garuda-update`: Used for updating the system.
 - `paru`: Required for the AUR functionalities.
-
-Also the regular Tauri deps are needed:
-
-- `sudo pacman -S webkit2gtk-4.1 base-devel curl wget file openssl appmenu-gtk-module libappindicator-gtk3 librsvg`
+- `electron36` and all of its deps (version might change, check `package.json`)
 
 ## Found any issue?
 
@@ -41,8 +40,14 @@ We will then review the changes and eventually merge them.
 
 ## Development setup
 
-To set up a development environment, you need to have the Tauri dependencies installed. You can find the
-instructions [here](https://tauri.app/start/prerequisites/).
+To set up a development environment, all that is needed is Node.js and Chromium dependencies.
+The installation of Chromium or system-wide Electron is the easiest way to get started.
+
+### NixOS
+
+For NixOS, the best thing to do is putting all the libraries appimage-run provides into nix-ld.
+Otherwise, `electron` from node_modules won't be able to start. Everything else is just super tedious.
+It is recommended to develop inside of a Archlinux Distrobox instance, so all the required commands are available.
 
 ## Where is the PKGBUILD?
 
