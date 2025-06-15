@@ -147,7 +147,7 @@
             eslint.enable = true;
             oxlint = {
               enable = true;
-              name = "Oxlint";
+              name = "oxlint";
               entry = "${pkgs.oxlint}/bin/oxlint";
               files = "\\.(ts|js)$";
               language = "system";
