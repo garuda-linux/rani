@@ -2,12 +2,11 @@ import type { OnInit } from '@angular/core';
 import {
   ChangeDetectionStrategy,
   Component,
-  computed,
-  effect,
   HostListener,
   inject,
   signal,
-  untracked,
+  ElementRef,
+  Renderer2,
   ViewChild,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
@@ -22,7 +21,7 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import type { MenuItem } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
-import { ShellBarEndDirective, ShellBarStartDirective, ShellComponent } from './components/shell';
+import { ShellBarEndDirective, ShellComponent } from './components/shell';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
 import { TerminalComponent } from './components/terminal/terminal.component';
@@ -46,6 +45,7 @@ import { MODULE_SEARCH, ModuleSearchEntry } from './constants/module-search';
 import { NgClass } from '@angular/common';
 import { AppDesigner } from './components/designer/app.designer';
 import { DesignerService } from './components/designer/designerservice';
+import { WallpaperService } from './components/wallpaper/wallpaper.service';
 
 @Component({
   imports: [
@@ -81,9 +81,12 @@ export class AppComponent implements OnInit {
   private readonly appMenuService = inject(ElectronAppMenuService);
   private readonly contextMenuService = inject(ElectronContextMenuService);
   private readonly designerService = inject(DesignerService);
+  private readonly elementRef = inject(ElementRef);
   private readonly notificationService = inject(NotificationService);
+  private readonly renderer = inject(Renderer2);
   private readonly router = inject(Router);
   private readonly translocoService = inject(TranslocoService);
+  private readonly wallpaperService = inject(WallpaperService);
 
   protected readonly confirmationService = inject(ConfirmationService);
   protected readonly loadingService = inject(LoadingService);
@@ -358,6 +361,9 @@ export class AppComponent implements OnInit {
     // Initialize the application menu
     this.setupAppMenuHandlers();
     void this.updateApplicationMenu(this.menuItems());
+
+    // Set up the wallpaper service
+    this.wallpaperService.initialize(this.renderer, this.elementRef);
   }
 
   /**

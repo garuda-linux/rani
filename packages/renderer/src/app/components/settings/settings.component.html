@@ -52,7 +52,8 @@
             fluid
             optionLabel="label"
             optionValue="language"
-          />
+          >
+          </p-select>
         </div>
 
         <div class="3xl:col-span-1 col-span-3 flex flex-col gap-2 md:col-span-2">
@@ -63,7 +64,92 @@
             [options]="logLevels"
             (onChange)="selectLogLevel($event)"
             fluid
-          />
+          >
+          </p-select>
+        </div>
+      </div>
+    </p-panel>
+
+    <p-panel [header]="t('settings.backgroundSettings') || 'Background Settings'" styleClass="mt-5">
+      <div class="grid grid-cols-1 px-20 py-5">
+        <div class="flex flex-col gap-4">
+          <!-- Background Image Selection -->
+          <div class="flex justify-between items-center">
+            <label class="text-lg">{{ t('settings.customBackground') || 'Custom Background' }}</label>
+            <div class="flex gap-2">
+              <p-fileUpload
+                [chooseButtonProps]="{ styleClass: 'btn-design choose-btn' }"
+                (onSelect)="onFileSelect($event)"
+                mode="basic"
+              ></p-fileUpload>
+              <p-button
+                [label]="t('settings.clearBackground') || 'Clear Background'"
+                [disabled]="!configService.settings().background"
+                (click)="clearBackground()"
+                icon="pi pi-times"
+                styleClass="p-button-secondary"
+              ></p-button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-12 gap-4 mt-3">
+            <div class="col-span-12 sm:col-span-6">
+              <div class="flex items-center">
+                <p-checkbox
+                  [(ngModel)]="configService.settings().backgroundFit"
+                  [binary]="true"
+                  (onChange)="updateConfig('backgroundFit', configService.settings().backgroundFit)"
+                  inputId="backgroundFit"
+                ></p-checkbox>
+                <label class="ml-2" for="backgroundFit">
+                  {{ t('settings.backgroundFit') }}
+                </label>
+              </div>
+            </div>
+
+            <div class="col-span-12 sm:col-span-6">
+              <div class="flex items-center">
+                <p-checkbox
+                  [(ngModel)]="configService.settings().blurBackground"
+                  [binary]="true"
+                  (onChange)="updateConfig('blurBackground', configService.settings().blurBackground)"
+                  inputId="blurBackground"
+                ></p-checkbox>
+                <label class="ml-2" for="blurBackground">
+                  {{ t('settings.blurBackground') }}
+                </label>
+              </div>
+            </div>
+
+            @if (configService.settings().blurBackground) {
+              <div class="col-span-12 mt-2">
+                <label class="block mb-2">
+                  {{ t('settings.blurStrength') || 'Blur Strength' }}: {{ configService.settings().blurStrength }}
+                </label>
+                <input
+                  class="w-full"
+                  [(ngModel)]="configService.settings().blurStrength"
+                  (change)="updateConfig('blurStrength', configService.settings().blurStrength)"
+                  type="range"
+                  min="1"
+                  max="6"
+                />
+              </div>
+            }
+          </div>
+
+          <!-- Background Preview -->
+          @if (configService.settings().background) {
+            <div class="mt-3">
+              <div class="mt-3 border-round overflow-hidden">
+                <img class="w-full h-auto" [src]="configService.settings().background" />
+              </div>
+            </div>
+          } @else {
+            <div class="mt-3 p-4 surface-card border-round text-center">
+              <span>{{ t('settings.noBackgroundSelected') }}</span>
+            </div>
+          }
         </div>
       </div>
     </p-panel>

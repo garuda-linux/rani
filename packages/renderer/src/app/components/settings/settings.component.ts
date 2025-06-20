@@ -9,10 +9,14 @@ import { Logger } from '../../logging/logging';
 import { LangPipePipe } from '../lang-pipe/lang-pipe.pipe';
 import { themes } from '../../theme';
 import { Panel } from 'primeng/panel';
+import { Button } from 'primeng/button';
+import { FileUpload } from 'primeng/fileupload';
+import { MessageToastService } from '@garudalinux/core';
+import { WallpaperService } from '../wallpaper/wallpaper.service';
 
 @Component({
   selector: 'rani-settings',
-  imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel],
+  imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel, Button, FileUpload],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
   providers: [LangPipePipe],
@@ -43,7 +47,9 @@ export class SettingsComponent implements OnInit {
 
   private readonly languagePipe = inject(LangPipePipe);
   private readonly logger = Logger.getInstance();
+  private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
+  private readonly wallpaperService = inject(WallpaperService);
 
   ngOnInit() {
     const languages = [];
@@ -71,7 +77,31 @@ export class SettingsComponent implements OnInit {
     await this.configService.updateConfig('language', $event.value);
   }
 
-  async updateConfig(config: string, value: string) {
+  async updateConfig(config: string, value: unknown) {
     await this.configService.updateConfig(config, value);
+  }
+
+  async clearBackground() {
+    await this.configService.updateConfig('background', null);
+  }
+
+  onFileSelect(event: { files: File[] }) {
+    const file: File = event.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e: ProgressEvent<FileReader>) => {
+      try {
+        this.configService.updateConfig('background', e.target?.result);
+        this.messageToastService.success('File loaded successfully', 'The background image has been updated.');
+      } catch {
+        this.messageToastService.error('Error loading file', 'The selected file is not a valid image or is corrupted.');
+      }
+    };
+    reader.onerror = (e: ProgressEvent<FileReader>) => {
+      this.logger.error(`Error reading file: ${e.target?.error?.message}`);
+      this.messageToastService.error('Error reading file', 'An error occurred while reading the file.');
+    };
+    reader.readAsDataURL(file);
   }
 }

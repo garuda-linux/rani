@@ -614,7 +614,14 @@
     "showMainLinks": "Show links on home page",
     "themeLabel": "Base design theme",
     "toggleOptions": "Toggle options",
-    "selectOptions": "Selections"
+    "selectOptions": "Selections",
+    "noBackgroundSelected": "No background selected",
+    "clearBackground": "Clear background",
+    "backgroundSettings": "Background settings",
+    "customBackground": "Custom background",
+    "blurBackground": "Blur background",
+    "blurStrength": "Blur strength",
+    "backgroundFit": "Fit background to app"
   },
   "locales": {
     "apply": "Schedule installed locale changes",

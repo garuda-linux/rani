@@ -5,6 +5,10 @@ export interface AppSettings {
   activeTheme: AppTheme;
   autoRefresh: boolean;
   autoStart: boolean;
+  background: string | null;
+  backgroundFit: boolean;
+  blurBackground: boolean;
+  blurStrength: number;
   copyDiagnostics: boolean;
   customDesign: string | null;
   darkMode: boolean;
