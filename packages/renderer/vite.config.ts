@@ -132,13 +132,14 @@ const viteConfig: UserConfig = {
   },
 
   plugins: [
-    // @ts-ignore
     analog({
-      ssr: false,
-      static: true,
+      disableTypeChecking: true, // PrimeNG designer is not properly typed at all. What the fuck.
+      liveReload: true,
       prerender: {
         routes: [],
       },
+      ssr: false,
+      static: true,
     }),
     copyAssets(),
     transformAssetPaths(),

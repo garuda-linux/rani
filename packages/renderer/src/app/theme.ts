@@ -1239,6 +1239,7 @@ export const themes: AppThemes = {
   'Catppuccin Macchiato/Frappe Nora': CatppuccinNoraAlt,
   'Catppuccin Macchiato/Frappe Material': CatppuccinMaterialAlt,
   'Catppuccin Macchiato/Frappe Lara': CatppuccinLaraAlt,
+  'Custom Themedesigner': {},
 };
 
 export type AppTheme =
@@ -1249,11 +1250,10 @@ export type AppTheme =
   | 'Catppuccin Macchiato/Frappe Aura'
   | 'Catppuccin Macchiato/Frappe Nora'
   | 'Catppuccin Macchiato/Frappe Material'
-  | 'Catppuccin Macchiato/Frappe Lara';
+  | 'Catppuccin Macchiato/Frappe Lara'
+  | 'Custom Themedesigner';
 
-export interface AppThemes {
-  [key: string]: any;
-}
+export type AppThemes = Record<string, any>;
 
 export const CatppuccinXtermJs = {
   light: {

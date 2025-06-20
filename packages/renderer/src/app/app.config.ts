@@ -6,6 +6,7 @@ import {
   provideAppInitializer,
   provideExperimentalZonelessChangeDetection,
 } from '@angular/core';
+import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideGarudaNG } from '@garudalinux/core';
 import { CatppuccinAura } from './theme';
@@ -29,7 +30,6 @@ import { GamingService } from './components/gaming/gaming.service';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
-import { DomSanitizer } from '@angular/platform-browser';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -63,6 +63,7 @@ export const appConfig: ApplicationConfig = {
         inputStyle: 'outlined',
       },
     ),
+    provideHttpClient(withFetch()),
     provideRouter(routes, withHashLocation()),
     provideTransloco({
       config: {

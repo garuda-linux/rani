@@ -5,7 +5,7 @@ import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../../logging/logging';
 import { LogLevel } from '../../logging/interfaces';
 import { usePreset } from '@primeng/themes';
-import { themes } from '../../theme';
+import { AppTheme, themes } from '../../theme';
 import { ElectronShellService } from '../../electron-services';
 import type { CommandResult } from '../../types/shell';
 import { Store, notifyConfigChange } from '../../electron-services';
@@ -23,6 +23,7 @@ export class ConfigService {
     availablePkgs: new Map<string, boolean>(),
     borderlessMaximizedWindow: false,
     codeName: '',
+    designerActive: true,
     desktopEnvironment: '' as DesktopEnvironment,
     hostname: '',
     isLiveSystem: undefined,
@@ -32,12 +33,12 @@ export class ConfigService {
     rebootPending: false,
     user: '',
   });
-
   settings = signal<AppSettings>({
     activeTheme: 'Catppuccin Mocha/Latte Aura',
     autoRefresh: false,
     autoStart: true,
     copyDiagnostics: true,
+    customDesign: null,
     darkMode: true,
     firstBoot: undefined,
     language: 'en',
@@ -67,7 +68,7 @@ export class ConfigService {
       //   Logger.logLevel = settings.logLevel;
       // }
 
-      usePreset(themes[settings.activeTheme]);
+      await this.initTheme(settings.activeTheme);
     });
   }
 
@@ -120,7 +121,7 @@ export class ConfigService {
    * @param key The configuration key to update.
    * @param value The new value for the configuration key.
    */
-  async updateConfig(key: string, value: unknown): Promise<void> {
+  async updateConfig(key: keyof AppSettings, value: unknown): Promise<void> {
     this.logger.trace(`Updating ${key} to ${value}`);
 
     const settings = { ...this.settings() };
@@ -132,15 +133,15 @@ export class ConfigService {
       const store: Store = await getConfigStore('updateConfig');
       if (store) {
         this.logger.debug(`Saving setting ${key} to store: ${value}`);
-        await store.set(key, value);
+        await store.set(key as string, value);
       }
     } catch (error) {
       this.logger.error(`Failed to save setting to store: ${error}`);
     }
 
-    // Notify backend about config change
+    // Notify the backend about config change
     try {
-      await notifyConfigChange(key, value);
+      await notifyConfigChange(key as string, value);
       this.logger.debug(`Notified backend about ${key} change`);
     } catch (error) {
       this.logger.error(`Failed to notify backend about config change: ${error}`);
@@ -152,7 +153,7 @@ export class ConfigService {
    * @param key The key to update.
    * @param value The new value for the key.
    */
-  updateState(key: string, value: unknown): void {
+  updateState(key: keyof AppState, value: unknown): void {
     this.logger.trace(`Updating state ${key} to ${value}`);
 
     const state = { ...this.state() };
@@ -421,6 +422,20 @@ export class ConfigService {
     } catch (error) {
       this.logger.error(`Failed to check borderless window setting: ${error}`);
       return { state: { borderlessMaximizedWindow: false } };
+    }
+  }
+
+  /**
+   * Initialize the theme based on the active theme setting or open the theme designer.
+   * @private
+   */
+  private async initTheme(activeTheme: AppTheme): Promise<void> {
+    this.logger.debug(`Initializing theme: ${activeTheme}`);
+
+    if (activeTheme === 'Custom Themedesigner') {
+      // Will be handled by the designer service
+    } else {
+      usePreset(themes[activeTheme]);
     }
   }
 }

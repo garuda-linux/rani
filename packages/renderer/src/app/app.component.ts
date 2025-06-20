@@ -44,6 +44,8 @@ import { SplitButton } from 'primeng/splitbutton';
 import { AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { MODULE_SEARCH, ModuleSearchEntry } from './constants/module-search';
 import { NgClass } from '@angular/common';
+import { AppDesigner } from './components/designer/app.designer';
+import { DesignerService } from './components/designer/designerservice';
 
 @Component({
   imports: [
@@ -56,8 +58,6 @@ import { NgClass } from '@angular/common';
     TranslocoDirective,
     ToastModule,
     FormsModule,
-    ShellBarStartDirective,
-    ShellBarStartDirective,
     ShellComponent,
     ProgressSpinner,
     ShellBarEndDirective,
@@ -67,6 +67,7 @@ import { NgClass } from '@angular/common';
     SplitButton,
     AutoComplete,
     NgClass,
+    AppDesigner,
   ],
   selector: 'rani-root',
   templateUrl: './app.component.html',
@@ -79,6 +80,7 @@ export class AppComponent implements OnInit {
 
   private readonly appMenuService = inject(ElectronAppMenuService);
   private readonly contextMenuService = inject(ElectronContextMenuService);
+  private readonly designerService = inject(DesignerService);
   private readonly notificationService = inject(NotificationService);
   private readonly router = inject(Router);
   private readonly translocoService = inject(TranslocoService);
@@ -241,6 +243,13 @@ export class AppComponent implements OnInit {
       label: 'Preferences',
       translocoKey: 'menu.file.preferences',
       command: () => this.router.navigate(['/settings']),
+    },
+    {
+      id: 'file-themes',
+      icon: 'pi pi-palette',
+      label: 'Theme Designer',
+      translocoKey: 'menu.file.themeDesigner',
+      command: () => this.configService.updateState('designerActive', true),
     },
     {
       id: 'file-quit',

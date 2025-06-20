@@ -1,11 +1,12 @@
 import type { LogLevel } from '../../logging/interfaces';
-import { AppTheme } from '../../theme';
+import type { AppTheme } from '../../theme';
 
 export interface AppSettings {
   activeTheme: AppTheme;
   autoRefresh: boolean;
   autoStart: boolean;
   copyDiagnostics: boolean;
+  customDesign: string | null;
   darkMode: boolean;
   firstBoot: boolean | undefined;
   language: string;
@@ -19,6 +20,7 @@ export interface AppState {
   availablePkgs: Map<string, boolean>;
   borderlessMaximizedWindow: boolean;
   codeName: string;
+  designerActive: boolean;
   desktopEnvironment: DesktopEnvironment;
   hostname: string;
   isLiveSystem: boolean | undefined;
