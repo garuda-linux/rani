@@ -43,6 +43,7 @@ Thumbs.db
 .direnv
 .pre-commit-config.yaml
 .treefmt.toml
+core
 flake.lock
 /test
 
