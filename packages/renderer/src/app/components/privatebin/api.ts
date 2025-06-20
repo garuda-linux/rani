@@ -1,5 +1,6 @@
 // Sourced from: https://github.com/pixelfactoryio/privatebin-cli
-// Modified to use native fetch API instead of Axios
+import { Injectable } from '@angular/core';
+import { ElectronHttpService } from '../../electron-services';
 
 export interface ApiConfig {
   baseURL: string;
@@ -12,30 +13,44 @@ export interface ApiResponse<T> {
   statusText: string;
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class Api {
   private baseURL: string;
   private defaultHeaders: Record<string, string>;
 
-  constructor(config: ApiConfig) {
+  constructor(
+    private httpService: ElectronHttpService,
+    config?: ApiConfig,
+  ) {
+    this.baseURL = config?.baseURL || '';
+    this.defaultHeaders = config?.headers || {};
+  }
+
+  // Configure the API with base URL and default headers
+  configure(config: ApiConfig): void {
     this.baseURL = config.baseURL;
     this.defaultHeaders = config.headers || {};
   }
 
   async get<T, R = ApiResponse<T>>(url: string, config?: { headers?: Record<string, string> }): Promise<R> {
-    const response = await fetch(this.baseURL + url, {
-      method: 'GET',
-      headers: {
-        ...this.defaultHeaders,
-        ...config?.headers,
-      },
-    });
+    try {
+      const response = await this.httpService.get<T>(this.baseURL + url, {
+        headers: {
+          ...this.defaultHeaders,
+          ...config?.headers,
+        },
+      });
 
-    const data = await response.json();
-    return {
-      data,
-      status: response.status,
-      statusText: response.statusText,
-    } as R;
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+      } as R;
+    } catch (error) {
+      throw new Error(`GET request failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   public async post<T, B, R = ApiResponse<T>>(
@@ -43,24 +58,71 @@ export class Api {
     data?: B,
     config?: { headers?: Record<string, string> },
   ): Promise<R> {
-    const response = await fetch(this.baseURL + url, {
-      method: 'POST',
-      headers: {
-        ...this.defaultHeaders,
-        ...config?.headers,
-      },
-      body: data ? JSON.stringify(data) : undefined,
-    });
+    try {
+      const response = await this.httpService.post<T, B>(this.baseURL + url, data, {
+        headers: {
+          ...this.defaultHeaders,
+          ...config?.headers,
+        },
+      });
 
-    const responseData = await response.json();
-    return {
-      data: responseData,
-      status: response.status,
-      statusText: response.statusText,
-    } as R;
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+      } as R;
+    } catch (error) {
+      throw new Error(`POST request failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  public async put<T, B, R = ApiResponse<T>>(
+    url: string,
+    data?: B,
+    config?: { headers?: Record<string, string> },
+  ): Promise<R> {
+    try {
+      const response = await this.httpService.put<T, B>(this.baseURL + url, data, {
+        headers: {
+          ...this.defaultHeaders,
+          ...config?.headers,
+        },
+      });
+
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+      } as R;
+    } catch (error) {
+      throw new Error(`PUT request failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
+  }
+
+  public async delete<T, R = ApiResponse<T>>(url: string, config?: { headers?: Record<string, string> }): Promise<R> {
+    try {
+      const response = await this.httpService.delete<T>(this.baseURL + url, {
+        headers: {
+          ...this.defaultHeaders,
+          ...config?.headers,
+        },
+      });
+
+      return {
+        data: response.data,
+        status: response.status,
+        statusText: response.statusText,
+      } as R;
+    } catch (error) {
+      throw new Error(`DELETE request failed: ${error instanceof Error ? error.message : String(error)}`);
+    }
   }
 
   public success<T>(response: ApiResponse<T>): T {
     return response.data;
+  }
+
+  public isSuccess<T>(response: ApiResponse<T>): boolean {
+    return response.status >= 200 && response.status < 300;
   }
 }

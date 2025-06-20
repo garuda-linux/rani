@@ -255,5 +255,56 @@ export const eventsOff =
 export const eventsOnce =
   createDeferredFunction<(channel: string, listener: (...args: unknown[]) => void) => boolean>('eventsOnce');
 
+// HTTP operations
+export const httpGet = createAsyncDeferredFunction<
+  (
+    url: string,
+    config?: { headers?: Record<string, string>; timeout?: number },
+  ) => Promise<{
+    data: unknown;
+    status: number;
+    statusText: string;
+    headers: Record<string, string>;
+  }>
+>('httpGet');
+
+export const httpPost = createAsyncDeferredFunction<
+  (
+    url: string,
+    body?: unknown,
+    config?: { headers?: Record<string, string>; timeout?: number },
+  ) => Promise<{
+    data: unknown;
+    status: number;
+    statusText: string;
+    headers: Record<string, string>;
+  }>
+>('httpPost');
+
+export const httpPut = createAsyncDeferredFunction<
+  (
+    url: string,
+    body?: unknown,
+    config?: { headers?: Record<string, string>; timeout?: number },
+  ) => Promise<{
+    data: unknown;
+    status: number;
+    statusText: string;
+    headers: Record<string, string>;
+  }>
+>('httpPut');
+
+export const httpDelete = createAsyncDeferredFunction<
+  (
+    url: string,
+    config?: { headers?: Record<string, string>; timeout?: number },
+  ) => Promise<{
+    data: unknown;
+    status: number;
+    statusText: string;
+    headers: Record<string, string>;
+  }>
+>('httpDelete');
+
 // Export utility functions for checking preload status
 export { isPreloadReady, waitForPreload };

@@ -1,4 +1,5 @@
 // PrivatebinClient parts sourced from: https://github.com/pixelfactoryio/privatebin-cli
+import { Injectable } from '@angular/core';
 import BaseConverter from 'bs58';
 import { Logger } from '../../logging/logging';
 import pako from 'pako';
@@ -12,6 +13,7 @@ import type {
 } from './types';
 import { Api, type ApiConfig, type ApiResponse } from './api';
 import { decrypt, encrypt, stringToUint8Array, uint8ArrayToString } from './crypto';
+import { ElectronHttpService } from '../../electron-services';
 
 /**
  * Encrypt a text to a Privatebin paste.
@@ -60,8 +62,20 @@ export async function decryptText(ct: string, key: Uint8Array, adata: Privatebin
   return JSON.parse(uint8ArrayToString(buf));
 }
 
-export class PrivatebinClient extends Api {
-  constructor(baseURL = 'https://privatebin.net') {
+@Injectable({
+  providedIn: 'root',
+})
+export class PrivatebinClient {
+  private api: Api;
+
+  constructor(private httpService: ElectronHttpService) {
+    if (!httpService) {
+      throw new Error('ElectronHttpService is required for PrivatebinClient');
+    }
+    this.api = new Api(this.httpService);
+  }
+
+  configure(baseURL = 'https://privatebin.net') {
     const apiConfig: ApiConfig = {
       baseURL: baseURL,
       headers: {
@@ -70,7 +84,7 @@ export class PrivatebinClient extends Api {
       },
     };
 
-    super(apiConfig);
+    this.api.configure(apiConfig);
   }
 
   public async sendText(text: string, key: Uint8Array, options: PrivatebinOptions): Promise<PrivatebinResponse> {
@@ -87,8 +101,8 @@ export class PrivatebinClient extends Api {
   }
 
   private async getPaste(id: string): Promise<PrivatebinPasteRequest> {
-    const response = await this.get<PrivatebinPasteRequest, ApiResponse<PrivatebinPasteRequest>>(`/?pasteid=${id}`);
-    return this.success(response);
+    const response = await this.api.get<PrivatebinPasteRequest, ApiResponse<PrivatebinPasteRequest>>(`/?pasteid=${id}`);
+    return this.api.success(response);
   }
 
   private async postPaste(
@@ -98,18 +112,23 @@ export class PrivatebinClient extends Api {
     const { expire } = options;
     const { ct, adata } = PrivatebinPasteRequest;
 
-    const response = await this.post<PrivatebinResponse, PrivatebinPasteRequest, ApiResponse<PrivatebinResponse>>('/', {
-      v: 2,
-      ct,
-      adata,
-      meta: { expire },
-    });
-    return this.success(response);
+    const response = await this.api.post<PrivatebinResponse, PrivatebinPasteRequest, ApiResponse<PrivatebinResponse>>(
+      '/',
+      {
+        v: 2,
+        ct,
+        adata,
+        meta: { expire },
+      },
+    );
+    return this.api.success(response);
   }
 }
 
+@Injectable({
+  providedIn: 'root',
+})
 export class GarudaBin {
-  private readonly instance: PrivatebinClient;
   private readonly logger = Logger.getInstance();
   private readonly options: PrivatebinOptions = {
     textformat: 'plaintext',
@@ -121,8 +140,8 @@ export class GarudaBin {
   };
   private readonly url = 'https://bin.garudalinux.org';
 
-  constructor() {
-    this.instance = new PrivatebinClient(this.url);
+  constructor(private privatebinClient: PrivatebinClient) {
+    this.privatebinClient.configure(this.url);
   }
 
   /**
@@ -134,7 +153,7 @@ export class GarudaBin {
     try {
       this.logger.trace('Sending text to GarudaBin');
       const key: Uint8Array = crypto.getRandomValues(new Uint8Array(32));
-      const paste: PrivatebinResponse = await this.instance.sendText(text, key, this.options);
+      const paste: PrivatebinResponse = await this.privatebinClient.sendText(text, key, this.options);
 
       return `${this.url}${paste.url}#${BaseConverter.encode(key)}`;
     } catch (error) {

@@ -126,6 +126,9 @@ import { notifyChange as configNotifyChange } from './config.js';
 // Import event operations
 import { on as eventsOn, off as eventsOff, once as eventsOnce, emit as eventsEmit } from './events.js';
 
+// Import HTTP operations
+import { httpGet, httpPost, httpPut, httpDelete } from './http.js';
+
 // Export all functions with their original names
 export {
   // Crypto
@@ -253,4 +256,10 @@ export {
   eventsOn,
   eventsOff,
   eventsOnce,
+
+  // HTTP Operations
+  httpGet,
+  httpPost,
+  httpPut,
+  httpDelete,
 };

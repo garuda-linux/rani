@@ -40,12 +40,12 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
 
   private readonly configService = inject(ConfigService);
   private readonly designerService = inject(DesignerService);
+  private readonly garudaBin = inject(GarudaBin);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
   private readonly taskManagerService = inject(TaskManagerService);
-  private readonly garudaBin = new GarudaBin();
   private readonly router = inject(Router);
 
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {

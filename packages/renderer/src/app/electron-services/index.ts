@@ -11,6 +11,7 @@ export * from './electron-app-menu.service';
 export * from './electron-config.service';
 export * from './electron-app.service';
 export * from './electron-window.service';
+export * from './electron-http.service';
 export * from './electron-types';
 
 export { ElectronFsService } from './electron-fs.service';
@@ -25,8 +26,10 @@ export { ElectronAppMenuService } from './electron-app-menu.service';
 export { ElectronConfigService, notifyConfigChange } from './electron-config.service';
 export { ElectronAppService } from './electron-app.service';
 export { ElectronWindowService } from './electron-window.service';
+export { ElectronHttpService } from './electron-http.service';
 export type { Store, StoreOptions } from './electron-store.service';
 export type { CommandResult, ChildProcess, Child } from '../types/shell';
 export type { NotificationOptions } from './electron-notification.service';
 export { writeText, readText, clear } from './electron-clipboard.service';
 export type { ElectronAPI, ContextMenuItem, AppMenuItem } from './electron-types';
+export type { HttpRequestConfig, HttpResponse } from './electron-http.service';

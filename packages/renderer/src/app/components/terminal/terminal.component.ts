@@ -32,7 +32,7 @@ import { clear, writeText } from '../../electron-services';
 import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
-import { DesignerService, Theme } from '../designer/designerservice';
+import { DesignerService } from '../designer/designerservice';
 
 @Component({
   selector: 'rani-terminal',
@@ -51,6 +51,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   protected readonly taskManagerService = inject(TaskManagerService);
   private readonly configService = inject(ConfigService);
   private readonly designerService = inject(DesignerService);
+  private readonly garudaBin = inject(GarudaBin);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -189,8 +190,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.logger.trace('Uploading output to PrivateBin');
     this.loadingService.loadingOn();
 
-    const garudaBin = new GarudaBin();
-    const url: string = await garudaBin.sendText(this.taskManagerService.cachedData());
+    const url: string = await this.garudaBin.sendText(this.taskManagerService.cachedData());
     this.logger.info(`Uploaded to ${url}`);
 
     void writeText(url);
