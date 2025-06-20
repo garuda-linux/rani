@@ -3,6 +3,7 @@ import { $dt, usePreset } from '@primeuix/styled';
 import { MessageService } from 'primeng/api';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../../logging/logging';
+import type { ITheme } from '@xterm/xterm';
 
 export interface Theme {
   key: string | null;
@@ -231,14 +232,22 @@ export class DesignerService {
     this.status.set(null);
   }
 
+  /**
+   * Save the current theme to the configuration, as a JSON string.
+   * @param theme The theme object to save.
+   */
   async saveTheme(theme: Theme) {
     this.configService.updateConfig('customDesign', JSON.stringify(theme));
   }
 
+  /**
+   * Download the theme as a JSON file.
+   * @param theme The theme object to download.
+   */
   async downloadTheme(theme: Theme) {
     const file = new Blob([JSON.stringify(theme, null, 2)], { type: 'application/json' });
-    const blobUrl = window.URL.createObjectURL(file);
-    const link = document.createElement('a');
+    const blobUrl: string = window.URL.createObjectURL(file);
+    const link: HTMLAnchorElement = document.createElement('a');
 
     link.setAttribute('href', blobUrl);
     link.setAttribute('download', `${theme.name}.json`);
@@ -247,4 +256,65 @@ export class DesignerService {
     document.body.removeChild(link);
     window.URL.revokeObjectURL(blobUrl);
   }
+
+  /**
+   * Get the xterm.js theme based on the current design settings.
+   * @param darkMode Whether to use the dark mode theme.
+   * @return The xterm.js theme object.
+   */
+  getXtermTheme(darkMode: boolean): ITheme {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const designTheme = JSON.parse(this.configService.settings().customDesign!) as Theme;
+    const themePreset = designTheme.preset as any;
+    const colorScheme = darkMode ? themePreset.semantic.colorScheme.dark : themePreset.semantic.colorScheme.light;
+
+    return {
+      // Basic terminal settings
+      foreground: this.resolveColor(colorScheme.text.color),
+      background: this.resolveColor(colorScheme.content.background),
+      cursor: this.resolveColor(colorScheme.primary.color),
+      cursorAccent: this.resolveColor(colorScheme.content.background),
+
+      // Standard ANSI colors derived from colorScheme
+      black: this.resolveColor(colorScheme.surface[950]),
+      red: this.resolveColor(colorScheme.formField.invalidBorderColor),
+      green: this.resolveColor(colorScheme.primary.color),
+      yellow: this.resolveColor(colorScheme.navigation.item.icon.color),
+      blue: this.resolveColor(colorScheme.highlight.background),
+      magenta: this.resolveColor(colorScheme.primary.hoverColor),
+      cyan: this.resolveColor(colorScheme.highlight.focusBackground),
+      white: this.resolveColor(colorScheme.formField.color),
+
+      // Bright variants
+      brightBlack: this.resolveColor(colorScheme.surface[700]),
+      brightRed: this.resolveColor(colorScheme.formField.invalidPlaceholderColor),
+      brightGreen: this.resolveColor(colorScheme.primary.hoverColor),
+      brightYellow: this.resolveColor(colorScheme.navigation.item.icon.focusColor),
+      brightBlue: this.resolveColor(colorScheme.primary.activeColor),
+      brightMagenta: this.resolveColor(colorScheme.highlight.focusColor),
+      brightCyan: this.resolveColor(colorScheme.formField.floatLabelFocusColor),
+      brightWhite: this.resolveColor(colorScheme.text.hoverColor),
+    };
+  }
+
+  /**
+   * Get the scrollbar colors based on the current design settings.
+   * @param darkMode Whether to use the dark mode colors.
+   * @return An object containing the scrollbar colors.
+   */
+  getScrollbarColors(darkMode: boolean): ScrollbarColors {
+    const designTheme = JSON.parse(this.configService.settings().customDesign!) as Theme;
+    const themePreset = designTheme.preset as any;
+    const colorScheme = darkMode ? themePreset.semantic.colorScheme.dark : themePreset.semantic.colorScheme.light;
+
+    return {
+      scrollbarColor: this.resolveColor(colorScheme.content.background),
+      backgroundColor: this.resolveColor(colorScheme.primary.color),
+    };
+  }
+}
+
+export interface ScrollbarColors {
+  scrollbarColor: string;
+  backgroundColor: string;
 }

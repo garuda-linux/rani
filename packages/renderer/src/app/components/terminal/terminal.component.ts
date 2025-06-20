@@ -11,9 +11,10 @@ import {
   signal,
   type Signal,
   ViewChild,
+  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import type { ITerminalOptions } from '@xterm/xterm';
+import type { ITerminalOptions, ITheme } from '@xterm/xterm';
 import { CatppuccinXtermJs } from '../../theme';
 import { type NgTerminal, NgTerminalModule } from 'ng-terminal';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
@@ -31,6 +32,7 @@ import { clear, writeText } from '../../electron-services';
 import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
+import { DesignerService, Theme } from '../designer/designerservice';
 
 @Component({
   selector: 'rani-terminal',
@@ -48,6 +50,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   protected readonly taskManagerService = inject(TaskManagerService);
   private readonly configService = inject(ConfigService);
+  private readonly designerService = inject(DesignerService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -61,11 +64,19 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     return ((progress / this.taskManagerService.count()) * 100).toPrecision(1);
   });
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
+    let theme: ITheme = this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+    if (this.configService.settings().activeTheme === 'Custom Themedesigner') {
+      const isDarkMode = this.configService.settings().darkMode;
+      theme = this.designerService.getXtermTheme(isDarkMode);
+    }
+
+    this.logger.debug(JSON.stringify(theme, null, 2));
+
     return {
       disableStdin: false,
       scrollback: 10000,
       convertEol: true,
-      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+      theme: theme,
     };
   });
 

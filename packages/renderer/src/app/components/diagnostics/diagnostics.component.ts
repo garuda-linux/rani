@@ -12,7 +12,7 @@ import {
 import { Button } from 'primeng/button';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { CatppuccinXtermJs } from '../../theme';
-import type { ITerminalOptions } from '@xterm/xterm';
+import type { ITerminalOptions, ITheme } from '@xterm/xterm';
 import { clear, writeText } from '../../electron-services';
 import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
@@ -24,6 +24,7 @@ import { WebglAddon } from '@xterm/addon-webgl';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { Router, type UrlTree } from '@angular/router';
+import { DesignerService } from '../designer/designerservice';
 
 @Component({
   selector: 'rani-diagnostics',
@@ -38,6 +39,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
   @ViewChild('term', { static: false }) term!: NgTerminal;
 
   private readonly configService = inject(ConfigService);
+  private readonly designerService = inject(DesignerService);
   private readonly loadingService = inject(LoadingService);
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
@@ -47,11 +49,18 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
   private readonly router = inject(Router);
 
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
+    const darkMode: boolean = this.configService.settings().darkMode;
+    let theme: ITheme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+
+    if (this.configService.settings().activeTheme === 'Custom Themedesigner') {
+      theme = this.designerService.getXtermTheme(darkMode);
+    }
+
     return {
       disableStdin: false,
       scrollback: 10000,
       convertEol: true,
-      theme: this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light,
+      theme: theme,
     };
   });
 
@@ -59,7 +68,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
     effect(() => {
       const darkMode: boolean = this.configService.settings().darkMode;
       if (this.term?.underlying) {
-        this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+        this.term.underlying.options.theme = this.xtermOptions().theme;
       }
       this.logger.trace('Terminal theme switched via effect');
     });
