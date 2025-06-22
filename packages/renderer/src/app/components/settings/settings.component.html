@@ -29,13 +29,14 @@
       </div>
     </p-panel>
 
-    <p-panel [header]="t('settings.selectOptions')">
+    <p-panel [header]="t('settings.selectOptions')" styleClass="mt-5">
       <div class="grid grid-cols-4 gap-10 px-20 py-5">
         <div class="3xl:col-span-1 col-span-3 flex flex-col gap-2 md:col-span-2">
           <label for="theme">{{ t('settings.themeLabel') }}</label>
           <p-select
             id="theme"
             [(ngModel)]="configService.settings().activeTheme"
+            [overlayOptions]="{ appendTo: 'body' }"
             [options]="availableThemes"
             (ngModelChange)="updateConfig('activeTheme', $event)"
             fluid
@@ -46,6 +47,7 @@
           <label for="select-languages">{{ t('settings.language') }}</label>
           <p-select
             id="select-languages"
+            [overlayOptions]="{ appendTo: 'body' }"
             [ngModel]="configService.settings().language"
             [options]="languages()"
             (onChange)="selectLanguage($event)"
@@ -60,6 +62,7 @@
           <label for="select-loglevel">{{ t('settings.logLevel') }}</label>
           <p-select
             id="select-loglevel"
+            [overlayOptions]="{ appendTo: 'body' }"
             [ngModel]="logLevelType[configService.settings().logLevel]"
             [options]="logLevels"
             (onChange)="selectLogLevel($event)"
@@ -70,25 +73,27 @@
       </div>
     </p-panel>
 
-    <p-panel [header]="t('settings.backgroundSettings') || 'Background Settings'" styleClass="mt-5">
+    <p-panel [header]="t('settings.backgroundSettings')" styleClass="mt-5">
       <div class="grid grid-cols-1 px-20 py-5">
         <div class="flex flex-col gap-4">
           <!-- Background Image Selection -->
           <div class="flex justify-between items-center">
-            <label class="text-lg">{{ t('settings.customBackground') || 'Custom Background' }}</label>
+            <label class="text-lg">{{ t('settings.customBackground') }}</label>
             <div class="flex gap-2">
-              <p-fileUpload
-                [chooseButtonProps]="{ styleClass: 'btn-design choose-btn' }"
-                (onSelect)="onFileSelect($event)"
-                mode="basic"
-              ></p-fileUpload>
               <p-button
-                [label]="t('settings.clearBackground') || 'Clear Background'"
+                [label]="t('settings.clearBackground')"
                 [disabled]="!configService.settings().background"
                 (click)="clearBackground()"
                 icon="pi pi-times"
                 styleClass="p-button-secondary"
               ></p-button>
+              <p-fileupload
+                [chooseButtonProps]="{ styleClass: 'btn-design choose-btn' }"
+                [auto]="true"
+                (onSelect)="onFileSelect($event)"
+                mode="basic"
+                accept="image/*"
+              ></p-fileupload>
             </div>
           </div>
 
@@ -124,13 +129,12 @@
             @if (configService.settings().blurBackground) {
               <div class="col-span-12 mt-2">
                 <label class="block mb-2">
-                  {{ t('settings.blurStrength') || 'Blur Strength' }}: {{ configService.settings().blurStrength }}
+                  {{ t('settings.blurStrength') }}: {{ configService.settings().blurStrength }}
                 </label>
-                <input
-                  class="w-full"
+                <p-slider
                   [(ngModel)]="configService.settings().blurStrength"
-                  (change)="updateConfig('blurStrength', configService.settings().blurStrength)"
-                  type="range"
+                  (onSlideEnd)="updateConfig('blurStrength', configService.settings().blurStrength)"
+                  styleClass="w-full"
                   min="1"
                   max="6"
                 />

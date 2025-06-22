@@ -126,7 +126,7 @@ export class ConfigService {
    * @param value The new value for the configuration key.
    */
   async updateConfig(key: keyof AppSettings, value: unknown): Promise<void> {
-    this.logger.trace(`Updating ${key} to ${value}`);
+    this.logger.trace(`Updating ${key} to ${typeof value === 'string' ? `"${value.slice(0, 50)}"` : value}`);
 
     const settings = { ...this.settings() };
     (settings as Record<string, unknown>)[key] = value;

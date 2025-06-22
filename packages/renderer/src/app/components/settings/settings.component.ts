@@ -13,10 +13,11 @@ import { Button } from 'primeng/button';
 import { FileUpload } from 'primeng/fileupload';
 import { MessageToastService } from '@garudalinux/core';
 import { WallpaperService } from '../wallpaper/wallpaper.service';
+import { Slider } from 'primeng/slider';
 
 @Component({
   selector: 'rani-settings',
-  imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel, Button, FileUpload],
+  imports: [Checkbox, TranslocoDirective, FormsModule, Select, Panel, Button, FileUpload, Slider],
   templateUrl: './settings.component.html',
   styleUrl: './settings.component.css',
   providers: [LangPipePipe],
@@ -85,7 +86,7 @@ export class SettingsComponent implements OnInit {
     await this.configService.updateConfig('background', null);
   }
 
-  onFileSelect(event: { files: File[] }) {
+  async onFileSelect(event: { files: File[] }) {
     const file: File = event.files[0];
     if (!file) return;
 
