@@ -20,7 +20,9 @@ export class DesignEditorFooter {
   designerService: DesignerService = inject(DesignerService);
 
   async apply() {
-    await this.designerService.applyTheme(this.designerService.designer().theme);
+    if (!this.designerService.designer().theme) {
+      await this.designerService.createThemeFromPreset();
+    }
   }
 
   async save() {
@@ -28,7 +30,16 @@ export class DesignEditorFooter {
   }
 
   async reset() {
-    await this.designerService.createThemeFromPreset();
+    this.designerService.designer.set({
+      ...this.designerService.designer(),
+      activeView: 'create_theme',
+      theme: {
+        key: null,
+        name: null,
+        preset: null,
+        config: null,
+      },
+    });
   }
 
   async download() {

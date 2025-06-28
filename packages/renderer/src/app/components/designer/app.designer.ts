@@ -5,7 +5,6 @@ import { ToastModule } from 'primeng/toast';
 import { PrimeNG } from 'primeng/config';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
-import { DesignDashboard } from './dashboard/designdashboard';
 import { DesignCreateTheme } from './create/designcreatetheme';
 import { DesignEditor } from './editor/designeditor';
 import { DesignEditorFooter } from './editor/designeditorfooter';
@@ -20,7 +19,6 @@ import { ConfigService } from '../config/config.service';
     DrawerModule,
     ToastModule,
     ConfirmDialogModule,
-    DesignDashboard,
     DesignCreateTheme,
     DesignEditor,
     DesignEditorFooter,
@@ -50,7 +48,6 @@ import { ConfigService } from '../config/config.service';
         </div>
 
         <div class="flex-auto overflow-auto overflow-x-hidden pb-5 px-5">
-          <design-dashboard *ngIf="activeView() === 'dashboard'" />
           <design-create-theme *ngIf="activeView() === 'create_theme'" />
           <design-editor *ngIf="activeView() === 'editor'" />
         </div>
@@ -68,17 +65,12 @@ export class AppDesigner {
   @ViewChild('drawer') drawer!: Drawer;
 
   designerService = inject(DesignerService);
-
   configService = inject(ConfigService);
-
   config: PrimeNG = inject(PrimeNG);
 
   activeView = computed(() => this.designerService.designer().activeView);
-
   viewTitle = computed(() => {
     switch (this.activeView()) {
-      case 'dashboard':
-        return 'Theme Designer';
       case 'create_theme':
         return 'Create Theme';
       case 'editor':
@@ -86,7 +78,6 @@ export class AppDesigner {
         return this.designerService.designer().theme.name;
     }
   });
-
   isDarkTheme = computed(() => this.configService.settings().darkMode);
 
   get visible() {
@@ -101,7 +92,7 @@ export class AppDesigner {
     this.configService.updateState('designerActive', false);
   }
 
-  toggleDarkMode() {
-    this.configService.updateConfig('darkMode', !this.configService.settings().darkMode);
+  async toggleDarkMode() {
+    await this.configService.updateConfig('darkMode', !this.configService.settings().darkMode);
   }
 }

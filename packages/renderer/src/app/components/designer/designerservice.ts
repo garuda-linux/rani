@@ -27,7 +27,7 @@ export class DesignerService {
 
   designer = signal<Designer>({
     active: false,
-    activeView: 'dashboard',
+    activeView: 'create_theme',
     activeTab: 0,
     acTokens: [],
     theme: {
@@ -60,8 +60,7 @@ export class DesignerService {
 
         if (untracked(this.configService.settings).customDesign !== null) {
           this.logger.debug('Custom design found, activating theme');
-          // @ts-ignore
-          void this.activateTheme(JSON.parse(this.configService.settings().customDesign) as Theme);
+          void this.activateTheme(JSON.parse(this.configService.settings().customDesign as string) as Theme);
         } else {
           this.logger.debug('No custom design found, creating new theme from preset');
           this.configService.updateState('designerActive', true);
@@ -93,11 +92,17 @@ export class DesignerService {
 
   async createThemeFromPreset() {
     if (this.designer().activeView === 'editor') {
-      this.designer.update((prev) => ({ ...prev, activeView: 'dashboard' }));
+      this.designer.update((prev) => ({ ...prev, activeView: 'create_theme' }));
     }
-
-    // @ts-ignore
-    await this.loadThemeEditor('customTheme', this.newPreset());
+    await this.loadThemeEditor({
+      preset: this.preset() as Record<string, unknown>,
+      key: 'customTheme',
+      name: this.themeName() ?? 'Rani theme',
+      config: {
+        font_size: '14px',
+        font_family: 'Inter var',
+      },
+    });
   }
 
   generateACTokens(parentPath: string | null, obj: Record<string, unknown>) {
@@ -185,29 +190,29 @@ export class DesignerService {
     });
   }
 
-  async loadThemeEditor(t_key: string, preset: Record<string, unknown>) {
-    this.designer.update((prev) => ({
-      ...prev,
+  async loadThemeEditor(theme: Theme) {
+    this.designer.set({
+      ...this.designer(),
       theme: {
         name: this.themeName() ?? null,
-        key: t_key,
-        preset: preset,
+        key: theme.key,
+        preset: theme.preset,
         config: {
           font_size: '14px',
           font_family: 'Inter var',
         },
       },
-    }));
+    });
+
     await this.applyFont('Inter var');
     document.documentElement.style.fontSize = '14px';
-    usePreset(preset);
+
+    usePreset(theme.preset);
+
     this.designer.update((prev) => ({ ...prev, activeTab: 0, activeView: 'editor' }));
     this.themeName.set(undefined);
     this.basePreset.set(null);
     this.newPreset.set(null);
-
-    console.debug('Theme editor loaded with preset:', preset);
-    console.debug('Current designer state:', this.designer());
   }
 
   async activateTheme(data: Theme) {
@@ -221,13 +226,15 @@ export class DesignerService {
         config: data.config,
       },
     }));
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    usePreset(this.designer().theme.preset!);
+
+    usePreset(this.designer().theme.preset as Record<string, unknown>);
+
     await this.applyFont((this.designer().theme.config as Record<string, string>)['fontFamily']);
     document.documentElement.style.setProperty(
       'font-size',
       (this.designer().theme.config as Record<string, string>)['font_size'],
     );
+
     this.designer.update((prev) => ({ ...prev, activeTab: 0, activeView: 'editor' }));
     this.status.set(null);
   }
@@ -237,7 +244,7 @@ export class DesignerService {
    * @param theme The theme object to save.
    */
   async saveTheme(theme: Theme) {
-    this.configService.updateConfig('customDesign', JSON.stringify(theme));
+    await this.configService.updateConfig('customDesign', JSON.stringify(theme));
   }
 
   /**
@@ -263,8 +270,34 @@ export class DesignerService {
    * @return The xterm.js theme object.
    */
   getXtermTheme(darkMode: boolean): ITheme {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const designTheme = JSON.parse(this.configService.settings().customDesign!) as Theme;
+    const customDesign = this.configService.settings().customDesign;
+
+    if (!customDesign) {
+      this.logger.warn('Custom design is not set, returning default xterm theme');
+      return {
+        foreground: '#ffffff',
+        background: '#000000',
+        cursor: '#ffffff',
+        cursorAccent: '#000000',
+        black: '#000000',
+        red: '#ff0000',
+        green: '#00ff00',
+        yellow: '#ffff00',
+        blue: '#0000ff',
+        magenta: '#ff00ff',
+        cyan: '#00ffff',
+        white: '#ffffff',
+        brightBlack: '#808080',
+        brightRed: '#ff8080',
+        brightGreen: '#80ff80',
+        brightYellow: '#ffff80',
+        brightBlue: '#8080ff',
+        brightMagenta: '#ff80ff',
+        brightCyan: '#80ffff',
+        brightWhite: '#ffffff',
+      };
+    }
+    const designTheme = JSON.parse(customDesign) as Theme;
     const themePreset = designTheme.preset as any;
     const colorScheme = darkMode ? themePreset.semantic.colorScheme.dark : themePreset.semantic.colorScheme.light;
 
@@ -303,7 +336,16 @@ export class DesignerService {
    * @return An object containing the scrollbar colors.
    */
   getScrollbarColors(darkMode: boolean): ScrollbarColors {
-    const designTheme = JSON.parse(this.configService.settings().customDesign!) as Theme;
+    const customDesign = this.configService.settings().customDesign;
+    if (!customDesign) {
+      this.logger.warn('Custom design is not set, returning default scrollbar colors');
+      return {
+        scrollbarColor: 'rgba(0, 0, 0, 0.5)',
+        backgroundColor: 'rgba(255, 255, 255, 0.5)',
+      };
+    }
+
+    const designTheme = JSON.parse(customDesign) as Theme;
     const themePreset = designTheme.preset as any;
     const colorScheme = darkMode ? themePreset.semantic.colorScheme.dark : themePreset.semantic.colorScheme.light;
 

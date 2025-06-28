@@ -127,6 +127,7 @@ function validateCommand(command: string, args: string[]): boolean {
     'timedatectl',
     'hostnamectl',
     'hostname',
+    'last',
     'lsb_release',
     'journalctl',
     'dkms',

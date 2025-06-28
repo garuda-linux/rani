@@ -38,7 +38,6 @@ import { DesignerService } from '../designerservice';
     DesignBorderRadius,
     DividerModule,
     AccordionModule,
-    DesignComponent,
     DesignColors,
     DesignGeneral,
     DesignFormField,
@@ -46,7 +45,6 @@ import { DesignerService } from '../designerservice';
     DesignNavigation,
     DesignOverlay,
     DesignCS,
-    DesignCustomTokens,
     DesignSettings,
   ],
   template: ` <p-tabs [(value)]="activeTab" [lazy]="true">
@@ -60,7 +58,6 @@ import { DesignerService } from '../designerservice';
         <div>
           <form class="flex flex-col gap-3" (keydown)="onKeyDown($event)">
             <design-border-radius />
-            <design-colors />
           </form>
         </div>
       </p-tabpanel>

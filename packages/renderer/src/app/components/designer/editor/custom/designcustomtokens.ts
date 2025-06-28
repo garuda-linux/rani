@@ -91,9 +91,10 @@ export class DesignCustomTokens implements OnInit {
     });
 
     this.designerService.designer.set(designer);
+    this.designerService.saveTheme(this.designerService.designer().theme);
 
-    this.designerService.designer().verified && this.designerService.saveTheme(this.designerService.designer().theme);
     usePreset(this.designerService.designer().theme.preset);
+
     this.designerService.refreshACTokens();
     this.messageService.add({
       key: 'designer',
