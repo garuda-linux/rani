@@ -38,7 +38,7 @@
     "check-pkglists": "pnpx tsx assets/testPackageAvailability.ts",
     "compile": "pnpm run build && pnpm run electron-builder",
     "dev": "node packages/dev-mode.mjs",
-    "electron-builder": "electron-builder build --config electron-builder.mjs",
+    "electron-builder": "electron-builder build --config electron-builder.mjs --publish never",
     "format": "prettier --write .",
     "test": "playwright test ./tests/e2e.spec.ts",
     "translate": "pnpx tsx assets/translator.ts",
