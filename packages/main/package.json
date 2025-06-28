@@ -20,8 +20,7 @@
     "@app/renderer": "workspace:*",
     "electron-store": "^10.1.0",
     "pino": "^9.7.0",
-    "pino-pretty": "^13.0.0",
-    "ssh2": "^1.16.0"
+    "pino-pretty": "^13.0.0"
   },
   "devDependencies": {
     "@app/electron-versions": "workspace:*",

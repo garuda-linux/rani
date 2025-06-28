@@ -14,4 +14,3 @@ onlyBuiltDependencies:
   - esbuild
   - lmdb
   - msgpackr-extract
-  - ssh2
