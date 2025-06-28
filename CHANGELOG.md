@@ -2,6 +2,111 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.0] - 2025-06-28
+
+### 🚀 Features
+
+- Implement spawn streaming via ipc
+- Have spawn streaming actually work
+- _(renderer)_ Native context menu
+- _(logging)_ Substantially improve logging
+- Logging revamp, fixes preload issues occurred with electron-timber
+- _(search)_ Add initial app search
+- Add more translations to .desktop file
+- _(theming)_ Add PrimeNG designer directly in-app
+- _(wallpaper)_ Implement customizable background settings and blur effects
+- _(designer)_ Integrate custom theme support for terminals and scrollbar color management
+- Reimplement http calls in main process, fixes privatebin uploads
+- _(designer)_ Add Dr460nized theme presets and enhance theme creation workflow
+
+### 🐛 Bug Fixes
+
+- Missing dep
+- Use vite for frontend build
+- Properly included all deps
+- Issues with main assets
+- Devmode
+- _(types)_ Make types work
+- _(renderer)_ No absolute paths in prod mode
+- Only include dist files of workspace packes, correct app name
+- _(store)_ Don't use invalid context
+- Import via ESM module syntax and not glob
+- Add back required commands
+- _(logging)_ Make some overly verbose logs debug/trace
+- _(packages)_ Properly filter out non-available packages
+- _(store)_ Overlapping function/variable name
+- _(logging)_ Renderer logging now only goes via console
+- _(readFile)_ Adapt to new assets dir, no more symlinks
+- _(renderer)_ Apply operations button, window operations
+- Made the apply button shine again, minimum window size
+- Some weird graphics, broken spawn shell emitters
+- Devtools for testing pkg availability, updated pipelines
+- _(settings)_ Don't show select dropdown under panel, use primeng slider
+- _(designer)_ Improve flow
+- _(renderer)_ We suddenly have index.html in a new client folder
+- _(designer)_ Get back strict type-checking (what the fuck is this designer code)
+- _(shell)_ Allow last command, needed for first boot check
+
+### 💼 Other
+
+- Skip publish step on tags
+
+### 🚜 Refactor
+
+- Current electron refactor progress
+- Move ipcRenderer.invoke calls to preload function exports
+
+### 📚 Documentation
+
+- Update, add NixOS notice
+
+### 🎨 Styling
+
+- Reformat with line length 120
+- Reformat with the right settings, make treefmt use the right one
+
+### ⚙️ Miscellaneous Tasks
+
+- Update electron-builder config
+- Cleanup and new commit for new build
+- Bump
+- Bump deps
+- Cleanup
+
+## [2.5.1] - 2025-05-24
+
+### 🚀 Features
+
+- _(terminal)_ Allow printing scripts to run prior to running
+
+### 🐛 Bug Fixes
+
+- _(kernels)_ Toggling an installed kernel without headers installing headers
+- _(packages)_ Remove invalid packages or those moved to AUR
+- _(window)_ Resize both dimensions
+- _(kernels)_ Exception on undefined kernelVersion, causing loading to never finish
+- _(renderer)_ Set WEBKIT_DISABLE_DMABUF_RENDERER always. Byebye blur and good looking aesthetics.
+
+### 💼 Other
+
+- _(debug)_ Add CrabNebula devtools for more useful information
+
+### 📚 Documentation
+
+- _(changelog.md)_ Update
+
+### 🧪 Testing
+
+- Add some first working unit tests
+
+### ⚙️ Miscellaneous Tasks
+
+- _(package.json)_ Updates
+- _(kernels)_ Add some trace logging
+- Update dependencies
+- _(packages)_ Remove non-existing packages
+- Update more deps
+
 ## [2.5.0] - 2025-03-30
 
 ### 🚀 Features
