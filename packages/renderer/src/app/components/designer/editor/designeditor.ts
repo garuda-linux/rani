@@ -46,18 +46,20 @@ import { DesignerService } from '../designerservice';
     DesignOverlay,
     DesignCS,
     DesignSettings,
+    DesignComponent,
   ],
   template: ` <p-tabs [(value)]="activeTab" [lazy]="true">
     <p-tablist>
       <p-tab [value]="0"> Primitive </p-tab>
       <p-tab [value]="1"> Semantic </p-tab>
-      <p-tab class="!ml-auto" [value]="2">Settings</p-tab>
+      <p-tab [value]="2"> Component </p-tab>
     </p-tablist>
     <p-tabpanels>
       <p-tabpanel [value]="0">
         <div>
           <form class="flex flex-col gap-3" (keydown)="onKeyDown($event)">
             <design-border-radius />
+            <design-settings />
           </form>
         </div>
       </p-tabpanel>
@@ -106,7 +108,7 @@ import { DesignerService } from '../designerservice';
       </p-tabpanel>
 
       <p-tabpanel [value]="2">
-        <design-settings />
+        <design-component />
       </p-tabpanel>
     </p-tabpanels>
   </p-tabs>`,

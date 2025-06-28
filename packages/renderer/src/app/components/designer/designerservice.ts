@@ -42,13 +42,10 @@ export class DesignerService {
   acTokens = computed(() => this.designer().acTokens);
   missingTokens = signal<unknown[]>([]);
   status = signal<'preview' | 'updated' | null>(null);
-  otp = signal<string | undefined>(undefined);
   loading = signal<boolean>(false);
-  // currentTheme = signal<unknown>(null); // Unused, commented out
   themeName = signal<string | undefined>(undefined);
   basePreset = signal<string | null>(null);
   newPreset = signal<Record<string, unknown> | null>(null);
-  figmaData = signal<unknown>(null);
 
   mustNotTriggerEffect = false;
 
@@ -94,10 +91,11 @@ export class DesignerService {
     if (this.designer().activeView === 'editor') {
       this.designer.update((prev) => ({ ...prev, activeView: 'create_theme' }));
     }
+
     await this.loadThemeEditor({
-      preset: this.preset() as Record<string, unknown>,
+      preset: this.newPreset() as Record<string, unknown>,
       key: 'customTheme',
-      name: this.themeName() ?? 'Rani theme',
+      name: 'Rani theme',
       config: {
         font_size: '14px',
         font_family: 'Inter var',

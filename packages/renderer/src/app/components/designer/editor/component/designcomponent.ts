@@ -3,16 +3,18 @@ import { TabsModule } from 'primeng/tabs';
 import { FieldsetModule } from 'primeng/fieldset';
 import { CommonModule } from '@angular/common';
 import { DesignerService } from '../../designerservice';
-import { NavigationEnd, Router } from '@angular/router';
-import { Subscription } from 'rxjs';
 import { DesignComponentSection } from './designcomponentsection';
+import { ConfigService } from '../../../config/config.service';
+import { Select } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'design-component',
   standalone: true,
-  imports: [CommonModule, FieldsetModule, TabsModule, DesignComponentSection],
+  imports: [CommonModule, FieldsetModule, TabsModule, DesignComponentSection, Select, FormsModule],
   template: `<section class="flex flex-col gap-3">
-    <div class="text-lg font-semibold capitalize mb-2">{{ componentKey() }}</div>
+    <p-select class="capitalize mb-2" [(ngModel)]="componentKey" [options]="availableComponents" />
+
     <p-fieldset [toggleable]="true" legend="Common">
       <div class="flex flex-col gap-3">
         @if (hasCommonTokens()) {
@@ -59,25 +61,18 @@ import { DesignComponentSection } from './designcomponentsection';
 export class DesignComponent implements OnInit {
   objectKeys = Object.keys;
 
-  configService: AppConfigService = inject(AppConfigService);
-
+  configService: ConfigService = inject(ConfigService);
   designerService: DesignerService = inject(DesignerService);
 
-  router: Router = inject(Router);
-
-  tokens = computed(() => this.designerService.designer().theme.preset.components[this.componentKey()]);
-
+  availableComponents: string[] = [];
   componentKey = signal<string>('');
-
+  tokens = computed(() => this.designerService.designer()?.theme?.preset?.components[this.componentKey()] || {});
   lightTokens = computed(() => {
     const designer = this.designerService.designer();
     return designer.theme.preset.components[this.componentKey()].colorScheme?.light;
   });
-
   darkTokens = computed(() => this.tokens().colorScheme?.dark);
-
   hasColorScheme = computed(() => this.tokens().colorScheme !== undefined);
-
   hasCommonTokens = computed(
     () =>
       Object.keys(this.tokens()).filter((name: string) => {
@@ -85,33 +80,17 @@ export class DesignComponent implements OnInit {
       }).length > 0,
   );
 
-  routeSubscription!: Subscription;
-
-  constructor() {
-    this.routeSubscription = this.router.events.subscribe((event: NavigationEnd) => {
-      if (event.url) {
-        const url = event.url.split('/')[1] === 'table' ? 'datatable' : event.url.split('/')[1];
-        this.componentKey.set(url);
-      }
-    });
-  }
-
   ngOnInit() {
-    if (!this.componentKey()) {
-      const url =
-        this.router.routerState.snapshot.url.split('/')[1] === 'table'
-          ? 'datatable'
-          : this.router.routerState.snapshot.url.split('/')[1];
-      this.componentKey.set(url);
-    }
+    this.availableComponents = Object.keys(this.designerService.designer().theme.preset.components);
+    this.componentKey.set(this.availableComponents[0] || '');
   }
 
-  tabValueChange(event: string) {
+  async tabValueChange(event: string | number) {
     if (event === 'cs-1') {
-      this.configService.appState.update((state) => ({ ...state, darkTheme: true }));
+      await this.configService.updateConfig('darkTheme', true);
     }
     if (event === 'cs-0') {
-      this.configService.appState.update((state) => ({ ...state, darkTheme: false }));
+      await this.configService.updateConfig('darkTheme', false);
     }
   }
 }
