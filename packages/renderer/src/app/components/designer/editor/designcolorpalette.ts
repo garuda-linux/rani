@@ -21,7 +21,7 @@ import { Component, inject, input } from '@angular/core';
 export class DesignColorPalette {
   designerService: DesignerService = inject(DesignerService);
 
-  value = input<any>({});
+  value = input<Record<string, string>>({});
 
   objectValues = Object.values;
 }

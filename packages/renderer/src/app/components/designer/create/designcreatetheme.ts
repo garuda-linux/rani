@@ -9,10 +9,11 @@ import Material from '@primeuix/themes/material';
 import { MessageService } from 'primeng/api';
 import { DividerModule } from 'primeng/divider';
 import { FileUploadModule } from 'primeng/fileupload';
-import { Preset } from '@primeuix/themes/types';
+import { Theme } from '../designerservice';
 import { Logger } from '../../../logging/logging';
 import { themes } from '../../../theme';
 import { Select } from 'primeng/select';
+import { Preset } from '@primeuix/themes/types';
 
 const presets: Record<string, Preset> = {
   Aura,
@@ -107,7 +108,7 @@ export class DesignCreateTheme {
 
   themeName = 'Rani theme';
   basePreset = 'Aura';
-  themeData: string | null = null;
+  themeData: Theme | null = null;
   presetOptions = [
     { label: 'Aura', value: 'Aura' },
     { label: 'Lara', value: 'Lara' },
@@ -136,18 +137,14 @@ export class DesignCreateTheme {
 
   onFileSelect(event: { files: File[] }) {
     const file = event.files[0];
-
     if (!file) {
       return;
     }
 
     const reader = new FileReader();
-
     reader.onload = (e: ProgressEvent<FileReader>) => {
-      this.themeData = e.target?.result as string;
-
       try {
-        this.themeData = JSON.parse(this.themeData);
+        this.themeData = JSON.parse(e.target?.result as string);
         this.messageService.add({
           key: 'designer',
           severity: 'success',
@@ -155,7 +152,8 @@ export class DesignCreateTheme {
           detail: 'File loaded successfully',
           life: 3000,
         });
-      } catch (error) {
+      } catch (err: any) {
+        this.logger.error(`Error parsing JSON: ${err.message ? err.message : err}`);
         this.messageService.add({
           key: 'designer',
           severity: 'error',
@@ -168,6 +166,7 @@ export class DesignCreateTheme {
     };
 
     reader.onerror = (e: ProgressEvent<FileReader>) => {
+      this.logger.error(`Error reading file: ${e.target?.error?.message}`);
       this.messageService.add({
         key: 'designer',
         severity: 'error',

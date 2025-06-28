@@ -13,7 +13,7 @@ import {
 } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { $dt } from '@primeuix/themes';
-import { AutoCompleteModule } from 'primeng/autocomplete';
+import { AutoCompleteCompleteEvent, AutoCompleteModule, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { TooltipModule } from 'primeng/tooltip';
 import { UniqueComponentId } from 'primeng/utils';
 import { DesignerService } from '../designerservice';
@@ -39,7 +39,7 @@ import { DesignerService } from '../designerservice';
       </button>
     </div>
     <div class="relative" [id]="id">
-      <p-autocomplete
+      <p-auto-complete
         [(ngModel)]="modelValue"
         [class.ng-invalid]="isInvalid()"
         [class.ng-dirty]="isInvalid()"
@@ -76,7 +76,7 @@ import { DesignerService } from '../designerservice';
             }
           </div>
         </ng-template>
-      </p-autocomplete>
+      </p-auto-complete>
       <div
         class="absolute right-[4px] top-1/2 -mt-3 w-6 h-6 rounded-md border border-surface-300 dark:border-surface-600"
         *ngIf="type() === 'color'"
@@ -138,7 +138,7 @@ export class DesignTokenField implements OnInit {
     return this.designerService.resolveColor(value);
   }
 
-  getTooltipData(option) {
+  getTooltipData(option: any) {
     return typeof option !== 'object' && option.value;
   }
 
@@ -146,22 +146,23 @@ export class DesignTokenField implements OnInit {
     return this.id + '_input';
   }
 
-  getIsColor(option) {
+  getIsColor(option: { isColor: boolean }) {
     return option.isColor;
   }
 
-  onOptionSelect(event) {
+  onOptionSelect(event: AutoCompleteSelectEvent) {
     this.modelValue.set(event.value.label);
     this.modelValueChange.emit(this.modelValue());
     event.originalEvent.stopPropagation();
   }
 
-  onInput(event) {
+  onInput(event: KeyboardEvent) {
+    // @ts-ignore
     this.modelValue.set(event.target.value);
     this.modelValueChange.emit(this.modelValue());
   }
 
-  search(event) {
+  search(event: AutoCompleteCompleteEvent) {
     const query = event.query;
 
     if (query.startsWith('{')) {
@@ -171,7 +172,7 @@ export class DesignTokenField implements OnInit {
     }
   }
 
-  getPathFromColorScheme(colorScheme) {
+  getPathFromColorScheme(colorScheme: string) {
     const lightPrefix = 'light.';
     const darkPrefix = 'dark.';
 
@@ -184,11 +185,12 @@ export class DesignTokenField implements OnInit {
     return colorScheme;
   }
 
-  transfer(event) {
-    const tokens = this.designerService.designer().theme.preset.components[this.componentKey];
+  transfer(event: MouseEvent) {
+    // @ts-ignore
+    const tokens = this.designerService.designer().theme.preset?.components[this.componentKey];
     const colorSchemePrefix = 'colorScheme.';
 
-    if (this.path.startsWith(colorSchemePrefix)) {
+    if (this.path?.startsWith(colorSchemePrefix)) {
       const tokenPath = this.getPathFromColorScheme(this.path.slice(colorSchemePrefix.length));
 
       this.set(tokens, tokenPath, this.modelValue());
@@ -201,26 +203,29 @@ export class DesignTokenField implements OnInit {
     }
 
     this.removeEmptyProps(tokens);
+    // @ts-ignore
     this.designerService.designer.update((prev) => ({
       ...prev,
       theme: {
         ...prev.theme,
+        // @ts-ignore
         preset: {
           ...prev.theme.preset,
-          components: { ...prev.theme.preset.components, [this.componentKey]: { ...tokens } },
+          // @ts-ignore
+          components: { ...prev.theme.preset?.components, [this.componentKey]: { ...tokens } },
         },
       },
     }));
     event.preventDefault();
   }
 
-  removeEmptyProps(obj) {
+  removeEmptyProps(obj: any) {
     if (typeof obj !== 'object' || obj === null) {
       return obj;
     }
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         const value = obj[key];
 
         if (typeof value === 'object' && value !== null) {
@@ -236,7 +241,7 @@ export class DesignTokenField implements OnInit {
     return obj;
   }
 
-  set(obj, path, value) {
+  set(obj: string | number | object | undefined, path: string, value: any) {
     if (Object(obj) !== obj) return obj;
     const pathArray = Array.isArray(path) ? path : path.toString().match(/[^.[\]]+/g) || [];
 
@@ -259,13 +264,14 @@ export class DesignTokenField implements OnInit {
     return obj;
   }
 
-  unset(obj, path) {
+  unset(obj: string | number | object | undefined, path: string | undefined) {
     if (Object(obj) !== obj) return false;
 
-    const pathArray = Array.isArray(path) ? path : path.toString().match(/[^.[\]]+/g) || [];
+    const pathArray = Array.isArray(path) ? path : path?.toString().match(/[^.[\]]+/g) || [];
 
     if (pathArray.length === 0) return false;
 
+    // @ts-ignore
     if (pathArray.includes('__proto__') || pathArray.includes('constructor') || pathArray.includes('prototype')) {
       return false;
     }
@@ -276,19 +282,23 @@ export class DesignTokenField implements OnInit {
     for (let i = 0; i < length - 1; i++) {
       const key = pathArray[i];
 
+      // @ts-ignore
       if (current[key] == null) {
         return false;
       }
 
+      // @ts-ignore
       current = current[key];
     }
 
     const lastKey = pathArray[length - 1];
 
+    // @ts-ignore
     if (!(lastKey in current)) {
       return false;
     }
 
+    // @ts-ignore
     delete current[lastKey];
 
     return true;

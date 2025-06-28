@@ -37,116 +37,170 @@ export class DesignBorderRadius {
   designerService = inject(DesignerService);
 
   get borderRadiusNone() {
-    return this.designerService.designer().theme?.preset?.primitive.borderRadius.none;
+    // @ts-ignore
+    return this.designerService.designer().theme?.preset?.primitive?.borderRadius.none;
   }
   set borderRadiusNone(value: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: {
-            ...prev.theme.preset.primitive,
-            borderRadius: { ...prev.theme.preset.primitive.borderRadius, none: value },
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              primitive: {
+                // @ts-ignore
+                ...prev.theme.preset.primitive,
+                // @ts-ignore
+                borderRadius: { ...prev.theme.preset.primitive.borderRadius, none: value },
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+      }
+      return prev;
+    });
   }
 
   get borderRadiusXs() {
+    // @ts-ignore
     return this.designerService.designer().theme?.preset?.primitive.borderRadius.xs;
   }
   set borderRadiusXs(value: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: {
-            ...prev.theme.preset.primitive,
-            borderRadius: { ...prev.theme.preset.primitive.borderRadius, xs: value },
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              primitive: {
+                // @ts-ignore
+                ...prev.theme.preset.primitive,
+                // @ts-ignore
+                borderRadius: { ...prev.theme.preset.primitive.borderRadius, xs: value },
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+      }
+      return prev;
+    });
   }
 
   get borderRadiusSm() {
-    return this.designerService.designer().theme?.preset?.primitive.borderRadius.sm;
+    // @ts-ignore
+    return this.designerService.designer().theme?.preset?.primitive?.borderRadius.sm;
   }
   set borderRadiusSm(value: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: {
-            ...prev.theme.preset.primitive,
-            borderRadius: { ...prev.theme.preset.primitive.borderRadius, sm: value },
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              primitive: {
+                // @ts-ignore
+                ...prev.theme.preset.primitive,
+                // @ts-ignore
+                borderRadius: { ...prev.theme.preset.primitive.borderRadius, sm: value },
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+      }
+      return prev;
+    });
   }
 
   get borderRadiusMd() {
-    return this.designerService.designer().theme?.preset?.primitive.borderRadius.md;
+    // @ts-ignore
+    return this.designerService.designer().theme?.preset?.primitive?.borderRadius.md;
   }
   set borderRadiusMd(value: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: {
-            ...prev.theme.preset.primitive,
-            borderRadius: { ...prev.theme.preset.primitive.borderRadius, md: value },
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              primitive: {
+                // @ts-ignore
+                ...prev.theme.preset.primitive,
+                // @ts-ignore
+                borderRadius: { ...prev.theme.preset.primitive.borderRadius, md: value },
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+      }
+      return prev;
+    });
   }
 
   get borderRadiusLg() {
-    return this.designerService.designer().theme?.preset?.primitive.borderRadius.lg;
+    // @ts-ignore
+    return this.designerService.designer().theme?.preset?.primitive?.borderRadius.lg;
   }
   set borderRadiusLg(value: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: {
-            ...prev.theme.preset.primitive,
-            borderRadius: { ...prev.theme.preset.primitive.borderRadius, lg: value },
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              primitive: {
+                // @ts-ignore
+                ...prev.theme.preset.primitive,
+                // @ts-ignore
+                borderRadius: { ...prev.theme.preset.primitive.borderRadius, lg: value },
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+      }
+      return prev;
+    });
   }
 
   get borderRadiusXl() {
-    return this.designerService.designer().theme?.preset?.primitive.borderRadius.xl;
+    // @ts-ignore
+    return this.designerService.designer().theme?.preset?.primitive?.borderRadius.xl;
   }
   set borderRadiusXl(value: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: {
-            ...prev.theme.preset.primitive,
-            borderRadius: { ...prev.theme.preset.primitive.borderRadius, xl: value },
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              primitive: {
+                // @ts-ignore
+                ...prev.theme.preset.primitive,
+                // @ts-ignore
+                borderRadius: { ...prev.theme.preset.primitive.borderRadius, xl: value },
+              },
+            },
           },
-        },
-      },
-    }));
+        };
+      }
+      return prev;
+    });
   }
 }

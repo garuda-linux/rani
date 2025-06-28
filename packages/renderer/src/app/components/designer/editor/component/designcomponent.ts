@@ -66,12 +66,16 @@ export class DesignComponent implements OnInit {
 
   availableComponents: string[] = [];
   componentKey = signal<string>('');
+  // @ts-ignore
   tokens = computed(() => this.designerService.designer()?.theme?.preset?.components[this.componentKey()] || {});
   lightTokens = computed(() => {
     const designer = this.designerService.designer();
-    return designer.theme.preset.components[this.componentKey()].colorScheme?.light;
+    // @ts-ignore
+    return designer.theme.preset?.components[this.componentKey()].colorScheme?.light;
   });
+  // @ts-ignore
   darkTokens = computed(() => this.tokens().colorScheme?.dark);
+  // @ts-ignore
   hasColorScheme = computed(() => this.tokens().colorScheme !== undefined);
   hasCommonTokens = computed(
     () =>
@@ -81,6 +85,7 @@ export class DesignComponent implements OnInit {
   );
 
   ngOnInit() {
+    // @ts-ignore
     this.availableComponents = Object.keys(this.designerService.designer().theme.preset.components);
     this.componentKey.set(this.availableComponents[0] || '');
   }

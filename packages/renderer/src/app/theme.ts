@@ -8,7 +8,7 @@ import Lara from '@primeuix/themes/lara';
 
 const { latte, mocha, frappe, macchiato } = flavors;
 
-const tokens: Preset = {
+const tokens = {
   semantic: {
     focusRing: {
       color: '{primary.color}',
@@ -601,7 +601,7 @@ const tokens: Preset = {
   },
 };
 
-const tokensAlt: Preset = {
+const tokensAlt = {
   semantic: {
     focusRing: {
       color: '{primary.color}',
@@ -1583,15 +1583,15 @@ export const CatppuccinBackgroundColors = {
   },
 };
 
-export const CatppuccinAura = definePreset(Aura, tokens);
-export const CatppuccinNora = definePreset(Nora, tokens);
-export const CatppuccinMaterial = definePreset(Material, tokens);
-export const CatppuccinLara = definePreset(Lara, tokens);
+export const CatppuccinAura = definePreset(Aura, tokens as Preset);
+export const CatppuccinNora = definePreset(Nora, tokens as Preset);
+export const CatppuccinMaterial = definePreset(Material, tokens as Preset);
+export const CatppuccinLara = definePreset(Lara, tokens as Preset);
 
-export const CatppuccinAuraAlt = definePreset(Aura, tokensAlt);
-export const CatppuccinNoraAlt = definePreset(Nora, tokensAlt);
-export const CatppuccinMaterialAlt = definePreset(Material, tokensAlt);
-export const CatppuccinLaraAlt = definePreset(Lara, tokensAlt);
+export const CatppuccinAuraAlt = definePreset(Aura, tokensAlt as Preset);
+export const CatppuccinNoraAlt = definePreset(Nora, tokensAlt as Preset);
+export const CatppuccinMaterialAlt = definePreset(Material, tokensAlt as Preset);
+export const CatppuccinLaraAlt = definePreset(Lara, tokensAlt as Preset);
 
 export const Dr460nizedAura = definePreset(Aura, tokensDr460nized);
 export const Dr460nizedNora = definePreset(Nora, tokensDr460nized);

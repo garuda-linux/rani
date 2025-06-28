@@ -14,13 +14,13 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 mb-3 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.select.borderRadius"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.select.borderRadius"
           label="Border Radius"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.select.shadow"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.select.shadow"
           label="Shadow"
         />
       </div>
@@ -32,19 +32,19 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 mb-3 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.popover.borderRadius"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.popover.borderRadius"
           label="Border Radius"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.popover.padding"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.popover.padding"
           label="Padding"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.popover.shadow"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.popover.shadow"
           label="Shadow"
         />
       </div>
@@ -55,19 +55,19 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 mb-3 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.modal.borderRadius"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.modal.borderRadius"
           label="Border Radius"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.modal.padding"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.modal.padding"
           label="Padding"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.modal.shadow"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.modal.shadow"
           label="Shadow"
         />
       </div>
@@ -78,7 +78,7 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.overlay.navigation.shadow"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).overlay.navigation.shadow"
           label="Shadow"
         />
       </div>

@@ -14,13 +14,13 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 mb-3 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.list.padding"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.list.padding"
           label="Padding"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.list.gap"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.list.gap"
           label="Gap"
         />
       </div>
@@ -32,19 +32,19 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 mb-3 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.item.padding"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.item.padding"
           label="Padding"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.item.borderRadius"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.item.borderRadius"
           label="Border Radius"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.item.gap"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.item.gap"
           label="Gap"
         />
       </div>
@@ -55,13 +55,13 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 mb-3 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.submenuLabel.padding"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.submenuLabel.padding"
           label="Padding"
         />
       </div>
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.submenuLabel.fontWeight"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.submenuLabel.fontWeight"
           label="Font Weight"
         />
       </div>
@@ -73,7 +73,7 @@ import { DesignerService } from '../../designerservice';
     <section class="grid grid-cols-4 gap-2">
       <div class="flex flex-col gap-1">
         <design-token-field
-          [(modelValue)]="designerService.designer().theme.preset.semantic.navigation.submenuIcon.size"
+          [(modelValue)]="$any(designerService.designer().theme?.preset?.semantic).navigation.submenuIcon.size"
           label="Size"
         />
       </div>

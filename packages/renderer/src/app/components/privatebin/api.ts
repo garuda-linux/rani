@@ -13,9 +13,6 @@ export interface ApiResponse<T> {
   statusText: string;
 }
 
-@Injectable({
-  providedIn: 'root',
-})
 export class Api {
   private baseURL: string;
   private defaultHeaders: Record<string, string>;

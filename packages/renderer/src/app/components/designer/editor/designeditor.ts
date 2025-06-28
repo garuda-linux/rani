@@ -2,16 +2,13 @@ import { ChangeDetectionStrategy, Component, computed, inject, OnDestroy, OnInit
 import { CommonModule } from '@angular/common';
 import { TabsModule } from 'primeng/tabs';
 import { DesignBorderRadius } from './primitive/designborderradius';
-import { DesignColors } from './primitive/designcolors';
 import { DesignGeneral } from './semantic/designgeneral';
 import { DesignFormField } from './semantic/designformfield';
 import { DesignList } from './semantic/designlist';
 import { DesignNavigation } from './semantic/designnavigation';
 import { DesignOverlay } from './semantic/designoverlay';
 import { DesignCS } from './semantic/colorscheme/designcs';
-import { DesignCustomTokens } from './custom/designcustomtokens';
 import { DesignSettings } from './settings/designsettings';
-import { NavigationEnd, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { DividerModule } from 'primeng/divider';
 import { SelectButtonModule } from 'primeng/selectbutton';
@@ -21,8 +18,8 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { PrimeNG } from 'primeng/config';
 import { AccordionModule } from 'primeng/accordion';
 import { DesignComponent } from './component/designcomponent';
-import { Subscription } from 'rxjs';
 import { DesignerService } from '../designerservice';
+import { Preset } from '@primeuix/themes/types';
 
 @Component({
   selector: 'design-editor',
@@ -38,7 +35,6 @@ import { DesignerService } from '../designerservice';
     DesignBorderRadius,
     DividerModule,
     AccordionModule,
-    DesignColors,
     DesignGeneral,
     DesignFormField,
     DesignList,
@@ -114,14 +110,12 @@ import { DesignerService } from '../designerservice';
   </p-tabs>`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DesignEditor implements OnInit, OnDestroy {
+export class DesignEditor {
+  // @ts-ignore
   colorScheme = computed(() => this.designerService.designer().theme.preset?.semantic.colorScheme);
 
   designerService: DesignerService = inject(DesignerService);
-
   config: PrimeNG = inject(PrimeNG);
-
-  router: Router = inject(Router);
 
   get activeTab() {
     return this.designerService.designer().activeTab;
@@ -131,40 +125,9 @@ export class DesignEditor implements OnInit, OnDestroy {
     this.designerService.designer.update((prev) => ({ ...prev, activeTab: value }));
   }
 
-  isComponentRoute = computed(
-    () => this.designerService.designer().theme.preset?.components[this.currentPath()] !== undefined,
-  );
-
-  currentPath = signal<string>('');
-
-  routeSubscription!: Subscription;
-
-  constructor() {
-    this.routeSubscription = this.router.events.subscribe((event: NavigationEnd) => {
-      if (event.url) {
-        const url = event.url === 'table' ? 'datatable' : event.url.split('/')[1];
-        this.currentPath.set(url);
-      }
-    });
-  }
-
-  ngOnInit() {
-    if (!this.currentPath()) {
-      const url =
-        this.router.routerState.snapshot.url.split('/')[1] === 'table'
-          ? 'datatable'
-          : this.router.routerState.snapshot.url.split('/')[1];
-      this.currentPath.set(url);
-    }
-  }
-
-  ngOnDestroy() {
-    this.routeSubscription.unsubscribe();
-  }
-
-  onKeyDown(event: any) {
+  async onKeyDown(event: KeyboardEvent) {
     if (event.code === 'Enter' || event.code === 'NumpadEnter') {
-      this.designerService.applyTheme(this.designerService.designer().theme);
+      await this.designerService.applyTheme(this.designerService.designer().theme as { preset: Preset });
       event.preventDefault();
     }
   }

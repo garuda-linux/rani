@@ -17,7 +17,7 @@ import { DesignTokenField } from '../designtokenfield';
           [label]="camelCaseToSpaces(entry)"
           [componentKey]="componentKey()"
           [path]="path() + '.' + entry"
-          [type]="isColor(entry) ? 'color' : null"
+          [type]="isColor(entry) ? 'color' : undefined"
           [switchable]="true"
         />
       }
@@ -42,13 +42,18 @@ export class DesignComponentSection {
     const names = this.path().split('.');
 
     return names
-      .filter((n) => n !== 'colorScheme' && n !== 'light' && n !== 'dark')
-      .map((n) => this.capitalize(this.camelCaseToSpaces(n)))
+      .filter((n: string) => n !== 'colorScheme' && n !== 'light' && n !== 'dark')
+      .map((n: string) => this.capitalize(this.camelCaseToSpaces(n)))
       .join(' ');
   });
 
   tokens = computed(() => {
     const designer = this.designerService.designer();
+    if (!designer.theme.preset) {
+      return {};
+    }
+
+    // @ts-ignore
     const source = designer.theme.preset.components[this.componentKey()];
     return this.getObjectProperty(source, this.path());
   });
@@ -58,10 +63,11 @@ export class DesignComponentSection {
     const obj = this.tokens();
 
     for (const key in obj) {
-      if (obj.hasOwnProperty(key)) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
         const value = obj[key];
 
         if (this.isObject(value)) {
+          // @ts-ignore
           groups[key] = value;
         }
       }
@@ -74,19 +80,19 @@ export class DesignComponentSection {
     return Object.keys(this.nestedTokens()).length > 0;
   });
 
-  camelCaseToSpaces(val) {
+  camelCaseToSpaces(val: string) {
     return val.replace(/([a-z])([A-Z])/g, '$1 $2');
   }
 
-  isColor(val) {
+  isColor(val: string) {
     return val.toLowerCase().includes('color') || val.toLowerCase().includes('background');
   }
 
-  isObject(val) {
+  isObject(val: null) {
     return val !== null && typeof val === 'object';
   }
 
-  getObjectProperty(obj, path) {
+  getObjectProperty(obj: any, path: string) {
     const keys = path.split('.');
     let current = obj;
 
@@ -101,7 +107,7 @@ export class DesignComponentSection {
     return current;
   }
 
-  capitalize(str) {
+  capitalize(str: any) {
     if (typeof str !== 'string' || str.length === 0) {
       return str;
     }

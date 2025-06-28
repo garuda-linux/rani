@@ -4,26 +4,31 @@ import { MessageService } from 'primeng/api';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../../logging/logging';
 import type { ITheme } from '@xterm/xterm';
+import type { Preset } from '@primeuix/themes/types';
 
 export interface Theme {
   key: string | null;
   name: string | null;
-  preset: Record<string, unknown> | null;
-  config: Record<string, unknown> | null;
+  preset: Preset | null;
+  config: {
+    font_size: string;
+    font_family: string;
+  } | null;
 }
 
 export interface Designer {
   active: boolean;
   activeView: string;
   activeTab: number;
-  acTokens: unknown[];
+  acTokens: any[];
   theme: Theme;
 }
+
 @Injectable({ providedIn: 'root' })
 export class DesignerService {
   private readonly configService = inject(ConfigService);
   private readonly logger = Logger.getInstance();
-  messageService: MessageService = inject(MessageService);
+  private readonly messageService: MessageService = inject(MessageService);
 
   designer = signal<Designer>({
     active: false,
@@ -37,7 +42,6 @@ export class DesignerService {
       config: null,
     },
   });
-
   preset = signal<{ primitive: unknown; semantic: unknown }>({ primitive: null, semantic: null });
   acTokens = computed(() => this.designer().acTokens);
   missingTokens = signal<unknown[]>([]);
@@ -47,7 +51,7 @@ export class DesignerService {
   basePreset = signal<string | null>(null);
   newPreset = signal<Record<string, unknown> | null>(null);
 
-  mustNotTriggerEffect = false;
+  private mustNotTriggerEffect = false;
 
   constructor() {
     effect(() => {
@@ -70,6 +74,13 @@ export class DesignerService {
     });
   }
 
+  /**
+   * Resolve a design token to its actual value.
+   * If the token is a CSS variable, it retrieves the value from the document's root element.
+   * Otherwise, it returns the token as is.
+   * @param token The design token to resolve.
+   * @returns The resolved color value.
+   */
   resolveColor(token: string): string {
     if (token && token.startsWith('{') && token.endsWith('}')) {
       const cssVariable = $dt(token).variable.slice(4, -1);
@@ -79,6 +90,10 @@ export class DesignerService {
     }
   }
 
+  /**
+   * Refresh the design tokens for the AC system.
+   * This function clears the existing tokens and generates new ones based on the current theme preset.
+   */
   refreshACTokens() {
     this.designer.update((prev) => ({ ...prev, acTokens: [] }));
     if (this.designer().theme.preset) {
@@ -87,22 +102,33 @@ export class DesignerService {
     }
   }
 
+  /**
+   * Create a new theme from an already defined preset.
+   */
   async createThemeFromPreset() {
     if (this.designer().activeView === 'editor') {
       this.designer.update((prev) => ({ ...prev, activeView: 'create_theme' }));
     }
-
-    await this.loadThemeEditor({
-      preset: this.newPreset() as Record<string, unknown>,
-      key: 'customTheme',
-      name: 'Rani theme',
-      config: {
-        font_size: '14px',
-        font_family: 'Inter var',
-      },
-    });
+    if (this.newPreset() !== null) {
+      await this.loadThemeEditor({
+        preset: this.newPreset() as Preset,
+        key: 'customTheme',
+        name: 'Rani theme',
+        config: {
+          font_size: '14px',
+          font_family: 'Inter var',
+        },
+      });
+    }
   }
 
+  /**
+   * Generate design tokens for the AC system.
+   * This function recursively traverses the provided object and generates tokens
+   * for each property, converting camelCase to dot.case format.
+   * @param parentPath The parent path for the current object.
+   * @param obj The object containing design tokens.
+   */
   generateACTokens(parentPath: string | null, obj: Record<string, unknown>) {
     for (const key in obj) {
       if (key === 'dark' || key === 'components' || key === 'directives') {
@@ -148,6 +174,10 @@ export class DesignerService {
     return name.replace(/([a-z])([A-Z])/g, '$1.$2').toLowerCase();
   }
 
+  /**
+   * Apply the selected font family to the document.
+   * @param fontFamily The font family to apply.
+   */
   async applyFont(fontFamily: string) {
     if (fontFamily !== 'Inter var') {
       await this.loadFont(fontFamily, 400);
@@ -159,15 +189,23 @@ export class DesignerService {
     }
   }
 
+  /**
+   * Load a font from the Bunny Fonts CDN.
+   * @param fontFamily The name of the font family to load.
+   * @param weight The font weight to load.
+   * @returns A promise that resolves to the loaded FontFace or undefined if loading fails.
+   */
   async loadFont(fontFamily: string, weight: number): Promise<FontFace | undefined> {
     try {
-      const fontFamilyPath = fontFamily.toLowerCase().replace(/\s+/g, '-');
+      const fontFamilyPath: string = fontFamily.toLowerCase().replace(/\s+/g, '-');
       const fontUrl = `https://fonts.bunny.net/${fontFamilyPath}/files/${fontFamilyPath}-latin-${weight}-normal.woff2`;
       const font = new FontFace(fontFamily, `url(${fontUrl})`, {
         weight: weight.toString(),
         style: 'normal',
       });
-      const loadedFont = await font.load();
+      const loadedFont: FontFace = await font.load();
+
+      // @ts-ignore
       document.fonts.add(loadedFont);
       document.body.style.fontFamily = `"${fontFamily}", sans-serif`;
       return loadedFont;
@@ -177,7 +215,11 @@ export class DesignerService {
     }
   }
 
-  async applyTheme(theme: { preset: Record<string, unknown> }) {
+  /**
+   * Apply the selected theme preset to the design system.
+   * @param theme The theme object containing the preset to apply.
+   */
+  async applyTheme(theme: { preset: Preset }) {
     usePreset(theme.preset);
     this.messageService.add({
       key: 'designer',
@@ -188,6 +230,11 @@ export class DesignerService {
     });
   }
 
+  /**
+   * Load the theme editor with the provided theme.
+   * This function sets the designer state to the provided theme and applies the font and preset.
+   * @param theme The theme object to load into the editor.
+   */
   async loadThemeEditor(theme: Theme) {
     this.designer.set({
       ...this.designer(),
@@ -213,6 +260,11 @@ export class DesignerService {
     this.newPreset.set(null);
   }
 
+  /**
+   * Activate the theme with the provided data.
+   * This function updates the designer state with the new theme and applies the font and preset.
+   * @param data The theme data to activate.
+   */
   async activateTheme(data: Theme) {
     this.designer.update((prev) => ({
       ...prev,

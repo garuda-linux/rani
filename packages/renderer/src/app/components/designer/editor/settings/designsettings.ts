@@ -17,7 +17,7 @@ import { Fieldset } from 'primeng/fieldset';
             <div class="text-sm mb-1 font-semibold text-surface-950 dark:text-surface-0">Base</div>
             <select
               class="appearance-none px-3 py-2 rounded-md border border-surface-300 dark:border-surface-700 w-20"
-              [(ngModel)]="designerService.designer().theme.config.font_size"
+              [(ngModel)]="designerService.designer().theme!.config!.font_size"
               (change)="changeBaseFontSize()"
             >
               <option *ngFor="let fontSize of fontSizes" [value]="fontSize">{{ fontSize }}</option>
@@ -28,7 +28,7 @@ import { Fieldset } from 'primeng/fieldset';
             <div class="text-sm mb-1 font-semibold text-surface-950 dark:text-surface-0">Family</div>
             <select
               class="appearance-none px-3 py-2 rounded-md border border-surface-300 dark:border-surface-700 w-48"
-              [(ngModel)]="designerService.designer().theme.config.font_family"
+              [(ngModel)]="designerService.designer().theme!.config!.font_family"
               (change)="changeFont()"
             >
               <option *ngFor="let font of fonts" [value]="font">{{ font }}</option>
@@ -41,16 +41,9 @@ import { Fieldset } from 'primeng/fieldset';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DesignSettings {
-  designerService: DesignerService = inject(DesignerService);
-
-  confirmationService: ConfirmationService = inject(ConfirmationService);
-
-  missingTokens = computed(() => this.designerService.missingTokens());
-
-  status = computed(() => this.designerService.status());
+  protected designerService: DesignerService = inject(DesignerService);
 
   fontSizes: string[] = ['12px', '13px', '14px', '15px', '16px'];
-
   fonts: string[] = [
     'DM Sans',
     'Dosis',
@@ -79,14 +72,21 @@ export class DesignSettings {
     'Titillium Web',
     'Ubuntu Sans',
   ];
+  readonly status = computed(() => this.designerService.status());
 
   async changeFont() {
-    await this.designerService.applyFont(this.designerService.designer().theme.config.font_family);
-    await this.designerService.saveTheme(this.designerService.designer().theme);
+    const fontFamily: string | undefined = this.designerService.designer().theme?.config?.font_family;
+    if (fontFamily) {
+      document.documentElement.style.setProperty('--font-family', fontFamily);
+      document.documentElement.style.setProperty('font-family', fontFamily);
+    }
   }
 
   async changeBaseFontSize() {
-    document.documentElement.style.setProperty('font-size', this.designerService.designer().theme.config.font_size);
-    await this.designerService.saveTheme(this.designerService.designer().theme);
+    const fontSize: string | undefined = this.designerService.designer().theme?.config?.font_size;
+    if (fontSize) {
+      document.documentElement.style.setProperty('font-size', fontSize);
+      await this.designerService.saveTheme(this.designerService.designer().theme);
+    }
   }
 }

@@ -123,7 +123,7 @@ const viteConfig: UserConfig = {
 
   plugins: [
     analog({
-      disableTypeChecking: true, // PrimeNG designer is not properly typed at all. What the fuck.
+      disableTypeChecking: false,
       liveReload: true,
       prerender: {
         routes: [],

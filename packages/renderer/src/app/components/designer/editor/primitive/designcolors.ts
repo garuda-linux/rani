@@ -16,13 +16,13 @@ import { FieldsetModule } from 'primeng/fieldset';
         <div class="flex gap-2 items-center">
           <span class="text-sm capitalize block w-20">{{ key }}</span>
           <input
-            [value]="designerService.resolveColor(designerService.designer().theme.preset.primitive[key]['500'])"
+            [value]="designerService.resolveColor($any(designerService.designer().theme.preset?.primitive)[key]['500'])"
             (change)="onColorChange($event, key)"
             (blur)="onBlur()"
             type="color"
           />
         </div>
-        <design-color-palette [value]="designerService.designer().theme?.preset?.primitive[key]" />
+        <design-color-palette [value]="$any(designerService.designer().theme?.preset?.primitive)[key]" />
       </section>
     </ng-container>
   </p-fieldset>`,
@@ -32,16 +32,23 @@ export class DesignColors {
   designerService: DesignerService = inject(DesignerService);
 
   onColorChange(event: any, color: any) {
-    this.designerService.designer.update((prev) => ({
-      ...prev,
-      theme: {
-        ...prev.theme,
-        preset: {
-          ...prev.theme.preset,
-          primitive: { ...prev.theme.preset.primitive, [color]: palette(event.target.value) },
-        },
-      },
-    }));
+    // @ts-ignore
+    this.designerService.designer.update((prev) => {
+      if (prev.theme.preset) {
+        return {
+          ...prev,
+          theme: {
+            ...prev.theme,
+            preset: {
+              ...prev.theme.preset,
+              // @ts-ignore
+              primitive: { ...prev.theme.preset.primitive, [color]: palette(event.target.value) },
+            },
+          },
+        };
+      }
+      return prev;
+    });
   }
 
   onBlur() {
