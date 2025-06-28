@@ -15,7 +15,7 @@ function copyAssets(): Plugin {
       try {
         // Copy assets directory to main package dist
         const srcAssetsDir = join(process.cwd(), 'assets');
-        const destAssetsDir = join(process.cwd(), 'dist/assets');
+        const destAssetsDir = join(process.cwd(), 'dist', 'client', 'assets');
 
         function copyDir(src: string, dest: string): void {
           try {
@@ -38,16 +38,6 @@ function copyAssets(): Plugin {
         }
 
         copyDir(srcAssetsDir, destAssetsDir);
-
-        // Copy favicon to root for HTML reference
-        const faviconSrc = join(srcAssetsDir, 'garuda-purple.svg');
-        const faviconDest = join(process.cwd(), 'dist/garuda-purple.svg');
-        try {
-          copyFileSync(faviconSrc, faviconDest);
-        } catch (error) {
-          console.warn('Could not copy favicon:', (error as NodeJS.ErrnoException).message);
-        }
-
         console.log('Assets copied to renderer package');
       } catch (error) {
         console.warn('Could not copy assets:', (error as NodeJS.ErrnoException).message);
@@ -64,7 +54,7 @@ function transformAssetPaths(): Plugin {
     name: 'transform-asset-paths',
     writeBundle(): void {
       try {
-        const distDir = join(process.cwd(), 'dist');
+        const distDir = join(process.cwd(), 'dist', 'client');
 
         // Find all files to process
         const assetsDir = join(distDir, 'assets');
