@@ -122,6 +122,7 @@ function validateCommand(command: string, args: string[]): boolean {
     'pacman',
     'yay',
     'paru',
+    // General system utilities
     'systemctl',
     'localectl',
     'timedatectl',
@@ -131,7 +132,6 @@ function validateCommand(command: string, args: string[]): boolean {
     'lsb_release',
     'journalctl',
     'dkms',
-    // General system utilities
     'cp',
     'test',
     'uname',
@@ -160,7 +160,6 @@ function validateCommand(command: string, args: string[]): boolean {
     /dd\s+if=.*of=\/dev\/[sh]d/, // dd to disk devices
     // System control
     /shutdown/,
-    /reboot/,
     /halt/,
     /init\s+[06]/,
     /systemctl\s+(poweroff|halt)/,
