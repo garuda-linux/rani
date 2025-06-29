@@ -29,6 +29,15 @@ check-packagelists:
   rules:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
+cbeck-renovate:
+  stage: checks
+  image: ghcr.io/renovatebot/renovate:latest
+  script:
+    - renovate
+  rules:
+    - if: '$CI_PIPELINE_SOURCE == "schedule"'
+  variables:
+    RENOVATE_CONFIG_FILE: .gitlab/renovate-config.cjs
 build-linux:
   image: node:24-slim
   stage: build
