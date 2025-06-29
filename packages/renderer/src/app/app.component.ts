@@ -8,6 +8,7 @@ import {
   ElementRef,
   Renderer2,
   ViewChild,
+  computed,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { ScrollTop } from 'primeng/scrolltop';
@@ -32,13 +33,7 @@ import { Logger } from './logging/logging';
 import { TaskManagerService } from './components/task-manager/task-manager.service';
 import { NotificationService } from './components/notification/notification.service';
 import { ThemeService } from './components/theme-service/theme-service';
-import {
-  ElectronShellService,
-  ElectronContextMenuService,
-  ElectronAppMenuService,
-  type ContextMenuItem,
-  type AppMenuItem,
-} from './electron-services';
+import { ElectronShellService, ElectronAppMenuService, type AppMenuItem } from './electron-services';
 import { SplitButton } from 'primeng/splitbutton';
 import { AutoComplete, AutoCompleteCompleteEvent, AutoCompleteSelectEvent } from 'primeng/autocomplete';
 import { MODULE_SEARCH, ModuleSearchEntry } from './constants/module-search';
@@ -46,6 +41,7 @@ import { NgClass } from '@angular/common';
 import { AppDesigner } from './components/designer/app.designer';
 import { DesignerService } from './components/designer/designerservice';
 import { WallpaperService } from './components/wallpaper/wallpaper.service';
+import { ContextMenuModule } from 'primeng/contextmenu';
 
 @Component({
   imports: [
@@ -67,6 +63,7 @@ import { WallpaperService } from './components/wallpaper/wallpaper.service';
     SplitButton,
     AutoComplete,
     NgClass,
+    ContextMenuModule,
     AppDesigner,
   ],
   selector: 'rani-root',
@@ -79,8 +76,6 @@ export class AppComponent implements OnInit {
   @ViewChild('operationManagerComponent') operationManagerComponent!: OperationManagerComponent;
 
   private readonly appMenuService = inject(ElectronAppMenuService);
-  private readonly contextMenuService = inject(ElectronContextMenuService);
-  private readonly designerService = inject(DesignerService);
   private readonly elementRef = inject(ElementRef);
   private readonly notificationService = inject(NotificationService);
   private readonly renderer = inject(Renderer2);
@@ -93,43 +88,42 @@ export class AppComponent implements OnInit {
   protected readonly shellService = inject(ElectronShellService);
   protected readonly taskManager = inject(TaskManagerService);
 
-  rightClickMenu = signal<ContextMenuItem[]>([
-    this.contextMenuService.createMenuItem({
+  applyButtonVisible = computed(() => this.taskManager.tasks().length > 0);
+
+  rightClickMenu = signal<MenuItem[]>([
+    {
       id: 'apply',
       label: 'Apply',
       icon: 'pi pi-check',
-      onClick: () => this.operationManagerComponent.applyOperations(),
-    }),
-    this.contextMenuService.createMenuItem({
+      visible: this.applyButtonVisible(),
+      command: () => this.operationManagerComponent.applyOperations(),
+    },
+    {
       id: 'clear',
       label: 'Clear',
       icon: 'pi pi-trash',
-      onClick: () => this.operationManagerComponent.clearOperations(),
-    }),
-    this.contextMenuService.createSeparator(),
-    this.contextMenuService.createMenuItem({
+      visible: this.applyButtonVisible(),
+      command: () => this.operationManagerComponent.clearOperations(),
+    },
+    {
       id: 'show-terminal',
       label: 'Show terminal',
       icon: 'pi pi-hashtag',
-      onClick: () => {
-        void this.terminalComponent.visible.set(true);
-      },
-    }),
-    this.contextMenuService.createSeparator(),
-    this.contextMenuService.createMenuItem({
+      command: () => this.terminalComponent.visible.set(true),
+    },
+    {
       id: 'exit',
       label: 'Exit',
       icon: 'pi pi-times',
-      onClick: () => {
-        windowRequestClose();
-      },
-    }),
+      command: () => windowRequestClose(),
+    },
   ]);
 
   protected readonly configService = inject(ConfigService);
   protected readonly logger = Logger.getInstance();
 
   // Not used, but required for the app component to work properly!
+  private readonly _designerService = inject(DesignerService);
   private readonly _themeService = inject(ThemeService);
 
   readonly moduleItems = [
@@ -374,18 +368,6 @@ export class AppComponent implements OnInit {
   async handleKeyboardEvent(event: KeyboardEvent): Promise<void> {
     const thisBoundKeyHandler = globalKeyHandler.bind(this);
     await thisBoundKeyHandler(event);
-  }
-
-  /**
-   * Handle right click events on the app window to show native context menu
-   * @param event The mouse event
-   */
-  @HostListener('contextmenu', ['$event'])
-  async handleRightClick(event: MouseEvent): Promise<void> {
-    event.preventDefault();
-
-    const menu = this.rightClickMenu();
-    await this.contextMenuService.showContextMenu(menu, event.clientX, event.clientY);
   }
 
   /**
