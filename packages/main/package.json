@@ -26,6 +26,6 @@
     "@app/electron-versions": "workspace:*",
     "electron-devtools-installer": "^4.0.0",
     "typescript": "^5.8.3",
-    "vite": "^6.3.5"
+    "vite": "^7.0.0"
   }
 }
