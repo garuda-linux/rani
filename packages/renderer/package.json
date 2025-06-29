@@ -26,7 +26,7 @@
     "@angular/router": "^19.2.14",
     "@app/preload": "workspace:*",
     "@fontsource/jetbrains-mono": "^5.2.6",
-    "@fortawesome/angular-fontawesome": "^1.0.0",
+    "@fortawesome/angular-fontawesome": "^2.0.0",
     "@fortawesome/free-brands-svg-icons": "^6.7.2",
     "@fortawesome/free-solid-svg-icons": "^6.7.2",
     "@garudalinux/core": "^0.3.1",
