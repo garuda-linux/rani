@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.0.1] - 2025-06-29
+
+### 🚀 Features
+
+- _(task-manager)_ Add timeout option with none by default and localized messages for script execution, add task finished message
+
+### 🐛 Bug Fixes
+
+- _(maintenance)_ Reset not going through due to resolve being used
+- _(terminal)_ Correct progress calculation for single-task scenarios
+
+### 📚 Documentation
+
+- _(changelog)_ Update
+
 ## [3.0.0] - 2025-06-28
 
 ### 🚀 Features
