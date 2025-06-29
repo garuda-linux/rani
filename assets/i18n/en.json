@@ -630,5 +630,9 @@
     "selected": "Selected",
     "task": "Change system locale",
     "selectLocale": "Select your preferred system-wide language"
+  },
+  "taskmanager": {
+    "scriptMismatch": "Script has been tampered with, refusing to execute!",
+    "scriptExecuted": "The current task has finished."
   }
 }

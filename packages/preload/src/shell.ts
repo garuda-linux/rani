@@ -228,10 +228,14 @@ async function executeLocally(
 
     let stdout = '';
     let stderr = '';
-    const timeoutId: NodeJS.Timeout = setTimeout(() => {
-      child.kill('SIGTERM');
-      reject(new Error('Command execution timed out'));
-    }, timeout);
+    let timeoutId: NodeJS.Timeout;
+
+    if (timeout > 0) {
+      timeoutId = setTimeout(() => {
+        child.kill('SIGTERM');
+        reject(new Error('Command execution timed out'));
+      }, timeout);
+    }
 
     const cleanup = () => {
       clearTimeout(timeoutId);

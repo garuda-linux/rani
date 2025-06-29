@@ -193,8 +193,9 @@ export class TaskManagerService {
    * This uses the non-streaming `execute` path, likely for one-off commands.
    * @param script The bash scriptlet to execute
    * @param reinit Whether to reinitialize the config service or not.
+   * @param timeout Optional timeout in milliseconds for the execution (0 means no timeout).
    */
-  async executeAndWaitBash(script: string, reinit = false): Promise<any> {
+  async executeAndWaitBash(script: string, reinit = false, timeout = 0): Promise<any> {
     // Change ChildProcess<string> to any due to varied return type
     let result: any; // Type 'any' for now, should be specific return of ipcRenderer.invoke('shell:execute')
     try {
@@ -203,7 +204,7 @@ export class TaskManagerService {
       // For now, let's directly call invoke if shellService is not defined yet.
       // If you're only using ElectronShellSpawnService for *all* shell interaction,
       // this method should also use the persistent shells.
-      result = await this.shellStreamingService.execute('bash', ['-c', `LANG=C ${script}`]);
+      result = await this.shellStreamingService.execute('bash', ['-c', `LANG=C ${script}`], { timeout });
     } catch (error) {
       this.logger.error(`Unexpected error while executing bash script: ${error}`);
       result = {
@@ -222,12 +223,15 @@ export class TaskManagerService {
    * Execute a bash script in a terminal using garuda-libs and wait for it to finish.
    * @param script The bash scriptlet to execute in the terminal.
    * @param reinit Whether to reinitialize the config service or not.
+   * @param timeout Optional timeout in milliseconds for the execution (0 means no timeout).
    */
-  async executeAndWaitBashTerminal(script: string, reinit = false): Promise<void> {
+  async executeAndWaitBashTerminal(script: string, reinit = false, timeout = 0): Promise<void> {
     try {
       this.logger.debug(`Executing bash code in terminal: ${script}`);
       this.loadingService.loadingOn();
-      await this.shellStreamingService.execute('sh', ['-c', `/usr/lib/garuda/launch-terminal ${script}`]);
+      await this.shellStreamingService.execute('sh', ['-c', `/usr/lib/garuda/launch-terminal "${script}"`], {
+        timeout,
+      });
     } catch (error) {
       this.logger.error(`Unexpected error while executing bash script in terminal: ${error}`);
     } finally {
@@ -361,6 +365,7 @@ export class TaskManagerService {
     const hash = Array.from(new Uint8Array(digest))
       .map((b) => b.toString(16).padStart(2, '0'))
       .join('');
+    const taskFinishedMessage: string = this.translocoService.translate('taskmanager.scriptExecuted');
 
     // Execute the script with extra safeguards by writing to the persistent shell's stdin
     await shell.write(`
@@ -368,13 +373,15 @@ export class TaskManagerService {
       script=$(<'${path}')
       # Check if the script is the same as the one we wrote
       if [ "$(printf '%s' "$script" | sha256sum | cut -d ' ' -f 1)" != "${hash}" ]; then
-        echo "Script has been tampered with, refusing to execute"
+        echo "${this.translocoService.translate('taskmanager.scriptMismatch')}"
         # This is bad enough to end the entire shell
         exit 1
       fi
       # Execute the script, -x for debugging output
       bash -x /dev/stdin <<< "$script"
       rm '${path}'
+
+      printf "\n${taskFinishedMessage}\n"
     `);
 
     while ((await this.fsService.exists(path)) && shell.running) {
