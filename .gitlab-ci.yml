@@ -7,8 +7,8 @@ check-commitizen:
     GIT_STRATEGY: none
   script: nix run nixpkgs#commitizen -- check --message "$CI_COMMIT_TITLE"
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != 'schedule'
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_PIPELINE_SOURCE != 'schedule'
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 check-packagelists:
   # Check whether all packages advertised in the package lists are available
   stage: checks
@@ -27,17 +27,8 @@ check-packagelists:
     - corepack enable
     - pnpm check-pkglists
   rules:
-    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH && $CI_PIPELINE_SOURCE != 'schedule'
-    - if: $CI_PIPELINE_SOURCE == 'merge_request_event' && $CI_PIPELINE_SOURCE != 'schedule'
-cbeck-renovate:
-  stage: checks
-  image: ghcr.io/renovatebot/renovate:latest
-  script:
-    - renovate
-  rules:
-    - if: '$CI_PIPELINE_SOURCE == "schedule"'
-  variables:
-    RENOVATE_CONFIG_FILE: .gitlab/renovate-config.cjs
+    - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
+    - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 build-linux:
   image: node:24-slim
   stage: build

@@ -19,7 +19,7 @@
   },
   "packageRules": [
     {
-      "automerge": true,
+      "automerge": false,
       "enabled": true,
       "groupName": "All patch dependencies",
       "groupSlug": "all-patch",
