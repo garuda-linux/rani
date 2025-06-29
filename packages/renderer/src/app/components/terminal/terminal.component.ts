@@ -62,7 +62,11 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     if (progress === null) {
       return null;
     }
-    return ((progress / this.taskManagerService.count()) * 100).toPrecision(1);
+    const count = this.taskManagerService.count();
+    if (count <= 1) {
+      return (progress === 0 ? 0 : 100).toPrecision(1);
+    }
+    return (((progress - 1) / (count - 1)) * 100).toPrecision(1);
   });
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
     let theme: ITheme = this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
