@@ -300,7 +300,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        this.logger.info('Refreshing mirrors');
+        this.logger.info('Running Btrfs assistant');
         if (await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')) {
           void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
         }
@@ -329,7 +329,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 0,
       onlyDirect: true,
       command: async (): Promise<void> => {
-        this.logger.info('Editing repositories, checking for pace');
+        this.logger.info('Editing repositories with pace');
         if (await this.osInteractService.ensurePackageArchlinux('pace')) {
           void this.taskManager.executeAndWaitBash('pace');
         }
@@ -398,12 +398,11 @@ export class MaintenanceComponent implements OnInit {
   async resetConfigs(): Promise<void> {
     this.logger.debug('Resetting configs');
     this.loadingService.loadingOn();
-    const homeDir: string = await path.resolve('~');
 
     for (const config of this.selectedResetConfigs()) {
       this.logger.trace(`Resetting config: ${config.name}`);
       for (const file of config.files) {
-        const cmd = `cp -r ${file} ${file.replace('/etc/skel', homeDir)}`;
+        const cmd = `cp ${file} ${file.replace('/etc/skel', '~')}`;
         this.logger.debug(`Running command: ${cmd}`);
 
         const output = await this.taskManager.executeAndWaitBash(cmd);
@@ -511,7 +510,7 @@ export class MaintenanceComponent implements OnInit {
    * @private
    */
   private async mergePacDiff(): Promise<void> {
-    const script = `echo "Creating pre-merge snapshot..." && snap=$(sudo snapper create -d "Before PacDiff merge" -p) && echo "Created snapshot $snap" && for i in $(/usr/bin/pacdiff --output); do echo "Merging $i ..." && SUDO_EDITOR=/usr/bin/meld /usr/bin/sudo -e "$i" "$\{i/.pacnew/}" && read -e -p 'Were the files successfully merged? (deleting .pacnew in this case) [y/N] ' answer && [[ $answer == [Yy]* ]] && echo deleting "$i"... && sudo rm "$i"; done; read -p "Press enter to finish"`;
+    const script = `/usr/lib/garuda/pacdiff-merge`;
 
     if (await this.osInteractService.ensurePackageArchlinux('meld')) {
       void this.taskManager.executeAndWaitBashTerminal(script);
