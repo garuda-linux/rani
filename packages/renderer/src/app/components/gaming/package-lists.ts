@@ -29,7 +29,7 @@ export const gamingPackageLists: PackageSections = [
       { name: 'Protontricks', pkgname: ['protontricks-git'], icon: 'proton.svg', description: 'gaming.protontricks' },
       { name: 'ProtonUp-Qt', pkgname: ['protonup-qt'], icon: 'protonup-qt.png', description: 'gaming.protonupQt' },
       { name: 'WINE Meta', pkgname: ['wine-meta'], icon: 'winehq.png', description: 'gaming.wineMeta' },
-      { name: 'WINE', pkgname: ['wine'], icon: 'winehq.png', description: 'gaming.wine' },
+      { name: 'WINE', pkgname: ['wine'], icon: 'winehq.png', description: 'gaming.winePackage' },
       { name: 'WINE WOW64', pkgname: ['wine-wow64'], icon: 'winehq.png', description: 'gaming.wineWow64' },
       { name: 'WINE Staging', pkgname: ['wine-staging'], icon: 'winehq.png', description: 'gaming.wineStaging' },
       { name: 'WINE Staging WOW64', pkgname: ['wine-staging-wow64'], icon: 'winehq.png', description: 'gaming.wineStagingWow64' },
