@@ -88,8 +88,6 @@
     "misc": "Divers",
     "bluez": "Généralement requis pour reconnaître les manettes PS sans fil",
     "xboxdrv": "Pilote pour manette Xbox, à utiliser uniquement si le pilote du noyau ne fonctionne pas !",
-    "wineWow64": "Version de WINE avec support 64 bits sans avoir à installer les bibliothèques 32 bits",
-    "wineStagingWow64": "Version Staging de WINE avec support 32 bits sans avoir à installer les bibliothèques 32 bits",
     "wineMeta": "Méta-paquet pour installer WINE et toutes les dépendances requises"
   },
   "maintenance": {

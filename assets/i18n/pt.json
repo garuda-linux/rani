@@ -88,8 +88,6 @@
     "misc": "Diversos",
     "bluez": "Geralmente necessário para reconhecer comandos PS sem fios",
     "xboxdrv": "Driver do comando Xbox, usar apenas se o driver do kernel não funcionar!",
-    "wineWow64": "Versão do WINE com suporte a 64 bits sem ter que instalar as bibliotecas de 32 bits",
-    "wineStagingWow64": "Versão Staging do WINE com suporte a 32 bits sem ter que instalar as bibliotecas de 32 bits",
     "wineMeta": "Metapacote para instalar o WINE e todas as dependências necessárias"
   },
   "maintenance": {

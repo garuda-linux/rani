@@ -88,8 +88,6 @@
     "misc": "Mengineyo",
     "bluez": "Kwa ujumla inahitajika ili kutambua vidhibiti vya PS visivyo na waya",
     "xboxdrv": "Dereva ya kidhibiti cha Xbox, tumia tu ikiwa dereva ya kernel haifanyi kazi!",
-    "wineWow64": "Toleo la WINE lenye usaidizi wa 64-bit bila kuhitaji kusakinisha maktaba za 32-bit",
-    "wineStagingWow64": "Toleo la staging la WINE lenye usaidizi wa 32-bit bila kuhitaji kusakinisha maktaba za 32-bit",
     "wineMeta": "Kifurushi cha Meta cha kusakinisha WINE na vitegemezi vyote vinavyohitajika"
   },
   "maintenance": {

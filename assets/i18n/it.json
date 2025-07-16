@@ -88,8 +88,6 @@
     "misc": "Varie",
     "bluez": "Generalmente richiesto per riconoscere i controller PS wireless",
     "xboxdrv": "Driver per controller Xbox, usa solo se il driver del kernel non funziona!",
-    "wineWow64": "Versione di WINE con supporto a 64 bit senza dover installare le librerie a 32 bit",
-    "wineStagingWow64": "Versione staging di WINE con supporto a 32 bit senza dover installare le librerie a 32 bit",
     "wineMeta": "Metapacchetto per installare WINE e tutte le dipendenze richieste"
   },
   "maintenance": {

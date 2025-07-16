@@ -88,8 +88,6 @@
     "misc": "Çeşitli",
     "bluez": "Genellikle PS kontrolcülerinin kablosuz olarak tanınması için gereklidir",
     "xboxdrv": "Xbox kontrolcü sürücüsü, yalnızca çekirdek sürücüsü çalışmazsa kullan!",
-    "wineWow64": "32-bit kütüphaneleri kurmaya gerek kalmadan 64-bit desteği olan WINE sürümü",
-    "wineStagingWow64": "32-bit kütüphaneleri kurmaya gerek kalmadan 32-bit desteği olan WINE'ın staging sürümü",
     "wineMeta": "WINE ve tüm gerekli bağımlılıkları kurmak için meta paket"
   },
   "maintenance": {

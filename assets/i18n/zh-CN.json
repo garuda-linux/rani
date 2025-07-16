@@ -88,8 +88,6 @@
     "misc": "杂项",
     "bluez": "通常需要用它来识别 PS 无线手柄",
     "xboxdrv": "Xbox 手柄驱动，仅在内核驱动不工作时使用！",
-    "wineWow64": "无需安装 32 位库即可支持 64 位的 WINE 版本",
-    "wineStagingWow64": "无需安装 32 位库即可支持 32 位的 WINE staging 版本",
     "wineMeta": "用于安装 WINE 和所有必需依赖项的元软件包"
   },
   "maintenance": {

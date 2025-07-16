@@ -88,8 +88,6 @@
     "misc": "Diversos",
     "bluez": "Xeralmente requirido para recoñecer mandos de PS sen fíos",
     "xboxdrv": "Controlador para mandos de Xbox, úsao só se o controlador do kernel non funciona!",
-    "wineWow64": "Versión de WINE con soporte de 64 bits sen ter que instalar as bibliotecas de 32 bits",
-    "wineStagingWow64": "Versión Staging de WINE con soporte de 32 bits sen ter que instalar as bibliotecas de 32 bits",
     "wineMeta": "Metapaquete para instalar WINE e todas as dependencias requiridas"
   },
   "maintenance": {
