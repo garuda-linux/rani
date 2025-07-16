@@ -88,8 +88,6 @@
     "misc": "Sonstiges",
     "bluez": "Wird generell benötigt, um PS-Controller drahtlos zu erkennen",
     "xboxdrv": "Xbox-Controller-Treiber, nur verwenden, wenn der Kernel-Treiber nicht funktioniert!",
-    "wineWow64": "Version von WINE mit 64-Bit-Unterstützung, ohne die 32-Bit-Bibliotheken installieren zu müssen",
-    "wineStagingWow64": "Staging-Version von WINE mit 32-Bit-Unterstützung, ohne die 32-Bit-Bibliotheken installieren zu müssen",
     "wineMeta": "Metapaket zur Installation von WINE und allen erforderlichen Abhängigkeiten"
   },
   "maintenance": {

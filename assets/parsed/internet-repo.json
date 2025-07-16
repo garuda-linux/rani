@@ -357,13 +357,6 @@
     "pkgname": ["eolie"]
   },
   {
-    "name": "FatRat",
-    "description": "Qt based download manager with support for HTTP, FTP, SFTP, BitTorrent and Metalink.",
-    "url": "https://github.com/LubosD/fatrat",
-    "icon": "generic-dark.svg",
-    "pkgname": ["fatrat-git"]
-  },
-  {
     "name": "Fb-client",
     "description": "Client for the [https://paste.xinu.at/ paste.xinu.at] pastebin.",
     "url": "https://paste.xinu.at",

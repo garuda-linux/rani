@@ -88,8 +88,6 @@
     "misc": "Egyéb",
     "bluez": "Általában szükséges a PS kontrollerek vezeték nélküli felismeréséhez",
     "xboxdrv": "Xbox kontroller illesztőprogram, csak akkor használd, ha a kernel illesztőprogram nem működik!",
-    "wineWow64": "A WINE 64 bites támogatású verziója anélkül, hogy telepíteni kellene a 32 bites könyvtárakat",
-    "wineStagingWow64": "A WINE staging verziója 32 bites támogatással anélkül, hogy telepíteni kellene a 32 bites könyvtárakat",
     "wineMeta": "Metacsomag a WINE és az összes szükséges függőség telepítéséhez"
   },
   "maintenance": {

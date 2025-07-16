@@ -88,8 +88,6 @@
     "misc": "Miscelánea",
     "bluez": "Generalmente necesario para reconocer mandos de PS inalámbricos",
     "xboxdrv": "Driver para mandos de Xbox, ¡úsalo solo si el driver del kernel no funciona!",
-    "wineWow64": "Versión de WINE con soporte de 64 bits sin necesidad de instalar las librerías de 32 bits",
-    "wineStagingWow64": "Versión Staging de WINE con soporte de 32 bits sin necesidad de instalar las librerías de 32 bits",
     "wineMeta": "Metapaquete para instalar WINE y todas las dependencias requeridas"
   },
   "maintenance": {

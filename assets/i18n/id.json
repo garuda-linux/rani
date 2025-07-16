@@ -88,8 +88,6 @@
     "misc": "Lain-lain",
     "bluez": "Umumnya diperlukan untuk mengenali kontroler PS nirkabel",
     "xboxdrv": "Driver kontroler Xbox, hanya gunakan jika driver kernel tidak berfungsi!",
-    "wineWow64": "Versi WINE dengan dukungan 64-bit tanpa harus menginstal pustaka 32-bit",
-    "wineStagingWow64": "Versi staging WINE dengan dukungan 32-bit tanpa harus menginstal pustaka 32-bit",
     "wineMeta": "Meta package untuk menginstal WINE dan semua dependensi yang diperlukan"
   },
   "maintenance": {

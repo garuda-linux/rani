@@ -88,8 +88,6 @@
     "misc": "Askotarikoak",
     "bluez": "Orokorrean beharrezkoa da PS kontrolagailuak haririk gabe ezagutzeko",
     "xboxdrv": "Xbox kontrolagailuaren driverra, erabili soilik kernelaren driverrak funtzionatzen ez badu!",
-    "wineWow64": "WINEren bertsioa 64 biteko euskarriarekin, 32 biteko liburutegiak instalatu behar izan gabe",
-    "wineStagingWow64": "WINEren Staging bertsioa 32 biteko euskarriarekin, 32 biteko liburutegiak instalatu behar izan gabe",
     "wineMeta": "Meta paketea WINE eta beharrezko menpekotasun guztiak instalatzeko"
   },
   "maintenance": {

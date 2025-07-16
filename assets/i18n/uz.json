@@ -88,8 +88,6 @@
     "misc": "Har xil",
     "bluez": "Odatda PS kontrollerlarini simsiz tanish uchun talab qilinadi",
     "xboxdrv": "Xbox kontroller drayveri, faqat yadro drayveri ishlamasa foydalaning!",
-    "wineWow64": "32-bit kutubxonalarni oʻrnatmasdan 64-bit qoʻllab-quvvatlashiga ega WINE versiyasi",
-    "wineStagingWow64": "32-bit kutubxonalarni oʻrnatmasdan 32-bit qoʻllab-quvvatlashiga ega WINE staging versiyasi",
     "wineMeta": "WINE va barcha kerakli bogʻliqliklarni oʻrnatish uchun meta-paket"
   },
   "maintenance": {

@@ -88,8 +88,6 @@
     "misc": "Różne",
     "bluez": "Zazwyczaj wymagane do rozpoznawania bezprzewodowych kontrolerów PS",
     "xboxdrv": "Sterownik kontrolera Xbox, używaj tylko wtedy, gdy sterownik jądra nie działa!",
-    "wineWow64": "Wersja WINE ze wsparciem 64-bitowym bez konieczności instalowania bibliotek 32-bitowych",
-    "wineStagingWow64": "Wersja staging WINE ze wsparciem 32-bitowym bez konieczności instalowania bibliotek 32-bitowych",
     "wineMeta": "Metapakiet do instalacji WINE i wszystkich wymaganych zależności"
   },
   "maintenance": {

@@ -88,8 +88,6 @@
     "misc": "Diverse",
     "bluez": "Generellt krävs för att känna igen trådlösa PS-kontroller",
     "xboxdrv": "Xbox kontrolldrivrutin, använd endast om kärndrivrutinen inte fungerar!",
-    "wineWow64": "Version av WINE med 64-bitars stöd utan att behöva installera 32-bitars bibliotek",
-    "wineStagingWow64": "Staging-version av WINE med 32-bitars stöd utan att behöva installera 32-bitars bibliotek",
     "wineMeta": "Metapaket för att installera WINE och alla nödvändiga beroenden"
   },
   "maintenance": {

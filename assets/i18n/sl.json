@@ -88,8 +88,6 @@
     "misc": "Razno",
     "bluez": "Običajno potrebno za prepoznavanje brezžičnih PS kontrolerjev",
     "xboxdrv": "Gonilnik za Xbox kontroler, uporabi samo, če gonilnik jedra ne deluje!",
-    "wineWow64": "Različica WINE s podporo za 64-bit brez namestitve 32-bitnih knjižnic",
-    "wineStagingWow64": "Staging različica WINE s podporo za 32-bit brez namestitve 32-bitnih knjižnic",
     "wineMeta": "Meta paket za namestitev WINE in vseh potrebnih odvisnosti"
   },
   "maintenance": {
