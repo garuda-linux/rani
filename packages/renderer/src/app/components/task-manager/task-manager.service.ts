@@ -204,7 +204,7 @@ export class TaskManagerService {
       // For now, let's directly call invoke if shellService is not defined yet.
       // If you're only using ElectronShellSpawnService for *all* shell interaction,
       // this method should also use the persistent shells.
-      result = await this.shellStreamingService.execute('bash', ['-c', `LANG=C ${script}`], { timeout });
+      result = await this.shellStreamingService.execute('bash', ['--norc', '--noprofile', '-c', `LANG=C ${script}`], { timeout });
     } catch (error) {
       this.logger.error(`Unexpected error while executing bash script: ${error}`);
       result = {

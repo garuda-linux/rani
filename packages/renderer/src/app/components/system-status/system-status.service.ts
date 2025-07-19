@@ -74,7 +74,7 @@ export class SystemStatusService {
   private async getPacFiles(): Promise<void> {
     const cmd = 'pacdiff -o';
     const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
-      await this.shellService.execute('bash', ['-c', cmd]);
+      await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
 
     if (result.code === 0) {
       if (result.stdout.trim() === '') return;
@@ -93,7 +93,7 @@ export class SystemStatusService {
    */
   private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
     const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
-      await this.shellService.execute('bash', ['-c', cmd]);
+      await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
     const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
 
     if (result.code === 0) {
@@ -125,7 +125,7 @@ export class SystemStatusService {
   private async checkLastUpdate(): Promise<void> {
     const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
     const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
-      await this.shellService.execute('bash', ['-c', cmd]);
+      await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
 
     if (result.code === 0) {
       const date = new Date(result.stdout.trim().replace(']', ''));
