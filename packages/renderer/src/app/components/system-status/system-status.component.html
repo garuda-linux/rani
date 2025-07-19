@@ -37,6 +37,9 @@
         </p-overlay-badge>
       </div>
     }
+    <div class="cursor-pointer" (click)="refreshState()">
+      <i class="pi pi-refresh" style="font-size: 1.2rem"></i>
+    </div>
   </div>
 
   <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">

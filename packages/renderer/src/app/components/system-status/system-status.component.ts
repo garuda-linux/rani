@@ -11,6 +11,7 @@ import { ConfigService } from '../config/config.service';
 import { RouterLink } from '@angular/router';
 import { ConfirmationService } from 'primeng/api';
 import { SystemStatusService } from './system-status.service';
+import { OsInteractService } from '../task-manager/os-interact.service';
 
 @Component({
   selector: 'rani-system-status',
@@ -28,6 +29,7 @@ export class SystemStatusComponent {
   protected readonly shellService = inject(ElectronShellService);
 
   private readonly confirmationService = inject(ConfirmationService);
+  private readonly osInteractionService = inject(OsInteractService);
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly translocoService = inject(TranslocoService);
 
@@ -91,5 +93,13 @@ export class SystemStatusComponent {
    */
   runAurUpdates() {
     void this.taskManagerService.executeAndWaitBashTerminal('paru -Sua', true);
+  }
+
+  /**
+   * Refreshes all Rani system state (even though this is usually done automatically at the end of each task).
+   * This is useful for manual refreshes, e.g. when a user manually outside the app.
+   */
+  async refreshState() {
+    await Promise.allSettled([this.systemStatusService.init(), this.osInteractionService.update()]);
   }
 }
