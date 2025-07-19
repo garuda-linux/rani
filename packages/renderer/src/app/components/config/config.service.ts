@@ -59,14 +59,14 @@ export class ConfigService {
     effect(async () => {
       const settings: AppSettings = this.settings();
 
-      // const currentAutoStart: boolean = await isEnabled();
-      // if (currentAutoStart && !settings.autoStart) {
-      //   this.logger.debug('Syncing auto start setting with system: enable');
-      //   void disable();
-      // } else if (!currentAutoStart && settings.autoStart) {
-      //   this.logger.debug('Syncing auto start setting with system: disable');
-      //   void enable();
-      // }
+      const currentAutoStart: boolean = await this.existsAutoStartFile();
+      if (currentAutoStart && !settings.autoStart) {
+        this.logger.debug('Syncing auto start setting with system: enable');
+        await this.handleAutoStart(false);
+      } else if (!currentAutoStart && settings.autoStart) {
+        this.logger.debug('Syncing auto start setting with system: disable');
+        await this.handleAutoStart(true);
+      }
 
       // if (!this.cliMatches?.args['verbose']) {
       //   Logger.logLevel = settings.logLevel;
@@ -440,6 +440,43 @@ export class ConfigService {
       // Will be handled by the designer service
     } else {
       usePreset(themes[activeTheme]);
+    }
+  }
+
+  /**
+   * Enable or disable the auto start feature.
+   * @param enable Whether to enable or disable auto start.
+   */
+  private async handleAutoStart(enable = true): Promise<void> {
+    if (enable) {
+      this.logger.debug('Enabling auto start');
+      await this.shellService.execute('sh', [
+        '-c',
+        'mkdir -p $HOME/.config/autostart && echo "[Desktop Entry]\nType=Application\nExec=garuda-rani\nHidden=false\nNoDisplay=false\nX-GNOME-Autostart-enabled=true\nName[en_US]=Rani\nName=Rani\nIcon=garuda-rani" > $HOME/.config/autostart/garuda-rani.desktop',
+      ]);
+    } else {
+      this.logger.debug('Disabling auto start');
+      await this.shellService.execute('sh', [
+        '-c',
+        'rm $HOME/.config/autostart/{org.garudalinux.rani,garuda-rani}.desktop || true',
+      ]);
+    }
+  }
+
+  /**
+   * Check if the auto start file exists.
+   * @returns A promise that resolves to true if the auto start file exists, false otherwise.
+   */
+  private async existsAutoStartFile(): Promise<boolean> {
+    try {
+      const result: CommandResult = await this.shellService.execute('sh', [
+        '-c',
+        'test -f $HOME/.config/autostart/garuda-rani.desktop',
+      ]);
+      return result.code === 0;
+    } catch (error) {
+      this.logger.error(`Failed to check auto start file existence: ${error}`);
+      return false;
     }
   }
 }
