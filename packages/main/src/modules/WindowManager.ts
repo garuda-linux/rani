@@ -3,12 +3,17 @@ import type { ModuleContext } from '../ModuleContext.js';
 import { BrowserWindow, Size, screen, shell } from 'electron';
 import type { AppInitConfig } from '../AppInitConfig.js';
 import { Logger } from '../logging/logging.js';
+import ElectronStore from 'electron-store';
+import Rectangle = Electron.Rectangle;
 
 class WindowManager implements AppModule {
   readonly #preload: { path: string };
   readonly #renderer: { path: string } | URL;
   readonly #openDevTools;
   readonly #isDevelopment;
+  readonly store = new ElectronStore({
+    encryptionKey: 'non-security-by-obscurity',
+  });
 
   private readonly logger = Logger.getInstance();
   private readonly rendererLogger = Logger.child('Renderer');
@@ -38,12 +43,21 @@ class WindowManager implements AppModule {
   async createWindow(): Promise<BrowserWindow> {
     const size: Size = screen.getPrimaryDisplay().workAreaSize;
 
+    // Ensure reasonable size for the window
+    const minWidth = 1280;
+    const minHeight = 720;
+    if (size.width < minWidth || size.height < minHeight) {
+      this.logger.warn(`Screen size too small: ${size.width}x${size.height}. Defaulting to ${minWidth}x${minHeight}.`);
+      size.width = Math.max(size.width, minWidth);
+      size.height = Math.max(size.height, minHeight);
+    }
+
     // Create the browser window with secure defaults
     const browserWindow = new BrowserWindow({
       x: screen.getPrimaryDisplay().workArea.x + 50,
       y: screen.getPrimaryDisplay().workArea.y + 50,
-      width: size.width - 100,
-      height: size.height - 100,
+      width: size.width,
+      height: size.height,
       minHeight: 500,
       minWidth: 700,
       show: false,
@@ -67,6 +81,23 @@ class WindowManager implements AppModule {
         safeDialogsMessage: 'This app is preventing additional dialogs',
       },
     });
+
+    const savedBounds = this.store.get('bounds') as Rectangle;
+    if (savedBounds !== undefined) {
+      this.logger.debug(`Restoring window bounds: ${JSON.stringify(savedBounds)}`);
+      const screenArea: Rectangle = screen.getDisplayMatching(savedBounds).workArea;
+      if (
+        savedBounds.x > screenArea.x + screenArea.width ||
+        savedBounds.x < screenArea.x ||
+        savedBounds.y < screenArea.y ||
+        savedBounds.y > screenArea.y + screenArea.height
+      ) {
+        // Reset window into existing screenarea
+        browserWindow.setBounds({ x: 0, y: 0, width: size.width, height: size.height });
+      } else {
+        browserWindow.setBounds(savedBounds);
+      }
+    }
 
     // Set title
     browserWindow.setTitle('Garuda Rani');
@@ -116,6 +147,11 @@ class WindowManager implements AppModule {
 
     browserWindow.on('closed', () => {
       // Window cleanup will be handled by the framework
+    });
+
+    browserWindow.on('close', () => {
+      this.logger.debug('Window is closing, saving bounds...');
+      this.store.set('bounds', browserWindow.getBounds());
     });
 
     browserWindow.on('page-title-updated', (e) => {
