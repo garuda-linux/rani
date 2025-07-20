@@ -2,6 +2,42 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.0] - 2025-07-20
+
+### 🚀 Features
+
+- _(added-tootips-to-games-section)_ Wrote a small script to pull package descriptions. Added those descriptions as tooltips in the various packages in the gaming sections
+- Save and restore window state
+- _(renderer)_ Add refresh button to system status
+
+### 🐛 Bug Fixes
+
+- _(renderer)_ Do not source bashrc or profile when calling bash
+- _(renderer)_ Bring back reaction to auto-start toggle, handle it properly even with Tauri-created files
+
+### ⚙️ Miscellaneous Tasks
+
+- Move script to assets, shfmt
+- Drop non-existant packages from lists
+- Use reusable job templates and add GitHub close PR workflow
+
+## [3.0.2] - 2025-06-29
+
+### 🐛 Bug Fixes
+
+- _(renderer)_ Context menu not working (and looking out of design)
+- _(designer)_ Remove unnecessary optional chain operators
+
+### 📚 Documentation
+
+- _(changelog)_ Update
+
+### ⚙️ Miscellaneous Tasks
+
+- Add renovate bot
+- Drop .npmrc and explicitly pass --shamefully-hoist on PKGBUILD installs
+- Drop per-repo renovate on favor of org-wide setup
+
 ## [3.0.1] - 2025-06-29
 
 ### 🚀 Features
