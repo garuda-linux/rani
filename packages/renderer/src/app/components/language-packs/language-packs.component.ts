@@ -25,7 +25,7 @@ export class LanguagePacksComponent {
 
   constructor() {
     effect(() => {
-      const packages: Map<string, boolean> = this.osInteractService.packages();
+      const _packages: Map<string, boolean> = this.osInteractService.packages();
       if (!this.languagePacksService.loading()) {
         this.updateUi();
       }

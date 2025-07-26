@@ -119,7 +119,7 @@ export class DesignTokenField implements OnInit {
       this.modelValue() == null ||
       this.modelValue().trim().length === 0 ||
       this.modelValue().startsWith(this.componentKey) ||
-      (this.modelValue().isColor && $dt(this.modelValue()).value == undefined)
+      (this.modelValue().isColor && $dt(this.modelValue()).value === undefined)
     );
   });
 
@@ -157,7 +157,7 @@ export class DesignTokenField implements OnInit {
   }
 
   onInput(event: KeyboardEvent) {
-    // @ts-ignore
+    // @ts-expect-error - event.target may not have complete type information
     this.modelValue.set(event.target.value);
     this.modelValueChange.emit(this.modelValue());
   }
@@ -186,7 +186,7 @@ export class DesignTokenField implements OnInit {
   }
 
   transfer(event: MouseEvent) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic component key access on preset components object
     const tokens = this.designerService.designer().theme.preset?.components[this.componentKey];
     const colorSchemePrefix = 'colorScheme.';
 
@@ -203,15 +203,14 @@ export class DesignTokenField implements OnInit {
     }
 
     this.removeEmptyProps(tokens);
-    // @ts-ignore
     this.designerService.designer.update((prev) => ({
       ...prev,
       theme: {
         ...prev.theme,
-        // @ts-ignore
+        // @ts-expect-error - dynamic component key access on theme preset
         preset: {
           ...prev.theme.preset,
-          // @ts-ignore
+          // @ts-expect-error - dynamic component key access on preset components object
           components: { ...prev.theme.preset?.components, [this.componentKey]: { ...tokens } },
         },
       },
@@ -233,7 +232,7 @@ export class DesignTokenField implements OnInit {
         }
 
         if (typeof value === 'object' && value !== null && Object.keys(value).length === 0) {
-          delete obj[key];
+          Reflect.deleteProperty(obj, key);
         }
       }
     }
@@ -271,7 +270,7 @@ export class DesignTokenField implements OnInit {
 
     if (pathArray.length === 0) return false;
 
-    // @ts-ignore
+    // @ts-expect-error - prototype pollution check requires dynamic property access
     if (pathArray.includes('__proto__') || pathArray.includes('constructor') || pathArray.includes('prototype')) {
       return false;
     }
@@ -282,24 +281,24 @@ export class DesignTokenField implements OnInit {
     for (let i = 0; i < length - 1; i++) {
       const key = pathArray[i];
 
-      // @ts-ignore
+      // @ts-expect-error - dynamic property access with computed key
       if (current[key] == null) {
         return false;
       }
 
-      // @ts-ignore
+      // @ts-expect-error - dynamic property navigation with computed key
       current = current[key];
     }
 
     const lastKey = pathArray[length - 1];
 
-    // @ts-ignore
+    // @ts-expect-error - dynamic property existence check with computed key
     if (!(lastKey in current)) {
       return false;
     }
 
-    // @ts-ignore
-    delete current[lastKey];
+    // @ts-expect-error - dynamic property deletion with computed key
+    Reflect.deleteProperty(current, lastKey);
 
     return true;
   }

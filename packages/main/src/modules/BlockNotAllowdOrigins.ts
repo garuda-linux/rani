@@ -15,7 +15,7 @@ export class BlockNotAllowedOrigins extends AbstractSecurityRule {
   readonly #allowedOrigins: Set<string>;
   private readonly logger = Logger.getInstance();
 
-  constructor(allowedOrigins: Set<string> = new Set()) {
+  constructor(allowedOrigins = new Set<string>()) {
     super();
     this.#allowedOrigins = structuredClone(allowedOrigins);
   }

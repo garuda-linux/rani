@@ -2,6 +2,7 @@ import eslint from '@eslint/js';
 import tseslint from 'typescript-eslint';
 import eslintConfig from '@electron-toolkit/eslint-config';
 import oxlint from 'eslint-plugin-oxlint';
+import angular from 'angular-eslint';
 
 export default tseslint.config(
   {
@@ -10,12 +11,23 @@ export default tseslint.config(
   },
   {
     files: ['**/*.ts'],
-    extends: [eslint.configs.recommended, eslintConfig, tseslint.configs.strict, tseslint.configs.stylistic],
+    extends: [
+      eslint.configs.recommended,
+      eslintConfig,
+      ...tseslint.configs.strict,
+      ...tseslint.configs.stylistic,
+      ...angular.configs.tsRecommended,
+    ],
+    processor: angular.processInlineTemplates,
+    rules: {
+      '@typescript-eslint/no-explicit-any': 'warn',
+      '@typescript-eslint/no-unused-vars': ['warn', { argsIgnorePattern: '^_' }],
+    },
   },
   {
     files: ['**/*.html'],
+    extends: [...angular.configs.templateRecommended, ...angular.configs.templateAccessibility],
     rules: {},
   },
-  tseslint.configs.recommended,
   ...oxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 );

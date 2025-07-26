@@ -32,7 +32,7 @@ export class DesignColors {
   designerService: DesignerService = inject(DesignerService);
 
   onColorChange(event: any, color: any) {
-    // @ts-ignore
+    // @ts-expect-error - designer signal update may not be fully typed
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -41,7 +41,7 @@ export class DesignColors {
             ...prev.theme,
             preset: {
               ...prev.theme.preset,
-              // @ts-ignore
+              // @ts-expect-error - dynamic color property assignment on primitive object
               primitive: { ...prev.theme.preset.primitive, [color]: palette(event.target.value) },
             },
           },

@@ -45,7 +45,7 @@ class ClipboardModule implements AppModule {
     });
 
     // HTML operations
-    ipcMain.handle('clipboard:writeHTML', async (_, markup: string, text?: string) => {
+    ipcMain.handle('clipboard:writeHTML', async (_, markup: string, _text?: string) => {
       try {
         if (typeof markup !== 'string') {
           throw new Error('Markup must be a string');

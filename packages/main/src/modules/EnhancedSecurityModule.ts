@@ -77,7 +77,6 @@ class EnhancedSecurityModule implements AppModule {
     }
 
     // Block potentially dangerous file downloads
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     session.defaultSession.on('will-download', (event, item, _webContents) => {
       const filename = item.getFilename();
       const dangerousExtensions = [

@@ -1,7 +1,9 @@
 export class Logger {
   private static instance: Logger;
 
-  private constructor() {}
+  private constructor() {
+    // Private constructor for singleton pattern
+  }
 
   /**
    * Get the singleton instance of the Logger.

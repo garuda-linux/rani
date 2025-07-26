@@ -121,7 +121,7 @@ export class DesignCSCommon {
   @Input() colorScheme: any;
 
   onSurfaceColorChange(event: any) {
-    //@ts-ignore
+    // @ts-expect-error - colorScheme.surface property may not be fully typed at runtime
     this.colorScheme.surface = { ...{ 0: '#ffffff' }, ...palette(event.target.value) };
   }
 }

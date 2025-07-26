@@ -11,7 +11,6 @@ import {
   signal,
   type Signal,
   ViewChild,
-  untracked,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import type { ITerminalOptions, ITheme } from '@xterm/xterm';

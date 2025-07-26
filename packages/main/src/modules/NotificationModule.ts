@@ -82,7 +82,7 @@ class NotificationModule implements AppModule {
           title: string;
           body?: string;
           icon?: string;
-          actions?: Array<{ type: string; text: string }>;
+          actions?: { type: string; text: string }[];
         },
       ) => {
         try {

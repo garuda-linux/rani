@@ -241,7 +241,6 @@ describe('KernelsComponent', () => {
     mockKernelsService.dkmsModules.mockReturnValue([...sampleDkmsModules]);
 
     const acpiModule = sampleDkmsModules.find((m) => m.moduleName === 'acpi_call' && m.kernelVersion !== '');
-    const zenModule = sampleDkmsModules.find((m) => m.moduleName === 'acpi_call' && m.kernelVersion === '');
 
     const expectedCmd = `dkms install --no-depmod ${acpiModule?.moduleName}/${acpiModule?.moduleVersion} -k ${kernelsForTest[0].version}; dkms install --no-depmod ${acpiModule?.moduleName}/${acpiModule?.moduleVersion} -k ${kernelsForTest[2].version}-zen; `;
 
@@ -260,7 +259,6 @@ describe('KernelsComponent', () => {
 
   it('reinstallDkmsModules(kernel, "broken") should create task for specific kernel\'s broken modules', () => {
     const kernelWithBroken: Kernel = sampleKernels[1];
-    const brokenModuleDefinition = sampleDkmsModules[1];
 
     const dummyModulesForTest: DkmsModules = [
       ...sampleDkmsModules,

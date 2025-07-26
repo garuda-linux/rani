@@ -23,7 +23,7 @@ class AppMenuModule implements AppModule {
   private readonly logger = Logger.getInstance();
   private currentMenuItems: AppMenuItem[] = [];
 
-  enable(context: ModuleContext): void {
+  enable(_context: ModuleContext): void {
     this.setupMenuHandlers();
   }
 

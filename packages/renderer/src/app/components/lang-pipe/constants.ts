@@ -1,10 +1,11 @@
-export interface Locales {
-  [key: string]: {
+export type Locales = Record<
+  string,
+  {
     name: string;
     native: string;
     flag: string;
-  };
-}
+  }
+>;
 
 export const locales: Locales = {
   aa: { name: 'Afar', native: 'Afar', flag: '🇩🇯' },

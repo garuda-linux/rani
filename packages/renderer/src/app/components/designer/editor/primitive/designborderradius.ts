@@ -37,11 +37,11 @@ export class DesignBorderRadius {
   designerService = inject(DesignerService);
 
   get borderRadiusNone() {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     return this.designerService.designer().theme?.preset?.primitive?.borderRadius.none;
   }
   set borderRadiusNone(value: any) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -51,9 +51,9 @@ export class DesignBorderRadius {
             preset: {
               ...prev.theme.preset,
               primitive: {
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 ...prev.theme.preset.primitive,
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 borderRadius: { ...prev.theme.preset.primitive.borderRadius, none: value },
               },
             },
@@ -65,11 +65,11 @@ export class DesignBorderRadius {
   }
 
   get borderRadiusXs() {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     return this.designerService.designer().theme?.preset?.primitive.borderRadius.xs;
   }
   set borderRadiusXs(value: any) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -79,9 +79,9 @@ export class DesignBorderRadius {
             preset: {
               ...prev.theme.preset,
               primitive: {
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 ...prev.theme.preset.primitive,
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 borderRadius: { ...prev.theme.preset.primitive.borderRadius, xs: value },
               },
             },
@@ -93,11 +93,11 @@ export class DesignBorderRadius {
   }
 
   get borderRadiusSm() {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     return this.designerService.designer().theme?.preset?.primitive?.borderRadius.sm;
   }
   set borderRadiusSm(value: any) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -107,9 +107,9 @@ export class DesignBorderRadius {
             preset: {
               ...prev.theme.preset,
               primitive: {
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 ...prev.theme.preset.primitive,
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 borderRadius: { ...prev.theme.preset.primitive.borderRadius, sm: value },
               },
             },
@@ -121,11 +121,11 @@ export class DesignBorderRadius {
   }
 
   get borderRadiusMd() {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     return this.designerService.designer().theme?.preset?.primitive?.borderRadius.md;
   }
   set borderRadiusMd(value: any) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -135,9 +135,9 @@ export class DesignBorderRadius {
             preset: {
               ...prev.theme.preset,
               primitive: {
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 ...prev.theme.preset.primitive,
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 borderRadius: { ...prev.theme.preset.primitive.borderRadius, md: value },
               },
             },
@@ -149,11 +149,11 @@ export class DesignBorderRadius {
   }
 
   get borderRadiusLg() {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     return this.designerService.designer().theme?.preset?.primitive?.borderRadius.lg;
   }
   set borderRadiusLg(value: any) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -163,9 +163,9 @@ export class DesignBorderRadius {
             preset: {
               ...prev.theme.preset,
               primitive: {
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 ...prev.theme.preset.primitive,
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 borderRadius: { ...prev.theme.preset.primitive.borderRadius, lg: value },
               },
             },
@@ -177,11 +177,11 @@ export class DesignBorderRadius {
   }
 
   get borderRadiusXl() {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     return this.designerService.designer().theme?.preset?.primitive?.borderRadius.xl;
   }
   set borderRadiusXl(value: any) {
-    // @ts-ignore
+    // @ts-expect-error - dynamic property access on theme preset object
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -191,9 +191,9 @@ export class DesignBorderRadius {
             preset: {
               ...prev.theme.preset,
               primitive: {
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 ...prev.theme.preset.primitive,
-                // @ts-ignore
+                // @ts-expect-error - dynamic property access on theme preset object
                 borderRadius: { ...prev.theme.preset.primitive.borderRadius, xl: value },
               },
             },

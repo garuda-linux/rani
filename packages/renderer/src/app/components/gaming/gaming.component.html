@@ -9,7 +9,14 @@
     <p-tabs [(value)]="tabIndex">
       <p-tablist>
         @for (section of gamingService.packages(); track section.name) {
-          <p-tab #tab [value]="$index" (click)="navigate(section.name.split('.')[1])">{{ t(section.name) }}</p-tab>
+          <p-tab
+            #tab
+            [value]="$index"
+            (click)="navigate(section.name.split('.')[1])"
+            (keyup.enter)="navigate(section.name.split('.')[1])"
+            tabindex="0"
+            >{{ t(section.name) }}</p-tab
+          >
         }
       </p-tablist>
       <p-tabpanels>
@@ -32,6 +39,8 @@
                             background: item.selected ? backgroundColor() : '',
                           }"
                           (click)="togglePackage(item)"
+                          (keyup.enter)="togglePackage(item)"
+                          tabindex="0"
                         >
                           <ng-template #title>
                             <div
@@ -44,7 +53,9 @@
                                 <i class="pi pi-info-circle mr-2"> </i>
                               }
                               @if (item.url) {
-                                <a (click)="open(item.url)"><i class="pi pi-external-link"></i></a>
+                                <a (click)="open(item.url)" (keyup.enter)="open(item.url)" tabindex="0"
+                                  ><i class="pi pi-external-link"></i
+                                ></a>
                               }
                             </div>
                           </ng-template>
@@ -76,6 +87,8 @@
                           background: item.selected ? backgroundColor() : '',
                         }"
                         (click)="togglePackage(item)"
+                        (keyup.enter)="togglePackage(item)"
+                        tabindex="0"
                       >
                         <ng-template #title>
                           <div class="text-bold min-h-10 text-center text-sm">

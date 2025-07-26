@@ -205,7 +205,6 @@ export class DesignerService {
       });
       const loadedFont: FontFace = await font.load();
 
-      // @ts-ignore
       document.fonts.add(loadedFont);
       document.body.style.fontFamily = `"${fontFamily}", sans-serif`;
       return loadedFont;
@@ -252,7 +251,7 @@ export class DesignerService {
     await this.applyFont('Inter var');
     document.documentElement.style.fontSize = '14px';
 
-    // @ts-ignore
+    // @ts-expect-error - usePreset function may not have complete type definitions
     usePreset(theme.preset);
 
     this.designer.update((prev) => ({ ...prev, activeTab: 0, activeView: 'editor' }));

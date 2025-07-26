@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TabsModule } from 'primeng/tabs';
 import { DesignBorderRadius } from './primitive/designborderradius';
@@ -111,7 +111,7 @@ import { Preset } from '@primeuix/themes/types';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DesignEditor {
-  // @ts-ignore
+  // @ts-expect-error - semantic.colorScheme may not be fully typed at runtime
   colorScheme = computed(() => this.designerService.designer().theme.preset?.semantic.colorScheme);
 
   designerService: DesignerService = inject(DesignerService);

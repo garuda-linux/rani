@@ -89,14 +89,14 @@ export class DesignCustomTokens implements OnInit {
     this.tokens.forEach((token: { name: any; value: any }) => {
       const { name, value } = token;
       const nestedObj = this.transformTokenName(name, value);
-      // @ts-ignore
+      // @ts-expect-error - extend property may not be fully typed at runtime
       this.mergeObjects(designer.theme.preset?.extend, nestedObj);
     });
 
     this.designerService.designer.set(designer);
     await this.designerService.saveTheme(this.designerService.designer().theme);
 
-    usePreset(this.designerService.designer().theme.preset);
+    usePreset(this.designerService.designer().theme.preset ?? {});
 
     this.designerService.refreshACTokens();
     this.messageService.add({
@@ -131,10 +131,10 @@ export class DesignCustomTokens implements OnInit {
         const path = prefix ? `${prefix}.${key}` : key;
 
         if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
-          // @ts-ignore
+          // @ts-expect-error - recursive object navigation with dynamic keys
           this.objectToDotNotation(obj[key], path, result);
         } else {
-          // @ts-ignore
+          // @ts-expect-error - dynamic property access on object with any key
           result.push({
             name: path,
             value: obj[key],
@@ -150,13 +150,13 @@ export class DesignCustomTokens implements OnInit {
     for (const key in source) {
       if (Object.prototype.hasOwnProperty.call(source, key)) {
         if (typeof source[key] === 'object' && source[key] !== null && !Array.isArray(source[key])) {
-          // @ts-ignore
+          // @ts-expect-error - dynamic property assignment on target object
           target[key] = target[key] || {};
 
-          // @ts-ignore
+          // @ts-expect-error - recursive merge with dynamic property access
           this.mergeObjects(target[key], source[key]);
         } else {
-          // @ts-ignore
+          // @ts-expect-error - dynamic property assignment from source to target
           target[key] = source[key];
         }
       }

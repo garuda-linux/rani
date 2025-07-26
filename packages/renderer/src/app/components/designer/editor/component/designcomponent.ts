@@ -66,16 +66,16 @@ export class DesignComponent implements OnInit {
 
   availableComponents: string[] = [];
   componentKey = signal<string>('');
-  // @ts-ignore
+  // @ts-expect-error - Dynamic component key access on preset components object
   tokens = computed(() => this.designerService.designer()?.theme?.preset?.components[this.componentKey()] || {});
   lightTokens = computed(() => {
     const designer = this.designerService.designer();
-    // @ts-ignore
+    // @ts-expect-error - Dynamic component key access for color scheme tokens
     return designer.theme.preset?.components[this.componentKey()].colorScheme?.light;
   });
-  // @ts-ignore
+  // @ts-expect-error - Accessing potentially undefined colorScheme property
   darkTokens = computed(() => this.tokens().colorScheme?.dark);
-  // @ts-ignore
+  // @ts-expect-error - Accessing potentially undefined colorScheme property
   hasColorScheme = computed(() => this.tokens().colorScheme !== undefined);
   hasCommonTokens = computed(
     () =>
@@ -85,7 +85,7 @@ export class DesignComponent implements OnInit {
   );
 
   ngOnInit() {
-    // @ts-ignore
+    // @ts-expect-error - Preset components may not be fully typed at runtime
     this.availableComponents = Object.keys(this.designerService.designer().theme.preset.components);
     this.componentKey.set(this.availableComponents[0] || '');
   }

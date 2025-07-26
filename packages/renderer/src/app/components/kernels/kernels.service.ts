@@ -121,9 +121,9 @@ export class KernelsService {
       const lines: string[] = result.stdout.split('\n').map((line: string) => line.trim());
 
       for (let i = 0; i < lines.length; i += 2) {
-        let [kernelName, version] = lines[i].split(' ');
-        if (kernelName.endsWith('-headers')) {
-          kernelName = kernelName.replace('-headers', '');
+        const [originalKernelName, version] = lines[i].split(' ');
+        if (originalKernelName.endsWith('-headers')) {
+          const kernelName = originalKernelName.replace('-headers', '');
           const [repo, name] = kernelName.split('/');
           if (kernelMap[kernelName] === version) {
             kernels.push({
@@ -136,7 +136,7 @@ export class KernelsService {
             });
           }
         } else {
-          kernelMap[kernelName] = version;
+          kernelMap[originalKernelName] = version;
         }
       }
 
@@ -177,7 +177,12 @@ export class KernelsService {
         if (kernel.selected && kernel.headersSelected) {
           for (const module of availableModules) {
             this.logger.trace(`Checking DKMS module ${module} for kernel ${kernel.pkgname[0]}`);
-            const linuxVer: string = kernel.version.match(/\d+\.\d+\.\d+/)![0];
+            const versionMatch = kernel.version.match(/\d+\.\d+\.\d+/);
+            if (!versionMatch) {
+              this.logger.warn(`Could not extract version from ${kernel.version}`);
+              continue;
+            }
+            const linuxVer: string = versionMatch[0];
             let regex: RegExp;
 
             if (kernel.pkgname[0] === 'linux') {
@@ -202,7 +207,7 @@ export class KernelsService {
 
       this.logger.trace('Done determining status, proceeding to sort kernels');
       // Show selected kernels first
-      kernels.sort((a, b) => +b.selected! - +a.selected!);
+      kernels.sort((a, b) => +(b.selected || false) - +(a.selected || false));
       return kernels;
     });
 

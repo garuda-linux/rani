@@ -6,7 +6,6 @@ import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { Tooltip } from 'primeng/tooltip';
 import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
-import { path } from '../../electron-services';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
 import { ElectronFsService } from '../../electron-services';
@@ -15,7 +14,6 @@ import { TaskManagerService } from '../task-manager/task-manager.service';
 import { ConfirmationService } from 'primeng/api';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../../logging/logging';
-import type { ChildProcess } from '../../electron-services';
 import { Router, type UrlTree } from '@angular/router';
 
 @Component({

@@ -1,6 +1,4 @@
-export interface MenuToggleMappings {
-  [key: string]: MenuToggleMapping;
-}
+export type MenuToggleMappings = Record<string, MenuToggleMapping>;
 
 export interface MenuToggleMapping {
   on: string;
