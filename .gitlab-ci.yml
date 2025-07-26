@@ -23,7 +23,7 @@ check-packagelists:
     - if: $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH
     - if: $CI_PIPELINE_SOURCE == 'merge_request_event'
 build-linux:
-  image: node:24-slim
+  image: node:22-slim
   stage: build
   before_script:
     - npm install --global corepack@latest
