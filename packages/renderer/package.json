@@ -58,7 +58,7 @@
     "@angular/cli": "^19.2.15",
     "@angular/compiler-cli": "^19.2.14",
     "@catppuccin/palette": "^1.7.1",
-    "@catppuccin/tailwindcss": "^0.1.6",
+    "@catppuccin/tailwindcss": "^1.0.0",
     "@tailwindcss/vite": "^4.1.11",
     "jsdom": "^26.1.0",
     "postcss": "^8.5.6",
