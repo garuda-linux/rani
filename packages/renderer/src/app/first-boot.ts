@@ -5,7 +5,6 @@ import {
   type CommandResult,
   ElectronShellService,
   ElectronFsService,
-  ElectronWindowService,
   ElectronAppService,
 } from './electron-services';
 

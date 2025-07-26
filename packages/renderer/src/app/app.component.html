@@ -37,12 +37,12 @@
 
           @if (taskManager.count() > 0) {
             <p-splitbutton
+              class="garuda-button-shine ml-2 animate-shine"
               [model]="applyMenuItems"
               (onClick)="taskManager.toggleTerminal(true)"
               garudaShellBarEnd
               severity="secondary"
               size="small"
-              styleClass="garuda-button-shine ml-2 animate-shine"
             >
               <ng-template #content>
                 {{ t('menu.pending') }}

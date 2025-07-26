@@ -235,19 +235,29 @@ export function addChangeListener(key: string, listener: (value: unknown) => voi
   try {
     if (!key || typeof key !== 'string') {
       error('Config key must be a non-empty string');
-      return () => {};
+      return () => {
+        // No-op unsubscribe function for invalid key
+      };
     }
 
     if (typeof listener !== 'function') {
       error('Listener must be a function');
-      return () => {};
+      return () => {
+        // No-op unsubscribe function for invalid listener
+      };
     }
 
     if (!changeListeners.has(key)) {
       changeListeners.set(key, new Set());
     }
 
-    const listeners = changeListeners.get(key)!;
+    const listeners = changeListeners.get(key);
+    if (!listeners) {
+      error('Failed to get listeners for key');
+      return () => {
+        // No-op unsubscribe function for error case
+      };
+    }
     listeners.add(listener);
 
     // Return unsubscribe function
@@ -259,7 +269,9 @@ export function addChangeListener(key: string, listener: (value: unknown) => voi
     };
   } catch (err) {
     error(`Config addChangeListener error: ${err instanceof Error ? err.message : String(err)}`);
-    return () => {};
+    return () => {
+      // No-op unsubscribe function for error case
+    };
   }
 }
 

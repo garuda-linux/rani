@@ -73,7 +73,7 @@ const i18nPaths: string[] = ['assets/i18n'];
  */
 async function prompt(prompt: string): Promise<string> {
   const result: GenerateContentResult = await chatSession.sendMessage(prompt);
-  const candidates: GenerateContentCandidate[] = result.response.candidates!;
+  const candidates: GenerateContentCandidate[] = result.response.candidates || [];
 
   for (let candidate_index = 0; candidate_index < candidates.length; candidate_index++) {
     for (let part_index = 0; part_index < candidates[candidate_index].content.parts.length; part_index++) {
@@ -128,7 +128,7 @@ async function main(): Promise<void> {
 
     for (const lang of targetLangs) {
       console.log(`Processing language ${lang}...`);
-      const individualPrompt: string = `
+      const individualPrompt = `
         You will translate from English to ${lang}.
         Take the following JSON as source:
         ${origin}

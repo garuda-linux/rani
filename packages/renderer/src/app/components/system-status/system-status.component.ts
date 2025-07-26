@@ -67,7 +67,7 @@ export class SystemStatusComponent {
    * Prompt for confirmation before rebooting the system.
    * @param $event The event that triggered the confirmation.
    */
-  rebootNow($event: MouseEvent) {
+  rebootNow($event: Event): void {
     this.confirmationService.confirm({
       target: $event.target as EventTarget,
       message: this.translocoService.translate('systemStatus.rebootNowBody'),

@@ -66,7 +66,7 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
 
   constructor() {
     effect(() => {
-      const darkMode: boolean = this.configService.settings().darkMode;
+      const _darkMode: boolean = this.configService.settings().darkMode;
       if (this.term?.underlying) {
         this.term.underlying.options.theme = this.xtermOptions().theme;
       }

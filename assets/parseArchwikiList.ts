@@ -100,9 +100,6 @@ for (const source of sources) {
   const cleanedAppData: CleanedAppData[] = toDisplay.map((entry) => {
     return { ...entry, type: undefined };
   });
-  const cleanedInAur: CleanedAppData[] = inAur.map((entry) => {
-    return { ...entry, type: undefined };
-  });
 
   console.log(`Found ${toDisplay.length} in repo and ${inAur.length} in AUR`);
 

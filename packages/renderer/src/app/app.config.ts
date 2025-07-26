@@ -4,12 +4,11 @@ import {
   isDevMode,
   LOCALE_ID,
   provideAppInitializer,
-  provideExperimentalZonelessChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideGarudaNG } from '@garudalinux/core';
-import { CatppuccinAura } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
@@ -30,6 +29,7 @@ import { GamingService } from './components/gaming/gaming.service';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
+import { CatppuccinAura } from '@garudalinux/themes/catppuccin';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -49,7 +49,6 @@ export const appConfig: ApplicationConfig = {
     ThemeService,
     provideAnimationsAsync(),
     provideAppInitializer(initRani),
-    provideExperimentalZonelessChangeDetection(),
     provideGarudaNG(
       { font: 'InterVariable' },
       {
@@ -102,6 +101,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    provideZonelessChangeDetection(),
     { provide: LOCALE_ID, useValue: 'en-GB' },
     { provide: HTTP_INTERCEPTORS, useValue: [LoadingInterceptor], multi: true },
   ],

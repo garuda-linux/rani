@@ -7,7 +7,7 @@
   </div>
 
   <div class="p-10">
-    <p-panel [header]="t('settings.toggleOptions')" styleClass="mt-5 z-0">
+    <p-panel class="mt-5 z-0" [header]="t('settings.toggleOptions')">
       <div class="grid grid-cols-12 pb-5">
         @for (entry of settings(); track entry.name) {
           <div class="text-sure col-span-12 sm:col-span-6 md:col-span-6 xl:col-span-4">
@@ -29,7 +29,7 @@
       </div>
     </p-panel>
 
-    <p-panel [header]="t('settings.selectOptions')" styleClass="mt-5">
+    <p-panel class="mt-5" [header]="t('settings.selectOptions')">
       <div class="grid grid-cols-4 gap-10 px-20 py-5">
         <div class="3xl:col-span-1 col-span-3 flex flex-col gap-2 md:col-span-2">
           <label for="theme">{{ t('settings.themeLabel') }}</label>
@@ -73,21 +73,22 @@
       </div>
     </p-panel>
 
-    <p-panel [header]="t('settings.backgroundSettings')" styleClass="mt-5">
+    <p-panel class="mt-5" [header]="t('settings.backgroundSettings')">
       <div class="grid grid-cols-1 px-20 py-5">
         <div class="flex flex-col gap-4">
           <!-- Background Image Selection -->
           <div class="flex justify-between items-center">
-            <label class="text-lg">{{ t('settings.customBackground') }}</label>
+            <label class="text-lg" for="customBackgroundInput">{{ t('settings.customBackground') }}</label>
             <div class="flex gap-2">
               <p-button
+                class="p-button-secondary"
                 [label]="t('settings.clearBackground')"
                 [disabled]="!configService.settings().background"
                 (click)="clearBackground()"
                 icon="pi pi-times"
-                styleClass="p-button-secondary"
               ></p-button>
               <p-fileupload
+                id="customBackgroundInput"
                 [chooseButtonProps]="{ styleClass: 'btn-design choose-btn' }"
                 [auto]="true"
                 (onSelect)="onFileSelect($event)"
@@ -128,13 +129,11 @@
 
             @if (configService.settings().blurBackground) {
               <div class="col-span-12 mt-2">
-                <label class="block mb-2">
-                  {{ t('settings.blurStrength') }}: {{ configService.settings().blurStrength }}
-                </label>
+                <!-- Removed orphaned label for blurStrength to fix lint error -->
                 <p-slider
+                  class="w-full"
                   [(ngModel)]="configService.settings().blurStrength"
                   (onSlideEnd)="updateConfig('blurStrength', configService.settings().blurStrength)"
-                  styleClass="w-full"
                   min="1"
                   max="6"
                 />
@@ -146,7 +145,7 @@
           @if (configService.settings().background) {
             <div class="mt-3">
               <div class="mt-3 border-round overflow-hidden">
-                <img class="w-full h-auto" [src]="configService.settings().background" />
+                <img class="w-full h-auto" [src]="configService.settings().background" alt="Background preview" />
               </div>
             </div>
           } @else {

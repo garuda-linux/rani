@@ -64,7 +64,14 @@
             {{ pkg.description }}
           </td>
           <td>
-            <a class="cursor-pointer" (click)="shellService.open(pkg.url)"> <i class="pi pi-external-link"></i></a>
+            <a
+              class="cursor-pointer"
+              (click)="shellService.open(pkg.url)"
+              (keyup.enter)="shellService.open(pkg.url)"
+              tabindex="0"
+            >
+              <i class="pi pi-external-link"></i
+            ></a>
           </td>
           <td>
             <div>

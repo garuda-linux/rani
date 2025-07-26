@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import type { PackageSection, PackageSections } from '../gaming/interfaces';
+import type { PackageSections } from '../gaming/interfaces';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { ConfigService } from '../config/config.service';

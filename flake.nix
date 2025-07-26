@@ -1,18 +1,5 @@
 {
-  description = "Nix for macOS";
-
-  nixConfig = {
-    substituters = [
-      "https://cache.nixos.org"
-    ];
-    extra-substituters = [
-      "https://nix-community.cachix.org/"
-    ];
-    extra-trusted-public-keys = [
-      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-    ];
-  };
-
+  description = "Garuda Rani";
   inputs = {
     devshell = {
       url = "github:numtide/devshell";
@@ -71,7 +58,12 @@
             disabled-lints = [ "repeated_keys" ];
             enable = true;
           };
-          yamlfmt.enable = true;
+          yamlfmt = {
+            enable = true;
+            settings.exclude = [
+              "pnpm-lock.yaml"
+            ];
+          };
         };
       };
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs treefmtConfig);
@@ -127,6 +119,11 @@
               }
             ];
           };
+          commands = [
+            {
+              package = pkgs.corepack;
+            }
+          ];
         }
       );
 
@@ -144,7 +141,10 @@
             };
             commitizen.enable = true;
             detect-private-keys.enable = true;
-            eslint.enable = true;
+            eslint = {
+              enable = true;
+              settings.extensions = "\\.(ts|js|mjs|html)$";
+            };
             oxlint = {
               enable = true;
               name = "oxlint";

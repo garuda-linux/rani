@@ -101,7 +101,7 @@ export class DesignGeneral {
   semantic = computed(() => this.designerService.designer().theme.preset?.semantic);
 
   onPrimaryColorChange(event: Event) {
-    // @ts-ignore
+    // @ts-expect-error - designer signal update may not be fully typed
     this.designerService.designer.update((prev) => {
       if (prev.theme.preset) {
         return {
@@ -110,7 +110,7 @@ export class DesignGeneral {
             ...prev.theme,
             preset: {
               ...prev.theme.preset,
-              // @ts-ignore
+              // @ts-expect-error - semantic property may not be fully typed at runtime
               semantic: { ...prev.theme.preset.semantic, primary: palette(event.target.value) },
             },
           },

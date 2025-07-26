@@ -283,7 +283,9 @@ export class OsInteractService {
         this.taskManagerService.findTaskById('os-interact-locales'),
       ].forEach((task) => {
         if (task !== null) {
-          this.taskManagerService.removeTask(task!);
+          if (task !== null) {
+            this.taskManagerService.removeTask(task);
+          }
         }
       });
     });

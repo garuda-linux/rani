@@ -2,7 +2,6 @@ import { DesignerService } from '../../designerservice';
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ConfirmationService } from 'primeng/api';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { Fieldset } from 'primeng/fieldset';
 
@@ -37,7 +36,7 @@ import { Fieldset } from 'primeng/fieldset';
         </div>
       </section>
     </p-fieldset>
-    <p-confirm-popup />`,
+    <p-confirmpopup />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DesignSettings {

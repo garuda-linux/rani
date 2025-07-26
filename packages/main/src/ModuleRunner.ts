@@ -9,13 +9,6 @@ class ModuleRunner implements PromiseLike<void> {
     this.#promise = Promise.resolve();
   }
 
-  then<TResult1 = void, TResult2 = never>(
-    onFulfilled?: ((value: void) => TResult1 | PromiseLike<TResult1>) | null | undefined,
-    onRejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | null | undefined,
-  ): PromiseLike<TResult1 | TResult2> {
-    return this.#promise.then(onFulfilled, onRejected);
-  }
-
   init(module: AppModule) {
     const p = module.enable(this.#createModuleContext());
 

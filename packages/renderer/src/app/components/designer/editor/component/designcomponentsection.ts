@@ -53,7 +53,7 @@ export class DesignComponentSection {
       return {};
     }
 
-    // @ts-ignore
+    // @ts-expect-error - Dynamic component key access on preset components object
     const source = designer.theme.preset.components[this.componentKey()];
     return this.getObjectProperty(source, this.path());
   });
@@ -67,7 +67,7 @@ export class DesignComponentSection {
         const value = obj[key];
 
         if (this.isObject(value)) {
-          // @ts-ignore
+          // @ts-expect-error - Dynamic property assignment to groups object
           groups[key] = value;
         }
       }

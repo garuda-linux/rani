@@ -4,7 +4,7 @@
       <div>
         <p-scroll-panel [style]="{ width: '100%', height: '100%' }">
           @for (op of taskManagerService.sortedTasks(); track op.id) {
-            <p-card [style]="{ width: '20rem' }" styleClass="mt-2">
+            <p-card class="mt-2" [style]="{ width: '20rem' }">
               <ng-template #header>
                 <div class="mt-4 text-center">
                   <span class="mr-2 font-bold">{{ t(op.name) }}</span>
@@ -18,11 +18,21 @@
                 </div>
               </ng-template>
               <div class="mt-2.5 text-center">
-                <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.removeTask(op)">
+                <span
+                  class="mr-2.5 cursor-pointer"
+                  (click)="taskManagerService.removeTask(op)"
+                  (keyup.enter)="taskManagerService.removeTask(op)"
+                  tabindex="0"
+                >
                   <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('operation.remove') }}
                 </span>
                 @if (!taskManagerService.running()) {
-                  <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.executeTask(op)">
+                  <span
+                    class="mr-2.5 cursor-pointer"
+                    (click)="taskManagerService.executeTask(op)"
+                    (keyup.enter)="taskManagerService.executeTask(op)"
+                    tabindex="0"
+                  >
                     <i class="pi pi-play-circle mr-1 text-green-300"></i>{{ t('operation.run') }}
                   </span>
                 }
@@ -46,45 +56,74 @@
   >
     <ng-template #header>
       <div class="inline-flex items-center justify-center gap-2">
-        <span class="mr-2.5 cursor-pointer whitespace-nowrap font-bold"
-          >{{
+        <span
+          class="mr-2.5 cursor-pointer whitespace-nowrap font-bold"
+          (keyup.enter)="taskManagerService.currentTask() && t(taskManagerService.currentTask()!.name)"
+          tabindex="0"
+        >
+          {{
             t('terminal.title') +
               (taskManagerService.currentTask() ? ' - ' + t(taskManagerService.currentTask()!.name) : '')
           }}
         </span>
-        @if (taskManagerService.count() > 0 && !taskManagerService.running()) {
-          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.executeTasks()">
+        <!-- Header actions -->
+        <ng-container *ngIf="taskManagerService.count() > 0 && !taskManagerService.running()">
+          <span
+            class="mr-2.5 cursor-pointer"
+            (click)="taskManagerService.executeTasks()"
+            (keyup.enter)="taskManagerService.executeTasks()"
+            tabindex="0"
+          >
             <i class="pi pi-play-circle mr-1 text-primary"></i>{{ t('terminal.runActions') }}
           </span>
-          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.clearTasks()">
+          <span
+            class="mr-2.5 cursor-pointer"
+            (click)="taskManagerService.clearTasks()"
+            (keyup.enter)="taskManagerService.clearTasks()"
+            tabindex="0"
+          >
             <i class="pi pi-stop-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.removeAll') }}
           </span>
-          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.printScripts()">
+          <span
+            class="mr-2.5 cursor-pointer"
+            (click)="taskManagerService.printScripts()"
+            (keyup.enter)="taskManagerService.printScripts()"
+            tabindex="0"
+          >
             <i class="pi pi-shopping-cart mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.printScripts') }}
           </span>
-        }
-        @if (taskManagerService.count() > 0 && taskManagerService.running()) {
-          <span class="mr-2.5 cursor-pointer" (click)="taskManagerService.abort()">
+        </ng-container>
+        <ng-container *ngIf="taskManagerService.count() > 0 && taskManagerService.running()">
+          <span
+            class="mr-2.5 cursor-pointer"
+            (click)="taskManagerService.abort()"
+            (keyup.enter)="taskManagerService.abort()"
+            tabindex="0"
+          >
             <i class="pi pi-minus-circle mr-1 text-primary-emphasis"></i>{{ t('terminal.abortAll') }}
           </span>
-        }
-        @if (taskManagerService.cachedData() !== '') {
-          <span class="mr-2.5 cursor-pointer" (click)="copyToClipboard()">
+        </ng-container>
+        <ng-container *ngIf="taskManagerService.cachedData() !== ''">
+          <span
+            class="mr-2.5 cursor-pointer"
+            (click)="copyToClipboard()"
+            (keyup.enter)="copyToClipboard()"
+            tabindex="0"
+          >
             <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.copyOutput') }}
           </span>
-          <span class="mr-2.5 cursor-pointer" (click)="uploadLog()">
+          <span class="mr-2.5 cursor-pointer" (click)="uploadLog()" (keyup.enter)="uploadLog()" tabindex="0">
             <i class="pi pi-upload mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.uploadPrivateBin') }}
           </span>
-          <span class="cursor-pointer" (click)="clearCache()">
+          <span class="cursor-pointer" (click)="clearCache()" (keyup.enter)="clearCache()" tabindex="0">
             <i class="pi pi-copy mr-1 text-primary-emphasis-alt"></i>{{ t('terminal.clearOutputCache') }}
           </span>
-        }
+        </ng-container>
       </div>
     </ng-template>
-
     <ng-container *ngTemplateOutlet="popup"></ng-container>
-    @if (progressTracker()) {
+    <ng-container *ngIf="progressTracker()">
       <p-progress-bar [value]="progressTracker()"></p-progress-bar>
-    }
+    </ng-container>
   </p-dialog>
 </ng-container>

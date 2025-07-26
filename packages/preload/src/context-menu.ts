@@ -1,4 +1,4 @@
-import { error, warn } from './logging.js';
+import { error } from './logging.js';
 
 interface MenuItem {
   label: string;
@@ -76,9 +76,9 @@ function createContextMenuElement(items: MenuItem[]): HTMLElement {
     cursor: 'default',
   });
 
-  items.forEach((item, index) => {
+  for (const item of items) {
     if (item.visible === false) {
-      return;
+      continue;
     }
 
     if (item.type === 'separator') {
@@ -87,7 +87,7 @@ function createContextMenuElement(items: MenuItem[]): HTMLElement {
       separator.style.backgroundColor = '#e0e0e0';
       separator.style.margin = '4px 0';
       menu.appendChild(separator);
-      return;
+      continue;
     }
 
     const menuItem = document.createElement('div');
@@ -167,7 +167,7 @@ function createContextMenuElement(items: MenuItem[]): HTMLElement {
     }
 
     menu.appendChild(menuItem);
-  });
+  }
 
   return menu;
 }

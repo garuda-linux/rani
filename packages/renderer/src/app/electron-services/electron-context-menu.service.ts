@@ -27,8 +27,8 @@ export class ElectronContextMenuService {
       this.registerMenuItemHandlers(items);
 
       return contextMenuShow(items, x, y);
-    } catch (error) {
-      this.logger.error('Failed to show context menu:');
+    } catch (error: any) {
+      this.logger.error(`Failed to show context menu: ${error.message ? error.message : String(error)}`);
       return false;
     }
   }

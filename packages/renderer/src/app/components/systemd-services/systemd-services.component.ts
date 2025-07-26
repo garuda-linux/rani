@@ -14,7 +14,6 @@ import { Tooltip } from 'primeng/tooltip';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
-import type { ChildProcess } from '../../electron-services';
 
 @Component({
   selector: 'rani-systemd-services',
@@ -43,7 +42,7 @@ export class SystemdServicesComponent implements OnInit {
     this.systemdServices.set(await this.getServices());
 
     if (this.configService.settings().autoRefresh) {
-      // @ts-ignore
+      // @ts-expect-error - setInterval returns a NodeJS.Timer or number depending on environment
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);
@@ -150,7 +149,11 @@ export class SystemdServicesComponent implements OnInit {
         break;
     }
 
-    const command = `${action} ${this.activeService()!.unit}`;
+    const activeService = this.activeService();
+    if (!activeService) {
+      throw new Error('No active service selected');
+    }
+    const command = `${action} ${activeService.unit}`;
     let output: any;
     if (!this.configService.settings().systemdUserContext) {
       output = await this.taskManagerService.executeAndWaitBash(`pkexec ${command}`);
@@ -196,7 +199,7 @@ export class SystemdServicesComponent implements OnInit {
     await this.configService.updateConfig('autoRefresh', !this.configService.settings().autoRefresh);
 
     if (this.configService.settings().autoRefresh) {
-      // @ts-ignore
+      // @ts-expect-error - setInterval returns a NodeJS.Timer or number depending on environment
       this.intervalRef = setInterval(async () => {
         this.systemdServices.set(await this.getServices());
       }, 5000);

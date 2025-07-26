@@ -1,5 +1,4 @@
 // Sourced from: https://github.com/pixelfactoryio/privatebin-cli
-import { Injectable } from '@angular/core';
 import { ElectronHttpService } from '../../electron-services';
 
 export interface ApiConfig {

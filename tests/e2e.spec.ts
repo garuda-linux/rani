@@ -9,14 +9,14 @@ import { createHash } from 'node:crypto';
 process.env.PLAYWRIGHT_TEST = 'true';
 
 // Declare the types of your fixtures.
-type TestFixtures = {
+interface TestFixtures {
   electronApp: ElectronApplication;
   electronVersions: NodeJS.ProcessVersions;
-};
+}
 
 const test = base.extend<TestFixtures>({
   electronApp: [
-    async ({}, use) => {
+    async (_, use) => {
       /**
        * Executable path depends on root package name!
        */

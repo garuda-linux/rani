@@ -374,7 +374,7 @@ export class AppComponent implements OnInit {
    * Updates the application menu with current menu items
    * @param items The current menu items
    */
-  private async updateApplicationMenu(items: MenuItem[]): Promise<void> {
+  private async updateApplicationMenu(_items: MenuItem[]): Promise<void> {
     const menubar = this.setupLabels(this.translocoService.getActiveLang(), [
       {
         id: 'file',

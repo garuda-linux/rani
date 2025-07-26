@@ -75,7 +75,6 @@ export async function message(options: Record<string, unknown>): Promise<number>
   try {
     const message = (options.message as string) || '';
     const title = (options.title as string) || 'Message';
-    const type = (options.type as string) || 'info';
 
     // Use browser alert for message display
     alert(`${title}\n\n${message}`);
@@ -98,18 +97,6 @@ export async function error(title: string, content: string): Promise<boolean> {
     return true;
   } catch (err) {
     logError(`Dialog error error: ${err instanceof Error ? err.message : String(err)}`);
-    return false;
-  }
-}
-
-export async function certificate(options: Record<string, unknown>): Promise<boolean> {
-  try {
-    warn('Certificate dialog not supported in web environment');
-    const message = 'Certificate verification dialog is not available in web environment';
-    alert(message);
-    return false;
-  } catch (err) {
-    logError(`Dialog certificate error: ${err instanceof Error ? err.message : String(err)}`);
     return false;
   }
 }

@@ -1,5 +1,5 @@
 // PrivatebinClient parts sourced from: https://github.com/pixelfactoryio/privatebin-cli
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import BaseConverter from 'bs58';
 import { Logger } from '../../logging/logging';
 import pako from 'pako';
@@ -67,9 +67,10 @@ export async function decryptText(ct: string, key: Uint8Array, adata: Privatebin
 })
 export class PrivatebinClient {
   private api: Api;
+  private httpService = inject(ElectronHttpService);
 
-  constructor(private httpService: ElectronHttpService) {
-    if (!httpService) {
+  constructor() {
+    if (!this.httpService) {
       throw new Error('ElectronHttpService is required for PrivatebinClient');
     }
     this.api = new Api(this.httpService);
@@ -140,7 +141,9 @@ export class GarudaBin {
   };
   private readonly url = 'https://bin.garudalinux.org';
 
-  constructor(private privatebinClient: PrivatebinClient) {
+  private privatebinClient = inject(PrivatebinClient);
+
+  constructor() {
     this.privatebinClient.configure(this.url);
   }
 
