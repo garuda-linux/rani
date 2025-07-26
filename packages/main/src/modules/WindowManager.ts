@@ -35,29 +35,38 @@ class WindowManager implements AppModule {
 
   async enable({ app }: ModuleContext): Promise<void> {
     await app.whenReady();
-    await this.restoreOrCreateWindow(true);
+
+    // Will be shown after configService in renderer is ready
+    await this.restoreOrCreateWindow(false);
     app.on('second-instance', () => this.restoreOrCreateWindow(true));
     app.on('activate', () => this.restoreOrCreateWindow(true));
   }
 
   async createWindow(): Promise<BrowserWindow> {
+    const windowSize: Size = screen.getPrimaryDisplay().workAreaSize;
     const size: Size = screen.getPrimaryDisplay().workAreaSize;
+    this.logger.debug(`Get display with size: ${size.width}x${size.height}`);
 
-    // Ensure reasonable size for the window
-    const minWidth = 1280;
-    const minHeight = 720;
-    if (size.width < minWidth || size.height < minHeight) {
-      this.logger.warn(`Screen size too small: ${size.width}x${size.height}. Defaulting to ${minWidth}x${minHeight}.`);
-      size.width = Math.max(size.width, minWidth);
-      size.height = Math.max(size.height, minHeight);
-    }
+    // Define reasonable window dimensions
+    const minWidth = windowSize.width > 2000 ? 1920 : 1280;
+    const minHeight = windowSize.height > 1300 ? 1080 : 800;
+
+    // Use reasonable size that fits the screen
+    const windowWidth = Math.min(minWidth, windowSize.width * 0.9);
+    const windowHeight = Math.min(minHeight, windowSize.height * 0.9);
+
+    this.logger.debug(`Window size will be: ${windowWidth}x${windowHeight}`);
+
+    // Center the window using actual window dimensions
+    const x = Math.round((windowSize.width - windowWidth) / 2);
+    const y = Math.round((windowSize.height - windowHeight) / 2);
 
     // Create the browser window with secure defaults
     const browserWindow = new BrowserWindow({
-      x: screen.getPrimaryDisplay().workArea.x + 50,
-      y: screen.getPrimaryDisplay().workArea.y + 50,
-      width: size.width,
-      height: size.height,
+      x,
+      y,
+      width: minWidth,
+      height: minHeight,
       minHeight: 500,
       minWidth: 700,
       show: false,
@@ -99,18 +108,14 @@ class WindowManager implements AppModule {
       }
     }
 
-    // Set title
+    // Set title explicitly to avoid issues with default title
     browserWindow.setTitle('Garuda Rani');
 
-    // Show window when ready to prevent visual flash
+    // Some error handling for the renderer process
     browserWindow.once('ready-to-show', () => {
-      browserWindow.show();
-
-      // Additional error handling for renderer process
       browserWindow.webContents.on('unresponsive', () => {
         this.logger.warn('Renderer process became unresponsive');
       });
-
       browserWindow.webContents.on('responsive', () => {
         this.logger.info('Renderer process became responsive again');
       });

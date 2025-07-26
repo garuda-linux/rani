@@ -1,8 +1,7 @@
 import { spawn } from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { shell } from 'electron';
-import { basename } from 'node:path';
-import { trace, warn, error } from './logging.js';
+import { error } from './logging.js';
 import { emit } from './events.js';
 
 export function shellSpawn(command: string, args: string[], options?: Record<string, unknown>) {
@@ -106,80 +105,6 @@ export async function open(url: string): Promise<boolean> {
   }
 }
 
-// Command validation for security
-function validateCommand(command: string, args: string[]): boolean {
-  // Check if we're in development mode (simplified check)
-  const isDevelopment = process.env.NODE_ENV === 'development';
-
-  // In development mode, allow all commands for flexibility
-  if (isDevelopment) {
-    trace(`Allowing command: ${command} ${args.join(' ')}`);
-    return true;
-  }
-
-  const allowedCommands = [
-    // Package managers
-    'pacman',
-    'yay',
-    'paru',
-    // General system utilities
-    'systemctl',
-    'localectl',
-    'timedatectl',
-    'hostnamectl',
-    'hostname',
-    'last',
-    'lsb_release',
-    'journalctl',
-    'dkms',
-    'cp',
-    'test',
-    'uname',
-    'whoami',
-    // Garuda specific tools
-    'garuda-inxi',
-    'setup-assistant',
-    // Shells
-    'bash',
-    'sh',
-  ];
-
-  const baseCommand = basename(command);
-  if (!allowedCommands.includes(baseCommand)) {
-    warn(`Blocked unauthorized command: ${command}`);
-    return false;
-  }
-
-  // Check for dangerous argument patterns
-  const dangerousPatterns = [
-    // Destructive file operations
-    /rm\s+-rf\s+\/[^/]/, // rm -rf on root directories
-    /del\s+\//,
-    /format\s+/,
-    /mkfs/,
-    /dd\s+if=.*of=\/dev\/[sh]d/, // dd to disk devices
-    // System control
-    /shutdown/,
-    /halt/,
-    /init\s+[06]/,
-    /systemctl\s+(poweroff|halt)/,
-    // Dangerous sudo operations
-    /sudo\s+rm\s+-rf\s+\/[^/]/,
-    // Kernel modules that could be dangerous
-    /modprobe.*-r.*essential/,
-  ];
-
-  const fullCommand = [command, ...args].join(' ');
-  const isDangerous = dangerousPatterns.some((pattern) => pattern.test(fullCommand));
-
-  if (isDangerous) {
-    warn(`Blocked dangerous command pattern: ${fullCommand}`);
-    return false;
-  }
-
-  return true;
-}
-
 export async function execute(
   command: string,
   args: string[] = [],
@@ -190,35 +115,8 @@ export async function execute(
   stderr: string;
   signal: string | null;
 }> {
-  try {
-    const isDevelopment = process.env.NODE_ENV === 'development';
-    const timeout = (options.timeout as number) || 30000;
+  const timeout = (options.timeout as number) || 0;
 
-    if (!validateCommand(command, args)) {
-      const errorMsg = isDevelopment
-        ? 'Command validation failed (this should not happen in dev mode)'
-        : `Command not allowed for security reasons: ${command}`;
-      throw new Error(errorMsg);
-    }
-
-    return await executeLocally(command, args, options, timeout);
-  } catch (err: any) {
-    error(`Shell execute error: ${err.message ? err.message : err instanceof Error ? err.message : String(err)}`);
-    throw err;
-  }
-}
-
-async function executeLocally(
-  command: string,
-  args: string[] = [],
-  options: Record<string, unknown> = {},
-  timeout: number,
-): Promise<{
-  code: number | null;
-  stdout: string;
-  stderr: string;
-  signal: string | null;
-}> {
   return new Promise((resolve, reject) => {
     const child = spawn(command, args, {
       stdio: ['pipe', 'pipe', 'pipe'],

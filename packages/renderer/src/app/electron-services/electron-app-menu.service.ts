@@ -24,7 +24,7 @@ export class ElectronAppMenuService {
       // Register click handlers for items with commands
       this.registerMenuItemHandlers(items);
 
-      const result = appMenuUpdate(items);
+      const result = await appMenuUpdate(items);
       this.logger.trace(`App menu update result from main process: ${result}`);
       return result;
     } catch (error) {

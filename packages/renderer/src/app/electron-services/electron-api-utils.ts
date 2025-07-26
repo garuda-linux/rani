@@ -79,21 +79,6 @@ function createAsyncDeferredFunction<T extends (...args: any[]) => Promise<any>>
 }
 
 // Export all the exposed functions using deferred loading
-
-// Crypto
-export const sha256sum = createDeferredFunction<(data: any) => string>('sha256sum');
-
-// Versions
-export const versions = (() => {
-  let cached: any = null;
-  return () => {
-    if (cached === null) {
-      cached = getExposedFunction<any>('versions');
-    }
-    return cached;
-  };
-})();
-
 // Shell operations
 export const shellSpawnStreaming =
   createDeferredFunction<
@@ -161,6 +146,7 @@ export const notificationSendWithActions =
 // Window operations
 export const windowClose = createDeferredFunction<() => boolean>('windowClose');
 export const windowRequestClose = createDeferredFunction<() => boolean>('windowRequestClose');
+export const windowRelaunch = createDeferredFunction<() => boolean>('windowRelaunch');
 export const windowMinimize = createDeferredFunction<() => boolean>('windowMinimize');
 export const windowMaximize = createDeferredFunction<() => boolean>('windowMaximize');
 export const windowHide = createDeferredFunction<() => boolean>('windowHide');

@@ -20,7 +20,6 @@ export async function checkFirstBoot(): Promise<boolean> {
   const firstBoot: boolean | undefined = await store.get<boolean>('firstBoot');
   const shellService = new ElectronShellService();
   const fsService = new ElectronFsService();
-  const windowService = new ElectronWindowService();
   const appService = new ElectronAppService();
 
   // Check if we've been through this before
@@ -40,7 +39,6 @@ export async function checkFirstBoot(): Promise<boolean> {
 
     if (await fsService.exists('/usr/bin/setup-assistant')) {
       logger.info('Setup assistant exists, running');
-      await windowService.hide();
       await runSetupAssistant();
 
       // Set first boot flag to false
@@ -48,7 +46,6 @@ export async function checkFirstBoot(): Promise<boolean> {
 
       // And finally relaunch
       await appService.relaunch();
-      await appService.exit();
       return true;
     }
 

@@ -2,6 +2,7 @@ import { inject } from '@angular/core';
 import { ConfigService } from './components/config/config.service';
 import { LanguageManagerService } from './components/language-manager/language-manager.service';
 import { checkFirstBoot } from './first-boot';
+import { ElectronWindowService } from './electron-services';
 
 export async function initRani() {
   const configService = inject(ConfigService);
@@ -13,4 +14,7 @@ export async function initRani() {
   if (await checkFirstBoot()) return;
 
   await languageManagerService.init();
+
+  const windowService = new ElectronWindowService();
+  await windowService.show();
 }

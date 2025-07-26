@@ -1,16 +1,16 @@
 import type { AppModule } from '../AppModule.js';
 import type { ModuleContext } from '../ModuleContext.js';
-import { ipcMain, BrowserWindow } from 'electron';
+import { ipcMain, BrowserWindow, App } from 'electron';
 import { Logger } from '../logging/logging.js';
 
 class WindowControlModule implements AppModule {
   private readonly logger = Logger.getInstance();
 
-  enable({ app: _app }: ModuleContext): void {
-    this.setupWindowControlHandlers();
+  enable({ app }: ModuleContext): void {
+    this.setupWindowControlHandlers(app);
   }
 
-  private setupWindowControlHandlers(): void {
+  private setupWindowControlHandlers(app: App): void {
     // Get the main window instance
     const getMainWindow = (): BrowserWindow | null => {
       const windows = BrowserWindow.getAllWindows();
@@ -241,6 +241,17 @@ class WindowControlModule implements AppModule {
       } catch (error: any) {
         this.logger.error(`Window getPosition error: ${error instanceof Error ? error.message : String(error)}`);
         throw new Error(`Failed to get window position: ${error instanceof Error ? error.message : error}`);
+      }
+    });
+
+    ipcMain.handle('window:relaunch', async () => {
+      try {
+        app.relaunch();
+        app.quit();
+        return true;
+      } catch (error: any) {
+        this.logger.error(`Window relaunch error: ${error instanceof Error ? error.message : String(error)}`);
+        throw new Error(`Failed to relaunch app: ${error instanceof Error ? error.message : error}`);
       }
     });
   }

@@ -47,6 +47,7 @@ import {
 import {
   close as windowClose,
   requestClose as windowRequestClose,
+  relaunch as windowRelaunch,
   minimize as windowMinimize,
   maximize as windowMaximize,
   hide as windowHide,
@@ -185,6 +186,7 @@ export {
   // Window Operations
   windowClose,
   windowRequestClose,
+  windowRelaunch,
   windowMinimize,
   windowMaximize,
   windowHide,
@@ -256,6 +258,7 @@ export {
   eventsOn,
   eventsOff,
   eventsOnce,
+  eventsEmit,
 
   // HTTP Operations
   httpGet,

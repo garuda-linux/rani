@@ -1,4 +1,4 @@
-import { error, warn } from './logging.js';
+import { error } from './logging.js';
 import { ipcRenderer } from 'electron';
 
 export async function close(): Promise<boolean> {
@@ -170,5 +170,15 @@ export function getPosition(): { x: number; y: number } {
   } catch (err) {
     error(`Window getPosition error: ${err instanceof Error ? err.message : String(err)}`);
     return { x: 0, y: 0 };
+  }
+}
+
+export async function relaunch(): Promise<boolean> {
+  try {
+    await ipcRenderer.invoke('window:relaunch');
+    return true;
+  } catch (err) {
+    error(`Window relaunch error: ${err instanceof Error ? err.message : String(err)}`);
+    return false;
   }
 }
