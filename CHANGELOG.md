@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [3.1.1] - 2025-07-26
+
+### 🐛 Bug Fixes
+
+- _(first-boot)_ Properly handle first boot scenario
+- _(renderer)_ Removed random weird - sign on the bottom of the page
+- _(gaming)_ Changed luxtorpeda to the currently in-repo version
+
 ## [3.1.0] - 2025-07-20
 
 ### 🚀 Features
@@ -14,6 +22,10 @@ All notable changes to this project will be documented in this file.
 
 - _(renderer)_ Do not source bashrc or profile when calling bash
 - _(renderer)_ Bring back reaction to auto-start toggle, handle it properly even with Tauri-created files
+
+### 📚 Documentation
+
+- _(readme)_ Update
 
 ### ⚙️ Miscellaneous Tasks
 
