@@ -71,7 +71,12 @@
             disabled-lints = [ "repeated_keys" ];
             enable = true;
           };
-          yamlfmt.enable = true;
+          yamlfmt = {
+            enable = true;
+            settings.exclude = [
+              "pnpm-lock.yaml"
+            ];
+          };
         };
       };
       treefmtEval = eachSystem (pkgs: treefmt-nix.lib.evalModule pkgs treefmtConfig);
