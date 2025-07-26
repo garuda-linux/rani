@@ -4,7 +4,7 @@ import {
   isDevMode,
   LOCALE_ID,
   provideAppInitializer,
-  provideExperimentalZonelessChangeDetection,
+  provideZonelessChangeDetection,
 } from '@angular/core';
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -49,7 +49,6 @@ export const appConfig: ApplicationConfig = {
     ThemeService,
     provideAnimationsAsync(),
     provideAppInitializer(initRani),
-    provideExperimentalZonelessChangeDetection(),
     provideGarudaNG(
       { font: 'InterVariable' },
       {
@@ -102,6 +101,7 @@ export const appConfig: ApplicationConfig = {
       },
       loader: TranslocoHttpLoader,
     }),
+    provideZonelessChangeDetection(),
     { provide: LOCALE_ID, useValue: 'en-GB' },
     { provide: HTTP_INTERCEPTORS, useValue: [LoadingInterceptor], multi: true },
   ],

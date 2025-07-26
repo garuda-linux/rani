@@ -252,6 +252,7 @@ export class DesignerService {
     await this.applyFont('Inter var');
     document.documentElement.style.fontSize = '14px';
 
+    // @ts-ignore
     usePreset(theme.preset);
 
     this.designer.update((prev) => ({ ...prev, activeTab: 0, activeView: 'editor' }));
