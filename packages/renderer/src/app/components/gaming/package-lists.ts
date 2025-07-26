@@ -34,7 +34,7 @@ export const gamingPackageLists: PackageSections = [
     name: 'gaming.wine',
     sections: [
       { name: 'Boxtron', pkgname: ['boxtron'], icon: 'DOSBox.png', description: 'gaming.boxtron' },
-      { name: 'Luxtorpeda', pkgname: ['luxtorpeda-bin'], icon: 'proton.svg', description: 'gaming.luxtorpeda' },
+      { name: 'Luxtorpeda', pkgname: ['luxtorpeda-git'], icon: 'proton.svg', description: 'gaming.luxtorpeda' },
       {
         name: 'ProtonGE-Custom',
         pkgname: ['proton-ge-custom-bin'],
