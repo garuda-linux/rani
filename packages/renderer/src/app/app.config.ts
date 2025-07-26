@@ -9,7 +9,6 @@ import {
 import { provideHttpClient, withFetch } from '@angular/common/http';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { provideGarudaNG } from '@garudalinux/core';
-import { CatppuccinAura } from './theme';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
 import { ConfirmationService } from 'primeng/api';
@@ -30,6 +29,7 @@ import { GamingService } from './components/gaming/gaming.service';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
+import { CatppuccinAura } from '@garudalinux/themes/catppuccin';
 
 export const appConfig: ApplicationConfig = {
   providers: [

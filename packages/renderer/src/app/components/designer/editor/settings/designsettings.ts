@@ -37,7 +37,7 @@ import { Fieldset } from 'primeng/fieldset';
         </div>
       </section>
     </p-fieldset>
-    <p-confirm-popup />`,
+    <p-confirmpopup />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DesignSettings {

@@ -20,6 +20,9 @@
       "default": "./dist/exposed.mjs"
     }
   },
+  "dependencies": {
+    "electron-store": "^10.1.0"
+  },
   "devDependencies": {
     "@app/electron-versions": "workspace:*",
     "mlly": "^1.7.4",
