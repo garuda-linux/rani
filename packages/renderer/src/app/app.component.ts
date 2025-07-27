@@ -22,7 +22,6 @@ import { FormsModule } from '@angular/forms';
 import { ConfirmationService } from 'primeng/api';
 import type { MenuItem } from 'primeng/api';
 import { globalKeyHandler } from './key-handler';
-import { ShellBarEndDirective, ShellComponent } from './components/shell';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
 import { TerminalComponent } from './components/terminal/terminal.component';
@@ -42,6 +41,7 @@ import { AppDesigner } from './components/designer/app.designer';
 import { DesignerService } from './components/designer/designerservice';
 import { WallpaperService } from './components/wallpaper/wallpaper.service';
 import { ContextMenuModule } from 'primeng/contextmenu';
+import { ShellBarEndDirective, ShellComponent } from '@garudalinux/core';
 
 @Component({
   imports: [
