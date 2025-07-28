@@ -164,7 +164,7 @@ export class HomeComponent {
       title: 'welcome.install',
       subTitle: 'welcome.installSub',
       command: async () => {
-        const result = await this.taskManagerService.executeAndWaitBash('sudo -E calamares');
+        const result = await this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui calamares');
         if ('code' in result && result.code !== 0) {
           this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr as string);
         }
