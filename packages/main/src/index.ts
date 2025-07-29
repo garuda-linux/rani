@@ -2,7 +2,6 @@ import type { AppInitConfig } from './AppInitConfig.js';
 import { createModuleRunner } from './ModuleRunner.js';
 import { disallowMultipleAppInstance } from './modules/SingleInstanceApp.js';
 import { createWindowManagerModule } from './modules/WindowManager.js';
-import { terminateAppOnLastWindowClose } from './modules/ApplicationTerminatorOnLastWindowClose.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
 import { allowExternalUrls } from './modules/ExternalUrls.js';
 import { createConfigModule } from './modules/ConfigModule.js';
@@ -60,7 +59,6 @@ export async function initApp(initConfig: AppInitConfig) {
     const moduleRunner = createModuleRunner()
       // Core modules
       .init(disallowMultipleAppInstance())
-      .init(terminateAppOnLastWindowClose())
       .init(createEnhancedSecurityModule(isDevelopment))
 
       // Security modules
