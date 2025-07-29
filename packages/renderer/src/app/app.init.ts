@@ -11,7 +11,7 @@ export async function initRani() {
 
   // Window is hidden by default, after checking whether we are not required to autostart the
   // setup assistant, we can show it
-  if (await checkFirstBoot()) return;
+  if (!configService.state().isLiveSystem && await checkFirstBoot()) return;
 
   await languageManagerService.init();
 
