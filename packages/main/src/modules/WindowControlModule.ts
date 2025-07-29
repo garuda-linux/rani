@@ -2,6 +2,7 @@ import type { AppModule } from '../AppModule.js';
 import type { ModuleContext } from '../ModuleContext.js';
 import { ipcMain, BrowserWindow, App } from 'electron';
 import { Logger } from '../logging/logging.js';
+import { execve } from 'node:process';
 
 class WindowControlModule implements AppModule {
   private readonly logger = Logger.getInstance();
@@ -246,8 +247,10 @@ class WindowControlModule implements AppModule {
 
     ipcMain.handle('window:relaunch', async () => {
       try {
-        app.relaunch();
-        app.quit();
+        app.on('quit', () => {
+          execve!(process.execPath, process.argv, process.env);
+        });
+        app.exit();
         return true;
       } catch (error: any) {
         this.logger.error(`Window relaunch error: ${error instanceof Error ? error.message : String(error)}`);

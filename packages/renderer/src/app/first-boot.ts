@@ -64,7 +64,7 @@ async function runSetupAssistant(): Promise<void> {
 
   try {
     const result: CommandResult = await new shellService.Command('sh')
-      .args(['-c', 'VERSION=3 setup-assistant'])
+      .args(['-c', 'VERSION=4 setup-assistant'])
       .execute();
 
     if (result.code === 0) {
