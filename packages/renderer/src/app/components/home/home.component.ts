@@ -176,9 +176,8 @@ export class HomeComponent {
       title: 'welcome.chroot',
       subTitle: 'welcome.chrootSub',
       command: async () => {
-        const result = await this.shellService.execute('sh', [
-          '-c',
-          `/usr/lib/garuda/launch-terminal pkexec garuda-chroot -a; read -p 'Press enter to exit'"`,
+        const result = await this.shellService.execute('/usr/lib/garuda/launch-terminal', [
+          "pkexec garuda-chroot -a; read -p 'Press enter to exit'",
         ]);
         if ('code' in result && result.code !== 0) {
           this.messageToastService.error(this.translocoService.translate('welcome.error'), result.stderr as string);
