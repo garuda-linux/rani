@@ -36,9 +36,9 @@
           <p-select
             id="theme"
             [(ngModel)]="configService.settings().activeTheme"
-            [overlayOptions]="{ appendTo: 'body' }"
             [options]="availableThemes"
             (ngModelChange)="updateConfig('activeTheme', $event)"
+            appendTo="body"
             fluid
           />
         </div>
@@ -47,10 +47,10 @@
           <label for="select-languages">{{ t('settings.language') }}</label>
           <p-select
             id="select-languages"
-            [overlayOptions]="{ appendTo: 'body' }"
             [ngModel]="configService.settings().language"
             [options]="languages()"
             (onChange)="selectLanguage($event)"
+            appendTo="body"
             fluid
             optionLabel="label"
             optionValue="language"
@@ -62,10 +62,10 @@
           <label for="select-loglevel">{{ t('settings.logLevel') }}</label>
           <p-select
             id="select-loglevel"
-            [overlayOptions]="{ appendTo: 'body' }"
             [ngModel]="logLevelType[configService.settings().logLevel]"
             [options]="logLevels"
             (onChange)="selectLogLevel($event)"
+            appendTo="body"
             fluid
           >
           </p-select>

@@ -21,7 +21,7 @@
         <span>{{ t('welcome.subtitle') }}</span>
       }
     </div>
-    <div class="grid grid-cols-12">
+    <div class="grid grid-cols-12 gap-4">
       @for (item of mainLinks; track item.title) {
         @if (item.condition === undefined || item.condition()) {
           <p-card
@@ -44,7 +44,7 @@
     </div>
 
     @if (configService.settings().showMainLinks) {
-      <div class="mt-10 grid grid-cols-12">
+      <div class="mt-10 grid grid-cols-12 gap-4">
         @for (item of webLinks; track item.title) {
           <p-card class="col-span-4 mb-4 cursor-pointer px-5 md:col-span-2" (click)="respondClick(item)">
             <span class="shadow-2 surface-card mb-3 inline-block p-3" style="border-radius: 10px">

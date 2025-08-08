@@ -94,6 +94,10 @@ p-button {
   height: 50px !important;
 }
 
+.p-dialog-content {
+  @apply h-full;
+}
+
 .garuda-button-shine {
   position: relative;
   background: transparent;
