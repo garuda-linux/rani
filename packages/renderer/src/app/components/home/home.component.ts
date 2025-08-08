@@ -12,10 +12,11 @@ import { SystemStatusComponent } from '../system-status/system-status.component'
 import { MessageToastService } from '@garudalinux/core';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { OsInteractService } from '../task-manager/os-interact.service';
+import { FaIconComponent } from '@fortawesome/angular-fontawesome';
 
 @Component({
   selector: 'rani-home',
-  imports: [TranslocoDirective, Card, RouterLink, NgOptimizedImage, SystemStatusComponent],
+  imports: [TranslocoDirective, Card, RouterLink, NgOptimizedImage, SystemStatusComponent, FaIconComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
