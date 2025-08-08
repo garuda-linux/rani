@@ -701,7 +701,7 @@ export const gamingPackageLists: PackageSections = [
       { name: 'Desmume', pkgname: ['desmume'], icon: 'desmume.png', description: 'gaming.desmume' },
       { name: 'Dolphin', pkgname: ['dolphin-emu'], icon: 'dolphin-emu.png', description: 'gaming.dolphinEmu' },
       { name: 'Dolphin-emu', pkgname: ['dolphin-emu'], icon: 'dolphin-emu.png', description: 'gaming.dolphinEmu' },
-      { name: 'DuckStation', pkgname: ['duckstation'], icon: 'duckstation.png', description: 'gaming.duckstation' },
+      { name: 'DuckStation', pkgname: ['duckstation-gpl'], icon: 'duckstation.png', description: 'gaming.duckstation' },
       {
         name: 'Emulationstation',
         pkgname: ['emulationstation'],

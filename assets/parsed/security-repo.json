@@ -1,12 +1,5 @@
 [
   {
-    "name": "1Password",
-    "description": "Proprietary graphical user interface for 1Password password manager.",
-    "url": "https://support.1password.com/install-linux/#arch-linux",
-    "icon": "generic-dark.svg",
-    "pkgname": ["1password"]
-  },
-  {
     "name": "Arpwatch",
     "description": "Tool that monitors ethernet activity and keeps a database of Ethernet/IP address pairings.",
     "url": "https://ee.lbl.gov/",
