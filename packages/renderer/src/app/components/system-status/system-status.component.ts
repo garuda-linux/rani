@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, computed, effect, inject, signal } from '@angular/core';
 import { ElectronShellService } from '../../electron-services';
 import { OverlayBadge } from 'primeng/overlaybadge';
 import { Tooltip } from 'primeng/tooltip';
@@ -28,12 +28,20 @@ export class SystemStatusComponent {
   protected readonly systemStatusService = inject(SystemStatusService);
   protected readonly shellService = inject(ElectronShellService);
 
+  private readonly cdr = inject(ChangeDetectorRef);
   private readonly confirmationService = inject(ConfirmationService);
   private readonly osInteractionService = inject(OsInteractService);
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly translocoService = inject(TranslocoService);
 
   updateButtonDisabled = computed(() => this.taskManagerService.findTaskById('updateSystem') !== null);
+
+  constructor() {
+    effect(() => {
+      const _updates = this.systemStatusService.updates();
+      this.cdr.markForCheck();
+    });
+  }
 
   /**
    * Schedule a system update, confirming with the user first. If confirmed, schedule the update.

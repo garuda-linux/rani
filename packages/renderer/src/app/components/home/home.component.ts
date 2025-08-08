@@ -136,12 +136,12 @@ export class HomeComponent {
       subTitle: 'welcome.bootToolsSub',
       // routerLink: '/boot-tools',
       icon: 'pi pi-hammer',
-      command: async () =>
-        this.osInteractService.ensurePackageArchlinux('garuda-boot-options').then((installed) => {
-          if (installed) {
-            this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-boot-options');
-          }
-        }),
+      command: async () => {
+        const installed = await this.osInteractService.ensurePackageArchlinux('garuda-boot-options');
+        if (installed) {
+          await this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-boot-options');
+        }
+      },
     },
     {
       title: 'welcome.diagnostics',
@@ -154,12 +154,12 @@ export class HomeComponent {
       subTitle: 'welcome.networkSub',
       // routerLink: '/network',
       icon: 'pi pi-globe',
-      command: async () =>
-        this.osInteractService.ensurePackageArchlinux('garuda-network-assistant').then((installed) => {
-          if (installed) {
-            this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-network-assistant');
-          }
-        }),
+      command: async () => {
+        const installed = await this.osInteractService.ensurePackageArchlinux('garuda-network-assistant');
+        if (installed) {
+          await this.taskManagerService.executeAndWaitBash('/usr/lib/garuda/pkexec-gui garuda-network-assistant');
+        }
+      },
     },
     {
       title: 'welcome.install',
