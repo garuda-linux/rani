@@ -50,6 +50,9 @@ export class SystemStatusService {
     } else {
       this.updatesAur.set(false);
     }
+
+    // Explicitly set the updates signal to trigger change detection
+    this.updates.set([...this.updates()]);
   }
 
   /**
