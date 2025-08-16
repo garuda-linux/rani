@@ -740,7 +740,6 @@ export const gamingPackageLists: PackageSections = [
       { name: 'VICE', pkgname: ['vice'], icon: 'vice.svg', description: 'gaming.vice' },
       { name: 'WayDroid', pkgname: ['waydroid-script-git'], icon: 'waydroid.png', description: 'gaming.waydroid' },
       { name: 'Xemu', pkgname: ['xemu-git'], icon: 'xemu.png', description: 'gaming.xemu' },
-      { name: 'Yabause', pkgname: ['yabause-qt'], icon: 'yabause.png', description: 'gaming.yabause' },
       { name: 'ZSNES', pkgname: ['zsnes'], icon: 'zsnes.png', description: 'gaming.zsnes' },
       { name: 'eka2l1', pkgname: ['eka2l1-git'], icon: 'eka2l1.png', description: 'gaming.eka2l1' },
       { name: 'mGBA', pkgname: ['mgba-qt'], icon: 'mgba.png', description: 'gaming.mgba' },

@@ -343,13 +343,6 @@
     "pkgname": ["decibels"]
   },
   {
-    "name": "Deepin Album",
-    "description": "Photo manager for viewing and organizing pictures, for Deepin desktop.",
-    "url": "https://github.com/linuxdeepin/deepin-album",
-    "icon": "generic-dark.svg",
-    "pkgname": ["deepin-album"]
-  },
-  {
     "name": "Deepin Camera",
     "description": "Tool to view camera, take photo and video.",
     "url": "https://github.com/linuxdeepin/deepin-camera",
