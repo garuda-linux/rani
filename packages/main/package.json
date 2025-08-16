@@ -19,13 +19,13 @@
     "@app/preload": "workspace:*",
     "@app/renderer": "workspace:*",
     "electron-store": "^10.1.0",
-    "pino": "^9.8.0",
+    "pino": "^9.9.0",
     "pino-pretty": "^13.1.1"
   },
   "devDependencies": {
     "@app/electron-versions": "workspace:*",
     "electron-devtools-installer": "^4.0.0",
-    "typescript": "^5.8.3",
-    "vite": "^7.1.1"
+    "typescript": "5.8.3",
+    "vite": "^7.1.2"
   }
 }
