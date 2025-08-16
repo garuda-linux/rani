@@ -116,7 +116,7 @@ export class KernelsService {
     const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
 
     if (result.code === 0) {
-      const kernels: Kernel[] = [];
+      let kernels: Kernel[] = [];
       const kernelMap: Record<string, string> = {};
       const lines: string[] = result.stdout.split('\n').map((line: string) => line.trim());
 
@@ -149,6 +149,18 @@ export class KernelsService {
           kernel.description = lines[i + 1];
         }
       }
+
+      // Filter duplicates and show the one, which will be installed by pacman
+      // Prioritize kernel based on the one pacman would pick in a default Garuda Linux installation.
+      const repoPriority: Record<string, number> = { 'garuda': 0, 'core': 1, 'extra': 2, 'chaotic-aur': 3 };
+      const uniqueKernelMap = new Map<string, Kernel>();
+      for (const kernel of kernels) {
+        const existing = uniqueKernelMap.get(kernel.pkgname[0]);
+        if (!existing || (repoPriority[kernel.repo] ?? 999) < (repoPriority[existing.repo] ?? 999)) {
+          uniqueKernelMap.set(kernel.pkgname[0], kernel);
+        }
+      }
+      kernels = Array.from(uniqueKernelMap.values());
 
       this.kernels.set(kernels);
       this.logger.info(`Found ${kernels.length} available kernels`);
@@ -206,6 +218,7 @@ export class KernelsService {
       }
 
       this.logger.trace('Done determining status, proceeding to sort kernels');
+
       // Show selected kernels first
       kernels.sort((a, b) => +(b.selected || false) - +(a.selected || false));
       return kernels;
