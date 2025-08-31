@@ -1,7 +1,8 @@
-stages: [test, build, release]
+stages: [auto, test, build, release]
 include:
   - 'https://gitlab.com/garuda-linux/tools/gitlab-ci-commons/-/raw/main/templates/commitizen.gitlab-ci.yml'
   - 'https://gitlab.com/garuda-linux/tools/gitlab-ci-commons/-/raw/main/templates/tag-to-release.gitlab-ci.yml'
+  - 'https://gitlab.com/garuda-linux/tools/gitlab-ci-commons/-/raw/main/templates/transifex-automerge.gitlab-ci.yml'
 check-packagelists:
   # Check whether all packages advertised in the package lists are available
   stage: test
