@@ -10,6 +10,8 @@ export class LangPipePipe implements PipeTransform {
         return 'English 🇬🇧/🇺🇸';
       case 'es':
         return 'Spanish 🇪🇸';
+      case 'et':
+        return 'Estonian 🇪🇪';
       case 'fr':
         return 'French 🇫🇷';
       case 'de':

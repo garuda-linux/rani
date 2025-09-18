@@ -73,6 +73,7 @@ export const appConfig: ApplicationConfig = {
           'en',
           'es',
           'eu',
+          'et',
           'fr',
           'gl',
           'hi',
