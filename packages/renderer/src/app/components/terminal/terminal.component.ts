@@ -4,6 +4,7 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   HostListener,
   inject,
   type OnDestroy,
@@ -32,6 +33,7 @@ import { MessageToastService } from '@garudalinux/core';
 import { GarudaBin } from '../privatebin/privatebin';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { DesignerService } from '../designer/designerservice';
+import { FitAddon } from '@xterm/addon-fit';
 
 @Component({
   selector: 'rani-terminal',
@@ -55,6 +57,10 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly logger = Logger.getInstance();
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
+
+  private fitAddon = new FitAddon();
+  private host = inject(ElementRef);
+  private observer: ResizeObserver | null = null;
 
   readonly progressTracker = computed(() => {
     const progress = this.taskManagerService.progress();
@@ -101,6 +107,9 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
         else if (output === 'hide') this.visible.set(false);
       }),
     );
+
+    this.observer = new ResizeObserver(() => this.fitAddon.fit());
+    this.observer.observe(this.host.nativeElement);
   }
 
   async ngAfterViewInit() {
@@ -124,6 +133,8 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     for (const sub of this.subscriptions) {
       sub.unsubscribe();
     }
+
+    this.observer?.unobserve(this.host.nativeElement);
   }
 
   @HostListener('keydown', ['$event'])
@@ -154,6 +165,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   private async loadXterm(): Promise<void> {
     this.term.underlying?.loadAddon(new WebglAddon());
     this.term.underlying?.loadAddon(new WebLinksAddon());
+    this.term.underlying?.loadAddon(this.fitAddon);
     this.term.underlying?.clear();
 
     if (this.taskManagerService.data) {
