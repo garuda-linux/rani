@@ -243,7 +243,7 @@ export class MaintenanceComponent implements OnInit {
       priority: 5,
       command: (): string => {
         this.logger.info('Updating system');
-        return 'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm';
+        return 'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm -- --noprogressbar';
       },
     },
     {
