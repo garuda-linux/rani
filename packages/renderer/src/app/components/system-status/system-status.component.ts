@@ -55,7 +55,9 @@ export class SystemStatusComponent {
         true,
         'maintenance.updateSystem',
         'pi pi-refresh',
-        'GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm -- --noprogressbar',
+        `if command -v garuda-update >/dev/null 2>&1; then \
+          GARUDA_UPDATE_RANI=1 garuda-update --skip-mirrorlist --noconfirm -- --noprogressbar; \
+          else pacman -Syu --noconfirm; fi`,
       );
       this.taskManagerService.scheduleTask(task);
     }
