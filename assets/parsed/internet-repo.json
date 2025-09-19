@@ -217,13 +217,6 @@
     "pkgname": ["claws-mail"]
   },
   {
-    "name": "ClipGrab",
-    "description": "Downloader and converter for YouTube, Vimeo and many other online video sites.",
-    "url": "https://clipgrab.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["clipgrab"]
-  },
-  {
     "name": "Cozy",
     "description": "A personal cloud you can hack, host and delete.",
     "url": "https://cozy.io/",

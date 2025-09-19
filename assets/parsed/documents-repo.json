@@ -392,13 +392,6 @@
     "pkgname": ["kile"]
   },
   {
-    "name": "KIT Scenarist",
-    "description": "Simple and powerful application for creating screenplays.",
-    "url": "https://kitscenarist.ru/en/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["scenarist"]
-  },
-  {
     "name": "Komikku",
     "description": "Online/offline manga reader for GNOME.",
     "url": "https://apps.gnome.org/Komikku/",
@@ -649,13 +642,6 @@
     "url": "https://otsaloma.io/nfoview/",
     "icon": "generic-dark.svg",
     "pkgname": ["nfoview"]
-  },
-  {
-    "name": "Notepadqq",
-    "description": "Qt-based, Notepad++-like text editor with support for syntax highlighting for more than 100 languages.",
-    "url": "https://notepadqq.com/s/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["notepadqq"]
   },
   {
     "name": "Notes",

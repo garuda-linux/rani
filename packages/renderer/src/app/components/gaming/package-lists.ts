@@ -736,7 +736,6 @@ export const gamingPackageLists: PackageSections = [
       { name: 'ScummVM', pkgname: ['scummvm'], icon: 'scummvm.png', description: 'gaming.scummvm' },
       { name: 'Snes9x', pkgname: ['snes9x'], icon: 'snes9x.png', description: 'gaming.snes9x' },
       { name: 'Stella', pkgname: ['stella'], icon: 'stella.gif', description: 'gaming.stella' },
-      { name: 'Torzu (Yuzu)', pkgname: ['torzu-qt6-git'], icon: 'torzu.png', description: 'gaming.torzu' },
       { name: 'VICE', pkgname: ['vice'], icon: 'vice.svg', description: 'gaming.vice' },
       { name: 'WayDroid', pkgname: ['waydroid-script-git'], icon: 'waydroid.png', description: 'gaming.waydroid' },
       { name: 'Xemu', pkgname: ['xemu-git'], icon: 'xemu.png', description: 'gaming.xemu' },

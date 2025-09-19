@@ -84,13 +84,6 @@
     "pkgname": ["calindori"]
   },
   {
-    "name": "Calligra Plan",
-    "description": "Project management application, which is intended for managing moderately large projects with multiple resources.",
-    "url": "https://calligra.org/components/plan/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["calligra-plan"]
-  },
-  {
     "name": "Cartridges",
     "description": "Simple game launcher written in Python using GTK4 and Libadwaita.",
     "url": "https://apps.gnome.org/Cartridges/",
