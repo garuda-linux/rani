@@ -46,8 +46,8 @@ importers:
         specifier: ^20.3.0
         version: 20.3.0(chokidar@4.0.3)(eslint@9.35.0(jiti@2.5.1))(typescript-eslint@8.44.0(eslint@9.35.0(jiti@2.5.1))(typescript@5.8.3))(typescript@5.8.3)
       electron:
-        specifier: 38.1.2
-        version: 38.1.2
+        specifier: 38.2.0
+        version: 38.2.0
       electron-builder:
         specifier: 26.0.0
         version: 26.0.0(electron-builder-squirrel-windows@26.0.0)
@@ -5320,8 +5320,8 @@ packages:
   electron-to-chromium@1.5.221:
     resolution: {integrity: sha512-/1hFJ39wkW01ogqSyYoA4goOXOtMRy6B+yvA1u42nnsEGtHzIzmk93aPISumVQeblj47JUHLC9coCjUxb1EvtQ==}
 
-  electron@38.1.2:
-    resolution: {integrity: sha512-WXUcN3W8h8NTTZViA3KNX0rV2YBU0X0mEUM3ubupXTDY4QtIN7tmiqYVOKSKpR2LckTmBWGuEeY4D6xVoffwKQ==}
+  electron@38.2.0:
+    resolution: {integrity: sha512-Cw5Mb+N5NxsG0Hc1qr8I65Kt5APRrbgTtEEn3zTod30UNJRnAE1xbGk/1NOaDn3ODzI/MYn6BzT9T9zreP7xWA==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -16203,7 +16203,7 @@ snapshots:
 
   electron-to-chromium@1.5.221: {}
 
-  electron@38.1.2:
+  electron@38.2.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.18.6
