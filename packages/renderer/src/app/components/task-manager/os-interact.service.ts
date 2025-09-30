@@ -200,7 +200,7 @@ export class OsInteractService {
     if (shell !== null && shell !== this.currentShell()) {
       script_services += `
             set -e
-            chsh -s $(which ${shell.name}) ${this.configService.state().user}
+            chsh -s ${shell.path ?? '$(which ${shell.name})'} ${this.configService.state().user}
             echo "Shell changed."
             `;
     }

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, effect, inject, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, effect, inject, model, signal, OnInit } from '@angular/core';
 import { TranslocoDirective } from '@jsverse/transloco';
 import { FormsModule } from '@angular/forms';
 import type { Nullable } from 'primeng/ts-helpers';
@@ -8,6 +8,9 @@ import { Checkbox } from 'primeng/checkbox';
 import type { SystemToolsEntry } from '../../interfaces';
 import { DynamicCheckboxesComponent } from '../dynamic-checkboxes/dynamic-checkboxes.component';
 import { OsInteractService } from '../task-manager/os-interact.service';
+import type { ChildProcess } from '../../types/shell';
+import { TaskManagerService } from '../task-manager/task-manager.service';
+import { Logger } from '../../logging/logging';
 
 @Component({
   selector: 'rani-system-settings',
@@ -16,7 +19,7 @@ import { OsInteractService } from '../task-manager/os-interact.service';
   styleUrl: './system-settings.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SystemSettingsComponent {
+export class SystemSettingsComponent implements OnInit {
   currentShell = signal<Nullable<Shell>>(null);
   currentDns = signal<Nullable<DnsProvider>>(null);
   selectedBoxes = model<string[]>([]);
@@ -199,6 +202,9 @@ export class SystemSettingsComponent {
   ];
 
   protected readonly osInteractService = inject(OsInteractService);
+  protected readonly taskManagerService = inject(TaskManagerService);
+
+  private readonly logger = Logger.getInstance();
 
   constructor() {
     effect(() => {
@@ -210,6 +216,10 @@ export class SystemSettingsComponent {
       this.currentDns.set(this.osInteractService.dns());
       this.currentShell.set(this.osInteractService.shell());
     });
+  }
+
+  ngOnInit() {
+    void this.updateAvailableShells();
   }
 
   /**
@@ -247,5 +257,43 @@ export class SystemSettingsComponent {
         this.osInteractService.wantedIwd.set(this.selectedBoxes().includes('iwd'));
       }
     }
+  }
+
+  /**
+   * Get all the available shells in the system and filter the list of shells based on the result.
+   */
+  private async updateAvailableShells(): Promise<void> {
+    const cmd = "cat /etc/shells | grep '^/' | sort -u";
+    const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(cmd);
+    if (result.code !== 0) {
+      this.logger.error(`Failed to get available shells: ${result.stderr}`);
+      return;
+    }
+
+    const byName = new Map<string, string>();
+    for (const raw of result.stdout.split(/\r?\n/)) {
+      const line = raw.trim();
+      if (!line) continue;
+
+      const idx = line.lastIndexOf('/');
+      const name = idx >= 0 ? line.slice(idx + 1) : line;
+      const existing = byName.get(name);
+
+      if (!existing) {
+        byName.set(name, line);
+      } else if (!existing.startsWith('/usr/bin') && line.startsWith('/usr/bin')) {
+        // prefer /usr/bin when a duplicate exists
+        byName.set(name, line);
+      }
+    }
+
+    for (const s of shells) {
+      const p: string | undefined = byName.get(s.name);
+      if (p) s.path = p;
+    }
+    this.shells = shells.filter((s) => s.path);
+
+    this.logger.info(`Found ${byName.size} unique shells`);
+    this.logger.debug(`Shells: ${shells.map((s) => `${s.name} -> ${s.path ?? 'N/A'}`).join(', ')}`);
   }
 }

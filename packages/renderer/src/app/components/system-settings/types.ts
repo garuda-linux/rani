@@ -2,6 +2,7 @@ export interface ShellEntry {
   name: string;
   defaultSettings?: string;
   hint?: string;
+  path?: string;
 }
 
 export const shells: ShellEntry[] = [
