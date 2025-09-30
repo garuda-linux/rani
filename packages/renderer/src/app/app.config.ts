@@ -84,6 +84,7 @@ export const appConfig: ApplicationConfig = {
           'ko',
           'pl',
           'pt',
+          'pt-BR',
           'ru',
           'sl',
           'sv',

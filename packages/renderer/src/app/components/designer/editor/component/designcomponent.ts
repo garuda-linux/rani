@@ -90,7 +90,7 @@ export class DesignComponent implements OnInit {
     this.componentKey.set(this.availableComponents[0] || '');
   }
 
-  async tabValueChange(event: string | number) {
+  async tabValueChange(event: string | number | undefined) {
     if (event === 'cs-1') {
       await this.configService.updateConfig('darkTheme', true);
     }
