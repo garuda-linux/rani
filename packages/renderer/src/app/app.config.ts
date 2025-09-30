@@ -90,6 +90,7 @@ export const appConfig: ApplicationConfig = {
           'sv',
           'sw',
           'tr',
+          'uk',
           'uz',
           'zh-CN',
         ],

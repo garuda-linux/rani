@@ -56,6 +56,8 @@ export class LangPipePipe implements PipeTransform {
         return 'Swahili 🇰🇪';
       case 'hu':
         return 'Hungarian 🇭🇺';
+      case 'uk':
+        return 'Ukrainian 🇺🇦';
       case 'uz':
         return 'Uzbek 🇺🇿';
       default:
