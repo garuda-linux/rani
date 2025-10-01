@@ -5,7 +5,7 @@ import { sha256sum } from './node-crypto.js';
 import { versions } from './versions.js';
 
 // Import shell operations
-import { shellSpawnStreaming, shellWriteStdin, shellKillProcess, open, execute } from './shell.js';
+import { shellSpawnStreaming, shellWriteStdin, shellKillProcess, shellResize, open, execute } from './shell.js';
 
 // Import filesystem operations
 import { exists, readTextFile, writeTextFile, createDirectory, removeFile } from './filesystem.js';
@@ -144,6 +144,7 @@ export {
   shellSpawnStreaming,
   shellWriteStdin,
   shellKillProcess,
+  shellResize,
   open,
   execute,
 

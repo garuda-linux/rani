@@ -319,6 +319,31 @@ ipcRenderer.on('appMenu:itemClicked', (_, clickData: any) => {
   emit('appMenu:itemClicked', clickData);
 });
 
+// Set up IPC listeners for shell events from main process
+ipcRenderer.on('shell:stdout', (_, data: any) => {
+  trace(
+    `Received shell:stdout IPC event for process ${data.processId}: ${data.data?.length || 0} bytes - "${data.data?.substring(0, 100) || ''}..."`,
+  );
+  emit('shell:stdout', data);
+});
+
+ipcRenderer.on('shell:stderr', (_, data: any) => {
+  trace(
+    `Received shell:stderr IPC event for process ${data.processId}: ${data.data?.length || 0} bytes - "${data.data?.substring(0, 100) || ''}..."`,
+  );
+  emit('shell:stderr', data);
+});
+
+ipcRenderer.on('shell:close', (_, data: any) => {
+  trace(`Received shell:close IPC event for process ${data.processId} with code ${data.code}`);
+  emit('shell:close', data);
+});
+
+ipcRenderer.on('shell:error', (_, data: any) => {
+  trace(`Received shell:error IPC event for process ${data.processId}: ${data.error?.message || 'unknown error'}`);
+  emit('shell:error', data);
+});
+
 // Clean up on page unload
 if (typeof window !== 'undefined') {
   window.addEventListener('beforeunload', () => {
