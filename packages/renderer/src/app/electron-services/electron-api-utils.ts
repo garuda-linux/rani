@@ -292,5 +292,11 @@ export const httpDelete = createAsyncDeferredFunction<
   }>
 >('httpDelete');
 
+// Pseudo terminal operations
+export const sendPtyKeystroke = createDeferredFunction<(data: string) => boolean>('sendPtyKeystroke');
+export const setPtyDataListener =
+  createDeferredFunction<(callback: (data: string) => void) => boolean>('setPtyDataListener');
+export const resizePty = createDeferredFunction<(cols: number, rows: number) => boolean>('resizePty');
+
 // Export utility functions for checking preload status
 export { isPreloadReady, waitForPreload };

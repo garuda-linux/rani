@@ -129,6 +129,9 @@ import { on as eventsOn, off as eventsOff, once as eventsOnce, emit as eventsEmi
 // Import HTTP operations
 import { httpGet, httpPost, httpPut, httpDelete } from './http.js';
 
+// Pseudo terminal operations
+import { sendPtyKeystroke, setPtyDataListener, resizePty } from './pty.js';
+
 // Export all functions with their original names
 export {
   // Crypto
@@ -263,4 +266,9 @@ export {
   httpPost,
   httpPut,
   httpDelete,
+
+  // Pseudo Terminal Operations
+  sendPtyKeystroke,
+  setPtyDataListener,
+  resizePty,
 };

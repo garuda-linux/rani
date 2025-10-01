@@ -1,10 +1,12 @@
 packages:
   - packages/*
+
 catalog:
   '@app/electron-versions': workspace:*
   '@app/main': workspace:*
   '@app/preload': workspace:*
   '@app/renderer': workspace:*
+
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - '@tailwindcss/oxide'
@@ -14,3 +16,4 @@ onlyBuiltDependencies:
   - esbuild
   - lmdb
   - msgpackr-extract
+  - node-pty

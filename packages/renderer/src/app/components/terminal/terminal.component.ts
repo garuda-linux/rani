@@ -4,11 +4,8 @@ import {
   Component,
   computed,
   effect,
-  ElementRef,
   HostListener,
   inject,
-  type OnDestroy,
-  type OnInit,
   signal,
   type Signal,
   ViewChild,
@@ -26,7 +23,6 @@ import { Logger } from '../../logging/logging';
 import { WebglAddon } from '@xterm/addon-webgl';
 import { WebLinksAddon } from '@xterm/addon-web-links';
 import { ConfigService } from '../config/config.service';
-import { Subscription } from 'rxjs';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { clear, writeText } from '../../electron-services';
 import { MessageToastService } from '@garudalinux/core';
@@ -34,17 +30,33 @@ import { GarudaBin } from '../privatebin/privatebin';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { DesignerService } from '../designer/designerservice';
 import { FitAddon } from '@xterm/addon-fit';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+// oxlint-disable-next-line no-unused-vars
+import { resizePty, sendPtyKeystroke, setPtyDataListener } from '../../electron-services/electron-api-utils';
+import { WaResizeObserver } from '@ng-web-apis/resize-observer';
+// oxlint-disable-next-line no-unused-vars
+import { asyncScheduler } from 'rxjs';
+import { WaIntersectionObserver } from '@ng-web-apis/intersection-observer';
 
 @Component({
   selector: 'rani-terminal',
-  imports: [CommonModule, NgTerminalModule, TranslocoDirective, Dialog, ProgressBar, Card, ScrollPanel],
+  imports: [
+    CommonModule,
+    NgTerminalModule,
+    TranslocoDirective,
+    Dialog,
+    ProgressBar,
+    Card,
+    ScrollPanel,
+    WaResizeObserver,
+    WaIntersectionObserver,
+  ],
   templateUrl: './terminal.component.html',
   styleUrl: './terminal.component.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
+export class TerminalComponent implements AfterViewInit {
   public visible = signal<boolean>(false);
-  private subscriptions: Subscription[] = [];
 
   @ViewChild('dialog', { static: false }) dialog!: Dialog;
   @ViewChild('term', { static: false }) term!: NgTerminal;
@@ -58,9 +70,7 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   private readonly messageToastService = inject(MessageToastService);
   private readonly translocoService = inject(TranslocoService);
 
-  private fitAddon = new FitAddon();
-  private host = inject(ElementRef);
-  private observer: ResizeObserver | null = null;
+  private readonly fitAddon = new FitAddon();
 
   readonly progressTracker = computed(() => {
     const progress = this.taskManagerService.progress();
@@ -98,47 +108,38 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
       }
       this.logger.trace('Terminal theme switched via effect');
     });
-  }
-
-  ngOnInit(): void {
-    this.subscriptions.push(
-      this.taskManagerService.events.subscribe((output: string) => {
-        if (output === 'show') this.visible.set(true);
-        else if (output === 'hide') this.visible.set(false);
-      }),
-    );
-
-    this.observer = new ResizeObserver(() => this.fitAddon.fit());
-    this.observer.observe(this.host.nativeElement);
-  }
-
-  async ngAfterViewInit() {
-    this.logger.debug('Terminal component initialized');
-    await this.loadXterm();
 
     this.logger.trace('Subscribing to terminal output/clear emitter');
-    this.subscriptions.push(
-      this.taskManagerService.dataEvents.subscribe((output: string) => {
-        this.term.write(output);
-      }),
-    );
-    this.subscriptions.push(
-      this.taskManagerService.events.subscribe((output: string) => {
-        if (output === 'clear') this.term.underlying?.clear();
-      }),
-    );
+    this.taskManagerService.dataEvents.pipe(takeUntilDestroyed()).subscribe((output: string) => {
+      this.term.write(output);
+    });
+    this.taskManagerService.events.pipe(takeUntilDestroyed()).subscribe((output: string) => {
+      if (output === 'clear') this.term.underlying?.clear();
+    });
+    this.taskManagerService.events.pipe(takeUntilDestroyed()).subscribe((output: string) => {
+      if (output === 'show') this.visible.set(true);
+      else if (output === 'hide') this.visible.set(false);
+    });
   }
 
-  ngOnDestroy(): void {
-    for (const sub of this.subscriptions) {
-      sub.unsubscribe();
-    }
-
-    this.observer?.unobserve(this.host.nativeElement);
+  ngAfterViewInit() {
+    this.logger.debug('Terminal component initialized');
+    void this.loadXterm();
   }
 
   @HostListener('keydown', ['$event'])
   respondToKeydown(event: KeyboardEvent) {
+    if (!this.visible()) {
+      this.logger.trace('Terminal not visible, ignoring keypress');
+      return;
+    }
+
+    // Prevent default browser behavior for certain keys
+    const forbiddenKeys = ['Tab', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight', 'Backspace', 'Enter'];
+    if (forbiddenKeys.includes(event.key) || event.ctrlKey) {
+      event.preventDefault();
+    }
+
     if (event.ctrlKey) {
       switch (event.key) {
         case 'q':
@@ -165,8 +166,18 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   private async loadXterm(): Promise<void> {
     this.term.underlying?.loadAddon(new WebglAddon());
     this.term.underlying?.loadAddon(new WebLinksAddon());
-    this.term.underlying?.loadAddon(this.fitAddon);
+    this.fitAddon.activate(this.term.underlying!);
     this.term.underlying?.clear();
+
+    setPtyDataListener((data: string) => {
+      this.term.write(data);
+      this.logger.trace(`PTY data received: ${data.length} characters`);
+    });
+
+    this.term.underlying?.onData(async (data: string) => {
+      this.logger.trace(`Terminal input: ${data.length} characters`);
+      sendPtyKeystroke(data);
+    });
 
     if (this.taskManagerService.data) {
       this.logger.trace('Terminal output cleared, now writing to terminal');
@@ -215,5 +226,32 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
     );
 
     this.loadingService.loadingOff();
+  }
+
+  /**
+   *
+   * Handle terminal resize events when the terminal is properly initialized.
+   * @param _$event The resize event entries.
+   */
+  terminalResize(_$event?: readonly ResizeObserverEntry[]): void {
+    if (!this.term?.underlying || !this.fitAddon.proposeDimensions()) return;
+
+    this.fitAddon.fit();
+    resizePty(this.term.underlying.cols, this.term.underlying.rows);
+    this.logger.trace(`Terminal resized to ${this.term.underlying?.cols}x${this.term.underlying?.rows}`);
+  }
+
+  /**
+   * Handle intersection observer events to determine if the terminal is visible. We can't do it on component
+   * load, because the terminal is not visible at that point, and FitAddon will fail to properly size the terminal.
+   * @param $event The intersection observer entries.
+   */
+  onIntersection($event: IntersectionObserverEntry[]): void {
+    if ($event[0].isIntersecting) {
+      this.logger.trace('Terminal is visible, performing resize');
+      asyncScheduler.schedule(() => this.terminalResize(), 500);
+    } else {
+      this.logger.trace('Terminal is not visible, skipping resize');
+    }
   }
 }

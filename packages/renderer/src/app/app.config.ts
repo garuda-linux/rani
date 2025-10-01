@@ -1,4 +1,3 @@
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import {
   type ApplicationConfig,
   isDevMode,
@@ -6,8 +5,7 @@ import {
   provideAppInitializer,
   provideZonelessChangeDetection,
 } from '@angular/core';
-import { provideHttpClient, withFetch } from '@angular/common/http';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideHttpClient, withFetch, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { provideGarudaNG } from '@garudalinux/core';
 import { TranslocoHttpLoader } from './transloco-loader';
 import { provideTransloco } from '@jsverse/transloco';
@@ -30,6 +28,7 @@ import { LoadingService } from './components/loading-indicator/loading-indicator
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
 import { CatppuccinAura } from '@garudalinux/themes/catppuccin';
+import { provideAnimations } from '@angular/platform-browser/animations';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -47,7 +46,7 @@ export const appConfig: ApplicationConfig = {
     SystemStatusService,
     TaskManagerService,
     ThemeService,
-    provideAnimationsAsync(),
+    provideAnimations(),
     provideAppInitializer(initRani),
     provideGarudaNG(
       { font: 'InterVariable' },

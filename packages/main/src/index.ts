@@ -17,6 +17,7 @@ import { createHttpModule } from './modules/HttpModule.js';
 import { createEnhancedSecurityModule } from './modules/EnhancedSecurityModule.js';
 import { app } from 'electron';
 import { Logger } from './logging/logging.js';
+import { createPtyModule } from './modules/PtyModule.js';
 
 export async function initApp(initConfig: AppInitConfig) {
   const isDevelopment = import.meta.env.DEV;
@@ -37,6 +38,7 @@ export async function initApp(initConfig: AppInitConfig) {
     const contextMenuModule = createContextMenuModule();
     const appMenuModule = createAppMenuModule();
     const httpModule = createHttpModule();
+    const ptyModule = createPtyModule();
 
     // Create module context
     const moduleContext = { app };
@@ -52,6 +54,7 @@ export async function initApp(initConfig: AppInitConfig) {
     contextMenuModule.enable(moduleContext);
     appMenuModule.enable(moduleContext);
     httpModule.enable(moduleContext);
+    ptyModule.enable(moduleContext);
 
     logger.debug('IPC handlers registered successfully');
 
