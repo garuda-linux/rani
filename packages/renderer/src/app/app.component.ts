@@ -11,7 +11,6 @@ import {
   computed,
 } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
-import { ScrollTop } from 'primeng/scrolltop';
 import { TranslocoDirective, TranslocoService } from '@jsverse/transloco';
 import { windowClose, windowRequestClose, eventsOn } from './electron-services/electron-api-utils.js';
 import { DialogModule } from 'primeng/dialog';
@@ -47,7 +46,6 @@ import { ShellBarEndDirective, ShellComponent } from '@garudalinux/core';
   imports: [
     RouterModule,
     DialogModule,
-    ScrollTop,
     ShellComponent,
     DrawerModule,
     TableModule,

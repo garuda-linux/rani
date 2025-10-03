@@ -30,7 +30,6 @@
 
 /*`Custom classes`*/
 body {
-  /*@apply p-2 selection:bg-primary selection:text-surface-0;*/
   font-optical-sizing: auto;
   user-select: none;
 }
