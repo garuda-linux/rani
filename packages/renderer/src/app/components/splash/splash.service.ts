@@ -1,13 +1,15 @@
+// oxlint-disable-next-line no-unused-vars
 import { Injectable, signal } from '@angular/core';
-import { appSplashComplete } from '../../electron-services/electron-api-utils';
 
 @Injectable({
   providedIn: 'root',
 })
 export class SplashService {
-  readonly isVisible = signal(true);
-  readonly progress = signal(0);
-  readonly message = signal('Initializing application...');
+  isVisible = signal(false);
+
+  progressText = document.getElementById('progress-text');
+  progressBar = document.getElementById('progress-bar');
+  statusText = document.getElementById('status-text');
 
   /**
    * Create the splash service and set up an effect to log progress changes.
@@ -15,9 +17,6 @@ export class SplashService {
    * @param message Status message
    */
   updateStep(progress: number, message: string): void {
-    this.progress.set(Math.min(100, Math.max(0, progress)));
-    this.message.set(message);
-
     this.adjustProgress(progress, message);
   }
 
@@ -26,8 +25,6 @@ export class SplashService {
    */
   show(): void {
     this.isVisible.set(true);
-    this.progress.set(20);
-    this.message.set('Initializing application...');
   }
 
   /**
@@ -41,14 +38,6 @@ export class SplashService {
     if (staticSplash) {
       staticSplash.style.display = 'none';
     }
-
-    // Signal main process that splash is complete when hiding
-    try {
-      await appSplashComplete();
-      console.log('Splash completion signaled to main process');
-    } catch (error) {
-      console.error('Failed to signal splash completion:', error);
-    }
   }
 
   /**
@@ -58,18 +47,15 @@ export class SplashService {
    * @param status Status text to display
    */
   private adjustProgress(value: number, status: string): void {
-    const progressText: HTMLElement | null = document.getElementById('progress-text');
-    if (progressText) {
-      progressText.innerText = `${value}%`;
+    if (this.progressText) {
+      this.progressText.innerText = `${value}%`;
     }
-    const progressBar: HTMLElement | null = document.getElementById('progress-bar');
-    if (progressBar) {
-      progressBar.style.width = `${value}%`;
+    if (this.progressBar) {
+      this.progressBar.style.width = `${value}%`;
     }
 
-    const statusText: HTMLElement | null = document.getElementById('status-text');
-    if (statusText) {
-      statusText.innerText = status;
+    if (this.statusText) {
+      this.statusText.innerText = status;
     }
   }
 }

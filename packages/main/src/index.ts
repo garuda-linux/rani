@@ -1,5 +1,5 @@
 import type { AppInitConfig } from './AppInitConfig.js';
-import { createModuleRunner } from './ModuleRunner.js';
+import { createModuleRunner, type ModuleRunner } from './ModuleRunner.js';
 import { disallowMultipleAppInstance } from './modules/SingleInstanceApp.js';
 import { createWindowManagerModule } from './modules/WindowManager.js';
 import { allowInternalOrigins } from './modules/BlockNotAllowdOrigins.js';
@@ -27,7 +27,7 @@ export async function initApp(initConfig: AppInitConfig) {
 
   try {
     // First priority: Show window immediately with minimal setup
-    const moduleRunner = createModuleRunner()
+    const moduleRunner: ModuleRunner = createModuleRunner()
       // Core modules for window creation
       .init(disallowMultipleAppInstance())
       .init(createEnhancedSecurityModule(isDevelopment))
@@ -47,12 +47,6 @@ export async function initApp(initConfig: AppInitConfig) {
 
     await moduleRunner;
 
-    const { ipcMain } = await import('electron');
-    ipcMain.handle('app:splash-complete', () => {
-      logger.debug('Splash completion signal received from renderer');
-      return true;
-    });
-
     // Register other IPC handlers in background after window is shown
     await registerBackgroundIPCHandlers(app, logger);
   } catch (error) {
@@ -63,8 +57,6 @@ export async function initApp(initConfig: AppInitConfig) {
 
 async function registerBackgroundIPCHandlers(app: Electron.App, logger: Logger) {
   try {
-    logger.debug('Registering background IPC handlers...');
-
     // Create all IPC modules
     const loggingModule = createLoggingModule();
     const configModule = createConfigModule();

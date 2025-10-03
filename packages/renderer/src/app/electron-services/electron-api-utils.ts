@@ -39,7 +39,7 @@ function getExposedFunction<T extends (...args: any[]) => any>(name: string): T 
   const func = (window as any)[encodedName] as T;
 
   if (!func) {
-    console.error(`[electron-api-utils] Function '${name}' not found. Preload ready: ${isPreloadReady()}`);
+    console.error(`Function '${name}' not found. Preload ready: ${isPreloadReady()}`);
     throw new Error(
       `Exposed function '${name}' not found. Make sure it's exported from preload/index.ts and that the preload script has finished loading.`,
     );
@@ -57,7 +57,7 @@ function createDeferredFunction<T extends (...args: any[]) => any>(name: string)
       const func = getExposedFunction<T>(name);
       return func(...args);
     } catch (error) {
-      console.error(`[electron-api-utils] Failed to call function '${name}':`, error);
+      console.error(`Failed to call function '${name}':`, error);
       throw error;
     }
   }) as T;
@@ -72,7 +72,7 @@ function createAsyncDeferredFunction<T extends (...args: any[]) => Promise<any>>
       const func = getExposedFunction<T>(name);
       return await func(...args);
     } catch (error) {
-      console.error(`[electron-api-utils] Failed to call async function '${name}':`, error);
+      console.error(`Failed to call async function '${name}':`, error);
       throw error;
     }
   }) as T;
@@ -230,9 +230,6 @@ export const appMenuGetItemCount = createAsyncDeferredFunction<() => Promise<num
 // Config operations
 export const configNotifyChange =
   createDeferredFunction<(key: string, value: unknown) => boolean>('configNotifyChange');
-
-// App initialization operations
-export const appSplashComplete = createAsyncDeferredFunction<() => Promise<boolean>>('appSplashComplete');
 
 // Event operations
 export const eventsOn =
