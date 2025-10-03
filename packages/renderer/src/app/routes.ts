@@ -1,42 +1,36 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, type Routes } from '@angular/router';
-import { HomeComponent } from './components/home/home.component';
-import { MaintenanceComponent } from './components/maintenance/maintenance.component';
-import { SystemToolsComponent } from './components/system-tools/system-tools.component';
-import { GamingComponent } from './components/gaming/gaming.component';
-import { DiagnosticsComponent } from './components/diagnostics/diagnostics.component';
-import { SettingsComponent } from './components/settings/settings.component';
 
 export const routes: Routes = [
   {
     title: 'Garuda Rani',
     path: '',
-    component: HomeComponent,
+    loadComponent: () => import('./components/home/home.component').then((m) => m.HomeComponent),
   },
   {
     title: 'Maintenance',
     path: 'maintenance',
-    component: MaintenanceComponent,
+    loadComponent: () => import('./components/maintenance/maintenance.component').then((m) => m.MaintenanceComponent),
   },
   {
     title: 'System tools',
     path: 'system-tools',
-    component: SystemToolsComponent,
+    loadComponent: () => import('./components/system-tools/system-tools.component').then((m) => m.SystemToolsComponent),
   },
   {
     title: 'Gaming apps',
     path: 'gaming',
-    component: GamingComponent,
+    loadComponent: () => import('./components/gaming/gaming.component').then((m) => m.GamingComponent),
   },
   {
     title: 'Diagnostics',
     path: 'diagnostics',
-    component: DiagnosticsComponent,
+    loadComponent: () => import('./components/diagnostics/diagnostics.component').then((m) => m.DiagnosticsComponent),
   },
   {
     title: 'Settings',
     path: 'settings',
-    component: SettingsComponent,
+    loadComponent: () => import('./components/settings/settings.component').then((m) => m.SettingsComponent),
   },
 ];
 

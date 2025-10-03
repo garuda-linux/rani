@@ -1,14 +1,235 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" style="margin: 0; padding: 0; height: 100%; overflow: hidden">
   <head>
     <meta charset="utf-8" />
-
     <title>Garuda Rani</title>
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <link rel="icon" type="image/x-icon" href="./assets/garuda-purple.svg" />
     <link rel="stylesheet" href="./src/styles.css" />
   </head>
-  <body>
+  <body
+    style="margin: 0; padding: 0; color: #cdd6f4; font-family: 'InterVariable', serif; height: 100%; overflow: hidden"
+  >
+    <div class="splash-container" id="initial-splash">
+      <div class="splash-content">
+        <div class="logo-container">
+          <div class="logo-placeholder">
+            <img src="assets/garuda-purple.svg" alt="Garuda Rani Logo" />
+          </div>
+        </div>
+
+        <div class="loading-section">
+          <p class="loading-text" id="status-text">Initializing application...</p>
+        </div>
+
+        <div class="progress-container">
+          <div class="progress-bar">
+            <div class="progress-fill initial-progress" id="progress-bar" style="width: 20%"></div>
+          </div>
+          <span class="progress-text initial-percentage" id="progress-text">20%</span>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @keyframes progressGrow {
+        0% {
+          width: 5%;
+        }
+        100% {
+          width: 30%;
+        }
+      }
+
+      @keyframes percentGrow {
+        0% {
+          opacity: 0.4;
+        }
+        100% {
+          opacity: 0.6;
+        }
+      }
+
+      .splash-container {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        color: #cdd6f4;
+        font-family: 'InterVariable', serif;
+      }
+
+      .splash-content {
+        text-align: center;
+        max-width: 400px;
+        padding: 2rem;
+      }
+
+      .logo-container {
+        margin-bottom: 3rem;
+      }
+
+      .logo-placeholder {
+        margin-bottom: 1rem;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+        50% {
+          transform: scale(1.05);
+          opacity: 0.9;
+        }
+      }
+
+      .loading-section {
+        margin: 2rem 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+      }
+
+      .loading-text {
+        margin: 0;
+        font-size: 0.9rem;
+        opacity: 0.8;
+        min-height: 1.5rem;
+        transition: opacity 0.3s ease;
+        color: #cdd6f4;
+      }
+
+      .progress-container {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+      }
+
+      .progress-bar {
+        flex: 1;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 2px;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .progress-fill {
+        height: 100%;
+        background: linear-gradient(90deg, #89b4fa, #cba6fa, #f9e2af);
+        border-radius: 2px;
+        transition: width 0.4s ease-out;
+        position: relative;
+      }
+
+      .progress-fill::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+        animation: shimmer 1.5s infinite;
+      }
+
+      @keyframes shimmer {
+        0% {
+          transform: translateX(-100%);
+        }
+        100% {
+          transform: translateX(100%);
+        }
+      }
+
+      .progress-text {
+        font-size: 0.8rem;
+        opacity: 0.6;
+        min-width: 3rem;
+        text-align: right;
+        font-weight: 500;
+        transition: opacity 0.3s ease;
+        color: #cdd6f4;
+      }
+
+      .initial-progress {
+        animation: progressGrow 2s ease-out forwards;
+      }
+
+      .initial-percentage {
+        animation: percentGrow 2s ease-out forwards;
+      }
+
+      .angular-loaded #initial-splash {
+        display: none;
+      }
+
+      #initial-splash {
+        z-index: 10000;
+      }
+
+      #initial-splash.fade-out {
+        opacity: 0;
+        transition: opacity 0.5s ease-out;
+      }
+
+      .angular-loading #initial-splash .loading-text {
+        opacity: 1;
+      }
+
+      .angular-loading #initial-splash .initial-progress {
+        animation: progressComplete 0.5s ease-out forwards;
+      }
+
+      @keyframes progressComplete {
+        to {
+          width: 60%;
+        }
+      }
+    </style>
+
     <rani-root></rani-root>
     <script>
       var global = global || window;

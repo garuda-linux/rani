@@ -27,6 +27,7 @@ import { LanguagePacksService } from './components/language-packs/language-packs
 import { LocalesService } from './components/locales/locales.service';
 import { GamingService } from './components/gaming/gaming.service';
 import { LoadingService } from './components/loading-indicator/loading-indicator.service';
+import { SplashService } from './components/splash/splash.service';
 import { provideRouter, withHashLocation } from '@angular/router';
 import { routes } from './routes';
 import { CatppuccinAura } from '@garudalinux/themes/catppuccin';
@@ -44,6 +45,7 @@ export const appConfig: ApplicationConfig = {
     NotificationService,
     OsInteractService,
     PackagesService,
+    SplashService,
     SystemStatusService,
     TaskManagerService,
     ThemeService,

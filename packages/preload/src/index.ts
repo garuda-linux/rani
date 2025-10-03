@@ -123,6 +123,9 @@ import {
 // Import config operations
 import { notifyChange as configNotifyChange } from './config.js';
 
+// Import app operations
+import { splashComplete as appSplashComplete } from './app.js';
+
 // Import event operations
 import { on as eventsOn, off as eventsOff, once as eventsOnce, emit as eventsEmit } from './events.js';
 
@@ -251,6 +254,9 @@ export {
 
   // Config Operations
   configNotifyChange,
+
+  // App Operations
+  appSplashComplete,
 
   // Event Operations
   eventsOn,

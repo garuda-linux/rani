@@ -26,7 +26,46 @@ export async function initApp(initConfig: AppInitConfig) {
   process.env.ELECTRON_NO_ATTACH_CONSOLE = '1';
 
   try {
-    // Register IPC handlers immediately and synchronously BEFORE any async operations
+    // First priority: Show window immediately with minimal setup
+    const moduleRunner = createModuleRunner()
+      // Core modules for window creation
+      .init(disallowMultipleAppInstance())
+      .init(createEnhancedSecurityModule(isDevelopment))
+
+      // Security modules
+      .init(allowInternalOrigins(new Set(initConfig.renderer instanceof URL ? [initConfig.renderer.origin] : [])))
+      .init(allowExternalUrls(new Set(initConfig.renderer instanceof URL ? ['garudalinux.org'] : [])))
+
+      // Window manager — show window ASAP
+      .init(
+        createWindowManagerModule({
+          initConfig,
+          openDevTools: isDevelopment,
+          isDevelopment,
+        }),
+      );
+
+    await moduleRunner;
+
+    const { ipcMain } = await import('electron');
+    ipcMain.handle('app:splash-complete', () => {
+      logger.debug('Splash completion signal received from renderer');
+      return true;
+    });
+
+    // Register other IPC handlers in background after window is shown
+    await registerBackgroundIPCHandlers(app, logger);
+  } catch (error) {
+    logger.error(`Failed to initialize app: ${error instanceof Error ? error.message : String(error)}`);
+    throw error;
+  }
+}
+
+async function registerBackgroundIPCHandlers(app: Electron.App, logger: Logger) {
+  try {
+    logger.debug('Registering background IPC handlers...');
+
+    // Create all IPC modules
     const loggingModule = createLoggingModule();
     const configModule = createConfigModule();
     const osModule = createOSModule();
@@ -41,7 +80,7 @@ export async function initApp(initConfig: AppInitConfig) {
     // Create module context
     const moduleContext = { app };
 
-    // Enable IPC modules synchronously first
+    // Enable IPC modules
     loggingModule.enable(moduleContext);
     configModule.enable(moduleContext);
     osModule.enable(moduleContext);
@@ -53,30 +92,10 @@ export async function initApp(initConfig: AppInitConfig) {
     appMenuModule.enable(moduleContext);
     httpModule.enable(moduleContext);
 
-    logger.debug('IPC handlers registered successfully');
-
-    // Now run the async module runner for other modules
-    const moduleRunner = createModuleRunner()
-      // Core modules
-      .init(disallowMultipleAppInstance())
-      .init(createEnhancedSecurityModule(isDevelopment))
-
-      // Security modules
-      .init(allowInternalOrigins(new Set(initConfig.renderer instanceof URL ? [initConfig.renderer.origin] : [])))
-      .init(allowExternalUrls(new Set(initConfig.renderer instanceof URL ? ['garudalinux.org'] : [])))
-
-      // Window manager — after all IPC handlers are ready
-      .init(
-        createWindowManagerModule({
-          initConfig,
-          openDevTools: isDevelopment,
-          isDevelopment,
-        }),
-      );
-
-    await moduleRunner;
+    logger.debug('Background IPC handlers registered successfully');
   } catch (error) {
-    logger.error(`Failed to initialize app: ${error instanceof Error ? error.message : String(error)}`);
-    throw error;
+    logger.error(
+      `Failed to register background IPC handlers: ${error instanceof Error ? error.message : String(error)}`,
+    );
   }
 }

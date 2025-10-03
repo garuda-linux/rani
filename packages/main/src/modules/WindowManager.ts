@@ -36,8 +36,8 @@ class WindowManager implements AppModule {
   async enable({ app }: ModuleContext): Promise<void> {
     await app.whenReady();
 
-    // Will be shown after configService in renderer is ready
-    await this.restoreOrCreateWindow(false);
+    // Show window immediately with splash screen
+    await this.restoreOrCreateWindow(true);
     app.on('second-instance', () => this.restoreOrCreateWindow(true));
     app.on('activate', () => this.restoreOrCreateWindow(true));
   }
@@ -69,9 +69,10 @@ class WindowManager implements AppModule {
       height: minHeight,
       minHeight: 500,
       minWidth: 700,
-      show: false,
+      show: true,
       frame: true,
       title: 'Garuda Rani',
+      backgroundColor: '#1e1e2e',
       webPreferences: {
         nodeIntegration: false,
         contextIsolation: true,
@@ -208,10 +209,7 @@ class WindowManager implements AppModule {
 
   async restoreOrCreateWindow(show = false) {
     let window = BrowserWindow.getAllWindows().find((w) => !w.isDestroyed());
-
-    if (window === undefined) {
-      window = await this.createWindow();
-    }
+    window ??= await this.createWindow();
 
     if (!show) {
       return window;

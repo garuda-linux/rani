@@ -413,10 +413,10 @@ export class AppComponent implements OnInit {
    * @returns Converted app menu items
    */
   private convertToAppMenuItems(items: MenuItem[]): AppMenuItem[] {
-    const dontShow = ['terminal'];
+    const dontShow = new Set(['terminal']);
 
     return items
-      .filter((item) => item.visible !== false && !dontShow.includes(item.id ?? ''))
+      .filter((item) => item.visible !== false && !dontShow.has(item.id ?? ''))
       .map((item) => ({
         id: item.id,
         label: item.label,
@@ -613,7 +613,7 @@ export class AppComponent implements OnInit {
   filterModuleSuggestions($event: AutoCompleteCompleteEvent) {
     const filtered: ModuleSearchEntry[] = [];
     for (const entry of MODULE_SEARCH) {
-      if (entry.keywords.find((entry) => entry.match($event.query.toLowerCase()))) {
+      if (entry.keywords.some((entry) => entry.match($event.query.toLowerCase()))) {
         console.debug(`Matched module suggestion: ${JSON.stringify(entry)}`);
         filtered.push(entry);
       } else {
