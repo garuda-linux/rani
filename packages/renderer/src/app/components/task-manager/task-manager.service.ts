@@ -231,7 +231,7 @@ export class TaskManagerService {
     try {
       this.logger.debug(`Executing bash code in terminal: ${script}`);
       this.loadingService.loadingOn();
-      await this.shellStreamingService.execute('/usr/lib/garuda/launch-terminal', [ script ], {
+      await this.shellStreamingService.execute('/usr/lib/garuda/launch-terminal', [script], {
         timeout,
       });
     } catch (error) {

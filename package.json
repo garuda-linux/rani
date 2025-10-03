@@ -41,7 +41,6 @@
     "electron-builder": "electron-builder build --config electron-builder.mjs --publish never",
     "format": "prettier --write .",
     "test": "playwright test ./tests/e2e.spec.ts",
-    "translate": "pnpx tsx assets/translator.ts",
     "typegen": "tsc packages/**/*.js --moduleResolution NodeNext --module NodeNext --declaration --allowJs --emitDeclarationOnly --outDir types"
   },
   "dependencies": {
@@ -70,7 +69,6 @@
     "prettier": "^3.6.2",
     "prettier-plugin-organize-attributes": "^1.0.0",
     "prettier-plugin-tailwindcss": "^0.6.14",
-    "tsx": "^4.20.6",
     "typescript": "5.8.3",
     "typescript-eslint": "^8.45.0",
     "vite": "^7.1.9"

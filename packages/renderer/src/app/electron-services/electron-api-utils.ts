@@ -231,6 +231,9 @@ export const appMenuGetItemCount = createAsyncDeferredFunction<() => Promise<num
 export const configNotifyChange =
   createDeferredFunction<(key: string, value: unknown) => boolean>('configNotifyChange');
 
+// App initialization operations
+export const appSplashComplete = createAsyncDeferredFunction<() => Promise<boolean>>('appSplashComplete');
+
 // Event operations
 export const eventsOn =
   createDeferredFunction<(channel: string, callback: (...args: unknown[]) => void) => (() => void) | undefined>(
