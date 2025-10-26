@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { LanguagePack, LanguagePacks } from './types';
-import { ChildProcess } from '../../electron-services';
+import { ChildProcess } from '../../types/shell';
 import { Logger } from '../../logging/logging';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { OsInteractService } from '../task-manager/os-interact.service';

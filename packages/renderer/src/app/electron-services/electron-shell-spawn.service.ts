@@ -3,6 +3,7 @@ import { Logger } from '../logging/logging';
 import type { ShellEvent, ShellStreamingResult } from './electron-types';
 import { eventsOn, eventsOff } from './electron-api-utils.js';
 import { shellSpawnStreaming, shellWriteStdin, shellKillProcess, execute } from './electron-api-utils.js';
+import type { ChildProcess } from '../types/shell';
 
 // Re-export ShellStreamingResult for backward compatibility
 export type { ShellStreamingResult };
@@ -153,25 +154,11 @@ export class ElectronShellSpawnService {
    * @param options Optional record for additional options like cwd, env.
    * @returns A Promise resolving to an object containing stdout, stderr, and exit code.
    */
-  async execute(
-    command: string,
-    args?: string[],
-    options?: Record<string, unknown>,
-  ): Promise<{
-    stdout: string;
-    stderr: string;
-    code: number | null;
-    signal: string | null;
-  }> {
+  async execute(command: string, args?: string[], options?: Record<string, unknown>): Promise<ChildProcess<string>> {
     this.logger.debug(`Executing one-off command: ${command} ${JSON.stringify(args)}`);
     const result = await execute(command, args, options);
     this.logger.debug(`One-off command ${command} finished with code: ${result.code}`);
-    return result as {
-      stdout: string;
-      stderr: string;
-      code: number | null;
-      signal: string | null;
-    };
+    return result as ChildProcess<string>;
   }
 
   /**

@@ -1,3 +1,5 @@
+import type { ChildProcess } from './types/shell';
+
 export type MenuToggleMappings = Record<string, MenuToggleMapping>;
 
 export interface MenuToggleMapping {
@@ -19,7 +21,7 @@ export type SystemdServiceAction =
   | 'unmask';
 
 export interface MaintenanceAction {
-  command: ((args?: string[]) => string) | (() => Promise<void>);
+  command: ((args?: string[]) => string) | (() => Promise<undefined | ChildProcess<string>>);
   description: string;
   hasOutput: boolean;
   icon: string;

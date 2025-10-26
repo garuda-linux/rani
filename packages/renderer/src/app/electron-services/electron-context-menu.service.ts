@@ -8,7 +8,7 @@ import { contextMenuShow, eventsOn } from './electron-api-utils.js';
 })
 export class ElectronContextMenuService {
   private readonly logger = Logger.getInstance();
-  private readonly menuClickHandlers = new Map<string, () => void | Promise<void>>();
+  private readonly menuClickHandlers = new Map<string, () => undefined | Promise<void>>();
 
   constructor() {
     this.setupEventListeners();
@@ -47,7 +47,7 @@ export class ElectronContextMenuService {
     type?: 'normal' | 'separator' | 'submenu' | 'checkbox' | 'radio';
     checked?: boolean;
     accelerator?: string;
-    onClick?: () => void | Promise<void>;
+    onClick?: () => undefined | Promise<void>;
     submenu?: ContextMenuItem[];
   }): ContextMenuItem {
     const item: ContextMenuItem = {

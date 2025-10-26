@@ -110,10 +110,10 @@ export async function execute(
   args: string[] = [],
   options: Record<string, unknown> = {},
 ): Promise<{
-  code: number | null;
+  code: number;
   stdout: string;
   stderr: string;
-  signal: string | null;
+  signal: string;
 }> {
   const timeout = (options.timeout as number) || 0;
 
@@ -150,16 +150,16 @@ export async function execute(
     child.on('close', (code, signal) => {
       cleanup();
       resolve({
-        code,
+        code: code === null ? -1 : code,
         stdout: stdout.substring(0, 1024 * 1024),
         stderr: stderr.substring(0, 1024 * 1024),
-        signal,
+        signal: signal || '',
       });
     });
 
-    child.on('error', (err: any) => {
+    child.on('error', (err) => {
       cleanup();
-      error(`Command execution error: ${err.cause}`);
+      error(`Command execution error: ${err.message}`);
       reject(new Error(`Command execution failed: ${err.message}`));
     });
   });

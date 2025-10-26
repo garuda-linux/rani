@@ -1,5 +1,5 @@
 import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
-import type { ChildProcess } from '../../electron-services';
+import type { ChildProcess } from '../../types/shell';
 import type { DkmsModules, DkmsModuleStatus, Kernel, Kernels } from './types';
 import { ConfigService } from '../config/config.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';

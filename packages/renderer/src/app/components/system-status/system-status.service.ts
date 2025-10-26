@@ -3,7 +3,7 @@ import type { SystemUpdate, UpdateStatusOption, UpdateType } from './types';
 import { type Task, TaskManagerService } from '../task-manager/task-manager.service';
 import { LoadingService } from '../loading-indicator/loading-indicator.service';
 import { Logger } from '../../logging/logging';
-import { ElectronShellService } from '../../electron-services';
+import { type ChildProcess, ElectronShellService } from '../../electron-services';
 
 @Injectable({
   providedIn: 'root',
@@ -76,8 +76,7 @@ export class SystemStatusService {
    */
   private async getPacFiles(): Promise<void> {
     const cmd = 'pacdiff -o';
-    const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
-      await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
+    const result: ChildProcess<string> = await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
 
     if (result.code === 0) {
       if (result.stdout.trim() === '') return;
@@ -95,8 +94,7 @@ export class SystemStatusService {
    * @param type The type of updates to check for.
    */
   private async checkSystemUpdate(cmd: string, type: UpdateStatusOption): Promise<void> {
-    const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
-      await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
+    const result: ChildProcess<string> = await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
     const updateString: UpdateType = type === 'repo' ? 'Updates' : 'AUR updates';
 
     if (result.code === 0) {
@@ -127,8 +125,7 @@ export class SystemStatusService {
    */
   private async checkLastUpdate(): Promise<void> {
     const cmd = 'awk \'END{sub(/\\[/,""); print $1}\' /var/log/pacman.log';
-    const result: { code: number | null; stdout: string; stderr: string; signal: string | null } =
-      await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
+    const result: ChildProcess<string> = await this.shellService.execute('bash', ['--norc', '--noprofile', '-c', cmd]);
 
     if (result.code === 0) {
       const date = new Date(result.stdout.trim().replace(']', ''));

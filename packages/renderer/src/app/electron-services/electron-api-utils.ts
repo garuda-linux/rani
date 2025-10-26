@@ -1,4 +1,6 @@
 // Cache for loaded functions to avoid repeated lookups
+import type { ChildProcess } from '../types/shell';
+
 const functionCache = new Map<string, any>();
 
 // Check if preload functions are ready
@@ -90,11 +92,7 @@ export const shellKillProcess =
 export const open = createAsyncDeferredFunction<(url: string) => Promise<boolean>>('open');
 export const execute =
   createAsyncDeferredFunction<
-    (
-      command: string,
-      args?: string[],
-      options?: Record<string, unknown>,
-    ) => Promise<{ code: number | null; stdout: string; stderr: string; signal: string | null }>
+    (command: string, args?: string[], options?: Record<string, unknown>) => Promise<ChildProcess<string>>
   >('execute');
 
 // Filesystem operations

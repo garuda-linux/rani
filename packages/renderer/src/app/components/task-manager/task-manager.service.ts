@@ -1,5 +1,5 @@
 import { computed, EventEmitter, inject, Injectable, signal } from '@angular/core';
-import { ElectronFsService } from '../../electron-services';
+import { type ChildProcess, ElectronFsService } from '../../electron-services';
 import { ElectronShellSpawnService } from '../../electron-services/electron-shell-spawn.service';
 import { ShellStreamingResult } from '../../electron-services';
 import { ConfigService } from '../config/config.service';
@@ -196,8 +196,8 @@ export class TaskManagerService {
    */
   async executeAndWaitBash(
     script: string,
-    options: { reinit?: boolean; timeout?: number; forceLang?: boolean },
-  ): Promise<any> {
+    options?: { reinit?: boolean; timeout?: number; forceLang?: boolean },
+  ): Promise<ChildProcess<string>> {
     // Change ChildProcess<string> to any due to varied return type
     let result: any; // Type 'any' for now, should be specific return of ipcRenderer.invoke('shell:execute')
     try {
@@ -213,10 +213,10 @@ export class TaskManagerService {
     } catch (error) {
       this.logger.error(`Unexpected error while executing bash script: ${error}`);
       result = {
-        signal: null,
-        code: 1,
+        signal: '',
+        code: -1,
         stdout: '',
-        stderr: '',
+        stderr: error instanceof Error ? error.message : String(error),
       };
     }
 
@@ -230,20 +230,32 @@ export class TaskManagerService {
    * @param reinit Whether to reinitialize the config service or not.
    * @param timeout Optional timeout in milliseconds for the execution (0 means no timeout).
    */
-  async executeAndWaitBashTerminal(script: string, reinit = false, timeout = 0): Promise<void> {
+  async executeAndWaitBashTerminal(
+    script: string,
+    reinit = false,
+    timeout = 0,
+  ): Promise<ChildProcess<string> | undefined> {
+    let result;
     try {
       this.logger.debug(`Executing bash code in terminal: ${script}`);
       this.loadingService.loadingOn();
-      await this.shellStreamingService.execute('/usr/lib/garuda/launch-terminal', [script], {
+      result = await this.shellStreamingService.execute('/usr/lib/garuda/launch-terminal', [script], {
         timeout,
       });
     } catch (error) {
       this.logger.error(`Unexpected error while executing bash script in terminal: ${error}`);
+      result = {
+        signal: '',
+        code: -1,
+        stdout: '',
+        stderr: error instanceof Error ? error.message : String(error),
+      };
     } finally {
       this.loadingService.loadingOff();
     }
 
     if (reinit) void this.configService.init(false);
+    return result;
   }
 
   /**

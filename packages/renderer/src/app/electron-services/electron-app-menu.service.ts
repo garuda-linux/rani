@@ -8,7 +8,7 @@ import { appMenuUpdate, appMenuGetItems, eventsOn } from './electron-api-utils.j
 })
 export class ElectronAppMenuService {
   private readonly logger = Logger.getInstance();
-  private readonly menuClickHandlers = new Map<string, () => void | Promise<void>>();
+  private readonly menuClickHandlers = new Map<string, () => undefined | Promise<void>>();
 
   constructor() {
     this.setupEventListeners();
@@ -55,7 +55,7 @@ export class ElectronAppMenuService {
    * @param id Menu item ID
    * @param handler Function to execute when the menu item is clicked
    */
-  registerMenuItemHandler(id: string, handler: () => void | Promise<void>): void {
+  registerMenuItemHandler(id: string, handler: () => undefined | Promise<void>): void {
     this.menuClickHandlers.set(id, handler);
     this.logger.trace(`Registered menu item handler for: ${id}`);
   }
@@ -85,7 +85,7 @@ export class ElectronAppMenuService {
     accelerator?: string;
     role?: string;
     routerLink?: string;
-    onClick?: () => void | Promise<void>;
+    onClick?: () => undefined | Promise<void>;
     submenu?: AppMenuItem[];
     items?: AppMenuItem[];
   }): AppMenuItem {

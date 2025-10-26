@@ -255,7 +255,10 @@
     "resetTooltip": "The following files or folders will be reset to their default state:",
     "resetConfigs": "Reset configs to default state",
     "common": "Common maintenance",
-    "garudaUpdate": "Garuda update rescue tools"
+    "garudaUpdate": "Garuda update rescue tools",
+    "actionFailedHeader": "Failed to run maintenance action",
+    "actionFailed": "An error occurred while trying to run {{ action }} with error {{ error }}.",
+    "installationFailedHeader": "{{ program }} is not installed and failed to install, cannot proceed. Check the logs for more information"
   },
   "sudo": {
     "title": "Authentication required",

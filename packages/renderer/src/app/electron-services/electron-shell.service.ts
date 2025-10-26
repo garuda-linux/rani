@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import type { Child, CommandResult } from '../types/shell';
+import type { Child, ChildProcess, CommandResult } from '../types/shell';
 import type { ShellEvent } from './electron-types';
 import { Logger } from '../logging/logging';
 import {
@@ -25,7 +25,7 @@ export class ElectronShellService {
     command: string,
     args: string[] = [],
     options: Record<string, unknown> = {},
-  ): Promise<{ code: number | null; stdout: string; stderr: string; signal: string | null }> {
+  ): Promise<ChildProcess<string>> {
     return execute(command, args, options);
   }
 

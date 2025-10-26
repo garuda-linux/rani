@@ -8,7 +8,7 @@ import { Checkbox } from 'primeng/checkbox';
 import { FormsModule } from '@angular/forms';
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from 'primeng/tabs';
 import { MessageToastService } from '@garudalinux/core';
-import { ElectronFsService } from '../../electron-services';
+import { type ChildProcess, ElectronFsService } from '../../electron-services';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { TaskManagerService } from '../task-manager/task-manager.service';
 import { ConfirmationService } from 'primeng/api';
@@ -156,9 +156,9 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       onlyDirect: true,
       priority: 0,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running remote fix');
-        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fix');
+        return await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fix');
       },
     },
     {
@@ -170,9 +170,9 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       onlyDirect: true,
       priority: 0,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running remote keyring');
-        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote keyring');
+        return await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote keyring');
       },
     },
     {
@@ -184,9 +184,9 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       onlyDirect: true,
       priority: 0,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running remote full fix');
-        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fullfix');
+        return await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote fullfix');
       },
     },
     {
@@ -198,9 +198,9 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       onlyDirect: true,
       priority: 0,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running remote reset-audio');
-        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote-audio');
+        return await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote-audio');
       },
     },
     {
@@ -212,9 +212,11 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       onlyDirect: true,
       priority: 0,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running remote reset-snapper');
-        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper');
+        return await this.taskManager.executeAndWaitBashTerminal(
+          'GARUDA_UPDATE_RANI=1 garuda-update remote reset-snapper',
+        );
       },
     },
     {
@@ -226,9 +228,9 @@ export class MaintenanceComponent implements OnInit {
       sudo: true,
       onlyDirect: true,
       priority: 0,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running remote reinstall');
-        await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reinstall');
+        return await this.taskManager.executeAndWaitBashTerminal('GARUDA_UPDATE_RANI=1 garuda-update remote reinstall');
       },
     },
   ];
@@ -283,11 +285,13 @@ export class MaintenanceComponent implements OnInit {
       hasOutput: false,
       priority: 0,
       onlyDirect: true,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Refreshing mirrors');
         if (await this.osInteractService.ensurePackageArchlinux('reflector-simple')) {
           // Breaks with LANG=C
-          void this.taskManager.executeAndWaitBash('reflector-simple', { forceLang: false });
+          return await this.taskManager.executeAndWaitBash('reflector-simple', { forceLang: false });
+        } else {
+          return this.handleInstallationError('reflector-simple');
         }
       },
     },
@@ -300,10 +304,12 @@ export class MaintenanceComponent implements OnInit {
       hasOutput: false,
       priority: 0,
       onlyDirect: true,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Running Btrfs assistant');
         if (await this.osInteractService.ensurePackageArchlinux('btrfs-assistant')) {
-          void this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
+          return await this.taskManager.executeAndWaitBash('/usr/lib/garuda/pkexec-gui btrfs-assistant');
+        } else {
+          return this.handleInstallationError('btrfs-assistant');
         }
       },
     },
@@ -329,10 +335,12 @@ export class MaintenanceComponent implements OnInit {
       sudo: false,
       priority: 0,
       onlyDirect: true,
-      command: async (): Promise<void> => {
+      command: async (): Promise<undefined | ChildProcess<string>> => {
         this.logger.info('Editing repositories with pace');
         if (await this.osInteractService.ensurePackageArchlinux('pace')) {
-          void this.taskManager.executeAndWaitBash('pace');
+          return await this.taskManager.executeAndWaitBash('pace');
+        } else {
+          return this.handleInstallationError('pace');
         }
       },
     },
@@ -455,11 +463,24 @@ export class MaintenanceComponent implements OnInit {
    * Run a maintenance action now, either directly or by adding it to the pending operations.
    * @param action The action to run
    */
-  runNow(action: MaintenanceAction) {
+  async runNow(action: MaintenanceAction) {
     this.logger.debug('Running maintenance action now');
     if (action.onlyDirect) {
       this.logger.debug('Boom its a direct action');
-      void action.command();
+      try {
+        const result = (await action.command()) as undefined | ChildProcess<string>;
+        if (result?.code !== 0) {
+          this.messageToastService.error(
+            this.translocoService.translate('maintenance.actionFailedHeader'),
+            this.translocoService.translate('maintenance.actionFailed', {
+              action: this.translocoService.translate(action.label),
+              error: result?.stderr ?? result?.stdout ?? 'Unknown error',
+            }),
+          );
+        }
+      } catch (error) {
+        this.logger.error(`Error running direct action: ${error}`);
+      }
     } else {
       if (this.taskManager.running()) {
         this.messageToastService.error(
@@ -510,11 +531,13 @@ export class MaintenanceComponent implements OnInit {
    * Create a snapper snapshot and merge pacdiff files using meld.
    * @private
    */
-  private async mergePacDiff(): Promise<void> {
+  private async mergePacDiff(): Promise<undefined | ChildProcess<string>> {
     const script = `/usr/lib/garuda/pacdiff-merge`;
 
     if (await this.osInteractService.ensurePackageArchlinux('meld')) {
-      void this.taskManager.executeAndWaitBashTerminal(script);
+      return await this.taskManager.executeAndWaitBashTerminal(script);
+    } else {
+      return this.handleInstallationError('meld');
     }
   }
 
@@ -555,5 +578,18 @@ export class MaintenanceComponent implements OnInit {
    */
   navigate(fragment: string) {
     void this.router.navigate([], { fragment });
+  }
+
+  /**
+   * Return a standard error object for installation failures.
+   * @param program The program that failed to install.
+   */
+  handleInstallationError(program: string): ChildProcess<string> {
+    return {
+      code: -1,
+      stdout: '',
+      stderr: this.translocoService.translate('maintenance.installationFailedHeader', { program }),
+      signal: '',
+    };
   }
 }

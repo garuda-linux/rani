@@ -13,7 +13,7 @@ export class ModuleRunner implements PromiseLike<void> {
   init(module: AppModule): this {
     const p = module.enable(this.#createModuleContext());
     // always chain: Promise.resolve semantics handle non-promise values
-    this.#promise = this.#promise.then(() => p as unknown as void | Promise<void>);
+    this.#promise = this.#promise.then(() => p as unknown as undefined | Promise<void>);
     return this;
   }
 

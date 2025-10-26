@@ -21,7 +21,7 @@ export interface ChildProcess<O extends IOPayload> {
   /** Exit code of the process. `null` if the process was terminated by a signal on Unix. */
   code: number | null;
   /** If the process was terminated by a signal, represents that signal. */
-  signal: number | null;
+  signal: string | null;
   /** The data that the process wrote to `stdout`. */
   stdout: O;
   /** The data that the process wrote to `stderr`. */
