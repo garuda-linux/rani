@@ -17,7 +17,7 @@ check-packagelists:
     - pacman --noconfirm -U 'https://cdn-mirror.chaotic.cx/chaotic-aur/chaotic-'{keyring,mirrorlist}'.pkg.tar.zst'
     - echo -e "[garuda]\\nInclude = /etc/pacman.d/chaotic-mirrorlist\\n[chaotic-aur]\\nInclude = /etc/pacman.d/chaotic-mirrorlist" >>/etc/pacman.conf
     - echo "" >>/etc/pacman.conf
-    - pacman -Syu --noconfirm --needed nodejs paru
+    - pacman -Syu --noconfirm --needed nodejs paru corepack
     - corepack enable
     - pnpm check-pkglists
   rules:
