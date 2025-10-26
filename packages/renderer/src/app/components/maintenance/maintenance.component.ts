@@ -300,10 +300,9 @@ export class MaintenanceComponent implements OnInit {
       label: 'maintenance.refreshKeyring',
       description: 'maintenance.refreshKeyringSub',
       icon: 'pi pi-refresh',
-      sudo: false,
-      hasOutput: false,
+      sudo: true,
+      hasOutput: true,
       priority: 0,
-      onlyDirect: true,
       command: (): string => {
         this.logger.info('Refreshing keyring');
         return 'pacman-key --refresh-keys';
