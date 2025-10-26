@@ -931,13 +931,6 @@
     "pkgname": ["stardict"]
   },
   {
-    "name": "Symphytum",
-    "description": "Personal database software for everyone who desires to manage and organize data in an easy and intuitive way, without having to study complex database languages and software user interfaces.",
-    "url": "https://github.com/giowck/symphytum",
-    "icon": "generic-dark.svg",
-    "pkgname": ["symphytum"]
-  },
-  {
     "name": "TeX",
     "description": "A high-quality typesetting system popular in academia.",
     "url": "https://tug.org/",

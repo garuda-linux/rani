@@ -378,13 +378,6 @@
     "pkgname": ["merkaartor"]
   },
   {
-    "name": "Navit",
-    "description": "Modular turn-by-turn car navigation system.",
-    "url": "https://www.navit-project.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["navit"]
-  },
-  {
     "name": "ngspice",
     "description": "The established Linux circuit simulator. Open source successor of the spice3f5 code. Has the most versatile user interface; supporting scripting within the circuit descriptions, use through an interpreter, as a C library, through tcl or various external wrappers (e.g., Python).",
     "url": "https://ngspice.sourceforge.net/",

@@ -525,13 +525,6 @@
     "pkgname": ["gunicorn"]
   },
   {
-    "name": "HexChat",
-    "description": "Fork of XChat for Linux and Windows.",
-    "url": "https://hexchat.github.io/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["hexchat"]
-  },
-  {
     "name": "HTTPie",
     "description": "Human-friendly command-line HTTP client for the API era.",
     "url": "https://github.com/httpie/httpie",

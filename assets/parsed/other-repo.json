@@ -28,13 +28,6 @@
     "pkgname": ["alacarte"]
   },
   {
-    "name": "AllTray",
-    "description": "Dock other applications into the system tray (notification area).",
-    "url": "https://github.com/mbt/alltray",
-    "icon": "generic-dark.svg",
-    "pkgname": ["alltray"]
-  },
-  {
     "name": "Anki",
     "description": "Intelligent spaced-repetition memory training program.",
     "url": "https://apps.ankiweb.net/",
@@ -448,13 +441,6 @@
     "pkgname": ["nextcloud-app-tasks"]
   },
   {
-    "name": "Nitrogen",
-    "description": "A fast and lightweight desktop background browser and setter for X windows.",
-    "url": "https://github.com/l3ib/nitrogen",
-    "icon": "generic-dark.svg",
-    "pkgname": ["nitrogen"]
-  },
-  {
     "name": "nwg-bar",
     "description": "Configurable button bar for wlroots-based compositors.",
     "url": "https://github.com/nwg-piotr/nwg-bar",
@@ -726,13 +712,6 @@
     "url": "https://github.com/pimutils/todoman",
     "icon": "generic-dark.svg",
     "pkgname": ["todoman"]
-  },
-  {
-    "name": "Trayer",
-    "description": "Lightweight GTK-based system tray (notification area).",
-    "url": "https://github.com/sargon/trayer-srg/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["trayer"]
   },
   {
     "name": "Ulauncher",

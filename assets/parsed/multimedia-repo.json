@@ -28,13 +28,6 @@
     "pkgname": ["aegisub"]
   },
   {
-    "name": "Agordejo",
-    "description": "Music and audio production session manager based on NSM.",
-    "url": "https://www.laborejo.org/agordejo/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["agordejo"]
-  },
-  {
     "name": "alsamixer",
     "description": "Soundcard mixer for ALSA soundcard driver, with ncurses interface.",
     "url": "https://alsa-project.org/",
@@ -686,13 +679,6 @@
     "pkgname": ["gerbera"]
   },
   {
-    "name": "Giada",
-    "description": "Minimal, hardcore audio tool for DJs, live performers and electronic musicians.",
-    "url": "https://giadamusic.com/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["giada"]
-  },
-  {
     "name": "Gigedit",
     "description": "Graphical instrument editor for sample based virtual instruments, based on the GigaStudio/Gigasampler file format.",
     "url": "https://doc.linuxsampler.org/Gigedit/",
@@ -1176,13 +1162,6 @@
     "pkgname": ["mousai"]
   },
   {
-    "name": "MP3Info",
-    "description": "MP3 technical info viewer and ID3 1.x tag editor.",
-    "url": "https://ibiblio.org/mp3info/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["mp3info"]
-  },
-  {
     "name": "MP3Unicode",
     "description": "Command line utility to convert ID3 tags in mp3 files between different encodings.",
     "url": "https://mp3unicode.sourceforge.net/",
@@ -1267,13 +1246,6 @@
     "pkgname": ["nsxiv"]
   },
   {
-    "name": "nUFRaw",
-    "description": "Utility to read and manipulate raw images from digital cameras using DCRaw.",
-    "url": "https://sourceforge.net/projects/nufraw/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["gimp-nufraw"]
-  },
-  {
     "name": "Obfuscate",
     "description": "Censor private information from any image.",
     "url": "https://apps.gnome.org/Obfuscate/",
@@ -1323,13 +1295,6 @@
     "pkgname": ["optipng"]
   },
   {
-    "name": "OSD Lyrics",
-    "description": "Lyric show compatible with various media players.",
-    "url": "https://github.com/osdlyrics/osdlyrics",
-    "icon": "generic-dark.svg",
-    "pkgname": ["osdlyrics"]
-  },
-  {
     "name": "oxipng",
     "description": "Lossless multithreaded PNG compressor.",
     "url": "https://github.com/shssoichiro/oxipng",
@@ -1377,13 +1342,6 @@
     "url": "https://docs.xfce.org/apps/parole/start",
     "icon": "generic-dark.svg",
     "pkgname": ["parole"]
-  },
-  {
-    "name": "Patroneo",
-    "description": "Easy to use pattern based midi sequencer.",
-    "url": "https://www.laborejo.org/patroneo/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["patroneo"]
   },
   {
     "name": "Pencil2D",
@@ -2112,13 +2070,6 @@
     "url": "https://yoshimi.sourceforge.net/",
     "icon": "generic-dark.svg",
     "pkgname": ["yoshimi"]
-  },
-  {
-    "name": "YouTube Music",
-    "description": "Electron-based wrapper around YouTube Music with built in addons.",
-    "url": "https://github.com/th-ch/youtube-music",
-    "icon": "generic-dark.svg",
-    "pkgname": ["youtube-music-bin"]
   },
   {
     "name": "zopflipng",
