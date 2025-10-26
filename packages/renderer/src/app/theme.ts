@@ -15,31 +15,6 @@ import { Vo1dedAura, Vo1dedLara, Vo1dedMaterial, Vo1dedNora } from '@garudalinux
 
 const { latte, mocha, frappe, macchiato } = flavors;
 
-export const CatppuccinScrollBars = {
-  primary: {
-    light: `${latte.colors.surface0.hex} rgba(230, 233, 239, 0.5)`,
-    dark: `${mocha.colors.surface0.hex} rgba(24, 24, 37, 0.5)`,
-  },
-  alt: {
-    light: `${frappe.colors.surface0.hex} rgba(48, 52, 70, 0.5)`,
-    dark: `${macchiato.colors.surface0.hex} rgba(36, 39, 58, 0.5)`,
-  },
-};
-export const CatppuccinBackgroundColors = {
-  primary: {
-    light: latte.colors.base.hex,
-    lightSelected: latte.colors.surface1.hex,
-    dark: mocha.colors.base.hex,
-    darkSelected: mocha.colors.surface1.hex,
-  },
-  alt: {
-    light: frappe.colors.base.hex,
-    lightSelected: frappe.colors.surface1.hex,
-    dark: macchiato.colors.base.hex,
-    darkSelected: macchiato.colors.surface1.hex,
-  },
-};
-
 export const themes: AppThemes = {
   'Catppuccin Mocha/Latte Aura': CatppuccinAura,
   'Catppuccin Mocha/Latte Nora': CatppuccinNora,

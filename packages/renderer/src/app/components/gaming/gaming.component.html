@@ -30,40 +30,77 @@
             <p-data-view [value]="section.sections" [title]="t(section.name)">
               <ng-template #list let-items>
                 <div class="grid-nogutter grid grid-cols-12 gap-4 p-5">
-                  <div class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2" *ngFor="let item of items">
-                    @defer (on viewport) {
-                      @if (!item.disabled) {
+                  @for (item of items; track item.name) {
+                    <div class="col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2">
+                      @defer (on viewport) {
+                        @if (!item.disabled) {
+                          <p-card
+                            [style]="{
+                              cursor: 'pointer',
+                              background: item.selected ? computedBackground : '',
+                            }"
+                            (click)="togglePackage(item)"
+                            (keyup.enter)="togglePackage(item)"
+                            tabindex="0"
+                          >
+                            <ng-template #title>
+                              <div
+                                class="text-bold min-h-10 text-center text-sm"
+                                [pTooltip]="t(item.description)"
+                                tooltipPosition="bottom"
+                              >
+                                {{ item.name }}
+                                @if (item.description) {
+                                  <i class="pi pi-info-circle mr-2"> </i>
+                                }
+                                @if (item.url) {
+                                  <a (click)="open(item.url)" (keyup.enter)="open(item.url)" tabindex="0"
+                                    ><i class="pi pi-external-link"></i
+                                  ></a>
+                                }
+                              </div>
+                            </ng-template>
+                            <div class="mt-5 min-h-16">
+                              @if (item.icon === 'generic-dark.svg' && !configService.settings().darkMode) {
+                                <img
+                                  class="mx-auto rounded-border"
+                                  [alt]="item.name"
+                                  height="50"
+                                  ngSrc="/assets/gamer/generic-light.svg"
+                                  width="50"
+                                />
+                              } @else {
+                                <img
+                                  class="mx-auto rounded-border"
+                                  [alt]="item.name"
+                                  height="50"
+                                  ngSrc="/assets/gamer/{{ item.icon }}"
+                                  width="50"
+                                />
+                              }
+                            </div>
+                          </p-card>
+                        }
+                      } @placeholder {
                         <p-card
                           [style]="{
                             cursor: 'pointer',
-                            background: item.selected ? backgroundColor() : '',
+                            background: item.selected ? 'var(--p-primary-bg)' : '',
                           }"
                           (click)="togglePackage(item)"
                           (keyup.enter)="togglePackage(item)"
                           tabindex="0"
                         >
                           <ng-template #title>
-                            <div
-                              class="text-bold min-h-10 text-center text-sm"
-                              [pTooltip]="t(item.description)"
-                              tooltipPosition="bottom"
-                            >
-                              {{ item.name }}
-                              @if (item.description) {
-                                <i class="pi pi-info-circle mr-2"> </i>
-                              }
-                              @if (item.url) {
-                                <a (click)="open(item.url)" (keyup.enter)="open(item.url)" tabindex="0"
-                                  ><i class="pi pi-external-link"></i
-                                ></a>
-                              }
+                            <div class="text-bold min-h-10 text-center text-sm">
+                              {{ t('gaming.loading') }}
                             </div>
                           </ng-template>
                           <div class="mt-5 min-h-16">
-                            @if (item.icon === 'generic-dark.svg' && !configService.settings().darkMode) {
+                            @if (!configService.settings().darkMode) {
                               <img
                                 class="mx-auto rounded-border"
-                                [alt]="item.name"
+                                alt="Placeholder"
                                 height="50"
                                 ngSrc="/assets/gamer/generic-light.svg"
                                 width="50"
@@ -71,52 +108,17 @@
                             } @else {
                               <img
                                 class="mx-auto rounded-border"
-                                [alt]="item.name"
+                                alt="Placeholder"
                                 height="50"
-                                ngSrc="/assets/gamer/{{ item.icon }}"
+                                ngSrc="/assets/gamer/generic-dark.svg"
                                 width="50"
                               />
                             }
                           </div>
                         </p-card>
                       }
-                    } @placeholder {
-                      <p-card
-                        [style]="{
-                          cursor: 'pointer',
-                          background: item.selected ? backgroundColor() : '',
-                        }"
-                        (click)="togglePackage(item)"
-                        (keyup.enter)="togglePackage(item)"
-                        tabindex="0"
-                      >
-                        <ng-template #title>
-                          <div class="text-bold min-h-10 text-center text-sm">
-                            {{ t('gaming.loading') }}
-                          </div>
-                        </ng-template>
-                        <div class="mt-5 min-h-16">
-                          @if (!configService.settings().darkMode) {
-                            <img
-                              class="mx-auto rounded-border"
-                              alt="Placeholder"
-                              height="50"
-                              ngSrc="/assets/gamer/generic-light.svg"
-                              width="50"
-                            />
-                          } @else {
-                            <img
-                              class="mx-auto rounded-border"
-                              alt="Placeholder"
-                              height="50"
-                              ngSrc="/assets/gamer/generic-dark.svg"
-                              width="50"
-                            />
-                          }
-                        </div>
-                      </p-card>
-                    }
-                  </div>
+                    </div>
+                  }
                 </div>
               </ng-template>
             </p-data-view>

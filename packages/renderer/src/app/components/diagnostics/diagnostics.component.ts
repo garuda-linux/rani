@@ -49,11 +49,10 @@ export class DiagnosticsComponent implements AfterViewInit, OnInit {
   private readonly router = inject(Router);
 
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
-    const darkMode: boolean = this.configService.settings().darkMode;
-    let theme: ITheme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
-
-    if (this.configService.settings().activeTheme === 'Custom Themedesigner') {
-      theme = this.designerService.getXtermTheme(darkMode);
+    let theme: ITheme = this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+    if (!this.configService.settings().activeTheme.includes('Catppuccin Mocha')) {
+      const isDarkMode = this.configService.settings().darkMode;
+      theme = this.designerService.getXtermTheme(isDarkMode);
     }
 
     return {

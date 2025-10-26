@@ -1,10 +1,12 @@
-import { computed, inject, Injectable, signal, effect, untracked } from '@angular/core';
+import { computed, effect, inject, Injectable, signal, untracked } from '@angular/core';
 import { $dt, usePreset } from '@primeuix/styled';
 import { MessageService } from 'primeng/api';
 import { ConfigService } from '../config/config.service';
 import { Logger } from '../../logging/logging';
 import type { ITheme } from '@xterm/xterm';
 import type { Preset } from '@primeuix/themes/types';
+import { DOCUMENT } from '@angular/common';
+import { themes } from '../../theme';
 
 export interface Theme {
   key: string | null;
@@ -27,6 +29,7 @@ export interface Designer {
 @Injectable({ providedIn: 'root' })
 export class DesignerService {
   private readonly configService = inject(ConfigService);
+  private readonly document = inject(DOCUMENT);
   private readonly logger = Logger.getInstance();
   private readonly messageService: MessageService = inject(MessageService);
 
@@ -44,7 +47,6 @@ export class DesignerService {
   });
   preset = signal<{ primitive: unknown; semantic: unknown }>({ primitive: null, semantic: null });
   acTokens = computed(() => this.designer().acTokens);
-  missingTokens = signal<unknown[]>([]);
   status = signal<'preview' | 'updated' | null>(null);
   loading = signal<boolean>(false);
   themeName = signal<string | undefined>(undefined);
@@ -205,8 +207,8 @@ export class DesignerService {
       });
       const loadedFont: FontFace = await font.load();
 
-      document.fonts.add(loadedFont);
-      document.body.style.fontFamily = `"${fontFamily}", sans-serif`;
+      this.document.fonts.add(loadedFont);
+      this.document.body.style.fontFamily = `"${fontFamily}", sans-serif`;
       return loadedFont;
     } catch {
       // silent fail as some fonts may have not all the font weights
@@ -320,9 +322,18 @@ export class DesignerService {
    * @return The xterm.js theme object.
    */
   getXtermTheme(darkMode: boolean): ITheme {
-    const customDesign = this.configService.settings().customDesign;
+    let theme: Preset;
+    if (
+      this.configService.settings().activeTheme === 'Custom Themedesigner' &&
+      this.configService.settings().customDesign !== null
+    ) {
+      const designTheme = JSON.parse(this.configService.settings().customDesign as string) as Theme;
+      theme = designTheme.preset as Preset;
+    } else {
+      theme = themes[this.configService.settings().activeTheme] || null;
+    }
 
-    if (!customDesign) {
+    if (!theme) {
       this.logger.warn('Custom design is not set, returning default xterm theme');
       return {
         foreground: '#ffffff',
@@ -347,9 +358,9 @@ export class DesignerService {
         brightWhite: '#ffffff',
       };
     }
-    const designTheme = JSON.parse(customDesign) as Theme;
-    const themePreset = designTheme.preset as any;
-    const colorScheme = darkMode ? themePreset.semantic.colorScheme.dark : themePreset.semantic.colorScheme.light;
+
+    // @ts-expect-error Preset type do not have complete type definitions
+    const colorScheme = darkMode ? theme.semantic.colorScheme.dark : theme.semantic.colorScheme.light;
 
     return {
       // Basic terminal settings
@@ -379,34 +390,4 @@ export class DesignerService {
       brightWhite: this.resolveColor(colorScheme.text.hoverColor),
     };
   }
-
-  /**
-   * Get the scrollbar colors based on the current design settings.
-   * @param darkMode Whether to use the dark mode colors.
-   * @return An object containing the scrollbar colors.
-   */
-  getScrollbarColors(darkMode: boolean): ScrollbarColors {
-    const customDesign = this.configService.settings().customDesign;
-    if (!customDesign) {
-      this.logger.warn('Custom design is not set, returning default scrollbar colors');
-      return {
-        scrollbarColor: 'rgba(0, 0, 0, 0.5)',
-        backgroundColor: 'rgba(255, 255, 255, 0.5)',
-      };
-    }
-
-    const designTheme = JSON.parse(customDesign) as Theme;
-    const themePreset = designTheme.preset as any;
-    const colorScheme = darkMode ? themePreset.semantic.colorScheme.dark : themePreset.semantic.colorScheme.light;
-
-    return {
-      scrollbarColor: this.resolveColor(colorScheme.content.background),
-      backgroundColor: this.resolveColor(colorScheme.primary.color),
-    };
-  }
-}
-
-export interface ScrollbarColors {
-  scrollbarColor: string;
-  backgroundColor: string;
 }

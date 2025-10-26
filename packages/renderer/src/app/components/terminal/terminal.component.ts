@@ -75,12 +75,10 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   });
   readonly xtermOptions: Signal<ITerminalOptions> = computed(() => {
     let theme: ITheme = this.configService.settings().darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
-    if (this.configService.settings().activeTheme === 'Custom Themedesigner') {
+    if (!this.configService.settings().activeTheme.includes('Catppuccin Mocha')) {
       const isDarkMode = this.configService.settings().darkMode;
       theme = this.designerService.getXtermTheme(isDarkMode);
     }
-
-    this.logger.debug(JSON.stringify(theme, null, 2));
 
     return {
       disableStdin: false,
@@ -93,8 +91,13 @@ export class TerminalComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor() {
     effect(() => {
       const darkMode = this.configService.settings().darkMode;
+      const appTheme = this.configService.settings().activeTheme;
       if (this.term?.underlying) {
-        this.term.underlying.options.theme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+        let theme: ITheme = darkMode ? CatppuccinXtermJs.dark : CatppuccinXtermJs.light;
+        if (!appTheme.includes('Catppuccin Mocha')) {
+          theme = this.designerService.getXtermTheme(darkMode);
+        }
+        this.term.underlying.options.theme = theme;
       }
       this.logger.trace('Terminal theme switched via effect');
     });
