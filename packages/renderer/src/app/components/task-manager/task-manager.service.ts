@@ -192,20 +192,23 @@ export class TaskManagerService {
    * Execute a bash scriptlet using basic bash and wait for it to finish.
    * This uses the non-streaming `execute` path, likely for one-off commands.
    * @param script The bash scriptlet to execute
-   * @param reinit Whether to reinitialize the config service or not.
-   * @param timeout Optional timeout in milliseconds for the execution (0 means no timeout).
+   * @param options Options for execution
    */
-  async executeAndWaitBash(script: string, reinit = false, timeout = 0): Promise<any> {
+  async executeAndWaitBash(
+    script: string,
+    options: { reinit?: boolean; timeout?: number; forceLang?: boolean },
+  ): Promise<any> {
     // Change ChildProcess<string> to any due to varied return type
     let result: any; // Type 'any' for now, should be specific return of ipcRenderer.invoke('shell:execute')
     try {
       this.logger.debug(`Executing bash code: ${script}`);
+      const command: string = options?.forceLang ? `LANG=C ${script}` : script;
 
       // For now, let's directly call invoke if shellService is not defined yet.
       // If you're only using ElectronShellSpawnService for *all* shell interaction,
       // this method should also use the persistent shells.
-      result = await this.shellStreamingService.execute('bash', ['--norc', '--noprofile', '-c', `LANG=C ${script}`], {
-        timeout,
+      result = await this.shellStreamingService.execute('bash', ['--norc', '--noprofile', '-c', command], {
+        timeout: options?.timeout,
       });
     } catch (error) {
       this.logger.error(`Unexpected error while executing bash script: ${error}`);
@@ -217,7 +220,7 @@ export class TaskManagerService {
       };
     }
 
-    if (reinit) void this.configService.init(false);
+    if (options?.reinit) void this.configService.init(false);
     return result;
   }
 
