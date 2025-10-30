@@ -46,8 +46,8 @@ importers:
         specifier: ^20.4.0
         version: 20.4.0(chokidar@4.0.3)(eslint@9.38.0(jiti@2.6.1))(typescript-eslint@8.46.2(eslint@9.38.0(jiti@2.6.1))(typescript@5.8.3))(typescript@5.8.3)
       electron:
-        specifier: 38.4.0
-        version: 38.4.0
+        specifier: 38.5.0
+        version: 38.5.0
       electron-builder:
         specifier: 26.0.0
         version: 26.0.0(electron-builder-squirrel-windows@26.0.0)
@@ -5445,8 +5445,8 @@ packages:
   electron-to-chromium@1.5.240:
     resolution: {integrity: sha512-OBwbZjWgrCOH+g6uJsA2/7Twpas2OlepS9uvByJjR2datRDuKGYeD+nP8lBBks2qnB7bGJNHDUx7c/YLaT3QMQ==}
 
-  electron@38.4.0:
-    resolution: {integrity: sha512-9CsXKbGf2qpofVe2pQYSgom2E//zLDJO2rGLLbxgy9tkdTOs7000Gte+d/PUtzLjI/DS95jDK0ojYAeqjLvpYg==}
+  electron@38.5.0:
+    resolution: {integrity: sha512-dbC7V+eZweerYMJfxQldzHOg37a1VdNMCKxrJxlkp3cA30gOXtXSg4ZYs07L5+QwI19WOy1uyvtEUgbw1RRsCQ==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -6850,6 +6850,7 @@ packages:
   keygrip@1.1.0:
     resolution: {integrity: sha512-iYSchDJ+liQ8iwbSI2QqsQOvqv58eJCEanyJPJi+Khyu8smkcKSFUCbPwzFcL7YVtZ6eONjqRX/38caJ7QjRAQ==}
     engines: {node: '>= 0.6'}
+    deprecated: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
 
   keyv@4.5.4:
     resolution: {integrity: sha512-oxVHkHR/EJf2CNXnWxRLW6mg7JyCCUcG0DtEGmL2ctUo1PNTin1PUil+r/+4r5MpVgC/fn1kjsx7mjSujKqIpw==}
@@ -13196,7 +13197,7 @@ snapshots:
 
   '@npmcli/fs@4.0.0':
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   '@npmcli/git@6.0.3':
     dependencies:
@@ -13206,7 +13207,7 @@ snapshots:
       npm-pick-manifest: 10.0.0
       proc-log: 5.0.0
       promise-retry: 2.0.1
-      semver: 7.7.2
+      semver: 7.7.3
       which: 5.0.0
 
   '@npmcli/installed-package-contents@3.0.0':
@@ -13228,7 +13229,7 @@ snapshots:
       hosted-git-info: 8.1.0
       json-parse-even-better-errors: 4.0.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-license: 3.0.4
 
   '@npmcli/promise-spawn@8.0.3':
@@ -16424,7 +16425,7 @@ snapshots:
 
   electron-to-chromium@1.5.240: {}
 
-  electron@38.4.0:
+  electron@38.5.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 22.18.12
@@ -19193,7 +19194,7 @@ snapshots:
       make-fetch-happen: 14.0.3
       nopt: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       tar: 7.5.1
       tinyglobby: 0.2.15
       which: 5.0.0
@@ -19237,7 +19238,7 @@ snapshots:
 
   npm-install-checks@7.1.2:
     dependencies:
-      semver: 7.7.2
+      semver: 7.7.3
 
   npm-normalize-package-bin@4.0.0: {}
 
@@ -19253,7 +19254,7 @@ snapshots:
     dependencies:
       hosted-git-info: 8.1.0
       proc-log: 5.0.0
-      semver: 7.7.2
+      semver: 7.7.3
       validate-npm-package-name: 6.0.2
 
   npm-package-arg@13.0.0:
@@ -19273,7 +19274,7 @@ snapshots:
       npm-install-checks: 7.1.2
       npm-normalize-package-bin: 4.0.0
       npm-package-arg: 12.0.2
-      semver: 7.7.2
+      semver: 7.7.3
 
   npm-registry-fetch@18.0.2:
     dependencies:
