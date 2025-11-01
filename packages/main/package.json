@@ -18,14 +18,14 @@
   "dependencies": {
     "@app/preload": "workspace:*",
     "@app/renderer": "workspace:*",
-    "electron-store": "^10.1.0",
+    "electron-store": "^11.0.2",
     "pino": "^10.1.0",
     "pino-pretty": "^13.1.2"
   },
   "devDependencies": {
     "@app/electron-versions": "workspace:*",
     "electron-devtools-installer": "^4.0.0",
-    "typescript": "5.8.3",
+    "typescript": "5.9.3",
     "vite": "^7.1.12"
   }
 }

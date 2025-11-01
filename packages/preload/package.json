@@ -21,12 +21,12 @@
     }
   },
   "dependencies": {
-    "electron-store": "^10.1.0"
+    "electron-store": "^11.0.2"
   },
   "devDependencies": {
     "@app/electron-versions": "workspace:*",
     "mlly": "^1.8.0",
-    "typescript": "5.8.3",
+    "typescript": "5.9.3",
     "vite": "^7.1.12"
   }
 }

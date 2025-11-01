@@ -1,14 +1,17 @@
 // Sourced from: https://github.com/pixelfactoryio/privatebin-cli
+// Lots of as BufferSource assertions to satisfy TypeScript compiler
+// -> https://github.com/microsoft/TypeScript/issues/62168
+
 import { base64ToBytes, bytesToBase64 } from 'byte-base64';
 import { PrivatebinAdata, PrivatebinPasteRequest, PrivatebinSpec } from './types';
 
 export function importKey(key: Uint8Array): Promise<CryptoKey> {
-  return crypto.subtle.importKey('raw', key, 'PBKDF2', false, ['deriveBits', 'deriveKey']);
+  return crypto.subtle.importKey('raw', key as BufferSource, 'PBKDF2', false, ['deriveBits', 'deriveKey']);
 }
 
 export function deriveKey(key: CryptoKey, salt: Uint8Array, iterations: number, keyLength: number): Promise<CryptoKey> {
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations, hash: 'SHA-256' },
+    { name: 'PBKDF2', salt: salt as BufferSource, iterations, hash: 'SHA-256' },
     key,
     { name: 'AES-GCM', length: keyLength },
     false,
@@ -54,11 +57,11 @@ export async function encrypt(
     {
       name: 'AES-GCM',
       iv,
-      additionalData: stringToUint8Array(JSON.stringify(adata)),
+      additionalData: stringToUint8Array(JSON.stringify(adata)) as BufferSource,
       tagLength: spec.ts,
     },
     derivedKey,
-    message,
+    message as BufferSource,
   );
 
   return {
@@ -81,12 +84,12 @@ export async function decrypt(data: string, masterkey: Uint8Array, adata: Privat
   const clearData = await crypto.subtle.decrypt(
     {
       name: 'AES-GCM',
-      iv,
-      additionalData: stringToUint8Array(JSON.stringify(adata)),
+      iv: iv as BufferSource,
+      additionalData: stringToUint8Array(JSON.stringify(adata)) as BufferSource,
       tagLength: ts,
     },
     derivedKey,
-    bData,
+    bData as BufferSource,
   );
 
   return new Uint8Array(clearData);
