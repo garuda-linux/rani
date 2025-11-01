@@ -56,13 +56,6 @@
     "pkgname": ["calc"]
   },
   {
-    "name": "Chemtool",
-    "description": "GTK-based program for drawing chemical structural formulas.",
-    "url": "https://ruby.chemie.uni-freiburg.de/~martin/chemtool/chemtool.html",
-    "icon": "generic-dark.svg",
-    "pkgname": ["chemtool"]
-  },
-  {
     "name": "Deepin Calculator",
     "description": "Easy to use calculator for Deepin desktop.",
     "url": "https://www.deepin.org/en/original/deepin-calculator/",

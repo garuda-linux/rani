@@ -705,7 +705,6 @@ export const gamingPackageLists: PackageSections = [
       { name: 'FCEUX', pkgname: ['fceux'], icon: 'fceux.png', description: 'gaming.fceux' },
       { name: 'FS-UAE', pkgname: ['fs-uae'], icon: 'fs-uae.png', description: 'gaming.fsUae' },
       { name: 'Hatari', pkgname: ['hatari'], icon: 'hatari.png', description: 'gaming.hatari' },
-      { name: 'Kega Fusion', pkgname: ['kega-fusion'], icon: 'kega-fusion.png', description: 'gaming.kegaFusion' },
       {
         name: 'Libretro (all cores)',
         pkgname: ['libretro-meta'],

@@ -217,13 +217,6 @@
     "pkgname": ["ciano"]
   },
   {
-    "name": "Cinelerra GG Infinity",
-    "description": "Professional video editing and compositing environment.",
-    "url": "https://www.cinelerra-gg.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["cinelerra-gg-git"]
-  },
-  {
     "name": "Clapper",
     "description": "Media player built for the GNOME desktop environment using GTK4 toolkit and powered by GStreamer.",
     "url": "https://rafostar.github.io/clapper/",
@@ -712,13 +705,6 @@
     "url": "https://gmtp.sourceforge.io/",
     "icon": "generic-dark.svg",
     "pkgname": ["gmtp"]
-  },
-  {
-    "name": "gmusicbrowser",
-    "description": "Open-source jukebox for large collections of MP3/OGG/FLAC files.",
-    "url": "https://gmusicbrowser.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["gmusicbrowser"]
   },
   {
     "name": "Gnac",
@@ -1909,13 +1895,6 @@
     "url": "https://goodies.xfce.org/projects/thunar-plugins/thunar-media-tags-plugin",
     "icon": "generic-dark.svg",
     "pkgname": ["thunar-media-tags-plugin"]
-  },
-  {
-    "name": "Tracktion Waveform",
-    "description": "Proprietary digital audio workstation, specifically designed for the needs of modern music producers.",
-    "url": "https://www.tracktion.com/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["tracktion-waveform"]
   },
   {
     "name": "Transmageddon",

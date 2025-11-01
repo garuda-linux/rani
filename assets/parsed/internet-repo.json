@@ -742,13 +742,6 @@
     "pkgname": ["localsend"]
   },
   {
-    "name": "Lokinet",
-    "description": "Anonymous, decentralized and IP based overlay network for the internet.",
-    "url": "https://lokinet.org/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["lokinet"]
-  },
-  {
     "name": "Luakit",
     "description": "Fast, small, webkit based browser framework extensible by Lua.",
     "url": "https://luakit.github.io/",
