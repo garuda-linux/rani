@@ -21,12 +21,6 @@ export const gamingPackageLists: PackageSections = [
       { name: 'Itch', pkgname: ['itch-setup-bin'], icon: 'itch.svg', description: 'gaming.itch' },
       { name: 'Lutris', pkgname: ['lutris'], icon: 'lutris.png', description: 'gaming.lutris' },
       { name: 'Minigalaxy', pkgname: ['minigalaxy'], icon: 'minigalaxy.png', description: 'gaming.minigalaxy' },
-      {
-        name: 'Steam (native)',
-        pkgname: ['steam-native-runtime'],
-        icon: 'steam.png',
-        description: 'gaming.steamNative',
-      },
       { name: 'Steam (runtime)', pkgname: ['steam'], icon: 'steam.png', description: 'gaming.steamRuntime' },
     ],
   },

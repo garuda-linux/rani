@@ -1064,13 +1064,6 @@
     "pkgname": ["persepolis"]
   },
   {
-    "name": "Pidgin",
-    "description": "Multi-protocol instant messaging client with audio support that uses libpurple and supports all its protocols (Bonjour, Gadu-Gadu, Groupwise, IRC, SIMPLE, XMPP, Zephyr).",
-    "url": "https://pidgin.im/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["pidgin"]
-  },
-  {
     "name": "Ping Tunnel",
     "description": "A tool for reliably tunneling TCP connections over ICMP echo request and reply packets.",
     "url": "https://www.cs.uit.no/~daniels/PingTunnel/",

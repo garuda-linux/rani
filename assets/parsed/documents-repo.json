@@ -420,13 +420,6 @@
     "pkgname": ["lapce"]
   },
   {
-    "name": "Leafpad",
-    "description": "Notepad clone for GTK that emphasizes simplicity.",
-    "url": "https://tarot.freeshell.org/leafpad/",
-    "icon": "generic-dark.svg",
-    "pkgname": ["leafpad"]
-  },
-  {
     "name": "LibreOffice",
     "description": "The office productivity suite compatible to the open and standardized ODF document format. Fork of OpenOffice, supported by The Document Foundation.",
     "url": "https://www.libreoffice.org/",
