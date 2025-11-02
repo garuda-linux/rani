@@ -13,9 +13,9 @@ export async function initRani() {
   splashService.updateStep(50, 'Loading configuration...');
   await configService.init();
 
-  if (!configService.state().isLiveSystem && (await checkFirstBoot())) {
-    await splashService.hide();
-    return;
+  if (!configService.state().isLiveSystem) {
+    if (await checkFirstBoot())
+      return;
   }
 
   splashService.updateStep(60, 'Initializing languages..');

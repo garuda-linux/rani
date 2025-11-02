@@ -6,6 +6,7 @@ import {
   ElectronShellService,
   ElectronFsService,
   ElectronAppService,
+  ElectronWindowService
 } from './electron-services';
 
 const logger = Logger.getInstance();
@@ -20,6 +21,7 @@ export async function checkFirstBoot(): Promise<boolean> {
   const shellService = new ElectronShellService();
   const fsService = new ElectronFsService();
   const appService = new ElectronAppService();
+  const windowService = new ElectronWindowService();
 
   // Check if we've been through this before
   if (firstBoot === false) return false;
@@ -38,6 +40,7 @@ export async function checkFirstBoot(): Promise<boolean> {
 
     if (await fsService.exists('/usr/bin/setup-assistant')) {
       logger.info('Setup assistant exists, running');
+      await windowService.hide();
       await runSetupAssistant();
 
       // Set first boot flag to false
