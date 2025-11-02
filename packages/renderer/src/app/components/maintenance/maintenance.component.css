@@ -9,3 +9,48 @@
 ::ng-deep .p-tablist-tab-list {
   border-radius: 10px !important;
 }
+
+.maintenance-big-card {
+    border: 2px solid transparent;
+}
+.maintenance-big-card:hover{
+    border: 2px solid var(--p-primary-color);
+}
+
+
+::ng-deep .maintenance-big-card .p-button-outlined {
+  border-width: 2px;
+  position: relative;
+}
+::ng-deep .maintenance-big-card .p-button-outlined::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border-color: var(--p-primary-color);
+  border-radius: var(--p-button-border-radius);
+  pointer-events: none;
+}
+::ng-deep .maintenance-big-card:hover .p-button-outlined {
+  border: 2px solid var(--p-primary-color);
+}
+
+::ng-deep .p-tab-active {
+  border-width: var(--p-border-width) !important;
+}
+
+::ng-deep .p-tab:not(.p-tab-active):hover {
+  border-color: transparent;
+  border-width: 0 0 0 0 !important;
+}
+
+::ng-deep .p-tablist-tab-list {
+  border-width: 0 !important;
+  justify-content: center;
+}
+
+::ng-deep .p-card-title {
+  text-align: center;
+}
+
+
+
