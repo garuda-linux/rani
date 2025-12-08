@@ -103,7 +103,7 @@
     "searxng": "",
     "searxngSub": "Moteur de recherche qui respecte votre vie privée",
     "whoogle": "",
-    "whoogleSub": "Moteur de recherche respectant la confidentialité",
+    "whoogleSub": "Moteur de recherche qui respecte la confidentialité",
     "vaultwarden": "",
     "vaultwardenSub": "Compatible Bitwarden, gestionnaire de mots de passe sécurisé",
     "donate": "Faites un don",
@@ -260,7 +260,7 @@
     "garudaUpdate": "Outils de secours Garuda update",
     "actionFailedHeader": "Échec de l'exécution de l'action de maintenance",
     "actionFailed": "Une erreur s'est produite lors de la tentative d'exécution de {{ action }} avec l'erreur {{ error }}.",
-    "installationFailedHeader": "{{ programme }} n'est pas installé et l'installation a échoué. Impossible de continuer. Consultez les journaux pour plus d'informations"
+    "installationFailedHeader": "{{ program }} n'est pas installé et l'installation a échoué. Impossible de continuer. Consultez les journaux pour plus d'informations"
   },
   "sudo": {
     "title": "Authentification requise",
