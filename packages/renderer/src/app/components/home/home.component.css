@@ -21,7 +21,7 @@
 }
 
 .logo-container::before {
-  content: "";
+  content: '';
   position: absolute;
   width: 180px;
   height: 180px;
@@ -36,7 +36,10 @@
   height: 60px;
   z-index: 2;
   filter: drop-shadow(0 0 10px var(--p-primary-color)) drop-shadow(0 0 30px var(--p-highlight-color));
-  animation: floatLogo 5s ease-in-out infinite, rotateLogo 8s ease-in-out infinite;
+  animation:
+    floatLogo 5s ease-in-out infinite,
+    rotateLogo 8s ease-in-out infinite;
+  margin-bottom: 1rem;
 }
 
 @keyframes floatLogo {
@@ -59,4 +62,3 @@
     opacity: 0.95;
   }
 }
-
