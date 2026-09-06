@@ -195,12 +195,11 @@ export class SystemStatusService {
    */
   private async checkLastUpdate(): Promise<void> {
     const result: ChildProcess<string> = await this.taskManagerService.executeAndWaitBash(
-      'pkexec cat /var/log/pacman.log',
+      "pkexec cat /var/log/pacman.log | grep '\\[ALPM\\] transaction completed' | tail -n 1",
     );
 
     if (result.code === 0) {
-      const lines = result.stdout.trim().split('\n');
-      const lastTx = lines.filter((l: string) => l.includes('[ALPM] transaction completed')).pop() ?? '';
+      const lastTx = result.stdout.trim();
       this.logger.debug(`Last transaction: ${lastTx || '<none>'}`);
       if (!lastTx) {
         this.logger.debug('No completed transaction found in pacman.log');
