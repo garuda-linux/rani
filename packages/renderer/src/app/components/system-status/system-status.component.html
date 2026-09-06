@@ -84,7 +84,7 @@
       {{ t('systemStatus.healthIssuesFound') }}
     </p>
     <ul>
-      @for (error of systemStatusService.healthErrors(); track error.message) {
+      @for (error of systemStatusService.healthErrors(); track $index) {
         <li>
           {{ error.message }}
         </li>
@@ -107,7 +107,7 @@
     }
 
     <ul>
-      @for (update of systemStatusService.updates(); track update.pkg) {
+      @for (update of systemStatusService.updates(); track update.pkg + update.aur) {
         <li>
           {{ update.pkg }}: {{ update.version }} ->
           <span class="text-primary-emphasis">{{ update.newVersion }}</span>

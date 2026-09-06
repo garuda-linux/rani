@@ -36,7 +36,7 @@
                         <p-card
                           [style]="{
                             cursor: 'pointer',
-                            background: item.selected ? computedBackground : '',
+                            background: item.selected ? 'var(--p-card-subtitle-color)' : '',
                           }"
                           (click)="togglePackage(item)"
                           (keyup.enter)="togglePackage(item)"

@@ -18,7 +18,6 @@ import { Router, type UrlTree } from '@angular/router';
   styleUrl: './gaming.component.css',
 })
 export class GamingComponent implements OnInit {
-  computedBackground = getComputedStyle(document.documentElement).getPropertyValue('--p-card-subtitle-color');
   readonly tabIndex = signal<number>(0);
 
   protected readonly configService = inject(ConfigService);
