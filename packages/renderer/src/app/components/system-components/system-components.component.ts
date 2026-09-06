@@ -218,8 +218,8 @@ export class SystemComponentsComponent {
           title: 'systemTools.containers.kontainer.title',
           description: 'systemTools.containers.kontainer.description',
           checked: false,
-          disabler: ['podman', 'docker'],
-          check: { type: 'pkg', name: 'kontainer-git' },
+          disabler: 'distrobox',
+          check: { type: 'pkg', name: 'kontainer' },
         },
         {
           name: 'boxbuddy',
