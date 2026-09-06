@@ -199,19 +199,34 @@ export class SystemStatusService {
     );
 
     if (result.code === 0) {
-      const lastLine = result.stdout.trim().split('\n').pop() ?? '';
-      if (!lastLine) {
+      const lines = result.stdout.trim().split('\n');
+      const lastTx = lines.filter((l: string) => l.includes('[ALPM] transaction completed')).pop() ?? '';
+      this.logger.debug(`Last transaction: ${lastTx || '<none>'}`);
+      if (!lastTx) {
+        this.logger.debug('No completed transaction found in pacman.log');
+        this.warnUpdate.set(false);
         return;
       }
-      const date = new Date(lastLine.split(' ')[0].replace(/[[\]]/g, ''));
+
+      const date = new Date(lastTx.split(' ')[0].replace(/[[\]]/g, ''));
+      if (isNaN(date.getTime())) {
+        this.logger.debug(`Failed to parse date from: ${lastTx}`);
+        this.warnUpdate.set(false);
+        return;
+      }
       this.logger.info(`Last update: ${date.toISOString()}`);
 
       if (date < new Date(new Date().setDate(new Date().getDate() - 14))) {
         this.logger.warn('Last update was more than two week ago');
+        this.logger.debug(`Stale: ${lastTx} < 14 days`);
         this.warnUpdate.set(true);
+      } else {
+        this.logger.debug(`Recent: ${lastTx} within 14 days`);
+        this.warnUpdate.set(false);
       }
     } else {
       this.logger.error(`Failed to get last update: ${result.stderr}`);
+      this.warnUpdate.set(false);
     }
   }
 }

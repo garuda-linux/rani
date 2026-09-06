@@ -13,6 +13,7 @@ import { SystemStatusService } from './system-status.service';
 import { OsInteractService } from '../task-manager/os-interact.service';
 import { CommandPaletteService } from '../command-palette/command-palette.service';
 import { ButtonDirective } from '@openng/optimus-ui/button';
+import { Logger } from '../../logging/logging';
 
 @Component({
   selector: 'toolbox-system-status',
@@ -34,6 +35,7 @@ export class SystemStatusComponent {
   private readonly taskManagerService = inject(TaskManagerService);
   private readonly translocoService = inject(TranslocoService);
   private readonly commandPaletteService = inject(CommandPaletteService);
+  private readonly logger = Logger.getInstance();
 
   constructor() {
     this.registerCommandPaletteActions();
@@ -94,15 +96,21 @@ export class SystemStatusComponent {
    * @param confirmed Whether the user has confirmed the update.
    */
   scheduleUpdates(confirmed = false): void {
+    const hasRegularUpdates = this.systemStatusService.updates().some((u: SystemUpdate) => !u.aur);
+    const isStale = this.systemStatusService.warnUpdate();
+
     if (!confirmed) {
+      if (!hasRegularUpdates && !isStale) {
+        this.logger.debug('scheduleUpdates: nothing to show, abort dialog');
+        return;
+      }
+      this.logger.debug('scheduleUpdates: opening dialog');
       this.dialogVisible.set(true);
       return;
     }
 
-    if (
-      this.systemStatusService.updates().length > 0 &&
-      this.systemStatusService.updates().some((update: SystemUpdate) => !update.aur)
-    ) {
+    if (hasRegularUpdates || isStale) {
+      this.logger.debug('scheduleUpdates: scheduling updateSystem task');
       const task: Task = this.taskManagerService.createTask(
         0,
         'updateSystem',
@@ -114,6 +122,9 @@ export class SystemStatusComponent {
           else pacman -Syu; fi`,
       );
       this.taskManagerService.scheduleTask(task);
+      this.logger.debug(`scheduleUpdates: task scheduled, tasks=${this.taskManagerService.tasks().length}`);
+    } else {
+      this.logger.debug('scheduleUpdates: not scheduling, no hasRegular and not stale');
     }
 
     this.dialogVisible.set(false);

@@ -102,6 +102,10 @@
   </p-dialog>
 
   <p-dialog [(visible)]="dialogVisible" [header]="t('systemStatus.pendingUpdates')" [modal]="true">
+    @if (systemStatusService.updates().length === 0 && systemStatusService.warnUpdate()) {
+      <p class="mb-2">{{ t('systemStatus.warnUpdate') }}</p>
+    }
+
     <ul>
       @for (update of systemStatusService.updates(); track update.pkg) {
         <li>
@@ -121,7 +125,7 @@
 
     <div class="flex justify-end gap-2">
       <button pButton severity="secondary" (click)="dialogVisible.set(false)">{{ t('systemStatus.cancel') }}</button>
-      @if (hasRegularUpdates()) {
+      @if (hasRegularUpdates() || systemStatusService.warnUpdate()) {
         <button [disabled]="updateButtonDisabled()" pButton severity="success" (click)="scheduleUpdates(true)">
           {{ t('systemStatus.scheduleUpdates') }}
         </button>
