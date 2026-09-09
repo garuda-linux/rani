@@ -1,3 +1,59 @@
+## [6.3.0] - 2026-09-09
+
+### 🚀 Features
+
+- *(about)* Have a real about dialog
+- *(theme)* Read installed garuda edition from marker and set the default theme accordingly
+- Add angular eslint prefer signals and auto-fix
+- *(i18n)* Add missing and sort jsons
+- *(welcome)* Added interactive garuda logo in welcome page
+
+### 🐛 Bug Fixes
+
+- *(maintenance)* Launch btrfs assistant via the btrfs-assistant-launcher
+- *(diagnostics)* Don't print error message on non-zero exit code, as garuda-health does this when it finds things
+- *(task-manager)* Report done when done and allow running commands for config entries
+- *(system-status)* Allow reading lastupdate relevant pacman log without root
+- *(system-status)* Only account for latest transaction for determining system stale, more debug logging
+- *(gaming)* Background color not properly calculated in some themes, track by warning
+- *(flake.nix)* Resolve warnings
+- *(system-components)* Allow installing kontainer whenever distrobox is enabled, use stable version
+- *(home)* Logo not working in prod mode
+- *(system-status)* Pre-filter pacman log via grep
+- *(network-assistant)* Use the correct package name
+
+### ⚙️ Miscellaneous Tasks
+
+- *(applications)* Sync from arch wiki
+## [6.2.0] - 2026-08-09
+
+### 🚀 Features
+
+- *(system-settings)* Add user/group management
+
+### 🐛 Bug Fixes
+
+- *(setup-wizard)* Minetest -> luanti
+- *(setup-assistant)* Filter out non-available pkgs
+- *(setup-assistant)* Turn into a tabbed layout for easier use
+- *(renderer)* Menubar responsiveness fixed specific to Toolbox for mobile viewport
+- *(renderer)* Desktop menu persist issue fix while tapped on console option
+- *(maintenance)* Too big and weird border on the tabs
+
+### 🚜 Refactor
+
+- Angular 22; Typescript 6; OptimusUI
+- Modern Angular defaults to OnPush; Service decorator
+## [6.1.0] - 2026-08-02
+
+### 🚀 Features
+
+- *(console)* When there is no task to run, display a message where usually the tasks would be; rename to console
+
+### 🐛 Bug Fixes
+
+- *(system-components)* Remove alsa-support; functionality requires tltk downgrade
+- *(renderer)* Resolve terminal colors differently
 ## [6.0.0] - 2026-07-26
 
 ### 🚀 Features
@@ -12,6 +68,10 @@
 - *(main)* Fix theme detection and fallbacks in case not found to properly display app icons
 - *(renderer)* Restore icons on buttons
 - *(main)* Disable vulkan by default as this seems to cause crashes on wayland for some people
+
+### 📚 Documentation
+
+- *(changelog)* Update
 
 ### 🚜 Refactor
 
@@ -202,20 +262,16 @@
 - Only send frontend logs via IPC if loglevel matches
 - *(renderer)* Command palette not closing on ESC; use CSS variables for theming dropdown
 
-### 💼 Other
+### ⚡ Performance
 
-- Use maximum compression
+- Enable gpu acceleration and fix issue with vulkan on wayland
+- *(renderer)* Show less items in paginated areas for less dom nodes, massively improving performance especially on additional packages tab
 
 ### 🚜 Refactor
 
 - More broad support for custom icons in package lists; pull custom icons in gamer as well, if available
 - *(renderer)* Put the further applications section into its own module for better visibility
 - *(main)* Improve async handling in modules with Promise-based methods, optimize buffer flushing, and cleanup unused OS handlers
-
-### ⚡ Performance
-
-- Enable gpu acceleration and fix issue with vulkan on wayland
-- *(renderer)* Show less items in paginated areas for less dom nodes, massively improving performance especially on additional packages tab
 
 ### 🎨 Styling
 
@@ -227,6 +283,10 @@
 - *(flake.lock)* Update
 - *(renderer)* Update search keywords with up-to-date keywords
 - *(changelog)* Update
+
+### 💼 Other
+
+- Use maximum compression
 ## [4.0.1] - 2026-03-09
 
 ### 🐛 Bug Fixes
@@ -257,14 +317,14 @@
 - *(packages)* Properly reset pagination to 1 in case of tab change
 - Exclude AUR packages from lists by default
 
+### 📚 Documentation
+
+- *(changelog)* Update
+
 ### 🚜 Refactor
 
 - Rebrand to Garuda Toolbox
 - *(renderer)* Apply angular migrations for modern syntax
-
-### 📚 Documentation
-
-- *(changelog)* Update
 ## [3.5.2] - 2026-01-03
 
 ### 🚀 Features
@@ -523,18 +583,14 @@
 - *(designer)* Get back strict type-checking (what the fuck is this designer code)
 - *(shell)* Allow last command, needed for first boot check
 
-### 💼 Other
+### 📚 Documentation
 
-- Skip publish step on tags
+- Update, add NixOS notice
 
 ### 🚜 Refactor
 
 - Current electron refactor progress
 - Move ipcRenderer.invoke calls to preload function exports
-
-### 📚 Documentation
-
-- Update, add NixOS notice
 
 ### 🎨 Styling
 
@@ -548,6 +604,10 @@
 - Bump
 - Bump deps
 - Cleanup
+
+### 💼 Other
+
+- Skip publish step on tags
 ## [2.5.1] - 2025-05-24
 
 ### 🚀 Features
@@ -561,10 +621,6 @@
 - *(window)* Resize both dimensions
 - *(kernels)* Exception on undefined kernelVersion, causing loading to never finish
 - *(renderer)* Set WEBKIT_DISABLE_DMABUF_RENDERER always. Byebye blur and good looking aesthetics.
-
-### 💼 Other
-
-- *(debug)* Add CrabNebula devtools for more useful information
 
 ### 📚 Documentation
 
@@ -581,6 +637,10 @@
 - Update dependencies
 - *(packages)* Remove non-existing packages
 - Update more deps
+
+### 💼 Other
+
+- *(debug)* Add CrabNebula devtools for more useful information
 ## [2.5.0] - 2025-03-30
 
 ### 🚀 Features
@@ -667,14 +727,14 @@
 - *(config-service)* Apply Loglevel on settings change
 - *(notifications)* Unbreak not-sending notifications
 
+### 📚 Documentation
+
+- *(changelog)* Update
+
 ### 🚜 Refactor
 
 - Massively improve performance by caching and using services
 - Use pacman regex for prefiltering, print commands used
-
-### 📚 Documentation
-
-- *(changelog)* Update
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -857,14 +917,14 @@
 - Hblock enable action, don't try translating game titles
 - Use better icons for status
 
+### 📚 Documentation
+
+- Add deps, run funstuff
+
 ### 🚜 Refactor
 
 - *(configService)* Move user determination to configService
 - *(configService)* Source darkMode from configService
-
-### 📚 Documentation
-
-- Add deps, run funstuff
 
 ### ⚙️ Miscellaneous Tasks
 
@@ -921,13 +981,13 @@
 - Direct run should open terminal
 - Await store being ready, make initial window higher, readme link
 
-### 🚜 Refactor
-
-- Migrate to configService
-
 ### 📚 Documentation
 
 - *(readme)* Add
+
+### 🚜 Refactor
+
+- Migrate to configService
 
 ### ⚙️ Miscellaneous Tasks
 

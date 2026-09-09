@@ -445,16 +445,16 @@ export class NetworkAssistantService {
   }
 
   async openWifiHotspot(): Promise<void> {
-    const status = await this.taskManager.executeAndWaitBash('pacman -Qq wihotspot');
+    const status = await this.taskManager.executeAndWaitBash('pacman -Qq linux-wifi-hotspot');
     if (status.code !== 0) {
-      await this.runDirectPrivileged('pacman -S --noconfirm --needed wihotspot');
+      await this.runDirectPrivileged('pacman -S --noconfirm --needed linux-wifi-hotspot');
     }
 
     const runResult = await this.taskManager.executeAndWaitBash(
-      'nohup /usr/bin/wihotspot >/dev/null 2>&1 & disown || true',
+      'nohup /usr/bin/wihotspot-gui >/dev/null 2>&1 & disown || true',
     );
     if (runResult.code !== 0) {
-      throw new Error((runResult.stderr || runResult.stdout || 'Failed to start wihotspot').trim());
+      throw new Error((runResult.stderr || runResult.stdout || 'Failed to start linux-wifi-hotspot').trim());
     }
   }
 
